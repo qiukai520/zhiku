@@ -1,0 +1,617 @@
+{% extends "layout.html" %}
+{% load  admin_tags %}
+
+{% block css  %}
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <style>
+     .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+
+    .minus  {
+       margin-left: 0px !important;
+       color: red;
+       position: absolute;
+       top: 10px;
+       left: -85px;
+
+}
+    .plus{
+        position: absolute;
+        top: 10px;
+        left: -85px;
+        color: blue
+    }
+    .select-box{
+          top:5px;
+          height: 200px !important;
+          width: 100%;
+        border-radius: 3px;
+      }
+    span.glyphicon.glyphicon-arrow-left, span.glyphicon.glyphicon-arrow-right {
+        position: absolute;
+        right: -8px;
+        text-align: center;
+        margin-top: 80px;
+        color: blue;
+    }
+    span.glyphicon.glyphicon-arrow-right {
+        margin-top:120px;
+    }
+
+    </style>
+
+{% endblock %}
+{% block conent %}
+    <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="task_name" class="col-xs-2 control-label">任务名称：</label>
+                      <div class="col-xs-4">
+                          <textarea name="title"  class="form-control"  id="task_name" placeholder="任务名称">
+                        </textarea>
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="content" class="control-label col-xs-2">任务描述：</label>
+                    <div class="col-xs-4">
+                        <textarea name="content" class="form-control"  style="height:80px;" id="content" placeholder="任务描述">
+                    </textarea>
+                    </div>
+                </div>
+                <div class="form-group" style="padding: 0px">
+                    <label for="tag" class="control-label col-xs-2">标签：</label>
+                    <div class="col-xs-4" style="padding: 0px">
+                        <div class="col-xs-10">
+                        <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
+                        </div>
+                        <div class="col-xs-2" >
+                            <button class=" btn inline-block right" onclick="AddTag(this)">添加</button>
+                        </div>
+                        <div class="col-xs-12" id="tag_container" >
+                        <div class="tag hidden  " >
+                            <div class="alert alert-info alert-dismissible pull-left" role="alert" style="padding: 2px;margin-right: 25px;">
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                                <strong></strong>
+                            </div>
+                        </div>
+                            <!--初始化标签-->
+                            {% if tid %}
+                            {% for obj in task_tag_info %}
+                                <div class="tag  " >
+                                <div class="alert alert-info alert-dismissible pull-left" role="alert" style="padding: 2px;margin-right: 25px;">
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                                    <input type="text" name="ttid" class="hidden" value="{{ obj.ttid }}">
+
+                                    <strong>{{ obj.name }}</strong>
+                                </div>
+                                </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    </div>
+                <div class="form-group">
+                    <label for="attribute" class="control-label col-xs-2">绩效分类：</label>
+                    <div class="col-xs-4">
+                        <select  name="attribute" class="form-control" id="attribute" >
+                            {% build_performence_ele %}
+                        </select>
+                    </div>
+                </div>
+                <div id="attachment-container" style="position: relative">
+                    <!--初始化附件-->
+                    {% if tid %}
+                        {% for obj in task_attachment_data%}
+                             <div class="attachment">
+                            <div class="form-group ">
+                            <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
+                              <div class="col-xs-4">
+                                  <input type="text" name="tamid" class="hidden" value="{{ obj.tamid }}">
+                                  <div class="old_file">
+                                  <span  style="color:blue;margin-top:6px;display: inline-block">{{ obj.name }}</span>
+                                  <span onclick="clearAttachment(this)" style=" color:blue; margin-left: 50px;">点击清除</span>
+                                  <input type="text" name="file_path" class="hidden" value="{{ obj.attachment }}">
+                                  <input type="text" name="file_name" value="{{ obj.name }}" class="hidden">
+                                  </div>
+                                      <input type="file" style="margin-top:10px" name="file" value="" onchange="UploadFile(this)">
+{#                              <span class="glyphicon glyphicon-minus minus " onclick="RemoveAttachment(this)" style="margin-left: 200px;color: blue;color: red;"></span>#}
+                              </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="content" class="control-label col-xs-2">附件描述：</label>
+                                <div class="col-xs-4">
+                                    <input name="content" class="form-control" value="{{ obj.description }}" style="height:50px" placeholder="附件描述">
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    {%endif  %}
+                  <div class="attachment">
+                        <div  class="form-group ">
+                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件：</label>
+                          <div class="col-xs-4">
+                              <input type="file" name="file"  onchange="UploadFile(this)">
+                              <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="content" class="control-label col-xs-2">附件描述：</label>
+                            <div class="col-xs-4">
+                                <input name="content" class="form-control" style="height:50px"  placeholder="附件描述">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="task_cycle" class="control-label col-xs-2">任务周期：</label>
+                    <div class="col-xs-4">
+                        <select  name="tcid" class="form-control" id="task_cycle" >
+                            {% build_task_cycle_ele %}
+                        </select>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="deadline" class="control-label col-xs-2">起始日期：</label>
+                    <div class="col-xs-4">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="deadline" class="control-label col-xs-2">终止日期：</label>
+                    <div class="col-xs-4">
+                    <div class='input-group date' id='datetimepicker2'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="task_type" class="control-label col-xs-2">审核人：</label>
+                    <div class="control-xs-4" style="margin:8px ;">
+                        <lable  for="department"  style="margin-left:15px" class="control-label ">部门:</lable>
+                            <select name="department" style="width:130px;" onchange="FetchStaff(this)">
+                            {% build_department_ele %}
+                            </select>
+                        <label for="follow" class="control-label  " style="margin-left:10px">次序审核：</label>
+                        <!--查看审核人是否有序-->
+                        {%if tid %}
+                            {% if task_reviewer_info.first.follow %}
+                                 <input type="checkbox" name="follow" checked="checked" id ="follow">
+                                {%else %}
+                                 <input type="checkbox" name="follow"   id ="follow">
+                            {% endif %}
+                        {% else %}
+                             <input type="checkbox" name="follow"   id ="follow">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label for="task_type" class="control-label col-xs-2"></label>
+                    <div class="col-xs-8 " style="padding:0px; ">
+                        <div class="col-xs-5  selector-filter" >
+                            <select multiple id="id_staff_from" name="staff_old"     class="select-box">
+
+                            </select>
+                            <br>
+                            <span class="glyphicon glyphicon-arrow-right" ></span>
+                            <br>
+                            <span class="glyphicon glyphicon-arrow-left" ></span>
+                        </div>
+
+                        <div class="col-xs-5 selector-filter">
+                             <select  tags="selected-choose" multiple id="id_staff_to" name="staff" class="select-box">
+                             {%if tid %}
+                                 {% for obj in task_reviewer_info %}
+                                <option value="{{ obj.sid }}"   ondblclick="ElementMoveTo(this,'id_staff_to','id_staff_from')">{% change_to_staff obj.sid %}  </option>
+
+                                 {% endfor %}
+                             {% endif %}
+                             </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="task_type" class="control-label col-xs-2">归档分类：</label>
+                    <div class="col-xs-4">
+                        <select  name="task_type" class="form-control" id="task_type" >
+                            {% build_task_type_ele %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        <div class="form-group col-xs-6">
+            {% if tid %}
+                  <button  onclick="Edit()" class="btn btn-primary" style="float: right;">修改</button>
+            {% else %}
+                <button  onclick="Submit()" class="btn btn-primary" style="float: right;">创建</button>
+            {% endif %}
+            <a href="#" class="btn btn-danger" onclick="FetchAttachment()" style="float:right;margin-right: 50px;">返回</a>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/static/js/jquery.cookie.js"></script>
+    <script>
+{#    预防csrf#}
+    var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+//字符串格式化
+String.prototype.format=function()
+{
+  if(arguments.length==0) return this;
+  for(var s=this, i=0; i<arguments.length; i++)
+    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+  return s;
+};
+    /*
+    自执行函数
+    */
+    $(function () {
+        //如果tid不为0，则为创建
+        if ({{ tid}}){
+           InitData()//初始化数据
+        }
+        else {
+
+        }
+    });
+     //初始化数据
+function InitData() {
+        $("#task_name").val("{{ task_info.title }}");
+        $("#content").val("{{ task_info.content }}");
+        $("#task_type").val({{ task_info.type_id }})
+        $("#attribute").val({{ task_info.attribute }});
+        $("#task_cycle").val({{ task_info.tcid }});
+        $("#datetimepicker1").find("input").val( "{{ task_info.start_time |date:'Y-m-d H:i:s'}}");
+        $("#datetimepicker2").find("input").val("{{ task_info.deadline |date:'Y-m-d H:i:s'}}");
+    }
+
+    //设置日期时间控件
+$(function () {
+    $('#datetimepicker1').datetimepicker({
+        format: 'YYYY-MM-DD hh:mm',
+        locale: moment.locale('zh-cn')
+    });
+    $('#datetimepicker2').datetimepicker({
+        format: 'YYYY-MM-DD hh:mm',
+        locale: moment.locale('zh-cn')
+    });
+});
+//添加标签
+function AddTag(ths){
+        var val=$(ths).parent().parent().find("input").val();
+        $(ths).parent().parent().find("input[name=tag]").val("");//清空input 标签
+        if (val){
+             var tag = $(ths).parent().next().children().first().clone();
+             tag.removeClass("hidden");
+             $(tag).find("strong").text(val);
+             $(ths).parent().next().append(tag);
+        }
+        else{
+            alert("输入不能为空")
+        }
+    }
+//添加附件
+
+var att_num=1
+//如果是修改的话，附件计数器设定为已存在的附件数
+{% if tid %}
+{% for obj in task_attachment_data%}
+    att_num+={{ forloop.counter }}
+{% endfor %}
+{% endif %}
+
+function  AddAttachment (ths){
+    var tag = $(ths).parent().parent().parent().clone();
+    att_num+=1
+    $(tag).find("input").val("")
+    $(tag).find("label").first().text("附件"+att_num+":");
+    $(tag).find("span").remove()
+    $(tag).find("input").first().parent().append('<span class="glyphicon glyphicon-minus minus " onclick="RemoveAttachment(this)" style="margin-left: 200px;color: blue;color: red;"></span>');
+    $(ths).parent().parent().parent().parent().append(tag);
+}
+//删除附件
+function RemoveAttachment(ths){
+    $(ths).parent().parent().parent().remove();
+    att_num-=1
+    var i=1
+    $("#attachment-container").find('label[name="attach"]').each(function () {
+        $(this).text("附件"+i)
+        i+=1
+    })
+}
+
+//清除任务附件标签
+function clearAttachment(ths) {
+    $(ths).parent().parent().parent().parent().remove()
+    att_num-=1
+}
+
+ //获取标签内容
+function  FetchTag() {
+    var tags=new Array();
+    $("#tag").parent().parent().find("strong").each(function () {
+        if($(this).text()){
+            tag =$(this).text();
+            tags.push(tag)
+        }
+    });
+    tags=tags.join("|")
+    return tags
+}
+//修改时获取标签内容
+function GetTag() {
+    var tags_list = new Array();
+    $("#tag").parent().parent().find("strong").each(function (){
+        var tag ={"name":'',"tid":{{tid}}};
+        var name= $(this).text()
+        var ttid=$(this).parent().find("input[name=ttid]").val();
+        if (name!=''){
+            tag.name=name;
+            if(ttid){
+                 tag.ttid=ttid
+            }
+        }else{
+            return true;
+        }
+        tags_list.push(tag)
+    })
+    tags_list=JSON.stringify(tags_list)
+    return tags_list
+}
+
+//修改时获取附件
+function GetAttachment(){
+     var attachment_list=new Array()
+     $(".attachment").each(function () {
+        var attachment = {"attachment":'',"description":'',"name":'','tid':{{tid}}};
+        var tamid= $(this).find("input[name=tamid]").val();
+        var file_path= $(this).find("input[name=file_path]").val();
+        if (file_path==null){
+            //空附件处理
+            return true;
+        }
+        var content=$(this).find("input[name=content]").val();
+        var name=$(this).find("input[name=file_name]").val();
+        attachment.attachment=file_path;
+        attachment.description=content;
+        attachment.name=name;
+        if (tamid){
+            attachment['tamid']=tamid;
+        }
+        attachment_list.push(attachment)
+        });
+      attachment_list=JSON.stringify(attachment_list)//对象转化成json
+    return attachment_list
+}
+
+//创建时获取附件
+function FetchAttachment(){
+    var attachment_list=new Array()
+    $(".attachment").each(function () {
+    var attachment = {"attachment":'',"description":'',"name":''};
+    var file_path= $(this).find("input[name=file_path]").val();
+        //空文件不上传
+    if(file_path==null){
+        return true;
+    }
+    var content=$(this).find("input[name=content]").val().trim();
+    var name=$(this).find("input[name=file_name]").val();
+    attachment.attachment=file_path;
+    attachment.description=content;
+    attachment.name=name;
+    attachment_list.push(attachment)
+});
+    attachment_list=JSON.stringify(attachment_list)//对象转化成json
+    return attachment_list
+}
+
+//获取审核人
+function SelectReviewer(){
+        reviewers=new Array();
+        var i=0
+        $("select[tags='selected-choose'] option").each(function () {
+            i +=1
+            var reviewer=$(this).val()
+            var isfollow=$('#follow').prop("checked")
+            var review={"sid":reviewer,"follow":''};
+            if (isfollow){
+                review.follow=i
+                reviewers.push(review)
+            }else{
+               review.follow=0
+                reviewers.push(review)
+            }
+        });
+        reviewers =JSON.stringify(reviewers)//对象转化成json
+        return reviewers
+    }
+
+//修改数据时获取审核人
+function GetReviewer(){
+        var reviewers_list=new Array();
+        var i=0
+        $("select[tags='selected-choose'] option").each(function () {
+            i +=1
+            var reviewer=$(this).val()
+            console.log(reviewer)
+            var isfollow=$('#follow').prop("checked")
+            var review= {"sid":reviewer,"follow":'','tid':{{tid}}};
+            if (isfollow){
+                review.follow=i
+                reviewers_list.push(review)
+            }else{
+                review.follow=0.
+                reviewers_list.push(review)
+            }
+        });
+        console.log(reviewers_list)
+        reviewers_list =JSON.stringify(reviewers_list)//对象转化成json
+        return reviewers_list
+    }
+
+//根据部门获取相应的员工
+function FetchStaff(ths) {
+    var dpid=$(ths).val();
+    $("#id_staff_from").children().remove();
+    {#var opt_eles="{% build_reviewer_ele dpid %}"#}
+    {#$("#id_staff_from").append(opt_eles)#}
+    $.ajax({
+        url:"{% url "department_staff" %}",
+        type:'post',
+        data:{"dpid":dpid},
+        dataType:'json',
+        success:function (arg) {
+            if (arg.status){
+                data=JSON.parse(arg.data)
+                for ( var i = 0; i <data.length; i++ ){
+                    opt_ele = "<option value={0} ondblclick=ElementMoveTo(this,'id_staff_from','id_staff_to')>{1}</option>".format(data[i]['pk'],data[i]['fields']['name']);
+                    $("#id_staff_from").append(opt_ele);
+            }
+            }else{
+                alert(arg.message)
+            }
+        }
+    })
+}
+
+//上传附件
+function UploadFile(ths){
+    var file_obj = $(ths)[0].files[0];
+    var form = new FormData();
+    form.append("file", file_obj);
+    $.ajax({
+        url:"/attachment_upload.html",
+        type:"POST",
+        data: form ,
+        dataType:"JSON",
+        // 告诉jQuery不要去处理发送的数据
+        processData : false,
+        // 告诉jQuery不要去设置Content-Type请求头
+        contentType : false,
+        success:function (arg) {
+            //去掉旧文件
+            $(ths).parent().find(".old_file").remove()
+            //添加新的file
+            var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
+            var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
+            $(ths).parent().append(path_input);
+            $(ths).parent().append(name_input);
+            $(ths).parent().find("input[name=file_path]").val(arg.data.path)
+            $(ths).parent().find("input[name=file_name]").val(arg.data.name)
+        },
+    })
+}
+//创建
+function Submit() {
+        var title = $("#task_name").val().trim();
+        var content = $("#content").val().trim();
+        var type_id =$("#task_type").val()
+        var issuer_id = 1;
+        var attribute = $("#attribute").val();
+        var tcid = $("#task_cycle").val();
+        var start_time = $("#datetimepicker1").find("input").val();
+        var deadline = $("#datetimepicker2").find("input").val();
+        $.ajax({
+                url: "/task_publish.html",
+                type: "POST",
+                data:  {
+                "title": title,
+                "issuer_id": issuer_id,
+                "content": content,
+                "perfor_id": attribute,
+                "tcid": tcid,
+                "start_time": start_time,
+                "deadline": deadline,
+                "type_id":type_id,
+                "tags":FetchTag(),
+                "attachment":FetchAttachment(),
+                "reviewers":SelectReviewer(),
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("发布成功")
+                    window.location.href='{% url "task_assign" %}';
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
+    }
+    //修改
+function Edit() {
+        var title = $("#task_name").val().trim();
+        var content = $("#content").val().trim();
+        var type_id =$("#task_type").val()
+        var issuer_id = 1;
+        var perfor_id = $("#attribute").val();
+        var tcid = $("#task_cycle").val();
+        var start_time = $("#datetimepicker1").find("input").val();
+        var deadline = $("#datetimepicker2").find("input").val();
+        console.log("post")
+        $.ajax({
+                url: "{% url "task_edit"%}",
+                type: "post",
+                data:  {
+                    "tid":{{ tid }},
+                    "title": title,
+                    "issuer_id": issuer_id,
+                    "content": content,
+                    "perfor_id": perfor_id,
+                    "tcid": tcid,
+                    "start_time": start_time,
+                    "deadline": deadline,
+                    "type_id":type_id,
+                    "tags":GetTag(),
+                    "attachment":GetAttachment(),
+                    "reviewers":GetReviewer(),
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("修改成功")
+                    window.location.reload()
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
+    }
+
+    //复选框
+function ElementMoveTo(ths,id_from,id_to) {
+        var opt_ele="<option value='"+$(ths).val()+"' ondblclick=ElementMoveTo(this,'"+id_to+"','"+id_from+"')>"+$(ths).text()+"</option>";
+        $("#" +id_to).append(opt_ele);
+        $(ths).remove();
+    }
+
+
+
+ </script>
+{% endblock %}

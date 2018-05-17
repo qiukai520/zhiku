@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% load  admin_tags %}
+{% block css %}
+    <style>
+     .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+    label >span{
+
+        color:black;
+    }
+    </style>
+{% endblock %}
+{% block  conent %}
+        <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="task_name" class="col-xs-2 control-label">任务名称：</label>
+                      <div class="col-xs-4">
+                          <textarea name="title"  class="form-control"  id="task_name" placeholder="任务名称">
+                        </textarea>
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="content" class="control-label col-xs-2">任务描述：</label>
+                    <div class="col-xs-4">
+                        <textarea name="content" class="form-control"  style="height:80px;" id="content" placeholder="任务描述">
+                    </textarea>
+                    </div>
+                </div>
+            </div>
+        <div class="form-group col-xs-6">
+            {% if tid %}
+                  <button  onclick="Edit()" class="btn btn-primary" style="float: right;">修改</button>
+            {% else %}
+                <button  onclick="Submit()" class="btn btn-primary" style="float: right;">指派</button>
+            {% endif %}
+            <a href="#" class="btn btn-danger" onclick="FetchAttachment()" style="float:right;margin-right: 50px;">返回</a>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block js%}
+{% endblock %}

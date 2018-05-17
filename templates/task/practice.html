@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+
+
+   <div class="attachment">
+        <div class="form-group ">
+        <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件</label>
+          <div class="col-xs-4">
+              <input type="file" name="file" value="" onchange="UploadFile(this)">
+          <span class="glyphicon glyphicon-minus minus " onclick="RemoveAttachment(this)" style="margin-left: 200px;color: blue;color: red;"></span></div>
+        </div>
+        <div class="form-group">
+            <label for="content" class="control-label col-xs-2">附件描述：</label>
+            <div class="col-xs-4">
+                <input name="content" class="form-control" style="height:50px" placeholder="附件描述">
+            </div>
+        </div>
+    </div>
+
+
+<script>
+
+    {#function clearAttachment(ths){#}
+{#    var tamid=$(ths).parent().find("input[name=tamid]").val();#}
+{#    var file_path=$(ths).parent().find("input[name=file_path]").val();#}
+{#    $.ajax( {#}
+{#        url:"/delete_task_attachment.html",#}
+{#        type:"post",#}
+{#        data:{"tamid":tamid,"file_path":file_path},#}
+{#        dataType:"json",#}
+{#        success:function (arg) {#}
+{#            if(arg.status){#}
+{#                $(ths).parent().parent().parent().remove()#}
+{#                att_num-=1#}
+{#            }else{#}
+{#                alert("删除失败")#}
+{#            }#}
+{#        }#}
+{#    }#}
+{#        )#}
+{#}#}
+</script>

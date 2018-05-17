@@ -1,0 +1,157 @@
+{% extends "layout.html" %}
+{% load admin_tags %}
+{% block css %}
+    <style>
+     .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+    .form-group{
+         margin-top:30px;
+    }
+    </style>
+
+{%endblock %}
+{% block conent %}
+
+      <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="task_name" class="col-xs-2 control-label">绩效名称：</label>
+                      <div class="col-xs-4">
+                          <input name="name"  class="form-control"  id="name" placeholder="绩效名称">
+                        </input>
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="personal_score" class="col-xs-2 control-label">个人分值：</label>
+                      <div class="col-xs-4">
+                          <input name="personal_score"  class="form-control"  id="personal_score" placeholder="个人分值（整数）">
+                        </input>
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="personal_total" class="col-xs-2 control-label">个人总分：</label>
+                      <div class="col-xs-4">
+                          <input name="personal_total"  class="form-control"  id="personal_total" placeholder="个人总分（整数）">
+                        </input>
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="team_score" class="col-xs-2 control-label">团队分值：</label>
+                      <div class="col-xs-4">
+                          <input name="team_score"  class="form-control"  id="team_score" placeholder="团队分值（整数）">
+                        </input>
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="team_total" class="col-xs-2 control-label">团队总分：</label>
+                      <div class="col-xs-4">
+                          <input name="team_total"  class="form-control"  id="team_total" placeholder="团队总分（整数）">
+                        </input>
+                      </div>
+                </div>
+                  <div class="form-group col-xs-6">
+            {% if pid %}
+                  <button  onclick="Edit()" class="btn btn-primary" style="float: right;">修改</button>
+            {% else %}
+                <button  onclick="Submit()" class="btn btn-primary" style="float: right;">创建</button>
+            {% endif %}
+            <a href="#" class="btn btn-danger" onclick="FetchAttachment()" style="float:right;margin-right: 50px;">返回</a>
+        </div>
+
+            </div>
+    </div>
+
+{% endblock %}
+{% block js%}
+        <script src="/static/js/jquery.cookie.js"></script>
+    <script>
+  var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+   //自执行函数
+  $(function () {
+      if({{ pid }}){
+          DataInit()//初始化化数据
+      }
+  })
+  function DataInit() {
+        $("#name").val("{{ performence_obj.name }}");
+        $("#personal_score").val( "{{ performence_obj.personal_score }}");
+        $("#personal_total").val("{{ performence_obj.personal_total }}");
+        $("#team_score").val("{{ performence_obj.team_score }}");
+        $("#team_total").val("{{ performence_obj.team_total }}");
+}
+
+     function Submit() {
+        var name = $("#name").val().trim();
+        var personal_score = $("#personal_score").val();
+        var personal_total =$("#personal_total").val()
+        var team_score = $("#team_score").val();
+        var team_total = $("#team_total").val();
+        $.ajax({
+                url: '{% url "performence_edit"%}',
+                type: "post",
+                data:  {"name":name,
+                    "personal_score": personal_score,
+                    "personal_total": personal_total,
+                    "team_score": team_score,
+                    "team_total": team_total,
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("添加成功");
+                    window.location.href='{% url "performence_list" %}';
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
+    }
+
+    function Edit() {
+        var name = $("#name").val().trim();
+        var personal_score = $("#personal_score").val();
+        var personal_total =$("#personal_total").val()
+        var team_score = $("#team_score").val();
+        var team_total = $("#team_total").val();
+        $.ajax({
+                url: "{% url "performence_edit"%}",
+                type: "post",
+                data:  {
+                    "pid":{{ pid }},
+                    "name":name,
+                    "personal_score": personal_score,
+                    "personal_total": personal_total,
+                    "team_score": team_score,
+                    "team_total": team_total,
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("修改成功")
+                    window.location.reload()
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
+    }
+    </script>
+
+{% endblock %}
