@@ -94,6 +94,10 @@ class TaskDB(object):
         result_db = Task.objects.filter().all().order_by("-tid")
         return result_db
 
+    def query_task_assign_lists(self):
+        result_db = Task.objects.filter(is_assign=1).all().order_by("-tid")
+        return result_db
+
     def query_task_by_tid(self, tid):
         result_db = Task.objects.filter(tid=tid).first()
         return result_db
@@ -108,6 +112,9 @@ class TaskDB(object):
 
     def multi_delete_task(self, id_list):
         Task.objects.filter(tid__in=id_list).delete()
+
+    def update_task_status_by_tid(self, tid,modify_info):
+        Task.objects.filter(tid=tid).update(**modify_info)
 
 
 class TaskCycleDB(object):
@@ -163,7 +170,6 @@ class TaskAttachmentDB(object):
         TaskAttachment.objects.filter(tamid=tamid).delete()
 
 
-
 class TaskTagDB(object):
     """任务标签"""
     def mutil_insert_tag(self, modify_info_list):
@@ -206,6 +212,49 @@ class TaskReviewDB(object):
         TaskReview.objects.filter(tvid__in=id_list).delete()
 
 
+class TaskAssignDB(object):
+    """任务指派表"""
+    def mutil_insert_task_assign(self, modify_info_list):
+        for item in modify_info_list:
+            is_exist = TaskAssign.objects.filter(tid=item['tid'], member_id=item['member_id'])
+            if is_exist:
+                result_db = staff_db.query_staff_by_id(item['member_id'])
+                raise Exception('%s已指派过该任务'%(result_db.name))
+            TaskAssign.objects.create(**item)
+
+    def update_task_assign(self,modify_info):
+        TaskAssign.objects.filter(tasid=modify_info["tasid"]).update(**modify_info)
+
+    def query_task_assign_by_tid(self, tid):
+        result_db = TaskAssign.objects.filter(tid=tid).all()
+        return result_db
+
+
+class TaskSubmitRecordDB(object):
+    """任务提交记录表"""
+
+    def query_last_submit_record(self, tasid):
+        result_db = TaskSubmitRecord.objects.filter(tasid=tasid).last()
+        return result_db
+
+
+class TaskAssignTagDB(object):
+    """任务分配表"""
+    def mutil_insert_assign_tag(self,modify_info_list):
+        for item in modify_info_list:
+            is_exists = TaskAssignTag.objects.filter(tasid=item['tasid'], name=item['name'])
+            if is_exists:
+                continue
+            TaskAssignTag.objects.create(**item)
+
+
+class TaskAssignAttachDB(object):
+    """任务分配附件表"""
+    def mutil_insert_assign_attach(self,modify_info_list):
+        for item in modify_info_list:
+            TaskAttachment.objects.create(**item)
+
+
 department_db = DepartmentDB()
 staff_db = StaffDB()
 task_db = TaskDB()
@@ -215,4 +264,7 @@ task_attachment_db = TaskAttachmentDB()
 task_tag_db = TaskTagDB()
 task_review_db = TaskReviewDB()
 performence_db = PerformenceDB()
-
+task_assign_db = TaskAssignDB()
+task_submit_record_db = TaskSubmitRecordDB()
+task_assign_tag_db = TaskAssignTagDB()
+task_assign_attach_db = TaskAssignAttachDB()

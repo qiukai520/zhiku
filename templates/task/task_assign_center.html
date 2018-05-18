@@ -7,13 +7,36 @@
         text-align: center;
         vert-align: middle;
         }
+        .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+
+      .select-box{
+          top:5px;
+          height: 200px !important;
+          width: 100%;
+        border-radius: 3px;
+      }
+       span.glyphicon.glyphicon-arrow-left, span.glyphicon.glyphicon-arrow-right {
+        position: absolute;
+        right: -8px;
+        text-align: center;
+        margin-top: 80px;
+        color: blue;
+    }
+    span.glyphicon.glyphicon-arrow-left {
+        margin-top:120px;
+    }
+
      </style>
 {%endblock%}
 
 {% block conent %}
      <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">任务列表</div>
+  <div class="panel-heading">任务指派中心</div>
   <div class="panel-body" style="background-color:#f2f2f2">
       <form class="form-inline left"  action="{% url "task_search" %}" method="get">
           <div class="form-group"> <label for="book_sort">类别</label>
@@ -29,10 +52,12 @@
 </form>
       <div class="right">
       <a href="{% url "publish_task" %}"><button  class ="btn btn-primary">添加任务</button></a>
-{#          <a href=""><button class="btn btn-info">批量指派</button></a>#}
+          <button  onclick="ShowAssign()" role="button" data-toggle="modal" class="btn btn-info" >任务指派</button>
+          <button  onclick="TeamAssignShow()" role="button" data-toggle="modal" class="btn btn-info" >组队指派</button>
           <button  onclick="MultiDelete()" class="btn btn-danger">批量删除</button>
       </div>
   </div>
+         <a href=""></a>
         <!-- Table -->
     <table class="table  table-condensed  table-bordered table-hover table-striped">
       <thead>
@@ -65,16 +90,67 @@
           <td>{{ obj.deadline |date:"Y-m-d "}}</td>
           <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
             <td>
-                <a href="{% url "task_detail" %}?tid={{ obj.tid }}"  class="btn btn-info">详细</a>
+                <a href="#"  class="btn btn-info">详细</a>
               <a  href="{%url "task_edit" %}?tid={{ obj.tid }}" class="btn btn-primary" >编辑</a>
-                <a  href="{%url "task_assign" %}?tid={{ obj.tid }}" class="btn btn-info" >指派</a>
-
           </td>
       </tr>
 
       {% endfor %}
       </tbody>
   </table>
+
+<!-- task_assign-->
+<!-- Modal -->
+<div class="modal fade"  id="task_assign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">任务指派</h4>
+      </div>
+      <div class="modal-body" style="height: 300px;">
+         <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+            <div class="col-xs-12">
+             <div class="form-group">
+                        <label for="task_type" class="control-label col-xs-2">员工：</label>
+                        <div class="control-xs-4" style="margin:8px ;">
+                            <lable  for="department"  style="margin-left:15px" class="control-label ">部门:</lable>
+                                <select name="department" style="width:130px;" onchange="FetchStaff(this)">
+                                {% build_department_ele %}
+                                </select>
+                        </div>
+                    </div>
+              <div class="form-group" >
+                        <div  class=" col-xs-2"></div>
+                        <div class="col-xs-10 " style="padding:0px; ">
+                            <div class="col-xs-5  selector-filter" >
+                                <select multiple id="id_staff_from" name="staff_old"     class="select-box">
+
+                                </select>
+                                <br>
+                            <span class="glyphicon glyphicon-arrow-left" onclick="MoveBack()" ></span>
+                            <br>
+                            <span class="glyphicon glyphicon-arrow-right" onclick="MoveTo()" ></span>
+                            </div>
+
+                            <div class="col-xs-5 selector-filter">
+                                 <select  tags="selected-choose" multiple id="id_staff_to" name="staff" class="select-box">
+                                 </select>
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" id="submit" onclick="AssignSubmit()" class="btn btn-primary">指派</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <!-- Modal -->
     <!-- delete-->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -89,7 +165,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" id="ensure" class="btn btn-primary">确定</button>
+        <button type="button" id="ensure"  class="btn btn-primary">确定</button>
       </div>
     </div>
   </div>
@@ -100,11 +176,33 @@
 {%endblock %}
 
 {% block js %}
+        <script src="/static/js/jquery.cookie.js"></script>
         <script>
+        //预防csrf
+            var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
 
+        //字符串格式化
+String.prototype.format=function()
+{
+  if(arguments.length==0) return this;
+  for(var s=this, i=0; i<arguments.length; i++)
+    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+  return s;
+};
     function  SelectAll(ths) {
         //判断是否选中
-        ischecked=$(ths).is(":checked");
+        var ischecked=$(ths).is(":checked");
         //如果选中则全选中,否则取消选中
         $(ths).parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
     }
@@ -140,6 +238,137 @@
         })
         });
     }
+        //触发指派模态框
+function ShowAssign() {
+        //是否有选中任务
+     var is_checked=$("tbody input:checkbox:checked").length
+     console.log("is_checked",is_checked)
+    if (is_checked){
+         $('#task_assign').modal('show')
+        }else{
+         alert("至少应选中一个任务")
+    }
+}
+
+function TeamAssignShow() {
+    var is_checked=$("tbody input:checkbox:checked").length
+    if(is_checked){
+         if(is_checked==1){
+              $('#task_assign').modal('show')
+               $("#submit").attr("onclick","TeamAssingSubmit()")
+         }else{
+             alert("组队任务不能选择多个任务")
+         }
+    }else{
+         alert("请选择一个任务")
+    }
+
+}
+
+
+    //根据部门获取相应的员工
+function FetchStaff(ths) {
+    var dpid=$(ths).val();
+    $("#id_staff_from").children().remove();
+    $.ajax({
+        url:"{% url "department_staff" %}",
+        type:'get',
+        data:{"dpid":dpid},
+        dataType:'json',
+        success:function (arg) {
+            if (arg.status){
+                data=JSON.parse(arg.data)
+                for ( var i = 0; i <data.length; i++ ){
+                    opt_ele = "<option value={0} ondblclick=ElementMoveTo(this,'id_staff_from','id_staff_to')>{1}</option>".format(data[i]['pk'],data[i]['fields']['name']);
+                    $("#id_staff_from").append(opt_ele);
+            }
+            }else{
+                alert(arg.message)
+            }
+        }
+    })
+}
+
+
+    //移到被选复选框
+function MoveTo() {
+    console.log("2343e5")
+    var opt=$("#id_staff_from").find("option:selected").clone();
+    opt.attr("onclick","ElementMoveTo(this,'id_staff_from','id_staff_to')");
+    $("#id_staff_from").find("option:selected").remove()
+    $("#id_staff_to").append(opt);
+
+}
+//移回待选选复选框
+function MoveBack() {
+    var opt=$("#id_staff_to").find("option:selected").clone();
+    opt.attr("onclick","ElementMoveTo(this,'id_staff_to','id_staff_from')");
+    $("#id_staff_to").find("option:selected").remove()
+    $("#id_staff_from").append(opt) ;
+
+}
+    //双击动复选框
+function ElementMoveTo(ths,id_from,id_to) {
+        var opt_ele="<option value='"+$(ths).val()+"' ondblclick=ElementMoveTo(this,'"+id_to+"','"+id_from+"')>"+$(ths).text()+"</option>";
+        $("#" +id_to).append(opt_ele);
+        $(ths).remove();
+    }
+
+    function SelectMember(){
+        //构造任务指派dict
+        var reviewers=new Array();
+        //遍历员工
+        $("select[tags='selected-choose'] option").each(function () {
+            var member = $(this).val()
+            var review = {"member_id": member};
+            //遍历任务,添加任务ID
+            $("tbody input:checkbox:checked").each(function () {
+            id = $(this).parent().next().text();
+            review.tid=id;
+            reviewers.push(review)
+            })
+        })
+        console.log(reviewers)
+        reviewers =JSON.stringify(reviewers) //对象转化成json
+        return reviewers
+    }
+
+function AssignSubmit() {
+    $.ajax({
+        url:"{% url 'task_mutil_assign' %} ",
+        data:{"task_assign":SelectMember()},
+        type:"post",
+        dataType:"json",
+        success:function (arg) {
+            if (arg.status){
+                alert("指派成功")
+                 $('#task_assign').modal('hide')
+                 window.location.reload()
+            }else {
+                alert(arg.message)
+            }
+        }
+
+    })
+}
+
+function TeamAssingSubmit() {
+    $.ajax({
+        url:"{% url 'task_team_assign' %} ",
+        data:{"team_assign":SelectMember()},
+        type:"post",
+        dataType:"json",
+        success:function (arg) {
+            if (arg.status){
+                alert("指派成功")
+                 $('#task_assign').modal('hide')
+                 window.location.reload()
+            }else {
+                alert(arg.message)
+            }
+        }
+    })
+}
       </script>
 
 {% endblock %}

@@ -38,12 +38,12 @@ class Staff(models.Model):
 
 class Task(models.Model):
     tid = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=512)
-    content = models.TextField()
-    type_id = models.SmallIntegerField()
-    issuer_id = models.IntegerField()
-    perfor_id = models.IntegerField()
-    execute_way = models.IntegerField()
+    title = models.CharField(max_length=512)  # '任务名称'
+    content = models.TextField()   # '任务描述',
+    type_id = models.SmallIntegerField()  # ' 任务类型',
+    issuer_id = models.IntegerField()  # '发布人',
+    perfor_id = models.IntegerField()    # '绩效分类',
+    execute_way = models.IntegerField()   # '0代表并行执行，1次序执行',
     teamwork_auth = models.IntegerField()
     tcid = models.IntegerField(blank=True, null=True)
     start_time = models.DateTimeField(blank=True, null=True)
@@ -62,25 +62,30 @@ class TaskAssign(models.Model):
     tasid = models.AutoField(primary_key=True)
     tid = models.IntegerField()
     member_id = models.IntegerField()
+    title = models.CharField(max_length=512, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     deadline = models.DateTimeField(blank=True, null=True)
+    attachment = models.CharField(max_length=512, blank=True, null=True)
+    attach_name = models.CharField(max_length=512, blank=True, null=True)
+    description = models.CharField(max_length=512, blank=True, null=True)
     weight = models.SmallIntegerField(blank=True, null=True)
     create_time = models.DateTimeField()
     last_edit = models.DateTimeField()
 
     class Meta:
         db_table = 'task_assign'
+        unique_together = (('tid', 'member_id'),)
 
 
-class TaskAssignAttachment(models.Model):
+class TaskAssignAttach(models.Model):
     taaid = models.AutoField(primary_key=True)
-    tid = models.IntegerField()
-    sid = models.IntegerField()
+    tasid = models.IntegerField()
     attachment = models.CharField(max_length=512, blank=True, null=True)
+    name = models.CharField(max_length=64, blank=True, null=True)
     description = models.CharField(max_length=512, blank=True, null=True)
 
     class Meta:
-        db_table = 'task_assign_attachment'
+        db_table = 'task_assign_attach'
 
 
 class TaskAttachment(models.Model):
@@ -96,7 +101,7 @@ class TaskAttachment(models.Model):
 
 class TaskAuth(models.Model):
     taid = models.AutoField(primary_key=True)
-    tmid = models.IntegerField()
+    tasid = models.IntegerField()
     status = models.IntegerField()
     result = models.IntegerField()
     score = models.IntegerField()
@@ -117,7 +122,7 @@ class TaskCycle(models.Model):
 
 class TaskRejectRecord(models.Model):
     trid = models.AutoField(primary_key=True)
-    tmid = models.IntegerField()
+    tasid = models.IntegerField()
     create_time = models.DateTimeField()
     reason = models.TextField(blank=True, null=True)
 
@@ -148,10 +153,11 @@ class TaskSubmitAttachment(models.Model):
 
 class TaskSubmitRecord(models.Model):
     tsid = models.AutoField(primary_key=True)
-    tmid = models.IntegerField()
+    tasid = models.IntegerField()
     title = models.CharField(max_length=512, blank=True, null=True)
     summary = models.CharField(max_length=512, blank=True, null=True)
     experience = models.CharField(max_length=512, blank=True, null=True)
+    completion = models.IntegerField(default=0)  # 完成度：1-100
     create_time = models.DateTimeField()
     last_edit = models.DateTimeField()
 
@@ -168,6 +174,15 @@ class TaskTag(models.Model):
         db_table = 'task_tag'
         unique_together = (('tid', 'name'),)
 
+
+class TaskAssignTag(models.Model):
+    ttid = models.AutoField(primary_key=True)
+    tasid = models.IntegerField()
+    name = models.CharField(max_length=32, blank=True, null=True)
+
+    class Meta:
+        db_table = 'task_assign_tag'
+        unique_together = (('tasid', 'name'),)
 
 class TaskType(models.Model):
     tpid = models.AutoField(primary_key=True)

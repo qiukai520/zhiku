@@ -1,6 +1,6 @@
 from django import template
 from django.utils.safestring import mark_safe
-from task.server import task_db, task_cycle_db, staff_db, task_type_db, department_db, performence_db
+from task.server import task_db, task_cycle_db, staff_db, task_type_db, department_db, performence_db, task_assign_db,task_submit_record_db
 register = template.Library()
 
 @register.simple_tag
@@ -131,3 +131,29 @@ def change_to_task_finish_status(id):
     for item in finish_list:
         if int(item['id']) == id:
             return item['caption']
+
+@register.simple_tag
+def bulid_assign_member_list(tid):
+    """构建指派对象"""
+    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    eles = """<ul>"""
+    for item in task_assign_list:
+        # 获取对象信息
+        member = staff_db.query_staff_by_id(item.member_id)
+        # 获取任务提交记录
+        last_commit_record = task_submit_record_db.query_last_submit_record(item.tasid)
+        if last_commit_record:
+            completion = last_commit_record.completion
+            last_edit = last_commit_record.last_edit
+            if completion:
+                status = completion
+        else:
+            status = "进行中"
+            last_edit = ''
+        # 构建指派对象列表
+        ele = """<li data-toggle="modal" onclick="MemberAssignShow(this)"><span class="member_name"  >{0}</span>  &nbsp
+        <span >{1}</span> &nbsp<span>{2}</span></li><input type="text " class="hidden" name="member_id" value='{3}'>
+        <input type="text " class="hidden" name="tasid" value='{4}'>""".format(member.name, status, last_edit, item.member_id,item.tasid)
+        eles += ele
+    eles += "</ul>"
+    return mark_safe(eles)

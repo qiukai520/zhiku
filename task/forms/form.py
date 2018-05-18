@@ -24,3 +24,8 @@ class PerformForm(django_forms.Form):
     team_score = django_fields.IntegerField(error_messages={'required': '团队分值不能为空', 'invalid': '请输入有效整数'})
     team_total = django_fields.IntegerField(error_messages={'required': '团队总分不能为空', 'invalid': '请输入有效整数'})
 
+
+class TaskAssignForm(django_forms.Form):
+    title = django_fields.CharField(error_messages={"required": "标题不能为空"})
+    content = django_fields.CharField(error_messages={'required': '任务内容不能为空'})
+    attachment = django_fields.CharField(required=False)

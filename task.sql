@@ -11,7 +11,7 @@ create TABLE `task`(
 `tcid`  int(11) COMMENT '任务周期类型',
 `start_time` datetime  DEFAULT NULL  COMMENT '起止日期',
 `deadline` datetime  DEFAULT NUll  COMMENT '终止期限',
-`is_assign` tinyint(1) NOT NULL DEFAULT 0 COMMENT '指派状态：0未指派;已指派',
+`is_assign` tinyint(1) NOT NULL DEFAULT 0 COMMENT '指派状态：0未指派;1已指派',
 `is_finish` tinyint(1) NOT NULL DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
 `status` tinyint(1) NOT NUll DEFAULT 1 COMMENT'1启动,2暂停,3终止',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -73,6 +73,16 @@ create TABLE `task_tag`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务标签表';
 alter table task_tag  ADD UNIQUE KEY `tid_name`(`tid`,`name`) USING BTREE;
 
+
+drop TABLE if exists `task_assign_tag`;
+create TABLE `task_assign_tag`(
+`tatid` int(11) NOT NULL primary key auto_increment,
+`tasid` int(11) NOT NULL  COMMENT '任务分配ID',
+`name` varchar(32) NOT NULL COMMENT '标签名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务标签表';
+alter table task_assign_tag  ADD UNIQUE KEY `tid_name`(`tasid`,`name`) USING BTREE;
+
+
 drop TABLE if exists `task_cycle`;
 create TABLE `task_cycle`(
 `tcid` int(11) NOT NULL  primary key auto_increment,
@@ -85,28 +95,32 @@ create TABLE `task_assign`(
 `tasid`int(11) NOT NULL primary key auto_increment,
 `tid` int(11) NOT NULL COMMENT'任务ID',
 `member_id` int(11) NOT NULL COMMENT' 员工ID',
-`content` text NOT NULL COMMENT '任务描述',
-`deadline` datetime NOT NULL COMMENT '最后期限',
-`weight` smallint(5)  NOT NULL  COMMENT '权重:0-100',
+`title`  varchar(32)  COMMENT '标题',
+`content` text   COMMENT '任务描述',
+`deadline` datetime  COMMENT '最后期限',
+`weight` smallint(5)   COMMENT '权重:0-100',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务分配表';
+alter table task_assign  ADD UNIQUE KEY `task_member_id`(`tid`,`member_id`) USING BTREE;
 
 
-drop TABLE if exists `task_assign_attachment`;
-create TABLE `task_assign_attachment`(
-`taaid` int(11) primary key auto_increment,
-`tid` int(11) NOT NULL  COMMENT '任务ID',
-`sid` int(11) NOT NULL  COMMENT '员工ID',
-`attachment` varchar(512) COMMENT '附件',
-`description` varchar(512) COMMENT '附件描述'
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务附件分配表';
+
+drop TABLE if exists `task_assign_attach`;
+create TABLE `task_assign_attach`(
+`taaid`int(11) NOT NULL primary key auto_increment,
+`tasid` int(11) NOT NULL COMMENT'任务分配ID',
+`attachment` varchar(512) COMMENT '附件路径',
+`description` varchar(512) COMMENT '附件描述',
+`attach_name` varchar(512) COMMENT '附件名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务分配附件表';
+
 
 
 drop TABLE if exists `task_auth`;
 create TABLE `task_auth`(
 `taid` int(11) NOT NUll primary key auto_increment,
-`tmid` int(11) NOT NUll  COMMENT '任务分配ID',
+`tasid` int(11) NOT NUll  COMMENT '任务分配ID',
 `status` tinyint(1) NOT NULL COMMENT '审核状态：0 未审核，1已审核',
 `result` tinyint(1) NOT NULL COMMENT '审核状态：0 通过，1未通过',
 `score` tinyint(1) NOT NULL COMMENT '评分：1及格；2一般；3出色；4优秀；5经验被录取到知识库',
@@ -118,7 +132,7 @@ create TABLE `task_auth`(
 drop TABLE if exists `task_reject_record`;
 create TABLE `task_reject_record`(
 `trid` int(11) NOT NULL primary key auto_increment,
-`tmid` int(11) NOT NULL COMMENT '任务分配ID',
+`tasid` int(11) NOT NULL COMMENT '任务分配ID',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `reason` text COMMENT '原因'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务驳回记录表';
@@ -127,10 +141,11 @@ create TABLE `task_reject_record`(
 drop TABLE if exists `task_submit_record`;
 create TABLE `task_submit_record`(
 `tsid` int(11)  primary key auto_increment,
-`tmid` int(11) NOT NULL COMMENT '任务分配ID',
+`tasid` int(11) NOT NULL COMMENT '任务分配ID',
 `title` varchar(512) COMMENT '标题',
 `summary` varchar(512) COMMENT '备注',
 `experience` varchar(512) COMMENT '心得',
+`completion`  int(3) NOT NUll DEFAULT 0 COMMENT'完成度：1-100',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务提交记录表';

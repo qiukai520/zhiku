@@ -1,47 +1,457 @@
 {% extends "layout.html" %}
 {% load  admin_tags %}
-{% block css %}
-    <style>
-     .form-horizontal .control-label {
+
+{% block css  %}
+     <style>
+        td, th{
+        text-align: left;
+        vert-align: middle;
+        }
+        .form-horizontal .control-label {
             padding-top: 7px;
             margin-bottom: 0;
             text-align: right;
         }
-    label >span{
 
-        color:black;
+      .select-box{
+          top:5px;
+          height: 200px !important;
+          width: 100%;
+        border-radius: 3px;
+      }
+       span.glyphicon.glyphicon-arrow-left, span.glyphicon.glyphicon-arrow-right {
+        position: absolute;
+        right: -8px;
+        text-align: center;
+        margin-top: 80px;
+        color: blue;
     }
-    </style>
-{% endblock %}
-{% block  conent %}
-        <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+    span.glyphicon.glyphicon-arrow-right {
+        margin-top:120px;
+    }
+    ul{
+        padding:0px;
+    }
+       ul>li{
+       cursor: pointer;
+       padding:0;margin:0;list-style:none
+  }
+
+       .member_name{
+           color:blue;
+
+     }
+       .member_name:hover{
+          color:red;
+       }
+     </style>
+{%endblock%}
+
+{% block conent %}
+     <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">已指派的任务</div>
+  <div class="panel-body" style="background-color:#f2f2f2">
+      <form class="form-inline left"  action="{% url "task_search" %}" method="get">
+          <div class="form-group"> <label for="book_sort">类别</label>
+                   <select id="book_sort" name="s"   class="form-control">
+                       <option value=0>所有</option>
+                  {% build_task_type_filter  task_type_id %}
+          </select>
+          </div>
+          <div class="form-group">
+              <input type="search" name=_q class="col-md-2 form-control" placeholder="search by username," style="width:250px;display:inline;margin:0 10px;">
+          </div>
+          <button type="submit" class="btn btn-default">搜索</button>
+</form>
+      <div class="right">
+{#      <a href="{% url "publish_task" %}"><button  class ="btn btn-primary">添加任务</button></a>#}
+          <button  onclick="MultiDelete()" class="btn btn-danger">批量删除</button>
+      </div>
+  </div>
+        <!-- Table -->
+    <table class="table  table-condensed  table-bordered table-hover table-striped">
+      <thead>
+      <tr >
+          <th><input type="checkbox" onclick="SelectAll(this)"></th>
+          <th>ID</th>
+          <th>任务名称</th>
+          <th>任务描述</th>
+          <th>任务类别</th>
+          <th>指派人</th>
+          <th>开始时间</th>
+          <th>截止时间</th>
+          <th>指派对象</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% if query_sets %}
+           {% for obj in  query_sets%}
+      <tr>
+          <td><input type="checkbox"></td>
+          <td>{{ obj.tid }}</td>
+          <td>{{ obj.title }}</td>
+          <td>{{ obj.content|slice:"15"}}</td>
+          <td>{% change_to_task_type  obj.type_id  %}</td>
+          <td>{% change_to_staff obj.issuer_id %}</td>
+          <td>{{ obj.deadline |date:"Y-m-d "}}</td>
+          <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
+          <td>{% bulid_assign_member_list obj.tid %}
+          </td>
+          <td></td>
+      </tr>
+
+      {% endfor %}
+      {% endif %}
+
+      </tbody>
+  </table>
+
+<!-- task_assign-->
+<!-- Modal -->
+<div class="modal fade" id="assign_member"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">指派内容</h4>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;margin-top: 30px">
             <div class="col-xs-12">
-                <div class="form-group">
-                    <label for="task_name" class="col-xs-2 control-label">任务名称：</label>
-                      <div class="col-xs-4">
-                          <textarea name="title"  class="form-control"  id="task_name" placeholder="任务名称">
+              <div class="form-group">
+                    <label for="title" class="col-xs-3 control-label">标题：</label>
+                      <div class="col-xs-8">
+                          <textarea name="title" style="height:50px;" class="form-control"  id="title" placeholder="任务标题">
                         </textarea>
                       </div>
                 </div>
                 <div class="form-group">
-                    <label for="content" class="control-label col-xs-2">任务描述：</label>
-                    <div class="col-xs-4">
-                        <textarea name="content" class="form-control"  style="height:80px;" id="content" placeholder="任务描述">
+                    <label for="content" class="control-label col-xs-3">内容：</label>
+                    <div class="col-xs-8">
+                        <textarea name="content" class="form-control"  style="height:60px;" id="content" placeholder="任务描述">
                     </textarea>
                     </div>
                 </div>
+                <div class="form-group" style="padding: 0px">
+                    <label for="tag" class="control-label col-xs-3">标签：</label>
+                    <div class="col-xs-8" style="padding: 0px">
+                        <div class="col-xs-10">
+                        <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
+                        </div>
+                        <div class="col-xs-2" >
+                            <button class=" btn inline-block right" onclick="AddTag(this)">添加</button>
+                        </div>
+                        <div class="col-xs-12" id="tag_container" >
+                        <div class="tag hidden  " >
+                            <div class="alert alert-info alert-dismissible pull-left" role="alert" style="padding: 2px;margin-right: 25px;">
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                                <strong></strong>
+                            </div>
+                        </div>
+                            <!--初始化标签-->
+                            {% if tid %}
+                            {% for obj in task_tag_info %}
+                                <div class="tag  " >
+                                <div class="alert alert-info alert-dismissible pull-left" role="alert" style="padding: 2px;margin-right: 25px;">
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                                    <input type="text" name="ttid" class="hidden" value="{{ obj.ttid }}">
+
+                                    <strong>{{ obj.name }}</strong>
+                                </div>
+                                </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    </div>
+                <div class="attachment">
+                        <div  class="form-group ">
+                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-3 control-label">附件1：</label>
+                          <div class="col-xs-4">
+                              <input type="file" name="file"  onchange="UploadFile(this)">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="content" class="control-label col-xs-3">附件描述：</label>
+                            <div class="col-xs-8">
+                                <input name="content" class="form-control" style="height:40px"  placeholder="附件描述">
+                            </div>
+                        </div>
+                    </div>
+                <div class="attachment">
+                        <div  class="form-group ">
+                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-3 control-label">附件2：</label>
+                          <div class="col-xs-4">
+                              <input type="file" name="file"  onchange="UploadFile(this)">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="content" class="control-label col-xs-3">附件描述：</label>
+                            <div class="col-xs-8">
+                                <input name="content" class="form-control" style="height:40px"  placeholder="附件描述">
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="form-group">
+                    <label for="deadline" class="control-label col-xs-3">截止时间：</label>
+                    <div class="col-xs-8">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    </div>
+                </div>
+              </div>
             </div>
-        <div class="form-group col-xs-6">
-            {% if tid %}
-                  <button  onclick="Edit()" class="btn btn-primary" style="float: right;">修改</button>
-            {% else %}
-                <button  onclick="Submit()" class="btn btn-primary" style="float: right;">指派</button>
-            {% endif %}
-            <a href="#" class="btn btn-danger" onclick="FetchAttachment()" style="float:right;margin-right: 50px;">返回</a>
-        </div>
+         </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" id="assign" class="btn btn-primary">指派</button>
+      </div>
     </div>
+    </div>
+</div>
+
+    <!-- Modal -->
+    <!-- delete-->
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">警告！</h4>
+      </div>
+      <div class="modal-body" style="text-align: center;font-size: 20px;">
+        您确定要删除吗？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" id="ensure"  class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+     </div>
 
 
-{% endblock %}
-{% block js%}
+{%endblock %}
+
+{% block js %}
+
+        <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
+        <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="/static/js/jquery.cookie.js"></script>
+        <script>
+        //预防csrf
+            var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+            //设置日期时间控件
+$(function () {
+    $('#datetimepicker1').datetimepicker({
+        format: 'YYYY-MM-DD hh:mm',
+        locale: moment.locale('zh-cn')
+    });
+});
+
+        //字符串格式化
+String.prototype.format=function()
+{
+  if(arguments.length==0) return this;
+  for(var s=this, i=0; i<arguments.length; i++)
+    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+  return s;
+};
+    function  SelectAll(ths) {
+        //判断是否选中
+        ischecked=$(ths).is(":checked");
+        //如果选中则全选中,否则取消选中
+        $(ths).parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
+    }
+//批量删除
+    function MultiDelete() {
+        $("#delete_modal").modal("show");//显示模态框
+        var ids="";
+        $("tbody input:checkbox:checked").each(function () {
+            id = $(this).parent().next().text();
+            if (id){
+                id+="|";
+                ids+=id;
+            }
+        });
+        $("#ensure").click(function () {
+            $("#delete_modal").hide();
+              $.ajax({
+            url:"{% url "task_delete" %}",
+            data:{"ids":ids},
+            type:"get",
+            dataType:"JSON",
+            success:function (arg) {
+                if (arg.status){
+                   alert("删除成功");
+                    window.location.reload()
+                }else{
+                    alert("删除失败")
+                    window.location.reload()
+
+
+                }
+            }
+        })
+        });
+    }
+
+    //添加标签
+function AddTag(ths){
+        var val=$(ths).parent().parent().find("input").val();
+        $(ths).parent().parent().find("input[name=tag]").val("");//清空input 标签
+        if (val){
+             var tag = $(ths).parent().next().children().first().clone();
+             tag.removeClass("hidden");
+             $(tag).find("strong").text(val);
+             $(ths).parent().next().append(tag);
+        }
+        else{
+            alert("输入不能为空")
+        }
+    }
+
+     //获取标签内容
+function  FetchTag() {
+    var tags=new Array();
+    $("#tag").parent().parent().find("strong").each(function () {
+        if($(this).text()){
+            tag =$(this).text();
+            tags.push(tag)
+        }
+    });
+    tags=tags.join("|")
+    return tags
+}
+//获取附件
+function FetchAttachment(){
+    var attachment_list=new Array()
+    $(".attachment").each(function () {
+    var attachment = {"attachment":'',"description":'',"name":''};
+    var file_path= $(this).find("input[name=file_path]").val();
+        //空文件不上传
+    if(file_path==null){
+        return true;
+    }
+    var content=$(this).find("input[name=content]").val().trim();
+    var name=$(this).find("input[name=file_name]").val();
+    attachment.attachment=file_path;
+    attachment.description=content;
+    attachment.name=name;
+    attachment_list.push(attachment)
+});
+    attachment_list=JSON.stringify(attachment_list)//对象转化成json
+    return attachment_list
+}
+//上传附件
+function UploadFile(ths){
+    var file_obj = $(ths)[0].files[0];
+    var form = new FormData();
+    form.append("file", file_obj);
+    $.ajax({
+        url:"/attachment_upload.html",
+        type:"POST",
+        data: form ,
+        dataType:"JSON",
+        // 告诉jQuery不要去处理发送的数据
+        processData : false,
+        // 告诉jQuery不要去设置Content-Type请求头
+        contentType : false,
+        success:function (arg) {
+            //添加新的file
+            var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
+            var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
+            $(ths).parent().append(path_input);
+            $(ths).parent().append(name_input);
+            $(ths).parent().find("input[name=file_path]").val(arg.data.path)
+            $(ths).parent().find("input[name=file_name]").val(arg.data.name)
+        },
+    })
+}
+
+
+function MemberAssignShow(ths) {
+     $('#assign_member').modal('show')
+      // 指派
+      $("#assign").click(function () {
+            var tasid=$(ths).parent().find("input[name=tasid]").val();
+            var member_id=$(ths).parent().find("input[name=member_id]").val()
+            var title = $("#title").val().trim();
+            var content = $("#content").val().trim();
+            var deadline = $("#datetimepicker1").find("input").val();
+            $.ajax({
+                    url: "{% url "task_assign" %}",
+                    type: "POST",
+                    data:  {
+                        "tasid":tasid,
+                        "member_id":member_id,
+                        "title": title,
+                        "content": content,
+                        "deadline":deadline,
+                        "attachment":FetchAttachment(),
+                        "tags":FetchTag(),
+            },
+                dataType: "json",
+                success: function (arg) {
+                    if (arg.status) {
+                        alert("指派成功");
+                        window.location.reload();
+                    } else {
+                        alert(arg.message)
+                    }
+                }
+            })
+
+      })
+    }
+
+function Submit() {
+        var tid=$("")
+        var title = $("#title").val().trim();
+        var content = $("#content").val().trim();
+        var deadline = $("#datetimepicker1").find("input").val();
+
+        $.ajax({
+                url: "{% url "task_assign" %}",
+                type: "POST",
+                data:  {
+                    "title": title,
+                    "content": content,
+                    "deadline":deadline,
+                    "attachment":FetchAttachment(),
+                    "tags":FetchTag(),
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("指派成功");
+                    window.location.reload();
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
+    }
+
+      </script>
+
 {% endblock %}
