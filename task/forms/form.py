@@ -13,7 +13,7 @@ class TaskForm(django_forms.Form):
     tags = django_fields.CharField(required=False)
     attachment = django_fields.CharField(required=False)
     start_time = django_fields.CharField(required=False)
-    deadline = django_fields.CharField(required=False)
+    deadline = django_fields.DateTimeField(required=False)
     reviewers = django_fields.CharField(error_messages={"required": "审核人不能为空"})
 
 
@@ -29,3 +29,4 @@ class TaskAssignForm(django_forms.Form):
     title = django_fields.CharField(error_messages={"required": "标题不能为空"})
     content = django_fields.CharField(error_messages={'required': '任务内容不能为空'})
     attachment = django_fields.CharField(required=False)
+    # deadline = django_fields.DateTimeField(required=False)

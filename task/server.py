@@ -229,6 +229,10 @@ class TaskAssignDB(object):
         result_db = TaskAssign.objects.filter(tid=tid).all()
         return result_db
 
+    def query_task_assign_by_tasid(self,tasid):
+        result_db =TaskAssign.objects.filter(tasid=tasid)
+        return result_db
+
 
 class TaskSubmitRecordDB(object):
     """任务提交记录表"""
@@ -240,19 +244,27 @@ class TaskSubmitRecordDB(object):
 
 class TaskAssignTagDB(object):
     """任务分配表"""
-    def mutil_insert_assign_tag(self,modify_info_list):
+    def mutil_insert_assign_tag(self, modify_info_list):
         for item in modify_info_list:
-            is_exists = TaskAssignTag.objects.filter(tasid=item['tasid'], name=item['name'])
+            is_exists = TaskAssignTag.objects.filter(tasid=item['tasid'], name=item['name']).first()
             if is_exists:
                 continue
             TaskAssignTag.objects.create(**item)
 
+    def query_task_assign_by_tasid(self, tasid):
+        result_db = TaskAssignTag.objects.filter(tasid=tasid).all()
+        return result_db
+
 
 class TaskAssignAttachDB(object):
     """任务分配附件表"""
-    def mutil_insert_assign_attach(self,modify_info_list):
+    def mutil_insert_assign_attach(self, modify_info_list):
         for item in modify_info_list:
-            TaskAttachment.objects.create(**item)
+            TaskAssignAttach.objects.create(**item)
+
+    def query_task_assign_attach_by_tasid(self,tasid):
+        result_db = TaskAssignAttach.objects.filter(tasid=tasid).all()
+        return result_db
 
 
 department_db = DepartmentDB()

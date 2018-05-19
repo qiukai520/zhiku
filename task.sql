@@ -47,7 +47,7 @@ create TABLE `task_attachment`(
 `tamid` int(11) primary key auto_increment,
 `tid` int(11) NOT NULL  COMMENT '任务ID',
 `attachment` varchar(512) COMMENT '附件',
-`name` varchar(64) COMMENT '附件名称',
+`name` varchar(128) COMMENT '附件名称',
 `description` varchar(512) COMMENT '附件描述'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务附件总表';
 
@@ -97,7 +97,7 @@ create TABLE `task_assign`(
 `member_id` int(11) NOT NULL COMMENT' 员工ID',
 `title`  varchar(32)  COMMENT '标题',
 `content` text   COMMENT '任务描述',
-`deadline` datetime  COMMENT '最后期限',
+`deadline` datetime  DEFAULT NUll COMMENT '最后期限',
 `weight` smallint(5)   COMMENT '权重:0-100',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
@@ -112,7 +112,7 @@ create TABLE `task_assign_attach`(
 `tasid` int(11) NOT NULL COMMENT'任务分配ID',
 `attachment` varchar(512) COMMENT '附件路径',
 `description` varchar(512) COMMENT '附件描述',
-`attach_name` varchar(512) COMMENT '附件名称'
+`name` varchar(128) COMMENT '附件名称'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务分配附件表';
 
 

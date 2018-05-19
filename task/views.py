@@ -1,12 +1,14 @@
 import json
 import os
 import uuid
+import re
 from django.core import serializers
 from django.db import transaction
+from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse
 from task.forms.form import TaskForm, PerformForm,TaskAssignForm
 from .server import task_db, task_tag_db, task_attachment_db,task_review_db,staff_db,performence_db,task_assign_db,task_assign_tag_db,task_assign_attach_db
-from .utils import build_attachment_info, build_tags_info, build_reviewer_info, compare_json
+from .utils import build_attachment_info, build_tags_info, build_reviewer_info, compare_json,build_assign_tags_info,build_assign_attach_info
 
 # Create your views here.
 
@@ -68,7 +70,6 @@ def publish_task(request):
                             task_review_db.mutil_insert_reviewer(reviewers_list)
                             ret["status"] = True
                 except Exception as e:
-                    print(e)
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -229,14 +230,14 @@ def task_team_assign(request):
 def task_assign(request):
     """任务已指派列表"""
     method = request.method
-    print(method)
     if method == "GET":
         query_sets = task_db.query_task_assign_lists()
         return render(request, 'task/task_assign.html', {"query_sets": query_sets})
     else:
-        ret = { "status": "", "data": "", "message": ''}
+        # 任务内容指派
+        ret = {"status": "", "data": "", "message": ''}
         data = request.POST
-        form=TaskAssignForm(data=request.POST)
+        form = TaskAssignForm(data=data)
         if form.is_valid():
             data = request.POST
             data = data.dict()
@@ -250,27 +251,71 @@ def task_assign(request):
             if data:
                 try:
                     with transaction.atomic():
-                        tasid = task_assign_db.update_task_assign(data)
-                        # 如果分配任务插入成功
-                        if tasid:
-                            # 插入标签
-                            tags_assign_list = build_tags_info(tasid, tag_list)
-                            task_assign_tag_db.mutil_insert_assign_tag(tags_assign_list)
-                            # 插入附件
-                            attachment_list = build_attachment_info(tasid, attachment)
-                            task_assign_attach_db.mutil_insert_attachment(attachment_list)
-                            ret["status"] = True
+                        tasid = data.get("tasid", None)
+                        print(tasid)
+                        task_assign_db.update_task_assign(data)
+                        # 插入标签
+                        tags_assign_list = build_assign_tags_info(tasid, tag_list)
+                        print(tags_assign_list)
+                        task_assign_tag_db.mutil_insert_assign_tag(tags_assign_list)
+                        # 插入附件
+                        attachment_list = build_assign_attach_info(tasid, attachment)
+                        print(attachment_list)
+                        task_assign_attach_db.mutil_insert_assign_attach(attachment_list)
+                        ret["status"] = True
                 except Exception as e:
                     print(e)
-                    ret["message"] = "添加失败"
+                    ret["message"] = "指派失败"
         else:
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
-
         print(request.POST)
         return HttpResponse(json.dumps(ret))
+
+def task_assign_edit(request):
+    data = request.POST
+    form = TaskAssignForm(data=data)
+    tasid=data.get("tasid",None)
+    if form.is_valid():
+        data = request.POST
+        data = data.dict()
+        # 获取标签并删除
+        tags = data.get("tags", None)
+        tag_list = list(json.loads(tags))
+        data.pop("tags")
+        # 获取附件并删除
+        attachment = data.get("attachment", None)
+        attachment_list= list(json.loads(attachment))
+        data.pop("attachment")
+        pass
+
+
+def show_assign_content(request):
+    """查看任务成员的任务内容"""
+    ret = {"status": False, "message":"","member_assign":'',"tags":"","attachs":""}
+    tasid = request.GET.get("tasid",None)
+    if tasid:
+        try:
+            # 根据任务分配ID获取内容
+            member_assign = task_assign_db.query_task_assign_by_tasid(tasid)
+            ret["member_assign"] =serializers.serialize("json", member_assign)
+            # 获取标签
+            tags = task_assign_tag_db.query_task_assign_by_tasid(tasid)
+            # print("tags",tags)
+            ret['tags'] = serializers.serialize('json', tags)
+            # 获取附件
+            attachs = task_assign_attach_db.query_task_assign_attach_by_tasid(tasid)
+            # print("attachs",attachs)
+
+            ret['attachs'] = serializers.serialize('json', attachs)
+            ret['status'] = True
+        except Exception as e:
+            print(e)
+            ret['message'] = "查询不到相关信息"
+    # print(ret)
+    return HttpResponse(json.dumps(ret))
 
 
 def task_assign_center(request):
@@ -294,29 +339,6 @@ def department_staff(request):
             ret["message"] = "出错了"
     else:
         ret["message"] = "请选择相应的部门"
-    return HttpResponse(json.dumps(ret))
-
-
-def attachment_upload(request):
-    """附件上传"""
-    ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
-    try:
-        # 获取文件对象
-        file_obj = request.FILES.get("file")
-        raw_name = file_obj.name
-        if not file_obj:
-            pass
-        else:
-            file_name = str(uuid.uuid4())
-            file_path = os.path.join("static/upload/task", file_name)
-            with open(file_path, "wb") as f:
-                for chunk in file_obj.chunks():
-                    f.write(chunk)
-            ret["status"] = True
-            ret["data"]['path'] = file_path
-            ret["data"]['name'] = raw_name
-    except Exception as e:
-        ret["summary"] = str(e)
     return HttpResponse(json.dumps(ret))
 
 
@@ -385,3 +407,49 @@ def performence_delete(request):
     except Exception as e:
         ret['message'] = '删除失败'
     return HttpResponse(json.dumps(ret))
+
+
+def attachment_upload(request):
+    """附件上传"""
+    ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
+    try:
+        # 获取文件对象
+        file_obj = request.FILES.get("file")
+        raw_name = file_obj.name
+        if not file_obj:
+            pass
+        else:
+            file_name = str(uuid.uuid4())
+            file_path = os.path.join("static/upload/task", file_name)
+            with open(file_path, "wb") as f:
+                for chunk in file_obj.chunks():
+                    f.write(chunk)
+            ret["status"] = True
+            ret["data"]['path'] = file_path
+            ret["data"]['name'] = raw_name
+    except Exception as e:
+        ret["summary"] = str(e)
+    return HttpResponse(json.dumps(ret))
+
+
+def attachment_download(request):
+    name = request.GET.get("name", None)
+    print(name)
+    print(str(name))
+    format = re.match('.(.*)', name).group()
+    print(format)
+    file_path = request.GET['url']
+    print(file_path)
+
+    def file_iterator(file_path, chunk_size=512):
+        with open(file_path, 'rb') as f:
+            while True:
+                c = f.read(chunk_size)
+                if c:
+                    yield c
+                else:
+                    break
+    response = StreamingHttpResponse(file_iterator(file_path))
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(name.encode('utf-8').decode('ISO-8859-1'))
+    return response

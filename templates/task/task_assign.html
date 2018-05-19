@@ -113,7 +113,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">指派内容</h4>
       </div>
       <div class="modal-body" style="height: 560px;">
@@ -149,26 +149,13 @@
                                 <strong></strong>
                             </div>
                         </div>
-                            <!--初始化标签-->
-                            {% if tid %}
-                            {% for obj in task_tag_info %}
-                                <div class="tag  " >
-                                <div class="alert alert-info alert-dismissible pull-left" role="alert" style="padding: 2px;margin-right: 25px;">
-                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                                    <input type="text" name="ttid" class="hidden" value="{{ obj.ttid }}">
-
-                                    <strong>{{ obj.name }}</strong>
-                                </div>
-                                </div>
-                            {% endfor %}
-                            {% endif %}
                         </div>
                     </div>
                     </div>
-                <div class="attachment">
+                <div class="attachment1">
                         <div  class="form-group ">
                         <label for="attachment" name="attach" style="position:relative;" class="col-xs-3 control-label">附件1：</label>
-                          <div class="col-xs-4">
+                          <div class="col-xs-4" id="file1">
                               <input type="file" name="file"  onchange="UploadFile(this)">
                           </div>
                         </div>
@@ -179,10 +166,10 @@
                             </div>
                         </div>
                     </div>
-                <div class="attachment">
+                <div class="attachment2">
                         <div  class="form-group ">
                         <label for="attachment" name="attach" style="position:relative;" class="col-xs-3 control-label">附件2：</label>
-                          <div class="col-xs-4">
+                          <div class="col-xs-4" id="file2">
                               <input type="file" name="file"  onchange="UploadFile(this)">
                           </div>
                         </div>
@@ -193,12 +180,11 @@
                             </div>
                         </div>
                     </div>
-
                 <div class="form-group">
-                    <label for="deadline" class="control-label col-xs-3">截止时间：</label>
+                    <label for="deadline" class="control-label col-xs-3">任务截止时间：</label>
                     <div class="col-xs-8">
                     <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' class="form-control" />
+                        <input type='text' class="form-control" format="YYYY-MM-DD hh:mm" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -209,8 +195,10 @@
             </div>
          </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" onclick="ClearData()" class="btn btn-default" data-dismiss="modal">取消</button>
         <button type="button" id="assign" class="btn btn-primary">指派</button>
+          <button type="button"  id="edit" onclick="Edit()" class=" hidden btn btn-primary">修改</button>
+
       </div>
     </div>
     </div>
@@ -230,7 +218,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" id="ensure"  class="btn btn-primary">确定</button>
+        <button type="button"  id="ensure"  class="btn btn-primary">确定</button>
+
       </div>
     </div>
   </div>
@@ -260,6 +249,14 @@
             }
         });
 
+      /*
+    自执行函数
+    */
+    $(function () {
+
+    });
+
+
             //设置日期时间控件
 $(function () {
     $('#datetimepicker1').datetimepicker({
@@ -267,7 +264,6 @@ $(function () {
         locale: moment.locale('zh-cn')
     });
 });
-
         //字符串格式化
 String.prototype.format=function()
 {
@@ -388,12 +384,84 @@ function UploadFile(ths){
     })
 }
 
+//清空指派模态框的数据
+        function ClearData(){
+            //编辑\指派按钮隐藏
+            $("#edit").hide()
+            $("#edit").removeClass("hidden")
+            $("#assign").show()
 
+            $("#title").val('');
+            $("#content").val('');
+            $("#datetimepicker1").find("input").val('');
+            $(".tag").nextAll().remove()
+            $(".attachment1").find("input[name=file]").siblings().remove()
+            $(".attachment1").find("input[name=content]").val("")
+            $(".attachment2").find("input[name=file]").siblings().remove()
+            $(".attachment2").find("input[name=content]").val("")
+        }
+        //清除任务附件标签
+function clearAttachment(ths) {
+    $(ths).parent().parent().parent().next().find("input[name=content]").val("")
+    $(ths).parent().remove()
+}
+
+
+//指派任务内容
 function MemberAssignShow(ths) {
+        //先清空模态框的内容
+        ClearData()
      $('#assign_member').modal('show')
-      // 指派
+      var member_name=$(ths).children().first().text()
+      var tasid=$(ths).next().val();
+     $("#myModalLabel").text(member_name+"的任务内容")
+     var tasid_input=' <input type="text" class="hidden" name="tasid" value={0}>'.format(tasid)
+      $("#myModalLabel").append(tasid_input)
+     console.log("tasid:",tasid)
+      //初始化数据
+      $.ajax({
+          url:"{% url "show_assign_content" %}",
+          type:"get",
+          data:{'tasid':tasid},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  var data=JSON.parse(arg.member_assign);
+                  if(data[0].fields.title!=null){
+                      console.log("lalala")
+                      $("#edit").show()
+                      $("#assign").hide()
+                  }
+                  $("#title").val(data[0].fields.title)
+                  $("#content").val(data[0].fields.content)
+                  $("#datetimepicker1").find("input").val(data[0].fields.deadline)
+                  //初始化标签
+                  var tags=JSON.parse(arg.tags)
+                  for(var i=0 ;i<tags.length;i++){
+                      ele =' <div class="tag  " > <div class="alert alert-info alert-dismissible pull-left" role="alert" style="padding: 2px;margin-right: 25px;"> <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button> <input type="text" name="tatid" class="hidden" value="{0}"> <strong>{1}</strong> </div> </div>'.format(tags[i].pk,tags[i].fields.name)
+                      $("#tag_container").append(ele)
+                  }
+                  //初始化附件
+                  var attachs = JSON.parse(arg.attachs)
+                  console.log(attachs)
+                  for (var i=0;i<attachs.length;i++){
+                      console.log(i)
+                      eles='<input type="text" name="taaid" class="hidden" value="{0}"> <div class="old_file"> <a href="{% url "attachment_download" %}?url={1}&name= {2}" style="color:blue;margin-top:6px;display: inline-block">{3}</a> <span onclick="clearAttachment(this)" style=" color:blue; margin-left: 50px;">点击清除</span> <input type="text" name="file_path" class="hidden" value="{4}"> <input type="text" name="file_name" value="{5}" class="hidden"> </div>'.format(attachs[i].pk,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name,attachs[i].fields.attachment)
+                           if(i==0){
+                          $("#file1").prepend(eles)
+                          $(".attachment1").find("input[name=content]").val(attachs[i].fields.description)
+                      }else if(i==1) {
+                          $("#file2").prepend(eles)
+                          $(".attachment2").find("input[name=content]").val(attachs[i].fields.description)
+                           }
+                  }
+
+              }
+          }
+      })
+     //添加指派内容
       $("#assign").click(function () {
-            var tasid=$(ths).parent().find("input[name=tasid]").val();
+
             var member_id=$(ths).parent().find("input[name=member_id]").val()
             var title = $("#title").val().trim();
             var content = $("#content").val().trim();
@@ -424,34 +492,83 @@ function MemberAssignShow(ths) {
       })
     }
 
-function Submit() {
-        var tid=$("")
-        var title = $("#title").val().trim();
-        var content = $("#content").val().trim();
-        var deadline = $("#datetimepicker1").find("input").val();
-
-        $.ajax({
-                url: "{% url "task_assign" %}",
-                type: "POST",
-                data:  {
-                    "title": title,
-                    "content": content,
-                    "deadline":deadline,
-                    "attachment":FetchAttachment(),
-                    "tags":FetchTag(),
-        },
-            dataType: "json",
-            success: function (arg) {
-                if (arg.status) {
-                    alert("指派成功");
-                    window.location.reload();
-                } else {
-                    alert(arg.message)
+    //修改指派内容
+        function Edit(){
+            var tasid=$("#myModalLabel").find("input[name=tasid]").val()
+            var member_id=$(ths).parent().find("input[name=member_id]").val()
+            var title = $("#title").val().trim();
+            var content = $("#content").val().trim();
+            var deadline = $("#datetimepicker1").find("input").val();
+             $.ajax({
+                    url: "{% url "task_assign_edit" %}",
+                    type: "POST",
+                    data:  {
+                        "tasid":tasid,
+                        "member_id":member_id,
+                        "title": title,
+                        "content": content,
+                        "deadline":deadline,
+                        "attachment":GetAttachment(),
+                        "tags":GetTag(),
+            },
+                dataType: "json",
+                success: function (arg) {
+                    if (arg.status) {
+                        alert("修改成功");
+                        window.location.reload();
+                    } else {
+                        alert(arg.message)
+                    }
                 }
+            })
+        }
+    //修改时获取标签内容
+function GetTag() {
+    var tags_list = new Array();
+    var tasid=$("#myModalLabel").find("input[name=tasid]").val()
+    $("#tag").parent().parent().find("strong").each(function (){
+        var tag ={"name":'',"tasid":tasid};
+        var name= $(this).text()
+        var tatid=$(this).parent().find("input[name=tatid]").val();
+        if (name!=''){
+            tag.name=name;
+            if(tatid){
+                 tag.tatid=tatid
             }
-        })
-    }
+        }else{
+            return true;
+        }
+        tags_list.push(tag)
+    })
+    tags_list=JSON.stringify(tags_list)
+    return tags_list
+}
 
+//修改时获取附件
+function GetAttachment(){
+     var attachment_list=new Array()
+     var tasid=$("#myModalLabel").find("input[name=tasid]").val()
+     $(".attachment").each(function () {
+        var attachment = {"attachment":'',"description":'',"name":'','tasid':tasid};
+        var tamid= $(this).find("input[name=taaid]").val();
+        var file_path= $(this).find("input[name=file_path]").val();
+        if (file_path==null){
+            //空附件处理
+            return true;
+        }
+        var content=$(this).find("input[name=content]").val();
+        var name=$(this).find("input[name=file_name]").val();
+        attachment.attachment=file_path;
+        attachment.description=content;
+        attachment.name=name;
+        if (tamid){
+            attachment['taaid']=taaid;
+        }
+        attachment_list.push(attachment)
+        });
+      attachment_list=JSON.stringify(attachment_list)//对象转化成json
+    return attachment_list
+}
       </script>
 
 {% endblock %}

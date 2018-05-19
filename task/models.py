@@ -65,9 +65,6 @@ class TaskAssign(models.Model):
     title = models.CharField(max_length=512, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     deadline = models.DateTimeField(blank=True, null=True)
-    attachment = models.CharField(max_length=512, blank=True, null=True)
-    attach_name = models.CharField(max_length=512, blank=True, null=True)
-    description = models.CharField(max_length=512, blank=True, null=True)
     weight = models.SmallIntegerField(blank=True, null=True)
     create_time = models.DateTimeField()
     last_edit = models.DateTimeField()
@@ -81,7 +78,7 @@ class TaskAssignAttach(models.Model):
     taaid = models.AutoField(primary_key=True)
     tasid = models.IntegerField()
     attachment = models.CharField(max_length=512, blank=True, null=True)
-    name = models.CharField(max_length=64, blank=True, null=True)
+    name = models.CharField(max_length=128, blank=True, null=True)
     description = models.CharField(max_length=512, blank=True, null=True)
 
     class Meta:
@@ -176,7 +173,7 @@ class TaskTag(models.Model):
 
 
 class TaskAssignTag(models.Model):
-    ttid = models.AutoField(primary_key=True)
+    tatid = models.AutoField(primary_key=True)
     tasid = models.IntegerField()
     name = models.CharField(max_length=32, blank=True, null=True)
 

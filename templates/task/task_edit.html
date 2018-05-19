@@ -111,7 +111,7 @@
                               <div class="col-xs-4">
                                   <input type="text" name="tamid" class="hidden" value="{{ obj.tamid }}">
                                   <div class="old_file">
-                                  <span  style="color:blue;margin-top:6px;display: inline-block">{{ obj.name }}</span>
+                                  <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}" style="color:blue;margin-top:6px;display: inline-block">{{ obj.name }}</a>
                                   <span onclick="clearAttachment(this)" style=" color:blue; margin-left: 50px;">点击清除</span>
                                   <input type="text" name="file_path" class="hidden" value="{{ obj.attachment }}">
                                   <input type="text" name="file_name" value="{{ obj.name }}" class="hidden">
@@ -363,6 +363,7 @@ function  FetchTag() {
     tags=tags.join("|")
     return tags
 }
+
 //修改时获取标签内容
 function GetTag() {
     var tags_list = new Array();
@@ -537,7 +538,7 @@ function Submit() {
         var start_time = $("#datetimepicker1").find("input").val();
         var deadline = $("#datetimepicker2").find("input").val();
         $.ajax({
-                url: "/task_publish.html",
+                url: "{%url "publish_task"  %} ",
                 type: "POST",
                 data:  {
                 "title": title,

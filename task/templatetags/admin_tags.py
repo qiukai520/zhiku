@@ -1,6 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
-from task.server import task_db, task_cycle_db, staff_db, task_type_db, department_db, performence_db, task_assign_db,task_submit_record_db
+from task.server import *
+# from task.server import task_db, task_cycle_db, staff_db, task_type_db, department_db, performence_db, task_assign_db,task_submit_record_db
 register = template.Library()
 
 @register.simple_tag
@@ -152,8 +153,10 @@ def bulid_assign_member_list(tid):
             last_edit = ''
         # 构建指派对象列表
         ele = """<li data-toggle="modal" onclick="MemberAssignShow(this)"><span class="member_name"  >{0}</span>  &nbsp
-        <span >{1}</span> &nbsp<span>{2}</span></li><input type="text " class="hidden" name="member_id" value='{3}'>
-        <input type="text " class="hidden" name="tasid" value='{4}'>""".format(member.name, status, last_edit, item.member_id,item.tasid)
+        <span >{1}</span> &nbsp<span>{2}</span></li><input type="text " class="hidden" name="tasid" value='{4}'>
+        <input type="text " class="hidden" name="member_id" value='{3}'>
+        """.format(member.name, status, last_edit,item.tasid, item.member_id)
         eles += ele
     eles += "</ul>"
     return mark_safe(eles)
+
