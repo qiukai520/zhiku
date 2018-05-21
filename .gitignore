@@ -1,4 +1,4 @@
-/static/upload/task/*
+/static/upload/*
 *.xml
 *.pyc
 .idea/*

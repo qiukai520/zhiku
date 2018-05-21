@@ -22,8 +22,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/task/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="319" column="40" selection-start-line="319" selection-start-column="40" selection-end-line="319" selection-end-column="40" />
+            <state relative-caret-position="2818">
+              <caret line="477" column="25" lean-forward="true" selection-start-line="477" selection-start-column="25" selection-end-line="477" selection-end-column="25" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -86,8 +86,8 @@
       <file leaf-file-name="task_assign.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/task/task_assign.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-287">
-              <caret line="545" column="74" selection-start-line="545" selection-start-column="74" selection-end-line="545" selection-end-column="74" />
+            <state relative-caret-position="415">
+              <caret line="389" column="29" selection-start-line="389" selection-start-column="29" selection-end-line="389" selection-end-column="29" />
               <folding>
                 <element signature="e#14752#18798#0#HTML" />
               </folding>
@@ -210,8 +210,8 @@
         <option value="$PROJECT_DIR$/templates/layout.html" />
         <option value="$PROJECT_DIR$/task/templatetags/admin_tags.py" />
         <option value="$PROJECT_DIR$/thinking_library/urls.py" />
-        <option value="$PROJECT_DIR$/task/views.py" />
         <option value="$PROJECT_DIR$/task/server.py" />
+        <option value="$PROJECT_DIR$/task/views.py" />
         <option value="$PROJECT_DIR$/templates/task/task_assign.html" />
       </list>
     </option>
@@ -225,9 +225,9 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-19" />
-    <option name="y" value="17" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="72" />
+    <option name="y" value="11" />
     <option name="width" value="1382" />
     <option name="height" value="744" />
   </component>
@@ -341,7 +341,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-19" y="17" width="1382" height="744" extended-state="0" />
+    <frame x="72" y="11" width="1382" height="744" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -351,7 +351,7 @@
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.30479452" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21265244" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18216464" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -677,16 +677,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/task/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="319" column="40" selection-start-line="319" selection-start-column="40" selection-end-line="319" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/task/server.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-242">
@@ -698,10 +688,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/task/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2818">
+          <caret line="477" column="25" lean-forward="true" selection-start-line="477" selection-start-column="25" selection-end-line="477" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/task/task_assign.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-287">
-          <caret line="545" column="74" selection-start-line="545" selection-start-column="74" selection-end-line="545" selection-end-column="74" />
+        <state relative-caret-position="415">
+          <caret line="389" column="29" selection-start-line="389" selection-start-column="29" selection-end-line="389" selection-end-column="29" />
           <folding>
             <element signature="e#14752#18798#0#HTML" />
           </folding>

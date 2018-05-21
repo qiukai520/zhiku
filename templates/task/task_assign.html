@@ -374,6 +374,7 @@ function UploadFile(ths){
         // 告诉jQuery不要去设置Content-Type请求头
         contentType : false,
         success:function (arg) {
+            $(ths).parent().find(".old_file").remove();
             //添加新的file
             var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
             var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
@@ -387,7 +388,6 @@ function UploadFile(ths){
 
 //清空指派模态框的数据
         function ClearData(){
-
             window.location.href="{% url 'task_assign' %}";
             {#//编辑\指派按钮隐藏#}
             {#$("#edit").hide();#}
