@@ -258,9 +258,9 @@ class TaskAssignTagDB(object):
     def mutil_update_assign_tag(self,modify_info_list):
         for item in modify_info_list:
             TaskAssignTag.objects.filter(tatid=item['tatid']).update(**item)
-    def mutil_delete_tag(self,id_list):
-        TaskAssignTag.objects.filter(tatid_in=[id_list]).delete()
 
+    def mutil_delete_tag(self, id_list):
+        TaskAssignTag.objects.filter(tatid__in=id_list).delete()
 
 
 class TaskAssignAttachDB(object):
@@ -269,14 +269,16 @@ class TaskAssignAttachDB(object):
         for item in modify_info_list:
             TaskAssignAttach.objects.create(**item)
 
-    def query_task_assign_attach_by_tasid(self,tasid):
+    def query_task_assign_attach_by_tasid(self ,tasid):
         result_db = TaskAssignAttach.objects.filter(tasid=tasid).all()
         return result_db
+
     def mutil_update_assign_attach(self,modify_info_list):
         for item in  modify_info_list:
-            TaskAssignAttach.objects.filter(item['taaid']).update(**item)
-    def mutil_delete_attach(self,id_list):
-        TaskAssignAttach.objects.filter(taaid_in=id_list).delete()
+            TaskAssignAttach.objects.filter(taaid=item['taaid']).update(**item)
+
+    def mutil_delete_attach(self, id_list):
+        TaskAssignAttach.objects.filter(taaid__in=id_list).delete()
 
 
 department_db = DepartmentDB()

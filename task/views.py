@@ -201,7 +201,6 @@ def task_mutil_assign(request):
             ret['message'] = str(e)
     else:
         ret['message'] = "至少选择一个员工"
-
     return HttpResponse(json.dumps(ret))
 
 
@@ -220,7 +219,6 @@ def task_team_assign(request):
                 task_db.update_task_status_by_tid(tid, modify_info)
                 ret['status'] = True
         except Exception as e:
-            print(e)
             ret['message'] = str(e)
     else:
         ret['message'] = "至少选择一个员工"
@@ -239,7 +237,7 @@ def task_assign(request):
         data = request.POST
         form = TaskAssignForm(data=data)
         if form.is_valid():
-            data = request.POST
+            data =request.POST
             data = data.dict()
             # 获取标签并删除
             tags = data.get("tags", None)
@@ -255,15 +253,13 @@ def task_assign(request):
                         task_assign_db.update_task_assign(data)
                         # 插入标签
                         tags_assign_list = build_assign_tags_info(tasid, tag_list)
-                        print(tags_assign_list)
+                        # print(tags_assign_list)
                         task_assign_tag_db.mutil_insert_assign_tag(tags_assign_list)
                         # 插入附件
                         attachment_list = build_assign_attach_info(tasid, attachment)
-                        print(attachment_list)
                         task_assign_attach_db.mutil_insert_assign_attach(attachment_list)
                         ret["status"] = True
                 except Exception as e:
-                    print(e)
                     ret["message"] = "指派失败"
         else:
             errors = form.errors.as_data().values()
@@ -271,11 +267,14 @@ def task_assign(request):
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
 
+
 def task_assign_edit(request):
     """更新指派内容"""
+    ret = {"status": "", "data": "", "message": ''}
     data = request.POST
     form = TaskAssignForm(data=data)
-    tasid=data.get("tasid",None)
+    tasid=data.get("tasid", None)
+    print('tasid',tasid)
     if form.is_valid():
         data = request.POST
         data = data.dict()
@@ -285,7 +284,7 @@ def task_assign_edit(request):
         data.pop("tags")
         # 获取附件并删除
         attachment = data.get("attachment", None)
-        attachment_list= list(json.loads(attachment))
+        attachment_list = list(json.loads(attachment))
         data.pop("attachment")
         if tasid:
             try:
@@ -294,8 +293,12 @@ def task_assign_edit(request):
                     task_assign_db.update_task_assign(data)
                     # 更新标签
                     tags_record = task_assign_tag_db.query_task_assign_tag_by_tasid(tasid)
+                    print(tags_record)
                     # 数据对比
                     insert_tag, update_tag, delete_tag_id = compare_json(tags_record, tag_list, "tatid")
+                    print(insert_tag)
+                    print(update_tag)
+                    print(delete_tag_id)
                     if insert_tag:
                         task_assign_tag_db.mutil_insert_assign_tag(insert_tag)
                     if update_tag:
@@ -303,9 +306,12 @@ def task_assign_edit(request):
                     if delete_tag_id:
                         task_assign_tag_db.mutil_delete_tag(delete_tag_id)
                     # 更新附件
-                    att_record = task_assign_attach_db.query_task_attachment_by_tasid(tasid)
+                    att_record = task_assign_attach_db.query_task_assign_attach_by_tasid(tasid)
                     # 数据对比
-                    insert_att, update_att, delete_id_att = compare_json(att_record, attachment_list, "tamid")
+                    insert_att, update_att, delete_id_att = compare_json(att_record, attachment_list, "taaid")
+                    print(insert_att)
+                    print(update_att)
+                    print(delete_id_att)
                     if insert_att:
                         task_assign_attach_db.mutil_insert_assign_attach(insert_att)
                     if update_att:
@@ -314,7 +320,14 @@ def task_assign_edit(request):
                         task_assign_attach_db.mutil_delete_attach(delete_id_att)
                     ret['status'] = True
             except Exception as e:
+                print(e)
                 ret["message"] = str(e)
+        else:
+            ret['message'] = "找不到该对象信息"
+    else:
+        errors = form.errors.as_data().values()
+        firsterror = str(list(errors)[0][0])
+        ret['message'] = firsterror
     return HttpResponse(json.dumps(ret))
 
 

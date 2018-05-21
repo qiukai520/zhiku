@@ -153,8 +153,8 @@ def bulid_assign_member_list(tid):
             last_edit = ''
         # 构建指派对象列表
         ele = """<li data-toggle="modal" onclick="MemberAssignShow(this)"><span class="member_name"  >{0}</span>  &nbsp
-        <span >{1}</span> &nbsp<span>{2}</span></li><input type="text " class="hidden" name="tasid" value='{4}'>
-        <input type="text " class="hidden" name="member_id" value='{3}'>
+        <span >{1}</span> &nbsp<span>{2}</span></li><input type="text " class="hidden" name="tasid" value='{3}'>
+        <input type="text " class="hidden" name="member_id" value='{4}'>
         """.format(member.name, status, last_edit,item.tasid, item.member_id)
         eles += ele
     eles += "</ul>"
