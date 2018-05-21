@@ -543,7 +543,8 @@ function GetTag() {
 //修改时获取附件
 function GetAttachment(){
      var attachment_list=new Array()
-     var tasid=$("#myModalLabel").find("input[name=tasid]").val()
+     var tasid=$("#myModalLabel").parent().find("input[name=tasid]").val()
+     console.log(tasid)
      $(".attachment").each(function () {
         var attachment = {"attachment":'',"description":'',"name":'','tasid':tasid};
         var taaid= $(this).find("input[name=taaid]").val();

@@ -274,7 +274,6 @@ def task_assign_edit(request):
     data = request.POST
     form = TaskAssignForm(data=data)
     tasid=data.get("tasid", None)
-    print('tasid',tasid)
     if form.is_valid():
         data = request.POST
         data = data.dict()
@@ -293,12 +292,8 @@ def task_assign_edit(request):
                     task_assign_db.update_task_assign(data)
                     # 更新标签
                     tags_record = task_assign_tag_db.query_task_assign_tag_by_tasid(tasid)
-                    print(tags_record)
                     # 数据对比
                     insert_tag, update_tag, delete_tag_id = compare_json(tags_record, tag_list, "tatid")
-                    print(insert_tag)
-                    print(update_tag)
-                    print(delete_tag_id)
                     if insert_tag:
                         task_assign_tag_db.mutil_insert_assign_tag(insert_tag)
                     if update_tag:
@@ -309,9 +304,6 @@ def task_assign_edit(request):
                     att_record = task_assign_attach_db.query_task_assign_attach_by_tasid(tasid)
                     # 数据对比
                     insert_att, update_att, delete_id_att = compare_json(att_record, attachment_list, "taaid")
-                    print(insert_att)
-                    print(update_att)
-                    print(delete_id_att)
                     if insert_att:
                         task_assign_attach_db.mutil_insert_assign_attach(insert_att)
                     if update_att:
@@ -320,7 +312,6 @@ def task_assign_edit(request):
                         task_assign_attach_db.mutil_delete_attach(delete_id_att)
                     ret['status'] = True
             except Exception as e:
-                print(e)
                 ret["message"] = str(e)
         else:
             ret['message'] = "找不到该对象信息"
@@ -351,9 +342,7 @@ def show_assign_content(request):
             ret['attachs'] = serializers.serialize('json', attachs)
             ret['status'] = True
         except Exception as e:
-            print(e)
             ret['message'] = "查询不到相关信息"
-    # print(ret)
     return HttpResponse(json.dumps(ret))
 
 
@@ -391,7 +380,6 @@ def performence_display(request):
 def performence_edit(request):
     """"绩效添加或编辑"""
     method = request.method
-    print(method)
     if method == "GET":
         pid = request.GET.get("pid", None)
         # 有则为编辑 ,无则添加
@@ -475,10 +463,11 @@ def attachment_upload(request):
         ret["summary"] = str(e)
     return HttpResponse(json.dumps(ret))
 
+
 def attachment_download(request):
     name = request.GET.get("name", None)
     file_path = request.GET['url']
-    print(file_path)
+
     def file_iterator(file_path, chunk_size=512):
         with open(file_path, 'rb') as f:
             while True:
