@@ -1,8 +1,10 @@
+
+
 drop TABLE if exists `task`;
 create TABLE `task`(
-`tid` int(11) primary key auto_increment, 
+`tid` int(11) primary key auto_increment,
 `title` varchar(512) NOT NUll  COMMENT '任务名称',
-`content` text NOT NULL COMMENT '任务描述', 
+`content` text NOT NULL COMMENT '任务描述',
 `type_id` smallint NOT NULL COMMENT ' 任务类型',
 `issuer_id` int(11) NOT NULL  COMMENT '发布人',
 `perfor_id` int(11) NOT NUll COMMENT '绩效分类',
@@ -25,9 +27,9 @@ create TABLE `performemce`(
 `pid` int(11) primary key auto_increment,
 `name` varchar(32) NOT NULL COMMENT '名称' unique,
 `personal_score` int(11)  NOT NULL COMMENT '个人分值',
-`personal_total` int(11)  NOT NULL COMMENT '个人总分'
-`team_score` int(11)  NOT NULL COMMENT '个人分值',
-`team_total` int(11)  NOT NULL COMMENT '个人总分'
+`personal_total` int(11)  NOT NULL COMMENT '个人总分',
+`team_score` int(11)  NOT NULL COMMENT '团队分值',
+`team_total` int(11)  NOT NULL COMMENT '团队总分'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='绩效';
 
 
@@ -54,15 +56,15 @@ create TABLE `task_attachment`(
 
 drop TABLE if exists `staff`;
 create TABLE `staff`(
-`sid` int(11) primary key auto_increment, 
+`sid` int(11) primary key auto_increment,
 `name` varchar(64) NOT NUll,
 `department` int(11) COMMENT'部门'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工表';
 
 drop TABLE if exists `department`;
-create TABLE `department`(	
+create TABLE `department`(
 `id` int(11) primary key auto_increment,
-`department` varchar(32) COMMENT '部分' 
+`department` varchar(32) COMMENT '部分'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工部门表';
 
 drop TABLE if exists `task_tag`;

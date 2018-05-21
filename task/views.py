@@ -252,7 +252,6 @@ def task_assign(request):
                 try:
                     with transaction.atomic():
                         tasid = data.get("tasid", None)
-                        print(tasid)
                         task_assign_db.update_task_assign(data)
                         # 插入标签
                         tags_assign_list = build_assign_tags_info(tasid, tag_list)
@@ -271,10 +270,9 @@ def task_assign(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
-        print(request.POST)
-        return HttpResponse(json.dumps(ret))
 
 def task_assign_edit(request):
+    """更新指派内容"""
     data = request.POST
     form = TaskAssignForm(data=data)
     tasid=data.get("tasid",None)
@@ -289,7 +287,35 @@ def task_assign_edit(request):
         attachment = data.get("attachment", None)
         attachment_list= list(json.loads(attachment))
         data.pop("attachment")
-        pass
+        if tasid:
+            try:
+                with transaction.atomic():
+                    # 更新指派内容
+                    task_assign_db.update_task_assign(data)
+                    # 更新标签
+                    tags_record = task_assign_tag_db.query_task_assign_tag_by_tasid(tasid)
+                    # 数据对比
+                    insert_tag, update_tag, delete_tag_id = compare_json(tags_record, tag_list, "tatid")
+                    if insert_tag:
+                        task_assign_tag_db.mutil_insert_assign_tag(insert_tag)
+                    if update_tag:
+                        task_assign_tag_db.mutil_update_assign_tag(update_tag)
+                    if delete_tag_id:
+                        task_assign_tag_db.mutil_delete_tag(delete_tag_id)
+                    # 更新附件
+                    att_record = task_assign_attach_db.query_task_attachment_by_tasid(tasid)
+                    # 数据对比
+                    insert_att, update_att, delete_id_att = compare_json(att_record, attachment_list, "tamid")
+                    if insert_att:
+                        task_assign_attach_db.mutil_insert_assign_attach(insert_att)
+                    if update_att:
+                        task_assign_attach_db.mutil_update_assign_attach(update_att)
+                    if delete_id_att:
+                        task_assign_attach_db.mutil_delete_attach(delete_id_att)
+                    ret['status'] = True
+            except Exception as e:
+                ret["message"] = str(e)
+    return HttpResponse(json.dumps(ret))
 
 
 def show_assign_content(request):
@@ -302,7 +328,7 @@ def show_assign_content(request):
             member_assign = task_assign_db.query_task_assign_by_tasid(tasid)
             ret["member_assign"] =serializers.serialize("json", member_assign)
             # 获取标签
-            tags = task_assign_tag_db.query_task_assign_by_tasid(tasid)
+            tags = task_assign_tag_db.query_task_assign_tag_by_tasid(tasid)
             # print("tags",tags)
             ret['tags'] = serializers.serialize('json', tags)
             # 获取附件
@@ -409,6 +435,11 @@ def performence_delete(request):
     return HttpResponse(json.dumps(ret))
 
 
+def task_wait_review(request):
+
+    return render(request,'task/task_wait_review.html')
+
+
 def attachment_upload(request):
     """附件上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
@@ -431,16 +462,10 @@ def attachment_upload(request):
         ret["summary"] = str(e)
     return HttpResponse(json.dumps(ret))
 
-
 def attachment_download(request):
     name = request.GET.get("name", None)
-    print(name)
-    print(str(name))
-    format = re.match('.(.*)', name).group()
-    print(format)
     file_path = request.GET['url']
     print(file_path)
-
     def file_iterator(file_path, chunk_size=512):
         with open(file_path, 'rb') as f:
             while True:
