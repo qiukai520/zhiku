@@ -45,7 +45,7 @@ class Task(models.Model):
     perfor_id = models.IntegerField()    # '绩效分类',
     execute_way = models.IntegerField()   # '0代表并行执行，1次序执行',
     teamwork_auth = models.IntegerField()
-    tcid = models.IntegerField(blank=True, null=True)
+    tcid = models.IntegerField(blank=True, null=True) #任务周期
     start_time = models.DateTimeField(blank=True, null=True)
     deadline = models.DateTimeField(blank=True, null=True)
     is_assign = models.IntegerField()
@@ -66,6 +66,7 @@ class TaskAssign(models.Model):
     content = models.TextField(blank=True, null=True)
     deadline = models.DateTimeField(blank=True, null=True)
     weight = models.SmallIntegerField(blank=True, null=True)
+    is_finish = models.IntegerField(blank=True, null=True)
     create_time = models.DateTimeField()
     last_edit = models.DateTimeField()
 
@@ -153,7 +154,7 @@ class TaskSubmitRecord(models.Model):
     tasid = models.IntegerField()
     title = models.CharField(max_length=512, blank=True, null=True)
     summary = models.CharField(max_length=512, blank=True, null=True)
-    experience = models.CharField(max_length=512, blank=True, null=True)
+    remark = models.CharField(max_length=512, blank=True, null=True)
     completion = models.IntegerField(default=0)  # 完成度：1-100
     create_time = models.DateTimeField()
     last_edit = models.DateTimeField()
@@ -180,6 +181,15 @@ class TaskAssignTag(models.Model):
     class Meta:
         db_table = 'task_assign_tag'
         unique_together = (('tasid', 'name'),)
+
+class TaskSubmitTag(models.Model):
+    tstid = models.AutoField(primary_key=True)
+    tsid = models.IntegerField()
+    name = models.CharField(max_length=32, blank=True, null=True)
+
+    class Meta:
+        db_table = 'task_submit_tag'
+        unique_together = (('tsid', 'name'),)
 
 class TaskType(models.Model):
     tpid = models.AutoField(primary_key=True)

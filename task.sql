@@ -85,10 +85,19 @@ create TABLE `task_assign_tag`(
 alter table task_assign_tag  ADD UNIQUE KEY `tid_name`(`tasid`,`name`) USING BTREE;
 
 
+drop TABLE if exists `task_submit_tag`;
+create TABLE `task_submit_tag`(
+`tstid` int(11) NOT NULL primary key auto_increment,
+`tsid` int(11) NOT NULL  COMMENT '任务提交ID',
+`name` varchar(32) NOT NULL  COMMENT '标签名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务提交标签表';
+alter table task_submit_tag  ADD UNIQUE KEY `tstid_name`(`tsid`,`name`) USING BTREE;
+
+
 drop TABLE if exists `task_cycle`;
 create TABLE `task_cycle`(
 `tcid` int(11) NOT NULL  primary key auto_increment,
-`name` varchar(32) NOT NULL unique
+`name` varchar(32) NOT NULL UNIQUE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务周期表';
 
 
@@ -101,6 +110,7 @@ create TABLE `task_assign`(
 `content` text   COMMENT '任务描述',
 `deadline` datetime  DEFAULT NUll COMMENT '最后期限',
 `weight` smallint(5)   COMMENT '权重:0-100',
+`is_finish` tinyint(1)  DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务分配表';
@@ -145,8 +155,8 @@ create TABLE `task_submit_record`(
 `tsid` int(11)  primary key auto_increment,
 `tasid` int(11) NOT NULL COMMENT '任务分配ID',
 `title` varchar(512) COMMENT '标题',
-`summary` varchar(512) COMMENT '备注',
-`experience` varchar(512) COMMENT '心得',
+`summary` varchar(512) COMMENT '总结',
+`remark` varchar(512) COMMENT '备注',
 `completion`  int(3) NOT NUll DEFAULT 0 COMMENT'完成度：1-100',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
@@ -169,3 +179,5 @@ create TABLE `task_review`(
 `follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '次序'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务审核人';
 alter table task_review  ADD UNIQUE KEY `task_staff_id`(`tid`,`sid`) USING BTREE;
+
+

@@ -603,11 +603,8 @@ function Edit() {
             }
         })
     }
-
-
     //移到被选复选框
 function MoveTo() {
-    console.log("2343e5")
     var opt=$("#id_staff_from").find("option:selected").clone();
     opt.attr("onclick","ElementMoveTo(this,'id_staff_from','id_staff_to')");
     $("#id_staff_to").append(opt);
@@ -620,15 +617,12 @@ function MoveBack() {
     $("#id_staff_from").append(opt.clone()) ;
     $("#id_staff_to").find("option:selected").remove()
 }
-
     //双击动复选框
 function ElementMoveTo(ths,id_from,id_to) {
         var opt_ele="<option value='"+$(ths).val()+"' ondblclick=ElementMoveTo(this,'"+id_to+"','"+id_from+"')>"+$(ths).text()+"</option>";
         $("#" +id_to).append(opt_ele);
         $(ths).remove();
     }
-
-
 
  </script>
 {% endblock %}

@@ -30,11 +30,13 @@ urlpatterns = [
     path("task_team_assign.html", views.task_team_assign, name="task_team_assign"),
     path('task_assign.html', views.task_assign, name="task_assign"),
     path('task_assign_edit.html', views.task_assign_edit, name="task_assign_edit"),
-    path('task_mutil_assign.html',views.task_mutil_assign, name="task_mutil_assign"),
-    path('task_wait_review.html',views.task_wait_review,name='task_wait_review'),
-    path('show_assign_content.html',views.show_assign_content,name="show_assign_content"),
+    path('task_mutil_assign.html', views.task_mutil_assign, name="task_mutil_assign"),
+    path('complete_task.html', views.complete_task, name='complete_task'),
+    path('personal_task_list.html', views.personal_task_list, name='personal_task_list'),
+    path('show_assign_content.html', views.show_assign_content,name="show_assign_content"),
     path('get_department_staff.html', views.department_staff, name="department_staff"),
     path('performence_list.html', views.performence_display, name='performence_list'),
     path('performence_edit.html', views.performence_edit, name="performence_edit"),
-    path('performence_delete.html',views.performence_delete, name="performence_delete")
+    path('performence_delete.html',views.performence_delete, name="performence_delete"),
+
 ]

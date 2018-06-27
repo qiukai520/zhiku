@@ -1,3 +1,5 @@
+from datetime import datetime
+from datetime import timedelta
 from django import template
 from django.utils.safestring import mark_safe
 from task.server import *
@@ -80,7 +82,6 @@ def build_task_type_ele():
     return mark_safe(eles)
 
 
-
 @register.simple_tag
 def build_reviewer_ele(dpid):
     """构建审核人下拉框"""
@@ -160,3 +161,32 @@ def bulid_assign_member_list(tid):
     eles += "</ul>"
     return mark_safe(eles)
 
+@register.simple_tag
+def build_countdown_time(deadline):
+    """构建截止时间"""
+    now_time = datetime.now()
+    left_time = deadline-now_time
+    last_days = left_time.days
+    if last_days < 0:
+        last_days =0
+    return last_days
+
+
+@register.simple_tag
+def query_task_by_tid(tid):
+    result_db = task_db.query_task_by_tid(tid)
+    return result_db
+
+
+@register.simple_tag
+def query_task_attachment_by_tasid(tasid):
+    tasid = int(tasid)
+    result_db = task_assign_attach_db.query_task_assign_attach_by_tasid(tasid)
+    return result_db
+
+
+@register.simple_tag
+def query_task_attachment_by_tid(tid):
+    tid = int(tid)
+    result_db = task_attachment_db.query_task_attachment_by_tid(tid)
+    return result_db

@@ -436,9 +436,30 @@ def performence_delete(request):
     return HttpResponse(json.dumps(ret))
 
 
+def personal_task_list(request):
+    """获取个人任务列表"""
+    member_id = 1
+    # 根据个人id获取相关任务
+    query_sets = task_assign_db.query_task_assign_by_member_id(member_id)
+    return render(request, 'task/personal_task_list.html', {"query_sets": query_sets})
+
+
+def complete_task(request):
+    mothod = request.method
+    tasid = request.GET.get("tasid", None)
+    if tasid:
+        # 获取任务内容
+        task_obj = task_assign_db.query_task_assign_by_tasid(tasid)
+        # 获取任务提交记录
+        return render(request, 'task/complete_task.html', {"task_obj": task_obj})
+
+
 def task_wait_review(request):
 
-    return render(request,'task/task_wait_review.html')
+    return render(request, 'task/complete_task.html')
+
+
+
 
 
 def attachment_upload(request):

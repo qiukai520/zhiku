@@ -229,8 +229,12 @@ class TaskAssignDB(object):
         result_db = TaskAssign.objects.filter(tid=tid).all()
         return result_db
 
-    def query_task_assign_by_tasid(self,tasid):
-        result_db =TaskAssign.objects.filter(tasid=tasid)
+    def query_task_assign_by_tasid(self, tasid):
+        result_db = TaskAssign.objects.filter(tasid=tasid).first()
+        return result_db
+
+    def query_task_assign_by_member_id(self, member_id):
+        result_db = TaskAssign.objects.filter(member_id=member_id).all()
         return result_db
 
 
@@ -252,7 +256,7 @@ class TaskAssignTagDB(object):
             TaskAssignTag.objects.create(**item)
 
     def query_task_assign_tag_by_tasid(self, tasid):
-        result_db = TaskAssignTag.objects.filter(tasid=tasid).all()
+        result_db = TaskAssignTag.objects.filter(tasid=tasid).first()
         return result_db
 
     def mutil_update_assign_tag(self,modify_info_list):
