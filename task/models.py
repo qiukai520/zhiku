@@ -143,6 +143,7 @@ class TaskSubmitAttachment(models.Model):
     tsaid = models.AutoField(primary_key=True)
     tsid = models.IntegerField()
     attachment = models.CharField(max_length=512, blank=True, null=True)
+    name = models.CharField(max_length=128, blank=True, null=True)
     description = models.CharField(max_length=512, blank=True, null=True)
 
     class Meta:
@@ -156,6 +157,7 @@ class TaskSubmitRecord(models.Model):
     summary = models.CharField(max_length=512, blank=True, null=True)
     remark = models.CharField(max_length=512, blank=True, null=True)
     completion = models.IntegerField(default=0)  # 完成度：1-100
+    is_assist = models.SmallIntegerField(default=0)  # 是否寻求协助
     create_time = models.DateTimeField()
     last_edit = models.DateTimeField()
 

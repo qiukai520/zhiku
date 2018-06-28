@@ -30,3 +30,9 @@ class TaskAssignForm(django_forms.Form):
     content = django_fields.CharField(error_messages={'required': '任务内容不能为空'})
     attachment = django_fields.CharField(required=False)
     # deadline = django_fields.DateTimeField(required=False)
+
+
+class CompleteTaskForm(django_forms.Form):
+    title = django_fields.CharField(error_messages={"required": "标题不能为空"})
+    summary = django_fields.CharField(error_messages={'required': '任务小结不能为空'})
+    attachment = django_fields.CharField(required=False)

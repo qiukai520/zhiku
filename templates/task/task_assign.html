@@ -413,7 +413,6 @@ function MemberAssignShow(ths) {
       $('#assign_member').modal('show');
       var member_name=$(ths).children().first().text();
       var tasid=$(ths).next().val();
-      console.log("tttttasid",tasid);
       $("#myModalLabel").text(member_name+"的任务内容");
       $("#myModalLabel").parent().find("input[name=tasid]").val(tasid);
       //初始化数据

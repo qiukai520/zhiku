@@ -24,6 +24,20 @@
         left: -85px;
         color: blue
     }
+    label{
+        font-weight: bold;
+    }
+    .glyphicon-ok{
+        border: 1px solid;
+        padding: 1px;
+        background-color: #ff410f;
+        border-radius: 50%;
+        color:white;
+        position: absolute;
+        top:22px;
+        right: 38px
+
+    }
     .progress{position: relative; width:350px;height: 30px;margin: 12px }
     .progress_bg{height: 12px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden;background-color:#f2f2f2;}
     .progress_bar{background: #5FB878; width: 0; height: 10px; border-radius: 5px;}
@@ -32,85 +46,84 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     .progress_btn:hover{border-color:#F7B824;}
     </style>
 {% endblock %}
-{% block conent%}、
-
-
-    <div class="container"   style="border-bottom: 2px double; width:80%;margin-top: 10px;">
+{% block conent%}
+    <div class="container"   style="background-color: #f3f3f3 ;border-bottom: 2px double; width:80%;margin-top: 10px;">
       <div class="form-group  " id="top" style="font-size:14px;font-weight:bold">
             {% query_task_by_tid  task_obj.tid  as total_task_obj %}
            {% if task_obj.title %}
-                <label class="form-label" for="task_title" style="font-weight:normal" >任务标题:</label>
+                <label class="form-label" for="task_title"  >任务标题:</label>
                 <span id="task_title" >{{ task_obj.title }}</span>
             {% else %}
-               <label class="form-label" for="task_title" style="font-weight:normal" >任务标题:</label>
+               <label class="form-label" for="task_title"  >任务标题:</label>
                <span id="task_title" >{{ total_task_obj.title }}</span>
             {% endif %}
-           <label class="form-label" for="publisher" style="font-weight:normal" >发起人:</label>
+           <label class="form-label" for="publisher"  >发起人:</label>
             <span id="publisher"  >{% change_to_staff total_task_obj.issuer_id %}</span>
-           <label class="form-label" for="attribute" style="font-weight:normal" >任务属性:</label>
+           <label class="form-label" for="attribute"  >任务属性:</label>
             <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>
-           <label class="form-label" for="deadline" style="font-weight:normal" >截止时间:</label>
+          <br>
+           <label class="form-label" for="deadline" >截止时间:</label>
            {% if task_obj.deadline %}
                <span id="deadline" >{{ task_obj.deadline |date:"Y-m-d H:i"}}</span>
-            <label class="form-label" for="countdown" style="font-weight:normal" >倒计时:</label>
+            <label class="form-label" for="countdown"  >倒计时:</label>
         <span id="countdown"  >{% build_countdown_time task_obj.deadline  %}天</span>
            {% else %}
                <span id="deadline" >{{ total_task_obj.deadline |date:"Y-m-d H:i"}}</span>
-            <label class="form-label" for="countdown" style="font-weight:normal" >倒计时:</label>
+            <label class="form-label" for="countdown"  >倒计时:</label>
         <span id="countdown"  >{% build_countdown_time total_task_obj.deadline  %}天</span>
            {% endif %}
 
       </div>
   </div>
     <div class="container-fluid"style="width: 80%;">
-  <div class="row">
+        <div class="row">
     <div class="col-xs-4 left" >
         <h5 style="font-size:14px;font-weight:bold ">相关任务内容：</h5>
         {% if task_obj.title %}
             {% query_task_attachment_by_tasid task_obj.tasid as p_attachment_list %}
-             <div class="form-group  "  style="font-size:14px;font-weight:bold">
-            <label class="form-label" for="task_title" style="font-weight:normal" >任务描述:</label>
+             <div class="form-group  " >
+            <label class="form-label" >任务描述:</label>
                 <span id="task_title" >{{ task_obj.content }}</span>
             </div>
             {% for obj in p_attachment_list %}
-             <div class="form-group "  style="font-size:14px;font-weight:bold">
-                <label class="form-label"  style="font-weight:normal" >任务附件:</label>
+             <div class="form-group "  >
+                <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
                 <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
-                <label class="form-label" for="task_title" style="font-weight:normal" >附件描述:</label>
+                <label class="form-label" for="task_title"  >附件描述:</label>
                 <span id="task_title" >{{ obj.description }}</span>
              </div>
              {% endfor %}
 
         {% else %}
             {% query_task_attachment_by_tid total_task_obj.tid as t_attachment_list %}
-             <div class="form-group  " id="top" style="font-size:14px;font-weight:bold">
-               <label class="form-label" for="task_title" style="font-weight:normal" >任务描述:</label>
-                <span id="task_title" >{{ total_task_obj.content }}</span>
+             <div class="form-group  " id="top" >
+               <label class="form-label"  >任务描述:</label>
+                <span  >{{ total_task_obj.content }}</span>
             </div>
             {% for obj in p_attachment_list %}
-             <div class="form-group  "  style="font-size:14px;font-weight:bold">
-                <label class="form-label"  style="font-weight:normal" >任务附件:</label>
+             <div class="form-group  "  >
+                <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
                  <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
-                 <label class="form-label" for="task_title" style="font-weight:normal" >附件描述:</label>
+                 <label class="form-label"  >附件描述:</label>
                 <span  >{{ obj.description }}</span>
             </div>
             {% endfor %}
         {% endif%}
 
     </div>
-   <div class="col-xs-8 left" style="border-left:2px solid">
+   <div class="col-xs-8 left" style="border-left:2px solid #9F9F9F">
        <div class="row form-horizontal" style="position: relative;margin-top: 30px">
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label for="title" class="col-xs-2 control-label">标题：</label>
-                      <div class="col-xs-8">
+                    <label for="title" class="col-xs-3 control-label">标题：</label>
+                      <div class="col-xs-9">
                           <textarea name="title"  class="form-control"  id="title" placeholder="任务名称">
                         </textarea>
                       </div>
                 </div>
                 <div class="form-group" style="padding: 0px">
-                    <label for="tag" class="control-label col-xs-2">标签：</label>
-                    <div class="col-xs-8" style="padding: 0px">
+                    <label for="tag" class="control-label col-xs-3">标签：</label>
+                    <div class="col-xs-9" style="padding: 0px">
                         <div class="col-xs-10">
                         <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
                         </div>
@@ -124,32 +137,19 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                 <strong></strong>
                             </div>
                         </div>
-                            <!--初始化标签-->
-                            {% if tid %}
-                            {% for obj in task_tag_info %}
-                                <div class="tag  " >
-                                <div class="alert alert-info alert-dismissible pull-left" role="alert" style="padding: 2px;margin-right: 25px;">
-                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                                    <input type="text" name="ttid" class="hidden" value="{{ obj.ttid }}">
-
-                                    <strong>{{ obj.name }}</strong>
-                                </div>
-                                </div>
-                            {% endfor %}
-                            {% endif %}
                         </div>
                     </div>
                     </div>
                 <div class="form-group">
-                    <label for="summary" class="col-xs-2 control-label">小结：</label>
-                      <div class="col-xs-8">
+                    <label for="summary" class="col-xs-3 control-label">小结：</label>
+                      <div class="col-xs-9">
                           <textarea name="title" style="height:180px" class="form-control"  id="summary" placeholder="小结">
                         </textarea>
                       </div>
                 </div>
                 <div class="form-group">
-                    <label  class="col-xs-2 control-label" for="assist">协助：</label>
-                    <div class=" radio col-xs-8" id="assist">
+                    <label  class="col-xs-3 control-label" for="assist">协助：</label>
+                    <div class=" radio col-xs-9" id="assist">
                          <label ><input type="radio" name="assist"
          value="0" checked>否</label>
                         <label ><input type="radio" name="assist"
@@ -157,63 +157,37 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                     </div>
                 </div>
                 <div id="attachment-container" style="position: relative">
-                    <!--初始化附件-->
-                    {% if tid %}
-                        {% for obj in task_attachment_data%}
-                             <div class="attachment">
-                            <div class="form-group ">
-                            <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
-                              <div class="col-xs-4">
-                                  <input type="text" name="tamid" class="hidden" value="{{ obj.tamid }}">
-                                  <div class="old_file">
-                                  <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}" style="color:blue;margin-top:6px;display: inline-block">{{ obj.name }}</a>
-                                  <span onclick="clearAttachment(this)" style=" color:blue; margin-left: 50px;">点击清除</span>
-                                  <input type="text" name="file_path" class="hidden" value="{{ obj.attachment }}">
-                                  <input type="text" name="file_name" value="{{ obj.name }}" class="hidden">
-                                  </div>
-                                      <input type="file" style="margin-top:10px" name="file" value="" onchange="UploadFile(this)">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="content" class="control-label col-xs-2">附件描述：</label>
-                                <div class="col-xs-8">
-                                    <input name="content" class="form-control" value="{{ obj.description }}" style="height:50px" placeholder="附件描述">
-                                </div>
-                            </div>
-                        </div>
-                        {%endfor%}
-                    {%endif  %}
                   <div class="attachment">
                         <div  class="form-group ">
-                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件：</label>
-                          <div class="col-xs-4">
+                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-3 control-label">附件：</label>
+                          <div class="col-xs-5">
                               <input type="file" name="file"  onchange="UploadFile(this)">
                               <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>
                           </div>
                         </div>
                         <div class="form-group">
-                            <label for="content" class="control-label col-xs-2">附件描述：</label>
-                            <div class="col-xs-8">
+                            <label for="content" class="control-label col-xs-3">附件描述：</label>
+                            <div class="col-xs-9">
                                 <input name="content" class="form-control" style="height:50px"  placeholder="附件描述">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                <label for="remark" class="col-xs-2 control-label">备注：</label>
-                  <div class="col-xs-8">
+                <label for="remark" class="col-xs-3 control-label">备注：</label>
+                  <div class="col-xs-9">
                       <textarea name="remark"  class="form-control"  id="remark" placeholder="备注">
                     </textarea>
                   </div>
                 </div>
                 <div class="form-group ">
-           <label for="progress" class="col-xs-2 control-label">进度评估：</label>
+           <label for="progress" class="col-xs-3 control-label">进度评估：</label>
            <div class="progress col-xs-6"  id="progress">
                 <div class="progress_bg">
                     <div class="progress_bar"></div>
                 </div>
                 <div class="progress_btn"></div>
-                <div class="text">0%</div>
+                <div class="text">{{ completion }}%</div>
             </div>
         </div>
             </div>
@@ -226,16 +200,32 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
         </div>
     </div>
    </div>
-  </div><div class="row">
-        <div class="col-xs-4"  ><a href="" style="color:red" class="right" > <u >2018-6-30:18:00</u></a></div>
-         <div class="col-xs-8" style="border-left:2px solid ;height:150px" ></div>
-    </div>
-     <div class="row">
-        <div class="col-xs-4" ><a href="" style="color:red" class="right" > <u >2018-6-30:18:00</u></a>
+  </div>
+         {% for item in task_submit_record %}
+        <div class="row">
+            <div class="col-xs-4" style="padding:20px;position: relative" ><span href="" style="color:red;font-size: 18px;" class="right" > {{ item.last_edit|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10 "></span><br><span class="right" style="font-size: 14px;margin-right:20px">{{ item.last_edit|date:"H:i:s "}}</span></span></div>
+             <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding:20px" >
+                <label class="form-label" style="margin: 3px 0"  >进度评估:</label>
+                 <span  >{{ item.completion }}%</span><br>
+                 <label class="form-label" >标题:</label>
+                 <span  >{{ item.title }}</span><br>
+                 <label class="form-label"  >标签:</label>
+                 {% build_record_tags_ele  item.tsid%}<br>
+                  <label class="form-label"  >小结:</label>
+                 <span  >{{ item.summary }}</span><br>
+                 {% query_submit_attachment_by_tsid item.tsid as s_attachment_list%}
+                 {% for obj in p_attachment_list %}
+                    <label class="form-label"   >附件{{ forloop.counter }}:</label>
+                    <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
+                    <label class="form-label" for="task_title"  >附件描述:</label>
+                    <span id="task_title" >{{ obj.description }}</span><br>
+                 {% endfor %}
+                  <label class="form-label"  >备注:</label>
+                 <span  >{{ item.remark }}</span><br>
+             </div>
         </div>
-         <div class="col-xs-8" style="border-left:2px solid;height:150px" ></div>
+         {% endfor %}
     </div>
-</div>
 {% endblock %}
 {% block js %}
     <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
@@ -265,7 +255,10 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     };
     //进度条
     $(function(){
-                var tag = false,ox = 0,left = 0,bgleft = 0;
+                var completion={{ completion }}
+                var tag = false,ox = 0,left = 300*completion/100, bgleft = 0;
+                $('.progress_btn').css('left', left);
+                $('.progress_bar').width(left);
                 $('.progress_btn').mousedown(function(e) {
                     ox = e.pageX - left;
                     tag = true;
@@ -455,5 +448,40 @@ function UploadFile(ths){
         },
     })
 }
+
+//任务提交
+function Submit() {
+        var title = $("#title").val().trim();
+        var summary = $("#summary").val().trim();
+        var remark = $("#remark").val().trim();
+        var is_assist = $("input[name=assist]:checked").val();
+        var completion_str = $(".text").html();
+        var completion = parseInt(completion_str);
+        var tasid= {{ task_obj.tasid }};
+        $.ajax({
+                url: "{%url "complete_task" %} ",
+                type: "POST",
+                data:  {
+                    "tasid":tasid,
+                    "title": title,
+                    "summary": summary,
+                    "remark":remark,
+                    "is_assist":is_assist,
+                    "completion":completion,
+                    "tags":FetchTag(),
+                    "attachment":FetchAttachment(),
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("提交成功")
+                    window.location.href="{%url "complete_task" %}?tasid={{ task_obj.tasid }}" ;
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
+    }
+
     </script>
 {% endblock %}

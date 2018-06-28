@@ -6,8 +6,8 @@ from django.core import serializers
 from django.db import transaction
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse
-from task.forms.form import TaskForm, PerformForm,TaskAssignForm
-from .server import task_db, task_tag_db, task_attachment_db,task_review_db,staff_db,performence_db,task_assign_db,task_assign_tag_db,task_assign_attach_db
+from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm
+from .server import *
 from .utils import build_attachment_info, build_tags_info, build_reviewer_info, compare_json,build_assign_tags_info,build_assign_attach_info
 
 # Create your views here.
@@ -26,10 +26,24 @@ def task_search(request):
 
 
 def task_detail(request):
+    ret = {"status": False, "message": "", "task": '', "tags": "", "attachs": ""}
     tid = request.GET.get("tid", None)
     if tid:
-        query_sets = task_db.query_task_by_tid(tid)
-        return render(request, 'task/task_detail.html', {"query_sets": query_sets})
+        try:
+            # 根据任务分配ID获取内容
+            task = task_db.query_task_by_tid(tid)
+            ret["task"] = serializers.serialize("json", task)
+            # 获取标签
+            tags = task_tag_db.query_task_tag_by_tid(tid)
+            ret['tags'] = serializers.serialize('json', tags)
+            # 获取附件
+            attachs = task_attachment_db.query_task_attachment_by_tid(tid)
+            ret['attachs'] = serializers.serialize('json', attachs)
+            ret['status'] = True
+        except Exception as e:
+            ret['message'] = "查询不到相关信息"
+    print(ret)
+    return HttpResponse(json.dumps(ret))
 
 
 def publish_task(request):
@@ -60,10 +74,11 @@ def publish_task(request):
                         # 如果任务插入成功
                         if tid:
                             # 插入标签
-                            tags_list = build_tags_info(tid, tag_list)
+                            id_dict = {"tid": tid}
+                            tags_list = build_tags_info(id_dict, tag_list)
                             task_tag_db.mutil_insert_tag(tags_list)
                             # 插入附件
-                            attachment_list = build_attachment_info(tid, attachment)
+                            attachment_list = build_attachment_info(id_dict, attachment)
                             task_attachment_db.mutil_insert_attachment(attachment_list)
                             # 插入审核人
                             reviewers_list = build_reviewer_info(tid, reviewers)
@@ -330,14 +345,14 @@ def show_assign_content(request):
         try:
             # 根据任务分配ID获取内容
             member_assign = task_assign_db.query_task_assign_by_tasid(tasid)
+
             ret["member_assign"] =serializers.serialize("json", member_assign)
             # 获取标签
             tags = task_assign_tag_db.query_task_assign_tag_by_tasid(tasid)
-            # print("tags",tags)
+
             ret['tags'] = serializers.serialize('json', tags)
             # 获取附件
             attachs = task_assign_attach_db.query_task_assign_attach_by_tasid(tasid)
-            # print("attachs",attachs)
 
             ret['attachs'] = serializers.serialize('json', attachs)
             ret['status'] = True
@@ -410,7 +425,6 @@ def performence_edit(request):
                 except Exception as e:
                     ret['message'] = str(e)
         else:
-
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
@@ -445,21 +459,72 @@ def personal_task_list(request):
 
 
 def complete_task(request):
-    mothod = request.method
-    tasid = request.GET.get("tasid", None)
-    if tasid:
-        # 获取任务内容
-        task_obj = task_assign_db.query_task_assign_by_tasid(tasid)
-        # 获取任务提交记录
-        return render(request, 'task/complete_task.html', {"task_obj": task_obj})
+    """任务提交记录"""
+    method = request.method
+    ret = {"status": False, "data": "", "message": ""}
+    if method == "GET":
+        tasid = request.GET.get("tasid", None)
+        if tasid:
+            # 获取任务内容
+            task_obj = task_assign_db.query_task_assign_by_tasid(tasid)
+            task_obj = task_obj.first()
+            # 获取最后一次任务提交记录的完成进度
+            last_record = task_submit_record_db.query_last_submit_record(tasid)
+            if last_record:
+                last_completion = last_record.completion
+            else:
+                last_completion = 0
+            # 获取任务提交历史记录
+            task_submit_record = task_submit_record_db.query_submit_by_tasid(tasid)
+            return render(request, 'task/complete_task.html',
+                          {"task_obj": task_obj,
+                            'task_submit_record': task_submit_record,
+                           "completion": last_completion}
+                          )
+    else:
+        form = CompleteTaskForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            # 获取标签并删除
+            tags = data.get("tags", None)
+            tag_list = tags.split("|")
+            data.pop("tags")
+            # 获取附件并删除
+            attachment = data.get("attachment", None)
+            data.pop("attachment")
+            if data:
+                # 检测完成度是否小于上一次提交
+                # 获取最后一次任务提交记录的完成进度
+                last_record = task_submit_record_db.query_last_submit_record(data["tasid"])
+                if last_record:
+                    if last_record.completion > int(data["tasid"]):
+                        data["completion"] = last_record.completion
+                try:
+                    with transaction.atomic():
+                        tsid = task_submit_record_db.insert_task_submit_record(data)
+                        # 如果任务提交记录插入成功
+                        if tsid:
+                            # 插入标签
+                            id_dict = {"tsid": tsid}
+                            tags_list = build_tags_info(id_dict, tag_list)
+                            task_submit_tag_db.mutil_insert_tag(tags_list)
+                            # 插入附件
+                            attachment_list = build_attachment_info(id_dict, attachment)
+                            task_submit_attach_db.mutil_insert_attachment(attachment_list)
+                            ret["status"] = True
+                except Exception as e:
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
 
 
 def task_wait_review(request):
 
     return render(request, 'task/complete_task.html')
-
-
-
 
 
 def attachment_upload(request):

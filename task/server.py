@@ -230,7 +230,7 @@ class TaskAssignDB(object):
         return result_db
 
     def query_task_assign_by_tasid(self, tasid):
-        result_db = TaskAssign.objects.filter(tasid=tasid).first()
+        result_db = TaskAssign.objects.filter(tasid=tasid).all()
         return result_db
 
     def query_task_assign_by_member_id(self, member_id):
@@ -245,6 +245,75 @@ class TaskSubmitRecordDB(object):
         result_db = TaskSubmitRecord.objects.filter(tasid=tasid).last()
         return result_db
 
+    def query_submit_by_tasid(self, tasid):
+        result_db = TaskSubmitRecord.objects.filter(tasid=tasid).all().order_by("-tsid")
+        return result_db
+
+    def insert_task_submit_record(self,modify_info):
+        submit_record_sql = """insert into task_submit_record(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        submit_record_sql = submit_record_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(submit_record_sql, modify_info)
+        tsid = cursor.lastrowid
+        return tsid
+
+
+class TaskSubmitAttachmentDB(object):
+    """任务附件表"""
+    def query_task_submit_attachment_list(self):
+        result_db = TaskSubmitAttachment.objects.filter().all()
+        return result_db
+
+    def query_task_submit_attachment_by_tsid(self,tsid):
+        result_db = TaskSubmitAttachment.objects.filter(tsid=tsid).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            TaskSubmitAttachment.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            TaskSubmitAttachment.objects.filter(tsaid=item['tsaid']).update(**item)
+
+    def mutil_delete_task_attachment(self, id_list):
+        TaskSubmitAttachment.objects.filter(tsaid__in=id_list).delete()
+
+    def multi_delete_attach_by_tsid(self,id_list):
+        TaskSubmitAttachment.objects.filter(tsid__in=id_list).filter().delete()
+
+    def delete_task_attachment(self,tsaid):
+        TaskSubmitAttachment.objects.filter(tsaid=tsaid).delete()
+
+
+class TaskSubmitTagDB(object):
+    """任务标签"""
+    def mutil_insert_tag(self, modify_info_list):
+        for item in modify_info_list:
+            is_exists = TaskSubmitTag.objects.filter(tsid=item['tsid'], name=item['name'])
+            if is_exists:
+                continue
+            TaskSubmitTag.objects.create(**item)
+
+    def mutil_update_tag(self, modify_info_list):
+        for item in modify_info_list:
+            TaskSubmitTag.objects.filter(tstid=item['tstid']).update(**item)
+
+    def mutil_delete_tag(self, id_list):
+        TaskSubmitTag.objects.filter(tstid__in=id_list).delete()
+
+    def mutil_delete_tag_by_tsid(self, id_list):
+        TaskSubmitTag.objects.filter(tsid__in=id_list).delete()
+
+    def query_task_tag_by_tsid(self, tsid):
+        result_db = TaskSubmitTag.objects.filter(tsid=tsid).all()
+        return result_db
+
 
 class TaskAssignTagDB(object):
     """任务分配表"""
@@ -256,7 +325,7 @@ class TaskAssignTagDB(object):
             TaskAssignTag.objects.create(**item)
 
     def query_task_assign_tag_by_tasid(self, tasid):
-        result_db = TaskAssignTag.objects.filter(tasid=tasid).first()
+        result_db = TaskAssignTag.objects.filter(tasid=tasid).all()
         return result_db
 
     def mutil_update_assign_tag(self,modify_info_list):
@@ -296,5 +365,7 @@ task_review_db = TaskReviewDB()
 performence_db = PerformenceDB()
 task_assign_db = TaskAssignDB()
 task_submit_record_db = TaskSubmitRecordDB()
+task_submit_attach_db = TaskSubmitAttachmentDB()
+task_submit_tag_db = TaskSubmitTagDB()
 task_assign_tag_db = TaskAssignTagDB()
 task_assign_attach_db = TaskAssignAttachDB()

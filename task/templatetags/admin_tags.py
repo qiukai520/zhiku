@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 from datetime import timedelta
 from django import template
@@ -146,9 +147,9 @@ def bulid_assign_member_list(tid):
         last_commit_record = task_submit_record_db.query_last_submit_record(item.tasid)
         if last_commit_record:
             completion = last_commit_record.completion
-            last_edit = last_commit_record.last_edit
+            last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
             if completion:
-                status = completion
+                status = str(completion)+"%"
         else:
             status = "进行中"
             last_edit = ''
@@ -173,6 +174,18 @@ def build_countdown_time(deadline):
 
 
 @register.simple_tag
+def build_record_tags_ele(tsid):
+    """构建任务提交记录标签"""
+    ele_list = ''
+    record_tags = task_submit_tag_db.query_task_tag_by_tsid(tsid)
+    for item in record_tags:
+        if item.name:
+            print(item.name)
+            ele = "<span>{0};</span>".format(item.name)
+            ele_list += ele
+    return mark_safe(ele_list)
+
+@register.simple_tag
 def query_task_by_tid(tid):
     result_db = task_db.query_task_by_tid(tid)
     return result_db
@@ -189,4 +202,10 @@ def query_task_attachment_by_tasid(tasid):
 def query_task_attachment_by_tid(tid):
     tid = int(tid)
     result_db = task_attachment_db.query_task_attachment_by_tid(tid)
+    return result_db
+
+@register.simple_tag
+def query_submit_attachment_by_tsid(tsid):
+    tsid = int(tsid)
+    result_db = task_submit_attach_db.query_task_submit_attachment_by_tsid(tsid)
     return result_db

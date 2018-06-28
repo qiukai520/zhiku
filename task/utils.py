@@ -1,8 +1,9 @@
 import json
-def build_tags_info(tid, tags):
+def build_tags_info(dict, tags):
     tags_list = []
     for item in tags:
-        tag_dict = {"tid": tid, "name": item}
+        tag_dict = {"name": item}
+        tag_dict.update(dict)
         tags_list.append(tag_dict)
     return tags_list
 
@@ -15,11 +16,11 @@ def build_assign_tags_info(tasid,tags):
     return tags_list
 
 
-def build_attachment_info(tid, attachment):
+def build_attachment_info(id_dict, attachment):
     att_list = []
     attachment = json.loads(attachment)
     for item in list(attachment):
-        item.update({"tid": tid})
+        item.update(id_dict)
         att_list.append(item)
     return att_list
 

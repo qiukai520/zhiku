@@ -3,8 +3,8 @@
 
 {% block css  %}
      <style>
-        td, th{
-        text-align: center;
+         td, th{
+        text-align: left;
         vert-align: middle;
         }
         .form-horizontal .control-label {
@@ -78,7 +78,7 @@
       {% for obj in  query_sets%}
       <tr>
           <td><input type="checkbox"></td>
-          <td>{{ obj.tid }}</td>
+          <td name="tid">{{ obj.tid }}</td>
           <td>{{ obj.title }}</td>
           <td>{{ obj.content|slice:"20"}}</td>
           <td>{% change_to_task_type  obj.type_id  %}</td>
@@ -90,7 +90,7 @@
           <td>{{ obj.deadline |date:"Y-m-d "}}</td>
           <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
             <td>
-                <a href="#"  class="btn btn-info">详细</a>
+                <a href="#"  class="btn btn-info" onclick="TaskDetailShow(this)">详细</a>
               <a  href="{%url "task_edit" %}?tid={{ obj.tid }}" class="btn btn-primary" >编辑</a>
           </td>
       </tr>
@@ -150,7 +150,6 @@
     </div>
   </div>
 </div>
-
     <!-- Modal -->
     <!-- delete-->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -265,7 +264,6 @@ function TeamAssignShow() {
 
 }
 
-
     //根据部门获取相应的员工
 function FetchStaff(ths) {
     var dpid=$(ths).val();
@@ -288,7 +286,6 @@ function FetchStaff(ths) {
         }
     })
 }
-
 
     //移到被选复选框
 function MoveTo() {
@@ -369,6 +366,79 @@ function TeamAssingSubmit() {
         }
     })
 }
+
+//任务详情
+function TaskDetailShow(ths) {
+      $('#task_detail').modal('show');
+      var tid=$(ths).parent().parent().children("td").eq(1).text();
+      console.log(tid);
+      //初始化数据
+      $.ajax({
+          url:"{% url "task_detail" %}",
+          type:"get",
+          data:{'tid':tid},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  var data=JSON.parse(arg.task);
+                  console.log("title",data[0].fields.title);
+                  $("#title").text(data[0].fields.title);
+                  $("#content").text(data[0].fields.content);
+                  $("#deadline").text(data[0].fields.deadline);
+                  //初始化标签
+                  var tags=JSON.parse(arg.tags);
+                  for(var i=0 ;i<tags.length;i++){
+                      ele =' <div class="tag  " > <div class="alert alert-info alert-dismissible pull-left" role="alert" style="padding: 2px;margin-right: 25px;"> <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button> <input type="text" name="tatid" class="hidden" value="{0}"> <strong>{1}</strong> </div> </div>'.format(tags[i].pk,tags[i].fields.name)
+                      $("#tag_container").append(ele)
+                  }
+                  //初始化附件
+                  var attachs = JSON.parse(arg.attachs);
+                  for (var i=0;i<attachs.length;i++){
+                      eles='<input type="text" name="taaid" class="hidden" value="{0}"> <div class="old_file"> <a href="{% url "attachment_download" %}?url={1}&name= {2}" style="color:blue;margin-top:6px;display: inline-block">{3}</a> <span onclick="clearAttachment(this)" style=" color:blue; margin-left: 50px;">点击清除</span> <input type="text" name="file_path" class="hidden" value="{4}"> <input type="text" name="file_name" value="{5}" class="hidden"> </div>'.format(attachs[i].pk,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name,attachs[i].fields.attachment,attachs[i].fields.name)
+                           if(i==0){
+                          $("#file1").prepend(eles);
+                          $(".attachment1").find("input[name=content]").val(attachs[i].fields.description)
+                      }else if(i==1) {
+                          $("#file2").prepend(eles)
+                          $(".attachment2").find("input[name=content]").val(attachs[i].fields.description)
+                           }
+                  }
+
+              }
+          }
+      });
+     //添加指派内容
+      $("#assign").click(function () {
+            console.log("submit",tasid)
+{#            var member_id=$(ths).parent().find("input[name=member_id]").val();#}
+            var title = $("#title").val().trim();
+            var content = $("#content").val().trim();
+            var deadline = $("#datetimepicker1").find("input").val();
+            $.ajax({
+                    url: "{% url "task_assign" %}",
+                    type: "POST",
+                    data:  {
+                        "tasid":tasid,
+{#                        "member_id":member_id,#}
+                        "title": title,
+                        "content": content,
+                        "deadline":deadline,
+                        "attachment":FetchAttachment(),
+                        "tags":FetchTag(),
+                        },
+                    dataType: "json",
+                    success: function (arg) {
+                    if (arg.status) {
+                        alert("指派成功");
+                        window.location.href="{% url 'task_assign' %}";
+                    } else {
+                        alert(arg.message)
+                    }
+                }
+            })
+
+      })
+    }
       </script>
 
 {% endblock %}

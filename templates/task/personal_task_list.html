@@ -3,8 +3,8 @@
 
 {% block css  %}
     <style>
-        td, th{
-        text-align: center;
+       td, th{
+        text-align: left;
         vert-align: middle;
         }
         .form-horizontal .control-label {
@@ -15,6 +15,25 @@
      </style>
 {% endblock %}
 {% block conent %}
+    <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">我的任务</div>
+  <div class="panel-body" style="background-color:#f2f2f2">
+      <form class="form-inline left"  action="{% url "task_search" %}" method="get">
+          <div class="form-group"> <label for="book_sort">类别</label>
+                   <select id="book_sort" name="s"   class="form-control">
+                       <option value=0>所有</option>
+                       <option value=1>已完成</option>
+                       <option value=2>未完成</option>
+          </select>
+          </div>
+          <div class="form-group">
+              <input type="search" name=_q class="col-md-2 form-control" placeholder="search by username," style="width:250px;display:inline;margin:0 10px;">
+          </div>
+          <button type="submit" class="btn btn-default">搜索</button>
+    </form>
+  </div>
+        <!-- Table -->
     <table class="table  table-condensed  table-bordered table-hover table-striped">
       <thead>
       <tr >
@@ -49,7 +68,7 @@
                          {% if obj.is_finish %}
                             <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-primary" >查看</a>
                         {% else %}
-                            <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-primary" >继续完善</a>
+                            <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-primary" >继续完成</a>
                         {% endif %}
                   </td>
               </tr>
