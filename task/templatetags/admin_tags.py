@@ -47,6 +47,7 @@ def build_task_cycle_ele():
         eles += ele
     return mark_safe(eles)
 
+
 @register.simple_tag
 def build_auditor_ele():
     """构建负责人选择框"""
@@ -65,11 +66,34 @@ def build_task_type_filter(selected):
     eles = ""
     for item in task_type_list:
         if selected == item.tpid:
-            ele = """<option  selected=selected value={0}>{1}</option>""".format(item.tpid, item.name)
+            ele = """<option selected=selected value={0}>{1}</option>""".format(item.tpid, item.name)
         else:
             ele = """<option value={0}>{1}</option>""".format(item.tpid, item.name)
         eles += ele
     return mark_safe(eles)
+
+@register.simple_tag
+def build_task_tags_ele(tid):
+    """构建任务标签"""
+    ele_list = ''
+    record_tags = task_tag_db.query_task_tag_by_tid(tid)
+    for item in record_tags:
+        if item.name:
+            ele = "<span>{0};</span>".format(item.name)
+            ele_list += ele
+    return mark_safe(ele_list)
+
+@register.simple_tag
+def build_task_review_ele(tid):
+    """构建任务标签"""
+    ele_list = ''
+    task_review_ids = task_review_db.query_task_reviewer_by_tid(tid).order_by("follow")
+    for item in task_review_ids:
+        staff = staff_db.query_staff_by_id(item.sid)
+        if staff.name:
+            ele = "<span>{0};</span>".format(staff.name)
+            ele_list += ele
+    return mark_safe(ele_list)
 
 
 @register.simple_tag
@@ -93,6 +117,12 @@ def build_reviewer_ele(dpid):
         eles += ele
     return mark_safe(eles)
 
+@register.simple_tag
+def change_to_task_execute_way(way_id):
+    way_list = task_db.execute_way
+    for item in way_list:
+        if int(item["execute_way"]) == way_id:
+            return item["caption"]
 
 @register.simple_tag
 def change_to_task_type(ttid):
@@ -127,6 +157,14 @@ def change_to_task_status(id):
     for item in status_list:
         if int(item["id"]) == id:
             return item['caption']
+
+@register.simple_tag
+def change_to_task_perfomance(pid):
+    """获取任务绩效"""
+    performance = performence_db.query_performence_by_pid(pid)
+    return performance.name
+
+
 @register.simple_tag
 def change_to_task_finish_status(id):
     """获取任务完成状态"""

@@ -1,4 +1,6 @@
 import json
+
+
 def build_tags_info(dict, tags):
     tags_list = []
     for item in tags:
@@ -32,6 +34,7 @@ def build_assign_attach_info(tasid,attachment):
         item.update({"tasid": tasid})
         att_list.append(item)
     return att_list
+
 
 def build_reviewer_info(tid, reviewers):
     re_list = []

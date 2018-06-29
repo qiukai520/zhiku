@@ -28,22 +28,12 @@ def task_search(request):
 def task_detail(request):
     ret = {"status": False, "message": "", "task": '', "tags": "", "attachs": ""}
     tid = request.GET.get("tid", None)
-    if tid:
-        try:
-            # 根据任务分配ID获取内容
-            task = task_db.query_task_by_tid(tid)
-            ret["task"] = serializers.serialize("json", task)
-            # 获取标签
-            tags = task_tag_db.query_task_tag_by_tid(tid)
-            ret['tags'] = serializers.serialize('json', tags)
-            # 获取附件
-            attachs = task_attachment_db.query_task_attachment_by_tid(tid)
-            ret['attachs'] = serializers.serialize('json', attachs)
-            ret['status'] = True
-        except Exception as e:
-            ret['message'] = "查询不到相关信息"
-    print(ret)
-    return HttpResponse(json.dumps(ret))
+    try:
+        # 根据任务分配ID获取内容
+        task_obj = task_db.query_task_by_tid(tid)
+    except Exception as e:
+        ret['message'] = "查询不到相关信息"
+    return render(request, 'task/task_detail.html', {"task_obj": task_obj})
 
 
 def publish_task(request):
