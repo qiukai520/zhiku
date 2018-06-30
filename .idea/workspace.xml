@@ -2,115 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/static/css/css.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/public.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/themes.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/themes/flat-blue.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/themes/flat-green.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/administration.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/app-header-bg.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/backdrop/micro_carbon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/backdrop/tactile_noise.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/bg.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/bg/picjumbo.com_HNCK3558.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/contact-us-bg.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/control.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/data.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/dfjso.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/fail.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/gold.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/index_img1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/index_img2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/index_img3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/key.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/line-icon-hover.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/money_matters.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/password.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/people.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/profile/picjumbo.com_HNCK4153_resize.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/profile/profile-1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/scheme.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/screenshots/dashboard.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/screenshots/landing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/screenshots/login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/screenshots/theming.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/self.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/serve.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/thumbnails/picjumbo.com_HNCK4737.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/thumbnails/picjumbo.com_IMG_3241.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/thumbnails/picjumbo.com_IMG_4566.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/wisdom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/alert.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/app.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/button.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/card.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/chartjs.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/js.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/list.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/modal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/theming.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/css/animate.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/css/bootstrap-switch.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/css/bootstrap.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/css/checkbox3.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/css/dataTables.bootstrap.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/css/font-awesome.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/css/jquery.dataTables.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/css/select2.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/fonts/FontAwesome.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/fonts/fontawesome-webfont.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/fonts/fontawesome-webfont.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/fonts/fontawesome-webfont.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/fonts/fontawesome-webfont.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/fonts/fontawesome-webfont.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/fonts/glyphicons-halflings-regular.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/fonts/glyphicons-halflings-regular.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/fonts/glyphicons-halflings-regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/fonts/glyphicons-halflings-regular.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/fonts/glyphicons-halflings-regular.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/js/Chart.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/js/ace/ace.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/js/ace/mode-html.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/js/ace/theme-github.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/js/bootstrap-switch.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/js/bootstrap.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/js/dataTables.bootstrap.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/js/jquery.dataTables.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/js/jquery.matchHeight-min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/js/jquery.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/lib/js/select2.full.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/layout.bak.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/theme/default.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/themes/default.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/theme/red.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/themes/red.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/theme/warm.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/themes/warm.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/imgs/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/imgs/avatar/20130809170025.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/imgs/avatar/2c0f5fde-3249-4282-b08f-b59f40a76876" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/imgs/avatar/3bb1516e-3144-487b-8fa1-9ebaf5f6c915" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/imgs/avatar/3dc069be-3db7-4912-9846-b0214a7a9d2e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/imgs/avatar/default.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/imgs/django_last_中间件.rar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/imgs/o_Warning.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/plugins/echarts/build/dist/echarts-all.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/echarts/build/dist/echarts-all.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/plugins/echarts/build/dist/echarts.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/echarts/build/dist/echarts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/kindeditor-all-min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/kindeditor-all-min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/kindeditor-all.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/kindeditor-all.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/baidumap/baidumap.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/baidumap/baidumap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/templatetags/admin_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/templatetags/admin_tags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/complete_task.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/complete_task.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/performence.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/performence.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/personal_task_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/personal_task_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/practice.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/practice.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_assign.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_assign.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_assign_center.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_assign_center.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/thinking_library/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/thinking_library/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -157,10 +49,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/task/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2715">
+            <state relative-caret-position="-2229">
               <caret line="255" column="18" lean-forward="true" selection-start-line="255" selection-start-column="18" selection-end-line="255" selection-end-column="18" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -187,15 +79,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="task_edit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/task/task_edit.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4536">
-              <caret line="215" column="101" selection-start-line="215" selection-start-column="101" selection-end-line="215" selection-end-column="101" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="performence.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/task/performence.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -217,8 +100,22 @@
       <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
+            <state relative-caret-position="351">
               <caret line="81" column="42" selection-start-line="81" selection-start-column="42" selection-end-line="81" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dashboard.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/img/screenshots/dashboard.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="4" column="13" lean-forward="true" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -292,7 +189,6 @@
         <option value="$PROJECT_DIR$/templates/task/member_assign.html" />
         <option value="$PROJECT_DIR$/task/admin.py" />
         <option value="$PROJECT_DIR$/thinking_library/settings.py" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/templates/task/personal_task.html" />
         <option value="$PROJECT_DIR$/templates/task/task_wait_review.html" />
         <option value="$PROJECT_DIR$/task/forms/form.py" />
@@ -316,6 +212,7 @@
         <option value="$PROJECT_DIR$/thinking_library/urls.py" />
         <option value="$PROJECT_DIR$/templates/task/task_assign.html" />
         <option value="$PROJECT_DIR$/task/views.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -352,6 +249,12 @@
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -403,15 +306,15 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\workplace\thinking_library\templates" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\workplace\thinking_library\templates" />
       <recent name="G:\workplace\thinking_library\templates\task" />
       <recent name="G:\workplace\thinking_library\static" />
       <recent name="G:\workplace\thinking_library\static\js" />
       <recent name="G:\workplace\thinking_library\static\css\theme" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="G:\workplace\thinking_library\templates" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -465,6 +368,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.500817" side_tool="true" weight="0.38544154" />
@@ -480,14 +384,28 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21568628" />
+      <window_info anchor="right" id="SciView" order="3" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="right" id="Data View" order="3" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.500817" side_tool="true" weight="0.38544154" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3293556" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.499183" visible="true" weight="0.2673031" />
+      <window_info anchor="bottom" id="Python Console" order="7" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -635,8 +553,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        <state relative-caret-position="108">
+          <caret line="4" column="13" lean-forward="true" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -731,9 +649,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-170">
           <caret line="219" column="21" selection-start-line="219" selection-start-column="21" selection-end-line="219" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -760,7 +675,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
+        <state relative-caret-position="351">
           <caret line="81" column="42" selection-start-line="81" selection-start-column="42" selection-end-line="81" selection-end-column="42" />
         </state>
       </provider>
@@ -824,7 +739,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/task/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2715">
+        <state relative-caret-position="-2229">
           <caret line="255" column="18" lean-forward="true" selection-start-line="255" selection-start-column="18" selection-end-line="255" selection-end-column="18" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
