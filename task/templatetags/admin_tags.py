@@ -218,7 +218,6 @@ def build_record_tags_ele(tsid):
     record_tags = task_submit_tag_db.query_task_tag_by_tsid(tsid)
     for item in record_tags:
         if item.name:
-            print(item.name)
             ele = "<span>{0};</span>".format(item.name)
             ele_list += ele
     return mark_safe(ele_list)

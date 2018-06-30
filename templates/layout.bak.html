@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/plugins/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="/static/css/commons.css"/>
+    <link rel="stylesheet" href="/static/css/backend.css"/>
+
+    {% block css %}
+
+    {% endblock %}
+</head>
+<body>
+<div class="pg-header">
+    <div class="logo left" style="text-align: center;background-color: #1c5a9c;">
+        <a href="#" style="color: #ffffff;font-size:30px;font-weight: bold;text-decoration: none">
+            智库系统
+        </a>
+    </div>
+
+    <div class="right-menu right clearfix">
+
+         <div class="user-info right">
+                   <a href="#" class="avatar">
+                    <img class="img-circle" src="/static/imgs/avatar/default.png">
+                         <a href="#" class="more-item">登录</a>
+                </a>
+        </div>
+    </div>
+
+</div>
+<div class="pg-body " >
+    <div class="menu ">
+        <a class="menu-item"   href="{% url "personal_task_list" %}">
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <span>我的任务</span>
+        </a>
+        <a class="menu-item "   href="{% url "publish_task" %}">
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <span>创建任务</span>
+        </a>
+         <a class="menu-item "   href="{% url "task_assign_center" %}">
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <span>任务指派中心</span>
+        </a>
+        <a class="menu-item "   href="{% url "task_assign" %} ">
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <span>已指派的任务</span>
+        </a>
+        <a class="menu-item "   href="#">
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <span>待审核的任务</span>
+        </a>
+        <a class="menu-item "   href="{% url "performence_list" %}">
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <span>绩效分类</span>
+        </a>
+    </div>
+    <div class="content">
+        {% block conent %} {% endblock %}
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+{% block js %}
+
+{% endblock %}
+</body>
+</html>

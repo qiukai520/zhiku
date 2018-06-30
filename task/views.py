@@ -13,16 +13,16 @@ from .utils import build_attachment_info, build_tags_info, build_reviewer_info, 
 # Create your views here.
 
 
-def task_search(request):
-    filters = request.GET
-    task_type_id = int(filters.get("s", 0))
-    # 根据分类和关键字去筛选
-    if task_type_id > 0:
-        # 先根据分类去筛选
-        query_sets = task_db.query_task_by_type(task_type_id)
-    else:
-        query_sets = task_db.query_task_lists()
-    return render(request, "task/task_assign_center.html", {"query_sets": query_sets, 'task_type_id': task_type_id})
+# def task_search(request):
+#     filters = request.GET
+#     task_type_id = int(filters.get("s", 0))
+#     # 根据分类和关键字去筛选
+#     if task_type_id > 0:
+#         # 先根据分类去筛选
+#         query_sets = task_db.query_task_by_type(task_type_id)
+#     else:
+#         query_sets = task_db.query_task_lists()
+#     return render(request, "task/task_assign_center.html", {"query_sets": query_sets, 'task_type_id': task_type_id})
 
 
 def task_detail(request):
@@ -182,7 +182,6 @@ def task_delete(request):
             task_tag_db.mutil_delete_tag_by_tid(id_list)
             ret['status'] = True
     except Exception as e:
-        print(e)
         ret["message"] = "删除失败"
     return HttpResponse(json.dumps(ret))
 
@@ -234,7 +233,11 @@ def task_assign(request):
     """任务已指派列表"""
     method = request.method
     if method == "GET":
+        filter = request.GET
+        type_id = int(filter.get("s", 0))
         query_sets = task_db.query_task_assign_lists()
+        if type_id > 0:
+            query_sets = query_sets.filter(type_id=type_id)
         return render(request, 'task/task_assign.html', {"query_sets": query_sets})
     else:
         # 任务内容指派
@@ -353,7 +356,12 @@ def show_assign_content(request):
 
 def task_assign_center(request):
     """任务指派中心"""
+    filters = request.GET
+    task_type_id = int(filters.get("s", 0))
     query_sets = task_db.query_task_lists()
+    # 先根据分类去筛选
+    if task_type_id > 0:
+        query_sets = query_sets.filter(type_id=task_type_id)
     return render(request, 'task/task_assign_center.html',  {"query_sets": query_sets})
 
 
@@ -444,7 +452,12 @@ def personal_task_list(request):
     """获取个人任务列表"""
     member_id = 1
     # 根据个人id获取相关任务
+    filter= request.GET
+    # 根据分类去筛选
+    type_id = int(filter.get("s", 0))
     query_sets = task_assign_db.query_task_assign_by_member_id(member_id)
+    if type_id > 0:
+        query_sets=query_sets.filter(type_id=type_id)
     return render(request, 'task/personal_task_list.html', {"query_sets": query_sets})
 
 

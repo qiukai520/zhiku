@@ -4,8 +4,9 @@
 
       <style>
         td, th{
-        text-align: center;
-        vert-align: middle;
+            text-align: center;
+            vert-align: middle;
+            padding: 10px 18px !important;
         }
      </style>
 {%endblock %}
@@ -14,15 +15,15 @@
   <!-- Default panel contents -->
   <div class="panel-heading">任务列表</div>
   <div class="panel-body" style="background-color:#f2f2f2">
-      <div class="right">
+      <div class="right" style=" float: right">
       <a href="{% url "performence_edit" %}"><button  class ="btn btn-primary">添加绩效</button></a>
-          <button  onclick="MultiDelete()" class="btn btn-danger">批量删除</button>
+          <button  onclick="MultiDelete()" class="btn btn-danger ">批量删除</button>
       </div>
   </div>
     </div>
 
       <!-- Table -->
-    <table class="table  table-condensed  table-bordered table-hover table-striped">
+    <table class="table datatable table table-striped table-hover table-striped">
       <thead>
       <tr >
           <th><input type="checkbox" onclick="SelectAll(this)"></th>

@@ -41,11 +41,15 @@
     span.glyphicon.glyphicon-arrow-left {
         margin-top:120px;
     }
+    button,.btn{
+        margin-top: 0px !important;
+    }
 
     </style>
 
 {% endblock %}
 {% block conent %}
+    <div class="container" >
     <div class="row form-horizontal" style="position: relative;margin-top: 30px">
             <div class="col-xs-12">
                 <div class="form-group">
@@ -179,7 +183,7 @@
                     <label for="task_type" class="control-label col-xs-2">审核人：</label>
                     <div class="control-xs-4" style="margin:8px ;">
                         <lable  for="department"  style="margin-left:15px" class="control-label ">部门:</lable>
-                            <select name="department" style="width:130px;" data-live-search="true" onchange="FetchStaff(this)">
+                            <select name="department"  class="form-control"  style="width:130px;" data-live-search="true" onchange="FetchStaff(this)">
                             {% build_department_ele %}
                             </select>
                         <label for="follow" class="control-label  " style="margin-left:10px">次序审核：</label>
@@ -199,7 +203,7 @@
                     <label for="task_type" class="control-label col-xs-2"></label>
                     <div class="col-xs-8 " style="padding:0px; ">
                         <div class="col-xs-5  selector-filter" >
-                            <select multiple id="id_staff_from" name="staff_old"     class="select-box">
+                            <select  id="id_staff_from" multiple   name="staff_old"  size="10"   class="select-box select2-selection--multiple">
 
                             </select>
                             <br>
@@ -209,7 +213,7 @@
                         </div>
 
                         <div class="col-xs-5 selector-filter">
-                             <select  tags="selected-choose" multiple id="id_staff_to" name="staff" class="select-box">
+                             <select  tags="selected-choose " size="10" multiple style="height: 100px;" id="id_staff_to" name="staff" class="select-box select2-selection--multiple ">
                              {%if tid %}
                                  {% for obj in task_reviewer_info %}
                                 <option value="{{ obj.sid }}"   ondblclick="ElementMoveTo(this,'id_staff_to','id_staff_from')">{% change_to_staff obj.sid %}  </option>
@@ -240,6 +244,7 @@
         </div>
     </div>
     </div>
+
 {% endblock %}
 {% block js %}
     <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
