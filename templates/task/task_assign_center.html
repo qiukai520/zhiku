@@ -272,9 +272,7 @@ function TeamAssignShow() {
     }else{
          alert("请选择一个任务")
     }
-
 }
-
     //根据部门获取相应的员工
 function FetchStaff(ths) {
     var dpid=$(ths).val();
@@ -300,7 +298,6 @@ function FetchStaff(ths) {
 
     //移到被选复选框
 function MoveTo() {
-    console.log("2343e5")
     var opt=$("#id_staff_from").find("option:selected").clone();
     opt.attr("onclick","ElementMoveTo(this,'id_staff_from','id_staff_to')");
     $("#id_staff_from").find("option:selected").remove()

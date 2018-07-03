@@ -71,7 +71,7 @@ def publish_task(request):
                             attachment_list = build_attachment_info(id_dict, attachment)
                             task_attachment_db.mutil_insert_attachment(attachment_list)
                             # 插入审核人
-                            reviewers_list = build_reviewer_info(tid, reviewers)
+                            reviewers_list = build_reviewer_info(tid,reviewers)
                             task_review_db.mutil_insert_reviewer(reviewers_list)
                             ret["status"] = True
                 except Exception as e:
@@ -149,7 +149,7 @@ def task_edit(request):
                             task_attachment_db.mutil_delete_task_attachment(delete_id_att)
                         # 更新审核人
                         reviewer_record = task_review_db.query_task_reviewer_by_tid(tid)
-                        insert_review, update_review, delete_id_review = compare_json(reviewer_record, reviewers_list, 'sid')
+                        insert_review, update_review, delete_id_review = compare_json(reviewer_record, reviewers_list,'tvid')
                         if insert_review:
                             task_review_db.mutil_insert_reviewer(insert_review)
                         if update_review:
@@ -158,6 +158,7 @@ def task_edit(request):
                             task_review_db.mutil_delete_reviewer(delete_id_review)
                         ret['status'] = True
                 except Exception as e:
+                    print(e)
                     ret["message"] = str(e)
         return HttpResponse(json.dumps(ret))
 

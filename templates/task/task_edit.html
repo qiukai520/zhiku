@@ -44,6 +44,18 @@
     button,.btn{
         margin-top: 0px !important;
     }
+     .buttons{
+        overflow:hidden
+    }
+    .btn-outline-secondary{
+        padding: 0px;
+        width: 48%;
+        border:0px;
+    ;
+    }
+    .select2-selection--multiple{
+        visibility: hidden;
+    }
 
     </style>
 
@@ -54,26 +66,26 @@
             <div class="col-xs-12">
                 <div class="form-group">
                     <label for="task_name" class="col-xs-2 control-label">任务名称：</label>
-                      <div class="col-xs-4">
+                      <div class="col-xs-6">
                           <textarea name="title"  class="form-control"  id="task_name" placeholder="任务名称">
                         </textarea>
                       </div>
                 </div>
                 <div class="form-group">
                     <label for="content" class="control-label col-xs-2">任务描述：</label>
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                         <textarea name="content" class="form-control"  style="height:80px;" id="content" placeholder="任务描述">
                     </textarea>
                     </div>
                 </div>
                 <div class="form-group" style="padding: 0px">
                     <label for="tag" class="control-label col-xs-2">标签：</label>
-                    <div class="col-xs-4" style="padding: 0px">
+                    <div class="col-xs-6" style="padding: 0px">
                         <div class="col-xs-10">
                         <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
                         </div>
                         <div class="col-xs-2" >
-                            <button class=" btn inline-block right" onclick="AddTag(this)">添加</button>
+                            <button  class=" tag_btn btn inline-block right" onclick="AddTag(this)">添加</button>
                         </div>
                         <div class="col-xs-12" id="tag_container" >
                         <div class="tag hidden  " >
@@ -100,7 +112,7 @@
                     </div>
                 <div class="form-group">
                     <label for="attribute" class="control-label col-xs-2">绩效分类：</label>
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                         <select  name="attribute" class="form-control" id="attribute" >
                             {% build_performence_ele %}
                         </select>
@@ -113,7 +125,7 @@
                              <div class="attachment">
                             <div class="form-group ">
                             <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
-                              <div class="col-xs-4">
+                              <div class="col-xs-6">
                                   <input type="text" name="tamid" class="hidden" value="{{ obj.tamid }}">
                                   <div class="old_file">
                                   <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}" style="color:blue;margin-top:6px;display: inline-block">{{ obj.name }}</a>
@@ -126,7 +138,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="content" class="control-label col-xs-2">附件描述：</label>
-                                <div class="col-xs-4">
+                                <div class="col-xs-6">
                                     <input name="content" class="form-control" value="{{ obj.description }}" style="height:50px" placeholder="附件描述">
                                 </div>
                             </div>
@@ -136,14 +148,14 @@
                   <div class="attachment">
                         <div  class="form-group ">
                         <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件：</label>
-                          <div class="col-xs-4">
+                          <div class="col-xs-6">
                               <input type="file" name="file"  onchange="UploadFile(this)">
                               <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>
                           </div>
                         </div>
                         <div class="form-group">
                             <label for="content" class="control-label col-xs-2">附件描述：</label>
-                            <div class="col-xs-4">
+                            <div class="col-xs-6">
                                 <input name="content" class="form-control" style="height:50px"  placeholder="附件描述">
                             </div>
                         </div>
@@ -151,7 +163,7 @@
                 </div>
                 <div class="form-group">
                     <label for="task_cycle" class="control-label col-xs-2">任务周期：</label>
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                         <select  name="tcid" class="form-control" id="task_cycle" >
                             {% build_task_cycle_ele %}
                         </select>
@@ -159,7 +171,7 @@
                 </div>
                  <div class="form-group">
                     <label for="deadline" class="control-label col-xs-2">起始日期：</label>
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                     <div class='input-group date' id='datetimepicker1'>
                         <input type='text' class="form-control" />
                         <span class="input-group-addon">
@@ -170,7 +182,7 @@
                 </div>
                 <div class="form-group">
                     <label for="deadline" class="control-label col-xs-2">终止日期：</label>
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                     <div class='input-group date' id='datetimepicker2'>
                         <input type='text' class="form-control" />
                         <span class="input-group-addon">
@@ -180,10 +192,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="task_type" class="control-label col-xs-2">审核人：</label>
-                    <div class="control-xs-4" style="margin:8px ;">
-                        <lable  for="department"  style="margin-left:15px" class="control-label ">部门:</lable>
-                            <select name="department"  class="form-control"  style="width:130px;" data-live-search="true" onchange="FetchStaff(this)">
+                    <label for="task_type" class="control-label col-xs-2">选择审核人：</label>
+                    <div class="control-xs-6 row" style="margin:8px ;">
+                        <lable  for="department"  style="margin-left:15px" class="control-label  "></lable>
+                            <select name="department"  class="form-control "  style="width: 28%" data-live-search="true" onchange="FetchStaff(this)">
                             {% build_department_ele %}
                             </select>
                         <label for="follow" class="control-label  " style="margin-left:10px">次序审核：</label>
@@ -202,32 +214,21 @@
                 <div class="form-group" >
                     <label for="task_type" class="control-label col-xs-2"></label>
                     <div class="col-xs-8 " style="padding:0px; ">
-                        <div class="col-xs-5  selector-filter" >
-                            <select  id="id_staff_from" multiple   name="staff_old"  size="10"   class="select-box select2-selection--multiple">
-
-                            </select>
-                            <br>
-                            <span class="glyphicon glyphicon-arrow-left" onclick="MoveBack()" ></span>
-                            <br>
-                            <span class="glyphicon glyphicon-arrow-right" onclick="MoveTo()" ></span>
-                        </div>
-
-                        <div class="col-xs-5 selector-filter">
-                             <select  tags="selected-choose " size="10" multiple style="height: 100px;" id="id_staff_to" name="staff" class="select-box select2-selection--multiple ">
-                             {%if tid %}
+                        <div class="col-xs-12 selector-filter" >
+                            <select  id="id_staff_from" multiple   name="staff_old"  size="10"   class=" select-box ">
+                            {%if tid %}
                                  {% for obj in task_reviewer_info %}
-                                <option value="{{ obj.sid }}"   ondblclick="ElementMoveTo(this,'id_staff_to','id_staff_from')">{% change_to_staff obj.sid %}  </option>
+                                 <option value="{{ obj.sid }}"   selected="selected">{% change_to_staff obj.sid %}  </option>
 
                                  {% endfor %}
                              {% endif %}
-                             </select>
+                            </select>
                         </div>
-
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="task_type" class="control-label col-xs-2">归档分类：</label>
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                         <select  name="task_type" class="form-control" id="task_type" >
                             {% build_task_type_ele %}
                         </select>
@@ -251,8 +252,7 @@
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/static/js/jquery.cookie.js"></script>
     <script>
-{#    预防csrf#}
-    var csrftoken = $.cookie('csrftoken');
+        var csrftoken = $.cookie('csrftoken');
         function csrfSafeMethod(method) {
             // these HTTP methods do not require CSRF protection
             return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
@@ -277,8 +277,18 @@ String.prototype.format=function()
     自执行函数
     */
     $(function () {
+            //初始化双列表框
+            DualListbox = $('#id_staff_from').bootstrapDualListbox({
+            nonSelectedListLabel: '未选择',
+            selectedListLabel: '已选择',
+            preserveSelectionOnMove: 'moved',
+            moveOnSelect: false,
+            infoTextEmpty: "",
+            nonSelectedFilter: '',
+                infoText:"总人数:{0}"
+        });
         //如果tid不为0，则为创建
-        if ({{ tid}}){
+        if ({{ tid }}){
            InitData()//初始化数据
         }
         else {
@@ -307,6 +317,8 @@ $(function () {
         locale: moment.locale('zh-cn')
     });
 });
+
+
 //添加标签
 function AddTag(ths){
         var val=$(ths).parent().parent().find("input").val();
@@ -441,7 +453,7 @@ function FetchAttachment(){
 function SelectReviewer(){
         reviewers=new Array();
         var i=0
-        $("select[tags='selected-choose'] option").each(function () {
+        DualListbox.children("option:selected").each(function () {
             i +=1
             var reviewer=$(this).val()
             var isfollow=$('#follow').prop("checked")
@@ -462,10 +474,9 @@ function SelectReviewer(){
 function GetReviewer(){
         var reviewers_list=new Array();
         var i=0
-        $("select[tags='selected-choose'] option").each(function () {
+        DualListbox.children("option:selected").each(function () {
             i +=1
             var reviewer=$(this).val()
-            console.log(reviewer)
             var isfollow=$('#follow').prop("checked")
             var review= {"sid":reviewer,"follow":'','tid':{{tid}}};
             if (isfollow){
@@ -476,7 +487,6 @@ function GetReviewer(){
                 reviewers_list.push(review)
             }
         });
-        console.log(reviewers_list)
         reviewers_list =JSON.stringify(reviewers_list)//对象转化成json
         return reviewers_list
     }
@@ -484,7 +494,9 @@ function GetReviewer(){
 //根据部门获取相应的员工
 function FetchStaff(ths) {
     var dpid=$(ths).val();
-    $("#id_staff_from").children().remove();
+    //清空select的内容
+    DualListbox.children("option:not(:selected)").remove();
+    DualListbox.bootstrapDualListbox('refresh', true);
     {#var opt_eles="{% build_reviewer_ele dpid %}"#}
     {#$("#id_staff_from").append(opt_eles)#}
     $.ajax({
@@ -492,18 +504,21 @@ function FetchStaff(ths) {
         type:'get',
         data:{"dpid":dpid},
         dataType:'json',
-        success:function (arg) {
-            if (arg.status){
-                data=JSON.parse(arg.data)
-                for ( var i = 0; i <data.length; i++ ){
-                    opt_ele = "<option value={0} ondblclick=ElementMoveTo(this,'id_staff_from','id_staff_to')>{1}</option>".format(data[i]['pk'],data[i]['fields']['name']);
-                    $("#id_staff_from").append(opt_ele);
-            }
-            }else{
-                alert(arg.message)
-            }
-        }
-    })
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
+		o.text = this['fields']['name'];
+		DualListbox.append(o);
+		DualListbox.bootstrapDualListbox('refresh', true);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
 }
 
 //上传附件
@@ -531,6 +546,7 @@ function UploadFile(ths){
             $(ths).parent().find("input[name=file_path]").val(arg.data.path)
             $(ths).parent().find("input[name=file_name]").val(arg.data.name)
         },
+
     })
 }
 //创建
@@ -580,7 +596,6 @@ function Edit() {
         var tcid = $("#task_cycle").val();
         var start_time = $("#datetimepicker1").find("input").val();
         var deadline = $("#datetimepicker2").find("input").val();
-        console.log("post")
         $.ajax({
                 url: "{% url "task_edit"%}",
                 type: "post",

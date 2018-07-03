@@ -200,7 +200,7 @@ class TaskReviewDB(object):
         for item in modify_info_list:
             TaskReview.objects.create(**item)
 
-    def query_task_reviewer_by_tid(self, tid):
+    def query_task_reviewer_by_tid(self,tid):
         result_db = TaskReview.objects.filter(tid=tid).all()
         return result_db
 

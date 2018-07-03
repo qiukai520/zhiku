@@ -19,11 +19,15 @@
     <!-- CSS App -->
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     <link rel="stylesheet" type="text/css" href="/static/css/themes/flat-blue.css">
+
+    <!-- bootstarp multiselect -->
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap-duallistbox.min.css">
       {% block css %}
     {% endblock %}
 </head>
 
 <body class="flat-blue">
+      {% csrf_token %}
     <div class="app-container">
         <div class="row content-container">
             <nav class="navbar navbar-default navbar-fixed-top navbar-top">
@@ -134,6 +138,7 @@
         </footer>
         </div>
             <!-- Javascript Libs -->
+{#            <script type="text/javascript" src="/static/js/jquery-3.1.0.min.js"></script>#}
             <script type="text/javascript" src="/static/lib/js/jquery.min.js"></script>
             <script type="text/javascript" src="/static/lib/js/bootstrap.min.js"></script>
             <script type="text/javascript" src="/static/lib/js/Chart.min.js"></script>
@@ -147,7 +152,98 @@
             <script type="text/javascript" src="/static/lib/js/ace/theme-github.js"></script>
             <!-- Javascript -->
             <script type="text/javascript" src="/static/js/app.js"></script>
-{% block js %}
+             <!-- bootstarp multiselect-->
+            <script type="text/javascript" src="/static/plugins/bootstrap/js/jquery.bootstrap-duallistbox.min.js"></script>
+            <!-- jquery 取Cookie当中的csrftoken并在请求中添加X-CSRFToken请求头-->
+            <script src="/static/js/jquery.cookie.js"></script>
+            <script>
+        var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+   //自执行函数
+  $(function () {
+      if({{ pid }}){
+          DataInit()//初始化化数据
+      }
+  })
+  function DataInit() {
+        $("#name").val("{{ performence_obj.name }}");
+        $("#personal_score").val( "{{ performence_obj.personal_score }}");
+        $("#personal_total").val("{{ performence_obj.personal_total }}");
+        $("#team_score").val("{{ performence_obj.team_score }}");
+        $("#team_total").val("{{ performence_obj.team_total }}");
+}
+
+     function Submit() {
+        var name = $("#name").val().trim();
+        var personal_score = $("#personal_score").val();
+        var personal_total =$("#personal_total").val()
+        var team_score = $("#team_score").val();
+        var team_total = $("#team_total").val();
+        $.ajax({
+                url: '{% url "performence_edit"%}',
+                type: "post",
+                data:  {"name":name,
+                    "personal_score": personal_score,
+                    "personal_total": personal_total,
+                    "team_score": team_score,
+                    "team_total": team_total,
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("添加成功");
+                    window.location.href='{% url "performence_list" %}';
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
+    }
+
+    function Edit() {
+        var name = $("#name").val().trim();
+        var personal_score = $("#personal_score").val();
+        var personal_total =$("#personal_total").val()
+        var team_score = $("#team_score").val();
+        var team_total = $("#team_total").val();
+        $.ajax({
+                url: "{% url "performence_edit"%}",
+                type: "post",
+                data:  {
+                    "pid":{{ pid }},
+                    "name":name,
+                    "personal_score": personal_score,
+                    "personal_total": personal_total,
+                    "team_score": team_score,
+                    "team_total": team_total,
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("修改成功")
+                    window.location.reload()
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
+    }
+    </script>
+
+
+    {% block js %}
 
 {% endblock %}
 </body>
