@@ -8,6 +8,7 @@ from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse
 from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm
 from .server import *
+from .models import TaskAssign,Task
 from .utils import build_attachment_info, build_tags_info, build_reviewer_info, compare_json,build_assign_tags_info,build_assign_attach_info
 
 # Create your views here.
@@ -24,7 +25,7 @@ from .utils import build_attachment_info, build_tags_info, build_reviewer_info, 
 #         query_sets = task_db.query_task_lists()
 #     return render(request, "task/task_assign_center.html", {"query_sets": query_sets, 'task_type_id': task_type_id})
 
-
+#
 def task_detail(request):
     ret = {"status": False, "message": "", "task": '', "tags": "", "attachs": ""}
     tid = request.GET.get("tid", None)
@@ -34,6 +35,25 @@ def task_detail(request):
     except Exception as e:
         ret['message'] = "查询不到相关信息"
     return render(request, 'task/task_detail.html', {"task_obj": task_obj})
+
+
+# 弹出框任务详情
+# def task_detail(request):
+#     ret = {"status": False, "message": "", "task": '', "tags": "", "attachs": "",'reviews':''}
+#     tid = request.POST.get("tid", None)
+#     if tid:
+#         # 获取任务信息及其标签信息、附件信息、审核人
+#         task_info = task_db.query_task_by_tid(tid)
+#         task_tag_info = task_tag_db.query_task_tag_by_tid(tid)
+#         task_attachment_info = task_attachment_db.query_task_attachment_by_tid(tid)
+#         task_reviewer_info = task_review_db.query_task_reviewer_by_tid(tid)
+#         ret['task'] = task_info
+#         ret['tags'] = task_tag_info
+#         ret['attachs'] = task_attachment_info
+#         ret['reviews'] = task_reviewer_info
+#         ret['status'] = True
+#     print(ret)
+#     return HttpResponse(json.dumps(ret))
 
 
 def publish_task(request):
@@ -202,7 +222,6 @@ def task_mutil_assign(request):
                 task_db.update_task_status_by_tid(tid, modify_info)
                 ret['status'] = True
         except Exception as e:
-            print(e)
             ret['message'] = str(e)
     else:
         ret['message'] = "至少选择一个员工"
@@ -452,13 +471,7 @@ def performence_delete(request):
 def personal_task_list(request):
     """获取个人任务列表"""
     member_id = 1
-    # 根据个人id获取相关任务
-    filter= request.GET
-    # 根据分类去筛选
-    type_id = int(filter.get("s", 0))
     query_sets = task_assign_db.query_task_assign_by_member_id(member_id)
-    if type_id > 0:
-        query_sets=query_sets.filter(type_id=type_id)
     return render(request, 'task/personal_task_list.html', {"query_sets": query_sets})
 
 
@@ -534,6 +547,7 @@ def task_wait_review(request):
 def attachment_upload(request):
     """附件上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
+    print("upload")
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")

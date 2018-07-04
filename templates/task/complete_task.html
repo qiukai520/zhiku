@@ -70,7 +70,6 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
             <span id="publisher"  >{% change_to_staff total_task_obj.issuer_id %}</span>
            <label class="form-label" for="attribute"  >任务属性:</label>
             <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>
-          <br>
            <label class="form-label" for="deadline" >截止时间:</label>
            {% if task_obj.deadline %}
                <span id="deadline" >{{ task_obj.deadline |date:"Y-m-d H:i"}}</span>
@@ -101,19 +100,18 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                 <span id="task_title" >{{ obj.description }}</span>
              </div>
              {% endfor %}
-
         {% else %}
             {% query_task_attachment_by_tid total_task_obj.tid as t_attachment_list %}
              <div class="form-group  " id="top" >
                <label class="form-label"  >任务描述:</label>
                 <span  >{{ total_task_obj.content }}</span>
             </div>
-            {% for obj in p_attachment_list %}
+            {% for t_obj in t_attachment_list %}
              <div class="form-group  "  >
                 <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
-                 <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
+                <a  href="{% url "attachment_download" %}?url={{ t_obj.attachment }}& name={{ t_obj.name }}">{{ t_obj.name }}</a><br>
                  <label class="form-label"  >附件描述:</label>
-                <span  >{{ obj.description }}</span>
+                <span  >{{ t_obj.description }}</span>
             </div>
             {% endfor %}
         {% endif%}

@@ -74,12 +74,12 @@
                 <div class="form-group">
                     <label for="content" class="control-label col-xs-2">任务描述：</label>
                     <div class="col-xs-6">
-                        <textarea name="content" class="form-control"  style="height:80px;" id="content" placeholder="任务描述">
+                        <textarea name="content" class="form-control"  style="height:100px;" id="content" placeholder="任务描述">
                     </textarea>
                     </div>
                 </div>
                 <div class="form-group" style="padding: 0px">
-                    <label for="tag" class="control-label col-xs-2">标签：</label>
+                    <label for="tag" class="control-label col-xs-2">任务标签：</label>
                     <div class="col-xs-6" style="padding: 0px">
                         <div class="col-xs-10">
                         <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
@@ -218,7 +218,7 @@
                             <select  id="id_staff_from" multiple   name="staff_old"  size="10"   class=" select-box ">
                             {%if tid %}
                                  {% for obj in task_reviewer_info %}
-                                 <option value="{{ obj.sid }}"   selected="selected">{% change_to_staff obj.sid %}  </option>
+                                 <option value="{{ obj.sid }}"   selected="selected" tvid="{{ obj.tvid}}">{% change_to_staff obj.sid %}  </option>
 
                                  {% endfor %}
                              {% endif %}
@@ -416,6 +416,7 @@ function GetAttachment(){
         }
         var content=$(this).find("input[name=content]").val();
         var name=$(this).find("input[name=file_name]").val();
+        console.log(file_path,content,name)
         attachment.attachment=file_path;
         attachment.description=content;
         attachment.name=name;
@@ -440,6 +441,7 @@ function FetchAttachment(){
     }
     var content=$(this).find("input[name=content]").val().trim();
     var name=$(this).find("input[name=file_name]").val();
+    console.log(file_path,content,name)
     attachment.attachment=file_path;
     attachment.description=content;
     attachment.name=name;
@@ -477,13 +479,18 @@ function GetReviewer(){
         DualListbox.children("option:selected").each(function () {
             i +=1
             var reviewer=$(this).val()
+            var tvid=$(this).attr("tvid")
+            console.log(tvid);
             var isfollow=$('#follow').prop("checked")
             var review= {"sid":reviewer,"follow":'','tid':{{tid}}};
+            if (tvid){
+                review=$.extend(review,{"tvid":tvid})
+            }
             if (isfollow){
                 review.follow=i
                 reviewers_list.push(review)
             }else{
-                review.follow=0.
+                review.follow=0
                 reviewers_list.push(review)
             }
         });
@@ -527,7 +534,7 @@ function UploadFile(ths){
     var form = new FormData();
     form.append("file", file_obj);
     $.ajax({
-        url:"/attachment_upload.html",
+        url:"{% url 'attachment_upload' %}",
         type:"POST",
         data: form ,
         dataType:"JSON",
@@ -543,6 +550,8 @@ function UploadFile(ths){
             var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
             $(ths).parent().append(path_input);
             $(ths).parent().append(name_input);
+            console.log(arg.data.path);
+            console.log(arg.data.name);
             $(ths).parent().find("input[name=file_path]").val(arg.data.path)
             $(ths).parent().find("input[name=file_name]").val(arg.data.name)
         },

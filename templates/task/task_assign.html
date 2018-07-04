@@ -70,7 +70,7 @@
       </div>
   </div>
         <!-- Table -->
-    <table class="table datatable table-striped table-hover table-striped">
+    <table id="table_local" class="table datatable table-striped table-hover table-striped">
        <thead>
       <tr >
           <th><input type="checkbox" onclick="SelectAll(this)"></th>
@@ -250,9 +250,36 @@
     自执行函数
     */
     $(function () {
-      {#ClearData()#}
+         //初始化datatables 改成中文显示
+       $('#table_local').dataTable({
+           bDestroy: true,
+           autoWidth:false,////不开启自动宽度，用bootstrap的自适应去调整
+           "lengthMenu":[10,20,30, 40,50],//表格行数选择框内数目 显示2条,4条,20条,50条
+           "displayLength": 10,//默认的显示行数 (也就是每页显示几条数据)
+           "language": {//自定义语言提示
+                "processing": "处理中...",
+                "lengthMenu": "显示 _MENU_ 项结果",
+                "zeroRecords": "没有找到相应的结果",
+                "info": "第 _START_ 至 _END_ 行，共 _TOTAL_ 行",
+                "infoEmpty": "第 0 至 0 项结果，共 0 项",
+                "infoFiltered": "(由 _MAX_ 项结果过滤)",
+                "infoPostFix": "",
+                "search": "搜索:",
+                "searchPlaceholder": "请输入要搜索内容...",
+                "url": "",
+                "thousands": "'",
+                "emptyTable": "表中数据为空",
+                "loadingRecords": "载入中...",
+                "infoThousands": ",",
+                "paginate": {
+                    "first": "首页",
+                    "previous": "上页",
+                    "next": "下页",
+                    "last": "末页"
+                }
+            }
+	});
     });
-
 
             //设置日期时间控件
 $(function () {
@@ -307,7 +334,6 @@ String.prototype.format=function()
         })
         });
     }
-
     //添加标签
 function AddTag(ths){
         var val=$(ths).parent().parent().find("input").val();
@@ -383,7 +409,7 @@ function UploadFile(ths){
 }
 
 //清空指派模态框的数据
-        function ClearData(){
+    function ClearData(){
             window.location.href="{% url 'task_assign' %}";
             {#//编辑\指派按钮隐藏#}
             {#$("#edit").hide();#}
@@ -402,7 +428,6 @@ function clearAttachment(ths) {
     $(ths).parent().parent().parent().next().find("input[name=content]").val("")
     $(ths).parent().remove()
 }
-
 
 
 //指派任务内容
@@ -485,35 +510,35 @@ function MemberAssignShow(ths) {
       })
     }
 
-    //修改指派内容
-        function Edit(){
-            var tasid= $("#myModalLabel").parent().find("input[name=tasid]").val();
-            console.log(tasid)
-            var title = $("#title").val().trim();
-            var content = $("#content").val().trim();
-            var deadline = $("#datetimepicker1").find("input").val();
-             $.ajax({
-                    url: "{% url "task_assign_edit" %}",
-                    type: "POST",
-                    data:  {
-                        "tasid":tasid,
-                        "title": title,
-                        "content": content,
-                        "deadline":deadline,
-                        "attachment":GetAttachment(),
-                        "tags":GetTag(),
-            },
-                dataType: "json",
-                success: function (arg) {
-                    if (arg.status) {
-                        alert("修改成功");
-                        window.location.reload();
-                    } else {
-                        alert(arg.message)
-                    }
+//修改指派内容
+    function Edit(){
+        var tasid= $("#myModalLabel").parent().find("input[name=tasid]").val();
+        console.log(tasid)
+        var title = $("#title").val().trim();
+        var content = $("#content").val().trim();
+        var deadline = $("#datetimepicker1").find("input").val();
+         $.ajax({
+                url: "{% url "task_assign_edit" %}",
+                type: "POST",
+                data:  {
+                    "tasid":tasid,
+                    "title": title,
+                    "content": content,
+                    "deadline":deadline,
+                    "attachment":GetAttachment(),
+                    "tags":GetTag(),
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("修改成功");
+                    window.location.reload();
+                } else {
+                    alert(arg.message)
                 }
-            })
-        }
+            }
+        })
+    }
     //修改时获取标签内容
 function GetTag() {
     var tags_list = new Array();

@@ -14,12 +14,6 @@
             text-align: right;
         }
 
-      .select-box{
-          top:5px;
-          height: 200px !important;
-          width: 100%;
-        border-radius: 3px;
-      }
        span.glyphicon.glyphicon-arrow-left, span.glyphicon.glyphicon-arrow-right {
             position: absolute;
             right: -28px;
@@ -30,6 +24,18 @@
     }
     span.glyphicon.glyphicon-arrow-left {
         margin-top:120px;
+    }
+      .buttons{
+        overflow:hidden
+    }
+    .btn-outline-secondary{
+        padding: 0px;
+        width: 48%;
+        border:0px;
+    ;
+    }
+    .select2-selection--multiple {
+        visibility: hidden;
     }
 
      </style>
@@ -56,9 +62,8 @@
           <button  onclick="MultiDelete()" class="btn btn-danger">批量删除</button>
       </div>
   </div>
-         <a href=""></a>
         <!-- Table -->
-    <table class="table datatable table table-striped table-hover table-striped">
+    <table id="table_local"  class="table datatable table table-striped table-hover table-striped">
       <thead>
       <tr >
           <th ><input type="checkbox" onclick="SelectAll(this)"></th>
@@ -102,6 +107,7 @@
           <td>{{ obj.deadline |date:"Y-m-d "}}</td>
           <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
             <td>
+{#                <button id="button"  class="btn btn-info"  onclick="TaskDetailShow(this)" >详请</button>#}
                 <a  href="{%url "task_detail" %}?tid={{ obj.tid }}" class="btn btn-info"  >详请</a>
                <a  href="{%url "task_edit" %}?tid={{ obj.tid }}" class="btn btn-primary" >编辑</a>
           </td>
@@ -119,38 +125,27 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">任务指派</h4>
       </div>
-      <div class="modal-body" style="height: 300px;">
+      <div class="modal-body" style="height: 500px; width: 500px;">
          <div class="row form-horizontal" style="position: relative;margin-top: 30px">
             <div class="col-xs-12">
-             <div class="form-group">
-                        <label for="task_type" class="control-label col-xs-2">员工：</label>
-                        <div class="control-xs-4" style="margin:8px ;">
-                            <lable  for="department"  style="margin-left:15px" class="control-label ">部门:</lable>
-                                <select name="department" style="width:130px;" onchange="FetchStaff(this)">
-                                {% build_department_ele %}
-                                </select>
-                        </div>
-                    </div>
+              <div class="form-group ">
+                    <label for=" department"  class="control-label col-xs-2">选择员工：</label>
+{#                    <div class="control-xs-6 " style="margin:8px ;">#}
+{#                        <lable  for="department"  style="margin-left:15px" class="control-label control-xs-2  ">部门:</lable>#}
+                    <select tabindex="1" style="display:inline; width: 180px;margin-left: 15px"  id="department" name="department" class="form-control "  onchange="FetchStaff(this)">
+                    {% build_department_ele %}
+                    </select>
+{#                    </div>#}
+                </div>
               <div class="form-group" >
-                        <div  class=" col-xs-2"></div>
-                        <div class="col-xs-10 " style="padding:0px; ">
-                            <div class="col-xs-5  selector-filter" >
-                                <select multiple id="id_staff_from" name="staff_old"     class="select-box">
-
-                                </select>
-                                <br>
-                            <span class="glyphicon glyphicon-arrow-left" onclick="MoveBack()" ></span>
-                            <br>
-                            <span class="glyphicon glyphicon-arrow-right" onclick="MoveTo()" ></span>
-                            </div>
-
-                            <div class="col-xs-5 selector-filter">
-                                 <select  tags="selected-choose" multiple id="id_staff_to" name="staff" class="select-box">
-                                 </select>
-                            </div>
-
+                    <label for="task_type" class="control-label col-xs-2"></label>
+                    <div class="col-xs-10 "  style="padding:0px;  ">
+                        <div class="col-xs-12 selector-filter" >
+                            <select  id="id_staff_from" multiple   name="staff_old"  size="10"   class=" select-box ">
+                            </select>
                         </div>
                     </div>
+                </div>
             </div>
          </div>
       </div>
@@ -162,6 +157,87 @@
   </div>
 </div>
          <!-- Modal -->
+
+{#     <!-- task_detail-->#}
+{#<!-- Modal -->#}
+{#<div class="modal fade" id="task_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
+{#  <div class="modal-dialog" role="document">#}
+{#    <div class="modal-content">#}
+{#      <div class="modal-header">#}
+{#        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
+{#        <h4 class="modal-title" id="myModalLabel">任务详情</h4>#}
+{#          <input type="text" class="hidden" name="tasid" >#}
+{#      </div>#}
+{#      <div class="modal-body" >#}
+{#         <div class="row form-horizontal" style="position: relative;margin-top: 30px;margin-left: 20px">#}
+{#            <div class="col-xs-12">#}
+{#                <div class="form-group " >#}
+{#                    <label for="task_title" class="form-label col-xs-2" >任务标题:</label>#}
+{#                    <div id="task_title" class="form-label col-xs-8" >了拉了拉加咖喱给</div>#}
+{#                </div>#}
+{#                <div class="form-group  " >#}
+{#                     <label for="task_description" class="form-label col-xs-2"  >任务描述:</label>#}
+{#                     <div   class=" col-xs-8" id="task_description" >卡阿卡勾看发噶</div>#}
+{#                </div>#}
+{#                <div class="form-group  ">#}
+{#                    <label for="task_tag" class="form-label col-xs-2" >标签:</label>#}
+{#                    <div id="task_tag" class="form-label col-xs-8">；</div>#}
+{#                </div>#}
+{#                 <div class="form-group  ">#}
+{#                    <label for ='reviewers' class="form-label col-xs-2"  >审核人:</label>#}
+{#                    <div  id="reviewers" class="form-label col-xs-8" >jljllj</div>#}
+{#                </div>#}
+{#                  <div class="form-group  ">#}
+{#                    <label id="task_assign" class="form-label col-xs-2"  >指派状态:</label>#}
+{#                   <div id="task_assign" class="form-label col-xs-8"></div>#}
+{##}
+{#                </div>#}
+{#                 <div class="form-group ">#}
+{#                    <label for="attribute" class="form-label  col-xs-2"   >绩效分类:</label>#}
+{#                    <div id="task_attribute" class="form-label  col-xs-8" ></div>#}
+{#                 </div>#}
+{#                 <div class="form-group  ">#}
+{#                    <label for ='task_cycle' class="form-label col-xs-2"   >任务周期:</label>#}
+{#                    <div   id="task_cycle"   class="form-label col-xs-8" ></div>#}
+{#                     <br>#}
+{#                 </div>#}
+{#                 <div class="form-group ">#}
+{#                    <label for ="task_type" class="form-label col-xs-2"   >归档分类:</label>#}
+{#                    <div   id="task_type"   class="form-label col-xs-8"  ></div>#}
+{#                     <br>#}
+{#                 </div>#}
+{#                 <div class="form-group  ">#}
+{#                    <label for ='task_publisher' class="form-label col-xs-2" for="publisher"  >发起人:</label>#}
+{#                     <div id="task_publisher"  ></div>#}
+{#                </div>#}
+{#                 <div class="form-group  " >#}
+{#                     <label class="form-label col-xs-2"  >创建时间:</label>#}
+{#                     <div>{{ task_obj.create_time |date:"Y-m-d H:i"}}</div>#}
+{#                </div>#}
+{#                 <div class="form-group  " >#}
+{#                     <label class="form-label col-xs-2" >截止时间:</label>#}
+{#                     <span  >{{ task_obj.deadline |date:"Y-m-d H:i"}}</span>#}
+{#                     <br>#}
+{#                </div>#}
+{#                 <div class="form-group  " >#}
+{#                     <label class="form-label col-xs-2 "  >倒计时:</label>#}
+{#                     <span   >{% build_countdown_time task_obj.deadline  %}天</span>#}
+{#                     <br>#}
+{#                </div>#}
+{##}
+{#        </div>#}
+{##}
+{#              </div>#}
+{#            </div>#}
+{#      <div class="modal-footer">#}
+{#         <a href="{% url "task_assign_center" %}" class="btn btn-danger"  >关闭</a>#}
+{#             <a  href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-primary" >编辑</a>#}
+{#      </div>#}
+{#    </div>#}
+{#    </div>#}
+{#</div>#}
+
+
     <!-- delete-->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -210,6 +286,58 @@ String.prototype.format=function()
     s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
   return s;
 };
+
+  /*
+    自执行函数
+    */
+    $(function () {
+        //初始化双列表框
+        DualListbox = $('#id_staff_from').bootstrapDualListbox({
+        nonSelectedListLabel: '未选择',
+        selectedListLabel: '已选择',
+        preserveSelectionOnMove: 'moved',
+        moveOnSelect: false,
+        infoTextEmpty: "",
+        nonSelectedFilter: '',
+            infoText:"总人数:{0}"
+    });
+        //部门select被隐藏掉了，将其显示出来
+        $("#department").removeClass("select2-hidden-accessible");
+        $("#department").next().addClass("hidden");
+
+         //初始化datatables 改成中文显示
+       $('#table_local').dataTable({
+           bDestroy: true,
+           autoWidth:false,////不开启自动宽度，用bootstrap的自适应去调整
+           "lengthMenu":[10,20,30, 40,50],//表格行数选择框内数目 显示2条,4条,20条,50条
+           "displayLength": 10,//默认的显示行数 (也就是每页显示几条数据)
+           "language": {//自定义语言提示
+                "processing": "处理中...",
+                "lengthMenu": "显示 _MENU_ 项结果",
+                "zeroRecords": "没有找到相应的结果",
+                "info": "第 _START_ 至 _END_ 行，共 _TOTAL_ 行",
+                "infoEmpty": "第 0 至 0 项结果，共 0 项",
+                "infoFiltered": "(由 _MAX_ 项结果过滤)",
+                "infoPostFix": "",
+                "search": "搜索:",
+                "searchPlaceholder": "请输入要搜索内容...",
+                "url": "",
+                "thousands": "'",
+                "emptyTable": "表中数据为空",
+                "loadingRecords": "载入中...",
+                "infoThousands": ",",
+                "paginate": {
+                    "first": "首页",
+                    "previous": "上页",
+                    "next": "下页",
+                    "last": "末页"
+                }
+            }
+	});
+    });
+
+
+
     function  SelectAll(ths) {
         //判断是否选中
         var ischecked=$(ths).is(":checked");
@@ -273,57 +401,40 @@ function TeamAssignShow() {
          alert("请选择一个任务")
     }
 }
-    //根据部门获取相应的员工
-function FetchStaff(ths) {
-    var dpid=$(ths).val();
-    $("#id_staff_from").children().remove();
-    $.ajax({
-        url:"{% url "department_staff" %}",
-        type:'get',
-        data:{"dpid":dpid},
-        dataType:'json',
-        success:function (arg) {
-            if (arg.status){
-                data=JSON.parse(arg.data)
-                for ( var i = 0; i <data.length; i++ ){
-                    opt_ele = "<option value={0} ondblclick=ElementMoveTo(this,'id_staff_from','id_staff_to')>{1}</option>".format(data[i]['pk'],data[i]['fields']['name']);
-                    $("#id_staff_from").append(opt_ele);
-            }
-            }else{
-                alert(arg.message)
-            }
-        }
-    })
-}
-
-    //移到被选复选框
-function MoveTo() {
-    var opt=$("#id_staff_from").find("option:selected").clone();
-    opt.attr("onclick","ElementMoveTo(this,'id_staff_from','id_staff_to')");
-    $("#id_staff_from").find("option:selected").remove()
-    $("#id_staff_to").append(opt);
-
-}
-//移回待选复选框
-function MoveBack() {
-    var opt=$("#id_staff_to").find("option:selected").clone();
-    opt.attr("onclick","ElementMoveTo(this,'id_staff_to','id_staff_from')");
-    $("#id_staff_to").find("option:selected").remove()
-    $("#id_staff_from").append(opt) ;
-
-}
-    //双击动复选框
-function ElementMoveTo(ths,id_from,id_to) {
-        var opt_ele="<option value='"+$(ths).val()+"' ondblclick=ElementMoveTo(this,'"+id_to+"','"+id_from+"')>"+$(ths).text()+"</option>";
-        $("#" +id_to).append(opt_ele);
-        $(ths).remove();
+     //根据部门获取相应的员工
+    function FetchStaff(ths) {
+        var dpid=$(ths).val();
+        //清空select的内容
+        DualListbox.children("option:not(:selected)").remove();
+        DualListbox.bootstrapDualListbox('refresh', true);
+        $.ajax({
+            url:"{% url "department_staff" %}",
+            type:'get',
+            data:{"dpid":dpid},
+            dataType:'json',
+            async: true,//是否异步
+            success: function (arg) {
+            var objs = JSON.parse(arg.data);
+            $(objs).each(function () {
+            var o = document.createElement("option");
+            o.value = this['pk'];
+            o.text = this['fields']['name'];
+            DualListbox.append(o);
+            DualListbox.bootstrapDualListbox('refresh', true);
+          });
+        },
+            error: function (arg) {
+              alert(arg.message);
+            },
+        });
     }
+
 
     function SelectMember(){
         //构造任务指派dict
         var reviewers=new Array();
         //遍历员工
-        $("select[tags='selected-choose'] option").each(function () {
+        DualListbox.children("option:selected").each(function () {
             var member = $(this).val()
             var review = {"member_id": member};
             //遍历任务,添加任务ID
@@ -373,6 +484,42 @@ function TeamAssingSubmit() {
         }
     })
 }
+
+{#//任务详情弹出框#}
+{#function TaskDetailShow(ths) {#}
+{#      $('#task_detail').modal('show');#}
+{#      var tid=$(ths).parent().parent().find("td[name=tid]").text();#}
+{#      console.log(tid)#}
+{#      //初始化数据#}
+{#      $.ajax({#}
+{#          url:"{% url "task_detail" %}",#}
+{#          type:"post",#}
+{#          data:{'tid':tid},#}
+{#          dataType:"json",#}
+{#          async:true,#}
+{#          success:function (arg) {#}
+{#              console.log("arg",arg.status);#}
+{#              if (arg.status){#}
+{#                  var task=arg.task;#}
+{#                  var tags = arg.tags;#}
+{#                  var attachs = arg.attachs;#}
+{#                  var reviews = arg.reviews;#}
+{#                  //初始化数据#}
+{#                  console.log(task)#}
+{#                  console.log(tags)#}
+{#                  console.log(attachs)#}
+{#                  $("#task_title").text(task.title);#}
+{#                  $("#task_detail").text(task.description);#}
+{#              }#}
+{##}
+{#          }#}
+{#      });#}
+{#    }#}
+{#    #}
+{#    function ClearData() {#}
+{#        #}
+{#    }#}
+
 </script>
 
 {% endblock %}

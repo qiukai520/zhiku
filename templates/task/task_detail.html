@@ -19,25 +19,29 @@
 {% block  conent %}
     <div class="container"  style="font-size:16px;"  style="background-color:#EBEBEB; width:80%;">
          <div class="container-fluid"style="width: 80%;margin-top: 30px;" >
-            <div class="form-group  " >
+             <div class="row">
+            <div class="form-group " >
                 <label class="form-label col-xs-2" >任务标题:</label>
-                <span  >{{ task_obj.title }}</span>
+                <div   >{{ task_obj.title }}</div>
             </div>
             <div class="form-group  ">
                 <label class="form-label col-xs-2" >标签:</label>
-                {% build_task_tags_ele  task_obj.tid%}<br>
+                <div>{% build_task_tags_ele  task_obj.tid%}</div>
             </div>
             <div class="form-group  " >
-                 <label class="form-label col-xs-2"  >任务描述:</label>
-                 <span  >{{ task_obj.content }}</span>
+                 <label for="task_description" class="form-label col-xs-2"  >任务描述:</label>
+                 <div  style="padding-left:0px" class=" col-xs-10" id="task_description" >{{ task_obj.content }}</div>
             </div>
+             <br>
              <div class="form-group  ">
+                 <br>
                 <label class="form-label col-xs-2"  >审核人:</label>
-                {% build_task_review_ele  task_obj.tid%}<br>
+                <span >{% build_task_review_ele  task_obj.tid%}</span>
             </div>
               <div class="form-group  ">
                 <label class="form-label col-xs-2"  >指派状态:</label>
-               {% change_to_task_assign_status  task_obj.is_assign%}
+               <span>{% change_to_task_assign_status  task_obj.is_assign%}</span>
+                  <br>
             </div>
              <div class="form-group ">
                 <label class="form-label  col-xs-2"   >绩效分类:</label>
@@ -46,34 +50,37 @@
              <div class="form-group  ">
                 <label class="form-label col-xs-2"   >任务周期:</label>
                 <span  >{% change_to_task_cycle task_obj.tcid %}</span>
+                 <br>
              </div>
              <div class="form-group ">
                 <label class="form-label col-xs-2"   >归档分类:</label>
                 <span   >{% change_to_task_type  task_obj.type_id  %}</span>
+                 <br>
              </div>
              <div class="form-group  ">
                 <label class="form-label col-xs-2" for="publisher"  >发起人:</label>
                  <span id="publisher"  >{% change_to_staff task_obj.issuer_id %}</span>
-            </div>
-            <div class="form-group  " >
-                <label class="form-label col-xs-2"  >任务属性:</label>
-                <span  >{% change_to_task_type  task_obj.type_id  %}</span>
+                 <br>
             </div>
              <div class="form-group  " >
                  <label class="form-label col-xs-2"  >创建时间:</label>
                  <span  >{{ task_obj.create_time |date:"Y-m-d H:i"}}</span>
+                 <br>
             </div>
              <div class="form-group  " >
                  <label class="form-label col-xs-2" >截止时间:</label>
                  <span  >{{ task_obj.deadline |date:"Y-m-d H:i"}}</span>
+                 <br>
             </div>
              <div class="form-group  " >
                  <label class="form-label col-xs-2 "  >倒计时:</label>
                  <span   >{% build_countdown_time task_obj.deadline  %}天</span>
+                 <br>
             </div>
+             </div>
              <a href="{% url "task_assign_center" %}" class="btn btn-danger" style="margin:50px 100px" >返回</a>
              <a  href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-primary" >编辑</a>
-    </div>
+        </div>
 
 </div>
 
