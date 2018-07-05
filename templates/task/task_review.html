@@ -1,0 +1,261 @@
+{% extends "layout.html" %}
+{% load  admin_tags %}
+{% block css%}
+    <style>
+    #top > span{
+        margin-right: 60px;
+    }
+    #top > .form-group{
+        margin: 0px;
+    }
+     #footer > .form-group{
+        margin: 20px;
+    }
+
+      .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+    .minus {
+       margin-left: 0px !important;
+       color: red;
+       position: absolute;
+       top: 10px;
+       left: -85px;
+
+}
+    .plus{
+        position: absolute;
+        top: 10px;
+        left: -85px;
+        color: blue
+    }
+    label{
+        font-weight: bold;
+    }
+    .glyphicon-ok{
+        border: 1px solid;
+        padding: 1px;
+        background-color: #ff410f;
+        border-radius: 50%;
+        color:white;
+        position: absolute;
+        top:22px;
+        right: 38px
+
+    }
+    button ,.btn{
+        margin-top: 0px !important;
+    }
+    .row > [class*="col-"] {
+    margin-bottom: 0px;
+}
+    .flat-blue a {
+    color: #075dec;
+}
+
+    .progress{position: relative; width:350px;height: 30px;margin: 12px }
+    .progress_bg{height: 12px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden;background-color:#f2f2f2;}
+    .progress_bar{background: #5FB878; width: 0; height: 10px; border-radius: 5px;}
+    .progress_btn{width: 20px; height: 20px; border-radius: 5px; position: absolute;background:#fff;
+left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;box-sizing:border-box;}
+    .progress_btn:hover{border-color:#F7B824;}
+    </style>
+{% endblock %}
+{% block conent%}
+    <div class="container"   style="background-color: #f3f3f3 ;border-bottom: 2px double; width:80%;margin-top: 10px;">
+      <div class="form-group  " id="top" style="font-size:14px;">
+            {% query_task_by_tid  task_obj.tid  as total_task_obj %}
+
+           {% if task_obj.title %}
+                <label class="form-label" for="task_title"  >任务标题:</label>
+                <span id="task_title" >{{ task_obj.title }}</span>
+            {% else %}
+               <label class="form-label" for="task_title"  >任务标题:</label>
+               <span id="task_title" >{{ total_task_obj.title }}</span>
+            {% endif %}
+           <label class="form-label" for="publisher"  >发起人:</label>
+            <span id="publisher"  >{% change_to_staff total_task_obj.issuer_id %}</span>
+           <label class="form-label" for="attribute"  >任务属性:</label>
+            <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>
+           <label class="form-label" for="deadline" >截止时间:</label>
+           {% if task_obj.deadline %}
+               <span id="deadline" >{{ task_obj.deadline |date:"Y-m-d H:i"}}</span>
+            <label class="form-label" for="countdown"  >倒计时:</label>
+        <span id="countdown"  >{% build_countdown_time task_obj.deadline  %}天</span>
+           {% else %}
+               <span id="deadline" >{{ total_task_obj.deadline |date:"Y-m-d H:i"}}</span>
+            <label class="form-label" for="countdown"  >倒计时:</label>
+        <span id="countdown"  >{% build_countdown_time total_task_obj.deadline  %}天</span>
+           {% endif %}
+        {% if task_obj.title %}
+            {% query_task_attachment_by_tasid task_obj.tasid as p_attachment_list %}
+             <div class="form-group " >
+            <label class="form-label" >任务描述:</label>
+                <span id="task_title" >{{ task_obj.content }}</span>
+            </div>
+            {% for obj in p_attachment_list %}
+             <div class="form-group "  >
+                <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}">{{ obj.name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <label class="form-label" for="task_title"  >附件描述:</label>
+                <span id="task_title" >{{ obj.description }}</span>
+             </div>
+             {% endfor %}
+        {% else %}
+            {% query_task_attachment_by_tid total_task_obj.tid as t_attachment_list %}
+             <div class="form-group"  >
+               <label class="form-label">任务描述:</label>
+                <span  >{{ total_task_obj.content }}</span>
+            </div>
+            {% for t_obj in t_attachment_list %}
+             <div class="form-group  "  >
+                <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                <a  href="{% url "attachment_download" %}?url={{ t_obj.attachment }}&name= {{ t_obj.name }}">{{ t_obj.name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                 <label class="form-label"  >附件描述:</label>
+                <span  >{{ t_obj.description }}</span>
+            </div>
+            {% endfor %}
+        {% endif%}
+
+      </div>
+  </div>
+    <div class="container-fluid"style="width: 80%;">
+    {% for item in task_submit_record %}
+        <div class="row">
+            <div class="col-xs-3" style="padding:20px;position: relative" ><span  style="color:red;font-size: 18px; float: right" class="right" > {{ item.last_edit|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10 "></span><br><span class="right" style="font-size: 14px;margin-right:20px">{{ item.last_edit|date:"H:i:s "}}</span></span></div>
+             <div class="col-xs-9" style="border-left:2px solid #9F9F9F;padding:20px" >
+                <label class="form-label" style="margin: 3px 0"  >进度评估:</label>
+                 <span  >{{ item.completion }}%</span><br>
+                 <label class="form-label" >标题:</label>
+                 <span  >{{ item.title }}</span><br>
+                 <label class="form-label"  >标签:</label>
+                 {% build_record_tags_ele  item.tsid%}<br>
+                  <label class="form-label"  >小结:</label>
+                 <span  >{{ item.summary }}</span><br>
+                 {% query_submit_attachment_by_tsid item.tsid as s_attachment_list%}
+                 {% for obj in s_attachment_list %}
+                    <label class="form-label"   >附件{{ forloop.counter }}:</label>
+                    <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
+                    <label class="form-label" for="task_title"  >附件描述:</label>
+                    <span id="task_title" >{{ obj.description }}</span><br>
+                 {% endfor %}
+                  <label class="form-label"  >备注:</label>
+                 <span  >{{ item.remark }}</span><br>
+             </div>
+        </div>
+         {% endfor %}
+  </div>
+    <div class="container "  id="footer"  style="background-color: #f3f3f3 ;border-top: 2px double; width:80%;">
+     <div class="row">
+        <div class="col-xs-3" style="padding:20px;position: relative" >
+        </div>
+         <div class="col-xs-6 row"  >
+              <div class="row form-horizontal" style="position: relative;margin-top: 20px">
+                <div class="col-xs-12" >
+                    <div class="form-group">
+                        <label  class="col-xs-2   control-label" for="is_complete">是否通过：</label>
+                        <div class=" col-xs-9 radio " id="is_complete" >
+                             <label ><input type="radio" name="is_complete"
+             value="1" checked>通过</label>
+                            <label ><input type="radio" name="is_complete"
+             value="0" >驳回</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <label for="reason" class="col-xs-2 control-label">驳回原因：</label>
+                      <div class="col-xs-8">
+                          <textarea name="title" style="height:50px" class="form-control"  id="reason" placeholder="驳回原因">
+                        </textarea>
+                      </div>
+                </div>
+                     <div class="form-group">
+                    <label for="comment" class="col-xs-2 control-label">评语：</label>
+                      <div class="col-xs-8">
+                          <textarea name="title" style="height:50px" class="form-control"  id="comment" placeholder="评价">
+                        </textarea>
+                      </div>
+                </div>
+                    <div class="form-group">
+                    <label for="evaluate" style="margin-top: 10px;" class="col-xs-2 control-label">评分：</label>
+                      <div class="col-xs-8">
+                          <input id="evaluate"   name="evaluate" class="rating"  min="0" max="5" step="1" data-size="sm" value="0" >
+                      </div>
+                </div>
+                     <div class="form-group col-xs-8">
+                    <a href="{% url "personal_task_review" %}" class="btn btn-danger" style="margin-left:50px" >返回</a>
+                     <button  onclick="Submit()" class="btn btn-primary" style="float: right;">提交</button>
+                   </div>
+                </div>
+              </div>
+         </div>
+    </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/static/js/jquery.cookie.js"></script>
+    <script>
+   {#    预防csrf#}
+    var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+    //字符串格式化
+    String.prototype.format=function()
+    {
+      if(arguments.length==0) return this;
+      for(var s=this, i=0; i<arguments.length; i++)
+        s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+      return s;
+    };
+
+
+//自执行函数
+   $(function () {
+       $('#evaluate').rating({
+            min: 0,
+            max: 5,
+            step: 1,
+            size: 'lg',
+            showClear:false,
+   });
+   })
+function Submit(){
+       var is_complete = parseInt($("input[name=is_complete]").val());
+       var reason =$('#reason').val().trim();
+       var comment =$('#comment').val().trim();
+       var evaluate=$("#evaluate").val();
+       var tasid ={{task_obj.tasid }};
+       $.ajax({
+           url:"{% url 'task_review' %}",
+           data:{ "tasid":tasid,"is_complete":is_complete,"reason":reason,"evaluate":evaluate},
+           type:"post",
+           dataType:'json',
+           success:function (arg) {
+           if (arg.status){
+               alert("审核提交成功")
+               window.location.href="{% url 'personal_task_review' %} "
+           }
+           else{
+                alert("审核提交失败")
+           }
+    }
+       })
+
+
+
+}
+
+    </script>
+{% endblock %}

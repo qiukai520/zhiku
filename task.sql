@@ -141,13 +141,17 @@ create TABLE `task_auth`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务审核表';
 
 
-drop TABLE if exists `task_reject_record`;
-create TABLE `task_reject_record`(
-`trid` int(11) NOT NULL primary key auto_increment,
+drop TABLE if exists `task_review_record`;
+create TABLE `task_review_record`(
+`trrid` int(11) NOT NULL primary key auto_increment,
 `tasid` int(11) NOT NULL COMMENT '任务分配ID',
-`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-`reason` text COMMENT '原因'
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务驳回记录表';
+`tvid`  int(11) NOT NULL COMMENT '任务审核ID',
+`is_complete` tinyint(1)  COMMENT '是否通过',
+`reason` text COMMENT '原因',
+`comment`text COMMENT '评语',
+`evaluate` float (1,1) COMMENT '评价:1.0-5.0',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务审核记录表';
 
 
 drop TABLE if exists `task_submit_record`;

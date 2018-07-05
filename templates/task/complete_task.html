@@ -218,7 +218,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                   <label class="form-label"  >小结:</label>
                  <span  >{{ item.summary }}</span><br>
                  {% query_submit_attachment_by_tsid item.tsid as s_attachment_list%}
-                 {% for obj in p_attachment_list %}
+                 {% for obj in s_attachment_list %}
                     <label class="form-label"   >附件{{ forloop.counter }}:</label>
                     <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
                     <label class="form-label" for="task_title"  >附件描述:</label>
@@ -259,7 +259,6 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     };
     //进度条
     $(function(){
-                console.log("gasgal")
                 var completion={{ completion }}
                 var tag = false,ox = 0,left = 300*completion/100, bgleft = 0;
                 $('.progress_btn').css('left', left);

@@ -118,14 +118,18 @@ class TaskCycle(models.Model):
         db_table = 'task_cycle'
 
 
-class TaskRejectRecord(models.Model):
-    trid = models.AutoField(primary_key=True)
+class TaskReviewRecord(models.Model):
+    trrid = models.AutoField(primary_key=True)
     tasid = models.IntegerField()
+    tvid = models.IntegerField()
+    is_complete = models.SmallIntegerField()
+    evaluate = models.FloatField(blank=True, null=True)
     create_time = models.DateTimeField()
     reason = models.TextField(blank=True, null=True)
+    comment = models.TextField(blank=True, null=True)
 
     class Meta:
-        db_table = 'task_reject_record'
+        db_table = 'task_review_record'
 
 
 class TaskReview(models.Model):

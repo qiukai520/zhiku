@@ -354,6 +354,16 @@ class TaskAssignAttachDB(object):
         TaskAssignAttach.objects.filter(taaid__in=id_list).delete()
 
 
+class TaskReviewRecordDB(object):
+    """任务审核记录表"""
+    def query_task_review_record_by_tvid_and_tasid(self, tvid,tasid):
+        result_db = TaskReviewRecord.objects.filter(tvid=tvid, tasid=tasid).last()
+        return result_db
+
+    def insert_review_record(self, modify_info):
+        TaskReviewRecord.objects.create(**modify_info)
+
+
 department_db = DepartmentDB()
 staff_db = StaffDB()
 task_db = TaskDB()
@@ -369,3 +379,4 @@ task_submit_attach_db = TaskSubmitAttachmentDB()
 task_submit_tag_db = TaskSubmitTagDB()
 task_assign_tag_db = TaskAssignTagDB()
 task_assign_attach_db = TaskAssignAttachDB()
+task_review_record_db = TaskReviewRecordDB()

@@ -21,6 +21,9 @@
     <link rel="stylesheet" type="text/css" href="/static/css/themes/flat-blue.css">
     <!-- bootstarp multiselect -->
     <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap-duallistbox.min.css">
+    <!-- bootstarp star -->
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/star-rating.min.css">
+
       {% block css %}
     {% endblock %}
 </head>
@@ -107,7 +110,10 @@
                                                 <a  href="{% url "task_assign" %} ">已指派任务</a>
                                             </li>
                                              <li>
-                                                <a  href="# ">待审核的任务</a>
+                                                <a  href="{% url 'task_wait_review' %}">任务审核中心</a>
+                                            </li>
+                                             <li>
+                                                <a  href="{% url 'personal_task_review' %} ">我的审核任务</a>
                                             </li>
                                             <li>
                                                  <a  href="{% url "performence_list" %}">绩效分类</a>
@@ -153,6 +159,9 @@
             <script type="text/javascript" src="/static/js/app.js"></script>
              <!-- bootstarp multiselect-->
             <script type="text/javascript" src="/static/plugins/bootstrap/js/jquery.bootstrap-duallistbox.min.js"></script>
+            <!-- bootstarp star-->
+            <script type="text/javascript" src="/static/plugins/bootstrap/js/star/star-rating.min.js"></script>
+            <script type="text/javascript" src="/static/plugins/bootstrap/js/star/locales/zh.js"></script>
             <!-- jquery 取Cookie当中的csrftoken并在请求中添加X-CSRFToken请求头-->
             <script src="/static/js/jquery.cookie.js"></script>
             <script>

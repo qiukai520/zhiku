@@ -6,7 +6,7 @@ from django.core import serializers
 from django.db import transaction
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse
-from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm
+from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm,TaskReviewForm
 from .server import *
 from .models import TaskAssign,Task
 from .utils import build_attachment_info, build_tags_info, build_reviewer_info, compare_json,build_assign_tags_info,build_assign_attach_info
@@ -350,6 +350,62 @@ def task_assign_edit(request):
     return HttpResponse(json.dumps(ret))
 
 
+def task_wait_review(request):
+    method = request.method
+    if method == "GET":
+        filter = request.GET
+        type_id = int(filter.get("s", 0))
+        query_sets = task_db.query_task_lists()
+        if type_id > 0:
+            query_sets = query_sets.filter(type_id=type_id)
+        return render(request, 'task/task_wait_review.html', {"query_sets": query_sets})
+
+
+def personal_task_review(request):
+    method = request.method
+    if method == "GET":
+        filter = request.GET
+        type_id = int(filter.get("s", 0))
+        query_sets = task_db.query_task_lists()
+        if type_id > 0:
+            query_sets = query_sets.filter(type_id=type_id)
+        return render(request, 'task/personal_task_review.html', {"query_sets": query_sets})
+
+
+def task_review(request):
+    method = request.method
+    if method == "GET":
+        tasid = request.GET.get("tasid", None)
+        if tasid:
+            tasid=int(tasid)
+            # 获取任务指派内容
+            task_assign_info = task_assign_db.query_task_assign_by_tasid(tasid).first()
+            # 获取任务提交记录
+            task_submit_record = task_submit_record_db.query_submit_by_tasid(tasid)
+        return render(request, 'task/task_review.html', {"task_assign_info": task_assign_info,
+                                                         'task_obj': task_assign_info,
+                                                         "task_submit_record": task_submit_record})
+    else:
+        print("post")
+        ret = {'status': False, 'message':'', 'data':''}
+        data = request.POST
+        print(data)
+        form = TaskReviewForm(data=data)
+        if form.is_valid():
+            try:
+                data = data.dict()
+                print(data)
+                task_review_record_db.insert_review_record(data)
+                ret['status'] = True
+            except Exception as e:
+                print(e)
+                ret["message"] = "任务审核提交失败"
+        else:
+            print(form.errors)
+        return HttpResponse(json.dumps(ret))
+
+
+
 def show_assign_content(request):
     """查看任务成员的任务内容"""
     ret = {"status": False, "message":"","member_assign":'',"tags":"","attachs":""}
@@ -515,7 +571,7 @@ def complete_task(request):
                 # 获取最后一次任务提交记录的完成进度
                 last_record = task_submit_record_db.query_last_submit_record(data["tasid"])
                 if last_record:
-                    if last_record.completion > int(data["tasid"]):
+                    if last_record.completion > int(data["completion"]):
                         data["completion"] = last_record.completion
                 try:
                     with transaction.atomic():
@@ -539,15 +595,9 @@ def complete_task(request):
     return HttpResponse(json.dumps(ret))
 
 
-def task_wait_review(request):
-
-    return render(request, 'task/complete_task.html')
-
-
 def attachment_upload(request):
     """附件上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
-    print("upload")
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")

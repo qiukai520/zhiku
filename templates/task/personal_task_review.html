@@ -54,7 +54,7 @@
 {% block conent %}
      <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">任务审核中心</div>
+  <div class="panel-heading">我的审核任务</div>
   <div class="panel-body" style="background-color:#f2f2f2">
       <form class="form-inline left"  action="" method="get">
           <div class="form-group"> <label for="book_sort">类别</label>
@@ -96,7 +96,7 @@
           <td>{% change_to_staff obj.issuer_id %}</td>
           <td>{{ obj.deadline |date:"Y-m-d "}}</td>
           <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
-          <td>{% bulid_review_list obj.tid %}
+          <td>{% bulid_task_review_list 1 obj.tid %}
           </td>
       </tr>
       {% endfor %}
@@ -189,6 +189,8 @@ String.prototype.format=function()
     s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
   return s;
 };
+
+
     function  SelectAll(ths) {
         //判断是否选中
         ischecked=$(ths).is(":checked");

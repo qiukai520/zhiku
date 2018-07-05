@@ -4,7 +4,7 @@ from datetime import timedelta
 from django import template
 from django.utils.safestring import mark_safe
 from task.server import *
-# from task.server import task_db, task_cycle_db, staff_db, task_type_db, department_db, performence_db, task_assign_db,task_submit_record_db
+
 register = template.Library()
 
 @register.simple_tag
@@ -201,6 +201,63 @@ def bulid_assign_member_list(tid):
     return mark_safe(eles)
 
 @register.simple_tag
+def bulid_review_list(tid):
+    """构建任务审核对象"""
+    task_review_list = task_review_db.query_task_reviewer_by_tid(tid)
+    eles = """<ul>"""
+    for item in task_review_list:
+        # 获取审核对象信息
+        review = staff_db.query_staff_by_id(item.sid)
+        # # 获取任务审核提交记录
+        # last_commit_record = task_review_record_db.query_last_submit_record(item.tvid)
+        # if last_commit_record:
+        #     completion = last_commit_record.completion
+        #     last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
+        #     if completion:
+        #         status = str(completion) + "%"
+        # else:
+        #     status = "进行中"
+        #     last_edit = ''
+        # 构建指派对象列表
+        ele = """<li > <a href="">{0}</a>  &nbsp
+           <span >{1}</span> &nbsp<span>{2}</span></li>
+           """.format(review.name, "已审核", "通过",)
+        eles += ele
+    eles += "</ul>"
+    return mark_safe(eles)
+
+@register.simple_tag
+def bulid_task_review_list(sid,tid):
+    """构建任务提交对象"""
+    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    eles = """<ul>"""
+    for item in task_assign_list:
+        # 获取对象信息
+        member = staff_db.query_staff_by_id(item.member_id)
+        # 根据用户sid和任务获取
+
+        # 获取任务审核记录
+        # last_review_record = task_review_record_db.query_task_review_record_by_tvid_and_tasid(tvid, item.tasid)
+        # 获取任务提交记录
+        last_commit_record = task_submit_record_db.query_last_submit_record(item.tasid)
+        if last_commit_record:
+            completion = last_commit_record.completion
+            last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
+            if completion:
+                status = str(completion) + "%"
+        else:
+            status = "进行中"
+            last_edit = ''
+        # 构建任务审核对象列表
+        ele = """<li > <a href="task_review.html?tasid={0}">{1}</a>  &nbsp
+                  <span >{2}</span> &nbsp<span>{3}</span></li>
+                  """.format(item.tasid,member.name, "已审核", "通过", )
+        eles += ele
+    eles += "</ul>"
+    return mark_safe(eles)
+
+
+@register.simple_tag
 def build_countdown_time(deadline):
     """构建截止时间"""
     now_time = datetime.now()
@@ -224,6 +281,7 @@ def build_record_tags_ele(tsid):
 
 @register.simple_tag
 def query_task_by_tid(tid):
+    tid = int(tid)
     result_db = task_db.query_task_by_tid(tid)
     return result_db
 
