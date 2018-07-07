@@ -30,17 +30,25 @@
     .glyphicon-ok{
         border: 1px solid;
         padding: 1px;
-        background-color: #ff410f;
+        background-color: #9F9F9F;
         border-radius: 50%;
         color:white;
         position: absolute;
-        top:22px;
+        top:28px;
         right: 38px
 
     }
     button ,.btn{
         margin-top: 0px !important;
+
     }
+       .btn-primary:hover {
+    background-color:black !important;
+}
+       .btn-danger:hover{
+            background-color: orangered !important;
+       }
+
     .row > [class*="col-"] {
     margin-bottom: 0px;
 }
@@ -56,20 +64,15 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     </style>
 {% endblock %}
 {% block conent%}
-    <div class="container"   style="background-color: #f3f3f3 ;border-bottom: 2px double; width:80%;margin-top: 10px;">
-      <div class="form-group  " id="top" style="font-size:14px;font-weight:bold">
+    <div class="container"   style="border-bottom: 2px double #9F9F9F ; width:80%;">
+      <div class="form-group  " id="top" style="font-size:14px;font-weight:bold;padding: 5px;">
             {% query_task_by_tid  task_obj.tid  as total_task_obj %}
-           {% if task_obj.title %}
-                <label class="form-label" for="task_title"  >任务标题:</label>
-                <span id="task_title" >{{ task_obj.title }}</span>
-            {% else %}
-               <label class="form-label" for="task_title"  >任务标题:</label>
-               <span id="task_title" >{{ total_task_obj.title }}</span>
-            {% endif %}
+            <label class="form-label" for="attribute"  >任务分类:</label>
+            <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>
            <label class="form-label" for="publisher"  >发起人:</label>
             <span id="publisher"  >{% change_to_staff total_task_obj.issuer_id %}</span>
-           <label class="form-label" for="attribute"  >任务属性:</label>
-            <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>
+           <label class="form-label" for="deadline" >创建时间:</label>
+               <span id="create_time" >{{ task_obj.create_time |date:"Y-m-d H:i"}}</span>
            <label class="form-label" for="deadline" >截止时间:</label>
            {% if task_obj.deadline %}
                <span id="deadline" >{{ task_obj.deadline |date:"Y-m-d H:i"}}</span>
@@ -83,10 +86,17 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
 
       </div>
   </div>
-    <div class="container-fluid"style="width: 80%;">
+    <div class="container-fluid"style="width: 80%;margin-top: 20px;">
         <div class="row">
-    <div class="col-xs-4 left" style="margin-top: 20px" >
-        {% if task_obj.title %}
+            <div class="col-xs-4" style="position: relative" ><span  style="color:#9F9F9F;font-size: 18px; float: right" class="right" ><span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px; background-color: red; "></span><br></span>
+          {% if task_obj.title %}
+                <label class="form-label" for="task_title"  >任务标题:</label>
+                <span id="task_title" >{{ task_obj.title }}</span>
+            {% else %}
+               <label class="form-label" for="task_title"  >任务标题:</label>
+               <span id="task_title" >{{ total_task_obj.title }}</span>
+            {% endif %}
+                {% if task_obj.title %}
             {% query_task_attachment_by_tasid task_obj.tasid as p_attachment_list %}
              <div class="form-group  " >
             <label class="form-label" >任务描述:</label>
@@ -115,26 +125,26 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
             </div>
             {% endfor %}
         {% endif%}
-
     </div>
-   <div class="col-xs-8 left" style="border-left:2px solid #9F9F9F">
-       <div class="row form-horizontal" style="position: relative;margin-top: 30px">
-            <div class="col-xs-12" >
+   <div class="col-xs-8 left" style="border-left:2px solid #9F9F9F;">
+       <div class="row form-horizontal" style="position: relative;margin:1px;background-color: white">
+            <h5 style="margin-left:28px; font-weight:bold;font-size: 16px">添加小结</h5>
+            <div class="col-xs-12"  >
                 <div class="form-group">
-                    <label for="title" class="col-xs-3 control-label">标题：</label>
+                    <label for="title" class="col-xs-2 control-label">标题：</label>
                       <div class="col-xs-9">
                           <textarea name="title"  class="form-control"  id="title" placeholder="任务名称">
                         </textarea>
                       </div>
                 </div>
                 <div class="form-group" style="padding: 0px">
-                    <label for="tag" class="control-label col-xs-3">标签：</label>
+                    <label for="tag" class="control-label col-xs-2">标签：</label>
                     <div class="col-xs-9" style="padding: 0px">
                         <div class="col-xs-10">
                         <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
                         </div>
                         <div class="col-xs-2" >
-                            <button class=" btn inline-block right" onclick="AddTag(this)">添加</button>
+                            <button class=" btn  btn-primary inline-block right .add" onclick="AddTag(this)">添加</button>
                         </div>
                         <div class="col-xs-12" id="tag_container" >
                         <div class="tag hidden  " >
@@ -147,14 +157,14 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                     </div>
                     </div>
                 <div class="form-group">
-                    <label for="summary" class="col-xs-3 control-label">小结：</label>
+                    <label for="summary" class="col-xs-2 control-label">小结：</label>
                       <div class="col-xs-9">
                           <textarea name="title" style="height:180px" class="form-control"  id="summary" placeholder="小结">
                         </textarea>
                       </div>
                 </div>
                 <div class="form-group">
-                    <label  class="col-xs-3 control-label" for="assist">协助：</label>
+                    <label  class="col-xs-2 control-label" for="assist">协助：</label>
                     <div class=" radio col-xs-9" id="assist">
                          <label ><input type="radio" name="assist"
          value="0" checked>否</label>
@@ -165,14 +175,14 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                 <div id="attachment-container" style="position: relative">
                   <div class="attachment">
                         <div  class="form-group ">
-                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-3 control-label">附件：</label>
+                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件：</label>
                           <div class="col-xs-5">
                               <input type="file" name="file"  onchange="UploadFile(this)">
                               <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>
                           </div>
                         </div>
                         <div class="form-group">
-                            <label for="content" class="control-label col-xs-3">附件描述：</label>
+                            <label for="content" class="control-label col-xs-2">附件描述：</label>
                             <div class="col-xs-9">
                                 <input name="content" class="form-control" style="height:50px"  placeholder="附件描述">
                             </div>
@@ -180,15 +190,15 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                     </div>
                 </div>
                 <div class="form-group">
-                <label for="remark" class="col-xs-3 control-label">备注：</label>
+                <label for="remark" class="col-xs-2 control-label">备注：</label>
                   <div class="col-xs-9">
                       <textarea name="remark"  class="form-control"  id="remark" placeholder="备注">
                     </textarea>
                   </div>
                 </div>
                 <div class="form-group ">
-           <label for="progress" class="col-xs-3 control-label">进度评估：</label>
-           <div class="progress col-xs-6"  id="progress">
+           <label for="progress" class="col-xs-2 control-label">进度评估</label>
+           <div class="progress col-xs-9"  id="progress">
                 <div class="progress_bg">
                     <div class="progress_bar"></div>
                 </div>
@@ -198,8 +208,9 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
         </div>
             </div>
         <div class="form-group col-xs-8">
-            <a href="{% url "personal_task_list" %}" class="btn btn-danger" style="margin-left:50px" >返回</a>
-            <button  onclick="Submit()" class="btn btn-primary" style="float: right;">提交</button>
+            <button  onclick="Submit()" class="btn btn-primary "  style="float: right;margin:20px">提交</button>
+
+            <a href="{% url "personal_task_list" %}" class="btn btn-danger" style=" float: right;margin:20px" >返回</a>
 
         </div>
     </div>
@@ -207,19 +218,21 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
   </div>
          {% for item in task_submit_record %}
         <div class="row">
-            <div class="col-xs-4" style="padding:20px;position: relative" ><span  style="color:red;font-size: 18px; float: right" class="right" > {{ item.last_edit|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10 "></span><br><span class="right" style="font-size: 14px;margin-right:20px">{{ item.last_edit|date:"H:i:s "}}</span></span></div>
+            <div class="col-xs-4" style="padding:20px;position: relative" ><span  style="color:#9F9F9F;font-size: 18px; float: right;margin-top:8px" class="right" > {{ item.last_edit|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10; "></span><br><span class="right" style="font-size: 14px;position:absolute;right: 25px;">{{ item.last_edit|date:"H:i:s "}}</span></span></div>
              <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding:20px" >
-                <label class="form-label" style="margin: 3px 0"  >进度评估:</label>
-                 <span  >{{ item.completion }}%</span><br>
-                 <label class="form-label" >标题:</label>
+             <div class="row form-horizontal" style="margin:1px;background-color: white">
+             <div style="margin-left:28px">
+                <label class="form-label" style="margin: 10px 0px ;font-size: 16px;"  >进度评估:</label>
+                 <span  style="font-size: 16px;margin: 15px">{{ item.completion }}%</span><br>
+                 <label class="form-label"  >标题:</label>
                  <span  >{{ item.title }}</span><br>
-                 <label class="form-label"  >标签:</label>
+                 <label class="form-label" >标签:</label>
                  {% build_record_tags_ele  item.tsid%}<br>
                   <label class="form-label"  >小结:</label>
                  <span  >{{ item.summary }}</span><br>
                  {% query_submit_attachment_by_tsid item.tsid as s_attachment_list%}
                  {% for obj in s_attachment_list %}
-                    <label class="form-label"   >附件{{ forloop.counter }}:</label>
+                    <label class="form-label"    >附件{{ forloop.counter }}:</label>
                     <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
                     <label class="form-label" for="task_title"  >附件描述:</label>
                     <span id="task_title" >{{ obj.description }}</span><br>
@@ -227,9 +240,12 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                   <label class="form-label"  >备注:</label>
                  <span  >{{ item.remark }}</span><br>
              </div>
+             </div>
+             </div>
         </div>
          {% endfor %}
     </div>
+    <div class="container"  style="border-top: 2px double #b1b1b1; width:80%;"></div>
 {% endblock %}
 {% block js %}
     <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>

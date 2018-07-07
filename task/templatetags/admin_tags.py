@@ -62,6 +62,7 @@ def build_auditor_ele():
 @register.simple_tag
 def build_task_type_filter(selected):
     """构建任务类型选择框"""
+    selected=int(selected)
     task_type_list = task_type_db.query_task_type_list()
     eles = ""
     for item in task_type_list:
@@ -193,7 +194,7 @@ def bulid_assign_member_list(tid):
             last_edit = ''
         # 构建指派对象列表
         ele = """<li data-toggle="modal" onclick="MemberAssignShow(this)"><span class="member_name"  >{0}</span>  &nbsp
-        <span >{1}</span> &nbsp<span>{2}</span></li><input type="text " class="hidden" name="tasid" value='{3}'>
+        <span >{1}</span> &nbsp<span style="color:#9F9F9F">{2}</span></li><input type="text " class="hidden" name="tasid" value='{3}'>
         <input type="text " class="hidden" name="member_id" value='{4}'>
         """.format(member.name, status, last_edit,item.tasid, item.member_id)
         eles += ele
@@ -203,55 +204,66 @@ def bulid_assign_member_list(tid):
 @register.simple_tag
 def bulid_review_list(tid):
     """构建任务审核对象"""
-    task_review_list = task_review_db.query_task_reviewer_by_tid(tid)
+    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    # task_review_list = task_review_db.query_task_reviewer_by_tid(tid)
     eles = """<ul>"""
-    for item in task_review_list:
-        # 获取审核对象信息
-        review = staff_db.query_staff_by_id(item.sid)
-        # # 获取任务审核提交记录
-        # last_commit_record = task_review_record_db.query_last_submit_record(item.tvid)
-        # if last_commit_record:
-        #     completion = last_commit_record.completion
-        #     last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
-        #     if completion:
-        #         status = str(completion) + "%"
-        # else:
-        #     status = "进行中"
-        #     last_edit = ''
-        # 构建指派对象列表
-        ele = """<li > <a href="">{0}</a>  &nbsp
-           <span >{1}</span> &nbsp<span>{2}</span></li>
-           """.format(review.name, "已审核", "通过",)
+    for item in task_assign_list:
+        # 获取对象信息
+        member = staff_db.query_staff_by_id(item.member_id)
+        # 如果有记录表示已审核
+        if item.is_finish:
+            status = "通过审核"
+            last_edit.last_edit.strftime("%Y-%m-%d")
+        else:
+            status = "未通过审核"
+            last_edit = ''
+            # 构建任务审核对象列表
+        ele = """<li > <a  style="color:blue" href="task_review.html?tasid={0}">{1} &nbsp
+                 <span style="color:red"> [ </span><span>{2}</span><span style="color:red"> ] 
+                  </span></a> &nbsp<span style="color:#9F9F9F">{3}</span></li>
+                  """.format(item.tasid, member.name, status, last_edit)
         eles += ele
     eles += "</ul>"
     return mark_safe(eles)
 
+
 @register.simple_tag
-def bulid_task_review_list(sid,tid):
-    """构建任务提交对象"""
+def bulid_person_review_list(user_id,tid):
+    """构建个人任务审核对象"""
     task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
     eles = """<ul>"""
     for item in task_assign_list:
         # 获取对象信息
         member = staff_db.query_staff_by_id(item.member_id)
-        # 根据用户sid和任务获取
-
-        # 获取任务审核记录
-        # last_review_record = task_review_record_db.query_task_review_record_by_tvid_and_tasid(tvid, item.tasid)
+        # 根据用户sid和任务id获取审核
+        task_review = task_review_db.query_task_reviewer_by_tid_sid(tid, user_id)
+        # 获取任务最后一次审核记录
+        last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(task_review.tvid, item.tasid)
         # 获取任务提交记录
         last_commit_record = task_submit_record_db.query_last_submit_record(item.tasid)
-        if last_commit_record:
-            completion = last_commit_record.completion
-            last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
-            if completion:
-                status = str(completion) + "%"
+        # 如果有记录表示已审核
+        if last_review_record:
+            is_review = "已审核"
+            last_edit=last_review_record.create_time.strftime("%Y-%m-%d")
+            if last_review_record.is_complete:
+                status = "通过"
+            else:
+                status = '驳回'
+        # 如果没有记录表示未审核
         else:
-            status = "进行中"
-            last_edit = ''
-        # 构建任务审核对象列表
-        ele = """<li > <a href="task_review.html?tasid={0}">{1}</a>  &nbsp
-                  <span >{2}</span> &nbsp<span>{3}</span></li>
-                  """.format(item.tasid,member.name, "已审核", "通过", )
+            is_review = "未审核"
+            if last_commit_record:
+                completion = last_commit_record.completion
+                last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
+                status ="完成度："+str(completion) + "%"
+            else:
+                status = "进行中"
+                last_edit = ''
+            # 构建任务审核对象列表
+        ele = """<li > <a  style="color:blue" href="task_review.html?tasid={0}">{1} &nbsp
+                  <span >{2}</span> &nbsp<span style="color:red"> [ </span><span>{3}</span><span style="color:red"> ] 
+                  </span></a> &nbsp<span style="color:#9F9F9F">{4}</span></li>
+                  """.format(item.tasid,member.name, is_review, status,last_edit)
         eles += ele
     eles += "</ul>"
     return mark_safe(eles)

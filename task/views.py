@@ -14,18 +14,6 @@ from .utils import build_attachment_info, build_tags_info, build_reviewer_info, 
 # Create your views here.
 
 
-# def task_search(request):
-#     filters = request.GET
-#     task_type_id = int(filters.get("s", 0))
-#     # 根据分类和关键字去筛选
-#     if task_type_id > 0:
-#         # 先根据分类去筛选
-#         query_sets = task_db.query_task_by_type(task_type_id)
-#     else:
-#         query_sets = task_db.query_task_lists()
-#     return render(request, "task/task_assign_center.html", {"query_sets": query_sets, 'task_type_id': task_type_id})
-
-#
 def task_detail(request):
     ret = {"status": False, "message": "", "task": '', "tags": "", "attachs": ""}
     tid = request.GET.get("tid", None)
@@ -358,50 +346,91 @@ def task_wait_review(request):
         query_sets = task_db.query_task_lists()
         if type_id > 0:
             query_sets = query_sets.filter(type_id=type_id)
-        return render(request, 'task/task_wait_review.html', {"query_sets": query_sets})
+        return render(request, 'task/task_wait_review.html', {"query_sets": query_sets,"filter":type_id})
 
 
 def personal_task_review(request):
     method = request.method
+    user_id = 1
     if method == "GET":
         filter = request.GET
         type_id = int(filter.get("s", 0))
-        query_sets = task_db.query_task_lists()
+        # 根据用户id去获取审核任务
+        task_review = task_review_db.query_task_reviewer_by_sid(user_id)
+        task_id_list = []
+        for item in task_review:
+            task_id_list.append(item.tid)
+        # 获取相应的任务
+        query_sets = task_db.query_task_by_tids(task_id_list)
         if type_id > 0:
             query_sets = query_sets.filter(type_id=type_id)
-        return render(request, 'task/personal_task_review.html', {"query_sets": query_sets})
+        return render(request, 'task/personal_task_review.html', {"query_sets": query_sets,"filter":type_id})
 
 
 def task_review(request):
     method = request.method
     if method == "GET":
+        user_id = 1
         tasid = request.GET.get("tasid", None)
         if tasid:
-            tasid=int(tasid)
+            tasid = int(tasid)
             # 获取任务指派内容
             task_assign_info = task_assign_db.query_task_assign_by_tasid(tasid).first()
+            # 获取员工信息
+            member_info = staff_db.query_staff_by_id(task_assign_info.member_id)
             # 获取任务提交记录
             task_submit_record = task_submit_record_db.query_submit_by_tasid(tasid)
-        return render(request, 'task/task_review.html', {"task_assign_info": task_assign_info,
-                                                         'task_obj': task_assign_info,
-                                                         "task_submit_record": task_submit_record})
+            # 获取审核人记录
+            task_review = task_review_db.query_task_reviewer_by_tid_sid(task_assign_info.tid,task_assign_info.member_id)
+            # 获取审核记录
+            task_review_record = task_review_record_db.query_task_review_record_list_by_tvid_and_tasid(task_review.tvid,tasid)
+
+        return render(request, 'task/task_review.html', {
+                                                         "member_info": member_info,
+                                                         "task_review": task_review,
+                                                         'task_assign_info': task_assign_info,
+                                                         "task_submit_record": task_submit_record,
+                                                         "task_review_record": task_review_record})
     else:
-        print("post")
         ret = {'status': False, 'message':'', 'data':''}
         data = request.POST
-        print(data)
         form = TaskReviewForm(data=data)
         if form.is_valid():
             try:
                 data = data.dict()
                 print(data)
                 task_review_record_db.insert_review_record(data)
+                is_complete = data["is_complete"]
+                # 如果通过 更新相应任务的完成状态
+                is_finish = True
+                if is_complete:
+                    # check 是否所有审核人都确认通过
+                    # 获取任务id
+                    task_assign_obj = task_assign_db.query_task_assign_by_tasid(data['tasid'])
+                    # 获取任务审核人
+                    task_review_list = task_review_db.query_task_reviewer_by_tid(task_assign_obj.first().tid)
+                    # 遍历该所有审核人对其的记录
+                    for item in task_review_list:
+                        last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(item.tvid,data['tasid'])
+                        if not last_review_record:
+                            is_finish = False
+                            break
+                        else:
+                            if not last_review_record.is_complete:
+                                is_finish = False
+                                break
+                    if is_finish:
+                        # 更新任务为通过状态
+                        query_sets = task_assign_db.query_task_assign_by_tasid(data["tasid"])
+                        query_sets.update(is_finish=1)
                 ret['status'] = True
             except Exception as e:
                 print(e)
                 ret["message"] = "任务审核提交失败"
         else:
-            print(form.errors)
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
 
 
@@ -438,7 +467,7 @@ def task_assign_center(request):
     # 先根据分类去筛选
     if task_type_id > 0:
         query_sets = query_sets.filter(type_id=task_type_id)
-    return render(request, 'task/task_assign_center.html',  {"query_sets": query_sets})
+    return render(request, 'task/task_assign_center.html',  {"query_sets": query_sets,"filter":task_type_id})
 
 
 def department_staff(request):
@@ -526,9 +555,12 @@ def performence_delete(request):
 
 def personal_task_list(request):
     """获取个人任务列表"""
-    member_id = 1
-    query_sets = task_assign_db.query_task_assign_by_member_id(member_id)
-    return render(request, 'task/personal_task_list.html', {"query_sets": query_sets})
+    user_id = 1
+    filters = request.GET
+    search_key = int(filters.get("s", 0))
+    query_sets = task_assign_db.query_task_assign_by_member_id(user_id)
+    query_sets=query_sets.filter(is_finish=search_key).all()
+    return render(request, 'task/personal_task_list.html', {"query_sets": query_sets,"search_key": search_key})
 
 
 def complete_task(request):

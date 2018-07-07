@@ -11,6 +11,7 @@
         }
 
     .minus  {
+        cursor: pointer;
        margin-left: 0px !important;
        color: red;
        position: absolute;
@@ -19,6 +20,7 @@
 
 }
     .plus{
+         cursor: pointer;
         position: absolute;
         top: 10px;
         left: -85px;
@@ -53,6 +55,10 @@
         border:0px;
     ;
     }
+    input[type=checkbox]{
+         cursor: pointer;
+
+    }
     .select2-selection--multiple{
         visibility: hidden;
     }
@@ -85,7 +91,7 @@
                         <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
                         </div>
                         <div class="col-xs-2" >
-                            <button  class=" tag_btn btn inline-block right" onclick="AddTag(this)">添加</button>
+                            <button  class=" tag_btn btn btn-primary inline-block right" onclick="AddTag(this)">添加</button>
                         </div>
                         <div class="col-xs-12" id="tag_container" >
                         <div class="tag hidden  " >

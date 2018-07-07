@@ -56,11 +56,11 @@
   <!-- Default panel contents -->
   <div class="panel-heading">任务审核中心</div>
   <div class="panel-body" style="background-color:#f2f2f2">
-      <form class="form-inline left"  action="" method="get">
-          <div class="form-group"> <label for="book_sort">类别</label>
+      <form class="form-inline left"  action="{% url 'task_wait_review' %}" method="get">
+          <div class="form-group"> <label for="book_sort">任务类别</label>
                    <select id="book_sort" name="s"   class="form-control">
                        <option value=0>所有</option>
-                  {% build_task_type_filter  query_sets.0.tid %}
+                  {% build_task_type_filter filter %}
           </select>
           </div>
           <button type="submit" class="btn btn-default">搜索</button>
@@ -81,7 +81,7 @@
           <th>指派人</th>
           <th>开始时间</th>
           <th>截止时间</th>
-          <th>审核对象</th>
+          <th>审核结果</th>
       </tr>
        </thead>
       <tbody>

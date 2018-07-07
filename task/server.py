@@ -102,6 +102,10 @@ class TaskDB(object):
         result_db = Task.objects.filter(tid=tid).first()
         return result_db
 
+    def query_task_by_tids(self,tids):
+        result_db = Task.objects.filter(tid__in=tids).all()
+        return result_db
+
     def query_task_by_type(self, type_id):
         result_db = Task.objects.filter(type_id=type_id).all()
         return result_db
@@ -204,6 +208,14 @@ class TaskReviewDB(object):
         result_db = TaskReview.objects.filter(tid=tid).all()
         return result_db
 
+    def query_task_reviewer_by_sid(self,sid):
+        result_db = TaskReview.objects.filter(sid=sid).all()
+        return result_db
+
+    def query_task_reviewer_by_tid_sid(self, tid, sid):
+        result_db = TaskReview.objects.filter(tid=tid, sid=sid).first()
+        return result_db
+
     def mutil_update_reviewer(self, modify_info):
         for item in modify_info:
             TaskReview.objects.filter(tid=item['tid'], sid=item['sid']).update(**item)
@@ -224,6 +236,9 @@ class TaskAssignDB(object):
 
     def update_task_assign(self,modify_info):
         TaskAssign.objects.filter(tasid=modify_info["tasid"]).update(**modify_info)
+
+    def update_finish_status(self,is_finish):
+        TaskAssign.objects.update(is_finish=is_finish)
 
     def query_task_assign_by_tid(self, tid):
         result_db = TaskAssign.objects.filter(tid=tid).all()
@@ -347,7 +362,7 @@ class TaskAssignAttachDB(object):
         return result_db
 
     def mutil_update_assign_attach(self,modify_info_list):
-        for item in  modify_info_list:
+        for item in modify_info_list:
             TaskAssignAttach.objects.filter(taaid=item['taaid']).update(**item)
 
     def mutil_delete_attach(self, id_list):
@@ -356,12 +371,19 @@ class TaskAssignAttachDB(object):
 
 class TaskReviewRecordDB(object):
     """任务审核记录表"""
-    def query_task_review_record_by_tvid_and_tasid(self, tvid,tasid):
+    def query_task_review_record_last_by_tvid_and_tasid(self, tvid,tasid):
         result_db = TaskReviewRecord.objects.filter(tvid=tvid, tasid=tasid).last()
         return result_db
 
+    def query_task_review_record_list_by_tvid_and_tasid(self,tvid,tasid):
+        result_db = TaskReviewRecord.objects.filter(tvid=tvid, tasid=tasid).all().order_by("-trrid")
+        return result_db
+
+
     def insert_review_record(self, modify_info):
         TaskReviewRecord.objects.create(**modify_info)
+
+
 
 
 department_db = DepartmentDB()

@@ -38,6 +38,7 @@
        padding:0;margin:0;list-style:none
   }
 
+
        .member_name{
            color:blue;
 
@@ -48,6 +49,9 @@
      button,.btn{
         margin: 0px !important;
     }
+     a:link {
+         color: red
+     }
      </style>
 {%endblock%}
 
@@ -56,11 +60,11 @@
   <!-- Default panel contents -->
   <div class="panel-heading">我的审核任务</div>
   <div class="panel-body" style="background-color:#f2f2f2">
-      <form class="form-inline left"  action="" method="get">
-          <div class="form-group"> <label for="book_sort">类别</label>
-                   <select id="book_sort" name="s"   class="form-control">
+      <form class="form-inline left"  action="{% url "personal_task_review" %}" method="get">
+          <div class="form-group"> <label for="task_sort">任务类别</label>
+                   <select id="task_sort" name="s"   class="form-control">
                        <option value=0>所有</option>
-                  {% build_task_type_filter  query_sets.0.tid %}
+                  {% build_task_type_filter filter %}
           </select>
           </div>
           <button type="submit" class="btn btn-default">搜索</button>
@@ -96,7 +100,7 @@
           <td>{% change_to_staff obj.issuer_id %}</td>
           <td>{{ obj.deadline |date:"Y-m-d "}}</td>
           <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
-          <td>{% bulid_task_review_list 1 obj.tid %}
+          <td>{% bulid_person_review_list 1 obj.tid %}
           </td>
       </tr>
       {% endfor %}
@@ -119,7 +123,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
         <button type="button"  id="ensure"  class="btn btn-primary">确定</button>
-
       </div>
     </div>
   </div>

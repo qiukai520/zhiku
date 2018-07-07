@@ -110,7 +110,7 @@ create TABLE `task_assign`(
 `content` text   COMMENT '任务描述',
 `deadline` datetime  DEFAULT NUll COMMENT '最后期限',
 `weight` smallint(5)   COMMENT '权重:0-100',
-`is_finish` tinyint(1)  DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
+`is_finish` tinyint(1)  NOT NULL  DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务分配表';
@@ -149,7 +149,7 @@ create TABLE `task_review_record`(
 `is_complete` tinyint(1)  COMMENT '是否通过',
 `reason` text COMMENT '原因',
 `comment`text COMMENT '评语',
-`evaluate` float (1,1) COMMENT '评价:1.0-5.0',
+`evaluate` decimal (2,1) COMMENT '评价:1.0-5.0',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务审核记录表';
 

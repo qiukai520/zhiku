@@ -37,7 +37,7 @@
     .glyphicon-ok{
         border: 1px solid;
         padding: 1px;
-        background-color: #ff410f;
+        background-color: #9F9F9F;
         border-radius: 50%;
         color:white;
         position: absolute;
@@ -45,6 +45,7 @@
         right: 38px
 
     }
+    h4{padding-top:10px}
     button ,.btn{
         margin-top: 0px !important;
     }
@@ -64,36 +65,36 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     </style>
 {% endblock %}
 {% block conent%}
-    <div class="container"   style="background-color: #f3f3f3 ;border-bottom: 2px double; width:80%;margin-top: 10px;">
-      <div class="form-group  " id="top" style="font-size:14px;">
-            {% query_task_by_tid  task_obj.tid  as total_task_obj %}
+    <div class="container"   style="background-color: #f3f3f3 ;border-bottom: 2px double #9F9F9F; width:80%;">
+      <div class="form-group  " id="top" style="font-size:14px;margin-top: 10px;">
+            {% query_task_by_tid  task_assign_info.tid  as total_task_obj %}
 
-           {% if task_obj.title %}
+           {% if task_assign_info.title %}
                 <label class="form-label" for="task_title"  >任务标题:</label>
-                <span id="task_title" >{{ task_obj.title }}</span>
+                <span id="task_title" >{{ task_assign_info.title }}</span>
             {% else %}
                <label class="form-label" for="task_title"  >任务标题:</label>
                <span id="task_title" >{{ total_task_obj.title }}</span>
             {% endif %}
            <label class="form-label" for="publisher"  >发起人:</label>
             <span id="publisher"  >{% change_to_staff total_task_obj.issuer_id %}</span>
-           <label class="form-label" for="attribute"  >任务属性:</label>
+           <label class="form-label" for="attribute"  >任务分类:</label>
             <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>
            <label class="form-label" for="deadline" >截止时间:</label>
-           {% if task_obj.deadline %}
-               <span id="deadline" >{{ task_obj.deadline |date:"Y-m-d H:i"}}</span>
+           {% if task_assign_info.deadline %}
+               <span id="deadline" >{{ task_assign_info.deadline |date:"Y-m-d H:i"}}</span>
             <label class="form-label" for="countdown"  >倒计时:</label>
-        <span id="countdown"  >{% build_countdown_time task_obj.deadline  %}天</span>
+        <span id="countdown"  >{% build_countdown_time task_assign_info.deadline  %}天</span>
            {% else %}
                <span id="deadline" >{{ total_task_obj.deadline |date:"Y-m-d H:i"}}</span>
             <label class="form-label" for="countdown"  >倒计时:</label>
         <span id="countdown"  >{% build_countdown_time total_task_obj.deadline  %}天</span>
            {% endif %}
-        {% if task_obj.title %}
-            {% query_task_attachment_by_tasid task_obj.tasid as p_attachment_list %}
+        {% if task_assign_info.title %}
+            {% query_task_attachment_by_tasid task_assign_info.tasid as p_attachment_list %}
              <div class="form-group " >
             <label class="form-label" >任务描述:</label>
-                <span id="task_title" >{{ task_obj.content }}</span>
+                <span id="task_title" >{{ task_assign_info.content }}</span>
             </div>
             {% for obj in p_attachment_list %}
              <div class="form-group "  >
@@ -122,57 +123,80 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
       </div>
   </div>
     <div class="container-fluid"style="width: 80%;">
-    {% for item in task_submit_record %}
-        <div class="row">
-            <div class="col-xs-3" style="padding:20px;position: relative" ><span  style="color:red;font-size: 18px; float: right" class="right" > {{ item.last_edit|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10 "></span><br><span class="right" style="font-size: 14px;margin-right:20px">{{ item.last_edit|date:"H:i:s "}}</span></span></div>
-             <div class="col-xs-9" style="border-left:2px solid #9F9F9F;padding:20px" >
-                <label class="form-label" style="margin: 3px 0"  >进度评估:</label>
-                 <span  >{{ item.completion }}%</span><br>
-                 <label class="form-label" >标题:</label>
-                 <span  >{{ item.title }}</span><br>
-                 <label class="form-label"  >标签:</label>
-                 {% build_record_tags_ele  item.tsid%}<br>
-                  <label class="form-label"  >小结:</label>
-                 <span  >{{ item.summary }}</span><br>
-                 {% query_submit_attachment_by_tsid item.tsid as s_attachment_list%}
-                 {% for obj in s_attachment_list %}
-                    <label class="form-label"   >附件{{ forloop.counter }}:</label>
-                    <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
-                    <label class="form-label" for="task_title"  >附件描述:</label>
-                    <span id="task_title" >{{ obj.description }}</span><br>
-                 {% endfor %}
-                  <label class="form-label"  >备注:</label>
-                 <span  >{{ item.remark }}</span><br>
+     <div class="row">
+         <div class="col-xs-4">
+              <h4 style="text-align: center">{{ member_info.name }}工作记录</h4>
+         </div>
+         <div class="col-xs-8" ></div>
+     </div>
+    {% if task_submit_record %}
+         {% for item in task_submit_record %}
+        <div class="row" >
+            <div class="col-xs-2" style="position: relative " ><span  style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.last_edit|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.last_edit|date:"H:i:s "}}</span></span></div>
+             <div class="col-xs-8" style="border-left:2px solid #9F9F9F;" >
+                 <div class="row form-horizontal" style="margin:5px;background-color: white">
+                     <div style="margin-left:28px;">
+                         <label class="form-label" style=" font-size:16px"  >进度评估:</label>
+                         <span style="font-size:16px" >{{ item.completion }}%</span><br>
+                         <label class="form-label" >标题:</label>
+                         <span  >{{ item.title }}</span><br>
+                         <label class="form-label"  >标签:</label>
+                         {% build_record_tags_ele  item.tsid%}<br>
+                          <label class="form-label"  >小结:</label>
+                         <span  >{{ item.summary }}</span><br>
+                         {% query_submit_attachment_by_tsid item.tsid as s_attachment_list%}
+                         {% for obj in s_attachment_list %}
+                            <label class="form-label"   >附件{{ forloop.counter }}:</label>
+                            <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
+                            <label class="form-label" for="task_title"  >附件描述:</label>
+                            <span id="task_title" >{{ obj.description }}</span><br>
+                         {% endfor %}
+                          <label class="form-label"  >备注:</label>
+                         <span  >{{ item.remark }}</span><br>
+                     </div>
+                 </div>
+
              </div>
         </div>
          {% endfor %}
+        {% else %}
+         <div class="row">
+         <div class="col-xs-4">
+              <h5 style="text-align: center">暂无工作记录</h5>
+         </div>
+         <div class="col-xs-8" ></div>
+     </div>
+        <h5></h5>
+    {% endif %}
+
   </div>
-    <div class="container "  id="footer"  style="background-color: #f3f3f3 ;border-top: 2px double; width:80%;">
+    <div class="container "  id="footer"  style="background-color: #f3f3f3 ;border-top: 2px double #9F9F9F; width:80%;">
      <div class="row">
-        <div class="col-xs-3" style="padding:20px;position: relative" >
+        <div class="col-xs-2" style="position: relative" >
         </div>
-         <div class="col-xs-6 row"  >
-              <div class="row form-horizontal" style="position: relative;margin-top: 20px">
-                <div class="col-xs-12" >
-                    <div class="form-group">
+         <div class="col-xs-8 row" style="padding: 15px;margin-left: 0px" >
+              <div class="row form-horizontal" style="position: relative;margin:5px;background-color: white ">
+                <div class="col-xs-12"   >
+                     <div class="form-group" style="margin-top: 15px">
                         <label  class="col-xs-2   control-label" for="is_complete">是否通过：</label>
                         <div class=" col-xs-9 radio " id="is_complete" >
-                             <label ><input type="radio" name="is_complete"
+                             <label ><input type="radio" onchange="ChangeComplete()" name="is_complete"
              value="1" checked>通过</label>
-                            <label ><input type="radio" name="is_complete"
+                            <label ><input type="radio"  onchange="ChangeReject()" name="is_complete"
              value="0" >驳回</label>
                         </div>
                     </div>
-                    <div class="form-group">
+                     <div class="form-group hidden" id="reject_group">
                     <label for="reason" class="col-xs-2 control-label">驳回原因：</label>
-                      <div class="col-xs-8">
-                          <textarea name="title" style="height:50px" class="form-control"  id="reason" placeholder="驳回原因">
+                      <div class="col-xs-7 ">
+                          <textarea name="title" style="height:50px" class="form-control "  id="reason" placeholder="驳回原因">
                         </textarea>
                       </div>
                 </div>
+                     <div id="complete_group">
                      <div class="form-group">
                     <label for="comment" class="col-xs-2 control-label">评语：</label>
-                      <div class="col-xs-8">
+                      <div class="col-xs-7">
                           <textarea name="title" style="height:50px" class="form-control"  id="comment" placeholder="评价">
                         </textarea>
                       </div>
@@ -183,15 +207,53 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                           <input id="evaluate"   name="evaluate" class="rating"  min="0" max="5" step="1" data-size="sm" value="0" >
                       </div>
                 </div>
+                    </div>
                      <div class="form-group col-xs-8">
-                    <a href="{% url "personal_task_review" %}" class="btn btn-danger" style="margin-left:50px" >返回</a>
-                     <button  onclick="Submit()" class="btn btn-primary" style="float: right;">提交</button>
+                     <button  id="CompleteSubmit" onclick="CompleteSubmit()" class="btn btn-primary"  style="float: right;margin:20px">通过</button>
+                         <button id="RejectSubmit" onclick="RejectSubmit()" class="btn btn-primary hidden"  style="float: right;margin:20px">驳回</button>
+                         <a href="{% url "personal_task_review" %}" class="btn btn-danger"  style="float: right;margin:20px" >返回</a>
                    </div>
                 </div>
               </div>
          </div>
     </div>
     </div>
+    <div class="container-fluid"style=" background-color: #f3f3f3 ;border-top: 2px double #9F9F9F;width: 80%;">
+        {% if task_review_record.0 %}
+        <div class="row">
+         <div class="col-xs-4">
+              <h4 style="text-align: center;">任务审核记录</h4>
+         </div>
+         <div class="col-xs-8" ></div>
+     </div>
+       {% endif %}
+        {% for item in  task_review_record %}
+        <div class="row">
+            <div class="col-xs-2" style="position: relative" ><span style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.create_time|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.create_time|date:"H:i:s "}}</span></span></div>
+             <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding-left:20px" >
+            <div class="row form-horizontal" style="margin:5px;background-color: white">
+                <div style="margin-left:28px;">
+                <label class="form-label" style="margin: 3px 0"  >审核记录{{ forloop.revcounter }}</label><br>
+                 {%if  item.is_complete%}
+                     <label class="form-label"  >审核结果:</label>
+                     <span  >通过</span><br>
+                     <label class="form-label" >评语:</label>
+                     <span  >{{ item.comment }}</span><br>
+                     <label class="form-label"  >评分:</label>
+                      <span  >{{ item.evaluate}}颗星</span><br>
+                 {% else %}
+                      <label class="form-label"  >审核结果:</label>
+                     <span  >驳回</span><br>
+                     <label class="form-label" >原因:</label>
+                     <span  >{{ item.reason }}</span><br>
+                 {% endif%}
+                </div>
+                </div>
+             </div>
+        </div>
+    {% endfor %}
+  </div>
+
 {% endblock %}
 {% block js %}
     <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
@@ -220,42 +282,73 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
       return s;
     };
 
-
 //自执行函数
    $(function () {
        $('#evaluate').rating({
             min: 0,
             max: 5,
             step: 1,
-            size: 'lg',
+            size: 'sm',
             showClear:false,
    });
    })
-function Submit(){
-       var is_complete = parseInt($("input[name=is_complete]").val());
+   function ChangeReject() {
+       $("#reject_group").removeClass("hidden")
+       $("#complete_group").addClass("hidden")
+       $("#RejectSubmit").removeClass("hidden")
+       $("#CompleteSubmit").addClass("hidden")
+
+
+   }
+    function ChangeComplete() {
+        $("#reject_group").addClass("hidden")
+        $("#complete_group").removeClass("hidden")
+        $("#RejectSubmit").addClass("hidden")
+        $("#CompleteSubmit").removeClass("hidden")
+   }
+    function RejectSubmit (){
+       var is_complete = parseInt($("input[type=radio]:checked").val());
        var reason =$('#reason').val().trim();
-       var comment =$('#comment').val().trim();
-       var evaluate=$("#evaluate").val();
-       var tasid ={{task_obj.tasid }};
+       console.log(reason)
+       var tasid ={{task_assign_info.tasid }};
+       var tvid = {{ task_review.tvid }}
        $.ajax({
            url:"{% url 'task_review' %}",
-           data:{ "tasid":tasid,"is_complete":is_complete,"reason":reason,"evaluate":evaluate},
+           data:{ "tasid":tasid, "tvid":tvid,"is_complete":is_complete,"reason":reason},
            type:"post",
            dataType:'json',
            success:function (arg) {
            if (arg.status){
                alert("审核提交成功")
-               window.location.href="{% url 'personal_task_review' %} "
+               window.location.reload()
            }
            else{
                 alert("审核提交失败")
            }
     }
        })
-
-
-
 }
-
+    function CompleteSubmit(){
+       var is_complete =parseInt($("input[type=radio]:checked").val());
+       var comment =$('#comment').val().trim();
+       var evaluate=$("#evaluate").val();
+       var tasid ={{task_assign_info.tasid }};
+       var tvid = {{ task_review.tvid }}
+       $.ajax({
+           url:"{% url 'task_review' %}",
+           data:{ "tasid":tasid,"tvid":tvid,"comment":comment,"is_complete":is_complete,"evaluate":evaluate},
+           type:"post",
+           dataType:'json',
+           success:function (arg) {
+           if (arg.status){
+               alert("审核提交成功")
+               window.location.reload()
+           }
+           else{
+                alert("审核提交失败")
+           }
+    }
+       })
+    }
     </script>
 {% endblock %}
