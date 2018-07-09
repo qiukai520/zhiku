@@ -174,6 +174,14 @@ def change_to_task_finish_status(id):
         if int(item['id']) == id:
             return item['caption']
 
+
+@register.simple_tag
+def change_to_task_reviewer(tvid):
+    """根据tvid获取审核人"""
+    task_review_obj = task_review_db.query_task_reviewer_by_tvid(tvid)
+    staff_obj = staff_db.query_staff_by_id(task_review_obj.sid)
+    return staff_obj.name
+
 @register.simple_tag
 def bulid_assign_member_list(tid):
     """构建指派对象"""
@@ -194,7 +202,8 @@ def bulid_assign_member_list(tid):
             last_edit = ''
         # 构建指派对象列表
         ele = """<li data-toggle="modal" onclick="MemberAssignShow(this)"><span class="member_name"  >{0}</span>  &nbsp
-        <span >{1}</span> &nbsp<span style="color:#9F9F9F">{2}</span></li><input type="text " class="hidden" name="tasid" value='{3}'>
+        <span style="color: blue" class="glyphicon glyphicon-plus plus " ></span> &nbsp <span >{1}</span> &nbsp<span style="color:#9F9F9F">{2}</span></li>
+        <input type="text " class="hidden" name="tasid" value='{3}'>
         <input type="text " class="hidden" name="member_id" value='{4}'>
         """.format(member.name, status, last_edit,item.tasid, item.member_id)
         eles += ele
@@ -212,13 +221,13 @@ def bulid_review_list(tid):
         member = staff_db.query_staff_by_id(item.member_id)
         # 如果有记录表示已审核
         if item.is_finish:
-            status = "通过审核"
+            status = "通过"
             last_edit.last_edit.strftime("%Y-%m-%d")
         else:
-            status = "未通过审核"
+            status = "审核中"
             last_edit = ''
             # 构建任务审核对象列表
-        ele = """<li > <a  style="color:blue" href="task_review.html?tasid={0}">{1} &nbsp
+        ele = """<li > <a  style="color:blue" href="task_review_record.html?tasid={0}">{1} &nbsp
                  <span style="color:red"> [ </span><span>{2}</span><span style="color:red"> ] 
                   </span></a> &nbsp<span style="color:#9F9F9F">{3}</span></li>
                   """.format(item.tasid, member.name, status, last_edit)

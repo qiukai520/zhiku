@@ -55,16 +55,6 @@
     .flat-blue a {
     color: #075dec;
 }
-    .rating-container .caption {
-    color: #999;
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 60%;
-    margin-top: -.6em;
-    margin-left: 5px;
-    margin-right: 0;
-    visibility: hidden;
-}
 
     .progress{position: relative; width:350px;height: 30px;margin: 12px }
     .progress_bg{height: 12px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden;background-color:#f2f2f2;}
@@ -103,7 +93,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
         {% if task_assign_info.title %}
             {% query_task_attachment_by_tasid task_assign_info.tasid as p_attachment_list %}
              <div class="form-group " >
-            <label class="form-label" for="task_title">任务描述:</label>
+            <label class="form-label" >任务描述:</label>
                 <span id="task_title" >{{ task_assign_info.content }}</span>
             </div>
             {% for obj in p_attachment_list %}
@@ -117,8 +107,8 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
         {% else %}
             {% query_task_attachment_by_tid total_task_obj.tid as t_attachment_list %}
              <div class="form-group"  >
-               <label class="form-label" for="task_title">任务描述:</label>
-                <span id="task_title"  >{{ total_task_obj.content }}</span>
+               <label class="form-label">任务描述:</label>
+                <span  >{{ total_task_obj.content }}</span>
             </div>
             {% for t_obj in t_attachment_list %}
              <div class="form-group  "  >
@@ -180,70 +170,24 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     {% endif %}
 
   </div>
-    <div class="container "  id="footer"  style="background-color: #f3f3f3 ;border-top: 2px double #9F9F9F; width:80%;">
-     <div class="row">
-        <div class="col-xs-2" style="position: relative" >
-        </div>
-         <div class="col-xs-8 row" style="padding: 15px;margin-left: 0px" >
-              <div class="row form-horizontal" style="position: relative;margin:5px;background-color: white ">
-                <div class="col-xs-12"   >
-                     <div class="form-group" style="margin-top: 15px">
-                        <label  class="col-xs-2   control-label" for="is_complete">是否通过：</label>
-                        <div class=" col-xs-9 radio " id="is_complete" >
-                             <label ><input type="radio" onchange="ChangeComplete()" name="is_complete"
-             value="1" checked>通过</label>
-                            <label ><input type="radio"  onchange="ChangeReject()" name="is_complete"
-             value="0" >驳回</label>
-                        </div>
-                    </div>
-                     <div class="form-group hidden" id="reject_group">
-                    <label for="reason" class="col-xs-2 control-label">驳回原因：</label>
-                      <div class="col-xs-7 ">
-                          <textarea name="title" style="height:50px" class="form-control "  id="reason" placeholder="驳回原因">
-                        </textarea>
-                      </div>
-                </div>
-                     <div id="complete_group">
-                     <div class="form-group">
-                    <label for="comment" class="col-xs-2 control-label">评语：</label>
-                      <div class="col-xs-7">
-                          <textarea name="title" style="height:50px" class="form-control"  id="comment" placeholder="评价">
-                        </textarea>
-                      </div>
-                </div>
-                    <div class="form-group">
-                    <label for="evaluate" style="margin-top: 10px;" class="col-xs-2 control-label">评分：</label>
-                      <div class="col-xs-8">
-                          <input id="evaluate"   name="evaluate" class="rating"  min="0" max="5" step="1" data-size="sm" value="0" >
-                      </div>
-                </div>
-                    </div>
-                     <div class="form-group col-xs-8">
-                     <button  id="CompleteSubmit" onclick="CompleteSubmit()" class="btn btn-primary"  style="float: right;margin:20px">通过</button>
-                         <button id="RejectSubmit" onclick="RejectSubmit()" class="btn btn-primary hidden"  style="float: right;margin:20px">驳回</button>
-                         <a href="{% url "personal_task_review" %}" class="btn btn-danger"  style="float: right;margin:20px" >返回</a>
-                   </div>
-                </div>
-              </div>
-         </div>
-    </div>
-    </div>
+     {%  for task_review_record in reviewers_record_list %}
     <div class="container-fluid"style=" background-color: #f3f3f3 ;border-top: 2px double #9F9F9F;width: 80%;">
         {% if task_review_record.0 %}
         <div class="row">
          <div class="col-xs-4">
-              <h4 style="text-align: center;">任务审核记录</h4>
+              <h4 style="text-align: center;">审核人:{% change_to_task_reviewer task_review_record.0.tvid %}</h4>
          </div>
          <div class="col-xs-8" ></div>
      </div>
        {% endif %}
         {% for item in  task_review_record %}
-        <div class="row">
+            {% if forloop.first %}
+                 <div class="row">
             <div class="col-xs-2" style="position: relative" ><span style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.create_time|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.create_time|date:"H:i:s "}}</span></span></div>
              <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding-left:20px" >
             <div class="row form-horizontal" style="margin:5px;background-color: white">
                 <div style="margin-left:28px;">
-                <label class="form-label" style="margin: 3px 0"  >审核记录{{ forloop.revcounter }}</label><br>
+                <label class="form-label" style="margin:3px 0"  >审核记录{{ forloop.revcounter }}</label><br>
                  {%if  item.is_complete%}
                      <label class="form-label"  >审核结果:</label>
                      <span  >通过</span><br>
@@ -261,9 +205,36 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                 </div>
              </div>
         </div>
+                  <span  onclick="ShowMore(this)" style ="color:#075dec; float: right;padding-right:150px" >更多</span>
+            {% else %}
+                <div class="row  hidden">
+                    <div class="col-xs-2" style="position: relative" ><span style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.create_time|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.create_time|date:"H:i:s "}}</span></span></div>
+                    <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding-left:20px" >
+            <div class="row form-horizontal" style="margin:5px;background-color: white">
+                <div style="margin-left:28px;">
+                <label class="form-label" style="margin:3px 0"  >审核记录{{ forloop.revcounter }}</label><br>
+                 {%if  item.is_complete%}
+                     <label class="form-label"  >审核结果:</label>
+                     <span  >通过</span><br>
+                     <label class="form-label" >评语:</label>
+                     <span  >{{ item.comment }}</span><br>
+                     <label class="form-label"  >评分:</label>
+                      <span  >{{ item.evaluate}}颗星</span><br>
+                 {% else %}
+                      <label class="form-label"  >审核结果:</label>
+                     <span  >驳回</span><br>
+                     <label class="form-label" >原因:</label>
+                     <span  >{{ item.reason }}</span><br>
+                 {% endif%}
+                </div>
+                </div>
+             </div>
+                </div>
+            {% endif %}
+
     {% endfor %}
   </div>
-
+     {% endfor %}
 {% endblock %}
 {% block js %}
     <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
@@ -302,63 +273,14 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
             showClear:false,
    });
    })
-   function ChangeReject() {
-       $("#reject_group").removeClass("hidden")
-       $("#complete_group").addClass("hidden")
-       $("#RejectSubmit").removeClass("hidden")
-       $("#CompleteSubmit").addClass("hidden")
 
+    function ShowMore(ths) {
+       if ($(ths).next().is(":hidden")){
+            $(ths).nextAll().removeClass('hidden')
+       }else {
+           $(ths).nextAll().addClass('hidden')
+       }
+    }
 
-   }
-    function ChangeComplete() {
-        $("#reject_group").addClass("hidden")
-        $("#complete_group").removeClass("hidden")
-        $("#RejectSubmit").addClass("hidden")
-        $("#CompleteSubmit").removeClass("hidden")
-   }
-    function RejectSubmit (){
-       var is_complete = parseInt($("input[type=radio]:checked").val());
-       var reason =$('#reason').val().trim();
-       console.log(reason)
-       var tasid ={{task_assign_info.tasid }};
-       var tvid = {{ task_review.tvid }}
-       $.ajax({
-           url:"{% url 'task_review' %}",
-           data:{ "tasid":tasid, "tvid":tvid,"is_complete":is_complete,"reason":reason},
-           type:"post",
-           dataType:'json',
-           success:function (arg) {
-           if (arg.status){
-               alert("审核提交成功")
-               window.location.reload()
-           }
-           else{
-                alert("审核提交失败")
-           }
-    }
-       })
-}
-    function CompleteSubmit(){
-       var is_complete =parseInt($("input[type=radio]:checked").val());
-       var comment =$('#comment').val().trim();
-       var evaluate=$("#evaluate").val();
-       var tasid ={{task_assign_info.tasid }};
-       var tvid = {{ task_review.tvid }}
-       $.ajax({
-           url:"{% url 'task_review' %}",
-           data:{ "tasid":tasid,"tvid":tvid,"comment":comment,"is_complete":is_complete,"evaluate":evaluate},
-           type:"post",
-           dataType:'json',
-           success:function (arg) {
-           if (arg.status){
-               alert("审核提交成功")
-               window.location.reload()
-           }
-           else{
-                alert("审核提交失败")
-           }
-    }
-       })
-    }
     </script>
 {% endblock %}

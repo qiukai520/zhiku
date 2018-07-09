@@ -131,6 +131,9 @@
                                             <li>
                                                  <a  href="{% url "performence_list" %}">绩效分类</a>
                                             </li>
+                                             <li>
+                                                 <a  href="{% url "task_sort_list" %}">任务分类</a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -191,76 +194,6 @@
             }
         });
 
-   //自执行函数
-  $(function () {
-
-      if({{ pid }}){
-          DataInit()//初始化化数据
-      }
-  })
-  function DataInit() {
-        $("#name").val("{{ performence_obj.name }}");
-        $("#personal_score").val( "{{ performence_obj.personal_score }}");
-        $("#personal_total").val("{{ performence_obj.personal_total }}");
-        $("#team_score").val("{{ performence_obj.team_score }}");
-        $("#team_total").val("{{ performence_obj.team_total }}");
-}
-
-     function Submit() {
-        var name = $("#name").val().trim();
-        var personal_score = $("#personal_score").val();
-        var personal_total =$("#personal_total").val()
-        var team_score = $("#team_score").val();
-        var team_total = $("#team_total").val();
-        $.ajax({
-                url: '{% url "performence_edit"%}',
-                type: "post",
-                data:  {"name":name,
-                    "personal_score": personal_score,
-                    "personal_total": personal_total,
-                    "team_score": team_score,
-                    "team_total": team_total,
-        },
-            dataType: "json",
-            success: function (arg) {
-                if (arg.status) {
-                    alert("添加成功");
-                    window.location.href='{% url "performence_list" %}';
-                } else {
-                    alert(arg.message)
-                }
-            }
-        })
-    }
-
-    function Edit() {
-        var name = $("#name").val().trim();
-        var personal_score = $("#personal_score").val();
-        var personal_total =$("#personal_total").val()
-        var team_score = $("#team_score").val();
-        var team_total = $("#team_total").val();
-        $.ajax({
-                url: "{% url "performence_edit"%}",
-                type: "post",
-                data:  {
-                    "pid":{{ pid }},
-                    "name":name,
-                    "personal_score": personal_score,
-                    "personal_total": personal_total,
-                    "team_score": team_score,
-                    "team_total": team_total,
-        },
-            dataType: "json",
-            success: function (arg) {
-                if (arg.status) {
-                    alert("修改成功")
-                    window.location.reload()
-                } else {
-                    alert(arg.message)
-                }
-            }
-        })
-    }
     </script>
 
 

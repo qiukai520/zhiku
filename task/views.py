@@ -6,7 +6,7 @@ from django.core import serializers
 from django.db import transaction
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse
-from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm,TaskReviewForm
+from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm,TaskReviewForm,TaskSortForm
 from .server import *
 from .models import TaskAssign,Task
 from .utils import build_attachment_info, build_tags_info, build_reviewer_info, compare_json,build_assign_tags_info,build_assign_attach_info
@@ -380,9 +380,9 @@ def task_review(request):
             member_info = staff_db.query_staff_by_id(task_assign_info.member_id)
             # 获取任务提交记录
             task_submit_record = task_submit_record_db.query_submit_by_tasid(tasid)
-            # 获取审核人记录
-            task_review = task_review_db.query_task_reviewer_by_tid_sid(task_assign_info.tid,task_assign_info.member_id)
-            # 获取审核记录
+            # 获取我的审核任务id
+            task_review = task_review_db.query_task_reviewer_by_tid_sid(task_assign_info.tid, user_id)
+            # 获取我的审核记录
             task_review_record = task_review_record_db.query_task_review_record_list_by_tvid_and_tasid(task_review.tvid,tasid)
 
         return render(request, 'task/task_review.html', {
@@ -398,7 +398,6 @@ def task_review(request):
         if form.is_valid():
             try:
                 data = data.dict()
-                print(data)
                 task_review_record_db.insert_review_record(data)
                 is_complete = data["is_complete"]
                 # 如果通过 更新相应任务的完成状态
@@ -425,7 +424,6 @@ def task_review(request):
                         query_sets.update(is_finish=1)
                 ret['status'] = True
             except Exception as e:
-                print(e)
                 ret["message"] = "任务审核提交失败"
         else:
             errors = form.errors.as_data().values()
@@ -433,6 +431,33 @@ def task_review(request):
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
 
+
+def task_review_record(request):
+    method = request.method
+    if method == "GET":
+        tasid = request.GET.get("tasid", None)
+        if tasid:
+            tasid = int(tasid)
+            # 获取任务指派内容
+            task_assign_info = task_assign_db.query_task_assign_by_tasid(tasid).first()
+            # 获取员工信息
+            member_info = staff_db.query_staff_by_id(task_assign_info.member_id)
+            # 获取任务提交记录
+            task_submit_record = task_submit_record_db.query_submit_by_tasid(tasid)
+            # 获取该指派任务的所有审核人
+            task_reviewers = task_review_db.query_task_reviewer_by_tid(task_assign_info.tid)
+            # 获取相关审核的所有审核记录
+            reviewers_record_list = []
+            for item in task_reviewers:
+                task_review_record = task_review_record_db.query_task_review_record_list_by_tvid_and_tasid(item.tvid,
+                                                                                                       tasid)
+                reviewers_record_list.append(task_review_record)
+        return render(request,'task/task_review_record.html',
+                      {"member_info": member_info,
+                       "task_review": task_review,
+                       "task_assign_info": task_assign_info,
+                       "task_submit_record": task_submit_record,
+                       "reviewers_record_list": reviewers_record_list})
 
 
 def show_assign_content(request):
@@ -485,6 +510,72 @@ def department_staff(request):
             ret["message"] = "出错了"
     else:
         ret["message"] = "请选择相应的部门"
+    return HttpResponse(json.dumps(ret))
+
+
+
+def task_sort_list(request):
+    """绩效列表"""
+    query_sets = task_type_db.query_task_type_list()
+
+    return render(request, "task/task_sort_list.html", {"query_sets": query_sets})
+
+
+def task_sort_edit(request):
+    """"绩效添加或编辑"""
+    method = request.method
+    if method == "GET":
+        tpid = request.GET.get("tpid", None)
+        # 有则为编辑 ,无则添加
+        if tpid:
+            task_sort_obj = task_type_db.query_task_type_by_id(tpid)
+        else:
+            tpid = 0
+            task_sort_obj = []
+        return render(request, 'task/task_sort_edit.html', {"task_sort_obj": task_sort_obj, "tpid": tpid})
+    else:
+        form = TaskSortForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            pid = request.POST.get("tpid", None)
+            data = request.POST
+            data = data.dict()
+            # 有则为编辑 ,无则添加
+            if pid:
+                try:
+                    task_type_db.update_task_type(data)
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+            else:
+                try:
+                    task_type_db.insert_task_type(data)
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
+
+
+def task_sort_delete(request):
+    """任务分类删除"""
+    ret = {'status': '', "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        with transaction.atomic():
+            task_type_db.mutil_delete_task_type(id_list)
+            ret['status'] = True
+    except Exception as e:
+        ret['message'] = '删除失败'
     return HttpResponse(json.dumps(ret))
 
 

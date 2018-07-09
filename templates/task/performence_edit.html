@@ -16,7 +16,6 @@
 {% block conent %}
 
       <div class="row form-horizontal" style="position: relative;margin-top: 30px">
-
             <div class="col-xs-12">
                 <div class="form-group">
                     <label for="task_name" class="col-xs-2 control-label">绩效名称：</label>
@@ -59,7 +58,7 @@
             {% else %}
                 <button  onclick="Submit()" class="btn btn-primary" style="float: right;">创建</button>
             {% endif %}
-            <a href="#" class="btn btn-danger" onclick="FetchAttachment()" style="float:right;margin-right: 50px;">返回</a>
+            <a href="{% url "performence_list" %}" class="btn btn-danger" style="float:right;margin-right: 50px;">返回</a>
         </div>
             </div>
     </div>
@@ -67,37 +66,75 @@
 {% endblock %}
 {% block js%}
      <script>
-    $(document).ready(function() {
-     //初始化datatables 改成中文显示
-       $('#table_local').dataTable({
-           bDestroy: true,
-           autoWidth:false,////不开启自动宽度，用bootstrap的自适应去调整
-           "lengthMenu": [10,15,20,25,30, 35,40],//表格行数选择框内数目 显示2条,4条,20条,50条
-           "displayLength": 10,//默认的显示行数 (也就是每页显示几条数据)
-           "language": {//自定义语言提示
-                "processing": "处理中...",
-                "lengthMenu": "显示 _MENU_ 项结果",
-                "zeroRecords": "没有找到相应的结果",
-                "info": "第 _START_ 至 _END_ 行，共 _TOTAL_ 行",
-                "infoEmpty": "第 0 至 0 项结果，共 0 项",
-                "infoFiltered": "(由 _MAX_ 项结果过滤)",
-                "infoPostFix": "",
-                "search": "搜索:",
-                "searchPlaceholder": "请输入要搜索内容...",
-                "url": "",
-                "thousands": "'",
-                "emptyTable": "表中数据为空",
-                "loadingRecords": "载入中...",
-                "infoThousands": ",",
-                "paginate": {
-                    "first": "首页",
-                    "previous": "上页",
-                    "next": "下页",
-                    "last": "末页"
+       //自执行函数
+  $(function () {
+
+      if({{ pid }}){
+          DataInit()//初始化化数据
+      }
+  })
+  function DataInit() {
+        $("#name").val("{{ performence_obj.name }}");
+        $("#personal_score").val( "{{ performence_obj.personal_score }}");
+        $("#personal_total").val("{{ performence_obj.personal_total }}");
+        $("#team_score").val("{{ performence_obj.team_score }}");
+        $("#team_total").val("{{ performence_obj.team_total }}");
+}
+
+     function Submit() {
+        var name = $("#name").val().trim();
+        var personal_score = $("#personal_score").val();
+        var personal_total =$("#personal_total").val()
+        var team_score = $("#team_score").val();
+        var team_total = $("#team_total").val();
+        $.ajax({
+                url: '{% url "performence_edit"%}',
+                type: "post",
+                data:  {"name":name,
+                    "personal_score": personal_score,
+                    "personal_total": personal_total,
+                    "team_score": team_score,
+                    "team_total": team_total,
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("添加成功");
+                    window.location.href='{% url "performence_list" %}';
+                } else {
+                    alert(arg.message)
                 }
             }
+        })
+    }
 
-	});
-});
+    function Edit() {
+        var name = $("#name").val().trim();
+        var personal_score = $("#personal_score").val();
+        var personal_total =$("#personal_total").val()
+        var team_score = $("#team_score").val();
+        var team_total = $("#team_total").val();
+        $.ajax({
+                url: "{% url "performence_edit"%}",
+                type: "post",
+                data:  {
+                    "pid":{{ pid }},
+                    "name":name,
+                    "personal_score": personal_score,
+                    "personal_total": personal_total,
+                    "team_score": team_score,
+                    "team_total": team_total,
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("修改成功")
+                    window.location.reload()
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
+    }
     </script>
 {% endblock %}

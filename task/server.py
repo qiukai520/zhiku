@@ -145,6 +145,12 @@ class TaskTypeDB(object):
         result_db = TaskType.objects.filter(tpid=tpid).first()
         return result_db
 
+    def update_task_type(self, modify_info):
+        TaskType.objects.update(**modify_info)
+
+    def mutil_delete_task_type(self,ids):
+        TaskType.objects.filter(tpid__in=ids).delete()
+
 
 class TaskAttachmentDB(object):
     """任务附件表"""
@@ -210,6 +216,10 @@ class TaskReviewDB(object):
 
     def query_task_reviewer_by_sid(self,sid):
         result_db = TaskReview.objects.filter(sid=sid).all()
+        return result_db
+
+    def query_task_reviewer_by_tvid(self,tvid):
+        result_db = TaskReview.objects.filter(tvid=tvid).first()
         return result_db
 
     def query_task_reviewer_by_tid_sid(self, tid, sid):
