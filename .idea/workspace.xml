@@ -2,18 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/task/task_review_record.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/task/task_sort_edit.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/task/task_sort_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/task/adminx.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/plugins/bootstrap/css/star-rating.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/bootstrap/css/star-rating.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/forms/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/forms/form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/templatetags/admin_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/templatetags/admin_tags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/performence_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/performence_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_review.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_review.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/task/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/task/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/thinking_library/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/thinking_library/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/thinking_library/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/thinking_library/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,29 +21,80 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="task_review_record.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="task_review_record.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/task/task_review_record.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="207" column="71" selection-start-line="207" selection-start-column="71" selection-end-line="207" selection-end-column="71" />
+            <state>
+              <caret line="283" selection-start-line="283" selection-end-line="283" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret line="9" column="43" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
               <folding>
-                <element signature="e#7649#7745#0#HTML" expanded="true" />
-                <element signature="e#7775#8002#0#HTML" />
-                <element signature="e#8120#9649#0#HTML" />
-                <element signature="e#8172#8198#0#HTML" expanded="true" />
-                <element signature="e#8206#8267#0#HTML" expanded="true" />
-                <element signature="e#8597#8652#0#HTML" expanded="true" />
-                <element signature="e#8700#8742#0#HTML" expanded="true" />
-                <element signature="e#8765#8790#0#HTML" expanded="true" />
-                <element signature="e#8834#8854#0#HTML" expanded="true" />
-                <element signature="e#9743#9769#0#HTML" expanded="true" />
-                <element signature="e#9777#9838#0#HTML" expanded="true" />
-                <element signature="e#10168#10223#0#HTML" expanded="true" />
-                <element signature="e#10146#11205#0#HTML" />
-                <element signature="e#10271#10313#0#HTML" expanded="true" />
-                <element signature="e#10336#10361#0#HTML" expanded="true" />
-                <element signature="e#10405#10425#0#HTML" expanded="true" />
+                <element signature="e#640#653#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1309">
+              <caret line="42" column="16" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adminx.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/task/adminx.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="351">
+              <caret line="181" column="29" selection-start-line="181" selection-start-column="29" selection-end-line="181" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/task/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="119" column="35" selection-start-line="119" selection-start-column="35" selection-end-line="119" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sites.py" pinned="false" current-in-tab="false">
+        <entry file="file://F:/workenv/thinking_library/Lib/site-packages/xadmin/sites.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="175">
+              <caret line="106" selection-start-line="106" selection-end-line="106" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/task/server.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="112">
+              <caret line="270" column="16" selection-start-line="270" selection-start-column="16" selection-end-line="270" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="task.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/task.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="314">
+              <caret line="140" column="49" selection-start-line="140" selection-start-column="45" selection-end-line="140" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -60,24 +104,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>glyphicon</find>
-      <find>.glyphicon-ok</find>
-      <find>glyphicon-ok</find>
-      <find>通过</find>
-      <find>小结</find>
-      <find>for</find>
-      <find>审核记录</find>
-      <find>进度</find>
-      <find>进度评估</find>
-      <find>添加</find>
-      <find>工作</find>
       <find>member_id</find>
       <find>task_obj</find>
       <find>#</find>
@@ -97,6 +130,17 @@
       <find>task_sort_edit</find>
       <find>pid</find>
       <find />
+      <find>task_aut</find>
+      <find>task_assign</find>
+      <find>TaskAssignTag</find>
+      <find>TaskAtt</find>
+      <find>任务审核</find>
+      <find>TaskAssignTa</find>
+      <find>TaskSubmitAttachment</find>
+      <find>TaskSubmitRecord</find>
+      <find>TaskType</find>
+      <find>TaskTag</find>
+      <find>协助</find>
     </findStrings>
     <dirStrings>
       <dir>H:\PythonWorkPlace\company\thinking_library\templates\task</dir>
@@ -130,13 +174,11 @@
         <option value="$USER_HOME$/Desktop/前端模板/btzero_10_flat/btzero_10_flat/html/table/datatable.html" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/static/plugins/bootstrap/js/jquery.bootstrap-duallistbox.min.js" />
-        <option value="$PROJECT_DIR$/thinking_library/settings.py" />
         <option value="$PROJECT_DIR$/templates/task/performence.html" />
         <option value="$PROJECT_DIR$/task/utils.py" />
         <option value="$PROJECT_DIR$/templates/task/task_assign.html" />
         <option value="$PROJECT_DIR$/templates/task/task_detail.html" />
         <option value="$PROJECT_DIR$/static/plugins/bootstrap/js/star/locales/zh.js" />
-        <option value="$PROJECT_DIR$/task/models.py" />
         <option value="$PROJECT_DIR$/task.sql" />
         <option value="$PROJECT_DIR$/templates/task/complete_task.html" />
         <option value="$PROJECT_DIR$/templates/task/task_edit.html" />
@@ -146,8 +188,6 @@
         <option value="$PROJECT_DIR$/templates/task/task_wait_review.html" />
         <option value="$PROJECT_DIR$/task/templatetags/admin_tags.py" />
         <option value="$PROJECT_DIR$/templates/task/performence_edit.html" />
-        <option value="$PROJECT_DIR$/task/server.py" />
-        <option value="$PROJECT_DIR$/thinking_library/urls.py" />
         <option value="$PROJECT_DIR$/templates/task/task_sort_edit.html" />
         <option value="$PROJECT_DIR$/templates/task/task_sort_list.html" />
         <option value="$PROJECT_DIR$/templates/layout.html" />
@@ -157,6 +197,12 @@
         <option value="$PROJECT_DIR$/static/plugins/bootstrap/css/star-rating.min.css" />
         <option value="$PROJECT_DIR$/templates/task/task_review.html" />
         <option value="$PROJECT_DIR$/templates/task/task_review_record.html" />
+        <option value="$PROJECT_DIR$/task/apps.py" />
+        <option value="$PROJECT_DIR$/thinking_library/urls.py" />
+        <option value="$PROJECT_DIR$/thinking_library/settings.py" />
+        <option value="$PROJECT_DIR$/task/server.py" />
+        <option value="$PROJECT_DIR$/task/adminx.py" />
+        <option value="$PROJECT_DIR$/task/models.py" />
       </list>
     </option>
   </component>
@@ -193,36 +239,6 @@
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="plugins" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="plugins" type="462c0819:PsiDirectoryNode" />
-              <item name="bootstrap" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="plugins" type="462c0819:PsiDirectoryNode" />
-              <item name="bootstrap" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="plugins" type="462c0819:PsiDirectoryNode" />
-              <item name="bootstrap" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="star" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -333,13 +349,13 @@
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50246304" side_tool="true" visible="true" weight="0.3587963" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50246304" side_tool="true" weight="0.3587963" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="8" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49753696" visible="true" weight="0.3587963" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17364532" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49753696" visible="true" weight="0.3587963" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14039409" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -368,15 +384,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://G:/virtualenv/thinking_library/Lib/site-packages/django/urls/resolvers.py" />
-    <entry file="file://$PROJECT_DIR$/task/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://G:/virtualenv/thinking_library/Lib/site-packages/django/core/serializers/__init__.py" />
     <entry file="file://$PROJECT_DIR$/templates/task/complete_task.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -443,13 +450,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="27" column="18" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/lib/js/dataTables.bootstrap.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="27">
@@ -480,27 +480,10 @@
     <entry file="file://$PROJECT_DIR$/templates/sample.html" />
     <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap/js/star/locales/ar.js" />
     <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap/js/star/locales/LANG.js" />
-    <entry file="file://$PROJECT_DIR$/task/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="129" selection-start-line="129" selection-end-line="129" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/task.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="112" column="30" selection-start-line="112" selection-start-column="30" selection-end-line="112" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/task/personal_task_list.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="166">
           <caret line="32" column="62" selection-start-line="32" selection-start-column="62" selection-end-line="32" selection-end-column="62" />
-          <folding>
-            <element signature="e#540#572#0#HTML" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -508,10 +491,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="856">
           <caret line="223" column="43" lean-forward="true" selection-start-line="222" selection-start-column="13" selection-end-line="223" selection-end-column="43" />
-          <folding>
-            <element signature="e#10648#10690#0#HTML" expanded="true" />
-            <element signature="e#10710#10734#0#HTML" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -561,9 +540,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="274">
           <caret line="178" column="27" selection-start-line="178" selection-start-column="4" selection-end-line="178" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -578,24 +554,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
           <caret line="60" column="49" selection-start-line="60" selection-start-column="49" selection-end-line="60" selection-end-column="49" />
-          <folding>
-            <element signature="e#354#397#0#HTML" expanded="true" />
-            <element signature="e#2583#2604#0#HTML" expanded="true" />
-            <element signature="e#2854#2918#0#HTML" />
-            <element signature="e#2942#3280#0#HTML" />
-            <element signature="e#3305#4230#0#HTML" />
-            <element signature="e#4252#5206#0#HTML" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/task/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="151" column="54" selection-start-line="151" selection-start-column="54" selection-end-line="151" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -617,9 +575,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2222">
           <caret line="106" column="21" selection-start-line="106" selection-start-column="21" selection-end-line="106" selection-end-column="21" />
-          <folding>
-            <element signature="e#5207#5243#0#DjangoTemplate" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -627,10 +582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1998">
           <caret line="74" column="44" selection-start-line="74" selection-start-column="44" selection-end-line="74" selection-end-column="44" />
-          <folding>
-            <element signature="e#354#397#0#HTML" expanded="true" />
-            <element signature="e#2716#2755#0#HTML" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -641,16 +592,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="36" column="46" selection-start-line="36" selection-start-column="46" selection-end-line="36" selection-end-column="46" />
-          <folding>
-            <element signature="e#640#672#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap/css/star-rating.min.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -658,9 +599,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="237">
           <caret line="9" column="11771" selection-start-line="9" selection-start-column="11771" selection-end-line="9" selection-end-column="11771" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -675,37 +613,75 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-837">
           <caret line="8" column="111" selection-start-line="8" selection-start-column="111" selection-end-line="8" selection-end-column="111" />
-          <folding>
-            <element signature="e#14227#14761#0" />
-            <element signature="e#14850#16091#0" />
-            <element signature="e#16110#17957#0" />
-            <element signature="e#21369#21836#0" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/task/task_review_record.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="207" column="71" selection-start-line="207" selection-start-column="71" selection-end-line="207" selection-end-column="71" />
+        <state>
+          <caret line="283" selection-start-line="283" selection-end-line="283" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/apps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="9" column="43" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
           <folding>
-            <element signature="e#7649#7745#0#HTML" expanded="true" />
-            <element signature="e#7775#8002#0#HTML" />
-            <element signature="e#8120#9649#0#HTML" />
-            <element signature="e#8172#8198#0#HTML" expanded="true" />
-            <element signature="e#8206#8267#0#HTML" expanded="true" />
-            <element signature="e#8597#8652#0#HTML" expanded="true" />
-            <element signature="e#8700#8742#0#HTML" expanded="true" />
-            <element signature="e#8765#8790#0#HTML" expanded="true" />
-            <element signature="e#8834#8854#0#HTML" expanded="true" />
-            <element signature="e#9743#9769#0#HTML" expanded="true" />
-            <element signature="e#9777#9838#0#HTML" expanded="true" />
-            <element signature="e#10168#10223#0#HTML" expanded="true" />
-            <element signature="e#10146#11205#0#HTML" />
-            <element signature="e#10271#10313#0#HTML" expanded="true" />
-            <element signature="e#10336#10361#0#HTML" expanded="true" />
-            <element signature="e#10405#10425#0#HTML" expanded="true" />
+            <element signature="e#640#653#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1309">
+          <caret line="42" column="16" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="140" column="49" selection-start-line="140" selection-start-column="45" selection-end-line="140" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="270" column="16" selection-start-line="270" selection-start-column="16" selection-end-line="270" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://F:/workenv/thinking_library/Lib/site-packages/xadmin/sites.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="106" selection-start-line="106" selection-end-line="106" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/adminx.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="181" column="29" selection-start-line="181" selection-start-column="29" selection-end-line="181" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="119" column="35" selection-start-line="119" selection-start-column="35" selection-end-line="119" selection-end-column="35" />
         </state>
       </provider>
     </entry>
