@@ -61,11 +61,11 @@
       </thead>
       <tbody>
       {% for obj in  query_sets%}
-          {% query_task_by_tid obj.tid as task_obj %}
+          {% query_task_by_tid obj.tid_id as task_obj %}
           {% if obj.title %}
                <tr>
                   <td><input type="checkbox"></td>
-                  <td>{{ obj.tid }}</td>
+                  <td>{{ obj.tid_id }}</td>
                   <td>{{ obj.title }}</td>
                   <td>{{ obj.content|slice:"20"}}</td>
                   <td>{% change_to_task_type  task_obj.type_id  %}</td>
@@ -86,7 +86,7 @@
           {% else %}
                 <tr>
                   <td><input type="checkbox"></td>
-                  <td>{{ obj.tid }}</td>
+                  <td>{{ obj.tid_id }}</td>
                   <td>{{ task_obj.title }}</td>
                   <td>{{ task_obj.content|slice:"20"}}</td>
                   <td>{% change_to_task_type  task_obj.type_id  %}</td>

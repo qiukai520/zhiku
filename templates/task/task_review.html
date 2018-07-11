@@ -77,7 +77,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
 {% block conent%}
     <div class="container"   style="background-color: #f3f3f3 ;border-bottom: 2px double #9F9F9F; width:80%;">
       <div class="form-group  " id="top" style="font-size:14px;margin-top: 10px;">
-            {% query_task_by_tid  task_assign_info.tid  as total_task_obj %}
+            {% query_task_by_tid  task_assign_info.tid_id  as total_task_obj %}
 
            {% if task_assign_info.title %}
                 <label class="form-label" for="task_title"  >任务标题:</label>
@@ -319,12 +319,11 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     function RejectSubmit (){
        var is_complete = parseInt($("input[type=radio]:checked").val());
        var reason =$('#reason').val().trim();
-       console.log(reason)
-       var tasid ={{task_assign_info.tasid }};
-       var tvid = {{ task_review.tvid }}
+       var tasid_id ={{task_assign_info.tasid }};
+       var tvid_id = {{ task_review.tvid }}
        $.ajax({
            url:"{% url 'task_review' %}",
-           data:{ "tasid":tasid, "tvid":tvid,"is_complete":is_complete,"reason":reason},
+           data:{ "tasid_id":tasid_id, "tvid_id":tvid_id,"is_complete":is_complete,"reason":reason},
            type:"post",
            dataType:'json',
            success:function (arg) {
@@ -342,11 +341,11 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
        var is_complete =parseInt($("input[type=radio]:checked").val());
        var comment =$('#comment').val().trim();
        var evaluate=$("#evaluate").val();
-       var tasid ={{task_assign_info.tasid }};
-       var tvid = {{ task_review.tvid }}
+       var tasid_id ={{task_assign_info.tasid }};
+       var tvid_id = {{ task_review.tvid }}
        $.ajax({
            url:"{% url 'task_review' %}",
-           data:{ "tasid":tasid,"tvid":tvid,"comment":comment,"is_complete":is_complete,"evaluate":evaluate},
+           data:{ "tasid_id":tasid_id,"tvid_id":tvid_id,"comment":comment,"is_complete":is_complete,"evaluate":evaluate},
            type:"post",
            dataType:'json',
            success:function (arg) {

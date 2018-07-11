@@ -38,7 +38,7 @@ create TABLE `performemce`(
 
 drop TABLE if exists `task_type`;
 create TABLE `task_type`(
-`tpid` int(11) primary key auto_increment,
+`tpid` smallint() primary key auto_increment,
 `name` varchar(32) NOT NULL COMMENT '名称' unique
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务类型表';
 

@@ -126,9 +126,10 @@ def change_to_task_execute_way(way_id):
             return item["caption"]
 
 @register.simple_tag
-def change_to_task_type(ttid):
+def change_to_task_type(tpid):
     """转化成任务类型"""
-    task_type = task_type_db.query_task_type_by_id(ttid)
+    print("tpid",tpid)
+    task_type = task_type_db.query_task_type_by_id(tpid)
     return task_type.name
 
 @register.simple_tag
@@ -179,7 +180,7 @@ def change_to_task_finish_status(id):
 def change_to_task_reviewer(tvid):
     """根据tvid获取审核人"""
     task_review_obj = task_review_db.query_task_reviewer_by_tvid(tvid)
-    staff_obj = staff_db.query_staff_by_id(task_review_obj.sid)
+    staff_obj = staff_db.query_staff_by_id(task_review_obj.sid_id)
     return staff_obj.name
 
 @register.simple_tag
@@ -189,7 +190,7 @@ def bulid_assign_member_list(tid):
     eles = """<ul>"""
     for item in task_assign_list:
         # 获取对象信息
-        member = staff_db.query_staff_by_id(item.member_id)
+        member = staff_db.query_staff_by_id(item.member_id_id)
         # 获取任务提交记录
         last_commit_record = task_submit_record_db.query_last_submit_record(item.tasid)
         if last_commit_record:
@@ -218,7 +219,7 @@ def bulid_review_list(tid):
     eles = """<ul>"""
     for item in task_assign_list:
         # 获取对象信息
-        member = staff_db.query_staff_by_id(item.member_id)
+        member = staff_db.query_staff_by_id(item.member_id_id)
         # 如果有记录表示已审核
         if item.is_finish:
             status = "通过"
@@ -243,7 +244,7 @@ def bulid_person_review_list(user_id,tid):
     eles = """<ul>"""
     for item in task_assign_list:
         # 获取对象信息
-        member = staff_db.query_staff_by_id(item.member_id)
+        member = staff_db.query_staff_by_id(item.member_id_id)
         # 根据用户sid和任务id获取审核
         task_review = task_review_db.query_task_reviewer_by_tid_sid(tid, user_id)
         # 获取任务最后一次审核记录
@@ -302,7 +303,6 @@ def build_record_tags_ele(tsid):
 
 @register.simple_tag
 def query_task_by_tid(tid):
-    tid = int(tid)
     result_db = task_db.query_task_by_tid(tid)
     return result_db
 
@@ -319,6 +319,7 @@ def query_task_attachment_by_tid(tid):
     tid = int(tid)
     result_db = task_attachment_db.query_task_attachment_by_tid(tid)
     return result_db
+
 
 @register.simple_tag
 def query_submit_attachment_by_tsid(tsid):

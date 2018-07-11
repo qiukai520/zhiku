@@ -94,6 +94,10 @@ class TaskDB(object):
         result_db = Task.objects.filter().all().order_by("-tid")
         return result_db
 
+    def query_task_by_is_assign(self):
+        result_db=Task.objects.filter(is_assign=1).all()
+        return result_db
+
     def query_task_assign_lists(self):
         result_db = Task.objects.filter(is_assign=1).all().order_by("-tid")
         return result_db
@@ -159,7 +163,7 @@ class TaskAttachmentDB(object):
         return result_db
 
     def query_task_attachment_by_tid(self, tid):
-        result_db = TaskAttachment.objects.filter(tid=tid).all()
+        result_db = TaskAttachment.objects.filter(tid_id=tid).all()
         return result_db
 
     def mutil_insert_attachment(self, modify_info_list):
@@ -174,7 +178,7 @@ class TaskAttachmentDB(object):
         TaskAttachment.objects.filter(tamid__in=id_list).delete()
 
     def multi_delete_attach_by_tid(self,id_list):
-        TaskAttachment.objects.filter(tid__in=id_list).filter().delete()
+        TaskAttachment.objects.filter(tid_id__in=id_list).filter().delete()
 
     def delete_task_attachment(self,tamid):
         TaskAttachment.objects.filter(tamid=tamid).delete()
@@ -184,7 +188,7 @@ class TaskTagDB(object):
     """任务标签"""
     def mutil_insert_tag(self, modify_info_list):
         for item in modify_info_list:
-            is_exists = TaskTag.objects.filter(tid=item['tid'], name=item['name'])
+            is_exists = TaskTag.objects.filter(tid_id=item['tid_id'], name=item['name'])
             if is_exists:
                 continue
             TaskTag.objects.create(**item)
@@ -197,10 +201,10 @@ class TaskTagDB(object):
         TaskTag.objects.filter(ttid__in=id_list).delete()
 
     def mutil_delete_tag_by_tid(self, id_list):
-        TaskTag.objects.filter(tid__in=id_list).delete()
+        TaskTag.objects.filter(tid_id__in=id_list).delete()
 
     def query_task_tag_by_tid(self, tid):
-        result_db = TaskTag.objects.filter(tid=tid).all()
+        result_db = TaskTag.objects.filter(tid_id=tid).all()
         return result_db
 
 
@@ -211,11 +215,11 @@ class TaskReviewDB(object):
             TaskReview.objects.create(**item)
 
     def query_task_reviewer_by_tid(self,tid):
-        result_db = TaskReview.objects.filter(tid=tid).all()
+        result_db = TaskReview.objects.filter(tid_id=tid).all()
         return result_db
 
     def query_task_reviewer_by_sid(self,sid):
-        result_db = TaskReview.objects.filter(sid=sid).all()
+        result_db = TaskReview.objects.filter(sid_id=sid).all()
         return result_db
 
     def query_task_reviewer_by_tvid(self,tvid):
@@ -223,24 +227,27 @@ class TaskReviewDB(object):
         return result_db
 
     def query_task_reviewer_by_tid_sid(self, tid, sid):
-        result_db = TaskReview.objects.filter(tid=tid, sid=sid).first()
+        result_db = TaskReview.objects.filter(tid_id=tid, sid_id=sid).first()
         return result_db
 
     def mutil_update_reviewer(self, modify_info):
         for item in modify_info:
-            TaskReview.objects.filter(tid=item['tid'], sid=item['sid']).update(**item)
+            TaskReview.objects.filter(tid_id=item['tid'], sid_id=item['sid']).update(**item)
 
     def mutil_delete_reviewer(self, id_list):
         TaskReview.objects.filter(tvid__in=id_list).delete()
+
+    def mutil_delete_reviewer_by_tid(self,tid_list):
+        TaskReview.objects.filter(tid_id__in=tid_list).delete()
 
 
 class TaskAssignDB(object):
     """任务指派表"""
     def mutil_insert_task_assign(self, modify_info_list):
         for item in modify_info_list:
-            is_exist = TaskAssign.objects.filter(tid=item['tid'], member_id=item['member_id'])
+            is_exist = TaskAssign.objects.filter(tid_id=item['tid_id'], member_id_id=item['member_id_id'])
             if is_exist:
-                result_db = staff_db.query_staff_by_id(item['member_id'])
+                result_db = staff_db.query_staff_by_id(item['member_id_id'])
                 raise Exception('%s已指派过该任务'%(result_db.name))
             TaskAssign.objects.create(**item)
 
@@ -267,11 +274,11 @@ class TaskSubmitRecordDB(object):
     """任务提交记录表"""
 
     def query_last_submit_record(self, tasid):
-        result_db = TaskSubmitRecord.objects.filter(tasid=tasid).last()
+        result_db = TaskSubmitRecord.objects.filter(tasid_id=tasid).last()
         return result_db
 
     def query_submit_by_tasid(self, tasid):
-        result_db = TaskSubmitRecord.objects.filter(tasid=tasid).all().order_by("-tsid")
+        result_db = TaskSubmitRecord.objects.filter(tasid_id=tasid).all().order_by("-tsid")
         return result_db
 
     def insert_task_submit_record(self,modify_info):
@@ -344,18 +351,18 @@ class TaskAssignTagDB(object):
     """任务分配表"""
     def mutil_insert_assign_tag(self, modify_info_list):
         for item in modify_info_list:
-            is_exists = TaskAssignTag.objects.filter(tasid=item['tasid'], name=item['name']).first()
+            is_exists = TaskAssignTag.objects.filter(tasid_id=item['tasid_id'], name=item['name']).first()
             if is_exists:
                 continue
             TaskAssignTag.objects.create(**item)
 
     def query_task_assign_tag_by_tasid(self, tasid):
-        result_db = TaskAssignTag.objects.filter(tasid=tasid).all()
+        result_db = TaskAssignTag.objects.filter(tasid_id=tasid).all()
         return result_db
 
     def mutil_update_assign_tag(self,modify_info_list):
         for item in modify_info_list:
-            TaskAssignTag.objects.filter(tatid=item['tatid']).update(**item)
+            TaskAssignTag.objects.filter(tatid_id=item['tatid']).update(**item)
 
     def mutil_delete_tag(self, id_list):
         TaskAssignTag.objects.filter(tatid__in=id_list).delete()
@@ -368,12 +375,12 @@ class TaskAssignAttachDB(object):
             TaskAssignAttach.objects.create(**item)
 
     def query_task_assign_attach_by_tasid(self ,tasid):
-        result_db = TaskAssignAttach.objects.filter(tasid=tasid).all()
+        result_db = TaskAssignAttach.objects.filter(tasid_id=tasid).all()
         return result_db
 
     def mutil_update_assign_attach(self,modify_info_list):
         for item in modify_info_list:
-            TaskAssignAttach.objects.filter(taaid=item['taaid']).update(**item)
+            TaskAssignAttach.objects.filter(taaid_id=item['taaid_id']).update(**item)
 
     def mutil_delete_attach(self, id_list):
         TaskAssignAttach.objects.filter(taaid__in=id_list).delete()
@@ -382,18 +389,15 @@ class TaskAssignAttachDB(object):
 class TaskReviewRecordDB(object):
     """任务审核记录表"""
     def query_task_review_record_last_by_tvid_and_tasid(self, tvid,tasid):
-        result_db = TaskReviewRecord.objects.filter(tvid=tvid, tasid=tasid).last()
+        result_db = TaskReviewRecord.objects.filter(tvid_id=tvid, tasid_id=tasid).last()
         return result_db
 
     def query_task_review_record_list_by_tvid_and_tasid(self,tvid,tasid):
-        result_db = TaskReviewRecord.objects.filter(tvid=tvid, tasid=tasid).all().order_by("-trrid")
+        result_db = TaskReviewRecord.objects.filter(tvid_id=tvid, tasid_id=tasid).all().order_by("-trrid")
         return result_db
-
 
     def insert_review_record(self, modify_info):
         TaskReviewRecord.objects.create(**modify_info)
-
-
 
 
 department_db = DepartmentDB()

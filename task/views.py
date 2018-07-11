@@ -72,7 +72,7 @@ def publish_task(request):
                         # 如果任务插入成功
                         if tid:
                             # 插入标签
-                            id_dict = {"tid": tid}
+                            id_dict = {"tid_id": tid}
                             tags_list = build_tags_info(id_dict, tag_list)
                             task_tag_db.mutil_insert_tag(tags_list)
                             # 插入附件
@@ -80,9 +80,11 @@ def publish_task(request):
                             task_attachment_db.mutil_insert_attachment(attachment_list)
                             # 插入审核人
                             reviewers_list = build_reviewer_info(tid,reviewers)
+                            print(reviewers_list)
                             task_review_db.mutil_insert_reviewer(reviewers_list)
                             ret["status"] = True
                 except Exception as e:
+                    print(e)
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -189,6 +191,8 @@ def task_delete(request):
             task_attachment_db.multi_delete_attach_by_tid(id_list)
             # 删除标签
             task_tag_db.mutil_delete_tag_by_tid(id_list)
+            # 删除审核人
+            task_review_db.mutil_delete_reviewer_by_tid(id_list)
             ret['status'] = True
     except Exception as e:
         ret["message"] = "删除失败"
@@ -201,7 +205,7 @@ def task_mutil_assign(request):
     assign = request.POST.get("task_assign", None)
     task_assign_list = list(json.loads(assign))
     if task_assign_list:
-        tid = task_assign_list[0]['tid']
+        tid = task_assign_list[0]['tid_id']
         try:
             with transaction.atomic():
                 task_assign_db.mutil_insert_task_assign(task_assign_list)
@@ -266,6 +270,7 @@ def task_assign(request):
                 try:
                     with transaction.atomic():
                         tasid = data.get("tasid", None)
+                        print(data)
                         task_assign_db.update_task_assign(data)
                         # 插入标签
                         tags_assign_list = build_assign_tags_info(tasid, tag_list)
@@ -276,6 +281,7 @@ def task_assign(request):
                         task_assign_attach_db.mutil_insert_assign_attach(attachment_list)
                         ret["status"] = True
                 except Exception as e:
+                    print(e)
                     ret["message"] = "指派失败"
         else:
             errors = form.errors.as_data().values()
@@ -343,7 +349,7 @@ def task_wait_review(request):
     if method == "GET":
         filter = request.GET
         type_id = int(filter.get("s", 0))
-        query_sets = task_db.query_task_lists()
+        query_sets = task_db.query_task_by_is_assign()
         if type_id > 0:
             query_sets = query_sets.filter(type_id=type_id)
         return render(request, 'task/task_wait_review.html', {"query_sets": query_sets,"filter":type_id})
@@ -359,7 +365,7 @@ def personal_task_review(request):
         task_review = task_review_db.query_task_reviewer_by_sid(user_id)
         task_id_list = []
         for item in task_review:
-            task_id_list.append(item.tid)
+            task_id_list.append(item.tid_id)
         # 获取相应的任务
         query_sets = task_db.query_task_by_tids(task_id_list)
         if type_id > 0:
@@ -377,11 +383,11 @@ def task_review(request):
             # 获取任务指派内容
             task_assign_info = task_assign_db.query_task_assign_by_tasid(tasid).first()
             # 获取员工信息
-            member_info = staff_db.query_staff_by_id(task_assign_info.member_id)
+            member_info = staff_db.query_staff_by_id(task_assign_info.member_id_id)
             # 获取任务提交记录
             task_submit_record = task_submit_record_db.query_submit_by_tasid(tasid)
             # 获取我的审核任务id
-            task_review = task_review_db.query_task_reviewer_by_tid_sid(task_assign_info.tid, user_id)
+            task_review = task_review_db.query_task_reviewer_by_tid_sid(task_assign_info.tid_id, user_id)
             # 获取我的审核记录
             task_review_record = task_review_record_db.query_task_review_record_list_by_tvid_and_tasid(task_review.tvid,tasid)
 
@@ -398,6 +404,7 @@ def task_review(request):
         if form.is_valid():
             try:
                 data = data.dict()
+                print(data)
                 task_review_record_db.insert_review_record(data)
                 is_complete = data["is_complete"]
                 # 如果通过 更新相应任务的完成状态
@@ -405,12 +412,12 @@ def task_review(request):
                 if is_complete:
                     # check 是否所有审核人都确认通过
                     # 获取任务id
-                    task_assign_obj = task_assign_db.query_task_assign_by_tasid(data['tasid'])
+                    task_assign_obj = task_assign_db.query_task_assign_by_tasid(data['tasid_id'])
                     # 获取任务审核人
-                    task_review_list = task_review_db.query_task_reviewer_by_tid(task_assign_obj.first().tid)
+                    task_review_list = task_review_db.query_task_reviewer_by_tid(task_assign_obj.first().tid_id)
                     # 遍历该所有审核人对其的记录
                     for item in task_review_list:
-                        last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(item.tvid,data['tasid'])
+                        last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(item.tvid,data['tasid_id'])
                         if not last_review_record:
                             is_finish = False
                             break
@@ -420,10 +427,11 @@ def task_review(request):
                                 break
                     if is_finish:
                         # 更新任务为通过状态
-                        query_sets = task_assign_db.query_task_assign_by_tasid(data["tasid"])
+                        query_sets = task_assign_db.query_task_assign_by_tasid(data["tasid_id"])
                         query_sets.update(is_finish=1)
                 ret['status'] = True
             except Exception as e:
+                print(e)
                 ret["message"] = "任务审核提交失败"
         else:
             errors = form.errors.as_data().values()
@@ -441,11 +449,11 @@ def task_review_record(request):
             # 获取任务指派内容
             task_assign_info = task_assign_db.query_task_assign_by_tasid(tasid).first()
             # 获取员工信息
-            member_info = staff_db.query_staff_by_id(task_assign_info.member_id)
+            member_info = staff_db.query_staff_by_id(task_assign_info.member_id_id)
             # 获取任务提交记录
             task_submit_record = task_submit_record_db.query_submit_by_tasid(tasid)
             # 获取该指派任务的所有审核人
-            task_reviewers = task_review_db.query_task_reviewer_by_tid(task_assign_info.tid)
+            task_reviewers = task_review_db.query_task_reviewer_by_tid(task_assign_info.tid_id)
             # 获取相关审核的所有审核记录
             reviewers_record_list = []
             for item in task_reviewers:
@@ -650,7 +658,7 @@ def personal_task_list(request):
     filters = request.GET
     search_key = int(filters.get("s", 0))
     query_sets = task_assign_db.query_task_assign_by_member_id(user_id)
-    query_sets=query_sets.filter(is_finish=search_key).all()
+    query_sets= query_sets.filter(is_finish=search_key).all()
     return render(request, 'task/personal_task_list.html', {"query_sets": query_sets,"search_key": search_key})
 
 

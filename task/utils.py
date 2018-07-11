@@ -13,7 +13,7 @@ def build_tags_info(dict, tags):
 def build_assign_tags_info(tasid,tags):
     tags_list = []
     for item in tags:
-        tag_dict = {"tasid": tasid, "name": item}
+        tag_dict = {"tasid_id": tasid, "name": item}
         tags_list.append(tag_dict)
     return tags_list
 
@@ -31,7 +31,7 @@ def build_assign_attach_info(tasid,attachment):
     att_list = []
     attachment = json.loads(attachment)
     for item in list(attachment):
-        item.update({"tasid": tasid})
+        item.update({"tasid_id": tasid})
         att_list.append(item)
     return att_list
 
@@ -40,7 +40,7 @@ def build_reviewer_info(tid, reviewers):
     re_list = []
     reviewers = json.loads(reviewers)
     for item in list(reviewers):
-        item.update({"tid": tid})
+        item.update({"tid_id": tid})
         re_list.append(item)
     return re_list
 

@@ -436,11 +436,11 @@ function TeamAssignShow() {
         //遍历员工
         DualListbox.children("option:selected").each(function () {
             var member = $(this).val()
-            var review = {"member_id": member};
+            var review = {"member_id_id": member};
             //遍历任务,添加任务ID
             $("tbody input:checkbox:checked").each(function () {
             id = $(this).parent().next().text();
-            review.tid=id;
+            review.tid_id=id;
             reviewers.push(review)
             })
         })

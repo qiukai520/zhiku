@@ -67,7 +67,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
 {% block conent%}
     <div class="container"   style="background-color: #f3f3f3 ;border-bottom: 2px double #9F9F9F; width:80%;">
       <div class="form-group  " id="top" style="font-size:14px;margin-top: 10px;">
-            {% query_task_by_tid  task_assign_info.tid  as total_task_obj %}
+            {% query_task_by_tid  task_assign_info.tid_id  as total_task_obj %}
 
            {% if task_assign_info.title %}
                 <label class="form-label" for="task_title"  >任务标题:</label>
@@ -175,7 +175,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
         {% if task_review_record.0 %}
         <div class="row">
          <div class="col-xs-4">
-              <h4 style="text-align: center;">审核人:{% change_to_task_reviewer task_review_record.0.tvid %}</h4>
+              <h4 style="text-align: center;">审核人:{% change_to_task_reviewer task_review_record.0.tvid_id %}</h4>
          </div>
          <div class="col-xs-8" ></div>
      </div>
@@ -205,7 +205,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                 </div>
              </div>
         </div>
-                  <span  onclick="ShowMore(this)" style ="color:#075dec; float: right;padding-right:150px" >更多</span>
+                  <span  onclick="ShowMore(this)" style ="color:#075dec; float: right;padding-right:150px;cursor: pointer" >更多</span>
             {% else %}
                 <div class="row  hidden">
                     <div class="col-xs-2" style="position: relative" ><span style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.create_time|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.create_time|date:"H:i:s "}}</span></span></div>

@@ -224,7 +224,7 @@
                             <select  id="id_staff_from" multiple   name="staff_old"  size="10"   class=" select-box ">
                             {%if tid %}
                                  {% for obj in task_reviewer_info %}
-                                 <option value="{{ obj.sid }}"   selected="selected" tvid="{{ obj.tvid}}">{% change_to_staff obj.sid %}  </option>
+                                 <option value="{{ obj.sid_id }}"   selected="selected" tvid="{{ obj.tvid}}">{% change_to_staff obj.sid_id %}  </option>
 
                                  {% endfor %}
                              {% endif %}
@@ -466,7 +466,7 @@ function SelectReviewer(){
             i +=1
             var reviewer=$(this).val()
             var isfollow=$('#follow').prop("checked")
-            var review={"sid":reviewer,"follow":''};
+            var review={"sid_id":reviewer,"follow":''};
             if (isfollow){
                 review.follow=i
                 reviewers.push(review)
@@ -489,7 +489,7 @@ function GetReviewer(){
             var tvid=$(this).attr("tvid")
             console.log(tvid);
             var isfollow=$('#follow').prop("checked")
-            var review= {"sid":reviewer,"follow":'','tid':{{tid}}};
+            var review= {"sid_id":reviewer,"follow":'','tid_id':{{tid}}};
             if (tvid){
                 review=$.extend(review,{"tvid":tvid})
             }
@@ -572,7 +572,7 @@ function Submit() {
         var type_id =$("#task_type").val()
         var issuer_id = 1;
         var attribute = $("#attribute").val();
-        var tcid = $("#task_cycle").val();
+        var cycle_id = $("#task_cycle").val();
         var start_time = $("#datetimepicker1").find("input").val();
         var deadline = $("#datetimepicker2").find("input").val();
         $.ajax({
@@ -583,7 +583,7 @@ function Submit() {
                 "issuer_id": issuer_id,
                 "content": content,
                 "perfor_id": attribute,
-                "tcid": tcid,
+                "cycle_id": cycle_id,
                 "start_time": start_time,
                 "deadline": deadline,
                 "type_id":type_id,
@@ -609,7 +609,7 @@ function Edit() {
         var type_id =$("#task_type").val()
         var issuer_id = 1;
         var perfor_id = $("#attribute").val();
-        var tcid = $("#task_cycle").val();
+        var cycle_id = $("#task_cycle").val();
         var start_time = $("#datetimepicker1").find("input").val();
         var deadline = $("#datetimepicker2").find("input").val();
         $.ajax({
@@ -621,7 +621,7 @@ function Edit() {
                     "issuer_id": issuer_id,
                     "content": content,
                     "perfor_id": perfor_id,
-                    "tcid": tcid,
+                    "cycle_id": cycle_id,
                     "start_time": start_time,
                     "deadline": deadline,
                     "type_id":type_id,
