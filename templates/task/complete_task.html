@@ -38,17 +38,18 @@
         right: 38px
 
     }
-    button ,.btn{
-        margin-top: 0px !important;
-
-    }
-       .btn-primary:hover {
+    .btn-primary:hover {
     background-color:black !important;
 }
-       .btn-danger:hover{
+    .btn-danger:hover{
             background-color: orangered !important;
+          }
+    .btn{
+           border: none;
        }
-
+    .btn-info:hover{
+              background-color: #2271f0 !important;
+        }
     .row > [class*="col-"] {
     margin-bottom: 0px;
 }
@@ -63,7 +64,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     .progress_btn:hover{border-color:#F7B824;}
     </style>
 {% endblock %}
-{% block conent%}
+{% block content%}
     <div class="container"   style="border-bottom: 2px double #9F9F9F ; width:80%;">
       <div class="form-group  " id="top" style="font-size:14px;font-weight:bold;padding: 5px;">
             {% query_task_by_tid  task_obj.tid_id  as total_task_obj %}

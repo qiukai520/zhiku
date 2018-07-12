@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>企业驱动·智库</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
+    <!-- CSS Libs -->
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/checkbox3.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/select2.min.css">
+    <!-- CSS App -->
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/themes/flat-blue.css">
+    <!-- bootstarp multiselect -->
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap-duallistbox.min.css">
+    <!-- bootstarp star -->
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/star-rating.min.css">
+    <style>
+          .btn-primary:hover {
+    background-color:black !important;
+}
+       .btn-danger:hover{
+            background-color: orangered !important;
+       }
+       .btn{
+           border: none;
+       }
+        .btn-info:hover{
+              background-color: #2271f0 !important;
+        }
+    </style>
+      {% block css %}
+    {% endblock %}
+</head>
+
+<body class="flat-blue">
+      {% csrf_token %}
+    <div class="app-container">
+        <div class="row content-container">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-expand-toggle">
+                            <i class="fa fa-bars icon"></i>
+                        </button>
+                        <ol class="breadcrumb navbar-breadcrumb">
+                            <li class="active">智库系统</li>
+                        </ol>
+                        <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                            <i class="fa fa-th icon"></i>
+                        </button>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                            <i class="fa fa-times icon"></i>
+                        </button>
+                        <li class="dropdown profile">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Emily Hart <span class="caret"></span></a>
+                            <ul class="dropdown-menu animated fadeInDown">
+                                <li class="profile-img">
+                                    <img src="/static/img/profile/picjumbo.com_HNCK4153_resize.jpg" class="profile-img">
+                                </li>
+                                <li>
+                                    <div class="profile-info">
+                                        <h4 class="username">Emily Hart</h4>
+                                        <p>emily_hart@email.com</p>
+                                        <div class="btn-group margin-bottom-2x" role="group">
+                                            <button type="button" class="btn btn-default"><i class="fa fa-user"></i> Profile</button>
+                                            <button type="button" class="btn btn-default"><i class="fa fa-sign-out"></i> Logout</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!--导航栏-->
+            <div class="side-menu sidebar-inverse">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="side-menu-container">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">
+                                <div class="icon fa fa-paper-plane"></div>
+                                <div class="title">企业驱动·智库</div>
+                            </a>
+                            <button type="button" class="navbar-expand-toggle pull-right visible-xs">
+                                <i class="fa fa-times icon"></i>
+                            </button>
+                        </div>
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href="#">
+                                    <span class="icon fa fa-tachometer"></span><span class="title">主页</span>
+                                </a>
+                            </li>
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-element">
+                                    <span class="icon fa fa-desktop"></span><span class="title">工作任务</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-element" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li>
+                                                <a  href="{% url "personal_task_list" %}">我的任务</a>
+                                            </li>
+                                            <li>
+                                                <a  href="{% url "publish_task" %}">创建任务</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url "task_assign_center" %}">任务指派中心</a>
+                                            </li>
+                                            <li>
+                                                <a  href="{% url "task_assign" %} ">已指派任务</a>
+                                            </li>
+                                             <li>
+                                                <a  href="{% url 'task_wait_review' %}">任务审核中心</a>
+                                            </li>
+                                             <li>
+                                                <a  href="{% url 'personal_task_review' %} ">我的审核任务</a>
+                                            </li>
+                                            <li>
+                                                 <a  href="{% url "performence_list" %}">绩效分类</a>
+                                            </li>
+                                             <li>
+                                                 <a  href="{% url "task_sort_list" %}">任务分类</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </nav>
+            </div>
+            <!--导航栏-->
+            <!-- Main Content -->
+            <div class="container-fluid">
+                <div class="side-body padding-top">
+          <!--内容-->
+                    {% block conent %} {% endblock %}
+
+                </div>
+            </div>
+        </div>
+        <footer class="app-footer">
+            <div class="wrapper">
+            </div>
+        </footer>
+        </div>
+            <!-- Javascript Libs -->
+{#            <script type="text/javascript" src="/static/js/jquery-3.1.0.min.js"></script>#}
+            <script type="text/javascript" src="/static/lib/js/jquery.min.js"></script>
+            <script type="text/javascript" src="/static/lib/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="/static/lib/js/Chart.min.js"></script>
+            <script type="text/javascript" src="/static/lib/js/bootstrap-switch.min.js"></script>
+            <script type="text/javascript" src="/static/lib/js/jquery.matchHeight-min.js"></script>
+            <script type="text/javascript" src="/static/lib/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="/static/lib/js/dataTables.bootstrap.min.js"></script>
+            <script type="text/javascript" src="/static/lib/js/select2.full.min.js"></script>
+            <script type="text/javascript" src="/static/lib/js/ace/ace.js"></script>
+            <script type="text/javascript" src="/static/lib/js/ace/mode-html.js"></script>
+            <script type="text/javascript" src="/static/lib/js/ace/theme-github.js"></script>
+            <!-- Javascript -->
+            <script type="text/javascript" src="/static/js/app.js"></script>
+             <!-- bootstarp multiselect-->
+            <script type="text/javascript" src="/static/plugins/bootstrap/js/jquery.bootstrap-duallistbox.min.js"></script>
+            <!-- bootstarp star-->
+            <script type="text/javascript" src="/static/plugins/bootstrap/js/star/star-rating.min.js"></script>
+            <script type="text/javascript" src="/static/plugins/bootstrap/js/star/locales/zh.js"></script>
+            <!-- jquery 取Cookie当中的csrftoken并在请求中添加X-CSRFToken请求头-->
+            <script src="/static/js/jquery.cookie.js"></script>
+            <script>
+        var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+    </script>
+
+
+    {% block js %}
+
+{% endblock %}
+</body>
+
+</html>
