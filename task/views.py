@@ -270,7 +270,6 @@ def task_assign(request):
                 try:
                     with transaction.atomic():
                         tasid = data.get("tasid", None)
-                        print(data)
                         task_assign_db.update_task_assign(data)
                         # 插入标签
                         tags_assign_list = build_assign_tags_info(tasid, tag_list)
@@ -521,7 +520,6 @@ def department_staff(request):
     return HttpResponse(json.dumps(ret))
 
 
-
 def task_sort_list(request):
     """绩效列表"""
     query_sets = task_type_db.query_task_type_list()
@@ -700,24 +698,27 @@ def complete_task(request):
             if data:
                 # 检测完成度是否小于上一次提交
                 # 获取最后一次任务提交记录的完成进度
-                last_record = task_submit_record_db.query_last_submit_record(data["tasid"])
+                last_record = task_submit_record_db.query_last_submit_record(data["tasid_id"])
                 if last_record:
                     if last_record.completion > int(data["completion"]):
                         data["completion"] = last_record.completion
                 try:
                     with transaction.atomic():
+                        print(data)
                         tsid = task_submit_record_db.insert_task_submit_record(data)
+                        print(tsid)
                         # 如果任务提交记录插入成功
                         if tsid:
                             # 插入标签
-                            id_dict = {"tsid": tsid}
-                            tags_list = build_tags_info(id_dict, tag_list)
+                            id_dict = {"tsid_id": tsid}
+                            tags_list = build_tags_info(id_dict,tag_list)
                             task_submit_tag_db.mutil_insert_tag(tags_list)
                             # 插入附件
                             attachment_list = build_attachment_info(id_dict, attachment)
                             task_submit_attach_db.mutil_insert_attachment(attachment_list)
                             ret["status"] = True
                 except Exception as e:
+                    print(e)
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()

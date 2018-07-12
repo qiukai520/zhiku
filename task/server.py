@@ -232,7 +232,7 @@ class TaskReviewDB(object):
 
     def mutil_update_reviewer(self, modify_info):
         for item in modify_info:
-            TaskReview.objects.filter(tid_id=item['tid'], sid_id=item['sid']).update(**item)
+            TaskReview.objects.filter(tid_id=item['tid_id'], sid_id=item['sid_id']).update(**item)
 
     def mutil_delete_reviewer(self, id_list):
         TaskReview.objects.filter(tvid__in=id_list).delete()
@@ -327,7 +327,7 @@ class TaskSubmitTagDB(object):
     """任务标签"""
     def mutil_insert_tag(self, modify_info_list):
         for item in modify_info_list:
-            is_exists = TaskSubmitTag.objects.filter(tsid=item['tsid'], name=item['name'])
+            is_exists = TaskSubmitTag.objects.filter(tsid_id=item['tsid_id'], name=item['name'])
             if is_exists:
                 continue
             TaskSubmitTag.objects.create(**item)
@@ -340,10 +340,10 @@ class TaskSubmitTagDB(object):
         TaskSubmitTag.objects.filter(tstid__in=id_list).delete()
 
     def mutil_delete_tag_by_tsid(self, id_list):
-        TaskSubmitTag.objects.filter(tsid__in=id_list).delete()
+        TaskSubmitTag.objects.filter(tsid_id__in=id_list).delete()
 
     def query_task_tag_by_tsid(self, tsid):
-        result_db = TaskSubmitTag.objects.filter(tsid=tsid).all()
+        result_db = TaskSubmitTag.objects.filter(tsid_id=tsid).all()
         return result_db
 
 

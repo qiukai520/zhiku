@@ -21,12 +21,12 @@ class GlobalSettings(object):
 class TaskAdmin(object):
     """工作任务后台管理"""
     # 数据展示
-    list_display = ['title', 'content', 'perfor','cycle','start_time','deadline']
-    field = ['title', 'content', 'type', 'issuer', 'perfor','cycle','start_time','deadline']
+    list_display = ['tid','title', 'content', 'perfor','cycle','start_time','deadline']
+    field = ['tid','title', 'content', 'type', 'issuer', 'perfor','cycle','start_time','deadline']
     # 筛选(后台管理页面中的过滤器)
     list_filter = ['type', 'deadline']
     # 查询
-    search_fields =[ 'title', 'content']
+    search_fields =['title', 'content']
     # 后台自定义默认排序
     ordering = ['-deadline']
     # 后台直接在表上修改数据
@@ -41,7 +41,7 @@ class TaskAdmin(object):
 
 class TaskAttachmentAdmin(object):
     """任务附件后台管理"""
-    list_display = ['tid', 'attachment', 'name', 'description']
+    list_display = ['tamid','tid', 'attachment', 'name', 'description']
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'
@@ -73,7 +73,7 @@ class TaskTypeAdmin(object):
 
 class TaskAssignAdmin(object):
     """任务指派后台管理"""
-    list_display = ['tid', 'title', 'content', 'member_id', 'deadline','create_time','last_edit']
+    list_display = ['tasid','tid', 'title', 'content', 'member_id', 'deadline','create_time','last_edit']
     list_filter = ['tid','member_id', 'deadline']
     search_fields = ['title', 'content']
     fields = ['tid', 'title', 'content', 'member_id', 'deadline','create_time','last_edit']
@@ -82,7 +82,7 @@ class TaskAssignAdmin(object):
 
 class TaskAssignTagAdmin(object):
     """任务指派标签后台管理"""
-    list_display = ['tid', 'name' ]
+    list_display = ['tat','tid', 'name' ]
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'
@@ -90,7 +90,7 @@ class TaskAssignTagAdmin(object):
 
 class TaskAssignAttachAdmin(object):
     """任务指派附件后台管理"""
-    list_display = ['tasid', 'attachment', 'name', 'description']
+    list_display = ['taaid','tasid', 'attachment', 'name', 'description']
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'
@@ -98,7 +98,7 @@ class TaskAssignAttachAdmin(object):
 
 class TaskAssignTagAdmin(object):
     """任务指派附件后台管理"""
-    list_display = ['tasid', 'name' ]
+    list_display = ['tatid','tasid', 'name' ]
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'
@@ -138,7 +138,7 @@ class TaskSubmitAttachmentAdmin(object):
 
 class TaskReviewRecordAdmin(object):
     """任务审核记录后台管理"""
-    list_display = ['tasid', "tvid",'is_complete', 'reason','comment', 'evaluate','create_time']
+    list_display = ['trrid','tasid', "tvid",'is_complete', 'reason','comment', 'evaluate','create_time']
     list_filter = ['tasid']
     search_fields = []
     model_icon = 'fa fa-cog'

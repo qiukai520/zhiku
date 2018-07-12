@@ -34,7 +34,7 @@ class Performemce(models.Model):
 
 class Staff(models.Model):
     sid = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=64,verbose_name='员工编号')
+    name = models.CharField(max_length=64,verbose_name='员工姓名')
     department = models.ForeignKey('Department',to_field="id", on_delete=models.CASCADE, db_constraint=False, default=1, verbose_name='所属部门')
 
     class Meta:
@@ -60,7 +60,7 @@ class Task(models.Model):
                              db_constraint=False, default=1)
     # type_id = models.SmallIntegerField(verbose_name='任务类型')  # ' 任务类型',
     issuer = models.ForeignKey('Staff', to_field="sid", on_delete=models.CASCADE, verbose_name='发布人',
-                               db_constraint=False)  # '发布人',
+                               db_constraint=False, parent_link=True)  # '发布人',
     perfor = models.ForeignKey('Performemce', to_field='pid', on_delete=models.CASCADE, db_constraint=False,
                                verbose_name='绩效分类')  # '绩效分类',
     execute_way = models.IntegerField(choices=execute_way_choice, verbose_name='执行方式')  # '0代表并行执行，1次序执行',
@@ -68,6 +68,7 @@ class Task(models.Model):
                                         verbose_name='是否可见')  # '0代表相互可见；1互不可见；2指定可见',
     cycle = models.ForeignKey('TaskCycle', to_field="tcid", on_delete=models.CASCADE, db_constraint=False, default=1,
                               verbose_name='任务周期')  # 任务周期
+    # reviewers = models.ManyToManyField("Staff", related_name='task_review',through='TaskReview', verbose_name='审核人',through_fields=('tid','sid'),)
     start_time = models.DateTimeField(blank=True, null=True, verbose_name='起始时间')
     deadline = models.DateTimeField(blank=True, null=True, verbose_name='截止时间')
     is_assign = models.IntegerField(choices=is_assign, verbose_name='指派状态')
@@ -78,8 +79,8 @@ class Task(models.Model):
 
     class Meta:
         db_table = 'task'
-        verbose_name = '工作任务内容'
-        verbose_name_plural = '工作任务内容'
+        verbose_name = '任务内容'
+        verbose_name_plural = '任务内容'
 
     def __str__(self):
         return self.title
@@ -106,13 +107,13 @@ class TaskAssign(models.Model):
         verbose_name_plural = '任务指派'
 
     def __str__(self):
-        return "任务指派:{0}".format(self.tasid)
+        return "任务指派:{0}".format(self.tid)
 
 
 class TaskAssignAttach(models.Model):
     taaid = models.AutoField(primary_key=True)
     tasid = models.ForeignKey('TaskAssign', to_field='tasid', on_delete=models.CASCADE, db_constraint=False,
-                              verbose_name='任务指派编号')
+                              verbose_name='指派任务')
     attachment = models.CharField(max_length=512, blank=True, null=True, verbose_name='附件路径')
     name = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件名称')
     description = models.CharField(max_length=512, blank=True, null=True, verbose_name='附件描述')
@@ -123,12 +124,12 @@ class TaskAssignAttach(models.Model):
         verbose_name_plural = '任务指派附件'
 
     def __str__(self):
-        return "任务指派附件:{0}".format(self.taaid)
+        return "任务指派附件:{0}".format(self.tasid)
 
 
 class TaskAttachment(models.Model):
     tamid = models.AutoField(primary_key=True)
-    tid = models.ForeignKey('Task', to_field='tid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务编号')
+    tid = models.ForeignKey('Task', to_field='tid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
     attachment = models.CharField(max_length=512, blank=True, null=True, verbose_name='附件路径')
     name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
     description = models.CharField(max_length=512, blank=True, null=True, verbose_name='附件描述')
@@ -144,7 +145,7 @@ class TaskAttachment(models.Model):
 
 class TaskAuth(models.Model):
     taid = models.AutoField(primary_key=True)
-    tasid = models.ForeignKey('TaskAssign', to_field='tasid', on_delete=models.CASCADE, db_constraint=False,verbose_name='任务指派编号')
+    tasid = models.ForeignKey('TaskAssign', to_field='tasid', on_delete=models.CASCADE, db_constraint=False,verbose_name='指派任务')
     status = models.IntegerField()
     result = models.IntegerField()
     score = models.IntegerField()
@@ -153,8 +154,8 @@ class TaskAuth(models.Model):
 
     class Meta:
         db_table = 'task_auth'
-        verbose_name = '任务审核'
-        verbose_name_plural = '任务审核'
+        verbose_name = ''
+        verbose_name_plural = ''
 
     def __str__(self):
         return "任务附件:{0}".format(self.tamid)
@@ -177,7 +178,7 @@ class TaskReviewRecord(models.Model):
     is_complete = ((0, '未完成'), (1, '已完成'))
     trrid = models.AutoField(primary_key=True)
     tasid = models.ForeignKey('TaskAssign', to_field='tasid', on_delete=models.CASCADE, db_constraint=False,
-                              verbose_name='任务指派编号')
+                              verbose_name='指派任务')
     tvid = models.ForeignKey('TaskReview', to_field='tvid', on_delete=models.CASCADE, db_constraint=False,
                              verbose_name='任务审核分配id')
     is_complete = models.SmallIntegerField(choices=is_complete, verbose_name='审核状态')
@@ -197,9 +198,9 @@ class TaskReviewRecord(models.Model):
 
 class TaskReview(models.Model):
     tvid = models.AutoField(primary_key=True)
-    tid = models.ForeignKey('Task', to_field='tid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务编号')
+    tid = models.ForeignKey('Task', to_field='tid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
     sid = models.ForeignKey("Staff", to_field='sid', on_delete=models.CASCADE, db_constraint=False,
-                            verbose_name='审核人编号')
+                            verbose_name='审核人')
     follow = models.IntegerField(verbose_name='审核顺序')
 
     class Meta:
@@ -209,24 +210,24 @@ class TaskReview(models.Model):
         verbose_name_plural = '任务审核人'
 
     def __str__(self):
-        return '任务审核人{0}'.format(self.tvid)
+        return '任务审核人{0}'.format(self.sid)
 
 
 class TaskSubmitAttachment(models.Model):
     tsaid = models.AutoField(primary_key=True)
     tsid = models.ForeignKey('TaskSubmitRecord', to_field='tsid', on_delete=models.CASCADE, db_constraint=False,
-                             verbose_name='任务提交编号')
+                             verbose_name='工作提交')
     attachment = models.CharField(max_length=512, blank=True, null=True, verbose_name='附件路径')
     name = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件名称')
     description = models.CharField(max_length=512, blank=True, null=True, verbose_name='附件描述')
 
     class Meta:
         db_table = 'task_submit_attachment'
-        verbose_name = '任务提交附件'
-        verbose_name_plural = '任务提交附件'
+        verbose_name = '工作提交附件'
+        verbose_name_plural = '工作提交附件'
 
     def __str__(self):
-        return '任务提交附件{0}'.format(self.tsaid)
+        return '工作提交附件{0}'.format(self.tsaid)
 
 
 class TaskSubmitRecord(models.Model):
@@ -234,7 +235,7 @@ class TaskSubmitRecord(models.Model):
 
     tsid = models.AutoField(primary_key=True)
     tasid = models.ForeignKey('TaskAssign', to_field='tasid', on_delete=models.CASCADE, db_constraint=False,
-                              verbose_name='任务指派编号')
+                              verbose_name='指派任务')
     title = models.CharField(max_length=512, blank=True, null=True, verbose_name="标题")
     summary = models.CharField(max_length=512, blank=True, null=True, verbose_name='小结')
     remark = models.CharField(max_length=512, blank=True, null=True, verbose_name='备注')
@@ -245,16 +246,16 @@ class TaskSubmitRecord(models.Model):
 
     class Meta:
         db_table = 'task_submit_record'
-        verbose_name = '任务提交记录'
-        verbose_name_plural = '任务提交记录'
+        verbose_name = '工作提交记录'
+        verbose_name_plural = '工作提交记录'
 
     def __str__(self):
-        return '任务提交记录{0}'.format(self.title)
+        return '工作提交记录{0}'.format(self.title)
 
 
 class TaskTag(models.Model):
     ttid = models.AutoField(primary_key=True)
-    tid = models.ForeignKey('Task', to_field='tid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务编号')
+    tid = models.ForeignKey('Task', to_field='tid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
     name = models.CharField(max_length=32, blank=True, null=True, verbose_name='标签名称')
 
     class Meta:
@@ -270,24 +271,24 @@ class TaskTag(models.Model):
 class TaskAssignTag(models.Model):
     tatid = models.AutoField(primary_key=True)
     tasid = models.ForeignKey('TaskAssign', to_field='tasid', on_delete=models.CASCADE, db_constraint=False,
-                              verbose_name='任务指派编号')
+                              verbose_name='指派任务')
     name = models.CharField(max_length=32, blank=True, null=True, verbose_name='标签名称')
 
     class Meta:
         db_table = 'task_assign_tag'
         unique_together = (('tasid', 'name'),)
-        verbose_name = '指派任务标签'
-        verbose_name_plural = '指派任务标签'
+        verbose_name = '任务指派标签'
+        verbose_name_plural = '任务指派标签'
 
     def __str__(self):
-        return '任务指派标签{0}'.format(self.name)
+        return '任务指派标签{0}'.format(self.tasid)
 
 
 class TaskSubmitTag(models.Model):
     tstid = models.AutoField(primary_key=True)
     tsid = models.ForeignKey('TaskSubmitRecord', to_field='tsid', on_delete=models.CASCADE, db_constraint=False,
-                             verbose_name='任务提交编号')
-    name = models.CharField(max_length=32, blank=True, null=True, verbose_name='标签编号')
+                             verbose_name='任务提交')
+    name = models.CharField(max_length=32, blank=True, null=True, verbose_name='标签')
 
     class Meta:
         db_table = 'task_submit_tag'

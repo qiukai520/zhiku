@@ -94,9 +94,9 @@
           <td>{{ obj.content|slice:"15"}}</td>
           <td>{% change_to_task_type  obj.type_id  %}</td>
           <td>{% change_to_staff obj.issuer_id %}</td>
-          <td>{{ obj.deadline |date:"Y-m-d "}}</td>
+          <td name="deadline">{{ obj.deadline |date:"Y-m-d "}}</td>
           <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
-          <td>{% bulid_assign_member_list obj.tid %}
+          <td>{% bulid_assign_member_list obj.tid obj.deadline%}
           </td>
       </tr>
       {% endfor %}
@@ -250,6 +250,12 @@
     自执行函数
     */
     $(function () {
+         //设置日期时间控件
+        $('#datetimepicker1').datetimepicker({
+        format: 'YYYY-MM-DD hh:mm',
+        locale: moment.locale('zh-cn')
+            });
+
          //初始化datatables 改成中文显示
        $('#table_local').dataTable({
            bDestroy: true,
@@ -281,13 +287,6 @@
 	});
     });
 
-            //设置日期时间控件
-$(function () {
-    $('#datetimepicker1').datetimepicker({
-        format: 'YYYY-MM-DD hh:mm',
-        locale: moment.locale('zh-cn')
-    });
-});
         //字符串格式化
 String.prototype.format=function()
 {
@@ -435,9 +434,11 @@ function MemberAssignShow(ths) {
       $('#assign_member').modal('show');
       var member_name=$(ths).children().first().text();
       var tasid=$(ths).next().val();
+      var deadline=$(ths).next().next().next().val();
+      console.log(deadline);
+
       $("#myModalLabel").text(member_name+"的任务内容");
       $("#myModalLabel").parent().find("input[name=tasid]").val(tasid);
-      //初始化数据
       $.ajax({
           url:"{% url "show_assign_content" %}",
           type:"get",
@@ -446,7 +447,6 @@ function MemberAssignShow(ths) {
           success:function (arg) {
               if (arg.status){
                   var data=JSON.parse(arg.member_assign);
-                  console.log("title",data[0].fields.title);
                   if(data[0].fields.title!=null){
                       $("#edit").removeClass("hidden");
                       $("#edit").show();
@@ -454,7 +454,12 @@ function MemberAssignShow(ths) {
                   }
                   $("#title").val(data[0].fields.title);
                   $("#content").val(data[0].fields.content);
-                  $("#datetimepicker1").find("input").val(data[0].fields.deadline);
+                  //如果没指定deadline，则为总的deadline
+                  if (data[0].fields.deadline){
+                      $("#datetimepicker1").find("input").val(data[0].fields.deadline);
+                  }else{
+                       $("#datetimepicker1").find("input").val(deadline)
+                  }
                   //初始化标签
                   var tags=JSON.parse(arg.tags);
                   for(var i=0 ;i<tags.length;i++){
@@ -479,7 +484,6 @@ function MemberAssignShow(ths) {
       });
      //添加指派内容
       $("#assign").click(function () {
-            console.log("submit",tasid)
 {#            var member_id=$(ths).parent().find("input[name=member_id]").val();#}
             var title = $("#title").val().trim();
             var content = $("#content").val().trim();
@@ -513,7 +517,6 @@ function MemberAssignShow(ths) {
 //修改指派内容
     function Edit(){
         var tasid= $("#myModalLabel").parent().find("input[name=tasid]").val();
-        console.log(tasid)
         var title = $("#title").val().trim();
         var content = $("#content").val().trim();
         var deadline = $("#datetimepicker1").find("input").val();

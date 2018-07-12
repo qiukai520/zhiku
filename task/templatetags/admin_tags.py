@@ -184,7 +184,7 @@ def change_to_task_reviewer(tvid):
     return staff_obj.name
 
 @register.simple_tag
-def bulid_assign_member_list(tid):
+def bulid_assign_member_list(tid,deadline):
     """构建指派对象"""
     task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
     eles = """<ul>"""
@@ -206,7 +206,8 @@ def bulid_assign_member_list(tid):
         <span style="color: blue" class="glyphicon glyphicon-plus plus " ></span> &nbsp <span >{1}</span> &nbsp<span style="color:#9F9F9F">{2}</span></li>
         <input type="text " class="hidden" name="tasid" value='{3}'>
         <input type="text " class="hidden" name="member_id" value='{4}'>
-        """.format(member.name, status, last_edit,item.tasid, item.member_id)
+         <input type="text " class="hidden" name="deadline" value='{5}'>
+        """.format(member.name, status, last_edit,item.tasid, item.member_id, deadline)
         eles += ele
     eles += "</ul>"
     return mark_safe(eles)
