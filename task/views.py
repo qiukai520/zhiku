@@ -44,6 +44,9 @@ def task_detail(request):
 #     return HttpResponse(json.dumps(ret))
 
 
+def index(request):
+    return render(request,'index_v3.html')
+
 def publish_task(request):
     """创建任务"""
     method = request.method

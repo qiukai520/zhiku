@@ -55,6 +55,9 @@
     .flat-blue a {
     color: #075dec;
 }
+     #content-main{
+      overflow :auto
+     }
 
     .progress{position: relative; width:350px;height: 30px;margin: 12px }
     .progress_bg{height: 12px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden;background-color:#f2f2f2;}
@@ -65,7 +68,34 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     </style>
 {% endblock %}
 {% block content%}
-    <div class="container"   style="background-color: #f3f3f3 ;border-bottom: 2px double #9F9F9F; width:80%;">
+
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row"  >
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>任务审核</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#">选项1</a>
+                                </li>
+                                <li><a href="#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content" style="background-color:#F9F9F9">
+                         <div class="container"   style="border-bottom: 2px double #9F9F9F; width:80%;">
       <div class="form-group  " id="top" style="font-size:14px;margin-top: 10px;">
             {% query_task_by_tid  task_assign_info.tid_id  as total_task_obj %}
 
@@ -122,119 +152,126 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
 
       </div>
   </div>
-    <div class="container-fluid"style="width: 80%;">
-     <div class="row">
-         <div class="col-xs-4">
-              <h4 style="text-align: center">{{ member_info.name }}工作记录</h4>
-         </div>
-         <div class="col-xs-8" ></div>
-     </div>
-    {% if task_submit_record %}
-         {% for item in task_submit_record %}
-        <div class="row" >
-            <div class="col-xs-2" style="position: relative " ><span  style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.last_edit|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.last_edit|date:"H:i:s "}}</span></span></div>
-             <div class="col-xs-8" style="border-left:2px solid #9F9F9F;" >
-                 <div class="row form-horizontal" style="margin:5px;background-color: white">
-                     <div style="margin-left:28px;">
-                         <label class="form-label" style=" font-size:16px"  >进度评估:</label>
-                         <span style="font-size:16px" >{{ item.completion }}%</span><br>
-                         <label class="form-label" >标题:</label>
-                         <span  >{{ item.title }}</span><br>
-                         <label class="form-label"  >标签:</label>
-                         {% build_record_tags_ele  item.tsid%}<br>
-                          <label class="form-label"  >小结:</label>
-                         <span  >{{ item.summary }}</span><br>
-                         {% query_submit_attachment_by_tsid item.tsid as s_attachment_list%}
-                         {% for obj in s_attachment_list %}
-                            <label class="form-label"   >附件{{ forloop.counter }}:</label>
-                            <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
-                            <label class="form-label" for="task_title"  >附件描述:</label>
-                            <span id="task_title" >{{ obj.description }}</span><br>
+                        <div class="container-fluid"style="width: 80%;">
+                         <div class="row">
+                             <div class="col-xs-4">
+                                  <h4 style="text-align: center">{{ member_info.name }}工作记录</h4>
+                             </div>
+                             <div class="col-xs-8" ></div>
+                         </div>
+                        {% if task_submit_record %}
+                             {% for item in task_submit_record %}
+                            <div class="row" >
+                                <div class="col-xs-2" style="position: relative " ><span  style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.last_edit|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.last_edit|date:"H:i:s "}}</span></span></div>
+                                 <div class="col-xs-8" style="border-left:2px solid #9F9F9F;" >
+                                     <div class="row form-horizontal" style="margin:5px;background-color: white">
+                                         <div style="margin-left:28px;">
+                                             <label class="form-label" style=" font-size:16px"  >进度评估:</label>
+                                             <span style="font-size:16px" >{{ item.completion }}%</span><br>
+                                             <label class="form-label" >标题:</label>
+                                             <span  >{{ item.title }}</span><br>
+                                             <label class="form-label"  >标签:</label>
+                                             {% build_record_tags_ele  item.tsid%}<br>
+                                              <label class="form-label"  >小结:</label>
+                                             <span  >{{ item.summary }}</span><br>
+                                             {% query_submit_attachment_by_tsid item.tsid as s_attachment_list%}
+                                             {% for obj in s_attachment_list %}
+                                                <label class="form-label"   >附件{{ forloop.counter }}:</label>
+                                                <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
+                                                <label class="form-label" for="task_title"  >附件描述:</label>
+                                                <span id="task_title" >{{ obj.description }}</span><br>
+                                             {% endfor %}
+                                              <label class="form-label"  >备注:</label>
+                                             <span  >{{ item.remark }}</span><br>
+                                         </div>
+                                     </div>
+
+                                 </div>
+                            </div>
+                             {% endfor %}
+                            {% else %}
+                             <div class="row">
+                             <div class="col-xs-4">
+                                  <h5 style="text-align: center">暂无工作记录</h5>
+                             </div>
+                             <div class="col-xs-8" ></div>
+                         </div>
+                            <h5></h5>
+                        {% endif %}
+
+                      </div>
+                         {%  for task_review_record in reviewers_record_list %}
+                        <div class="container-fluid"style=" background-color: #f3f3f3 ;border-top: 2px double #9F9F9F;width: 80%;">
+                            {% if task_review_record.0 %}
+                            <div class="row">
+                             <div class="col-xs-4">
+                                  <h4 style="text-align: center;">审核人:{% change_to_task_reviewer task_review_record.0.tvid_id %}</h4>
+                             </div>
+                             <div class="col-xs-8" ></div>
+                         </div>
+                           {% endif %}
+                            {% for item in  task_review_record %}
+                                {% if forloop.first %}
+                                     <div class="row">
+                                <div class="col-xs-2" style="position: relative" ><span style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.create_time|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.create_time|date:"H:i:s "}}</span></span></div>
+                                 <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding-left:20px" >
+                                <div class="row form-horizontal" style="margin:5px;background-color: white">
+                                    <div style="margin-left:28px;">
+                                    <label class="form-label" style="margin:3px 0"  >审核记录{{ forloop.revcounter }}</label><br>
+                                     {%if  item.is_complete%}
+                                         <label class="form-label"  >审核结果:</label>
+                                         <span  >通过</span><br>
+                                         <label class="form-label" >评语:</label>
+                                         <span  >{{ item.comment }}</span><br>
+                                         <label class="form-label"  >评分:</label>
+                                          <span  >{{ item.evaluate}}颗星</span><br>
+                                     {% else %}
+                                          <label class="form-label"  >审核结果:</label>
+                                         <span  >驳回</span><br>
+                                         <label class="form-label" >原因:</label>
+                                         <span  >{{ item.reason }}</span><br>
+                                     {% endif%}
+                                    </div>
+                                    </div>
+                                 </div>
+                            </div>
+                                      <span  onclick="ShowMore(this)" style ="color:#075dec; float: right;padding-right:150px;cursor: pointer" >更多</span>
+                                {% else %}
+                                    <div class="row  hidden">
+                                        <div class="col-xs-2" style="position: relative" ><span style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.create_time|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.create_time|date:"H:i:s "}}</span></span></div>
+                                        <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding-left:20px;padding-bottom:10px" >
+                                <div class="row form-horizontal" style="margin:5px;background-color: white;">
+                                    <div style="margin-left:28px;">
+                                    <label class="form-label" style="margin:3px 0"  >审核记录{{ forloop.revcounter }}</label><br>
+                                     {%if  item.is_complete%}
+                                         <label class="form-label"  >审核结果:</label>
+                                         <span  >通过</span><br>
+                                         <label class="form-label" >评语:</label>
+                                         <span  >{{ item.comment }}</span><br>
+                                         <label class="form-label"  >评分:</label>
+                                          <span  >{{ item.evaluate}}颗星</span><br>
+                                     {% else %}
+                                          <label class="form-label"  >审核结果:</label>
+                                         <span  >驳回</span><br>
+                                         <label class="form-label" >原因:</label>
+                                         <span  >{{ item.reason }}</span><br>
+                                     {% endif%}
+                                    </div>
+                                    </div>
+                                 </div>
+                                    </div>
+                                {% endif %}
+
+                        {% endfor %}
+                      </div>
                          {% endfor %}
-                          <label class="form-label"  >备注:</label>
-                         <span  >{{ item.remark }}</span><br>
-                     </div>
-                 </div>
-
-             </div>
+                    </div>
+                </div>
+            </div>
         </div>
-         {% endfor %}
-        {% else %}
-         <div class="row">
-         <div class="col-xs-4">
-              <h5 style="text-align: center">暂无工作记录</h5>
-         </div>
-         <div class="col-xs-8" ></div>
-     </div>
-        <h5></h5>
-    {% endif %}
+    </div>
 
-  </div>
-     {%  for task_review_record in reviewers_record_list %}
-    <div class="container-fluid"style=" background-color: #f3f3f3 ;border-top: 2px double #9F9F9F;width: 80%;">
-        {% if task_review_record.0 %}
-        <div class="row">
-         <div class="col-xs-4">
-              <h4 style="text-align: center;">审核人:{% change_to_task_reviewer task_review_record.0.tvid_id %}</h4>
-         </div>
-         <div class="col-xs-8" ></div>
-     </div>
-       {% endif %}
-        {% for item in  task_review_record %}
-            {% if forloop.first %}
-                 <div class="row">
-            <div class="col-xs-2" style="position: relative" ><span style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.create_time|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.create_time|date:"H:i:s "}}</span></span></div>
-             <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding-left:20px" >
-            <div class="row form-horizontal" style="margin:5px;background-color: white">
-                <div style="margin-left:28px;">
-                <label class="form-label" style="margin:3px 0"  >审核记录{{ forloop.revcounter }}</label><br>
-                 {%if  item.is_complete%}
-                     <label class="form-label"  >审核结果:</label>
-                     <span  >通过</span><br>
-                     <label class="form-label" >评语:</label>
-                     <span  >{{ item.comment }}</span><br>
-                     <label class="form-label"  >评分:</label>
-                      <span  >{{ item.evaluate}}颗星</span><br>
-                 {% else %}
-                      <label class="form-label"  >审核结果:</label>
-                     <span  >驳回</span><br>
-                     <label class="form-label" >原因:</label>
-                     <span  >{{ item.reason }}</span><br>
-                 {% endif%}
-                </div>
-                </div>
-             </div>
-        </div>
-                  <span  onclick="ShowMore(this)" style ="color:#075dec; float: right;padding-right:150px;cursor: pointer" >更多</span>
-            {% else %}
-                <div class="row  hidden">
-                    <div class="col-xs-2" style="position: relative" ><span style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.create_time|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.create_time|date:"H:i:s "}}</span></span></div>
-                    <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding-left:20px" >
-            <div class="row form-horizontal" style="margin:5px;background-color: white">
-                <div style="margin-left:28px;">
-                <label class="form-label" style="margin:3px 0"  >审核记录{{ forloop.revcounter }}</label><br>
-                 {%if  item.is_complete%}
-                     <label class="form-label"  >审核结果:</label>
-                     <span  >通过</span><br>
-                     <label class="form-label" >评语:</label>
-                     <span  >{{ item.comment }}</span><br>
-                     <label class="form-label"  >评分:</label>
-                      <span  >{{ item.evaluate}}颗星</span><br>
-                 {% else %}
-                      <label class="form-label"  >审核结果:</label>
-                     <span  >驳回</span><br>
-                     <label class="form-label" >原因:</label>
-                     <span  >{{ item.reason }}</span><br>
-                 {% endif%}
-                </div>
-                </div>
-             </div>
-                </div>
-            {% endif %}
 
-    {% endfor %}
-  </div>
-     {% endfor %}
 {% endblock %}
 {% block js %}
     <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>

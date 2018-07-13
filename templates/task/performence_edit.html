@@ -10,12 +10,41 @@
     .form-group{
          margin-top:30px;
     }
+     #content-main{
+      overflow :auto
+     }
+
     </style>
 
 {%endblock %}
 {% block content %}
 
-      <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+     <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>添加绩效 </h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#">选项1</a>
+                                </li>
+                                <li><a href="#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                         <div class="row form-horizontal" style="position: relative;margin-top: 30px">
             <div class="col-xs-12">
                 <div class="form-group">
                     <label for="task_name" class="col-xs-2 control-label">绩效名称：</label>
@@ -52,15 +81,21 @@
                         </input>
                       </div>
                 </div>
-                  <div class="form-group col-xs-6">
+                  <div class="form-group col-xs-6" style="text-align: center">
+                   <a href="{% url "performence_list" %}" class="btn btn-danger" style="">返回</a>
             {% if pid %}
-                  <button  onclick="Edit()" class="btn btn-primary" style="float: right;">修改</button>
+                  <button  onclick="Edit()" class="btn btn-primary" style="margin-left: 50px">修改</button>
             {% else %}
-                <button  onclick="Submit()" class="btn btn-primary" style="float: right;">创建</button>
+                <button  onclick="Submit()" class="btn btn-primary" style="margin-left: 50px">创建</button>
             {% endif %}
-            <a href="{% url "performence_list" %}" class="btn btn-danger" style="float:right;margin-right: 50px;">返回</a>
+
         </div>
             </div>
+    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

@@ -43,9 +43,6 @@
     span.glyphicon.glyphicon-arrow-left {
         margin-top:120px;
     }
-    button,.btn{
-        margin-top: 0px !important;
-    }
      .buttons{
         overflow:hidden
     }
@@ -62,13 +59,40 @@
     .select2-selection--multiple{
         visibility: hidden;
     }
+     #content-main{
+      overflow :auto
+     }
 
     </style>
 
 {% endblock %}
 {% block content %}
-    <div class="container" >
-    <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>任务创建 </h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#">选项1</a>
+                                </li>
+                                <li><a href="#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                    <div class="row form-horizontal" style="position: relative;margin-top: 30px">
             <div class="col-xs-12">
                 <div class="form-group">
                     <label for="task_name" class="col-xs-2 control-label">任务名称：</label>
@@ -198,13 +222,12 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="task_type" class="control-label col-xs-2">选择审核人：</label>
-                    <div class="control-xs-6 row" style="margin:8px ;">
-                        <lable  for="department"  style="margin-left:15px" class="control-label  "></lable>
-                            <select name="department"  class="form-control "  style="width: 28%" data-live-search="true" onchange="FetchStaff(this)">
+                    <label for="department" class="control-label col-xs-2">选择审核人：</label>
+                           <div  class="col-xs-6">
+                            <select name="department" id="department"  class="form-control  col-xs-8"  style="width: 65%" data-live-search="true" onchange="FetchStaff(this)">
                             {% build_department_ele %}
                             </select>
-                        <label for="follow" class="control-label  " style="margin-left:10px">次序审核：</label>
+                        <label for="follow" class="control-label " style="margin-left:10px">次序审核：</label>
                         <!--查看审核人是否有序-->
                         {%if tid %}
                             {% if task_reviewer_info.first.follow %}
@@ -215,7 +238,7 @@
                         {% else %}
                              <input type="checkbox" name="follow"   id ="follow">
                         {% endif %}
-                    </div>
+                           </div>
                 </div>
                 <div class="form-group" >
                     <label for="task_type" class="control-label col-xs-2"></label>
@@ -251,8 +274,11 @@
             <a href="#" class="btn btn-danger" style="float:right;margin-right: 50px;">返回</a>
         </div>
     </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
 {% endblock %}
 {% block js %}
     <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>

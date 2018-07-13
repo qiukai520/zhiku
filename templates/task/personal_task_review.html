@@ -3,11 +3,6 @@
 
 {% block css  %}
      <style>
-        td, th{
-            text-align: left;
-            vert-align: middle;
-            padding: 10px 18px !important;
-        }
         .form-horizontal .control-label {
             padding-top: 7px;
             margin-bottom: 0;
@@ -46,37 +41,47 @@
        .member_name:hover{
           color:red;
        }
-     button,.btn{
-        margin: 0px !important;
-    }
-     a:link {
-         color: red
-     }
+      #toolbar >button{
+          margin: 0 2px;
+      }
      </style>
 {%endblock%}
 
 {% block content %}
-     <div class="panel panel-default">
-  <!-- Default panel contents -->
-  <div class="panel-heading">我的审核任务</div>
-  <div class="panel-body" style="background-color:#f2f2f2">
-      <form class="form-inline left"  action="{% url "personal_task_review" %}" method="get">
-          <div class="form-group"> <label for="task_sort">任务类别</label>
-                   <select id="task_sort" name="s"   class="form-control">
-                       <option value=0>所有</option>
-                  {% build_task_type_filter filter %}
-          </select>
-          </div>
-          <button type="submit" class="btn btn-default">搜索</button>
-</form>
-      <div style="float:right; ">
-          <button  onclick="MultiDelete()" class="btn btn-danger">批量删除</button>
-      </div>
-  </div>
-        <!-- Table -->
-    <table id="table_local" class="table datatable table-striped table-hover table-striped">
-       <thead>
-      <tr >
+     <div class="wrapper wrapper-content animated fadeInRight">
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>我的审核任务</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">选项1</a>
+                        </li>
+                        <li><a href="#">选项2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <!-- Example Events -->
+                        <div class="example-wrap">
+                            <div class="example">
+                                <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                </div>
+                                <table id="personal_task_review"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                    <thead>
+                                         <tr >
           <th><input type="checkbox" onclick="SelectAll(this)"></th>
           <th>ID</th>
           <th>任务名称</th>
@@ -87,9 +92,9 @@
           <th>截止时间</th>
           <th>审核对象</th>
       </tr>
-       </thead>
-      <tbody>
-      {% if query_sets %}
+                                    </thead>
+                                    <tbody>
+                                       {% if query_sets %}
            {% for obj in  query_sets%}
       <tr>
           <td><input type="checkbox"></td>
@@ -105,9 +110,18 @@
       </tr>
       {% endfor %}
       {% endif %}
-      </tbody>
-  </table>
- </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End Example Events -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+
     <!-- Modal -->
     <!-- delete-->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -149,42 +163,7 @@
                 }
             }
         });
-
-      /*
-    自执行函数
-    */
-    $(function () {
-         //初始化datatables 改成中文显示
-       $('#table_local').dataTable({
-           bDestroy: true,
-           autoWidth:false,////不开启自动宽度，用bootstrap的自适应去调整
-           "lengthMenu":[10,20,30, 40,50],//表格行数选择框内数目 显示2条,4条,20条,50条
-           "displayLength": 10,//默认的显示行数 (也就是每页显示几条数据)
-           "language": {//自定义语言提示
-                "processing": "处理中...",
-                "lengthMenu": "显示 _MENU_ 项结果",
-                "zeroRecords": "没有找到相应的结果",
-                "info": "第 _START_ 至 _END_ 行，共 _TOTAL_ 行",
-                "infoEmpty": "第 0 至 0 项结果，共 0 项",
-                "infoFiltered": "(由 _MAX_ 项结果过滤)",
-                "infoPostFix": "",
-                "search": "搜索:",
-                "searchPlaceholder": "请输入要搜索内容...",
-                "url": "",
-                "thousands": "'",
-                "emptyTable": "表中数据为空",
-                "loadingRecords": "载入中...",
-                "infoThousands": ",",
-                "paginate": {
-                    "first": "首页",
-                    "previous": "上页",
-                    "next": "下页",
-                    "last": "末页"
-                }
-            }
-	});
-    });
-    //字符串格式化
+         //字符串格式化
 String.prototype.format=function()
 {
   if(arguments.length==0) return this;
@@ -193,45 +172,39 @@ String.prototype.format=function()
   return s;
 };
 
+      /*
+    自执行函数
+    */
+    $(function () {
+         //初始化datatables 改成中文显示
+    });
 
-    function  SelectAll(ths) {
-        //判断是否选中
-        ischecked=$(ths).is(":checked");
-        //如果选中则全选中,否则取消选中
-        $(ths).parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
-    }
-//批量删除
-    function MultiDelete() {
-        $("#delete_modal").modal("show");//显示模态框
-        var ids="";
-        $("tbody input:checkbox:checked").each(function () {
-            id = $(this).parent().next().text();
-            if (id){
-                id+="|";
-                ids+=id;
-            }
+  //初始化bootastarp_table
+    $(function () {
+        $("#personal_task_review").bootstrapTable({
+            toolbar: "#toolbar",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 15,
+            pageList: [10, 25],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false
         });
-        $("#ensure").click(function () {
-            $("#delete_modal").hide();
-              $.ajax({
-            url:"{% url "task_delete" %}",
-            data:{"ids":ids},
-            type:"get",
-            dataType:"JSON",
-            success:function (arg) {
-                if (arg.status){
-                   alert("删除成功");
-                    window.location.reload()
-                }else{
-                    alert("删除失败"),
-                    window.location.reload()
+    });
 
-
-                }
-            }
-        })
-        });
-    }
 
       </script>
 {% endblock %}

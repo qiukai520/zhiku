@@ -71,7 +71,7 @@
                         <ul class="nav nav-second-level">
 
                             <li>
-                                <a class="J_menuItem" href="index_v3.html">主页</a>
+                                <a  href="{% url 'index' %}">主页</a>
                             </li>
 
                         </ul>
@@ -81,28 +81,37 @@
                     <li>
 
 
-
                     <li>
-                        <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">表单</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">工作任务管理</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a class="J_menuItem" href="form_basic.html">自定义表单</a>
+                            <li>
+                                <a  href="{% url "personal_task_list" %}">我的任务</a>
                             </li>
-
-
+                            <li>
+                                <a  href="{% url "publish_task" %}">创建任务</a>
+                            </li>
+                            <li>
+                                <a  href="{% url "task_assign_center" %}">任务指派中心</a>
+                            </li>
+                            <li>
+                                <a  href="{% url "task_assign" %} ">已指派任务</a>
+                            </li>
+                             <li>
+                                <a  href="{% url 'task_wait_review' %}">任务审核中心</a>
+                            </li>
+                             <li>
+                                <a  href="{% url 'personal_task_review' %} ">我的审核任务</a>
+                            </li>
+                            <li>
+                                 <a  href="{% url "performence_list" %}">绩效分类</a>
+                            </li>
+                             <li>
+                                 <a  href="{% url "task_sort_list" %}">任务分类</a>
+                            </li>
 
                         </ul>
                     </li>
 
-                    <li>
-                        <a href="#"><i class="fa fa-table"></i> <span class="nav-label">表格</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-
-
-                            <li><a class="J_menuItem" href="table_bootstrap.html">自定义表格
-                               </a>
-                            </li>
-                        </ul>
-                    </li>
 
                 </ul>
             </div>
@@ -195,7 +204,7 @@
                             </ul>
                         </li>
                         <li class="hidden-xs">
-                            <a href="index_v3.html" class="J_menuItem" data-index="0"><i class="fa fa-cart-arrow-down"></i> 管理后台</a>
+                            <a href="http://127.0.0.1:8000/xadmin/"  data-index="0"><i class="fa fa-cart-arrow-down"></i> 管理后台</a>
                         </li>
                         <li class="dropdown hidden-xs">
                             <a class="right-sidebar-toggle" aria-expanded="false">
@@ -237,7 +246,7 @@
                 {% endblock %}
             </div>
             <div class="footer">
-                <div class="pull-right">&copy; 2017-2018 <a href="http://www.zhiku086.com/" target="_blank">智库</a>
+                <div class="pull-right">&copy; 2007-2018 <a href="http://www.zhiku086.com/" target="_blank">智库</a>
                 </div>
             </div>
         </div>
@@ -395,8 +404,8 @@
     <script src="/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
     <script src="/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 
-    <!-- Peity -->
-    <script src="/static/js/demo/bootstrap-table-demo.js"></script>
+{#    <!-- Peity -->#}
+{#    <script src="/static/js/demo/bootstrap-table-demo.js"></script>#}
 
 
     <!-- bootstarp multiselect-->

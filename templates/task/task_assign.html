@@ -3,11 +3,6 @@
 
 {% block css  %}
      <style>
-        td, th{
-            text-align: left;
-            vert-align: middle;
-            padding: 10px 18px !important;
-        }
         .form-horizontal .control-label {
             padding-top: 7px;
             margin-bottom: 0;
@@ -45,68 +40,36 @@
        .member_name:hover{
           color:red;
        }
+      #toolbar >button{
+          margin: 0 2px;
+      }
      </style>
 {%endblock%}
 
 {% block content %}
-{#     <div class="panel panel-default">#}
-{#  <!-- Default panel contents -->#}
-{#  <div class="panel-heading">已指派的任务</div>#}
-{#  <div class="panel-body" style="background-color:#f2f2f2">#}
-{#      <form class="form-inline left"  action="{% url "task_assign" %}" method="get">#}
-{#          <div class="form-group"> <label for="book_sort">类别</label>#}
-{#                   <select id="book_sort" name="s"   class="form-control">#}
-{#                       <option value=0>所有</option>#}
-{#                  {% build_task_type_filter  query_sets.0.tid %}#}
-{#          </select>#}
-{#          </div>#}
-{#          <button type="submit" class="btn btn-default">搜索</button>#}
-{#</form>#}
-{#      <div style="float:right; ">#}
-{#          <button  onclick="MultiDelete()" class="btn btn-danger">批量删除</button>#}
-{#      </div>#}
-{#  </div>#}
-{#        <!-- Table -->#}
-{#    <table id="table_local" class="table datatable table-striped table-hover table-striped">#}
-{#       <thead>#}
-{#      <tr >#}
-{#          <th><input type="checkbox" onclick="SelectAll(this)"></th>#}
-{#          <th>ID</th>#}
-{#          <th>任务名称</th>#}
-{#          <th>任务描述</th>#}
-{#          <th>任务类别</th>#}
-{#          <th>指派人</th>#}
-{#          <th>开始时间</th>#}
-{#          <th>截止时间</th>#}
-{#          <th>指派对象</th>#}
-{#      </tr>#}
-{#       </thead>#}
-{#      <tbody>#}
-{#      {% if query_sets %}#}
-{#           {% for obj in  query_sets%}#}
-{#      <tr>#}
-{#          <td><input type="checkbox"></td>#}
-{#          <td>{{ obj.tid }}</td>#}
-{#          <td>{{ obj.title }}</td>#}
-{#          <td>{{ obj.content|slice:"15"}}</td>#}
-{#          <td>{% change_to_task_type  obj.type_id  %}</td>#}
-{#          <td>{% change_to_staff obj.issuer_id %}</td>#}
-{#          <td name="deadline">{{ obj.deadline |date:"Y-m-d "}}</td>#}
-{#          <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>#}
-{#          <td>{% bulid_assign_member_list obj.tid obj.deadline%}#}
-{#          </td>#}
-{#      </tr>#}
-{#      {% endfor %}#}
-{#      {% endif %}#}
-{#      </tbody>#}
-{#  </table>#}
-{# </div>#}
-
-
      <div class="wrapper wrapper-content animated fadeInRight">
-
         <!-- Panel Other -->
         <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>已指派任务</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">选项1</a>
+                        </li>
+                        <li><a href="#">选项2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
             <div class="ibox-content">
                 <div class="row row-lg">
                     <div class="col-sm-12">
@@ -114,19 +77,10 @@
                         <div class="example-wrap">
 
                             <div class="example">
-
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                    <button type="button" class="btn btn-outline btn-default">
-                                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-outline btn-default">
-                                        <i class="glyphicon glyphicon-heart" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-outline btn-default">
-                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                                    </button>
+                                     <button  onclick="MultiDelete()" class="btn btn-danger">批量删除</button>
                                 </div>
-                                <table id="tb_departments" class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                <table id="task_assign"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                         <tr >
                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
@@ -136,7 +90,6 @@
                                             <th>任务类别</th>
                                             <th>指派人</th>
                                             <th>开始时间</th>
-                                            <th>截止时间</th>
                                             <th>截止时间</th>
                                             <th>指派对象</th>
                                           </tr>
@@ -153,8 +106,7 @@
                                               <td>{% change_to_staff obj.issuer_id %}</td>
                                               <td name="deadline">{{ obj.deadline |date:"Y-m-d "}}</td>
                                               <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
-                                              <td>{% bulid_assign_member_list obj.tid obj.deadline%}
-                                              </td>
+                                              <td>{% bulid_assign_member_list obj.tid obj.deadline%}</td>
                                           </tr>
                                           {% endfor %}
                                       {% endif %}
@@ -181,12 +133,12 @@
           <input type="text" class="hidden" name="tasid" >
       </div>
       <div class="modal-body" style="height: 560px;">
-         <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+         <div class="row form-horizontal" style="position: relative;">
             <div class="col-xs-12">
               <div class="form-group">
                     <label for="title" class="col-xs-3 control-label">标题：</label>
                       <div class="col-xs-8">
-                          <textarea name="title" style="height:50px;" class="form-control"  id="title" placeholder="任务标题">
+                          <textarea name="title" style="height:40px;" class="form-control"  id="title" placeholder="任务标题">
                         </textarea>
                       </div>
                 </div>
@@ -204,7 +156,7 @@
                         <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
                         </div>
                         <div class="col-xs-2" >
-                            <button class=" btn inline-block right" onclick="AddTag(this)">添加</button>
+                            <button class=" btn btn-info inline-block right" onclick="AddTag(this)">添加</button>
                         </div>
                         <div class="col-xs-12" id="tag_container" >
                         <div class="tag hidden  " >
@@ -275,10 +227,10 @@
     <div class="modal-content">
         <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">警告！</h4>
+        <h3 class="modal-title" id="myModalLabel">警告！</h3>
       </div>
       <div class="modal-body" style="text-align: center;font-size: 20px;">
-        您确定要删除吗？
+        您确定要删除吗？删除后数据将不可恢复
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -315,12 +267,8 @@
 
 
 
-
-
-
-
 $(function () {
-        $("#tb_departments").bootstrapTable({
+        $("#task_assign").bootstrapTable({
             toolbar: "#toolbar",
             striped: true,
             sidePagination: "client",
@@ -336,13 +284,11 @@ $(function () {
             showRefresh: true,
             minimumCountColumns: 2,
             clickToSelect: true,
-            height: 700,
             uniqueId: "ID",
             showToggle:true,
             cardView: false,
             detailView: false,
             cache: false
-
         });
     });
 
@@ -373,8 +319,9 @@ String.prototype.format=function()
         //判断是否选中
         ischecked=$(ths).is(":checked");
         //如果选中则全选中,否则取消选中
-        $(ths).parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
+        $(ths).parent().parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
     }
+
 //批量删除
     function MultiDelete() {
         $("#delete_modal").modal("show");//显示模态框

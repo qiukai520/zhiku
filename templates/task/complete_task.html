@@ -56,6 +56,10 @@
     .flat-blue a {
     color: #075dec;
 }
+     #content-main{
+      overflow :auto
+     }
+
     .progress{position: relative; width:350px;height: 30px;margin: 12px }
     .progress_bg{height: 12px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden;background-color:#f2f2f2;}
     .progress_bar{background: #5FB878; width: 0; height: 10px; border-radius: 5px;}
@@ -65,30 +69,54 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     </style>
 {% endblock %}
 {% block content%}
-    <div class="container"   style="border-bottom: 2px double #9F9F9F ; width:80%;">
-      <div class="form-group  " id="top" style="font-size:14px;font-weight:bold;padding: 5px;">
-            {% query_task_by_tid  task_obj.tid_id  as total_task_obj %}
-            <label class="form-label" for="attribute"  >任务分类:</label>
-            <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>
-           <label class="form-label" for="publisher"  >发起人:</label>
-            <span id="publisher"  >{% change_to_staff total_task_obj.issuer_id %}</span>
-           <label class="form-label" for="deadline" >创建时间:</label>
-               <span id="create_time" >{{ task_obj.create_time |date:"Y-m-d H:i"}}</span>
-           <label class="form-label" for="deadline" >截止时间:</label>
-           {% if task_obj.deadline %}
-               <span id="deadline" >{{ task_obj.deadline |date:"Y-m-d H:i"}}</span>
-            <label class="form-label" for="countdown"  >倒计时:</label>
-        <span id="countdown"  >{% build_countdown_time task_obj.deadline  %}天</span>
-           {% else %}
-               <span id="deadline" >{{ total_task_obj.deadline |date:"Y-m-d H:i"}}</span>
-            <label class="form-label" for="countdown"  >倒计时:</label>
-        <span id="countdown"  >{% build_countdown_time total_task_obj.deadline  %}天</span>
-           {% endif %}
-
-      </div>
-  </div>
-    <div class="container-fluid"style="width: 80%;margin-top: 20px;">
-        <div class="row">
+     <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row"  >
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>继续任务 </h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#">选项1</a>
+                                </li>
+                                <li><a href="#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content" style="background-color:#F9F9F9">
+                        <div class="container"   style="border-bottom: 2px double #9F9F9F ; width:80%;">
+                            <div class="form-group  " id="top"  style=" font-size:14px;font-weight:bold;">
+                                {% query_task_by_tid  task_obj.tid_id  as total_task_obj %}
+                                <label class="form-label" for="attribute"  >任务分类:</label>
+                                <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>
+                               <label class="form-label" for="publisher"  >发起人:</label>
+                                <span id="publisher"  >{% change_to_staff total_task_obj.issuer_id %}</span>
+                               <label class="form-label" for="deadline" >创建时间:</label>
+                                   <span id="create_time" >{{ task_obj.create_time |date:"Y-m-d H:i"}}</span>
+                               <label class="form-label" for="deadline" >截止时间:</label>
+                               {% if task_obj.deadline %}
+                                   <span id="deadline" >{{ task_obj.deadline |date:"Y-m-d H:i"}}</span>
+                                <label class="form-label" for="countdown"  >倒计时:</label>
+                                <span id="countdown"  >{% build_countdown_time task_obj.deadline  %}天</span>
+                               {% else %}
+                                   <span id="deadline" >{{ total_task_obj.deadline |date:"Y-m-d H:i"}}</span>
+                                <label class="form-label" for="countdown"  >倒计时:</label>
+                                <span id="countdown"  >{% build_countdown_time total_task_obj.deadline  %}天</span>
+                               {% endif %}
+                            </div>
+                        </div>
+                        <div class="container-fluid"style="width: 80%;margin-top: 20px;">
+                            <div class="row">
             <div class="col-xs-4" style="position: relative" ><span  style="color:#9F9F9F;font-size: 18px; float: right" class="right" ><span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px; background-color: red; "></span><br></span>
           {% if task_obj.title %}
                 <label class="form-label" for="task_title"  >任务标题:</label>
@@ -127,9 +155,9 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
             {% endfor %}
         {% endif%}
     </div>
-   <div class="col-xs-8 left" style="border-left:2px solid #9F9F9F;">
-       <div class="row form-horizontal" style="position: relative;margin:1px;background-color: white">
-            <h5 style="margin-left:28px; font-weight:bold;font-size: 16px">添加小结</h5>
+            <div class="col-xs-8 left" style="border-left:2px solid #9F9F9F;padding: 0 15px 15px 15px;">
+                <div class="row form-horizontal" style="position: relative;margin:1px;background-color: white">
+            <h5 style="margin:15px 28px; font-weight:bold;font-size: 16px">添加小结</h5>
             <div class="col-xs-12"  >
                 <div class="form-group">
                     <label for="title" class="col-xs-2 control-label">标题：</label>
@@ -217,10 +245,10 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     </div>
    </div>
   </div>
-         {% for item in task_submit_record %}
-        <div class="row">
+                            {% for item in task_submit_record %}
+                                <div class="row">
             <div class="col-xs-4" style="padding:20px;position: relative" ><span  style="color:#9F9F9F;font-size: 18px; float: right;margin-top:8px" class="right" > {{ item.last_edit|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10; "></span><br><span class="right" style="font-size: 14px;position:absolute;right: 25px;">{{ item.last_edit|date:"H:i:s "}}</span></span></div>
-             <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding:20px" >
+             <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding:15px" >
              <div class="row form-horizontal" style="margin:1px;background-color: white">
              <div style="margin-left:28px">
                 <label class="form-label" style="margin: 10px 0px ;font-size: 16px;"  >进度评估:</label>
@@ -244,9 +272,15 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
              </div>
              </div>
         </div>
-         {% endfor %}
+                            {% endfor %}
+                        </div>
+                        <div class="container"  style="border-top: 2px double #b1b1b1; width:80%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="container"  style="border-top: 2px double #b1b1b1; width:80%;"></div>
+
 {% endblock %}
 {% block js %}
     <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
