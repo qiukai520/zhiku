@@ -73,7 +73,7 @@ class TaskTypeAdmin(object):
 
 class TaskAssignAdmin(object):
     """任务指派后台管理"""
-    list_display = ['tasid','tid', 'title', 'content', 'member_id', 'deadline','create_time','last_edit']
+    list_display = ['tasid','tid', 'title', 'content', 'member_id','progress', 'deadline','create_time','last_edit']
     list_filter = ['tid','member_id', 'deadline']
     search_fields = ['title', 'content']
     fields = ['tid', 'title', 'content', 'member_id', 'deadline','create_time','last_edit']

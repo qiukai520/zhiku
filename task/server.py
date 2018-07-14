@@ -257,17 +257,23 @@ class TaskAssignDB(object):
     def update_finish_status(self,is_finish):
         TaskAssign.objects.update(is_finish=is_finish)
 
+    # def update_progress(self,tasid, progress):
+    #     TaskAssign.objects.filter(tasid=tasid).update(progress=progress)
+
     def query_task_assign_by_tid(self, tid):
         result_db = TaskAssign.objects.filter(tid=tid).all()
         return result_db
 
     def query_task_assign_by_tasid(self, tasid):
-        result_db = TaskAssign.objects.filter(tasid=tasid).all()
+        result_db = TaskAssign.objects.filter(tasid=tasid).first()
         return result_db
 
     def query_task_assign_by_member_id(self, member_id):
         result_db = TaskAssign.objects.filter(member_id=member_id).all()
         return result_db
+
+    def mutil_delete_reviewer_by_tid(self,id_list):
+        TaskAssign.objects.filter(tid_id__in=id_list).delete()
 
 
 class TaskSubmitRecordDB(object):
@@ -280,6 +286,10 @@ class TaskSubmitRecordDB(object):
     def query_submit_by_tasid(self, tasid):
         result_db = TaskSubmitRecord.objects.filter(tasid_id=tasid).all().order_by("-tsid")
         return result_db
+
+    def query_submit_by_tasid_list(self,tasid_list):
+        resutl_db = TaskSubmitRecord.objects.filter(tasid__in=tasid_list).order_by('-tsid').all()[0:3]
+        return resutl_db
 
     def insert_task_submit_record(self,modify_info):
         submit_record_sql = """insert into task_submit_record(%s) value(%s);"""

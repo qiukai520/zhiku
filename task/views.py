@@ -22,6 +22,7 @@ def task_detail(request):
         task_obj = task_db.query_task_by_tid(tid)
     except Exception as e:
         ret['message'] = "查询不到相关信息"
+
     return render(request, 'task/task_detail.html', {"task_obj": task_obj})
 
 
@@ -196,6 +197,12 @@ def task_delete(request):
             task_tag_db.mutil_delete_tag_by_tid(id_list)
             # 删除审核人
             task_review_db.mutil_delete_reviewer_by_tid(id_list)
+            # # 删除任务指派
+            # for item in id_list:
+            #     # 获取任务指派id
+            #     assign_objs=task_assign_db.query_task_assign_by_tid(item)
+            # task_assign_db.mutil_delete_reviewer_by_tid(id_list)
+            # # 删除任务指派附件
             ret['status'] = True
     except Exception as e:
         ret["message"] = "删除失败"
@@ -347,6 +354,7 @@ def task_assign_edit(request):
 
 
 def task_wait_review(request):
+    """任务审核中心"""
     method = request.method
     if method == "GET":
         filter = request.GET
@@ -358,6 +366,7 @@ def task_wait_review(request):
 
 
 def personal_task_review(request):
+    """我的审核任务"""
     method = request.method
     user_id = 1
     if method == "GET":
@@ -376,6 +385,7 @@ def personal_task_review(request):
 
 
 def task_review(request):
+    """任务审核"""
     method = request.method
     if method == "GET":
         user_id = 1
@@ -383,7 +393,7 @@ def task_review(request):
         if tasid:
             tasid = int(tasid)
             # 获取任务指派内容
-            task_assign_info = task_assign_db.query_task_assign_by_tasid(tasid).first()
+            task_assign_info = task_assign_db.query_task_assign_by_tasid(tasid)
             # 获取员工信息
             member_info = staff_db.query_staff_by_id(task_assign_info.member_id_id)
             # 获取任务提交记录
@@ -406,7 +416,6 @@ def task_review(request):
         if form.is_valid():
             try:
                 data = data.dict()
-                print(data)
                 task_review_record_db.insert_review_record(data)
                 is_complete = data["is_complete"]
                 # 如果通过 更新相应任务的完成状态
@@ -416,7 +425,7 @@ def task_review(request):
                     # 获取任务id
                     task_assign_obj = task_assign_db.query_task_assign_by_tasid(data['tasid_id'])
                     # 获取任务审核人
-                    task_review_list = task_review_db.query_task_reviewer_by_tid(task_assign_obj.first().tid_id)
+                    task_review_list = task_review_db.query_task_reviewer_by_tid(task_assign_obj.tid_id)
                     # 遍历该所有审核人对其的记录
                     for item in task_review_list:
                         last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(item.tvid,data['tasid_id'])
@@ -443,13 +452,14 @@ def task_review(request):
 
 
 def task_review_record(request):
+    """任务审核记录"""
     method = request.method
     if method == "GET":
         tasid = request.GET.get("tasid", None)
         if tasid:
             tasid = int(tasid)
             # 获取任务指派内容
-            task_assign_info = task_assign_db.query_task_assign_by_tasid(tasid).first()
+            task_assign_info = task_assign_db.query_task_assign_by_tasid(tasid)
             # 获取员工信息
             member_info = staff_db.query_staff_by_id(task_assign_info.member_id_id)
             # 获取任务提交记录
@@ -672,7 +682,6 @@ def complete_task(request):
         if tasid:
             # 获取任务内容
             task_obj = task_assign_db.query_task_assign_by_tasid(tasid)
-            task_obj = task_obj.first()
             # 获取最后一次任务提交记录的完成进度
             last_record = task_submit_record_db.query_last_submit_record(tasid)
             if last_record:
@@ -699,17 +708,17 @@ def complete_task(request):
             attachment = data.get("attachment", None)
             data.pop("attachment")
             if data:
-                # 检测完成度是否小于上一次提交
-                # 获取最后一次任务提交记录的完成进度
-                last_record = task_submit_record_db.query_last_submit_record(data["tasid_id"])
-                if last_record:
-                    if last_record.completion > int(data["completion"]):
-                        data["completion"] = last_record.completion
+                # 获取完成进度
+                task_assign_obj = task_assign_db.query_task_assign_by_tasid(data["tasid_id"])
                 try:
                     with transaction.atomic():
-                        print(data)
+                        if task_assign_obj.progress > int(data["completion"]):
+                            data["completion"] = task_assign_obj.progress
+                        else:
+                            # 更新指派任务进度
+                            task_assign_obj.progress = data["completion"]
+                            task_assign_obj.save()
                         tsid = task_submit_record_db.insert_task_submit_record(data)
-                        print(tsid)
                         # 如果任务提交记录插入成功
                         if tsid:
                             # 插入标签

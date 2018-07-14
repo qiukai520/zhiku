@@ -109,7 +109,7 @@ create TABLE `task_assign`(
 `title`  varchar(32)  COMMENT '标题',
 `content` text   COMMENT '任务描述',
 `deadline` datetime  DEFAULT NUll COMMENT '最后期限',
-`weight` smallint(5)   COMMENT '权重:0-100',
+`progress` tinyint(1)   COMMENT '进度:0-100',
 `is_finish` tinyint(1)  NOT NULL  DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'

@@ -6,7 +6,6 @@ from django.utils.safestring import mark_safe
 from task.server import *
 
 register = template.Library()
-
 @register.simple_tag
 def build_department_ele():
     """构建部门下拉框"""
@@ -62,7 +61,7 @@ def build_auditor_ele():
 @register.simple_tag
 def build_task_type_filter(selected):
     """构建任务类型选择框"""
-    selected=int(selected)
+    selected = int(selected)
     task_type_list = task_type_db.query_task_type_list()
     eles = ""
     for item in task_type_list:
@@ -90,7 +89,7 @@ def build_task_review_ele(tid):
     ele_list = ''
     task_review_ids = task_review_db.query_task_reviewer_by_tid(tid).order_by("follow")
     for item in task_review_ids:
-        staff = staff_db.query_staff_by_id(item.sid)
+        staff = staff_db.query_staff_by_id(item.sid_id)
         if staff.name:
             ele = "<span>{0};</span>".format(staff.name)
             ele_list += ele
@@ -128,7 +127,6 @@ def change_to_task_execute_way(way_id):
 @register.simple_tag
 def change_to_task_type(tpid):
     """转化成任务类型"""
-    print("tpid",tpid)
     task_type = task_type_db.query_task_type_by_id(tpid)
     return task_type.name
 
@@ -143,6 +141,7 @@ def change_to_task_cycle(tcid):
     """获取任务周期"""
     task_cycle = task_cycle_db.query_task_cycled_by_tcid(tcid)
     return task_cycle.name
+
 
 @register.simple_tag
 def change_to_task_assign_status(id):
@@ -327,3 +326,114 @@ def query_submit_attachment_by_tsid(tsid):
     tsid = int(tsid)
     result_db = task_submit_attach_db.query_task_submit_attachment_by_tsid(tsid)
     return result_db
+
+
+@register.simple_tag
+def fetch_completion_by_tasid(tasid):
+    last_commit_record = task_submit_record_db.query_last_submit_record(tasid)
+    if last_commit_record:
+        completion = last_commit_record.completion
+        last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
+        if completion:
+            status = str(completion) + "%"
+    else:
+        status = "进行中"
+        last_edit = ''
+    eles = " <span>{0}</span> <span>{1}</span>".format(status,last_edit)
+    return mark_safe(eles)
+
+
+@register.simple_tag
+def build_task_tags_list(tid):
+    """构建任务标签列表"""
+    ele_list = ''
+    record_tags = task_tag_db.query_task_tag_by_tid(tid)
+    for item in record_tags:
+        if item.name:
+            ele = "<li><a><i class='fa fa-tag'></i> {0}</a></li>".format(item.name)
+            ele_list += ele
+    return mark_safe(ele_list)
+
+@register.simple_tag
+def fetch_task_assing_member(tid):
+    """获取任务成员"""
+    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    eles = ''
+    for item in task_assign_list:
+        member = staff_db.query_staff_by_id(item.member_id_id)
+        ele = "<a href='task_review_record.html?tasid={0}'>{1};&nbsp</a>".format(item.tasid, member.name)
+        eles+= ele
+    return mark_safe(eles)
+
+@register.simple_tag
+def fetch_review_follow(tid):
+    """获取任务审核次序"""
+    task_review=task_review_db.query_task_reviewer_by_tid(tid)
+    if task_review[0].follow:
+        result='是'
+    else:
+        result='否'
+    return result
+
+@register.simple_tag
+def build_task_progress(tid):
+    """计算任务进度
+    设定完成占80%
+    审核通过占20%
+    """
+    progress_rate = 80
+    finish_rate = 20
+    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    length = len(task_assign_list)
+    if length:
+        total_progress = 0
+        total_finish = 0
+        for item in task_assign_list:
+            total_progress += item.progress
+            total_finish += item.is_finish
+        if total_progress > 0:
+            progress_score = total_progress/(length*100)*progress_rate
+        else:
+            progress_score = 0
+        if total_finish > 0:
+            finish_score = total_finish/length*finish_rate
+        else:
+            finish_score = 0
+        completion = progress_score+finish_score
+    else:
+        completion = 0
+    return round(completion,0)
+
+@register.simple_tag
+def fetch_task_submit_record(tid):
+    """获取任务提交记录"""
+    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    tasid_list = []
+    for item in task_assign_list:
+        tasid_list.append(item.tasid)
+    task_submit_record = task_submit_record_db.query_submit_by_tasid_list(tasid_list)
+    return task_submit_record
+
+
+@register.simple_tag
+def fetch_task_assign_member_by_tasid(tasid):
+    task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)
+    staff_obj = staff_db.query_staff_by_id(task_assign_obj.member_id_id)
+    ele = "<a href='task_review_record.html?tasid={0}'>{1}&nbsp</a>".format(tasid, staff_obj.name)
+    return mark_safe(ele)
+
+@register.simple_tag
+def change_to_past_days(time):
+   pass
+
+
+
+
+
+
+
+
+
+
+
+

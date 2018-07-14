@@ -1,89 +1,269 @@
 {% extends "layout.html" %}
 {% load  admin_tags %}
-{% block css %}
-    <style>
-     .form-horizontal .control-label {
-            padding-top: 7px;
-            margin-bottom: 0;
-            text-align: right;
-        }
-    label >span{
-        color:black;
-    }
-    label{
-        text-align: right;
-    }
 
+{% block css %}
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+    <style>
+    .download_file{
+        color:#337ab7 !important
+    }
+     #content-main{
+      overflow :auto
+     }
     </style>
 {% endblock %}
-{% block  content %}
-    <div class="container"  style="font-size:16px;"  style="background-color:#EBEBEB; width:80%;">
-         <div class="container-fluid"style="width: 80%;margin-top: 30px;" >
-             <div class="row">
-            <div class="form-group " >
-                <label class="form-label col-xs-2" >任务标题:</label>
-                <div   >{{ task_obj.title }}</div>
+
+{% block content %}
+    <div class="row" style="width: 100%">
+        <div class="col-sm-9">
+            <div class="wrapper wrapper-content animated fadeInUp">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="m-b-md">
+                                    <a href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-white btn-xs pull-right">编辑项目</a>
+                                    <h3>任务名称：{{ task_obj.title }}</h3>
+                                </div>
+                                <dl class="dl-horizontal">
+                                    <dt>指派状态：</dt>
+                                        <dd><span class="label label-primary">{% change_to_task_assign_status task_obj.is_assign %}</span>
+                                    </dd>
+                                </dl>
+                                <dl class="dl-horizontal">
+                                    <dt>完成状态：</dt>
+                                    {% if task_obj.is_finish  %}
+                                        <dd><span class="label label-primary">已完成</span>
+                                    </dd>
+                                    {% else %}
+                                    <dd><span class="label label-primary">进行中</span>
+                                    </dd>
+                                    {% endif %}
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <dl class="dl-horizontal">
+                                    <dt>发起人：</dt>
+                                    <dd>{% change_to_staff task_obj.issuer_id %}</dd>
+                                    <dt>审核人：</dt>
+                                    <dd>{% build_task_review_ele  task_obj.tid%}</dd>
+                                    <dt>次序审核：</dt>
+                                    <dd><span><i class="fa fa-circle text-warning"></i>{% fetch_review_follow task_obj.tid %} </span>
+                                    </dd>
+                                    <dt>任务分类：</dt>
+                                    <dd>{% change_to_task_type  task_obj.type_id  %}
+                                    </dd>
+                                    <dt>任务周期：</dt>
+                                    <dd>{% change_to_task_cycle task_obj.cycle_id %}</dd>
+                                    <dt>绩效分类：</dt>
+                                    <dd>{% change_to_task_perfomance task_obj.perfor_id%}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-7" id="cluster_info">
+                                <dl class="dl-horizontal">
+
+                                    <dt>最后更新：</dt>
+                                    <dd>{{ task_obj.last_edit|date:"Y-m-d H:i"}}</dd>
+                                    <dt>创建于：</dt>
+                                    <dd>{{ task_obj.create_time |date:"Y-m-d H:i"}}</dd>
+                                    <dt>截止时间：</dt>
+                                    <dd>{{ task_obj.deadline |date:"Y-m-d H:i"}}</dd>
+                                    <dt>倒计时：</dt>
+                                    <dd>{% build_countdown_time task_obj.deadline  %}天</dd>
+                                    <dt>团队成员：</dt>
+                                    <dd class="project-people">
+                                        {% fetch_task_assing_member task_obj.tid %}
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <dl class="dl-horizontal">
+                                    <dt>当前进度</dt>
+                                    <dd>
+                                        {% build_task_progress task_obj.tid as progerss %}
+                                        <div class="progress progress-striped active m-b-sm">
+                                            <div style="width: {{ progerss }}%;" class="progress-bar"></div>
+                                        </div>
+                                        <small>当前已完成项目总进度的 <strong>{{ progerss }}%</strong></small>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row m-t-sm">
+                            <div class="col-sm-12">
+                                <div class="panel blank-panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-options">
+                                            <ul class="nav nav-tabs">
+                                                <li><a href="task_detail.html#tab-1" data-toggle="tab">团队消息</a>
+                                                </li>
+                                                <li class=""><a href="task_detail.html#tab-2" data-toggle="tab">审核更新</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+                                                <div class="feed-activity-list">
+                                                     {%fetch_task_submit_record task_obj.tid as submit_obj_list%}
+
+                                                        {% for submit_obj in submit_obj_list %}
+                                                             <div class="feed-element">
+                                                            <a href="profile.html#" class="pull-left">
+                                                                <img alt="image" class="img-circle" src="/static/img/people.png">
+                                                            </a>
+                                                            <div class="media-body ">
+                                                                <small class="pull-right text-navy">{% change_to_past_days submit_obj.create_time%} </small>
+                                                                <strong>{% fetch_task_assign_member_by_tasid submit_obj.tasid_id %}</strong> 提交了 <strong>新的内容</strong>.
+                                                                <br>
+                                                                <small class="text-muted">54分钟前 来自 pc端</small>
+                                                                <div class="well">
+                                                                    <p style="">{{ submit_obj.title }}</p>
+                                                                </div>
+                                                                <div class="actions">
+                                                                    <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> 赞 </a>
+{#                                                                    <a class="btn btn-xs btn-danger"><i class="fa fa-heart"></i> 收藏</a>#}
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                        {% endfor %}
+                                                </div>
+
+                                            </div>
+                                            <div class="tab-pane" id="tab-2">
+
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>状态</th>
+                                                            <th>标题</th>
+                                                            <th>开始时间</th>
+                                                            <th>结束时间</th>
+                                                            <th>说明</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="label label-primary"><i class="fa fa-check"></i> 已完成</span>
+                                                            </td>
+                                                            <td>
+                                                                文档在线预览功能
+                                                            </td>
+                                                            <td>
+                                                                11月7日 22:03
+                                                            </td>
+                                                            <td>
+                                                                11月7日 20:11
+                                                            </td>
+                                                            <td>
+                                                                <p class="small">
+                                                                    已经测试通过
+                                                                </p>
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="label label-primary"><i class="fa fa-check"></i> 解决中</span>
+                                                            </td>
+                                                            <td>
+                                                                会员登录
+                                                            </td>
+                                                            <td>
+                                                                11月7日 22:03
+                                                            </td>
+                                                            <td>
+                                                                11月7日 20:11
+                                                            </td>
+                                                            <td>
+                                                                <p class="small">
+                                                                    测试中
+                                                                </p>
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="label label-primary"><i class="fa fa-check"></i> 解决中</span>
+                                                            </td>
+                                                            <td>
+                                                                会员积分
+                                                            </td>
+                                                            <td>
+                                                                11月7日 22:03
+                                                            </td>
+                                                            <td>
+                                                                11月7日 20:11
+                                                            </td>
+                                                            <td>
+                                                                <p class="small">
+                                                                    未测试
+                                                                </p>
+                                                            </td>
+
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group  ">
-                <label class="form-label col-xs-2" >标签:</label>
-                <div>{% build_task_tags_ele  task_obj.tid%}</div>
-            </div>
-            <div class="form-group  " >
-                 <label for="task_description" class="form-label col-xs-2"  >任务描述:</label>
-                 <div  style="padding-left:0px" class=" col-xs-10" id="task_description" >{{ task_obj.content }}</div>
-            </div>
-             <br>
-             <div class="form-group  ">
-                 <br>
-                <label class="form-label col-xs-2"  >审核人:</label>
-                <span >{% build_task_review_ele  task_obj.tid%}</span>
-            </div>
-              <div class="form-group  ">
-                <label class="form-label col-xs-2"  >指派状态:</label>
-               <span>{% change_to_task_assign_status  task_obj.is_assign%}</span>
-                  <br>
-            </div>
-             <div class="form-group ">
-                <label class="form-label  col-xs-2"   >绩效分类:</label>
-                <span  >{% change_to_task_perfomance task_obj.perfor_id%}</span>
-             </div>
-             <div class="form-group  ">
-                <label class="form-label col-xs-2"   >任务周期:</label>
-                <span  >{% change_to_task_cycle task_obj.tcid %}</span>
-                 <br>
-             </div>
-             <div class="form-group ">
-                <label class="form-label col-xs-2"   >归档分类:</label>
-                <span   >{% change_to_task_type  task_obj.type_id  %}</span>
-                 <br>
-             </div>
-             <div class="form-group  ">
-                <label class="form-label col-xs-2" for="publisher"  >发起人:</label>
-                 <span id="publisher"  >{% change_to_staff task_obj.issuer_id %}</span>
-                 <br>
-            </div>
-             <div class="form-group  " >
-                 <label class="form-label col-xs-2"  >创建时间:</label>
-                 <span  >{{ task_obj.create_time |date:"Y-m-d H:i"}}</span>
-                 <br>
-            </div>
-             <div class="form-group  " >
-                 <label class="form-label col-xs-2" >截止时间:</label>
-                 <span  >{{ task_obj.deadline |date:"Y-m-d H:i"}}</span>
-                 <br>
-            </div>
-             <div class="form-group  " >
-                 <label class="form-label col-xs-2 "  >倒计时:</label>
-                 <span   >{% build_countdown_time task_obj.deadline  %}天</span>
-                 <br>
-            </div>
-             </div>
-             <a href="{% url "task_assign_center" %}" class="btn btn-danger" style="margin:50px 100px" >返回</a>
-             <a  href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-primary" >编辑</a>
         </div>
+        <div class="col-sm-3">
+            <div class="wrapper wrapper-content project-manager">
+                <h4>任务描述</h4>
+                <p class="small" style="text-indent:2em">{{ task_obj.content }}
+                </p>
+                <h5>项目标签</h5>
+                <ul class="tag-list" style="padding: 0">
+                    {% build_task_tags_list  task_obj.tid%}
+                </ul>
+                <br>
+                <br>
+                <h5>项目附件</h5>
+                <ul class="list-unstyled project-files">
+                    {% query_task_attachment_by_tid task_obj.tid as t_attachement %}
+                    {% for obj in t_attachement %}
+                         <li>
+                             <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                             <a class="download_file" href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
+                            <label class="form-label" for="task_title"  >附件描述:</label>
+                            <span  >{{ obj.description }}</span>
+                        </li>
+                    {% endfor %}
 
-</div>
+                </ul>
+                <div class="m-t-md">
+                    <a href="{% url 'task_edit'%}" class="btn btn-xs btn-primary">添加文档</a>
 
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}
+
+{% block js %}
+    <script>
+        $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+    </script>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 {% endblock %}
-{% block js%}
-{% endblock %}
+

@@ -52,64 +52,65 @@
                                 <table id="personal_task"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                          <tr >
-          <th><input type="checkbox" onclick="SelectAll(this)"></th>
-          <th>ID</th>
-          <th>任务名称</th>
-          <th>任务描述</th>
-          <th>任务类别</th>
-          <th>完成状态</th>
-          <th>创建时间</th>
-          <th>截止时间</th>
-          <th>操作</th>
-      </tr>
+                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                              <th>ID</th>
+                                              <th>任务名称</th>
+                                              <th>任务描述</th>
+                                              <th>任务类别</th>
+                                              <th>完成状态</th>
+                                              <th>创建时间</th>
+                                              <th>截止时间</th>
+                                              <th>操作</th>
+                                         </tr>
                                     </thead>
                                     <tbody>
                                     {% for obj in  query_sets%}
-          {% query_task_by_tid obj.tid_id as task_obj %}
-          {% if obj.title %}
-               <tr>
-                  <td><input type="checkbox"></td>
-                  <td>{{ obj.tid_id }}</td>
-                  <td>{{ obj.title }}</td>
-                  <td>{{ obj.content|slice:"20"}}</td>
-                  <td>{% change_to_task_type  task_obj.type_id  %}</td>
-        {#          <td>{% change_to_staff obj.issuer_id %}</td>#}
-        {#          <td>{% change_to_task_assign_status  obj.is_assign%}</td>#}
-        {#          <td>{% change_to_task_status obj.status %} </td>#}
-                  <td>{% change_to_task_finish_status obj.is_finish%}</td>
-                  <td>{{ obj.deadline |date:"Y-m-d "}}</td>
-                  <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
-                    <td>
-                         {% if obj.is_finish %}
-                            <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-primary" >查看</a>
-                        {% else %}
-                            <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}"  class="btn btn-primary" >继续任务</a>
-                        {% endif %}
-                  </td>
-              </tr>
-          {% else %}
-                <tr>
-                  <td><input type="checkbox"></td>
-                  <td>{{ obj.tid_id }}</td>
-                  <td>{{ task_obj.title }}</td>
-                  <td>{{ task_obj.content|slice:"20"}}</td>
-                  <td>{% change_to_task_type  task_obj.type_id  %}</td>
-        {#          <td>{% change_to_staff obj.issuer_id %}</td>#}
-        {#          <td>{% change_to_task_assign_status  obj.is_assign%}</td>#}
-        {#          <td>{% change_to_task_status obj.status %} </td>#}
-                  <td>{% change_to_task_finish_status obj.is_finish%}</td>
-                  <td>{{ task_obj.deadline |date:"Y-m-d "}}</td>
-                  <td>{{ task_obj.create_time|date:"Y-m-d " }}</td>
-                    <td>
-                        {% if obj.is_finish %}
-                            <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-primary" >查看</a>
-                        {% else %}
-                            <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-primary " >继续任务</a>
-                        {% endif %}
-                  </td>
-              </tr>
-          {% endif %}
-      {% endfor %}
+                                      {% query_task_by_tid obj.tid_id as task_obj %}
+                                      {% if obj.title %}
+                                           <tr>
+                                              <td><input type="checkbox"></td>
+                                              <td>{{ obj.tid_id }}</td>
+                                              <td>{{ obj.title }}</td>
+                                              <td>{{ obj.content|slice:"20"}}</td>
+                                              <td>{% change_to_task_type  task_obj.type_id  %}</td>
+                                    {#          <td>{% change_to_staff obj.issuer_id %}</td>#}
+                                    {#          <td>{% change_to_task_assign_status  obj.is_assign%}</td>#}
+                                    {#          <td>{% change_to_task_status obj.status %} </td>#}
+                                              <td>{% change_to_task_finish_status obj.is_finish%}</td>
+                                              <td>{{ obj.deadline |date:"Y-m-d "}}</td>
+                                              <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
+                                                <td>
+                                                     {% if obj.is_finish %}
+                                                        <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-primary" >查看</a>
+                                                    {% else %}
+                                                        <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}"  class="btn btn-primary" >继续任务</a>
+                                                    {% endif %} &nbsp &nbsp
+                                                    {% fetch_completion_by_tasid obj.tasid %} &nbsp
+                                              </td>
+                                          </tr>
+                                      {% else %}
+                                            <tr>
+                                              <td><input type="checkbox"></td>
+                                              <td>{{ obj.tid_id }}</td>
+                                              <td>{{ task_obj.title }}</td>
+                                              <td>{{ task_obj.content|slice:"20"}}</td>
+                                              <td>{% change_to_task_type  task_obj.type_id  %}</td>
+                                    {#          <td>{% change_to_staff obj.issuer_id %}</td>#}
+                                    {#          <td>{% change_to_task_assign_status  obj.is_assign%}</td>#}
+                                    {#          <td>{% change_to_task_status obj.status %} </td>#}
+                                              <td>{% change_to_task_finish_status obj.is_finish%}</td>
+                                              <td>{{ task_obj.deadline |date:"Y-m-d "}}</td>
+                                              <td>{{ task_obj.create_time|date:"Y-m-d " }}</td>
+                                                <td>
+                                                    {% if obj.is_finish %}
+                                                        <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-primary" >查看</a>
+                                                    {% else %}
+                                                        <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-primary " >继续任务</a>
+                                                    {% endif %}
+                                              </td>
+                                          </tr>
+                                      {% endif %}
+                                  {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

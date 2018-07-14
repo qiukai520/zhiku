@@ -87,7 +87,7 @@ class Task(models.Model):
 
 
 class TaskAssign(models.Model):
-    is_finish = ((0, '未完成'), (1, '已完成'))
+    is_finish = ((0, '未通过'), (1, '通过'))
     tasid = models.AutoField(primary_key=True)
     tid = models.ForeignKey('Task', to_field='tid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
     member_id = models.ForeignKey('Staff', to_field="sid", on_delete=models.CASCADE, verbose_name='员工',
@@ -95,8 +95,8 @@ class TaskAssign(models.Model):
     title = models.CharField(max_length=512, blank=True, null=True, verbose_name='任务名称')
     content = models.TextField(blank=True, null=True, verbose_name='任务内容')
     deadline = models.DateTimeField(blank=True, null=True, verbose_name='截止时间')
-    weight = models.SmallIntegerField(blank=True, null=True)
-    is_finish = models.IntegerField(choices=is_finish, default=0, verbose_name='完成状态')
+    progress = models.SmallIntegerField(default=0, verbose_name='完成进度(%)')
+    is_finish = models.SmallIntegerField(choices=is_finish, default=0, verbose_name='审核状态')
     create_time = models.DateTimeField(verbose_name='创建时间')
     last_edit = models.DateTimeField(verbose_name='最后编辑时间')
 
@@ -239,7 +239,7 @@ class TaskSubmitRecord(models.Model):
     title = models.CharField(max_length=512, blank=True, null=True, verbose_name="标题")
     summary = models.CharField(max_length=512, blank=True, null=True, verbose_name='小结')
     remark = models.CharField(max_length=512, blank=True, null=True, verbose_name='备注')
-    completion = models.IntegerField(default=0, verbose_name='完成度(%)')  # 完成度：1-100
+    completion = models.SmallIntegerField(default=0, verbose_name='完成度(%)')  # 完成度：1-100
     is_assist = models.SmallIntegerField(choices=is_assist_choice, default=0, verbose_name='是否寻求协助')  # 是否寻求协助:0否，1是
     create_time = models.DateTimeField(verbose_name='创建时间')
     last_edit = models.DateTimeField(verbose_name='最后编辑时间')
