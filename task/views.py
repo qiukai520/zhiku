@@ -26,27 +26,9 @@ def task_detail(request):
     return render(request, 'task/task_detail.html', {"task_obj": task_obj})
 
 
-# 弹出框任务详情
-# def task_detail(request):
-#     ret = {"status": False, "message": "", "task": '', "tags": "", "attachs": "",'reviews':''}
-#     tid = request.POST.get("tid", None)
-#     if tid:
-#         # 获取任务信息及其标签信息、附件信息、审核人
-#         task_info = task_db.query_task_by_tid(tid)
-#         task_tag_info = task_tag_db.query_task_tag_by_tid(tid)
-#         task_attachment_info = task_attachment_db.query_task_attachment_by_tid(tid)
-#         task_reviewer_info = task_review_db.query_task_reviewer_by_tid(tid)
-#         ret['task'] = task_info
-#         ret['tags'] = task_tag_info
-#         ret['attachs'] = task_attachment_info
-#         ret['reviews'] = task_reviewer_info
-#         ret['status'] = True
-#     print(ret)
-#     return HttpResponse(json.dumps(ret))
-
-
 def index(request):
     return render(request,'index_v3.html')
+
 
 def publish_task(request):
     """创建任务"""
@@ -215,13 +197,13 @@ def task_mutil_assign(request):
     assign = request.POST.get("task_assign", None)
     task_assign_list = list(json.loads(assign))
     if task_assign_list:
-        tid = task_assign_list[0]['tid_id']
         try:
             with transaction.atomic():
                 task_assign_db.mutil_insert_task_assign(task_assign_list)
                 # 将任务状态更改为已指派
                 modify_info = {"is_assign": 1}
-                task_db.update_task_status_by_tid(tid, modify_info)
+                for item in task_assign_list:
+                    task_db.update_task_status_by_tid(item['tid_id'], modify_info)
                 ret['status'] = True
         except Exception as e:
             ret['message'] = str(e)
@@ -240,8 +222,8 @@ def task_team_assign(request):
         try:
             with transaction.atomic():
                 task_assign_db.mutil_insert_task_assign(task_assign_list)
-                # 将任务状态更改为已指派
-                modify_info = {"is_assign": 1}
+                # 将任务状态更改为已指派,任务方式更改为组队任务
+                modify_info = {"is_assign": 1, 'team':1}
                 task_db.update_task_status_by_tid(tid, modify_info)
                 ret['status'] = True
         except Exception as e:
@@ -359,7 +341,9 @@ def task_wait_review(request):
     if method == "GET":
         filter = request.GET
         type_id = int(filter.get("s", 0))
-        query_sets = task_db.query_task_by_is_assign()
+        is_assing = 1
+        # 获取所有已指派的任务
+        query_sets = task_db.query_task_by_is_assign(is_assing)
         if type_id > 0:
             query_sets = query_sets.filter(type_id=type_id)
         return render(request, 'task/task_wait_review.html', {"query_sets": query_sets,"filter":type_id})
@@ -505,14 +489,10 @@ def show_assign_content(request):
 
 
 def task_assign_center(request):
-    """任务指派中心"""
-    filters = request.GET
-    task_type_id = int(filters.get("s", 0))
-    query_sets = task_db.query_task_lists()
-    # 先根据分类去筛选
-    if task_type_id > 0:
-        query_sets = query_sets.filter(type_id=task_type_id)
-    return render(request, 'task/task_assign_center.html',  {"query_sets": query_sets,"filter":task_type_id})
+    """任务指派中心获取所有未指派的任务"""
+    is_assign = 0
+    query_sets = task_db.query_task_by_is_assign(is_assign)
+    return render(request, 'task/task_assign_center.html',  {"query_sets": query_sets})
 
 
 def department_staff(request):

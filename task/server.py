@@ -73,6 +73,11 @@ class TaskDB(object):
         {"id": 0, "caption": "未完成"},
         {"id": 1, "caption": "已完成"}
     )
+    # 任务方式
+    task_way = (
+        {"id": 0, "caption": "个人任务"},
+        {"id": 1, "caption": "组队任务"}
+    )
 
     def insert_task(self, modify_info):
         task_sql = """insert into task(%s) value(%s);"""
@@ -94,8 +99,8 @@ class TaskDB(object):
         result_db = Task.objects.filter().all().order_by("-tid")
         return result_db
 
-    def query_task_by_is_assign(self):
-        result_db=Task.objects.filter(is_assign=1).all()
+    def query_task_by_is_assign(self, is_assign):
+        result_db=Task.objects.filter(is_assign=is_assign).all()
         return result_db
 
     def query_task_assign_lists(self):
@@ -288,7 +293,7 @@ class TaskSubmitRecordDB(object):
         return result_db
 
     def query_submit_by_tasid_list(self,tasid_list):
-        resutl_db = TaskSubmitRecord.objects.filter(tasid__in=tasid_list).order_by('-tsid').all()[0:3]
+        resutl_db = TaskSubmitRecord.objects.filter(tasid__in=tasid_list).order_by('-tsid').all()[0:10]
         return resutl_db
 
     def insert_task_submit_record(self,modify_info):

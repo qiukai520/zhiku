@@ -120,10 +120,10 @@
                                                                 <img alt="image" class="img-circle" src="/static/img/people.png">
                                                             </a>
                                                             <div class="media-body ">
-                                                                <small class="pull-right text-navy">{% change_to_past_days submit_obj.create_time%} </small>
+                                                                <small class="pull-right text-navy">{% calculate_past_days submit_obj.create_time%} </small>
                                                                 <strong>{% fetch_task_assign_member_by_tasid submit_obj.tasid_id %}</strong> 提交了 <strong>新的内容</strong>.
                                                                 <br>
-                                                                <small class="text-muted">54分钟前 来自 pc端</small>
+                                                                <small class="text-muted">{% calculate_past_time submit_obj.create_time %} 前</small>
                                                                 <div class="well">
                                                                     <p style="">{{ submit_obj.title }}</p>
                                                                 </div>
@@ -142,75 +142,30 @@
                                                 <table class="table table-striped">
                                                     <thead>
                                                         <tr>
-                                                            <th>状态</th>
-                                                            <th>标题</th>
+                                                            <th>审核状态</th>
+                                                            <th>成员</th>
+                                                            <th>进度</th>
                                                             <th>开始时间</th>
-                                                            <th>结束时间</th>
-                                                            <th>说明</th>
+                                                            <th>截止时间</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
+                                                        {% fetch_task_assing_list task_obj.tid as task_assign_list %}
+                                                        {% for obj in task_assign_list %}
+                                                             <tr>
                                                             <td>
-                                                                <span class="label label-primary"><i class="fa fa-check"></i> 已完成</span>
+                                                                <span class="label label-primary"> {% fetch_assign_finish_status obj.is_finish %}</span>
                                                             </td>
-                                                            <td>
-                                                                文档在线预览功能
-                                                            </td>
-                                                            <td>
-                                                                11月7日 22:03
-                                                            </td>
-                                                            <td>
-                                                                11月7日 20:11
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    已经测试通过
-                                                                </p>
-                                                            </td>
-
+                                                            <td>{% fetch_task_assign_member_by_tasid obj.tasid %}</td>
+                                                            <td>{{ obj.progress }}%</td>
+                                                            <td>{{ obj.create_time }}</td>
+                                                             {% if obj.deadline  %}
+                                                                  <td>{{ obj.deadline }}</td>
+                                                             {% else %}
+                                                                  <td>{{ task_obj.deadline }}</td>
+                                                             {% endif %}
                                                         </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="label label-primary"><i class="fa fa-check"></i> 解决中</span>
-                                                            </td>
-                                                            <td>
-                                                                会员登录
-                                                            </td>
-                                                            <td>
-                                                                11月7日 22:03
-                                                            </td>
-                                                            <td>
-                                                                11月7日 20:11
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    测试中
-                                                                </p>
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <span class="label label-primary"><i class="fa fa-check"></i> 解决中</span>
-                                                            </td>
-                                                            <td>
-                                                                会员积分
-                                                            </td>
-                                                            <td>
-                                                                11月7日 22:03
-                                                            </td>
-                                                            <td>
-                                                                11月7日 20:11
-                                                            </td>
-                                                            <td>
-                                                                <p class="small">
-                                                                    未测试
-                                                                </p>
-                                                            </td>
-
-                                                        </tr>
-
+                                                        {% endfor %}
 
                                                     </tbody>
                                                 </table>
@@ -252,7 +207,7 @@
 
                 </ul>
                 <div class="m-t-md">
-                    <a href="{% url 'task_edit'%}" class="btn btn-xs btn-primary">添加文档</a>
+                    <a href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-xs btn-primary">添加附件</a>
 
                 </div>
             </div>

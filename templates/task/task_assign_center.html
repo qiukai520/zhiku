@@ -80,7 +80,7 @@
                                     <thead>
                                         <tr >
                                              <th ><input type="checkbox" onclick="SelectAll(this)"></th>
-                                              <th>ID</th>
+{#                                              <th>ID</th>#}
                                               <th>任务名称</th>
                                               <th>任务描述</th>
                                               <th>任务类别</th>
@@ -95,19 +95,15 @@
                                       {% for obj in  query_sets%}
                                           <tr>
                                               <td><input type="checkbox"></td>
-                                              <td name="tid">{{ obj.tid }}</td>
-                                              <td>{{ obj.title }}</td>
+{#                                              <td name="tid"> <a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.tid }}</a></td>#}
+                                              <td><a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.title }}</a></td>
                                               <td>{{ obj.content|slice:"20"}}</td>
                                               <td>{% change_to_task_type  obj.type_id  %}</td>
                                               <td>{% change_to_staff obj.issuer_id %}</td>
-                                    {#          <td>{% change_to_task_cycle obj.tcid %}</td>#}
                                               <td>{% change_to_task_assign_status  obj.is_assign%}</td>
-                                    {#          <td>{% change_to_task_status obj.status %} </td>#}
-                                    {#          <td>{% change_to_task_finish_status obj.is_finish%}</td>#}
                                               <td >{{ obj.deadline |date:"Y-m-d "}}</td>
                                               <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
                                                 <td>
-                                    {#                <button id="button"  class="btn btn-info"  onclick="TaskDetailShow(this)" >详请</button>#}
                                                     <a  href="{%url "task_detail" %}?tid={{ obj.tid }}" class="btn btn-info"  >详请</a>
                                                    <a  href="{%url "task_edit" %}?tid={{ obj.tid }}" class="btn btn-primary" >编辑</a>
                                               </td>
@@ -166,86 +162,6 @@
   </div>
 </div>
          <!-- Modal -->
-
-{#     <!-- task_detail-->#}
-{#<!-- Modal -->#}
-{#<div class="modal fade" id="task_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
-{#  <div class="modal-dialog" role="document">#}
-{#    <div class="modal-content">#}
-{#      <div class="modal-header">#}
-{#        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
-{#        <h4 class="modal-title" id="myModalLabel">任务详情</h4>#}
-{#          <input type="text" class="hidden" name="tasid" >#}
-{#      </div>#}
-{#      <div class="modal-body" >#}
-{#         <div class="row form-horizontal" style="position: relative;margin-top: 30px;margin-left: 20px">#}
-{#            <div class="col-xs-12">#}
-{#                <div class="form-group " >#}
-{#                    <label for="task_title" class="form-label col-xs-2" >任务标题:</label>#}
-{#                    <div id="task_title" class="form-label col-xs-8" >了拉了拉加咖喱给</div>#}
-{#                </div>#}
-{#                <div class="form-group  " >#}
-{#                     <label for="task_description" class="form-label col-xs-2"  >任务描述:</label>#}
-{#                     <div   class=" col-xs-8" id="task_description" >卡阿卡勾看发噶</div>#}
-{#                </div>#}
-{#                <div class="form-group  ">#}
-{#                    <label for="task_tag" class="form-label col-xs-2" >标签:</label>#}
-{#                    <div id="task_tag" class="form-label col-xs-8">；</div>#}
-{#                </div>#}
-{#                 <div class="form-group  ">#}
-{#                    <label for ='reviewers' class="form-label col-xs-2"  >审核人:</label>#}
-{#                    <div  id="reviewers" class="form-label col-xs-8" >jljllj</div>#}
-{#                </div>#}
-{#                  <div class="form-group  ">#}
-{#                    <label id="task_assign" class="form-label col-xs-2"  >指派状态:</label>#}
-{#                   <div id="task_assign" class="form-label col-xs-8"></div>#}
-{##}
-{#                </div>#}
-{#                 <div class="form-group ">#}
-{#                    <label for="attribute" class="form-label  col-xs-2"   >绩效分类:</label>#}
-{#                    <div id="task_attribute" class="form-label  col-xs-8" ></div>#}
-{#                 </div>#}
-{#                 <div class="form-group  ">#}
-{#                    <label for ='task_cycle' class="form-label col-xs-2"   >任务周期:</label>#}
-{#                    <div   id="task_cycle"   class="form-label col-xs-8" ></div>#}
-{#                     <br>#}
-{#                 </div>#}
-{#                 <div class="form-group ">#}
-{#                    <label for ="task_type" class="form-label col-xs-2"   >归档分类:</label>#}
-{#                    <div   id="task_type"   class="form-label col-xs-8"  ></div>#}
-{#                     <br>#}
-{#                 </div>#}
-{#                 <div class="form-group  ">#}
-{#                    <label for ='task_publisher' class="form-label col-xs-2" for="publisher"  >发起人:</label>#}
-{#                     <div id="task_publisher"  ></div>#}
-{#                </div>#}
-{#                 <div class="form-group  " >#}
-{#                     <label class="form-label col-xs-2"  >创建时间:</label>#}
-{#                     <div>{{ task_obj.create_time |date:"Y-m-d H:i"}}</div>#}
-{#                </div>#}
-{#                 <div class="form-group  " >#}
-{#                     <label class="form-label col-xs-2" >截止时间:</label>#}
-{#                     <span  >{{ task_obj.deadline |date:"Y-m-d H:i"}}</span>#}
-{#                     <br>#}
-{#                </div>#}
-{#                 <div class="form-group  " >#}
-{#                     <label class="form-label col-xs-2 "  >倒计时:</label>#}
-{#                     <span   >{% build_countdown_time task_obj.deadline  %}天</span>#}
-{#                     <br>#}
-{#                </div>#}
-{##}
-{#        </div>#}
-{##}
-{#              </div>#}
-{#            </div>#}
-{#      <div class="modal-footer">#}
-{#         <a href="{% url "task_assign_center" %}" class="btn btn-danger"  >关闭</a>#}
-{#             <a  href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-primary" >编辑</a>#}
-{#      </div>#}
-{#    </div>#}
-{#    </div>#}
-{#</div>#}
-
 
     <!-- delete-->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -493,40 +409,6 @@ function TeamAssingSubmit() {
     })
 }
 
-{#//任务详情弹出框#}
-{#function TaskDetailShow(ths) {#}
-{#      $('#task_detail').modal('show');#}
-{#      var tid=$(ths).parent().parent().find("td[name=tid]").text();#}
-{#      console.log(tid)#}
-{#      //初始化数据#}
-{#      $.ajax({#}
-{#          url:"{% url "task_detail" %}",#}
-{#          type:"post",#}
-{#          data:{'tid':tid},#}
-{#          dataType:"json",#}
-{#          async:true,#}
-{#          success:function (arg) {#}
-{#              console.log("arg",arg.status);#}
-{#              if (arg.status){#}
-{#                  var task=arg.task;#}
-{#                  var tags = arg.tags;#}
-{#                  var attachs = arg.attachs;#}
-{#                  var reviews = arg.reviews;#}
-{#                  //初始化数据#}
-{#                  console.log(task)#}
-{#                  console.log(tags)#}
-{#                  console.log(attachs)#}
-{#                  $("#task_title").text(task.title);#}
-{#                  $("#task_detail").text(task.description);#}
-{#              }#}
-{##}
-{#          }#}
-{#      });#}
-{#    }#}
-{#    #}
-{#    function ClearData() {#}
-{#        #}
-{#    }#}
 
 </script>
 

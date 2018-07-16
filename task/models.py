@@ -50,8 +50,9 @@ class Task(models.Model):
     execute_way_choice = ((0, '并行执行'), (1, '次序执行'))
     task_status_choice = ((1, '启动'), (2, '暂停'), (3, '终止'))
     is_assign = ((0, '未指派'), (1, '已指派'))
-    is_finish = ((0, '未完成'), (1, '已完成'))
+    is_finish = ((0, '进行中'), (1, '已完成'))
     teamwork_auth_choice = ((0, '相互可见'), (1, '互不可见'), (3, '指定可见'))
+    team_choice = ((0, '个人任务'), (1, '组队任务'))
 
     tid = models.AutoField(primary_key=True)
     title = models.CharField(max_length=512, verbose_name='任务名称')  # '任务名称'
@@ -71,9 +72,10 @@ class Task(models.Model):
     # reviewers = models.ManyToManyField("Staff", related_name='task_review',through='TaskReview', verbose_name='审核人',through_fields=('tid','sid'),)
     start_time = models.DateTimeField(blank=True, null=True, verbose_name='起始时间')
     deadline = models.DateTimeField(blank=True, null=True, verbose_name='截止时间')
-    is_assign = models.IntegerField(choices=is_assign, verbose_name='指派状态')
-    is_finish = models.IntegerField(choices=is_finish, verbose_name='完成状态')
-    status = models.IntegerField(choices=task_status_choice, verbose_name='任务状态')
+    is_assign = models.IntegerField(choices=is_assign, default=0, verbose_name='指派状态')
+    is_finish = models.IntegerField(choices=is_finish, default=0, verbose_name='完成状态')
+    team = models.IntegerField(choices=team_choice, default=0, verbose_name='任务方式')
+    status = models.IntegerField(choices=task_status_choice, default=1, verbose_name='任务状态')
     create_time = models.DateTimeField(verbose_name='创建时间')
     last_edit = models.DateTimeField(verbose_name='最后编辑时间')
 
@@ -107,7 +109,7 @@ class TaskAssign(models.Model):
         verbose_name_plural = '任务指派'
 
     def __str__(self):
-        return "任务指派:{0}".format(self.tid)
+        return "任务指派内容:{0}".format(self.title)
 
 
 class TaskAssignAttach(models.Model):

@@ -15,6 +15,7 @@ create TABLE `task`(
 `deadline` datetime  DEFAULT NUll  COMMENT '终止期限',
 `is_assign` tinyint(1) NOT NULL DEFAULT 0 COMMENT '指派状态：0未指派;1已指派',
 `is_finish` tinyint(1) NOT NULL DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
+`team` tinyint(1) NOT NULL DEFAULT 0 COMMENT '任务方式：0个人任务;1组队任务',
 `status` tinyint(1) NOT NUll DEFAULT 1 COMMENT'1启动,2暂停,3终止',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'

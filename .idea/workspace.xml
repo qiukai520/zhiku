@@ -2,18 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/templates/task/projects.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/task.sql" beforeDir="false" afterPath="$PROJECT_DIR$/task.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/adminx.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/adminx.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/task/forms/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/forms/form.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/task/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/task/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/task/templatetags/admin_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/templatetags/admin_tags.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/task/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/task/complete_task.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/complete_task.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/task/personal_task_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/personal_task_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/task/personal_task_review.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/personal_task_review.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/task/task_assign.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_assign.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/task/task_assign_center.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_assign_center.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/task/task_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_review_record.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_review_record.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/task/task_review.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_review.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/task/task_wait_review.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_wait_review.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,86 +34,21 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/task/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="290" column="101" selection-start-line="290" selection-start-column="101" selection-end-line="290" selection-end-column="101" />
+            <state relative-caret-position="-174">
+              <caret line="106" column="49" selection-start-line="106" selection-start-column="40" selection-end-line="106" selection-end-column="49" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="task_detail.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="task_detail.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/task/task_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="125" column="101" selection-start-line="125" selection-start-column="101" selection-end-line="125" selection-end-column="101" />
+            <state relative-caret-position="217">
+              <caret line="78" column="56" lean-forward="true" selection-start-line="78" selection-start-column="56" selection-end-line="78" selection-end-column="56" />
               <folding>
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#dl#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#dd#0;n#dl#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#dd#0;n#dl#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#p#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="complete_task.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/task/complete_task.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="60" column="6" lean-forward="true" selection-start-line="58" selection-start-column="4" selection-end-line="60" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="task.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/task.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="111" column="35" lean-forward="true" selection-start-line="111" selection-start-column="35" selection-end-line="111" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/task/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="97" column="12" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/task/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="567">
-              <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#10103#11969#0" />
-                <element signature="e#12007#14250#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/task/utils.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="adminx.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/task/adminx.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="75" column="67" selection-start-line="75" selection-start-column="67" selection-end-line="75" selection-end-column="67" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
+                <element signature="n#style#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -119,13 +57,82 @@
       <file leaf-file-name="admin_tags.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/task/templatetags/admin_tags.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="426" column="7" selection-start-line="426" selection-start-column="7" selection-end-line="426" selection-end-column="7" />
+            <state relative-caret-position="190">
+              <caret line="406" column="70" selection-start-line="406" selection-start-column="70" selection-end-line="406" selection-end-column="70" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#7704#9406#0" />
-                <element signature="e#9470#9641#0" />
-                <element signature="e#9702#9968#0" />
+                <element signature="e#8113#8634#0" />
+                <element signature="e#8673#10098#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="personal_task_list.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/task/personal_task_list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="243">
+              <caret line="56" column="52" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="task_review.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/task/task_review.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="48" column="4" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="4" />
+              <folding>
+                <element signature="e#16115#16170#0#HTML" expanded="true" />
+                <element signature="e#16238#16280#0#HTML" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="projects.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/task/projects.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="55" column="67" lean-forward="true" selection-start-line="55" selection-start-column="67" selection-end-line="55" selection-end-column="67" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="27" column="33" lean-forward="true" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="task_assign_center.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/task/task_assign_center.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret line="97" column="56" selection-start-line="97" selection-start-column="52" selection-end-line="97" selection-end-column="56" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="task_assign.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/task/task_assign.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="108" column="77" selection-start-line="108" selection-start-column="53" selection-end-line="108" selection-end-column="77" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="task_wait_review.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/task/task_wait_review.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-147">
+              <caret line="105" column="66" selection-start-line="105" selection-start-column="66" selection-end-line="105" selection-end-column="66" />
+              <folding>
+                <element signature="e#4355#4374#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -143,21 +150,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>后台管理</find>
-      <find>更多</find>
-      <find>comple</find>
-      <find>task_assign_cent</find>
-      <find>Del</find>
-      <find>task_cycle_db.query_task_cycled_by_tcid(tcid)</find>
-      <find>css/font-awesome</find>
-      <find>build_task_tags</find>
-      <find>build_task_tag</find>
-      <find>task</find>
-      <find>query_task_at</find>
-      <find>change_to_task_assi</find>
-      <find>附件</find>
-      <find>change_to_task_assign_status</find>
-      <find>build_task_tags_list</find>
       <find>标签</find>
       <find>指派</find>
       <find>成员</find>
@@ -173,6 +165,21 @@
       <find>by_tasid</find>
       <find>'task/task_detail.html',</find>
       <find>timedelta</find>
+      <find>date</find>
+      <find>query_task_assign_by_tid</find>
+      <find>task_edit</find>
+      <find>&quot;任务指派:{0}&quot;.format(self.tid)</find>
+      <find>任务指派</find>
+      <find>task</find>
+      <find>Task</find>
+      <find>fetch_task_assing_list</find>
+      <find>task_assign_c</find>
+      <find>审核人</find>
+      <find>name</find>
+      <find>完成状态</find>
+      <find>团队成员</find>
+      <find>url</find>
+      <find>task_wa</find>
     </findStrings>
     <replaceStrings>
       <replace>/static/js/</replace>
@@ -187,7 +194,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/task/change_table_obj(3).html" />
         <option value="$PROJECT_DIR$/static/js/accordion.js" />
         <option value="$PROJECT_DIR$/task/forms/base.py" />
         <option value="$PROJECT_DIR$/templates/task/task_assign_.html" />
@@ -208,36 +214,37 @@
         <option value="$PROJECT_DIR$/static/plugins/bootstrap/css/star-rating.min.css" />
         <option value="$PROJECT_DIR$/thinking_library/settings.py" />
         <option value="$PROJECT_DIR$/task/utils.py" />
-        <option value="$PROJECT_DIR$/task/forms/form.py" />
         <option value="$PROJECT_DIR$/task/apps.py" />
         <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/templates/form_basic.html" />
         <option value="$PROJECT_DIR$/templates/table_bootstrap.html" />
         <option value="$PROJECT_DIR$/templates/task/task_sort_list.html" />
-        <option value="$PROJECT_DIR$/templates/task/task_assign_center.html" />
         <option value="$PROJECT_DIR$/templates/task/performence.html" />
         <option value="$PROJECT_DIR$/thinking_library/urls.py" />
         <option value="$PROJECT_DIR$/templates/index_v3.html" />
         <option value="$PROJECT_DIR$/templates/task/task_edit.html" />
-        <option value="$PROJECT_DIR$/templates/task/complete_task.html" />
-        <option value="$PROJECT_DIR$/templates/task/task_review.html" />
         <option value="$PROJECT_DIR$/templates/layout.html" />
         <option value="$PROJECT_DIR$/static/css/login.css" />
         <option value="$PROJECT_DIR$/templates/task/performence_edit.html" />
         <option value="$PROJECT_DIR$/templates/task/task_sort_edit.html" />
         <option value="$PROJECT_DIR$/templates/task/task_review_record.html" />
-        <option value="$PROJECT_DIR$/templates/task/personal_task_review.html" />
-        <option value="$PROJECT_DIR$/templates/task/personal_task_list.html" />
-        <option value="$PROJECT_DIR$/templates/task/task_assign.html" />
-        <option value="$PROJECT_DIR$/templates/task/task_wait_review.html" />
         <option value="$PROJECT_DIR$/templates/task/project_detail.html" />
+        <option value="$PROJECT_DIR$/task/adminx.py" />
+        <option value="$PROJECT_DIR$/templates/task/personal_task_review.html" />
+        <option value="$PROJECT_DIR$/task/forms/form.py" />
+        <option value="$PROJECT_DIR$/templates/task/complete_task.html" />
+        <option value="$PROJECT_DIR$/templates/task/task_detail.html" />
         <option value="$PROJECT_DIR$/task.sql" />
         <option value="$PROJECT_DIR$/task/models.py" />
-        <option value="$PROJECT_DIR$/task/adminx.py" />
-        <option value="$PROJECT_DIR$/task/views.py" />
         <option value="$PROJECT_DIR$/task/server.py" />
+        <option value="$PROJECT_DIR$/task/views.py" />
+        <option value="$PROJECT_DIR$/templates/task/task_wait_review.html" />
+        <option value="$PROJECT_DIR$/templates/task/task_assign_center.html" />
+        <option value="$PROJECT_DIR$/templates/task/task_assign.html" />
         <option value="$PROJECT_DIR$/task/templatetags/admin_tags.py" />
-        <option value="$PROJECT_DIR$/templates/task/task_detail.html" />
+        <option value="$PROJECT_DIR$/templates/task/personal_task_list.html" />
+        <option value="$PROJECT_DIR$/templates/task/task_review.html" />
+        <option value="$PROJECT_DIR$/templates/task/projects.html" />
       </list>
     </option>
   </component>
@@ -261,6 +268,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -271,30 +279,7 @@
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="task" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="task" type="462c0819:PsiDirectoryNode" />
-              <item name="templatetags" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -316,7 +301,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -330,18 +314,18 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\workplace\thinking_library\templates\task" />
+      <recent name="F:\workplace\thinking_library\static\img" />
+      <recent name="F:\workplace\thinking_library\static\js" />
+      <recent name="F:\workplace\thinking_library\static" />
+      <recent name="F:\workplace\thinking_library\static\css" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\workplace\thinking_library\static\css" />
       <recent name="F:\workplace\thinking_library\static\plugins\bootstrap\js\star\locales" />
       <recent name="F:\workplace\thinking_library\static\plugins\bootstrap\js\star" />
       <recent name="G:\workplace\thinking_library\templates" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\workplace\thinking_library\static\img" />
-      <recent name="F:\workplace\thinking_library\templates\task" />
-      <recent name="F:\workplace\thinking_library\static\js" />
-      <recent name="F:\workplace\thinking_library\static" />
-      <recent name="F:\workplace\thinking_library\static\css" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -411,11 +395,10 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32900944" />
       <window_info anchor="bottom" id="Python Console" order="8" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.4963054" visible="true" weight="0.3263889" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16133004" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4963054" visible="true" weight="0.3263889" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17980295" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3282532" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -427,6 +410,7 @@
       <window_info anchor="right" id="Data View" order="4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3282532" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -441,9 +425,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/img/people.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/img/logo.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -464,10 +445,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="121">
           <caret line="22" column="31" selection-start-line="22" selection-end-line="187" />
-          <folding>
-            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -489,9 +466,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
           <caret line="6" column="2541" selection-start-line="6" selection-start-column="2541" selection-end-line="6" selection-end-column="2541" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -499,9 +473,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="277">
           <caret line="45" column="18" lean-forward="true" selection-start-line="26" selection-start-column="12" selection-end-line="45" selection-end-column="18" />
-          <folding>
-            <element signature="n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -629,45 +600,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/personal_task_review.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="123" selection-start-line="123" selection-end-line="123" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/personal_task_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-231">
-          <caret line="87" column="99" selection-start-line="87" selection-start-column="99" selection-end-line="87" selection-end-column="99" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_assign_center.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="368" column="31" selection-start-line="368" selection-start-column="31" selection-end-line="368" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="29" column="37" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/layout.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="18" column="32" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_assign.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="275" column="12" selection-start-line="275" selection-start-column="12" selection-end-line="275" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -676,92 +612,15 @@
         <state relative-caret-position="27">
           <caret line="311" column="26" selection-start-line="311" selection-start-column="26" selection-end-line="311" selection-end-column="26" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#dl#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#dd#0;n#dl#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#dd#0;n#dl#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#p#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_wait_review.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="114" column="54" selection-start-line="114" selection-start-column="54" selection-end-line="114" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_review.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1890">
-          <caret line="83" column="49" lean-forward="true" selection-start-line="83" selection-start-column="49" selection-end-line="83" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/task.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="111" column="35" lean-forward="true" selection-start-line="111" selection-start-column="35" selection-end-line="111" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/task/adminx.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="75" column="67" selection-start-line="75" selection-start-column="67" selection-end-line="75" selection-end-column="67" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/task/forms/form.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="38" column="6" selection-start-line="38" selection-start-column="6" selection-end-line="38" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/task/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="97" column="12" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/task/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#10103#11969#0" />
-            <element signature="e#12007#14250#0" />
+            <element signature="n#style#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/task/utils.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/task/templatetags/admin_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="426" column="7" selection-start-line="426" selection-start-column="7" selection-end-line="426" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#7704#9406#0" />
-            <element signature="e#9470#9641#0" />
-            <element signature="e#9702#9968#0" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/task/task_edit.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -773,36 +632,181 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/task/server.py">
+    <entry file="file://$PROJECT_DIR$/task/adminx.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="290" column="101" selection-start-line="290" selection-start-column="101" selection-end-line="290" selection-end-column="101" />
+        <state relative-caret-position="27">
+          <caret line="75" column="67" selection-start-line="75" selection-start-column="67" selection-end-line="75" selection-end-column="67" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/personal_task_review.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="34" column="33" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/forms/form.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="15" column="76" selection-start-line="15" selection-start-column="76" selection-end-line="15" selection-end-column="76" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/task/complete_task.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="60" column="6" lean-forward="true" selection-start-line="58" selection-start-column="4" selection-end-line="60" selection-end-column="6" />
+        <state relative-caret-position="280">
+          <caret line="135" column="88" lean-forward="true" selection-start-line="135" selection-start-column="88" selection-end-line="135" selection-end-column="88" />
+          <folding>
+            <element signature="e#3168#3209#0#HTML" expanded="true" />
+            <element signature="e#4863#4899#0#HTML" expanded="true" />
+            <element signature="e#4981#5007#0#HTML" expanded="true" />
+            <element signature="e#7194#7258#0#HTML" expanded="true" />
+            <element signature="e#7309#7370#0#HTML" expanded="true" />
+            <element signature="e#7388#7446#0#HTML" expanded="true" />
+            <element signature="e#7469#11739#0#HTML" />
+            <element signature="e#7511#7876#0#HTML" />
+            <element signature="e#7894#7914#0#HTML" expanded="true" />
+            <element signature="e#7893#9070#0#HTML" />
+            <element signature="e#9290#9326#0#HTML" expanded="true" />
+            <element signature="e#11825#11857#0#HTML" expanded="true" />
+            <element signature="e#12184#12223#0#HTML" expanded="true" />
+            <element signature="e#12601#12651#0#HTML" expanded="true" />
+            <element signature="e#14165#14215#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="231" column="27" lean-forward="true" selection-start-line="231" selection-start-column="27" selection-end-line="231" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#1782#3729#0" />
+            <element signature="e#3760#7597#0" />
+            <element signature="e#7630#8603#0" />
+            <element signature="e#10104#11970#0" />
+            <element signature="e#12008#14251#0" />
+            <element signature="e#14711#15337#0" />
+            <element signature="e#15370#18509#0" />
+            <element signature="e#19951#20781#0" />
+            <element signature="e#21196#21730#0" />
+            <element signature="e#21766#21913#0" />
+            <element signature="e#21949#23259#0" />
+            <element signature="e#23297#23762#0" />
+            <element signature="e#23803#23951#0" />
+            <element signature="e#23989#25313#0" />
+            <element signature="e#25353#25820#0" />
+            <element signature="e#25860#26204#0" />
+            <element signature="e#26239#29062#0" />
+            <element signature="e#29101#29808#0" />
+            <element signature="e#29849#30430#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/task_wait_review.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-147">
+          <caret line="105" column="66" selection-start-line="105" selection-start-column="66" selection-end-line="105" selection-end-column="66" />
+          <folding>
+            <element signature="e#4355#4374#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/task_assign.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="108" column="77" selection-start-line="108" selection-start-column="53" selection-end-line="108" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-174">
+          <caret line="106" column="49" selection-start-line="106" selection-start-column="40" selection-end-line="106" selection-end-column="49" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/task/task_detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="125" column="101" selection-start-line="125" selection-start-column="101" selection-end-line="125" selection-end-column="101" />
+        <state relative-caret-position="217">
+          <caret line="78" column="56" lean-forward="true" selection-start-line="78" selection-start-column="56" selection-end-line="78" selection-end-column="56" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#dl#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#dd#0;n#dl#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#dd#0;n#dl#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#p#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/task_assign_center.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="97" column="56" selection-start-line="97" selection-start-column="52" selection-end-line="97" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="27" column="33" lean-forward="true" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/templatetags/admin_tags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="406" column="70" selection-start-line="406" selection-start-column="70" selection-end-line="406" selection-end-column="70" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#8113#8634#0" />
+            <element signature="e#8673#10098#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/personal_task_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="56" column="52" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/task_review.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="48" column="4" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="4" />
+          <folding>
+            <element signature="e#16115#16170#0#HTML" expanded="true" />
+            <element signature="e#16238#16280#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/projects.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="55" column="67" lean-forward="true" selection-start-line="55" selection-start-column="67" selection-end-line="55" selection-end-column="67" />
         </state>
       </provider>
     </entry>

@@ -84,9 +84,9 @@
                                     <thead>
                                         <tr >
                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
-                                            <th>ID</th>
+{#                                            <th>ID</th>#}
                                             <th>任务名称</th>
-                                            <th>任务描述</th>
+                                            <th>任务方式</th>
                                             <th>任务类别</th>
                                             <th>指派人</th>
                                             <th>开始时间</th>
@@ -99,9 +99,9 @@
                                        {% for obj in  query_sets%}
                                           <tr>
                                               <td><input type="checkbox"></td>
-                                              <td>{{ obj.tid }}</td>
-                                              <td>{{ obj.title }}</td>
-                                              <td>{{ obj.content|slice:"15"}}</td>
+{#                                              <td><a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.tid }}</a></td>#}
+                                              <td><a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.title }}</a></td>
+                                              <td>{%  change_to_task_way obj.team %} </td>
                                               <td>{% change_to_task_type  obj.type_id  %}</td>
                                               <td>{% change_to_staff obj.issuer_id %}</td>
                                               <td name="deadline">{{ obj.deadline |date:"Y-m-d "}}</td>

@@ -32,6 +32,7 @@
        cursor: pointer;
        padding:0;margin:0;list-style:none
   }
+       li {list-style-type:none;}
 
 
        .member_name{
@@ -82,34 +83,34 @@
                                 <table id="personal_task_review"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                          <tr >
-          <th><input type="checkbox" onclick="SelectAll(this)"></th>
-          <th>ID</th>
-          <th>任务名称</th>
-          <th>任务描述</th>
-          <th>任务类别</th>
-          <th>指派人</th>
-          <th>开始时间</th>
-          <th>截止时间</th>
-          <th>审核对象</th>
-      </tr>
+                                          <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                          <th>ID</th>
+                                          <th>任务名称</th>
+                                          <th>任务描述</th>
+                                          <th>任务类别</th>
+                                          <th>指派人</th>
+                                          <th>开始时间</th>
+                                          <th>截止时间</th>
+                                          <th>审核对象</th>
+                                      </tr>
                                     </thead>
                                     <tbody>
                                        {% if query_sets %}
-           {% for obj in  query_sets%}
-      <tr>
-          <td><input type="checkbox"></td>
-          <td>{{ obj.tid }}</td>
-          <td>{{ obj.title }}</td>
-          <td>{{ obj.content|slice:"15"}}</td>
-          <td>{% change_to_task_type  obj.type_id  %}</td>
-          <td>{% change_to_staff obj.issuer_id %}</td>
-          <td>{{ obj.deadline |date:"Y-m-d "}}</td>
-          <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
-          <td>{% bulid_person_review_list 1 obj.tid %}
-          </td>
-      </tr>
-      {% endfor %}
-      {% endif %}
+                                           {% for obj in  query_sets%}
+                                          <tr>
+                                              <td><input type="checkbox"></td>
+                                              <td>{{ obj.tid }}</td>
+                                              <td>{{ obj.title }}</td>
+                                              <td>{{ obj.content|slice:"15"}}</td>
+                                              <td>{% change_to_task_type  obj.type_id  %}</td>
+                                              <td>{% change_to_staff obj.issuer_id %}</td>
+                                              <td>{{ obj.deadline |date:"Y-m-d "}}</td>
+                                              <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
+                                              <td>{% bulid_person_review_list 1 obj.tid %}
+                                              </td>
+                                          </tr>
+                                          {% endfor %}
+                                      {% endif %}
                                     </tbody>
                                 </table>
                             </div>
@@ -121,7 +122,6 @@
         </div>
         <!-- End Panel Other -->
     </div>
-
 
     <!-- Modal -->
     <!-- delete-->

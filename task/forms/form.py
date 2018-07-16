@@ -12,8 +12,8 @@ class TaskForm(django_forms.Form):
     perfor_id = django_fields.IntegerField(required=False)
     tags = django_fields.CharField(required=False)
     attachment = django_fields.CharField(required=False)
-    start_time = django_fields.CharField(required=False)
-    deadline = django_fields.DateTimeField(required=False)
+    start_time = django_fields.CharField(error_messages={"required": "起始不能为空"})
+    deadline = django_fields.DateTimeField(error_messages={"required": "终止日期"})
     reviewers = django_fields.CharField(error_messages={"required": "审核人不能为空"})
 
 

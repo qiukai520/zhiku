@@ -3,11 +3,7 @@
 
 {% block css  %}
      <style>
-        td, th{
-            text-align: left;
-            vert-align: middle;
-            padding: 10px 18px !important;
-        }
+
         .form-horizontal .control-label {
             padding-top: 7px;
             margin-bottom: 0;
@@ -90,11 +86,12 @@
                                     <thead>
                                         <tr >
                                           <th><input type="checkbox" onclick="SelectAll(this)"></th>
-                                          <th>ID</th>
+{#                                          <th>ID</th>#}
                                           <th>任务名称</th>
-                                          <th>任务描述</th>
+                                          <th>任务方式</th>
                                           <th>任务类别</th>
                                           <th>指派人</th>
+                                            <th>任务进度</th>
                                           <th>开始时间</th>
                                           <th>截止时间</th>
                                           <th>审核结果</th>
@@ -105,11 +102,18 @@
                                        {% for obj in  query_sets%}
                                   <tr>
                                       <td><input type="checkbox"></td>
-                                      <td>{{ obj.tid }}</td>
-                                      <td>{{ obj.title }}</td>
-                                      <td>{{ obj.content|slice:"15"}}</td>
+{#                                      <td><a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.tid }}</a></td>#}
+                                      <td><a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.title}}</a></td>
+                                      <td>{%  change_to_task_way obj.team %} </td>
                                       <td>{% change_to_task_type  obj.type_id  %}</td>
                                       <td>{% change_to_staff obj.issuer_id %}</td>
+                                      <td class="project-completion">
+                                           {% build_task_progress obj.tid as progerss %}
+                                                <small>当前进度： {{ progerss }}%</small>
+                                                <div class="progress progress-mini">
+                                                    <div style="width: {{ progerss }}%;" class="progress-bar"></div>
+                                                </div>
+                                        </td>
                                       <td>{{ obj.deadline |date:"Y-m-d "}}</td>
                                       <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
                                       <td>{% bulid_review_list obj.tid %}

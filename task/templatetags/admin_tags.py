@@ -77,10 +77,14 @@ def build_task_tags_ele(tid):
     """构建任务标签"""
     ele_list = ''
     record_tags = task_tag_db.query_task_tag_by_tid(tid)
-    for item in record_tags:
-        if item.name:
-            ele = "<span>{0};</span>".format(item.name)
-            ele_list += ele
+    if record_tags:
+        for item in record_tags:
+            if item.name:
+                ele = "<span>{0};</span>".format(item.name)
+                ele_list += ele
+    else:
+        ele = "<span>{0};</span>".format("暂无")
+        ele_list += ele
     return mark_safe(ele_list)
 
 @register.simple_tag
@@ -88,11 +92,15 @@ def build_task_review_ele(tid):
     """构建任务标签"""
     ele_list = ''
     task_review_ids = task_review_db.query_task_reviewer_by_tid(tid).order_by("follow")
-    for item in task_review_ids:
-        staff = staff_db.query_staff_by_id(item.sid_id)
-        if staff.name:
-            ele = "<span>{0};</span>".format(staff.name)
-            ele_list += ele
+    if task_review_ids:
+        for item in task_review_ids:
+            staff = staff_db.query_staff_by_id(item.sid_id)
+            if staff.name:
+                ele = "<span>{0};</span>".format(staff.name)
+                ele_list += ele
+    else:
+        ele = "<span>{0};</span>".format("暂未指定")
+        ele_list += ele
     return mark_safe(ele_list)
 
 
@@ -123,6 +131,15 @@ def change_to_task_execute_way(way_id):
     for item in way_list:
         if int(item["execute_way"]) == way_id:
             return item["caption"]
+
+
+@register.simple_tag
+def change_to_task_way(team_id):
+    task_way = task_db.task_way
+    for item in task_way:
+        if int(item["id"]) == team_id:
+            return item["caption"]
+
 
 @register.simple_tag
 def change_to_task_type(tpid):
@@ -247,34 +264,53 @@ def bulid_person_review_list(user_id,tid):
         member = staff_db.query_staff_by_id(item.member_id_id)
         # 根据用户sid和任务id获取审核
         task_review = task_review_db.query_task_reviewer_by_tid_sid(tid, user_id)
-        # 获取任务最后一次审核记录
-        last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(task_review.tvid, item.tasid)
-        # 获取任务提交记录
-        last_commit_record = task_submit_record_db.query_last_submit_record(item.tasid)
-        # 如果有记录表示已审核
-        if last_review_record:
-            is_review = "已审核"
-            last_edit=last_review_record.create_time.strftime("%Y-%m-%d")
-            if last_review_record.is_complete:
-                status = "通过"
+        # 查看是否为次序审核,大于0则为次序审核
+        flag = True
+        if task_review.follow > 1:
+            pre_follow = task_review.follow
+            pre_obj = task_review_db.query_task_reviewer_by_tid_follow(tid,pre_follow)
+            last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(pre_obj.tvid,
+                                                                                                       item.tasid)
+            if last_review_record:
+                if last_review_record.is_complete == 0:
+                    flag = False
             else:
-                status = '驳回'
-        # 如果没有记录表示未审核
+                flag = False
+        if flag:
+            # 获取任务最后一次审核记录
+            last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(task_review.tvid, item.tasid)
+            # 获取任务提交记录
+            last_commit_record = task_submit_record_db.query_last_submit_record(item.tasid)
+            # 如果有记录表示已审核
+            if last_review_record:
+                is_review = "已审核"
+                last_edit=last_review_record.create_time.strftime("%Y-%m-%d")
+                if last_review_record.is_complete:
+                    status = "通过"
+                else:
+                    status = '驳回'
+            # 如果没有记录表示未审核
+            else:
+                is_review = "未审核"
+                if last_commit_record:
+                    completion = last_commit_record.completion
+                    last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
+                    status ="完成度："+str(completion) + "%"
+                else:
+                    status = "进行中"
+                    last_edit = ''
+                # 构建任务审核对象列表
+            ele = """<li > <a  style="color:blue" href="task_review.html?tasid={0}">{1} &nbsp
+                      <span >{2}</span> &nbsp<span style="color:red"> [ </span><span>{3}</span><span style="color:red"> ] 
+                      </span></a> &nbsp<span style="color:#9F9F9F">{4}</span></li>
+                      """.format(item.tasid,member.name, is_review, status,last_edit)
+            eles += ele
         else:
-            is_review = "未审核"
-            if last_commit_record:
-                completion = last_commit_record.completion
-                last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
-                status ="完成度："+str(completion) + "%"
-            else:
-                status = "进行中"
-                last_edit = ''
-            # 构建任务审核对象列表
-        ele = """<li > <a  style="color:blue" href="task_review.html?tasid={0}">{1} &nbsp
-                  <span >{2}</span> &nbsp<span style="color:red"> [ </span><span>{3}</span><span style="color:red"> ] 
-                  </span></a> &nbsp<span style="color:#9F9F9F">{4}</span></li>
-                  """.format(item.tasid,member.name, is_review, status,last_edit)
-        eles += ele
+            ele = """<li ><span style="color:blue" >{0}</span> &nbsp<span style="color:red"> [ </span><span>上一审核人还未审核</span><span style="color:red"> ] 
+                                 </span></li>
+                                 """.format(member.name)
+            eles += ele
+
     eles += "</ul>"
     return mark_safe(eles)
 
@@ -309,6 +345,7 @@ def query_task_by_tid(tid):
 
 @register.simple_tag
 def query_task_attachment_by_tasid(tasid):
+    """获取指派任务的附件"""
     tasid = int(tasid)
     result_db = task_assign_attach_db.query_task_assign_attach_by_tasid(tasid)
     return result_db
@@ -323,6 +360,7 @@ def query_task_attachment_by_tid(tid):
 
 @register.simple_tag
 def query_submit_attachment_by_tsid(tsid):
+    """获取任务提交记录附件"""
     tsid = int(tsid)
     result_db = task_submit_attach_db.query_task_submit_attachment_by_tsid(tsid)
     return result_db
@@ -330,6 +368,7 @@ def query_submit_attachment_by_tsid(tsid):
 
 @register.simple_tag
 def fetch_completion_by_tasid(tasid):
+    """获取指派任务的完成度"""
     last_commit_record = task_submit_record_db.query_last_submit_record(tasid)
     if last_commit_record:
         completion = last_commit_record.completion
@@ -359,21 +398,30 @@ def fetch_task_assing_member(tid):
     """获取任务成员"""
     task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
     eles = ''
-    for item in task_assign_list:
-        member = staff_db.query_staff_by_id(item.member_id_id)
-        ele = "<a href='task_review_record.html?tasid={0}'>{1};&nbsp</a>".format(item.tasid, member.name)
-        eles+= ele
+    if task_assign_list:
+        for item in task_assign_list:
+            member = staff_db.query_staff_by_id(item.member_id_id)
+            ele = "<a href='task_review_record.html?tasid={0}'>{1};&nbsp</a>".format(item.tasid, member.name)
+            eles+= ele
+    else:
+        ele = "<span>暂未指派</span> &nbsp<a href='task_assign_center.html'>去指派</a>"
+        eles += ele
     return mark_safe(eles)
+
 
 @register.simple_tag
 def fetch_review_follow(tid):
     """获取任务审核次序"""
-    task_review=task_review_db.query_task_reviewer_by_tid(tid)
-    if task_review[0].follow:
-        result='是'
+    task_review = task_review_db.query_task_reviewer_by_tid(tid)
+    if task_review:
+        if task_review[0].follow:
+            result = '是'
+        else:
+            result = '否'
     else:
-        result='否'
+        result = "未指定"
     return result
+
 
 @register.simple_tag
 def build_task_progress(tid):
@@ -402,7 +450,8 @@ def build_task_progress(tid):
         completion = progress_score+finish_score
     else:
         completion = 0
-    return round(completion,0)
+    return int(completion)
+
 
 @register.simple_tag
 def fetch_task_submit_record(tid):
@@ -422,11 +471,57 @@ def fetch_task_assign_member_by_tasid(tasid):
     ele = "<a href='task_review_record.html?tasid={0}'>{1}&nbsp</a>".format(tasid, staff_obj.name)
     return mark_safe(ele)
 
+
 @register.simple_tag
-def change_to_past_days(time):
-   pass
+def calculate_past_days(time):
+    """计算消息来自多少天前"""
+    now_time = datetime.now()
+    del_time = now_time.date() - time.date()
+    del_day = del_time.days
+    if del_day == 0:
+        date = '今天'
+    else:
+        date = str(del_day) + '天前'
+    return date
 
 
+@register.simple_tag
+def calculate_past_time(time):
+    """计算消息来自什么时候具体到分钟"""
+    now_time = datetime.now()
+    del_time = now_time.date() - time.date()
+    del_day = del_time.days
+    if del_day == 0:
+        del_seconds = int(now_time.timestamp()-time.timestamp())
+        if del_seconds> 60:
+             del_minute = int(del_seconds/60)
+             if del_minute > 60:
+                 del_hour = int(del_minute/60)
+                 time = str(del_hour)+'小时'
+             else:
+                 time = str(del_minute)+'分钟'
+        else:
+            time="1分钟"
+    else:
+        time = str(del_day) + '天'
+    return time
+
+
+@register.simple_tag
+def fetch_task_assing_list(tid):
+    """获取任务成员列表"""
+    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    return task_assign_list
+
+
+@register.simple_tag
+def fetch_assign_finish_status(status):
+    """获取任务成员审核情况"""
+    if status == 1:
+        status = "已通过"
+    else:
+        status = '待审核'
+    return status
 
 
 

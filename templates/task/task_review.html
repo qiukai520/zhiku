@@ -46,9 +46,7 @@
 
     }
     h4{padding-top:10px}
-    button ,.btn{
-        margin-top: 0px !important;
-    }
+    
     .row > [class*="col-"] {
     margin-bottom: 0px;
 }
@@ -267,7 +265,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                             {% for item in  task_review_record %}
                             <div class="row">
                                 <div class="col-xs-2" style="position: relative" ><span style="color:red;font-size: 18px; float: right;color:#9F9F9F" class="right" > {{ item.create_time|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px"></span><br><span class="right" style="font-size: 14px;margin-right:20px;position:absolute;right: 6px;">{{ item.create_time|date:"H:i:s "}}</span></span></div>
-                                 <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding-left:20px" >
+                                 <div class="col-xs-8" style="border-left:2px solid #9F9F9F;" >
                                 <div class="row form-horizontal" style="margin:5px;background-color: white">
                                     <div style="margin-left:28px;">
                                     <label class="form-label" style="margin: 3px 0"  >审核记录{{ forloop.revcounter }}</label><br>
