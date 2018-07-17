@@ -22,6 +22,22 @@ create TABLE `task`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务表';
 
 
+drop TABLE if exists `task_map`;
+create TABLE `task_map`(
+`tmid` int(11) primary key auto_increment,
+`tid` int(11) NOT NULL  COMMENT '任务ID',
+`perfor_id` int(11) NOT NUll COMMENT '绩效分类',
+`assinger` int(11) NOT NULL  COMMENT '指派人',
+`tcid`  int(11) COMMENT '任务周期类型',
+`start_time` datetime  DEFAULT NULL  COMMENT '起止日期',
+`deadline` datetime  DEFAULT NUll  COMMENT '终止期限',
+`is_finish` tinyint(1) NOT NULL DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
+`team` tinyint(1) NOT NULL DEFAULT 0 COMMENT '任务方式：0个人任务;1组队任务',
+`status` tinyint(1) NOT NUll DEFAULT 1 COMMENT'1启动,2暂停,3终止',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务指派';
+
 
 drop TABLE if exists `performemce`;
 create TABLE `performemce`(

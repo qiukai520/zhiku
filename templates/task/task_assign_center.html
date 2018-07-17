@@ -72,9 +72,9 @@
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
                                     <a href="{% url "publish_task" %}" class ="btn btn-primary">添加任务</a>
-                                    <button  onclick="ShowAssign()" role="button" data-toggle="modal" class="btn btn-info" >任务指派</button>
-                                    <button  onclick="TeamAssignShow()" role="button" data-toggle="modal" class="btn btn-primary" >组队指派</button>
-                                    <button  onclick="MultiDelete()" class="btn btn-danger">批量删除</button>
+                                    <a  href="{% url "task_assign" %}?team=0"  class="btn btn-info" >任务指派</a>
+                                    <a  href="{% url "task_assign"%}?team=1" class="btn btn-primary" >组队指派</a>
+                                    <button  onclick="MultiDelete()" class="btn btn-danger">删除任务</button>
                                 </div>
                                 <table id="task_assign_center"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
@@ -85,7 +85,6 @@
                                               <th>任务描述</th>
                                               <th>任务类别</th>
                                               <th>创建人</th>
-                                              <th>指派状态</th>
                                               <th>创建时间</th>
                                               <th>截止时间</th>
                                               <th>操作</th>
@@ -100,7 +99,6 @@
                                               <td>{{ obj.content|slice:"20"}}</td>
                                               <td>{% change_to_task_type  obj.type_id  %}</td>
                                               <td>{% change_to_staff obj.issuer_id %}</td>
-                                              <td>{% change_to_task_assign_status  obj.is_assign%}</td>
                                               <td >{{ obj.deadline |date:"Y-m-d "}}</td>
                                               <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
                                                 <td>
@@ -121,46 +119,46 @@
         <!-- End Panel Other -->
     </div>
 
-<!-- task_assign-->
-<!-- Modal -->
-<div class="modal fade"  id="task_assign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">任务指派</h4>
-      </div>
-      <div class="modal-body" style="height: 500px; width: 500px;">
-         <div class="row form-horizontal" style="position: relative;margin-top: 30px">
-            <div class="col-xs-12">
-              <div class="form-group ">
-                    <label for=" department"  class="control-label col-xs-2">选择员工：</label>
+{#<!-- task_assign-->#}
+{#<!-- Modal -->#}
+{#<div class="modal fade"  id="task_assign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
+{#  <div class="modal-dialog" role="document">#}
+{#    <div class="modal-content">#}
+{#      <div class="modal-header">#}
+{#        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
+{#        <h4 class="modal-title" id="myModalLabel">任务指派</h4>#}
+{#      </div>#}
+{#      <div class="modal-body" style="height: 500px; width: 500px;">#}
+{#         <div class="row form-horizontal" style="position: relative;margin-top: 30px">#}
+{#            <div class="col-xs-12">#}
+{#              <div class="form-group ">#}
+{#                    <label for=" department"  class="control-label col-xs-2">选择员工：</label>#}
 {#                    <div class="control-xs-6 " style="margin:8px ;">#}
 {#                        <lable  for="department"  style="margin-left:15px" class="control-label control-xs-2  ">部门:</lable>#}
-                    <select tabindex="1" style="display:inline; width: 180px;margin-left: 15px"  id="department" name="department" class="form-control "  onchange="FetchStaff(this)">
-                    {% build_department_ele %}
-                    </select>
+{#                    <select tabindex="1" style="display:inline; width: 180px;margin-left: 15px"  id="department" name="department" class="form-control "  onchange="FetchStaff(this)">#}
+{#                    {% build_department_ele %}#}
+{#                    </select>#}
 {#                    </div>#}
-                </div>
-              <div class="form-group" >
-                    <label for="task_type" class="control-label col-xs-2"></label>
-                    <div class="col-xs-10 "  style="padding:0px;  ">
-                        <div class="col-xs-12 selector-filter" >
-                            <select  id="id_staff_from" multiple   name="staff_old"  size="10"   class=" select-box ">
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-        <button type="button" id="submit" onclick="AssignSubmit()" class="btn btn-primary">指派</button>
-      </div>
-    </div>
-  </div>
-</div>
+{#                </div>#}
+{#              <div class="form-group" >#}
+{#                    <label for="task_type" class="control-label col-xs-2"></label>#}
+{#                    <div class="col-xs-10 "  style="padding:0px;  ">#}
+{#                        <div class="col-xs-12 selector-filter" >#}
+{#                            <select  id="id_staff_from" multiple   name="staff_old"  size="10"   class=" select-box ">#}
+{#                            </select>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#         </div>#}
+{#      </div>#}
+{#      <div class="modal-footer">#}
+{#        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>#}
+{#        <button type="button" id="submit" onclick="AssignSubmit()" class="btn btn-primary">指派</button>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
          <!-- Modal -->
 
     <!-- delete-->
@@ -372,42 +370,42 @@ function TeamAssignShow() {
         return reviewers
     }
 
-function AssignSubmit() {
-    $.ajax({
-        url:"{% url 'task_mutil_assign' %} ",
-        data:{"task_assign":SelectMember()},
-        type:"post",
-        dataType:"json",
-        success:function (arg) {
-            if (arg.status){
-                alert("指派成功")
-                 $('#task_assign').modal('hide')
-                 window.location.reload()
-            }else {
-                alert(arg.message)
-            }
-        }
-
-    })
-}
-
-function TeamAssingSubmit() {
-    $.ajax({
-        url:"{% url 'task_team_assign' %} ",
-        data:{"team_assign":SelectMember()},
-        type:"post",
-        dataType:"json",
-        success:function (arg) {
-            if (arg.status){
-                alert("指派成功")
-                 $('#task_assign').modal('hide')
-                 window.location.reload()
-            }else {
-                alert(arg.message)
-            }
-        }
-    })
-}
+{#function AssignSubmit() {#}
+{#    $.ajax({#}
+{#        url:"{% url 'task_mutil_assign' %} ",#}
+{#        data:{"task_assign":SelectMember()},#}
+{#        type:"post",#}
+{#        dataType:"json",#}
+{#        success:function (arg) {#}
+{#            if (arg.status){#}
+{#                alert("指派成功")#}
+{#                 $('#task_assign').modal('hide')#}
+{#                 window.location.reload()#}
+{#            }else {#}
+{#                alert(arg.message)#}
+{#            }#}
+{#        }#}
+{##}
+{#    })#}
+{#}#}
+{##}
+{#function TeamAssingSubmit() {#}
+{#    $.ajax({#}
+{#        url:"{% url 'task_team_assign' %} ",#}
+{#        data:{"team_assign":SelectMember()},#}
+{#        type:"post",#}
+{#        dataType:"json",#}
+{#        success:function (arg) {#}
+{#            if (arg.status){#}
+{#                alert("指派成功")#}
+{#                 $('#task_assign').modal('hide')#}
+{#                 window.location.reload()#}
+{#            }else {#}
+{#                alert(arg.message)#}
+{#            }#}
+{#        }#}
+{#    })#}
+{#}#}
 
 
 </script>

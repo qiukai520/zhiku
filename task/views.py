@@ -191,49 +191,60 @@ def task_delete(request):
     return HttpResponse(json.dumps(ret))
 
 
-def task_mutil_assign(request):
-    """批量任务指派"""
-    ret = {"status": False, "data": '', "message": ''}
-    assign = request.POST.get("task_assign", None)
-    task_assign_list = list(json.loads(assign))
-    if task_assign_list:
-        try:
-            with transaction.atomic():
-                task_assign_db.mutil_insert_task_assign(task_assign_list)
-                # 将任务状态更改为已指派
-                modify_info = {"is_assign": 1}
-                for item in task_assign_list:
-                    task_db.update_task_status_by_tid(item['tid_id'], modify_info)
-                ret['status'] = True
-        except Exception as e:
-            ret['message'] = str(e)
-    else:
-        ret['message'] = "至少选择一个员工"
-    return HttpResponse(json.dumps(ret))
+# def task_mutil_assign(request):
+#     """批量任务指派"""
+#     ret = {"status": False, "data": '', "message": ''}
+#     assign = request.POST.get("task_assign", None)
+#     task_assign_list = list(json.loads(assign))
+#     if task_assign_list:
+#         try:
+#             with transaction.atomic():
+#                 task_assign_db.mutil_insert_task_assign(task_assign_list)
+#                 # 将任务状态更改为已指派
+#                 modify_info = {"is_assign": 1}
+#                 for item in task_assign_list:
+#                     task_db.update_task_status_by_tid(item['tid_id'], modify_info)
+#                 ret['status'] = True
+#         except Exception as e:
+#             ret['message'] = str(e)
+#     else:
+#         ret['message'] = "至少选择一个员工"
+#     return HttpResponse(json.dumps(ret))
 
 
-def task_team_assign(request):
-    """组队任务指派"""
-    ret = {"status": False, "data": '', "message": ''}
-    assign = request.POST.get("team_assign", None)
-    task_assign_list = list(json.loads(assign))
-    if task_assign_list:
-        tid = task_assign_list[0]['tid']
-        try:
-            with transaction.atomic():
-                task_assign_db.mutil_insert_task_assign(task_assign_list)
-                # 将任务状态更改为已指派,任务方式更改为组队任务
-                modify_info = {"is_assign": 1, 'team':1}
-                task_db.update_task_status_by_tid(tid, modify_info)
-                ret['status'] = True
-        except Exception as e:
-            ret['message'] = str(e)
-    else:
-        ret['message'] = "至少选择一个员工"
-    return HttpResponse(json.dumps(ret))
+# def task_team_assign(request):
+#     """组队任务指派"""
+#     ret = {"status": False, "data": '', "message": ''}
+#     assign = request.POST.get("team_assign", None)
+#     task_assign_list = list(json.loads(assign))
+#     if task_assign_list:
+#         tid = task_assign_list[0]['tid']
+#         try:
+#             with transaction.atomic():
+#                 task_assign_db.mutil_insert_task_assign(task_assign_list)
+#                 # 将任务状态更改为已指派,任务方式更改为组队任务
+#                 modify_info = {"is_assign": 1, 'team':1}
+#                 task_db.update_task_status_by_tid(tid, modify_info)
+#                 ret['status'] = True
+#         except Exception as e:
+#             ret['message'] = str(e)
+#     else:
+#         ret['message'] = "至少选择一个员工"
+#     return HttpResponse(json.dumps(ret))
 
 
 def task_assign(request):
+    method = request.method
+    if method == "GET":
+        team = request.GET.get('team', None)
+
+        if team:
+            return render(request,"task/task_assign.html",{"team":team})
+    else:
+        pass
+
+
+def task_assign_list(request):
     """任务已指派列表"""
     method = request.method
     if method == "GET":
@@ -242,7 +253,7 @@ def task_assign(request):
         query_sets = task_db.query_task_assign_lists()
         if type_id > 0:
             query_sets = query_sets.filter(type_id=type_id)
-        return render(request, 'task/task_assign.html', {"query_sets": query_sets})
+        return render(request, 'task/task_assigned_list.html', {"query_sets": query_sets})
     else:
         # 任务内容指派
         ret = {"status": "", "data": "", "message": ''}
@@ -341,9 +352,9 @@ def task_wait_review(request):
     if method == "GET":
         filter = request.GET
         type_id = int(filter.get("s", 0))
-        is_assing = 1
         # 获取所有已指派的任务
-        query_sets = task_db.query_task_by_is_assign(is_assing)
+        # 待修改
+        query_sets = task_db.query_task_lists()
         if type_id > 0:
             query_sets = query_sets.filter(type_id=type_id)
         return render(request, 'task/task_wait_review.html', {"query_sets": query_sets,"filter":type_id})
@@ -491,7 +502,7 @@ def show_assign_content(request):
 def task_assign_center(request):
     """任务指派中心获取所有未指派的任务"""
     is_assign = 0
-    query_sets = task_db.query_task_by_is_assign(is_assign)
+    query_sets = task_db.query_task_lists()
     return render(request, 'task/task_assign_center.html',  {"query_sets": query_sets})
 
 
