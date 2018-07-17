@@ -374,12 +374,10 @@ def fetch_completion_by_tasid(tasid):
         completion = last_commit_record.completion
         last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
         if completion:
-            status = str(completion) + "%"
+            completion = completion
     else:
-        status = "进行中"
-        last_edit = ''
-    eles = " <span>{0}</span> <span>{1}</span>".format(status,last_edit)
-    return mark_safe(eles)
+        completion = 0
+    return completion
 
 
 @register.simple_tag

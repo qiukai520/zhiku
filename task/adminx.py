@@ -16,6 +16,7 @@ class GlobalSettings(object):
     menu_style = "accordion"
 
 
+
 # admin models
 
 class TaskAdmin(object):
