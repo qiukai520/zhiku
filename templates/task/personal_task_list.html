@@ -66,14 +66,15 @@
                                     </thead>
                                     <tbody>
                                     {% for obj in  query_sets%}
-                                      {% query_task_by_tid obj.tid_id as task_obj %}
+                                        {% query_task_map_by_tmid obj.tmid_id as task_obj %}
+                                        {% query_task_by_tid task_obj.tid_id as base_obj %}
                                       {% if obj.title %}
                                            <tr>
                                               <td><input type="checkbox"></td>
 {#                                              <td>{{ obj.tid_id }}</td>#}
                                               <td>{{ obj.title }}</td>
                                                <td>{%  change_to_task_way task_obj.team %} </td>
-                                              <td>{% change_to_task_type  task_obj.type_id  %}</td>
+                                              <td>{% change_to_task_type  base_obj.type_id  %}</td>
                                     {#          <td>{% change_to_staff obj.issuer_id %}</td>#}
                                     {#          <td>{% change_to_task_assign_status  obj.is_assign%}</td>#}
                                     {#          <td>{% change_to_task_status obj.status %} </td>#}

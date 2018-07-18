@@ -72,21 +72,20 @@
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
                                     <a href="{% url "publish_task" %}" class ="btn btn-primary">添加任务</a>
-                                    <a  href="{% url "task_assign" %}?team=0"  class="btn btn-info" >任务指派</a>
-                                    <a  href="{% url "task_assign"%}?team=1" class="btn btn-primary" >组队指派</a>
+                                    <button  onclick="TaskAssign(0)"  class="btn btn-info" >任务指派</button>
+                                    <button  onclick="TaskAssign(1)" class="btn btn-primary" >组队指派</button>
                                     <button  onclick="MultiDelete()" class="btn btn-danger">删除任务</button>
                                 </div>
                                 <table id="task_assign_center"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                         <tr >
                                              <th ><input type="checkbox" onclick="SelectAll(this)"></th>
-{#                                              <th>ID</th>#}
+                                              <th>ID</th>
                                               <th>任务名称</th>
                                               <th>任务描述</th>
                                               <th>任务类别</th>
                                               <th>创建人</th>
                                               <th>创建时间</th>
-                                              <th>截止时间</th>
                                               <th>操作</th>
                                         </tr>
                                     </thead>
@@ -94,12 +93,11 @@
                                       {% for obj in  query_sets%}
                                           <tr>
                                               <td><input type="checkbox"></td>
-{#                                              <td name="tid"> <a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.tid }}</a></td>#}
+                                              <td name="tid"> <a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.tid }}</a></td>
                                               <td><a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.title }}</a></td>
                                               <td>{{ obj.content|slice:"20"}}</td>
                                               <td>{% change_to_task_type  obj.type_id  %}</td>
                                               <td>{% change_to_staff obj.issuer_id %}</td>
-                                              <td >{{ obj.deadline |date:"Y-m-d "}}</td>
                                               <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
                                                 <td>
                                                     <a  href="{%url "task_detail" %}?tid={{ obj.tid }}" class="btn btn-info"  >详请</a>
@@ -212,24 +210,6 @@ String.prototype.format=function()
   /*
     自执行函数
     */
-    $(function () {
-        //初始化双列表框
-        DualListbox = $('#id_staff_from').bootstrapDualListbox({
-        nonSelectedListLabel: '未选择',
-        selectedListLabel: '已选择',
-        preserveSelectionOnMove: 'moved',
-        moveOnSelect: false,
-        infoTextEmpty: "",
-        nonSelectedFilter: '',
-            infoText:"总人数:{0}"
-    });
-        //部门select被隐藏掉了，将其显示出来
-        $("#department").removeClass("select2-hidden-accessible");
-        $("#department").next().addClass("hidden");
-
-
-
-    });
 
     //初始化bootastarp_table
     $(function () {
@@ -291,23 +271,45 @@ String.prototype.format=function()
                 }else{
                     alert("删除失败")
                     window.location.reload()
-
-
                 }
             }
         })
         });
     }
+    // 选择任务
+        function SelectTask() {
+         var tids=new Array();
+         $("tbody input:checkbox:checked").each(function () {
+            id = $(this).parent().next().text();
+            tids.push(id)
+            })
+            tids= tids.join("|")
+            console.log(tids)
+        return tids
+    }
+    //任务指派
+    function TaskAssign(team) {
+       //是否有选中任务
+     var is_checked=$("tbody input:checkbox:checked").length
+        if (is_checked){
+            var tids=SelectTask()
+            window.location.href="{% url 'task_assign' %}?tids={0}&team={1}".format(tids,team)
+        } else{
+         alert("至少应选中一个任务")
+        }
+    }
+
+
         //触发指派模态框
 function ShowAssign() {
         //是否有选中任务
      var is_checked=$("tbody input:checkbox:checked").length
      console.log("is_checked",is_checked)
-    if (is_checked){
+     if (is_checked){
          $('#task_assign').modal('show')
         }else{
          alert("至少应选中一个任务")
-    }
+     }
 }
 
 function TeamAssignShow() {
@@ -323,33 +325,6 @@ function TeamAssignShow() {
          alert("请选择一个任务")
     }
 }
-     //根据部门获取相应的员工
-    function FetchStaff(ths) {
-        var dpid=$(ths).val();
-        //清空select的内容
-        DualListbox.children("option:not(:selected)").remove();
-        DualListbox.bootstrapDualListbox('refresh', true);
-        $.ajax({
-            url:"{% url "department_staff" %}",
-            type:'get',
-            data:{"dpid":dpid},
-            dataType:'json',
-            async: true,//是否异步
-            success: function (arg) {
-            var objs = JSON.parse(arg.data);
-            $(objs).each(function () {
-            var o = document.createElement("option");
-            o.value = this['pk'];
-            o.text = this['fields']['name'];
-            DualListbox.append(o);
-            DualListbox.bootstrapDualListbox('refresh', true);
-          });
-        },
-            error: function (arg) {
-              alert(arg.message);
-            },
-        });
-    }
 
 
     function SelectMember(){
@@ -369,6 +344,7 @@ function TeamAssignShow() {
         reviewers =JSON.stringify(reviewers) //对象转化成json
         return reviewers
     }
+
 
 {#function AssignSubmit() {#}
 {#    $.ajax({#}

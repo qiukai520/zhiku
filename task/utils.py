@@ -36,11 +36,11 @@ def build_assign_attach_info(tasid,attachment):
     return att_list
 
 
-def build_reviewer_info(tid, reviewers):
+def build_reviewer_info(tmid, reviewers):
     re_list = []
     reviewers = json.loads(reviewers)
     for item in list(reviewers):
-        item.update({"tid_id": tid})
+        item.update({"timd_id": tmid})
         re_list.append(item)
     return re_list
 

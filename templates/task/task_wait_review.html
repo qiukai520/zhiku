@@ -100,15 +100,16 @@
                                     <tbody>
                                     {% if query_sets %}
                                        {% for obj in  query_sets%}
+                                           {% query_task_by_tid obj.tid_id as base_task %}
                                   <tr>
                                       <td><input type="checkbox"></td>
 {#                                      <td><a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.tid }}</a></td>#}
-                                      <td><a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.title}}</a></td>
+                                      <td><a  href="{%url "task_detail" %}?tid={{ obj.tid_id }}">{{ base_task.title}}</a></td>
                                       <td>{%  change_to_task_way obj.team %} </td>
-                                      <td>{% change_to_task_type  obj.type_id  %}</td>
-                                      <td>{% change_to_staff obj.issuer_id %}</td>
+                                      <td>{% change_to_task_type  base_task.type_id  %}</td>
+                                      <td>{% change_to_staff obj.assigner_id %}</td>
                                       <td class="project-completion">
-                                           {% build_task_progress obj.tid as progerss %}
+                                           {% build_task_progress obj.tmid as progerss %}
                                                 <small>当前进度： {{ progerss }}%</small>
                                                 <div class="progress progress-mini">
                                                     <div style="width: {{ progerss }}%;" class="progress-bar"></div>
@@ -116,7 +117,7 @@
                                         </td>
                                       <td>{{ obj.deadline |date:"Y-m-d "}}</td>
                                       <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
-                                      <td>{% bulid_review_list obj.tid %}
+                                      <td>{% bulid_review_list obj.tmid %}
                                       </td>
                                   </tr>
                                   {% endfor %}

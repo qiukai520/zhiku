@@ -97,7 +97,20 @@
                         <div class="form-group">
                             <label for="task_name" class="col-xs-2 control-label">任务名称：</label>
                               <div class="col-xs-6">
-                                  <p></p>
+                                  {% for obj in query_sets %}
+                                       <p style="padding-top:7px">{{ forloop.counter }}.{{ obj.title }}</p>
+                                  {% endfor %}
+
+                              </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="task_name" class="col-xs-2 control-label">任务方式：</label>
+                              <div class="col-xs-6">
+                                   {% if team == "1" %}
+                                        <p style="padding-top:7px">组队任务</p>
+                                   {% else %}
+                                          <p style="padding-top:7px">个人任务</p>
+                                   {% endif %}
                               </div>
                         </div>
                         <div class="form-group">
@@ -195,6 +208,13 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="remark" class="col-xs-2 control-label">备注：</label>
+                              <div class="col-xs-6">
+                                  <textarea name="remark"  class="form-control"  id="remark" placeholder="备注">
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-xs-6">
                                 <button  onclick="Submit()" class="btn btn-primary" style="float: right;">指派</button>
                                 <a href="#" class="btn btn-danger" style="float:right;margin-right: 50px;">返回</a>
@@ -227,14 +247,14 @@
             }
         });
 
-//字符串格式化
-String.prototype.format=function()
-{
-  if(arguments.length==0) return this;
-  for(var s=this, i=0; i<arguments.length; i++)
-    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
-  return s;
-};
+    //字符串格式化
+    String.prototype.format=function()
+    {
+      if(arguments.length==0) return this;
+      for(var s=this, i=0; i<arguments.length; i++)
+        s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+      return s;
+    };
     /*
     自执行函数
     */
@@ -273,17 +293,35 @@ function InitData() {
     //设置日期时间控件
 $(function () {
     $('#datetimepicker1').datetimepicker({
-        format: 'YYYY-MM-DD hh:mm',
+        format: 'YYYY-MM-DD HH:mm',
         locale: moment.locale('zh-cn')
     });
     $('#datetimepicker2').datetimepicker({
-        format: 'YYYY-MM-DD hh:mm',
+        format: 'YYYY-MM-DD HH:mm',
         locale: moment.locale('zh-cn')
     });
 });
 
 
+// 构造任务列表
 
+
+
+//获取指派对象
+function SelectAssigner(){
+        Assigner=new Array();
+        DualListboxAssign.children("option:selected").each(function () {
+            var reviewer=$(this).val()
+            var reviewer={"member_id_id":reviewer};
+            Assigner.push(reviewer)
+        });
+        if (Assigner.length>0){
+             Assigner =JSON.stringify(Assigner)//对象转化成json
+        } else{
+            Assigner=''
+        }
+        return Assigner
+    }
 
 //获取审核人
 function SelectReviewer(){
@@ -302,7 +340,14 @@ function SelectReviewer(){
                 reviewers.push(review)
             }
         });
-        reviewers =JSON.stringify(reviewers)//对象转化成json
+        // 检查是否选择审核人
+    console.log(reviewers)
+        if (reviewers.length>0){
+            reviewers =JSON.stringify(reviewers)//对象转化成json
+        }else {
+            reviewers=''
+        }
+
         return reviewers
     }
 
@@ -396,35 +441,34 @@ function FetchStaff2Review(ths) {
 
 //创建
 function Submit() {
-        var title = $("#task_name").val().trim();
-        var content = $("#content").val().trim();
-        var type_id =$("#task_type").val()
-        var issuer_id = 1;
+        var remark = $("#remark").val().trim();
+        console.log(remark)
+        var assigner_id = 1;
         var attribute = $("#attribute").val();
         var cycle_id = $("#task_cycle").val();
         var start_time = $("#datetimepicker1").find("input").val();
         var deadline = $("#datetimepicker2").find("input").val();
+        console.log("submit")
         $.ajax({
-                url: "{%url "publish_task"  %} ",
+                url: "{%url "task_assign"  %} ",
                 type: "POST",
                 data:  {
-                "title": title,
-                "issuer_id": issuer_id,
-                "content": content,
-                "perfor_id": attribute,
-                "cycle_id": cycle_id,
-                "start_time": start_time,
-                "deadline": deadline,
-                "type_id":type_id,
-                "tags":FetchTag(),
-                "attachment":FetchAttachment(),
-                "reviewers":SelectReviewer(),
+                     "tids":{{ tids }},
+                     "assigner_id": assigner_id,//指派人
+                     "perfor_id": attribute,
+                     "cycle_id": cycle_id,
+                      "team":{{ team }},
+                     "start_time": start_time,
+                     "deadline": deadline,
+                     "remark":remark,
+                     "reviewers":SelectReviewer(),
+                     "assigners":SelectAssigner(),
         },
             dataType: "json",
             success: function (arg) {
                 if (arg.status) {
-                    alert("发布成功")
-                    window.location.href='{% url "task_assign_center" %}';
+                    alert("指派成功")
+                    window.location.href='{% url "task_assign_list" %}';
                 } else {
                     alert(arg.message)
                 }

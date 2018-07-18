@@ -135,7 +135,7 @@ def change_to_task_execute_way(way_id):
 
 @register.simple_tag
 def change_to_task_way(team_id):
-    task_way = task_db.task_way
+    task_way = task_map_db.task_way
     for item in task_way:
         if int(item["id"]) == team_id:
             return item["caption"]
@@ -151,7 +151,8 @@ def change_to_task_type(tpid):
 def change_to_staff(id):
     """获取根据id员工"""
     issuer = staff_db.query_staff_by_id(id)
-    return issuer.name
+    if issuer:
+        return issuer.name
 
 @register.simple_tag
 def change_to_task_cycle(tcid):
@@ -186,7 +187,7 @@ def change_to_task_perfomance(pid):
 @register.simple_tag
 def change_to_task_finish_status(id):
     """获取任务完成状态"""
-    finish_list = task_db.is_finish
+    finish_list = task_map_db.is_finish
     for item in finish_list:
         if int(item['id']) == id:
             return item['caption']
@@ -200,9 +201,11 @@ def change_to_task_reviewer(tvid):
     return staff_obj.name
 
 @register.simple_tag
-def bulid_assign_member_list(tid,deadline):
+def bulid_assign_member_list(tmid,deadline):
     """构建指派对象"""
-    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    print(tmid)
+    task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
+    print("task_assign_list",task_assign_list)
     eles = """<ul>"""
     for item in task_assign_list:
         # 获取对象信息
@@ -229,9 +232,9 @@ def bulid_assign_member_list(tid,deadline):
     return mark_safe(eles)
 
 @register.simple_tag
-def bulid_review_list(tid):
+def bulid_review_list(tmid):
     """构建任务审核对象"""
-    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     # task_review_list = task_review_db.query_task_reviewer_by_tid(tid)
     eles = """<ul>"""
     for item in task_assign_list:
@@ -255,20 +258,20 @@ def bulid_review_list(tid):
 
 
 @register.simple_tag
-def bulid_person_review_list(user_id,tid):
+def bulid_person_review_list(user_id,tmid):
     """构建个人任务审核对象"""
-    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     eles = """<ul>"""
     for item in task_assign_list:
         # 获取对象信息
         member = staff_db.query_staff_by_id(item.member_id_id)
         # 根据用户sid和任务id获取审核
-        task_review = task_review_db.query_task_reviewer_by_tid_sid(tid, user_id)
+        task_review = task_review_db.query_task_reviewer_by_tid_sid(tmid, user_id)
         # 查看是否为次序审核,大于0则为次序审核
         flag = True
         if task_review.follow > 1:
             pre_follow = task_review.follow
-            pre_obj = task_review_db.query_task_reviewer_by_tid_follow(tid,pre_follow)
+            pre_obj = task_review_db.query_task_reviewer_by_tid_follow(tmid,pre_follow)
             last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(pre_obj.tvid,
                                                                                                        item.tasid)
             if last_review_record:
@@ -340,6 +343,11 @@ def build_record_tags_ele(tsid):
 @register.simple_tag
 def query_task_by_tid(tid):
     result_db = task_db.query_task_by_tid(tid)
+    return result_db
+
+@register.simple_tag
+def query_task_map_by_tmid(tmid):
+    result_db = task_map_db.query_task_by_tid(tmid)
     return result_db
 
 
@@ -422,14 +430,14 @@ def fetch_review_follow(tid):
 
 
 @register.simple_tag
-def build_task_progress(tid):
+def build_task_progress(tmid):
     """计算任务进度
     设定完成占80%
     审核通过占20%
     """
     progress_rate = 80
     finish_rate = 20
-    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     length = len(task_assign_list)
     if length:
         total_progress = 0

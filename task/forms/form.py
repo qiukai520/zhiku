@@ -6,15 +6,22 @@ from django.core.exceptions import ValidationError
 class TaskForm(django_forms.Form):
     title = django_fields.CharField(error_messages={"required": "任务名称不能为空"})
     content = django_fields.CharField(error_messages={"required": "任务描述不能为空"})
-    type_id = django_fields.IntegerField(required=False)
-    tcid = django_fields.IntegerField(required=False)
+    type_id = django_fields.IntegerField(error_messages={"required": "归档分类不能为空"})
+    cycle_id = django_fields.IntegerField(error_messages={"required": "任务周期不能为空"})
     issuer_id = django_fields.IntegerField(required=False)
-    perfor_id = django_fields.IntegerField(required=False)
     tags = django_fields.CharField(required=False)
     attachment = django_fields.CharField(required=False)
-    start_time = django_fields.CharField(error_messages={"required": "起始不能为空"})
+
+
+class TaskMapForm(django_forms.Form):
+    cycle_id = django_fields.IntegerField(required=False)
+    assigner = django_fields.IntegerField(required=False)
+    perfor_id = django_fields.IntegerField(required=False)
+    start_time = django_fields.CharField(error_messages={"required": "起始时间不能为空"})
+    team = django_fields.IntegerField(error_messages={"required": "任务方式不能为空"})
     deadline = django_fields.DateTimeField(error_messages={"required": "终止日期"})
-    reviewers = django_fields.CharField(error_messages={"required": "审核人不能为空"})
+    reviewers = django_fields.CharField(error_messages={"required": "请选择审核人"})
+    assigners = django_fields.CharField(error_messages={"required": "请选择指派对象"})
 
 
 class PerformForm(django_forms.Form):

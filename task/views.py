@@ -5,10 +5,9 @@ import re
 from django.core import serializers
 from django.db import transaction
 from django.http import StreamingHttpResponse
-from django.shortcuts import render, HttpResponse
-from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm,TaskReviewForm,TaskSortForm
+from django.shortcuts import render, HttpResponse,redirect
+from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm,TaskReviewForm,TaskSortForm,TaskMapForm
 from .server import *
-from .models import TaskAssign,Task
 from .utils import build_attachment_info, build_tags_info, build_reviewer_info, compare_json,build_assign_tags_info,build_assign_attach_info
 
 # Create your views here.
@@ -31,6 +30,48 @@ def index(request):
 
 
 def publish_task(request):
+    """创建任务"""
+    method = request.method
+    if method == "GET":
+        return render(request, "task/task_edit.html", {"tid": 0})
+    else:
+        ret = {"status": False, "data": "", "message": ""}
+        form = TaskForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            # 获取标签并删除
+            tags = data.get("tags", None)
+            tag_list = tags.split("|")
+            data.pop("tags")
+            # 获取附件并删除
+            attachment = data.get("attachment", None)
+            data.pop("attachment")
+            if data:
+                try:
+                    with transaction.atomic():
+                        tid = task_db.insert_task(data)
+                        # 如果任务插入成功
+                        if tid:
+                            # 插入标签
+                            id_dict = {"tid_id": tid}
+                            tags_list = build_tags_info(id_dict, tag_list)
+                            task_tag_db.mutil_insert_tag(tags_list)
+                            # 插入附件
+                            attachment_list = build_attachment_info(id_dict, attachment)
+                            task_attachment_db.mutil_insert_attachment(attachment_list)
+                            ret["status"] = True
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
+
+def task(request):
     """创建任务"""
     method = request.method
     if method == "GET":
@@ -89,13 +130,11 @@ def task_edit(request):
             task_info = task_db.query_task_by_tid(tid)
             task_tag_info = task_tag_db.query_task_tag_by_tid(tid)
             task_attachment_info = task_attachment_db.query_task_attachment_by_tid(tid)
-            task_reviewer_info = task_review_db.query_task_reviewer_by_tid(tid)
             return render(request, 'task/task_edit.html',
                       {"tid": tid,
                        "task_info": task_info,
                        "task_tag_info": task_tag_info,
-                       "task_attachment_data": task_attachment_info,
-                       "task_reviewer_info": task_reviewer_info}
+                       "task_attachment_data": task_attachment_info,}
                           )
         return HttpResponse(json.dumps({"status": "False", "message": "找不到相关信息"}))
     else:
@@ -237,11 +276,66 @@ def task_assign(request):
     method = request.method
     if method == "GET":
         team = request.GET.get('team', None)
-
-        if team:
-            return render(request,"task/task_assign.html",{"team":team})
+        tids = request.GET.get("tids",None)
+        if tids:
+            tid_list = tids.split("|")
+            # 转化成数字
+            id_list = []
+            for item in tid_list:
+                if item:
+                    id_list.append(int(item))
+            query_sets = task_db.query_task_by_tids(id_list)
+            return render(request,'task/task_assign.html',{"query_sets":query_sets,"team":team,"tids":tids})
     else:
-        pass
+        ret = {"status": False, "data": "", "message": ''}
+        data = request.POST
+        form =TaskMapForm(data=data)
+        if form.is_valid():
+            # 获取任务id并删除
+            data=data.dict()
+            tids = data.get("tids", None)
+            data.pop("tids")
+            tids_list = tids.split("|")
+            print(data)
+            # 获取指派人并删除
+            assigners = data.get("assigners", None)
+            assigners = list(json.loads(assigners))
+            data.pop("assigners")
+            # 获取审核人并删除
+            reviewers = data.get("reviewers", None)
+            reviewers = list(json.loads(reviewers))
+            data.pop("reviewers")
+            # 插入指派任务
+            task_list = []
+            for tid in tids_list:
+                data['tid_id'] = int(tid)
+                task_list.append(data)
+            try:
+                with transaction.atomic():
+                    for modify in task_list:
+                        tmid = task_map_db.insert_task(modify)
+                        # 插入指派对象
+                        assigner_list = []
+                        for item in assigners:
+                            item['tmid_id'] = tmid
+                            assigner_list.append(item)
+                        print(assigner_list)
+                        task_assign_db.mutil_insert_task_assign(assigner_list)
+                        # 插入审核人
+                        reviewers_list =[]
+                        for item in reviewers:
+                            item['tmid_id'] = tmid
+                            reviewers_list.append(item)
+                        task_review_db.mutil_insert_reviewer(reviewers_list)
+                    ret['status'] = True
+            except Exception as e:
+                print(e)
+                ret["message"] = "指派失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
 
 
 def task_assign_list(request):
@@ -250,7 +344,7 @@ def task_assign_list(request):
     if method == "GET":
         filter = request.GET
         type_id = int(filter.get("s", 0))
-        query_sets = task_db.query_task_assign_lists()
+        query_sets = task_map_db.query_task_lists()
         if type_id > 0:
             query_sets = query_sets.filter(type_id=type_id)
         return render(request, 'task/task_assigned_list.html', {"query_sets": query_sets})
@@ -354,7 +448,7 @@ def task_wait_review(request):
         type_id = int(filter.get("s", 0))
         # 获取所有已指派的任务
         # 待修改
-        query_sets = task_db.query_task_lists()
+        query_sets = task_map_db.query_task_lists()
         if type_id > 0:
             query_sets = query_sets.filter(type_id=type_id)
         return render(request, 'task/task_wait_review.html', {"query_sets": query_sets,"filter":type_id})
@@ -369,11 +463,12 @@ def personal_task_review(request):
         type_id = int(filter.get("s", 0))
         # 根据用户id去获取审核任务
         task_review = task_review_db.query_task_reviewer_by_sid(user_id)
-        task_id_list = []
+        tmid_list = []
         for item in task_review:
-            task_id_list.append(item.tid_id)
+            print(item)
+            tmid_list.append(item.tmid_id)
         # 获取相应的任务
-        query_sets = task_db.query_task_by_tids(task_id_list)
+        query_sets = task_map_db.query_task_by_tids(tmid_list)
         if type_id > 0:
             query_sets = query_sets.filter(type_id=type_id)
         return render(request, 'task/personal_task_review.html', {"query_sets": query_sets,"filter":type_id})
@@ -389,12 +484,13 @@ def task_review(request):
             tasid = int(tasid)
             # 获取任务指派内容
             task_assign_info = task_assign_db.query_task_assign_by_tasid(tasid)
+            task_assign_info = task_assign_info.first()
             # 获取员工信息
             member_info = staff_db.query_staff_by_id(task_assign_info.member_id_id)
             # 获取任务提交记录
             task_submit_record = task_submit_record_db.query_submit_by_tasid(tasid)
             # 获取我的审核任务id
-            task_review = task_review_db.query_task_reviewer_by_tid_sid(task_assign_info.tid_id, user_id)
+            task_review = task_review_db.query_task_reviewer_by_tid_sid(task_assign_info.tmid_id, user_id)
             # 获取我的审核记录
             task_review_record = task_review_record_db.query_task_review_record_list_by_tvid_and_tasid(task_review.tvid,tasid)
 
@@ -479,11 +575,11 @@ def show_assign_content(request):
     """查看任务成员的任务内容"""
     ret = {"status": False, "message":"","member_assign":'',"tags":"","attachs":""}
     tasid = request.GET.get("tasid",None)
+    tasid = int(tasid)
     if tasid:
         try:
             # 根据任务分配ID获取内容
             member_assign = task_assign_db.query_task_assign_by_tasid(tasid)
-
             ret["member_assign"] =serializers.serialize("json", member_assign)
             # 获取标签
             tags = task_assign_tag_db.query_task_assign_tag_by_tasid(tasid)
@@ -495,7 +591,9 @@ def show_assign_content(request):
             ret['attachs'] = serializers.serialize('json', attachs)
             ret['status'] = True
         except Exception as e:
+            print(e)
             ret['message'] = "查询不到相关信息"
+        print(ret)
     return HttpResponse(json.dumps(ret))
 
 
@@ -660,7 +758,7 @@ def personal_task_list(request):
     filters = request.GET
     search_key = int(filters.get("s", 0))
     query_sets = task_assign_db.query_task_assign_by_member_id(user_id)
-    query_sets= query_sets.filter(is_finish=search_key).all()
+    query_sets = query_sets.filter(is_finish=search_key).all()
     return render(request, 'task/personal_task_list.html', {"query_sets": query_sets,"search_key": search_key})
 
 

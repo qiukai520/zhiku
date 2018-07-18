@@ -187,6 +187,8 @@ xadmin.site.register(TaskSubmitTag, TaskSubmitTagAdmin)
 xadmin.site.register(TaskSubmitAttachment,TaskSubmitAttachmentAdmin)
 xadmin.site.register(TaskReview, TaskReviewAdmin)
 xadmin.site.register(TaskReviewRecord,TaskReviewRecordAdmin)
+xadmin.site.register(Performemce,PerformemceAdmin)
 xadmin.site.register(Department, DepartmentAdmin)
 xadmin.site.register(Staff, StaffAdmin)
+
 

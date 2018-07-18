@@ -140,14 +140,6 @@
                         </div>
                     </div>
                     </div>
-                <div class="form-group">
-                    <label for="attribute" class="control-label col-xs-2">绩效分类：</label>
-                    <div class="col-xs-6">
-                        <select  name="attribute" class="form-control" id="attribute" >
-                            {% build_performence_ele %}
-                        </select>
-                    </div>
-                </div>
                 <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
                     {% if tid %}
@@ -319,16 +311,6 @@ String.prototype.format=function()
     自执行函数
     */
     $(function () {
-            //初始化双列表框
-            DualListbox = $('#id_staff_from').bootstrapDualListbox({
-            nonSelectedListLabel: '未选择',
-            selectedListLabel: '已选择',
-            preserveSelectionOnMove: 'moved',
-            moveOnSelect: false,
-            infoTextEmpty: "",
-            nonSelectedFilter: '',
-                infoText:"总人数:{0}"
-        });
         //如果tid不为0，则为创建
         if ({{ tid }}){
            InitData()//初始化数据
@@ -342,23 +324,8 @@ function InitData() {
         $("#task_name").val("{{ task_info.title }}");
         $("#content").val("{{ task_info.content }}");
         $("#task_type").val({{ task_info.type_id }})
-        $("#attribute").val({{ task_info.attribute }});
-        $("#task_cycle").val({{ task_info.tcid }});
-        $("#datetimepicker1").find("input").val( "{{ task_info.start_time |date:'Y-m-d H:i:s'}}");
-        $("#datetimepicker2").find("input").val("{{ task_info.deadline |date:'Y-m-d H:i:s'}}");
+        $("#task_cyle").val({{ task_info.tcid }});
     }
-
-    //设置日期时间控件
-$(function () {
-    $('#datetimepicker1').datetimepicker({
-        format: 'YYYY-MM-DD hh:mm',
-        locale: moment.locale('zh-cn')
-    });
-    $('#datetimepicker2').datetimepicker({
-        format: 'YYYY-MM-DD hh:mm',
-        locale: moment.locale('zh-cn')
-    });
-});
 
 
 //添加标签
@@ -483,7 +450,6 @@ function FetchAttachment(){
     }
     var content=$(this).find("input[name=content]").val().trim();
     var name=$(this).find("input[name=file_name]").val();
-    console.log(file_path,content,name)
     attachment.attachment=file_path;
     attachment.description=content;
     attachment.name=name;
@@ -493,82 +459,6 @@ function FetchAttachment(){
     return attachment_list
 }
 
-//获取审核人
-function SelectReviewer(){
-        reviewers=new Array();
-        var i=0
-        DualListbox.children("option:selected").each(function () {
-            i +=1
-            var reviewer=$(this).val()
-            var isfollow=$('#follow').prop("checked")
-            var review={"sid_id":reviewer,"follow":''};
-            if (isfollow){
-                review.follow=i
-                reviewers.push(review)
-            }else{
-               review.follow=0
-                reviewers.push(review)
-            }
-        });
-        reviewers =JSON.stringify(reviewers)//对象转化成json
-        return reviewers
-    }
-
-//修改数据时获取审核人
-function GetReviewer(){
-        var reviewers_list=new Array();
-        var i=0
-        DualListbox.children("option:selected").each(function () {
-            i +=1
-            var reviewer=$(this).val()
-            var tvid=$(this).attr("tvid")
-            console.log(tvid);
-            var isfollow=$('#follow').prop("checked")
-            var review= {"sid_id":reviewer,"follow":'','tid_id':{{tid}}};
-            if (tvid){
-                review=$.extend(review,{"tvid":tvid})
-            }
-            if (isfollow){
-                review.follow=i
-                reviewers_list.push(review)
-            }else{
-                review.follow=0
-                reviewers_list.push(review)
-            }
-        });
-        reviewers_list =JSON.stringify(reviewers_list)//对象转化成json
-        return reviewers_list
-    }
-
-//根据部门获取相应的员工
-function FetchStaff(ths) {
-    var dpid=$(ths).val();
-    //清空select的内容
-    DualListbox.children("option:not(:selected)").remove();
-    DualListbox.bootstrapDualListbox('refresh', true);
-    {#var opt_eles="{% build_reviewer_ele dpid %}"#}
-    {#$("#id_staff_from").append(opt_eles)#}
-    $.ajax({
-        url:"{% url "department_staff" %}",
-        type:'get',
-        data:{"dpid":dpid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['name'];
-		DualListbox.append(o);
-		DualListbox.bootstrapDualListbox('refresh', true);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-}
 
 //上传附件
 function UploadFile(ths){
@@ -606,25 +496,19 @@ function Submit() {
         var content = $("#content").val().trim();
         var type_id =$("#task_type").val()
         var issuer_id = 1;
-        var attribute = $("#attribute").val();
         var cycle_id = $("#task_cycle").val();
-        var start_time = $("#datetimepicker1").find("input").val();
-        var deadline = $("#datetimepicker2").find("input").val();
         $.ajax({
                 url: "{%url "publish_task"  %} ",
                 type: "POST",
                 data:  {
-                "title": title,
-                "issuer_id": issuer_id,
-                "content": content,
-                "perfor_id": attribute,
-                "cycle_id": cycle_id,
-                "start_time": start_time,
-                "deadline": deadline,
-                "type_id":type_id,
-                "tags":FetchTag(),
-                "attachment":FetchAttachment(),
-                "reviewers":SelectReviewer(),
+                    "title": title,
+                    "issuer_id": issuer_id,
+                    "content": content,
+                    "cycle_id": cycle_id,
+                    "type_id":type_id,
+                    "status":1,
+                    "tags":FetchTag(),
+                    "attachment":FetchAttachment(),
         },
             dataType: "json",
             success: function (arg) {
@@ -643,10 +527,7 @@ function Edit() {
         var content = $("#content").val().trim();
         var type_id =$("#task_type").val()
         var issuer_id = 1;
-        var perfor_id = $("#attribute").val();
         var cycle_id = $("#task_cycle").val();
-        var start_time = $("#datetimepicker1").find("input").val();
-        var deadline = $("#datetimepicker2").find("input").val();
         $.ajax({
                 url: "{% url "task_edit"%}",
                 type: "post",
@@ -655,14 +536,10 @@ function Edit() {
                     "title": title,
                     "issuer_id": issuer_id,
                     "content": content,
-                    "perfor_id": perfor_id,
                     "cycle_id": cycle_id,
-                    "start_time": start_time,
-                    "deadline": deadline,
                     "type_id":type_id,
                     "tags":GetTag(),
                     "attachment":GetAttachment(),
-                    "reviewers":GetReviewer(),
         },
             dataType: "json",
             success: function (arg) {
@@ -674,26 +551,6 @@ function Edit() {
                 }
             }
         })
-    }
-    //移到被选复选框
-function MoveTo() {
-    var opt=$("#id_staff_from").find("option:selected").clone();
-    opt.attr("onclick","ElementMoveTo(this,'id_staff_from','id_staff_to')");
-    $("#id_staff_to").append(opt);
-    $("#id_staff_from").find("option:selected").remove()
-}
-//移回待选选复选框
-function MoveBack() {
-    var opt=$("#id_staff_to").find("option:selected").clone();
-    opt.attr("onclick","ElementMoveTo(this,'id_staff_to','id_staff_from')");
-    $("#id_staff_from").append(opt.clone()) ;
-    $("#id_staff_to").find("option:selected").remove()
-}
-    //双击动复选框
-function ElementMoveTo(ths,id_from,id_to) {
-        var opt_ele="<option value='"+$(ths).val()+"' ondblclick=ElementMoveTo(this,'"+id_to+"','"+id_from+"')>"+$(ths).text()+"</option>";
-        $("#" +id_to).append(opt_ele);
-        $(ths).remove();
     }
 
  </script>

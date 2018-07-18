@@ -55,6 +55,63 @@ class TaskDB(object):
     task_status = (
         {"id": 1, "caption": "启动"},
         {"id": 2, "caption": "暂停"},
+        {"id": 3, "caption": "取消"},
+    )
+
+
+    def insert_task(self, modify_info):
+        task_sql = """insert into task(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        task_sql = task_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(task_sql, modify_info)
+        tid = cursor.lastrowid
+        return tid
+
+    def update_task(self, modify_info):
+        Task.objects.filter(tid=modify_info['tid']).update(**modify_info)
+
+    def query_task_lists(self):
+        result_db = Task.objects.filter().all().order_by("-tid")
+        return result_db
+
+    def query_task_assign_lists(self):
+        result_db = Task.objects.all().order_by("-tid")
+        return result_db
+
+    def query_task_by_tid(self, tid):
+        result_db = Task.objects.filter(tid=tid).first()
+        return result_db
+
+    def query_task_by_tids(self,tids):
+        result_db = Task.objects.filter(tid__in=tids).all()
+        return result_db
+
+    def query_task_by_type(self, type_id):
+        result_db = Task.objects.filter(type_id=type_id).all()
+        return result_db
+
+    def query_task_by_issuer_id(self, issuer_id):
+        result_db = Task.objects.filter(issuer_id=issuer_id).first()
+        return result_db
+
+    def multi_delete_task(self, id_list):
+        Task.objects.filter(tid__in=id_list).delete()
+
+    def update_task_status_by_tid(self, tid,modify_info):
+        Task.objects.filter(tid=tid).update(**modify_info)
+
+
+class TaskMapDB(object):
+    """任务表列表"""
+    # 任务状态
+    task_status = (
+        {"id": 1, "caption": "启动"},
+        {"id": 2, "caption": "暂停"},
         {"id": 3, "caption": "终止"},
     )
     # 执行方式
@@ -80,7 +137,7 @@ class TaskDB(object):
     )
 
     def insert_task(self, modify_info):
-        task_sql = """insert into task(%s) value(%s);"""
+        task_sql = """insert into task_map(%s) value(%s);"""
         k_list = []
         v_list = []
         for k, v in modify_info.items():
@@ -89,45 +146,41 @@ class TaskDB(object):
         task_sql = task_sql % (",".join(k_list), ",".join(v_list))
         cursor = connection.cursor()
         cursor.execute(task_sql, modify_info)
-        tid = cursor.lastrowid
-        return tid
+        tmid = cursor.lastrowid
+        return tmid
 
     def update_task(self, modify_info):
-        Task.objects.filter(tid=modify_info['tid']).update(**modify_info)
+        TaskMap.objects.filter(tmid=modify_info['tmid']).update(**modify_info)
 
     def query_task_lists(self):
-        result_db = Task.objects.filter().all().order_by("-tid")
+        result_db = TaskMap.objects.filter().all().order_by("-tmid")
         return result_db
 
-    def query_task_by_is_assign(self, is_assign):
-        result_db=Task.objects.filter(is_assign=is_assign).all()
+    def query_task_by_is_assign(self,):
+        result_db = TaskMap.objects.all()
         return result_db
 
     def query_task_assign_lists(self):
-        result_db = Task.objects.filter(is_assign=1).all().order_by("-tid")
+        result_db = TaskMap.objects.all().order_by("-tmid")
         return result_db
 
-    def query_task_by_tid(self, tid):
-        result_db = Task.objects.filter(tid=tid).first()
+    def query_task_by_tid(self, tmid):
+        result_db = TaskMap.objects.filter(tmid=tmid).first()
         return result_db
 
-    def query_task_by_tids(self,tids):
-        result_db = Task.objects.filter(tid__in=tids).all()
+    def query_task_by_tids(self,tmids):
+        result_db = TaskMap.objects.filter(tmid__in=tmids).all()
         return result_db
 
-    def query_task_by_type(self, type_id):
-        result_db = Task.objects.filter(type_id=type_id).all()
-        return result_db
-
-    def query_task_by_issuer_id(self, issuer_id):
-        result_db = Task.objects.filter(issuer_id=issuer_id).first()
+    def query_task_by_assigner_id(self, assigner):
+        result_db = TaskMap.objects.filter(assigner=assigner).first()
         return result_db
 
     def multi_delete_task(self, id_list):
-        Task.objects.filter(tid__in=id_list).delete()
+        TaskMap.objects.filter(tmid__in=id_list).delete()
 
-    def update_task_status_by_tid(self, tid,modify_info):
-        Task.objects.filter(tid=tid).update(**modify_info)
+    def update_task_status_by_tid(self, tmid,modify_info):
+        TaskMap.objects.filter(tmid=tmid).update(**modify_info)
 
 
 class TaskCycleDB(object):
@@ -231,13 +284,13 @@ class TaskReviewDB(object):
         result_db = TaskReview.objects.filter(tvid=tvid).first()
         return result_db
 
-    def query_task_reviewer_by_tid_sid(self, tid, sid):
-        result_db = TaskReview.objects.filter(tid_id=tid, sid_id=sid).first()
+    def query_task_reviewer_by_tid_sid(self, tmid, sid):
+        result_db = TaskReview.objects.filter(tmid_id=tmid, sid_id=sid).first()
         return result_db
 
     def mutil_update_reviewer(self, modify_info):
         for item in modify_info:
-            TaskReview.objects.filter(tid_id=item['tid_id'], sid_id=item['sid_id']).update(**item)
+            TaskReview.objects.filter(tmid_id=item['tid_id'], sid_id=item['sid_id']).update(**item)
 
     def mutil_delete_reviewer(self, id_list):
         TaskReview.objects.filter(tvid__in=id_list).delete()
@@ -250,7 +303,8 @@ class TaskAssignDB(object):
     """任务指派表"""
     def mutil_insert_task_assign(self, modify_info_list):
         for item in modify_info_list:
-            is_exist = TaskAssign.objects.filter(tid_id=item['tid_id'], member_id_id=item['member_id_id'])
+            print("item",item)
+            is_exist = TaskAssign.objects.filter(tmid_id=item['tmid_id'], member_id_id=item['member_id_id'])
             if is_exist:
                 result_db = staff_db.query_staff_by_id(item['member_id_id'])
                 raise Exception('%s已指派过该任务'%(result_db.name))
@@ -265,12 +319,12 @@ class TaskAssignDB(object):
     # def update_progress(self,tasid, progress):
     #     TaskAssign.objects.filter(tasid=tasid).update(progress=progress)
 
-    def query_task_assign_by_tid(self, tid):
-        result_db = TaskAssign.objects.filter(tid=tid).all()
+    def query_task_assign_by_tmid(self, tmid):
+        result_db = TaskAssign.objects.filter(tmid_id=tmid).all()
         return result_db
 
     def query_task_assign_by_tasid(self, tasid):
-        result_db = TaskAssign.objects.filter(tasid=tasid).first()
+        result_db = TaskAssign.objects.filter(tasid=tasid)
         return result_db
 
     def query_task_assign_by_member_id(self, member_id):
@@ -418,6 +472,7 @@ class TaskReviewRecordDB(object):
 department_db = DepartmentDB()
 staff_db = StaffDB()
 task_db = TaskDB()
+task_map_db = TaskMapDB()
 task_cycle_db = TaskCycleDB()
 task_type_db = TaskTypeDB()
 task_attachment_db = TaskAttachmentDB()

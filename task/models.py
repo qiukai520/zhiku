@@ -47,7 +47,8 @@ class Staff(models.Model):
 
 
 class Task(models.Model):
-    task_status_choice = ((1, '启动'), (2, '暂停'), (3, '终止'))
+    task_status_choice = ((1, '启动'), (2, '暂停'), (3, '取消'))
+
     tid = models.AutoField(primary_key=True)
     title = models.CharField(max_length=512, verbose_name='任务名称')  # 任务名称
     content = models.TextField(verbose_name='任务描述')  # 任务描述',
@@ -55,13 +56,11 @@ class Task(models.Model):
                              db_constraint=False, default=1)
     issuer = models.ForeignKey('Staff', to_field="sid", on_delete=models.CASCADE, verbose_name='发布人',
                                db_constraint=False, parent_link=True)  # '发布人',
-    perfor = models.ForeignKey('Performemce', to_field='pid', on_delete=models.CASCADE, db_constraint=False,
-                               verbose_name='绩效分类')  # 绩效分类,
     cycle = models.ForeignKey('TaskCycle', to_field="tcid", on_delete=models.CASCADE, db_constraint=False, default=1,
                               verbose_name='任务周期')  # 任务周期
     status = models.IntegerField(choices=task_status_choice, default=1, verbose_name='任务状态')
-    create_time = models.DateTimeField(verbose_name='创建时间')
-    last_edit = models.DateTimeField(verbose_name='最后编辑时间')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True,verbose_name='最后编辑时间')
 
     class Meta:
         db_table = 'task'
@@ -74,7 +73,7 @@ class Task(models.Model):
 
 class TaskMap(models.Model):
     execute_way_choice = ((0, '并行执行'), (1, '次序执行'))
-    task_status_choice = ((1, '启动'), (2, '暂停'), (3, '终止'))
+    task_status_choice = ((1, '启动'), (2, '暂停'), (3, '取消'))
     is_finish = ((0, '进行中'), (1, '已完成'))
     teamwork_auth_choice = ((0, '相互可见'), (1, '互不可见'), (3, '指定可见'))
     team_choice = ((0, '个人任务'), (1, '组队任务'))
@@ -95,9 +94,10 @@ class TaskMap(models.Model):
     deadline = models.DateTimeField(blank=True, null=True, verbose_name='截止时间')
     is_finish = models.IntegerField(choices=is_finish, default=0, verbose_name='完成状态')
     team = models.IntegerField(choices=team_choice, default=0, verbose_name='任务方式')
+    remark = models.CharField(max_length=512, blank=True, null=True, verbose_name='备注')
     status = models.IntegerField(choices=task_status_choice, default=1, verbose_name='任务状态')
-    create_time = models.DateTimeField(verbose_name='创建时间')
-    last_edit = models.DateTimeField(verbose_name='最后编辑时间')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
     class Meta:
         db_table = 'task_map'
@@ -119,8 +119,8 @@ class TaskAssign(models.Model):
     deadline = models.DateTimeField(blank=True, null=True, verbose_name='截止时间')
     progress = models.SmallIntegerField(default=0, verbose_name='完成进度(%)')
     is_finish = models.SmallIntegerField(choices=is_finish, default=0, verbose_name='审核状态')
-    create_time = models.DateTimeField(verbose_name='创建时间')
-    last_edit = models.DateTimeField(verbose_name='最后编辑时间')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
     class Meta:
         db_table = 'task_assign'
@@ -171,8 +171,8 @@ class TaskAuth(models.Model):
     status = models.IntegerField()
     result = models.IntegerField()
     score = models.IntegerField()
-    create_time = models.DateTimeField()
-    last_edit = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间',)
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
     class Meta:
         db_table = 'task_auth'
@@ -205,14 +205,15 @@ class TaskReviewRecord(models.Model):
                              verbose_name='任务审核分配id')
     is_complete = models.SmallIntegerField(choices=is_complete, verbose_name='审核状态')
     evaluate = models.FloatField(blank=True, null=True, verbose_name='星级评分')
-    create_time = models.DateTimeField(verbose_name='审核时间')
     reason = models.TextField(blank=True, null=True, verbose_name='原因')
     comment = models.TextField(blank=True, null=True, verbose_name='评语')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='审核时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
     class Meta:
-        db_table = 'task_review_record'
-        verbose_name = '任务审核记录'
-        verbose_name_plural = '任务审核记录'
+            db_table = 'task_review_record'
+            verbose_name = '任务审核记录'
+            verbose_name_plural = '任务审核记录'
 
     def __str__(self):
         return '任务审核记录{0}'.format(self.trrid)
@@ -263,8 +264,8 @@ class TaskSubmitRecord(models.Model):
     remark = models.CharField(max_length=512, blank=True, null=True, verbose_name='备注')
     completion = models.SmallIntegerField(default=0, verbose_name='完成度(%)')  # 完成度：1-100
     is_assist = models.SmallIntegerField(choices=is_assist_choice, default=0, verbose_name='是否寻求协助')  # 是否寻求协助:0否，1是
-    create_time = models.DateTimeField(verbose_name='创建时间')
-    last_edit = models.DateTimeField(verbose_name='最后编辑时间')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
     class Meta:
         db_table = 'task_submit_record'
