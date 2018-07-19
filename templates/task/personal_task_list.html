@@ -45,9 +45,17 @@
                     <div class="col-sm-12">
                         <!-- Example Events -->
                         <div class="example-wrap">
-
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                      <form class="form-inline left"  action="{% url "personal_task_list" %}" method="get">
+                                          <div class="form-group"> <label for="book_sort">任务状态：</label>
+                                                   <select id="task_sort" name="s"   class="form-control">
+                                                       <option value=0>所有</option>
+                                                       {% build_task_assign_status_filter filter  %}
+                                                   </select>
+                                          </div>
+                                          <button type="submit" class="btn btn-primary">搜索</button>
+                                      </form>
                                 </div>
                                 <table id="personal_task"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
@@ -57,7 +65,7 @@
                                               <th>任务名称</th>
                                               <th>任务方式</th>
                                               <th>任务类别</th>
-                                              <th>完成状态</th>
+                                              <th>任务状态</th>
                                               <th>当前进度</th>
                                               <th>创建时间</th>
                                               <th>截止时间</th>
@@ -72,13 +80,17 @@
                                            <tr>
                                               <td><input type="checkbox"></td>
 {#                                              <td>{{ obj.tid_id }}</td>#}
-                                              <td>{{ obj.title }}</td>
+
+                                              <td><a  href="{%url "personal_task_detail" %}?tasid={{ obj.tasid }}">{{ obj.title }}</a></td>
                                                <td>{%  change_to_task_way task_obj.team %} </td>
                                               <td>{% change_to_task_type  base_obj.type_id  %}</td>
                                     {#          <td>{% change_to_staff obj.issuer_id %}</td>#}
                                     {#          <td>{% change_to_task_assign_status  obj.is_assign%}</td>#}
                                     {#          <td>{% change_to_task_status obj.status %} </td>#}
-                                              <td>{% change_to_task_finish_status obj.is_finish%}</td>
+                                              <td class="project-status">
+                                                <span class="label label-primary">{% change_to_task_status task_obj.status %}
+                                                </span>
+                                              </td>
                                               <td class="project-completion">
                                             {% fetch_completion_by_tasid obj.tasid  as progerss%}
                                                 <small>当前进度： {{ progerss }}%</small>
@@ -100,7 +112,7 @@
                                             <tr>
                                               <td><input type="checkbox"></td>
 {#                                              <td>{{ obj.tid_id }}</td>#}
-                                              <td>{{ task_obj.title }}</td>
+                                            <td><a  href="{%url "personal_task_detail" %}?tasid={{ obj.tasid }}">{{ task_obj.title }}</a></td>
                                               <td>{{ task_obj.content|slice:"20"}}</td>
                                               <td>{% change_to_task_type  task_obj.type_id  %}</td>
                                     {#          <td>{% change_to_staff obj.issuer_id %}</td>#}
@@ -162,5 +174,10 @@
             cache: false
         });
     });
+
+    function Filter(ths) {
+        is_finish = $(ths).val()
+        window.location.href="{% url 'personal_task_list' %}?s={0}".format(is_finish);
+    }
     </script>
 {% endblock%}

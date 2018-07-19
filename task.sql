@@ -169,7 +169,7 @@ create TABLE `task_review_record`(
 drop TABLE if exists `task_submit_record`;
 create TABLE `task_submit_record`(
 `tsid` int(11)  primary key auto_increment,
-`tasid` int(11) NOT NULL COMMENT '任务分配ID',
+`tasid_id` int(11) NOT NULL COMMENT '任务分配ID',
 `title` varchar(512) COMMENT '标题',
 `summary` varchar(512) COMMENT '总结',
 `is_assist` tinyint(1) NOT NUll DEFAULT 0 COMMENT'寻求协助:0否,1是',

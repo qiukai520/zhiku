@@ -13,17 +13,6 @@ from .utils import build_attachment_info, build_tags_info, build_reviewer_info, 
 # Create your views here.
 
 
-def task_detail(request):
-    ret = {"status": False, "message": "", "task": '', "tags": "", "attachs": ""}
-    tid = request.GET.get("tid", None)
-    try:
-        # 根据任务分配ID获取内容
-        task_obj = task_db.query_task_by_tid(tid)
-    except Exception as e:
-        ret['message'] = "查询不到相关信息"
-
-    return render(request, 'task/task_detail.html', {"task_obj": task_obj})
-
 
 def index(request):
     return render(request,'index_v3.html')
@@ -60,55 +49,6 @@ def publish_task(request):
                             # 插入附件
                             attachment_list = build_attachment_info(id_dict, attachment)
                             task_attachment_db.mutil_insert_attachment(attachment_list)
-                            ret["status"] = True
-                except Exception as e:
-                    print(e)
-                    ret["message"] = "添加失败"
-        else:
-            errors = form.errors.as_data().values()
-            firsterror = str(list(errors)[0][0])
-            ret['message'] = firsterror
-        return HttpResponse(json.dumps(ret))
-
-
-def task(request):
-    """创建任务"""
-    method = request.method
-    if method == "GET":
-        return render(request, "task/task_edit.html", {"tid": 0})
-    else:
-        ret = {"status": False, "data": "", "message": ""}
-        form = TaskForm(data=request.POST)
-        if form.is_valid():
-            data = request.POST
-            data = data.dict()
-            # 获取标签并删除
-            tags = data.get("tags", None)
-            tag_list = tags.split("|")
-            data.pop("tags")
-            # 获取附件并删除
-            attachment = data.get("attachment", None)
-            data.pop("attachment")
-            # 获取审核人并删除
-            reviewers = data.get("reviewers", None)
-            data.pop("reviewers")
-            if data:
-                try:
-                    with transaction.atomic():
-                        tid = task_db.insert_task(data)
-                        # 如果任务插入成功
-                        if tid:
-                            # 插入标签
-                            id_dict = {"tid_id": tid}
-                            tags_list = build_tags_info(id_dict, tag_list)
-                            task_tag_db.mutil_insert_tag(tags_list)
-                            # 插入附件
-                            attachment_list = build_attachment_info(id_dict, attachment)
-                            task_attachment_db.mutil_insert_attachment(attachment_list)
-                            # 插入审核人
-                            reviewers_list = build_reviewer_info(tid,reviewers)
-                            print(reviewers_list)
-                            task_review_db.mutil_insert_reviewer(reviewers_list)
                             ret["status"] = True
                 except Exception as e:
                     print(e)
@@ -198,36 +138,74 @@ def task_edit(request):
         return HttpResponse(json.dumps(ret))
 
 
+
+def task_detail(request):
+    tmid = request.GET.get("tmid", None)
+    task_obj = task_map_db.query_task_by_tmid(tmid)
+    return render(request, 'task/task_detail.html', {"task_obj": task_obj})
+
+
+def task_base_detail(request):
+    tid = request.GET.get("tid", None)
+    # 据任务分配ID获取内容
+    task_obj = task_db.query_task_by_tid(tid)
+    return render(request, 'task/task_base_detail.html', {"task_obj": task_obj})
+
+
+# def task_delete(request):
+#     """任务删除"""
+#     ret = {'status': '', "data": "","message": ""}
+#     ids = request.GET.get("ids", '')
+#     ids = ids.split("|")
+#     # 转化成数字
+#     id_list = []
+#     for item in ids:
+#         if item:
+#             id_list.append(int(item))
+#     try:
+#         with transaction.atomic():
+#             # 删除任务
+#             task_db.multi_delete_task(id_list)
+#             # 删除附件
+#             task_attachment_db.multi_delete_attach_by_tid(id_list)
+#             # 删除标签
+#             task_tag_db.mutil_delete_tag_by_tid(id_list)
+#             # 删除审核人
+#             task_review_db.mutil_delete_reviewer_by_tid(id_list)
+#             # # 删除任务指派
+#             # for item in id_list:
+#             #     # 获取任务指派id
+#             #     assign_objs=task_assign_db.query_task_assign_by_tid(item)
+#             # task_assign_db.mutil_delete_reviewer_by_tid(id_list)
+#             # # 删除任务指派附件
+#             ret['status'] = True
+#     except Exception as e:
+#         ret["message"] = "删除失败"
+#     return HttpResponse(json.dumps(ret))
+
+
 def task_delete(request):
-    """任务删除"""
-    ret = {'status': '', "data": "","message": ""}
+    """任务软删除"""
+    ret = {'status': False, "data": "", "message": ""}
     ids = request.GET.get("ids", '')
     ids = ids.split("|")
+    print(ids)
     # 转化成数字
     id_list = []
     for item in ids:
         if item:
             id_list.append(int(item))
+    print(id_list)
+    status = {"status": 0}
     try:
-        with transaction.atomic():
-            # 删除任务
-            task_db.multi_delete_task(id_list)
-            # 删除附件
-            task_attachment_db.multi_delete_attach_by_tid(id_list)
-            # 删除标签
-            task_tag_db.mutil_delete_tag_by_tid(id_list)
-            # 删除审核人
-            task_review_db.mutil_delete_reviewer_by_tid(id_list)
-            # # 删除任务指派
-            # for item in id_list:
-            #     # 获取任务指派id
-            #     assign_objs=task_assign_db.query_task_assign_by_tid(item)
-            # task_assign_db.mutil_delete_reviewer_by_tid(id_list)
-            # # 删除任务指派附件
-            ret['status'] = True
+        task_db.multi_delete_task(id_list, status)
+        ret['status'] = True
     except Exception as e:
-        ret["message"] = "删除失败"
+        print(e)
+        ret['status'] = "删除失败"
     return HttpResponse(json.dumps(ret))
+
+
 
 
 # def task_mutil_assign(request):
@@ -296,7 +274,6 @@ def task_assign(request):
             tids = data.get("tids", None)
             data.pop("tids")
             tids_list = tids.split("|")
-            print(data)
             # 获取指派人并删除
             assigners = data.get("assigners", None)
             assigners = list(json.loads(assigners))
@@ -515,8 +492,9 @@ def task_review(request):
                     # check 是否所有审核人都确认通过
                     # 获取任务id
                     task_assign_obj = task_assign_db.query_task_assign_by_tasid(data['tasid_id'])
+                    task_assign_obj=task_assign_obj.first()
                     # 获取任务审核人
-                    task_review_list = task_review_db.query_task_reviewer_by_tid(task_assign_obj.tid_id)
+                    task_review_list = task_review_db.query_task_reviewer_by_tmid(task_assign_obj.tmid_id)
                     # 遍历该所有审核人对其的记录
                     for item in task_review_list:
                         last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(item.tvid,data['tasid_id'])
@@ -551,12 +529,13 @@ def task_review_record(request):
             tasid = int(tasid)
             # 获取任务指派内容
             task_assign_info = task_assign_db.query_task_assign_by_tasid(tasid)
+            task_assign_info = task_assign_info.first()
             # 获取员工信息
             member_info = staff_db.query_staff_by_id(task_assign_info.member_id_id)
             # 获取任务提交记录
             task_submit_record = task_submit_record_db.query_submit_by_tasid(tasid)
             # 获取该指派任务的所有审核人
-            task_reviewers = task_review_db.query_task_reviewer_by_tid(task_assign_info.tid_id)
+            task_reviewers = task_review_db.query_task_reviewer_by_tmid(task_assign_info.tmid_id)
             # 获取相关审核的所有审核记录
             reviewers_record_list = []
             for item in task_reviewers:
@@ -757,9 +736,19 @@ def personal_task_list(request):
     user_id = 1
     filters = request.GET
     search_key = int(filters.get("s", 0))
+    print(search_key)
     query_sets = task_assign_db.query_task_assign_by_member_id(user_id)
     query_sets = query_sets.filter(is_finish=search_key).all()
-    return render(request, 'task/personal_task_list.html', {"query_sets": query_sets,"search_key": search_key})
+    return render(request, 'task/personal_task_list.html', {"query_sets": query_sets,"filter": search_key})
+
+
+def personal_task_detail(request):
+    tasid = request.GET.get("tasid", 0)
+    print("tasid",tasid)
+    user_id = 1
+    task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)
+    task_assign_obj = task_assign_obj.first()
+    return render(request, 'task/personal_task_detail.html', {"task_obj": task_assign_obj,"user_id":user_id})
 
 
 def complete_task(request):
@@ -771,6 +760,7 @@ def complete_task(request):
         if tasid:
             # 获取任务内容
             task_obj = task_assign_db.query_task_assign_by_tasid(tasid)
+            task_obj = task_obj.first()
             # 获取最后一次任务提交记录的完成进度
             last_record = task_submit_record_db.query_last_submit_record(tasid)
             if last_record:
@@ -779,11 +769,10 @@ def complete_task(request):
                 last_completion = 0
             # 获取任务提交历史记录
             task_submit_record = task_submit_record_db.query_submit_by_tasid(tasid)
-            return render(request, 'task/complete_task.html',
-                          {"task_obj": task_obj,
-                            'task_submit_record': task_submit_record,
-                           "completion": last_completion}
-                          )
+            return render(request, 'task/complete_task.html', {
+                "task_obj": task_obj,
+                "task_submit_record": task_submit_record,
+                "completion": last_completion})
     else:
         form = CompleteTaskForm(data=request.POST)
         if form.is_valid():
@@ -796,9 +785,11 @@ def complete_task(request):
             # 获取附件并删除
             attachment = data.get("attachment", None)
             data.pop("attachment")
+            print(data)
             if data:
                 # 获取完成进度
                 task_assign_obj = task_assign_db.query_task_assign_by_tasid(data["tasid_id"])
+                task_assign_obj = task_assign_obj.first()
                 try:
                     with transaction.atomic():
                         if task_assign_obj.progress > int(data["completion"]):

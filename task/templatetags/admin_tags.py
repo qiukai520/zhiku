@@ -72,6 +72,24 @@ def build_task_type_filter(selected):
         eles += ele
     return mark_safe(eles)
 
+
+
+@register.simple_tag
+def build_task_assign_status_filter(selected):
+    """构建指派任务选择框"""
+    selected = int(selected)
+    task_assign_is_finish = task_assign_db.is_finish
+    eles = ""
+    for item in task_assign_is_finish:
+        if selected == item['id']:
+            ele = """<option selected=selected value={0}>{1}</option>""".format(item['id'], item['caption'])
+        else:
+            ele = """<option value={0}>{1}</option>""".format(item['id'], item['caption'])
+        eles += ele
+    return mark_safe(eles)
+
+
+
 @register.simple_tag
 def build_task_tags_ele(tid):
     """构建任务标签"""
@@ -88,10 +106,10 @@ def build_task_tags_ele(tid):
     return mark_safe(ele_list)
 
 @register.simple_tag
-def build_task_review_ele(tid):
+def build_task_review_ele(tmid):
     """构建任务标签"""
     ele_list = ''
-    task_review_ids = task_review_db.query_task_reviewer_by_tid(tid).order_by("follow")
+    task_review_ids = task_review_db.query_task_reviewer_by_tmid(tmid).order_by("follow")
     if task_review_ids:
         for item in task_review_ids:
             staff = staff_db.query_staff_by_id(item.sid_id)
@@ -148,9 +166,9 @@ def change_to_task_type(tpid):
     return task_type.name
 
 @register.simple_tag
-def change_to_staff(id):
+def change_to_staff(sid):
     """获取根据id员工"""
-    issuer = staff_db.query_staff_by_id(id)
+    issuer = staff_db.query_staff_by_id(sid)
     if issuer:
         return issuer.name
 
@@ -172,7 +190,7 @@ def change_to_task_assign_status(id):
 @register.simple_tag
 def change_to_task_status(id):
     """获取任务状态"""
-    status_list = task_db.task_status
+    status_list = task_map_db.task_status
     for item in status_list:
         if int(item["id"]) == id:
             return item['caption']
@@ -203,9 +221,7 @@ def change_to_task_reviewer(tvid):
 @register.simple_tag
 def bulid_assign_member_list(tmid,deadline):
     """构建指派对象"""
-    print(tmid)
     task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
-    print("task_assign_list",task_assign_list)
     eles = """<ul>"""
     for item in task_assign_list:
         # 获取对象信息
@@ -342,12 +358,16 @@ def build_record_tags_ele(tsid):
 
 @register.simple_tag
 def query_task_by_tid(tid):
+    print("tid",tid)
     result_db = task_db.query_task_by_tid(tid)
+    print("result_db",result_db)
     return result_db
 
 @register.simple_tag
 def query_task_map_by_tmid(tmid):
-    result_db = task_map_db.query_task_by_tid(tmid)
+    print("tmid",tmid)
+    result_db = task_map_db.query_task_by_tmid(tmid)
+    print("task_map",result_db)
     return result_db
 
 
@@ -400,9 +420,11 @@ def build_task_tags_list(tid):
     return mark_safe(ele_list)
 
 @register.simple_tag
-def fetch_task_assing_member(tid):
+def fetch_task_assing_member(tmid):
     """获取任务成员"""
-    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    print("tmid",tmid)
+    task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
+    print("assign_list", task_assign_list)
     eles = ''
     if task_assign_list:
         for item in task_assign_list:
@@ -416,9 +438,9 @@ def fetch_task_assing_member(tid):
 
 
 @register.simple_tag
-def fetch_review_follow(tid):
+def fetch_review_follow(tmid):
     """获取任务审核次序"""
-    task_review = task_review_db.query_task_reviewer_by_tid(tid)
+    task_review = task_review_db.query_task_reviewer_by_tmid(tmid)
     if task_review:
         if task_review[0].follow:
             result = '是'
@@ -427,6 +449,12 @@ def fetch_review_follow(tid):
     else:
         result = "未指定"
     return result
+
+@register.simple_tag
+def fetch_task_map_record(tid):
+    result_db = task_map_db.query_task_by_tid(tid)
+    print("task_record",result_db)
+    return result_db
 
 
 @register.simple_tag
@@ -460,9 +488,9 @@ def build_task_progress(tmid):
 
 
 @register.simple_tag
-def fetch_task_submit_record(tid):
+def fetch_task_submit_record(tmid):
     """获取任务提交记录"""
-    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     tasid_list = []
     for item in task_assign_list:
         tasid_list.append(item.tasid)
@@ -471,10 +499,14 @@ def fetch_task_submit_record(tid):
 
 
 @register.simple_tag
-def fetch_task_assign_member_by_tasid(tasid):
+def fetch_task_assign_member_by_tasid(tasid,show=1):
     task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)
+    task_assign_obj = task_assign_obj.first()
     staff_obj = staff_db.query_staff_by_id(task_assign_obj.member_id_id)
-    ele = "<a href='task_review_record.html?tasid={0}'>{1}&nbsp</a>".format(tasid, staff_obj.name)
+    if show:
+        ele = "<a href='task_review_record.html?tasid={0}'>{1}&nbsp</a>".format(tasid, staff_obj.name)
+    else:
+        ele="<span>{0}</span>".format(staff_obj.name)
     return mark_safe(ele)
 
 
@@ -514,9 +546,9 @@ def calculate_past_time(time):
 
 
 @register.simple_tag
-def fetch_task_assing_list(tid):
+def fetch_task_assing_list(tmid):
     """获取任务成员列表"""
-    task_assign_list = task_assign_db.query_task_assign_by_tid(tid)
+    task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     return task_assign_list
 
 

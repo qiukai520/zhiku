@@ -53,9 +53,8 @@ class TaskDB(object):
     """任务表列表"""
     # 任务状态
     task_status = (
+        {"id": 0, "caption": "删除"},
         {"id": 1, "caption": "启动"},
-        {"id": 2, "caption": "暂停"},
-        {"id": 3, "caption": "取消"},
     )
 
 
@@ -76,7 +75,7 @@ class TaskDB(object):
         Task.objects.filter(tid=modify_info['tid']).update(**modify_info)
 
     def query_task_lists(self):
-        result_db = Task.objects.filter().all().order_by("-tid")
+        result_db = Task.objects.filter(status__gt=0).all().order_by("-tid")
         return result_db
 
     def query_task_assign_lists(self):
@@ -99,8 +98,8 @@ class TaskDB(object):
         result_db = Task.objects.filter(issuer_id=issuer_id).first()
         return result_db
 
-    def multi_delete_task(self, id_list):
-        Task.objects.filter(tid__in=id_list).delete()
+    def multi_delete_task(self, id_list, delete_status):
+        Task.objects.filter(tid__in=id_list).update(**delete_status)
 
     def update_task_status_by_tid(self, tid,modify_info):
         Task.objects.filter(tid=tid).update(**modify_info)
@@ -110,9 +109,10 @@ class TaskMapDB(object):
     """任务表列表"""
     # 任务状态
     task_status = (
-        {"id": 1, "caption": "启动"},
-        {"id": 2, "caption": "暂停"},
-        {"id": 3, "caption": "终止"},
+        {"id": 1, "caption": "进行中"},
+        {"id": 2, "caption": "已完成"},
+        {"id": 3, "caption": "已暂停"},
+        {"id": 4, "caption": "已终止"},
     )
     # 执行方式
     execute_way = (
@@ -127,7 +127,7 @@ class TaskMapDB(object):
     )
     # 是否完成
     is_finish = (
-        {"id": 0, "caption": "未完成"},
+        {"id": 0, "caption": "进行中"},
         {"id": 1, "caption": "已完成"}
     )
     # 任务方式
@@ -164,7 +164,11 @@ class TaskMapDB(object):
         result_db = TaskMap.objects.all().order_by("-tmid")
         return result_db
 
-    def query_task_by_tid(self, tmid):
+    def query_task_by_tid(self, tid):
+        result_db = TaskMap.objects.filter(tid_id=tid).all()
+        return result_db
+
+    def query_task_by_tmid(self, tmid):
         result_db = TaskMap.objects.filter(tmid=tmid).first()
         return result_db
 
@@ -272,8 +276,8 @@ class TaskReviewDB(object):
         for item in modify_info_list:
             TaskReview.objects.create(**item)
 
-    def query_task_reviewer_by_tid(self,tid):
-        result_db = TaskReview.objects.filter(tid_id=tid).all()
+    def query_task_reviewer_by_tmid(self,tmid):
+        result_db = TaskReview.objects.filter(tmid_id=tmid).all()
         return result_db
 
     def query_task_reviewer_by_sid(self,sid):
@@ -301,6 +305,12 @@ class TaskReviewDB(object):
 
 class TaskAssignDB(object):
     """任务指派表"""
+    # 是否完成
+    is_finish = (
+        {"id": 0, "caption": "进行中"},
+        {"id": 1, "caption": "已完成"}
+    )
+
     def mutil_insert_task_assign(self, modify_info_list):
         for item in modify_info_list:
             print("item",item)

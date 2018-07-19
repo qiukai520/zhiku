@@ -84,7 +84,7 @@
                                               <th>任务名称</th>
                                               <th>任务描述</th>
                                               <th>任务类别</th>
-                                              <th>创建人</th>
+                                              <th>发布人</th>
                                               <th>创建时间</th>
                                               <th>操作</th>
                                         </tr>
@@ -93,8 +93,8 @@
                                       {% for obj in  query_sets%}
                                           <tr>
                                               <td><input type="checkbox"></td>
-                                              <td name="tid"> <a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.tid }}</a></td>
-                                              <td><a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.title }}</a></td>
+                                              <td name="tid"> <a  href="{%url "task_base_detail" %}?tid={{ obj.tid }}">{{ obj.tid }}</a></td>
+                                              <td><a   href="{%url "task_base_detail" %}?tid={{ obj.tid }}">{{ obj.title }}</a></td>
                                               <td>{{ obj.content|slice:"20"}}</td>
                                               <td>{% change_to_task_type  obj.type_id  %}</td>
                                               <td>{% change_to_staff obj.issuer_id %}</td>

@@ -21,7 +21,8 @@
             <div class="wrapper wrapper-content animated fadeInUp">
                 <div class="ibox">
                     <div class="ibox-content">
-                    {% query_task_by_tid task_obj.tid_id as base_task %}
+                        {% query_task_map_by_tmid task_obj.tmid_id as task_map %}
+                        {% query_task_by_tid task_map.tid_id as base_task %}
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="m-b-md">
@@ -43,10 +44,13 @@
                         <div class="row">
                             <div class="col-sm-5">
                                 <dl class="dl-horizontal">
+                                    <dt>任务方式：</dt>
+                                    <dd>{% change_to_task_way  task_map.team  %}
+                                    </dd>
                                     <dt>指派人：</dt>
-                                    <dd>{% change_to_staff task_obj.assigner_id %}</dd>
+                                    <dd>{% change_to_staff task_map.assigner_id %}</dd>
                                     <dt>审核人：</dt>
-                                    <dd>{% build_task_review_ele  task_obj.tmid%}</dd>
+                                    <dd>{% build_task_review_ele  task_map.tmid%}</dd>
                                     <dt>次序审核：</dt>
                                     <dd><span><i class="fa fa-circle text-warning"></i>{% fetch_review_follow task_obj.tmid %} </span>
                                     </dd>
@@ -54,25 +58,25 @@
                                     <dd>{% change_to_task_type  base_task.type_id  %}
                                     </dd>
                                     <dt>任务周期：</dt>
-                                    <dd>{% change_to_task_cycle task_obj.cycle_id %}</dd>
+                                    <dd>{% change_to_task_cycle task_map.cycle_id %}</dd>
                                     <dt>绩效分类：</dt>
-                                    <dd>{% change_to_task_perfomance task_obj.perfor_id%}</dd>
+                                    <dd>{% change_to_task_perfomance task_map.perfor_id%}</dd>
                                 </dl>
                             </div>
                             <div class="col-sm-7" id="cluster_info">
                                 <dl class="dl-horizontal">
 
                                     <dt>最后更新：</dt>
-                                    <dd>{{ task_obj.last_edit|date:"Y-m-d H:i"}}</dd>
+                                    <dd>{{ task_map.last_edit|date:"Y-m-d H:i"}}</dd>
                                     <dt>创建于：</dt>
-                                    <dd>{{ task_obj.create_time |date:"Y-m-d H:i"}}</dd>
+                                    <dd>{{ task_map.create_time |date:"Y-m-d H:i"}}</dd>
                                     <dt>截止时间：</dt>
-                                    <dd>{{ task_obj.deadline |date:"Y-m-d H:i"}}</dd>
+                                    <dd>{{ task_map.deadline |date:"Y-m-d H:i"}}</dd>
                                     <dt>倒计时：</dt>
-                                    <dd>{% build_countdown_time task_obj.deadline  %}天</dd>
+                                    <dd>{% build_countdown_time task_map.deadline  %}天</dd>
                                     <dt>团队成员：</dt>
                                     <dd class="project-people">
-                                        {% fetch_task_assing_member task_obj.tmid %}
+                                        {% fetch_task_assing_member task_map.tmid %}
                                     </dd>
                                 </dl>
                             </div>
@@ -82,7 +86,7 @@
                                 <dl class="dl-horizontal">
                                     <dt>当前进度</dt>
                                     <dd>
-                                        {% build_task_progress task_obj.tmid as progerss %}
+                                         {% fetch_completion_by_tasid task_obj.tasid  as progerss%}
                                         <div class="progress progress-striped active m-b-sm">
                                             <div style="width: {{ progerss }}%;" class="progress-bar"></div>
                                         </div>
@@ -97,9 +101,7 @@
                                     <div class="panel-heading">
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
-                                                <li><a href="task_detail.html#tab-1" data-toggle="tab">团队消息</a>
-                                                </li>
-                                                <li class=""><a href="task_detail.html#tab-2" data-toggle="tab">审核更新</a>
+                                                <li class="active"><a href="task_detail.html#tab-1"   data-toggle="tab">团队进度</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -107,38 +109,9 @@
                                     <div class="panel-body">
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab-1">
-                                                <div class="feed-activity-list">
-                                                     {%fetch_task_submit_record task_obj.tmid as submit_obj_list%}
-
-                                                        {% for submit_obj in submit_obj_list %}
-                                                             <div class="feed-element">
-                                                            <a href="profile.html#" class="pull-left">
-                                                                <img alt="image" class="img-circle" src="/static/img/people.png">
-                                                            </a>
-                                                            <div class="media-body ">
-                                                                <small class="pull-right text-navy">{% calculate_past_days submit_obj.create_time%} </small>
-                                                                <strong>{% fetch_task_assign_member_by_tasid submit_obj.tasid_id %}</strong> 提交了 <strong>新的内容</strong>.
-                                                                <br>
-                                                                <small class="text-muted">{% calculate_past_time submit_obj.create_time %} 前</small>
-                                                                <div class="well">
-                                                                    <p style="">{{ submit_obj.title }}</p>
-                                                                </div>
-                                                                <div class="actions">
-                                                                    <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> 赞 </a>
-{#                                                                    <a class="btn btn-xs btn-danger"><i class="fa fa-heart"></i> 收藏</a>#}
-                                                                </div>
-                                                            </div>
-                                                    </div>
-                                                        {% endfor %}
-                                                </div>
-
-                                            </div>
-                                            <div class="tab-pane" id="tab-2">
-
                                                 <table class="table table-striped">
                                                     <thead>
                                                         <tr>
-                                                            <th>审核状态</th>
                                                             <th>成员</th>
                                                             <th>进度</th>
                                                             <th>开始时间</th>
@@ -146,13 +119,15 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {% fetch_task_assing_list task_obj.tmid as task_assign_list %}
+                                                        {% fetch_task_assing_list task_map.tmid as task_assign_list %}
                                                         {% for obj in task_assign_list %}
-                                                             <tr>
-                                                            <td>
-                                                                <span class="label label-primary"> {% fetch_assign_finish_status obj.is_finish %}</span>
-                                                            </td>
-                                                            <td>{% fetch_task_assign_member_by_tasid obj.tasid %}</td>
+                                                            {% if obj.member_id_id ==  user_id  %}
+                                                            {% else %}
+                                                                  <tr>
+{#                                                            <td>#}
+{#                                                                <span class="label label-primary"> {% fetch_assign_finish_status obj.is_finish %}</span>#}
+{#                                                            </td>#}
+                                                            <td>{% fetch_task_assign_member_by_tasid obj.tasid  0%}</td>
                                                             <td>{{ obj.progress }}%</td>
                                                             <td>{{ obj.create_time }}</td>
                                                              {% if obj.deadline  %}
@@ -161,10 +136,17 @@
                                                                   <td>{{ task_obj.deadline }}</td>
                                                              {% endif %}
                                                         </tr>
+                                                            {% endif %}
+
                                                         {% endfor %}
 
                                                     </tbody>
                                                 </table>
+
+
+                                            </div>
+                                            <div class="tab-pane" id="tab-2">
+
 
                                             </div>
                                         </div>
@@ -203,7 +185,6 @@
 
                 </ul>
                 <div class="m-t-md">
-                    <a href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-xs btn-primary">添加附件</a>
 
                 </div>
             </div>

@@ -47,7 +47,7 @@ class Staff(models.Model):
 
 
 class Task(models.Model):
-    task_status_choice = ((1, '启动'), (2, '暂停'), (3, '取消'))
+    task_status_choice = ((1, '启动'), (0, '删除'))
 
     tid = models.AutoField(primary_key=True)
     title = models.CharField(max_length=512, verbose_name='任务名称')  # 任务名称
@@ -80,7 +80,7 @@ class TaskMap(models.Model):
 
     tmid = models.AutoField(primary_key=True)
     tid = models.ForeignKey("Task", to_field="tid", on_delete=models.CASCADE, verbose_name='任务ID',
-                             db_constraint = False,default=1)
+                             db_constraint =False, default=1)
     assigner = models.ForeignKey('Staff', to_field="sid", on_delete=models.CASCADE, verbose_name='指派人',
                                db_constraint =False, parent_link=True)  # '指派人',
     perfor = models.ForeignKey('Performemce', to_field='pid', on_delete=models.CASCADE, db_constraint=False,
@@ -104,8 +104,8 @@ class TaskMap(models.Model):
         verbose_name = '任务指派'
         verbose_name_plural = '任务指派'
 
-    def __str__(self):
-        return self.title
+    # def __str__(self):
+    #     return self.tid
 
 
 class TaskAssign(models.Model):

@@ -1,0 +1,141 @@
+{% extends "layout.html" %}
+{% load  admin_tags %}
+
+{% block css %}
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+    <style>
+    .download_file{
+        color:#337ab7 !important
+    }
+     #content-main{
+      overflow :auto
+     }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row" style="width: 100%">
+        <div class="col-sm-9">
+            <div class="wrapper wrapper-content animated fadeInUp">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="m-b-md">
+                                    <a href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-white btn-xs pull-right">编辑项目</a>
+                                    <h3>任务名称：{{ task_obj.title }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <dl class="dl-horizontal">
+                                    <dt>发布人：</dt>
+                                    <dd>{% change_to_staff task_obj.issuer_id %}</dd>
+                                    <dt>任务分类：</dt>
+                                    <dd>{% change_to_task_type  task_obj.type_id  %}
+                                    </dd>
+                                    <dt>任务周期：</dt>
+                                    <dd>{% change_to_task_cycle task_obj.cycle_id %}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-7" id="cluster_info">
+                                <dl class="dl-horizontal">
+
+                                    <dt>最后更新：</dt>
+                                    <dd>{{ task_obj.last_edit|date:"Y-m-d H:i"}}</dd>
+                                    <dt>创建于：</dt>
+                                    <dd>{{ task_obj.create_time |date:"Y-m-d H:i"}}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row m-t-sm">
+                            <div class="col-sm-12">
+                                <div class="panel blank-panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-options">
+                                            <ul class="nav nav-tabs">
+                                                <li><a href="task_detail.html#tab-1" data-toggle="tab">指派记录</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+                                                <div class="feed-activity-list">
+                                                     {% fetch_task_map_record task_obj.tid as task_map_record %}
+
+                                                        {% for record_obj in task_map_record %}
+                                                             <div class="feed-element">
+                                                            <a href="profile.html#" class="pull-left">
+                                                                <img alt="image" class="img-circle" src="/static/img/people.png">
+                                                            </a>
+                                                            <div class="media-body ">
+                                                                <small class="pull-right text-navy">{% calculate_past_days record_obj.create_time%} </small>
+                                                                <strong>{% change_to_staff record_obj.assigner_id %}</strong> 指派了 <strong><a  href="{%url "task_detail" %}?tmid={{ record_obj.tmid }}">新的内容</a></strong>.
+                                                                <br>
+                                                                <small class="text-muted">{% calculate_past_time record_obj.create_time %} 前</small>
+                                                                <div class="actions">
+                                                                    <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> 赞 </a>
+                                                                    <a class="btn btn-xs btn-danger"><i class="fa fa-heart"></i> 收藏</a>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                        {% endfor %}
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="wrapper wrapper-content project-manager">
+                <h4>任务描述</h4>
+                <p class="small" style="text-indent:2em">{{ task_obj.content }}
+                </p>
+                <h5>项目标签</h5>
+                <ul class="tag-list" style="padding: 0">
+                    {% build_task_tags_list  task_obj.tid%}
+                </ul>
+                <br>
+                <br>
+                <h5>项目附件</h5>
+                <ul class="list-unstyled project-files">
+                    {% query_task_attachment_by_tid task_obj.tid as t_attachement %}
+                    {% for obj in t_attachement %}
+                         <li>
+                             <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                             <a class="download_file" href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
+                            <label class="form-label" for="task_title"  >附件描述:</label>
+                            <span  >{{ obj.description }}</span>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+                <div class="m-t-md">
+                    <a href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-xs btn-primary">添加附件</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}
+
+{% block js %}
+    <script>
+        $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+    </script>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+{% endblock %}
+
