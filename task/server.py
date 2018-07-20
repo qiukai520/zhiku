@@ -294,13 +294,13 @@ class TaskReviewDB(object):
 
     def mutil_update_reviewer(self, modify_info):
         for item in modify_info:
-            TaskReview.objects.filter(tmid_id=item['tid_id'], sid_id=item['sid_id']).update(**item)
+            TaskReview.objects.filter(tmid_id=item['tmid_id'], sid_id=item['sid_id']).update(**item)
 
     def mutil_delete_reviewer(self, id_list):
         TaskReview.objects.filter(tvid__in=id_list).delete()
 
     def mutil_delete_reviewer_by_tid(self,tid_list):
-        TaskReview.objects.filter(tid_id__in=tid_list).delete()
+        TaskReview.objects.filter(tmid_id__in=tid_list).delete()
 
 
 class TaskAssignDB(object):
@@ -316,11 +316,10 @@ class TaskAssignDB(object):
             print("item",item)
             is_exist = TaskAssign.objects.filter(tmid_id=item['tmid_id'], member_id_id=item['member_id_id'])
             if is_exist:
-                result_db = staff_db.query_staff_by_id(item['member_id_id'])
-                raise Exception('%s已指派过该任务'%(result_db.name))
+                continue
             TaskAssign.objects.create(**item)
 
-    def update_task_assign(self,modify_info):
+    def update_task_assign(self, modify_info):
         TaskAssign.objects.filter(tasid=modify_info["tasid"]).update(**modify_info)
 
     def update_finish_status(self,is_finish):
@@ -341,8 +340,9 @@ class TaskAssignDB(object):
         result_db = TaskAssign.objects.filter(member_id=member_id).all()
         return result_db
 
-    def mutil_delete_reviewer_by_tid(self,id_list):
-        TaskAssign.objects.filter(tid_id__in=id_list).delete()
+    def mutil_delete_assign_by_tasid(self,id_list):
+        print("id_list",id_list)
+        TaskAssign.objects.filter(tasid__in=id_list).delete()
 
 
 class TaskSubmitRecordDB(object):
@@ -446,6 +446,9 @@ class TaskAssignTagDB(object):
     def mutil_delete_tag(self, id_list):
         TaskAssignTag.objects.filter(tatid__in=id_list).delete()
 
+    def mutil_delete_tag_by_tasid(self,tasid_list):
+        TaskAssignTag.objects.filter(tasid__in=tasid_list).delete()
+
 
 class TaskAssignAttachDB(object):
     """任务分配附件表"""
@@ -463,6 +466,9 @@ class TaskAssignAttachDB(object):
 
     def mutil_delete_attach(self, id_list):
         TaskAssignAttach.objects.filter(taaid__in=id_list).delete()
+
+    def mutil_delete_attach_by_tasid(self, id_list):
+        TaskAssignAttach.objects.filter(tasid__in=id_list).delete()
 
 
 class TaskReviewRecordDB(object):

@@ -105,6 +105,7 @@ def build_task_tags_ele(tid):
         ele_list += ele
     return mark_safe(ele_list)
 
+
 @register.simple_tag
 def build_task_review_ele(tmid):
     """构建任务标签"""
@@ -163,6 +164,7 @@ def change_to_task_way(team_id):
 def change_to_task_type(tpid):
     """转化成任务类型"""
     task_type = task_type_db.query_task_type_by_id(tpid)
+    print("task_type",task_type)
     return task_type.name
 
 @register.simple_tag
@@ -418,6 +420,18 @@ def build_task_tags_list(tid):
             ele = "<li><a><i class='fa fa-tag'></i> {0}</a></li>".format(item.name)
             ele_list += ele
     return mark_safe(ele_list)
+
+@register.simple_tag
+def build_task_assign_tags_list(tasid):
+    """构建任务标签列表"""
+    ele_list = ''
+    record_tags = task_assign_tag_db.query_task_assign_tag_by_tasid(tasid)
+    for item in record_tags:
+        if item.name:
+            ele = "<li><a><i class='fa fa-tag'></i> {0}</a></li>".format(item.name)
+            ele_list += ele
+    return mark_safe(ele_list)
+
 
 @register.simple_tag
 def fetch_task_assing_member(tmid):

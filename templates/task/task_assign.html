@@ -97,26 +97,38 @@
                         <div class="form-group">
                             <label for="task_name" class="col-xs-2 control-label">任务名称：</label>
                               <div class="col-xs-6">
-                                  {% for obj in query_sets %}
+                                  {% if edit == 0 %}
+                                       {% for obj in query_sets %}
                                        <p style="padding-top:7px">{{ forloop.counter }}.{{ obj.title }}</p>
                                   {% endfor %}
+                                  {% else %}
+                                       {% query_task_by_tid query_sets.tid_id  as base_task%}
+                                       <p style="padding-top:7px">{{ base_task.title }}</p>
+                                  {% endif %}
 
                               </div>
                         </div>
                         <div class="form-group">
                             <label for="task_name" class="col-xs-2 control-label">任务方式：</label>
                               <div class="col-xs-6">
+                              {% if edit  %}
+                                  <select name="team" class="form-control "  style="width: 54%" id="team" data-live-search="true" >
+                                      <option value="0">个人任务</option>
+                                      <option value="1">组队任务</option>
+                                  </select>
+                              {% else %}
                                    {% if team == "1" %}
                                         <p style="padding-top:7px">组队任务</p>
                                    {% else %}
                                           <p style="padding-top:7px">个人任务</p>
                                    {% endif %}
+                              {% endif %}
                               </div>
                         </div>
                         <div class="form-group">
                             <label for="department" class="control-label col-xs-2">指派对象：</label>
                            <div  class="col-xs-5">
-                            <select name="department" id="department"  class="form-control  col-xs-8"  style="width: 65%" data-live-search="true" onchange="FetchStaff2Assign(this)">
+                            <select name="department" id="department"  class="form-control  col-xs-8"  style="width: 65%"  data-live-search="true" onchange="FetchStaff2Assign(this)">
                             {% build_department_ele %}
                             </select>
                            </div>
@@ -126,12 +138,12 @@
                             <div class="col-xs-8 " style="padding:0px; ">
                                 <div class="col-xs-10 selector-filter" >
                                     <select  id="assigned" multiple   name="staff_old"  size="10"   class=" select-box ">
-{#                                    {%if tid %}#}
-{#                                         {% for obj in task_reviewer_info %}#}
-{#                                         <option value="{{ obj.sid_id }}"   selected="selected" tvid="{{ obj.tvid}}">{% change_to_staff obj.sid_id %}  </option>#}
-{##}
-{#                                         {% endfor %}#}
-{#                                     {% endif %}#}
+                                    {% if edit %}
+                                         {% for obj in task_assign_info %}
+                                         <option value="{{ obj.member_id_id }}"   selected="selected" tasid="{{ obj.tasid}}">{% change_to_staff obj.member_id_id %}  </option>
+
+                                         {% endfor %}
+                                     {% endif %}
                                     </select>
                                 </div>
                             </div>
@@ -182,8 +194,8 @@
                                     </select>
                                 <label for="follow" class="control-label " style="margin-left:10px">次序审核：</label>
                                 <!--查看审核人是否有序-->
-                                {%if tid %}
-                                    {% if task_reviewer_info.first.follow %}
+                                {%if edit %}
+                                    {% if task_review_info.first.follow %}
                                          <input type="checkbox" name="follow" checked="checked" id ="follow">
                                         {%else %}
                                          <input type="checkbox" name="follow"   id ="follow">
@@ -198,11 +210,11 @@
                             <div class="col-xs-8 " style="padding:0px; ">
                                 <div class="col-xs-10 selector-filter" >
                                     <select  id="reviewer" multiple   name="staff_old"  size="10"   class=" select-box ">
-{#                                    {%if tid %}#}
-{#                                         {% for obj in task_reviewer_info %}#}
-{#                                         <option value="{{ obj.sid_id }}"   selected="selected" tvid="{{ obj.tvid}}">{% change_to_staff obj.sid_id %}  </option>#}
-{#                                         {% endfor %}#}
-{#                                     {% endif %}#}
+                                    {%if edit %}
+                                         {% for obj in task_review_info %}
+                                         <option value="{{ obj.sid_id }}"   selected="selected" tvid="{{ obj.tvid}}">{% change_to_staff obj.sid_id %}  </option>
+                                         {% endfor %}
+                                     {% endif %}
                                     </select>
                                 </div>
                             </div>
@@ -216,7 +228,11 @@
                         </div>
                         <div class="form-group">
                             <div class="col-xs-6">
-                                <button  onclick="Submit()" class="btn btn-primary" style="float: right;">指派</button>
+                                {% if edit %}
+                                    <button  onclick="Edit()" class="btn btn-primary" style="float: right;">修改</button>
+                                {% else%}
+                                    <button  onclick="Submit()" class="btn btn-primary" style="float: right;">指派</button>
+                                {% endif %}
                                 <a href="#" class="btn btn-danger" style="float:right;margin-right: 50px;">返回</a>
                             </div>
                         </div>
@@ -280,14 +296,28 @@
                 infoText:"总人数:{0}"
         });
     });
+
+      /*
+    自执行函数
+    */
+    $(function () {
+        //如果tid不为0，则为创建
+        if ({{ edit }}){
+           InitData()//初始化数据
+        }
+        else {
+
+        }
+    });
      //初始化数据
 function InitData() {
-        $("#task_name").val("{{ task_info.title }}");
-        $("#task_type").val({{ task_info.type_id }})
-        $("#attribute").val({{ task_info.attribute }});
-        $("#task_cycle").val({{ task_info.tcid }});
-        $("#datetimepicker1").find("input").val( "{{ task_info.start_time |date:'Y-m-d H:i:s'}}");
-        $("#datetimepicker2").find("input").val("{{ task_info.deadline |date:'Y-m-d H:i:s'}}");
+        $("#remark").val("{{ query_sets.remark }}");
+        $("#task_type").val({{ query_sets.type_id }})
+        $("#team").val({{ query_sets.team }});
+        $("#attribute").val({{ query_sets.perfor_id }});
+        $("#task_cycle").val({{ query_sets.cycle_id }});
+        $("#datetimepicker1").find("input").val( "{{ query_sets.start_time |date:'Y-m-d H:i:s'}}");
+        $("#datetimepicker2").find("input").val("{{ query_sets.deadline |date:'Y-m-d H:i:s'}}");
     }
 
     //设置日期时间控件
@@ -352,30 +382,57 @@ function SelectReviewer(){
     }
 
 //修改数据时获取审核人
-{#function GetReviewer(){#}
-{#        var reviewers_list=new Array();#}
-{#        var i=0#}
-{#          DualListboxReview.children("option:selected").each(function () {#}
-{#            i +=1#}
-{#            var reviewer=$(this).val()#}
-{#            var tvid=$(this).attr("tvid")#}
-{#            console.log(tvid);#}
-{#            var isfollow=$('#follow').prop("checked")#}
-{#            var review= {"sid_id":reviewer,"follow":'','tid_id':{{tid}}};#}
-{#            if (tvid){#}
-{#                review=$.extend(review,{"tvid":tvid})#}
-{#            }#}
-{#            if (isfollow){#}
-{#                review.follow=i#}
-{#                reviewers_list.push(review)#}
-{#            }else{#}
-{#                review.follow=0#}
-{#                reviewers_list.push(review)#}
-{#            }#}
-{#        });#}
-{#        reviewers_list =JSON.stringify(reviewers_list)//对象转化成json#}
-{#        return reviewers_list#}
-{#    }#}
+function GetReviewer(){
+        var reviewers_list=new Array();
+         {%if edit %}
+                var tmid ={{ query_sets.tmid }}
+            {% else %}
+                var tmid=1
+            {% endif %}
+         var i=0
+          DualListboxReview.children("option:selected").each(function () {
+            i +=1
+            var reviewer=$(this).val()
+            var tvid=$(this).attr("tvid")
+            var isfollow=$('#follow').prop("checked")
+            var review= {"sid_id":reviewer,"follow":'','tmid_id':tmid};
+            if (tvid){
+                review=$.extend(review,{"tvid":tvid})
+            }
+            if (isfollow){
+                review.follow=i
+                reviewers_list.push(review)
+            }else{
+                review.follow=0
+                reviewers_list.push(review)
+            }
+        });
+        reviewers_list =JSON.stringify(reviewers_list)//对象转化成json
+        return reviewers_list
+    }
+    //修改数据时获取指派对象
+function GetAssigner(){
+        var Assigner_list=new Array();
+            {%if edit %}
+                var tmid ={{query_sets.tmid }}
+            {% else %}
+                var tmid=1
+            {% endif %}
+          DualListboxAssign.children("option:selected").each(function () {
+
+            var Assigner=$(this).val()
+            var tasid=$(this).attr("tasid")
+              console.log(tasid)
+            var Assign= {"member_id_id":Assigner,'tmid_id':tmid}
+            if (tasid){
+                var Assign=$.extend(Assign,{"tasid":tasid})
+            }
+              Assigner_list.push(Assign)
+        });
+        Assigner_list =JSON.stringify(Assigner_list)//对象转化成json
+        return Assigner_list
+    }
+
 
 //根据部门获取相应的员工
 function FetchStaff2Assign(ths) {
@@ -438,26 +495,30 @@ function FetchStaff2Review(ths) {
     });
 }
 
-
 //创建
 function Submit() {
-        var remark = $("#remark").val().trim();
-        console.log(remark)
+    var remark = $("#remark").val().trim();
+        {% if edit %}
+            var tids = 0
+            var team = 0
+        {% else %}
+            var tids={{ tids }}
+            var team ={{ team }}
+        {% endif %}
         var assigner_id = 1;
         var attribute = $("#attribute").val();
         var cycle_id = $("#task_cycle").val();
         var start_time = $("#datetimepicker1").find("input").val();
         var deadline = $("#datetimepicker2").find("input").val();
-        console.log("submit")
         $.ajax({
                 url: "{%url "task_assign"  %} ",
                 type: "POST",
                 data:  {
-                     "tids":{{ tids }},
+                     "tids":tids,
                      "assigner_id": assigner_id,//指派人
                      "perfor_id": attribute,
                      "cycle_id": cycle_id,
-                      "team":{{ team }},
+                      "team":team,
                      "start_time": start_time,
                      "deadline": deadline,
                      "remark":remark,
@@ -476,62 +537,44 @@ function Submit() {
         })
     }
     //修改
-{#function Edit() {#}
-{#        var title = $("#task_name").val().trim();#}
-{#        var content = $("#content").val().trim();#}
-{#        var type_id =$("#task_type").val()#}
-{#        var issuer_id = 1;#}
-{#        var perfor_id = $("#attribute").val();#}
-{#        var cycle_id = $("#task_cycle").val();#}
-{#        var start_time = $("#datetimepicker1").find("input").val();#}
-{#        var deadline = $("#datetimepicker2").find("input").val();#}
-{#        $.ajax({#}
-{#                url: "{% url "task_edit"%}",#}
-{#                type: "post",#}
-{#                data:  {#}
-{#                    "tid":{{ tid }},#}
-{#                    "title": title,#}
-{#                    "issuer_id": issuer_id,#}
-{#                    "content": content,#}
-{#                    "perfor_id": perfor_id,#}
-{#                    "cycle_id": cycle_id,#}
-{#                    "start_time": start_time,#}
-{#                    "deadline": deadline,#}
-{#                    "type_id":type_id,#}
-{#                    "tags":GetTag(),#}
-{#                    "attachment":GetAttachment(),#}
-{#                    "reviewers":GetReviewer(),#}
-{#        },#}
-{#            dataType: "json",#}
-{#            success: function (arg) {#}
-{#                if (arg.status) {#}
-{#                    alert("修改成功")#}
-{#                    window.location.reload()#}
-{#                } else {#}
-{#                    alert(arg.message)#}
-{#                }#}
-{#            }#}
-{#        })#}
-{#    }#}
-    //移到被选复选框
-function MoveTo() {
-    var opt=$("#id_staff_from").find("option:selected").clone();
-    opt.attr("onclick","ElementMoveTo(this,'id_staff_from','id_staff_to')");
-    $("#id_staff_to").append(opt);
-    $("#id_staff_from").find("option:selected").remove()
-}
-//移回待选选复选框
-function MoveBack() {
-    var opt=$("#id_staff_to").find("option:selected").clone();
-    opt.attr("onclick","ElementMoveTo(this,'id_staff_to','id_staff_from')");
-    $("#id_staff_from").append(opt.clone()) ;
-    $("#id_staff_to").find("option:selected").remove()
-}
-    //双击动复选框
-function ElementMoveTo(ths,id_from,id_to) {
-        var opt_ele="<option value='"+$(ths).val()+"' ondblclick=ElementMoveTo(this,'"+id_to+"','"+id_from+"')>"+$(ths).text()+"</option>";
-        $("#" +id_to).append(opt_ele);
-        $(ths).remove();
+function Edit() {
+        var team=$("#team").val().trim();
+        var type_id =$("#task_type").val();
+        var perfor_id = $("#attribute").val();
+        var cycle_id = $("#task_cycle").val();
+        var start_time = $("#datetimepicker1").find("input").val();
+        var deadline = $("#datetimepicker2").find("input").val();
+        var remark = $("#remark").val().trim();
+        {% if edit  %}
+            var tmid={{ query_sets.tmid }}
+        {% else %}
+             var tmid = 1
+        {%endif%}
+        $.ajax({
+                url: "{% url "task_map_edit"%}",
+                type: "post",
+                data:  {
+                    "tmid":tmid,
+                    "team":team,
+                    "remark":remark,
+                    "perfor_id": perfor_id,
+                    "cycle_id": cycle_id,
+                    "start_time": start_time,
+                    "deadline": deadline,
+                    "type_id":type_id,
+                    "assigners":GetAssigner(),
+                    "reviewers":GetReviewer(),
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("修改成功")
+                    window.location.reload()
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
     }
 
  </script>

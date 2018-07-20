@@ -34,6 +34,7 @@ urlpatterns = [
     path("task_assign.html", views.task_assign, name="task_assign"),
     path('task_assigned_list.html', views.task_assign_list, name="task_assign_list"),
     path('task_assign_edit.html', views.task_assign_edit, name="task_assign_edit"),
+    path('task_map_edit.html', views.task_map_edit, name="task_map_edit"),
     # path('task_mutil_assign.html', views.task_mutil_assign, name="task_mutil_assign"),
     path('task_wait_review.html', views.task_wait_review, name="task_wait_review"),
     path("task_review.html", views.task_review, name='task_review'),

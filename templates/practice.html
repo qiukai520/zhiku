@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+      //移到被选复选框
+function MoveTo() {
+    var opt=$("#id_staff_from").find("option:selected").clone();
+    opt.attr("onclick","ElementMoveTo(this,'id_staff_from','id_staff_to')");
+    $("#id_staff_to").append(opt);
+    $("#id_staff_from").find("option:selected").remove()
+}
+//移回待选选复选框
+function MoveBack() {
+    var opt=$("#id_staff_to").find("option:selected").clone();
+    opt.attr("onclick","ElementMoveTo(this,'id_staff_to','id_staff_from')");
+    $("#id_staff_from").append(opt.clone()) ;
+    $("#id_staff_to").find("option:selected").remove()
+}
+    //双击动复选框
+function ElementMoveTo(ths,id_from,id_to) {
+        var opt_ele="<option value='"+$(ths).val()+"' ondblclick=ElementMoveTo(this,'"+id_to+"','"+id_from+"')>"+$(ths).text()+"</option>";
+        $("#" +id_to).append(opt_ele);
+        $(ths).remove();
+    }
+</script>
+
+
+</body>
+</html>

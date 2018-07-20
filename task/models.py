@@ -73,14 +73,14 @@ class Task(models.Model):
 
 class TaskMap(models.Model):
     execute_way_choice = ((0, '并行执行'), (1, '次序执行'))
-    task_status_choice = ((1, '启动'), (2, '暂停'), (3, '取消'))
+    task_status_choice = ((1, '进行中'), (2, '暂停'), (3, '取消'))
     is_finish = ((0, '进行中'), (1, '已完成'))
     teamwork_auth_choice = ((0, '相互可见'), (1, '互不可见'), (3, '指定可见'))
     team_choice = ((0, '个人任务'), (1, '组队任务'))
 
     tmid = models.AutoField(primary_key=True)
-    tid = models.ForeignKey("Task", to_field="tid", on_delete=models.CASCADE, verbose_name='任务ID',
-                             db_constraint =False, default=1)
+    tid = models.ForeignKey("Task", to_field="tid", on_delete=models.CASCADE, verbose_name='任务',
+                             db_constraint = False)
     assigner = models.ForeignKey('Staff', to_field="sid", on_delete=models.CASCADE, verbose_name='指派人',
                                db_constraint =False, parent_link=True)  # '指派人',
     perfor = models.ForeignKey('Performemce', to_field='pid', on_delete=models.CASCADE, db_constraint=False,
@@ -101,15 +101,16 @@ class TaskMap(models.Model):
 
     class Meta:
         db_table = 'task_map'
-        verbose_name = '任务指派'
-        verbose_name_plural = '任务指派'
+        verbose_name = '任务指派记录'
+        verbose_name_plural = '任务指派记录'
 
-    # def __str__(self):
-    #     return self.tid
+    def __str__(self):
+        return "任务:{0}".format(self.tid)
 
 
 class TaskAssign(models.Model):
     is_finish = ((0, '未通过'), (1, '通过'))
+    delete_status = ((0, '已删除'), (1, '保留'))
     tasid = models.AutoField(primary_key=True)
     tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
     member_id = models.ForeignKey('Staff', to_field="sid", on_delete=models.CASCADE, verbose_name='员工',
@@ -119,6 +120,7 @@ class TaskAssign(models.Model):
     deadline = models.DateTimeField(blank=True, null=True, verbose_name='截止时间')
     progress = models.SmallIntegerField(default=0, verbose_name='完成进度(%)')
     is_finish = models.SmallIntegerField(choices=is_finish, default=0, verbose_name='审核状态')
+    delete_status = models.SmallIntegerField(choices=delete_status,default=1, verbose_name='删除状态')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
@@ -180,7 +182,7 @@ class TaskAuth(models.Model):
         verbose_name_plural = ''
 
     def __str__(self):
-        return "任务附件:{0}".format(self.tamid)
+        return "任务附件:{0}".format(self.tasid)
 
 
 class TaskCycle(models.Model):
@@ -220,11 +222,13 @@ class TaskReviewRecord(models.Model):
 
 
 class TaskReview(models.Model):
+    delete_status = ((0, '已删除'), (1, '保留'))
     tvid = models.AutoField(primary_key=True)
     tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
     sid = models.ForeignKey("Staff", to_field='sid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='审核人')
     follow = models.IntegerField(verbose_name='审核顺序')
+    delete_status = models.SmallIntegerField(choices=delete_status,default=1, verbose_name='删除状态')
 
     class Meta:
         db_table = 'task_review'

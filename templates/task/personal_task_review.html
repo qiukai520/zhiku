@@ -100,9 +100,9 @@
                                                {% query_task_by_tid obj.tid_id as base_task %}
                                           <tr>
                                               <td><input type="checkbox"></td>
-                                              <td>{{ obj.tid }}</td>
-                                              <td>{{ obj.title }}</td>
-                                              <td>{{ obj.content|slice:"15"}}</td>
+                                              <td>{{ base_task.tid }}</td>
+                                              <td>{{ base_task.title }}</td>
+                                              <td>{{ base_task.content|slice:"15"}}</td>
                                               <td>{% change_to_task_type  base_task.type_id  %}</td>
                                               <td>{% change_to_staff obj.assigner_id %}</td>
                                               <td>{{ obj.deadline |date:"Y-m-d "}}</td>

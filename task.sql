@@ -116,17 +116,18 @@ create TABLE `task_cycle`(
 drop TABLE if exists `task_assign`;
 create TABLE `task_assign`(
 `tasid`int(11) NOT NULL primary key auto_increment,
-`tid` int(11) NOT NULL COMMENT'任务ID',
-`member_id` int(11) NOT NULL COMMENT' 员工ID',
+`tmid_id` int(11) NOT NULL COMMENT'任务ID',
+`member_id_id` int(11) NOT NULL COMMENT' 员工ID',
 `title`  varchar(32)  COMMENT '标题',
 `content` text   COMMENT '任务描述',
 `deadline` datetime  DEFAULT NUll COMMENT '最后期限',
 `progress` tinyint(1)   COMMENT '进度:0-100',
 `is_finish` tinyint(1)  NOT NULL  DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务分配表';
-alter table task_assign  ADD UNIQUE KEY `task_member_id`(`tid`,`member_id`) USING BTREE;
+alter table task_assign  ADD UNIQUE KEY `task_member_id`(`tmid`,`member_id`) USING BTREE;
 
 
 
@@ -192,10 +193,11 @@ create TABLE `task_submit_attachment`(
 drop TABLE if exists `task_review`;
 create TABLE `task_review`(
 `tvid`int(11) primary key auto_increment,
-`tid` int(11) NOT NULL COMMENT'任务ID',
-`sid` int(11) NOT NULL COMMENT '负责人ID',
-`follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '次序'
+`tmid_id` int(11) NOT NULL COMMENT'任务ID',
+`sid_id` int(11) NOT NULL COMMENT '负责人ID',
+`follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '次序',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除,1保留'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务审核人';
-alter table task_review  ADD UNIQUE KEY `task_staff_id`(`tid`,`sid`) USING BTREE;
+alter table task_review  ADD UNIQUE KEY `task_staff_id`(`tmid`,`sid_id`) USING BTREE;
 
 

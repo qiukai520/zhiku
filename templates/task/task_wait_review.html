@@ -104,7 +104,7 @@
                                   <tr>
                                       <td><input type="checkbox"></td>
 {#                                      <td><a  href="{%url "task_detail" %}?tid={{ obj.tid }}">{{ obj.tid }}</a></td>#}
-                                      <td><a  href="{%url "task_detail" %}?tid={{ obj.tid_id }}">{{ base_task.title}}</a></td>
+                                      <td><a  href="{%url "task_detail" %}?tmid={{ obj.tmid }}">{{ base_task.title}}</a></td>
                                       <td>{%  change_to_task_way obj.team %} </td>
                                       <td>{% change_to_task_type  base_task.type_id  %}</td>
                                       <td>{% change_to_staff obj.assigner_id %}</td>

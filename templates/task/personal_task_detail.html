@@ -27,7 +27,7 @@
                             <div class="col-sm-12">
                                 <div class="m-b-md">
 {#                                    <a href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-white btn-xs pull-right">编辑项目</a>#}
-                                    <h3>任务名称：{{ base_task.title }}</h3>
+                                    <h3 style="color:#1ab394">主任务：{{ base_task.title }}</h3>
                                 </div>
                                 <dl class="dl-horizontal">
                                     <dt>任务状态：</dt>
@@ -128,12 +128,17 @@
 {#                                                                <span class="label label-primary"> {% fetch_assign_finish_status obj.is_finish %}</span>#}
 {#                                                            </td>#}
                                                             <td>{% fetch_task_assign_member_by_tasid obj.tasid  0%}</td>
-                                                            <td>{{ obj.progress }}%</td>
+                                                            <td class="project-completion">
+                                                            <small>当前进度： {{ obj.progress }}%</small>
+                                                            <div class="progress progress-mini">
+                                                                <div style="width: {{ obj.progress }}%;" class="progress-bar"></div>
+                                                            </div>
+                                                           </td>
                                                             <td>{{ obj.create_time }}</td>
                                                              {% if obj.deadline  %}
                                                                   <td>{{ obj.deadline }}</td>
                                                              {% else %}
-                                                                  <td>{{ task_obj.deadline }}</td>
+                                                                  <td>{{ task_map.deadline }}</td>
                                                              {% endif %}
                                                         </tr>
                                                             {% endif %}
@@ -143,11 +148,8 @@
                                                     </tbody>
                                                 </table>
 
-
                                             </div>
                                             <div class="tab-pane" id="tab-2">
-
-
                                             </div>
                                         </div>
 
@@ -163,7 +165,7 @@
         <div class="col-sm-3">
             <div class="wrapper wrapper-content project-manager">
                 <h4>任务描述</h4>
-                <p class="small" style="text-indent:2em">{{ task_obj.content }}
+                <p class="small" style="text-indent:2em">{{ base_task.content }}
                 </p>
                 <h5>项目标签</h5>
                 <ul class="tag-list" style="padding: 0">
@@ -184,10 +186,51 @@
                     {% endfor %}
 
                 </ul>
+                    <lable>备注：</lable>
+                    <span class="small" style="text-indent:2em">{{ task_map.remark }}
+                    </span>
                 <div class="m-t-md">
 
                 </div>
             </div>
+            {% if task_obj.title %}
+                  <div class="wrapper wrapper-content project-manager">
+               <h3 style="color:#1ab394">个人任务：</h3>
+               <h4>任务名称</h4>
+                <p class="small" style="text-indent:2em">{{ task_obj.title }}
+                </p>
+                <h4>任务描述</h4>
+                <p class="small" style="text-indent:2em">{{ task_obj.content }}
+                </p>
+                <h5>项目标签</h5>
+                <ul class="tag-list" style="padding: 0">
+                    {% build_task_assign_tags_list  task_obj.tasid%}
+                </ul>
+                <br>
+                <br>
+                <h5>项目附件</h5>
+                <ul class="list-unstyled project-files">
+                    {% query_task_attachment_by_tasid task_obj.tasid as p_attachment_list %}
+                         <div class="form-group  " style="margin-bottom: 0px" >
+                            <label class="form-label" >任务描述:</label>
+                            <span id="task_title" >{{ task_obj.content }}</span>
+                        </div>
+                        {% for obj in p_attachment_list %}
+                         <div class="form-group "  >
+                            <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                            <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
+                            <label class="form-label" for="task_title"  >附件描述:</label>
+                            <span id="task_title" >{{ obj.description }}</span>
+                         </div>
+                     {% endfor %}
+                </ul>
+
+                <div class="m-t-md">
+
+
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock%}

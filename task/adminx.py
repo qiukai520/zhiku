@@ -19,17 +19,59 @@ class GlobalSettings(object):
 
 # admin models
 
+
 class TaskAdmin(object):
     """工作任务后台管理"""
     # 数据展示
-    list_display = ['tid','title', 'content', 'perfor','cycle','start_time','deadline']
-    field = ['tid','title', 'content', 'type', 'issuer', 'perfor','cycle','start_time','deadline']
+    list_display = ['tid','title', 'content', 'type','cycle','create_time',]
+    field = ['tid','title', 'content', 'type','cycle','create_time']
     # 筛选(后台管理页面中的过滤器)
-    list_filter = ['type', 'deadline']
+    list_filter = ['type']
     # 查询
     search_fields =['title', 'content']
     # 后台自定义默认排序
-    ordering = ['-deadline']
+    ordering = ['-create_time']
+    # 后台直接在表上修改数据
+    list_editable = []
+    # 自定义后台系统的icon
+    model_icon = 'fa fa-cog'
+    # xadmin/plugins/refresh插件定时刷新页面
+    refresh_times = [60]  # 后台可选择10秒刷新一次或者60秒刷新一次
+    # 后台自定义字段只可读
+    readonly_fields = []
+
+
+class TaskAdmin(object):
+    """工作任务后台管理"""
+    # 数据展示
+    list_display = ['tid','title', 'content', 'type','cycle','create_time',]
+    field = ['tid','title', 'content', 'type','cycle','create_time']
+    # 筛选(后台管理页面中的过滤器)
+    list_filter = ['type']
+    # 查询
+    search_fields =['title', 'content']
+    # 后台自定义默认排序
+    ordering = ['-create_time']
+    # 后台直接在表上修改数据
+    list_editable = []
+    # 自定义后台系统的icon
+    model_icon = 'fa fa-cog'
+    # xadmin/plugins/refresh插件定时刷新页面
+    refresh_times = [60]  # 后台可选择10秒刷新一次或者60秒刷新一次
+    # 后台自定义字段只可读
+    readonly_fields = []
+
+
+class TaskMapAdmin(object):
+    """工作任务后台管理"""
+    # 数据展示
+    list_display = ['tid','assigner', 'team', 'is_finish',"status",'cycle','start_time',"deadline",'create_time']
+    # 筛选(后台管理页面中的过滤器)
+    list_filter = ['team','tid']
+    # 查询
+    search_fields =['tid', 'content']
+    # 后台自定义默认排序
+    ordering = ['-create_time']
     # 后台直接在表上修改数据
     list_editable = []
     # 自定义后台系统的icon
@@ -74,10 +116,10 @@ class TaskTypeAdmin(object):
 
 class TaskAssignAdmin(object):
     """任务指派后台管理"""
-    list_display = ['tasid','tid', 'title', 'content', 'member_id','progress', 'deadline','create_time','last_edit']
-    list_filter = ['tid','member_id', 'deadline']
+    list_display = ['tasid','tmid', 'title', 'content', 'member_id','progress', 'deadline','create_time','last_edit']
+    list_filter = ['tmid','member_id', 'deadline']
     search_fields = ['title', 'content']
-    fields = ['tid', 'title', 'content', 'member_id', 'deadline','create_time','last_edit']
+    fields = ['tmid', 'title', 'content', 'member_id', 'deadline','create_time','last_edit']
     model_icon = 'fa fa-cog'
 
 
@@ -107,8 +149,8 @@ class TaskAssignTagAdmin(object):
 
 class TaskReviewAdmin(object):
     """任务审核记录后台管理"""
-    list_display = ["tvid",'tid','sid','follow']
-    list_filter = ['tid']
+    list_display = ["tvid",'tmid','sid','follow']
+    list_filter = ['tmid']
     search_fields = []
     model_icon = 'fa fa-cog'
 
@@ -179,6 +221,7 @@ xadmin.site.register(TaskTag, TaskTagAdmin)
 xadmin.site.register(TaskAttachment, TaskAttachmentAdmin)
 xadmin.site.register(TaskCycle, TaskCycleAdmin)
 xadmin.site.register(TaskType,TaskTypeAdmin)
+xadmin.site.register(TaskMap, TaskMapAdmin)
 xadmin.site.register(TaskAssign, TaskAssignAdmin)
 xadmin.site.register(TaskAssignAttach, TaskAssignAttachAdmin)
 xadmin.site.register(TaskAssignTag, TaskAssignTagAdmin)
