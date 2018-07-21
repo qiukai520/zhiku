@@ -21,7 +21,9 @@ from task import views
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
-    path('index/', views.index, name='index'),
+    path('index.html', views.index, name='index'),
+    path('login.html', views.login, name='login'),
+    path('logout.html', views.logout, name='logout'),
     path('task_publish.html', views.publish_task, name="publish_task"),
     path('attachment_upload.html', views.attachment_upload, name='attachment_upload'),
     path("attachment_download.html",views.attachment_download, name="attachment_download"),

@@ -6,14 +6,15 @@ from django.core import serializers
 from django.db import transaction
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse,redirect
-from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm,TaskReviewForm,TaskSortForm,TaskMapForm
+from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm,TaskReviewForm,TaskSortForm,TaskMapForm,LoginForm
 from .server import *
 from .utils import build_attachment_info, build_tags_info, build_reviewer_info, compare_json,build_assign_tags_info,build_assign_attach_info
-
+from django.contrib import auth
 # Create your views here.
 
 
 def index(request):
+    print(request.user.username)
     return render(request,'index_v3.html')
 
 
@@ -881,6 +882,42 @@ def complete_task(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
     return HttpResponse(json.dumps(ret))
+
+
+def logout(request):
+    auth.logout(request)
+    return render(request,'login.html')
+
+
+def login(request):
+    """
+       登陆
+       :param request:
+       :return:
+       """
+    next_url = request.GET.get("next", None)
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    elif request.method == 'POST':
+        if  not next_url:
+            next_url = "index.html"
+        result = {'status': False, 'message': None, 'data': None, 'next_url': next_url}
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            _username = form.cleaned_data.get('username')
+            _password = form.cleaned_data.get('password')
+            user = auth.authenticate(username=_username, password=_password)
+            if not user:
+                 result['message'] = '用户名或密码错误'
+            else:
+                 auth.login(request, user)
+                 result['status'] = True
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            result['message'] = firsterror
+        print(result)
+        return HttpResponse(json.dumps(result))
 
 
 def attachment_upload(request):

@@ -53,3 +53,8 @@ class TaskReviewForm(django_forms.Form):
     is_complete = django_fields.IntegerField(error_messages={"required": "审核状态不能为空"})
     reason = django_fields.CharField(required=False)
     evaluate = django_fields.FloatField(required=False)
+
+
+class LoginForm(django_forms.Form):
+    username = django_fields.CharField(error_messages={"required":"用户名不能为空"})
+    password = django_fields.CharField(error_messages={"required":"密不能为空"})

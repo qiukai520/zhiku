@@ -465,8 +465,8 @@ function UploadFile(ths){
     var file_obj = $(ths)[0].files[0];
     var  fileSize = file_obj.size;
     var size = fileSize / 1024;
-    if(size>5000){
-         alert("附件不能大于5M");
+    if(size>2000){
+         alert("附件不能大于2M");
          $(ths)[0].value="";
          return false;   //阻止上传
          }
