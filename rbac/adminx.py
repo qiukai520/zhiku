@@ -25,6 +25,7 @@ class MenuAdmin(object):
     refresh_times = [60]  # 后台可选择10秒刷新一次或者60秒刷新一次
     # 后台自定义字段只可读
     readonly_fields = []
+    model_icon =' fa-fw fa fa-group'
 
 
 class GroupAdmin(object):
