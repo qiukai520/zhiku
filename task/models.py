@@ -1,10 +1,12 @@
 
 from django.db import models
+from rbac.models import Role
+from django.contrib.auth.models import User
 
 
 class Department(models.Model):
     id = models.AutoField(primary_key=True)
-    department = models.CharField(max_length=32, blank=True, null=True,verbose_name='部门')
+    department = models.CharField(max_length=32, blank=True, null=True, verbose_name='部门')
 
     class Meta:
         db_table = 'department'
@@ -33,15 +35,38 @@ class Performemce(models.Model):
 
 
 class Staff(models.Model):
+    sex_choice = ((0,"男"),(1,"女"))
+    delete_status_choice = ((0, '已删除'), (1, '保留'))
     sid = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=64,verbose_name='员工姓名')
+    job_number = models.CharField(max_length=32, verbose_name='工号',blank=True, null=True)
+    user = models.OneToOneField(User,on_delete=models.CASCADE, db_constraint=False,verbose_name="用户",blank=True, null=True)
+    name = models.CharField(max_length=32, verbose_name='员工姓名')
+    sex = models.SmallIntegerField(choices=sex_choice, verbose_name="性别",default=0)
+    phone = models.IntegerField(verbose_name="手机号码",blank=True, null=True)
+    email = models.EmailField(verbose_name="邮箱",blank=True, null=True)
+    company = models.CharField(max_length=128,verbose_name="公司名称",blank=True, null=True)
+    project = models.CharField(max_length=64,verbose_name="所在项目",blank=True, null=True)
     department = models.ForeignKey('Department',to_field="id", on_delete=models.CASCADE, db_constraint=False, default=1, verbose_name='所属部门')
+    current_project = models.CharField(max_length=64, verbose_name="职级",blank=True, null=True)
+    birthday = models.DateField(verbose_name="生日",blank=True, null=True)
+    hire_day = models.DateField(verbose_name="入职日期",blank=True, null=True)
+    native_place = models.CharField(max_length=64,verbose_name="籍贯", blank=True, null=True)
+    nationality = models.CharField(max_length=32,verbose_name='民族', blank=True, null=True)
+    education = models.CharField(max_length=32,verbose_name='学历', blank=True, null=True)
+    roles = models.ManyToManyField(Role, verbose_name="具有的所有的角色", blank=True)
+    delete_status = models.SmallIntegerField(choices=delete_status_choice,default=1, verbose_name='删除状态')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
 
     class Meta:
         db_table = 'staff'
         verbose_name = '员工'
         verbose_name_plural = '员工'
-
+        permissions = (('publish_task',u"发布任务"),  # 权限字段名称及其解释)
+                                   ('task_edit', u"任务编辑"),
+                                   ('task_detail',u"任务详情"), )
+    
     def __str__(self):
         return self.name
 
@@ -110,7 +135,7 @@ class TaskMap(models.Model):
 
 class TaskAssign(models.Model):
     is_finish = ((0, '未通过'), (1, '通过'))
-    delete_status = ((0, '已删除'), (1, '保留'))
+    delete_status_choice = ((0, '已删除'), (1, '保留'))
     tasid = models.AutoField(primary_key=True)
     tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
     member_id = models.ForeignKey('Staff', to_field="sid", on_delete=models.CASCADE, verbose_name='员工',
@@ -120,7 +145,7 @@ class TaskAssign(models.Model):
     deadline = models.DateTimeField(blank=True, null=True, verbose_name='截止时间')
     progress = models.SmallIntegerField(default=0, verbose_name='完成进度(%)')
     is_finish = models.SmallIntegerField(choices=is_finish, default=0, verbose_name='审核状态')
-    delete_status = models.SmallIntegerField(choices=delete_status,default=1, verbose_name='删除状态')
+    delete_status = models.SmallIntegerField(choices=delete_status_choice,default=1, verbose_name='删除状态')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
@@ -222,13 +247,13 @@ class TaskReviewRecord(models.Model):
 
 
 class TaskReview(models.Model):
-    delete_status = ((0, '已删除'), (1, '保留'))
+    delete_status_choice = ((0, '已删除'), (1, '保留'))
     tvid = models.AutoField(primary_key=True)
     tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
     sid = models.ForeignKey("Staff", to_field='sid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='审核人')
     follow = models.IntegerField(verbose_name='审核顺序')
-    delete_status = models.SmallIntegerField(choices=delete_status,default=1, verbose_name='删除状态')
+    delete_status = models.SmallIntegerField(choices=delete_status_choice,default=1, verbose_name='删除状态')
 
     class Meta:
         db_table = 'task_review'

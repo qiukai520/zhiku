@@ -205,10 +205,11 @@ class DepartmentAdmin(object):
 
 class StaffAdmin(object):
     """后台管理"""
-    list_display = ['sid','name',"department"]
+    list_display = ['sid','job_number','name',"sex","user","phone","company","department","current_project","hire_day"]
     list_filter = ['name', "department"]
     search_fields = ['name', 'department', ]
     model_icon = 'fa fa-user'
+    style_fields = {'roles': 'm2m_transfer'}
 
 
 # settings

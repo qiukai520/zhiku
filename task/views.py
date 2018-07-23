@@ -10,14 +10,17 @@ from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskF
 from .server import *
 from .utils import build_attachment_info, build_tags_info, build_reviewer_info, compare_json,build_assign_tags_info,build_assign_attach_info
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required,permission_required
 # Create your views here.
 
 
+@login_required()
 def index(request):
-    print(request.user.username)
     return render(request,'index_v3.html')
 
 
+@permission_required('task.publish_task', raise_exception=True)
+@login_required()
 def publish_task(request):
     """创建任务"""
     method = request.method
@@ -60,6 +63,7 @@ def publish_task(request):
         return HttpResponse(json.dumps(ret))
 
 
+@login_required()
 def task_edit(request):
     """任务编辑"""
     method = request.method
@@ -129,13 +133,13 @@ def task_edit(request):
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
 
-
+@login_required()
 def task_detail(request):
     tmid = request.GET.get("tmid", None)
     task_obj = task_map_db.query_task_by_tmid(tmid)
     return render(request, 'task/task_detail.html', {"task_obj": task_obj})
 
-
+@login_required()
 def task_base_detail(request):
     tid = request.GET.get("tid", None)
     # 据任务分配ID获取内容
@@ -176,19 +180,17 @@ def task_base_detail(request):
 #         ret["message"] = "删除失败"
 #     return HttpResponse(json.dumps(ret))
 
-
+@login_required()
 def task_delete(request):
     """任务软删除"""
     ret = {'status': False, "data": "", "message": ""}
     ids = request.GET.get("ids", '')
     ids = ids.split("|")
-    print(ids)
     # 转化成数字
     id_list = []
     for item in ids:
         if item:
             id_list.append(int(item))
-    print(id_list)
     status = {"status": 0}
     try:
         task_db.multi_delete_task(id_list, status)
@@ -197,7 +199,6 @@ def task_delete(request):
         print(e)
         ret['status'] = "删除失败"
     return HttpResponse(json.dumps(ret))
-
 
 
 # def task_mutil_assign(request):
@@ -505,7 +506,6 @@ def personal_task_review(request):
         task_review = task_review_db.query_task_reviewer_by_sid(user_id)
         tmid_list = []
         for item in task_review:
-            print(item)
             tmid_list.append(item.tmid_id)
         # 获取相应的任务
         query_sets = task_map_db.query_task_by_tids(tmid_list)
@@ -641,7 +641,6 @@ def show_assign_content(request):
         except Exception as e:
             print(e)
             ret['message'] = "查询不到相关信息"
-        print(ret)
     return HttpResponse(json.dumps(ret))
 
 
@@ -908,15 +907,15 @@ def login(request):
             _password = form.cleaned_data.get('password')
             user = auth.authenticate(username=_username, password=_password)
             if not user:
-                 result['message'] = '用户名或密码错误'
+                result['message'] = '用户名或密码错误'
             else:
-                 auth.login(request, user)
-                 result['status'] = True
+                auth.login(request, user)
+                result['status'] = True
+                print("login")
         else:
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
             result['message'] = firsterror
-        print(result)
         return HttpResponse(json.dumps(result))
 
 
