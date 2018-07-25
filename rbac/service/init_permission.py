@@ -43,5 +43,4 @@ def init_permission(user,request):
                 "code":[code,],
                 "urls":[url,]
             }
-    # print(result)
     request.session[settings.PERMISSION_URL_DICT_KEY] = result

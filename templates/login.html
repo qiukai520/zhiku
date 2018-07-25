@@ -501,6 +501,7 @@ a、"这叼毛没经过我同意就私自决定，明天...
                         success: function (arg) {
                             if(arg.status){
                                 console.log(arg.next_url)
+                                console.log(arg.message)
                                 window.location.href = arg.next_url;
                             }
                             else{

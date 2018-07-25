@@ -114,7 +114,7 @@ def build_task_review_ele(tmid):
     if task_review_ids:
         for item in task_review_ids:
             staff = staff_db.query_staff_by_id(item.sid_id)
-            if staff.name:
+            if staff:
                 ele = "<span>{0};</span>".format(staff.name)
                 ele_list += ele
     else:
@@ -164,7 +164,6 @@ def change_to_task_way(team_id):
 def change_to_task_type(tpid):
     """转化成任务类型"""
     task_type = task_type_db.query_task_type_by_id(tpid)
-    print("task_type",task_type)
     return task_type.name
 
 @register.simple_tag
@@ -228,24 +227,25 @@ def bulid_assign_member_list(tmid,deadline):
     for item in task_assign_list:
         # 获取对象信息
         member = staff_db.query_staff_by_id(item.member_id_id)
-        # 获取任务提交记录
-        last_commit_record = task_submit_record_db.query_last_submit_record(item.tasid)
-        if last_commit_record:
-            completion = last_commit_record.completion
-            last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
-            if completion:
-                status = str(completion)+"%"
-        else:
-            status = "进行中"
-            last_edit = ''
-        # 构建指派对象列表
-        ele = """<li data-toggle="modal" onclick="MemberAssignShow(this)"><span class="member_name"  >{0}</span>  &nbsp
-        <span style="color: blue" class="glyphicon glyphicon-plus plus " ></span> &nbsp <span >{1}</span> &nbsp<span style="color:#9F9F9F">{2}</span></li>
-        <input type="text " class="hidden" name="tasid" value='{3}'>
-        <input type="text " class="hidden" name="member_id" value='{4}'>
-         <input type="text " class="hidden" name="deadline" value='{5}'>
-        """.format(member.name, status, last_edit,item.tasid, item.member_id, deadline)
-        eles += ele
+        if member:
+            # 获取任务提交记录
+            last_commit_record = task_submit_record_db.query_last_submit_record(item.tasid)
+            if last_commit_record:
+                completion = last_commit_record.completion
+                last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
+                if completion:
+                    status = str(completion)+"%"
+            else:
+                status = "进行中"
+                last_edit = ''
+            # 构建指派对象列表
+            ele = """<li data-toggle="modal" onclick="MemberAssignShow(this)"><span class="member_name"  >{0}</span>  &nbsp
+            <span style="color: blue" class="glyphicon glyphicon-plus plus " ></span> &nbsp <span >{1}</span> &nbsp<span style="color:#9F9F9F">{2}</span></li>
+            <input type="text " class="hidden" name="tasid" value='{3}'>
+            <input type="text " class="hidden" name="member_id" value='{4}'>
+             <input type="text " class="hidden" name="deadline" value='{5}'>
+            """.format(member.name, status, last_edit,item.tasid, item.member_id, deadline)
+            eles += ele
     eles += "</ul>"
     return mark_safe(eles)
 
@@ -258,19 +258,20 @@ def bulid_review_list(tmid):
     for item in task_assign_list:
         # 获取对象信息
         member = staff_db.query_staff_by_id(item.member_id_id)
-        # 如果有记录表示已审核
-        if item.is_finish:
-            status = "通过"
-            last_edit.last_edit.strftime("%Y-%m-%d")
-        else:
-            status = "审核中"
-            last_edit = ''
-            # 构建任务审核对象列表
-        ele = """<li > <a  style="color:blue" href="task_review_record.html?tasid={0}">{1} &nbsp
-                 <span style="color:red"> [ </span><span>{2}</span><span style="color:red"> ] 
-                  </span></a> &nbsp<span style="color:#9F9F9F">{3}</span></li>
-                  """.format(item.tasid, member.name, status, last_edit)
-        eles += ele
+        if member:
+            # 如果有记录表示已审核
+            if item.is_finish:
+                status = "通过"
+                last_edit.last_edit.strftime("%Y-%m-%d")
+            else:
+                status = "审核中"
+                last_edit = ''
+                # 构建任务审核对象列表
+            ele = """<li > <a  style="color:blue" href="task_review_record.html?tasid={0}">{1} &nbsp
+                     <span style="color:red"> [ </span><span>{2}</span><span style="color:red"> ] 
+                      </span></a> &nbsp<span style="color:#9F9F9F">{3}</span></li>
+                      """.format(item.tasid, member.name, status, last_edit)
+            eles += ele
     eles += "</ul>"
     return mark_safe(eles)
 
@@ -283,51 +284,51 @@ def bulid_person_review_list(user_id,tmid):
     for item in task_assign_list:
         # 获取对象信息
         member = staff_db.query_staff_by_id(item.member_id_id)
-        # 根据用户sid和任务id获取审核
-        task_review = task_review_db.query_task_reviewer_by_tid_sid(tmid, user_id)
-        # 查看是否为次序审核,大于0则为次序审核
-        flag = True
-        if task_review.follow > 1:
-            pre_follow = task_review.follow
-            pre_obj = task_review_db.query_task_reviewer_by_tid_follow(tmid,pre_follow)
-            last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(pre_obj.tvid,
-                                                                                                       item.tasid)
-            if last_review_record:
-                if last_review_record.is_complete == 0:
+        if member:
+            # 根据用户sid和任务id获取审核
+            task_review = task_review_db.query_task_reviewer_by_tid_sid(tmid, user_id)
+            # 查看是否为次序审核,大于0则为次序审核
+            flag = True
+            if task_review.follow > 1:
+                pre_follow = task_review.follow
+                pre_obj = task_review_db.query_task_reviewer_by_tid_follow(tmid,pre_follow)
+                last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(pre_obj.tvid,
+                                                                                                           item.tasid)
+                if last_review_record:
+                    if last_review_record.is_complete == 0:
+                        flag = False
+                else:
                     flag = False
-            else:
-                flag = False
-        if flag:
-            # 获取任务最后一次审核记录
-            last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(task_review.tvid, item.tasid)
-            # 获取任务提交记录
-            last_commit_record = task_submit_record_db.query_last_submit_record(item.tasid)
-            # 如果有记录表示已审核
-            if last_review_record:
-                is_review = "已审核"
-                last_edit=last_review_record.create_time.strftime("%Y-%m-%d")
-                if last_review_record.is_complete:
-                    status = "通过"
+            if flag:
+                # 获取任务最后一次审核记录
+                last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(task_review.tvid, item.tasid)
+                # 获取任务提交记录
+                last_commit_record = task_submit_record_db.query_last_submit_record(item.tasid)
+                # 如果有记录表示已审核
+                if last_review_record:
+                    is_review = "已审核"
+                    last_edit=last_review_record.create_time.strftime("%Y-%m-%d")
+                    if last_review_record.is_complete:
+                        status = "通过"
+                    else:
+                        status = '驳回'
+                # 如果没有记录表示未审核
                 else:
-                    status = '驳回'
-            # 如果没有记录表示未审核
+                    is_review = "未审核"
+                    if last_commit_record:
+                        completion = last_commit_record.completion
+                        last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
+                        status ="完成度："+str(completion) + "%"
+                    else:
+                        status = "进行中"
+                        last_edit = ''
+                    # 构建任务审核对象列表
+                ele = """<li > <a  style="color:blue" href="task_review.html?tasid={0}">{1} &nbsp
+                          <span >{2}</span> &nbsp<span style="color:red"> [ </span><span>{3}</span><span style="color:red"> ] 
+                          </span></a> &nbsp<span style="color:#9F9F9F">{4}</span></li>
+                          """.format(item.tasid,member.name, is_review, status,last_edit)
             else:
-                is_review = "未审核"
-                if last_commit_record:
-                    completion = last_commit_record.completion
-                    last_edit = last_commit_record.last_edit.strftime("%Y-%m-%d")
-                    status ="完成度："+str(completion) + "%"
-                else:
-                    status = "进行中"
-                    last_edit = ''
-                # 构建任务审核对象列表
-            ele = """<li > <a  style="color:blue" href="task_review.html?tasid={0}">{1} &nbsp
-                      <span >{2}</span> &nbsp<span style="color:red"> [ </span><span>{3}</span><span style="color:red"> ] 
-                      </span></a> &nbsp<span style="color:#9F9F9F">{4}</span></li>
-                      """.format(item.tasid,member.name, is_review, status,last_edit)
-            eles += ele
-        else:
-            ele = """<li ><span style="color:blue" >{0}</span> &nbsp<span style="color:red"> [ </span><span>上一审核人还未审核</span><span style="color:red"> ] 
+                ele = """<li ><span style="color:blue" >{0}</span> &nbsp<span style="color:red"> [ </span><span>上一审核人还未审核</span><span style="color:red"> ] 
                                  </span></li>
                                  """.format(member.name)
             eles += ele
@@ -360,16 +361,12 @@ def build_record_tags_ele(tsid):
 
 @register.simple_tag
 def query_task_by_tid(tid):
-    print("tid",tid)
     result_db = task_db.query_task_by_tid(tid)
-    print("result_db",result_db)
     return result_db
 
 @register.simple_tag
 def query_task_map_by_tmid(tmid):
-    print("tmid",tmid)
     result_db = task_map_db.query_task_by_tmid(tmid)
-    print("task_map",result_db)
     return result_db
 
 
@@ -436,15 +433,14 @@ def build_task_assign_tags_list(tasid):
 @register.simple_tag
 def fetch_task_assing_member(tmid):
     """获取任务成员"""
-    print("tmid",tmid)
     task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
-    print("assign_list", task_assign_list)
     eles = ''
     if task_assign_list:
         for item in task_assign_list:
             member = staff_db.query_staff_by_id(item.member_id_id)
-            ele = "<a href='task_review_record.html?tasid={0}'>{1};&nbsp</a>".format(item.tasid, member.name)
-            eles+= ele
+            if member:
+                ele = "<a href='task_review_record.html?tasid={0}'>{1};&nbsp</a>".format(item.tasid, member.name)
+                eles+= ele
     else:
         ele = "<span>暂未指派</span> &nbsp<a href='task_assign_center.html'>去指派</a>"
         eles += ele
@@ -467,7 +463,6 @@ def fetch_review_follow(tmid):
 @register.simple_tag
 def fetch_task_map_record(tid):
     result_db = task_map_db.query_task_by_tid(tid)
-    print("task_record",result_db)
     return result_db
 
 
@@ -517,11 +512,12 @@ def fetch_task_assign_member_by_tasid(tasid,show=1):
     task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)
     task_assign_obj = task_assign_obj.first()
     staff_obj = staff_db.query_staff_by_id(task_assign_obj.member_id_id)
-    if show:
-        ele = "<a href='task_review_record.html?tasid={0}'>{1}&nbsp</a>".format(tasid, staff_obj.name)
-    else:
-        ele="<span>{0}</span>".format(staff_obj.name)
-    return mark_safe(ele)
+    if staff_obj:
+        if show:
+            ele = "<a href='task_review_record.html?tasid={0}'>{1}&nbsp</a>".format(tasid, staff_obj.name)
+        else:
+            ele ="<span>{0}</span>".format(staff_obj.name)
+        return mark_safe(ele)
 
 
 @register.simple_tag

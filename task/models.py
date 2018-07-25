@@ -39,7 +39,7 @@ class Staff(models.Model):
     delete_status_choice = ((0, '已删除'), (1, '保留'))
     sid = models.AutoField(primary_key=True)
     job_number = models.CharField(max_length=32, verbose_name='工号',blank=True, null=True)
-    user = models.OneToOneField(User,on_delete=models.CASCADE, db_constraint=False,verbose_name="用户",blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,verbose_name="用户",blank=True, null=True)
     name = models.CharField(max_length=32, verbose_name='员工姓名')
     sex = models.SmallIntegerField(choices=sex_choice, verbose_name="性别",default=0)
     phone = models.IntegerField(verbose_name="手机号码",blank=True, null=True)

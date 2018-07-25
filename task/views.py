@@ -14,13 +14,14 @@ from django.contrib.auth.decorators import login_required,permission_required
 # Create your views here.
 
 
-@login_required()
 def index(request):
+    print(request.session['user_info'])
+    print(request.path_info)
+    print(request.path)
+    staff = request.user.staff
     return render(request,'index_v3.html')
 
 
-@permission_required('task.publish_task', raise_exception=True)
-@login_required()
 def publish_task(request):
     """创建任务"""
     method = request.method
@@ -894,12 +895,13 @@ def login(request):
        :param request:
        :return:
        """
+    from rbac.service.init_permission import init_permission
     next_url = request.GET.get("next", None)
     if request.method == 'GET':
         return render(request, 'login.html')
     elif request.method == 'POST':
-        if  not next_url:
-            next_url = "index.html"
+        if not next_url:
+            next_url = "/index/"
         result = {'status': False, 'message': None, 'data': None, 'next_url': next_url}
         form = LoginForm(data=request.POST)
         if form.is_valid():
@@ -910,6 +912,11 @@ def login(request):
                 result['message'] = '用户名或密码错误'
             else:
                 auth.login(request, user)
+                if hasattr(user,"staff"):
+                    user_obj = user.staff
+                    request.session["user_info"] = {"user_id": user_obj.sid,
+                                                    "user_name": user_obj.name}
+                    init_permission(user_obj, request)
                 result['status'] = True
                 print("login")
         else:

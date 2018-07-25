@@ -52,8 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'rbac.middlewares.rbac.LoginMiddleware',
-    # 'rbac.middlewares.rbac.RbacMiddleware',
+    'rbac.middlewares.rbac.LoginMiddleware',
+    'rbac.middlewares.rbac.RbacMiddleware',
 ]
 
 ROOT_URLCONF = 'thinking_library.urls'
@@ -138,7 +138,7 @@ STATICFILES_DIRS = (
    os.path.join(BASE_DIR, 'static'),
 )
 
-LOGIN_URL = '/login.html'
+# LOGIN_URL = '/login/'
 
 
 # ################## Rbac配置 ###################
@@ -147,6 +147,8 @@ PERMISSION_URL_DICT_KEY = "permission_url_dict"
 PERMISSION_MENU_KEY = "afsdfasdfadfsdfsdf"
 
 VALID_URL = [
-    "/login.html",
-    "/index.html",
+    "/login/",
+    "/index/",
+    "/xadmin/",
+    "/logout/"
 ]
