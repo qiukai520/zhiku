@@ -84,7 +84,10 @@
 
                     <li>
                         <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">工作任务管理</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
+                        <ul id="left_menu" class="nav nav-second-level">
+{#                            {% fetch_task_permission  requset.user  as task_permission%}#}
+                            {% if req %}
+
                             <li>
                                 <a  href="{% url "personal_task_list" %}">我的任务</a>
                             </li>

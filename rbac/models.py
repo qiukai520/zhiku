@@ -41,7 +41,7 @@ class Permission(models.Model):
     """
     title = models.CharField(verbose_name="标题", max_length=32)
     url = models.CharField(max_length=64, verbose_name="含正则的url")
-    menu_gp = models.ForeignKey(verbose_name="组内菜单", on_delete=models.CASCADE,to="Permission", null=True, blank=True, related_name="x1")
+    menu_gp = models.ForeignKey(verbose_name="组内菜单", on_delete=models.CASCADE, to="Permission", null=True, blank=True, related_name="x1")
     code = models.CharField(verbose_name="代码", max_length=16)
     group = models.ForeignKey(verbose_name="所属组", to="Group",on_delete=models.CASCADE)
 
@@ -60,6 +60,7 @@ class Role(models.Model):
     """
     title = models.CharField(max_length=32)
     permission = models.ManyToManyField(verbose_name="具有的所有的权限", to="Permission", blank=True)
+
 
     class Meta:
         db_table = 'role'

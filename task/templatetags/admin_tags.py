@@ -171,7 +171,11 @@ def change_to_staff(sid):
     """获取根据id员工"""
     issuer = staff_db.query_staff_by_id(sid)
     if issuer:
-        return issuer.name
+        name =  issuer.name
+    else:
+        name ="无"
+    return name
+
 
 @register.simple_tag
 def change_to_task_cycle(tcid):
@@ -239,8 +243,8 @@ def bulid_assign_member_list(tmid,deadline):
                 status = "进行中"
                 last_edit = ''
             # 构建指派对象列表
-            ele = """<li data-toggle="modal" onclick="MemberAssignShow(this)"><span class="member_name"  >{0}</span>  &nbsp
-            <span style="color: blue" class="glyphicon glyphicon-plus plus " ></span> &nbsp <span >{1}</span> &nbsp<span style="color:#9F9F9F">{2}</span></li>
+            ele = """<li data-toggle="modal" onclick="MemberAssignShow(this)"><span style="color: #1ab394" class="member_name"  >{0}</span>  &nbsp
+            <span style="color: #1ab394" class="glyphicon glyphicon-plus plus " ></span> &nbsp <span >{1}</span> &nbsp<span style="color:#9F9F9F">{2}</span></li>
             <input type="text " class="hidden" name="tasid" value='{3}'>
             <input type="text " class="hidden" name="member_id" value='{4}'>
              <input type="text " class="hidden" name="deadline" value='{5}'>
@@ -267,7 +271,7 @@ def bulid_review_list(tmid):
                 status = "审核中"
                 last_edit = ''
                 # 构建任务审核对象列表
-            ele = """<li > <a  style="color:blue" href="task_review_record.html?tasid={0}">{1} &nbsp
+            ele = """<li > <a  style="color:#1ab394" href="review_record?tasid={0}">{1} &nbsp
                      <span style="color:red"> [ </span><span>{2}</span><span style="color:red"> ] 
                       </span></a> &nbsp<span style="color:#9F9F9F">{3}</span></li>
                       """.format(item.tasid, member.name, status, last_edit)
@@ -361,6 +365,8 @@ def build_record_tags_ele(tsid):
 
 @register.simple_tag
 def query_task_by_tid(tid):
+    print("tid",tid)
+    tid = int(tid)
     result_db = task_db.query_task_by_tid(tid)
     return result_db
 

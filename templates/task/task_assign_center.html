@@ -100,7 +100,7 @@
                                               <td>{% change_to_staff obj.issuer_id %}</td>
                                               <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
                                                 <td>
-                                                    <a  href="{%url "task_detail" %}?tid={{ obj.tid }}" class="btn btn-info"  >详请</a>
+                                                    <a  href="{%url "task_base_detail" %}?tid={{ obj.tid }}" class="btn btn-info"  >详请</a>
                                                    <a  href="{%url "task_edit" %}?tid={{ obj.tid }}" class="btn btn-primary" >编辑</a>
                                               </td>
                                         </tr>

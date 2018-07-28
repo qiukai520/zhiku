@@ -15,8 +15,9 @@ Including another URLconf
 """
 import xadmin
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from task import views
+import task
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -24,34 +25,7 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
-    path('task_publish.html', views.publish_task, name="publish_task"),
+    path("task/", include('task.urls')),
     path('attachment_upload.html', views.attachment_upload, name='attachment_upload'),
-    path("attachment_download.html",views.attachment_download, name="attachment_download"),
-    path('task_assign_center.html', views.task_assign_center, name='task_assign_center'),
-    path('task_edit.html', views.task_edit, name='task_edit'),
-    path('task_delete_html', views.task_delete, name="task_delete"),
-    path("task_detail.html", views.task_detail, name="task_detail"),
-    path("task_base_detail.html", views.task_base_detail, name="task_base_detail"),
-    # path("task_team_assign.html", views.task_team_assign, name="task_team_assign"),
-    path("task_assign.html", views.task_assign, name="task_assign"),
-    path('task_assigned_list.html', views.task_assign_list, name="task_assign_list"),
-    path('task_assign_edit.html', views.task_assign_edit, name="task_assign_edit"),
-    path('task_map_edit.html', views.task_map_edit, name="task_map_edit"),
-    # path('task_mutil_assign.html', views.task_mutil_assign, name="task_mutil_assign"),
-    path('task_wait_review.html', views.task_wait_review, name="task_wait_review"),
-    path("task_review.html", views.task_review, name='task_review'),
-    path("task_review_record.html",views.task_review_record,name="task_review_record.html"),
-    path('task_sort_edit.html', views.task_sort_edit, name="task_sort_edit"),
-    path('task_sort_list.html', views.task_sort_list, name='task_sort_list'),
-    path('task_sort_delete.html', views.task_sort_delete, name="task_sort_delete"),
-    path('personal_task_review.html', views.personal_task_review, name='personal_task_review'),
-    path('personal_task_list.html', views.personal_task_list, name='personal_task_list'),
-    path('personal_task_detail.html', views.personal_task_detail, name='personal_task_detail'),
-    path('complete_task.html', views.complete_task, name='complete_task'),
-    path('show_assign_content.html', views.show_assign_content, name="show_assign_content"),
-    path('get_department_staff.html', views.department_staff, name="department_staff"),
-    path('performence_list.html', views.performence_display, name='performence_list'),
-    path('performence_edit.html', views.performence_edit, name="performence_edit"),
-    path('performence_delete.html',views.performence_delete, name="performence_delete"),
-
+    path("attachment_download.html", views.attachment_download, name="attachment_download"),
 ]

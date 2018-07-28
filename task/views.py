@@ -12,19 +12,21 @@ from .utils import build_attachment_info, build_tags_info, build_reviewer_info, 
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required,permission_required
 # Create your views here.
+from django.conf import settings
 
 
 def index(request):
     print(request.session['user_info'])
     print(request.path_info)
-    print(request.path)
     staff = request.user.staff
+    print("staff",staff.roles.filter(title="任务工作者").first().title)
     return render(request,'index_v3.html')
 
 
 def publish_task(request):
     """创建任务"""
     method = request.method
+    print(request.path)
     if method == "GET":
         return render(request, "task/task_edit.html", {"tid": 0})
     else:
@@ -138,6 +140,7 @@ def task_edit(request):
 def task_detail(request):
     tmid = request.GET.get("tmid", None)
     task_obj = task_map_db.query_task_by_tmid(tmid)
+    print("task_obj",task_obj)
     return render(request, 'task/task_detail.html', {"task_obj": task_obj})
 
 @login_required()
@@ -678,7 +681,7 @@ def task_sort_list(request):
 
 
 def task_sort_edit(request):
-    """"绩效添加或编辑"""
+    """"任务分类添加或编辑"""
     method = request.method
     if method == "GET":
         tpid = request.GET.get("tpid", None)
