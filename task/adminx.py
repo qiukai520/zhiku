@@ -187,11 +187,19 @@ class TaskReviewRecordAdmin(object):
     model_icon = 'fa fa-cog'
 
 
-class PerformemceAdmin(object):
+class PerformanceAdmin(object):
     """绩效后台管理"""
     list_display = ['pid', "name", 'personal_score','personal_total','team_score', 'team_total']
     list_filter = ["name"]
     search_fields = ['name']
+    model_icon = 'fa fa-cog'
+
+
+class PerformanceRecordAdmin(object):
+    """绩效后台管理"""
+    list_display = ['prid','sid',"tmid", 'score']
+    list_filter = ["sid"]
+    search_fields = ['sid']
     model_icon = 'fa fa-cog'
 
 
@@ -231,7 +239,8 @@ xadmin.site.register(TaskSubmitTag, TaskSubmitTagAdmin)
 xadmin.site.register(TaskSubmitAttachment,TaskSubmitAttachmentAdmin)
 xadmin.site.register(TaskReview, TaskReviewAdmin)
 xadmin.site.register(TaskReviewRecord,TaskReviewRecordAdmin)
-xadmin.site.register(Performemce,PerformemceAdmin)
+xadmin.site.register(Performance,PerformanceAdmin)
+xadmin.site.register(PerformanceRecord,PerformanceRecordAdmin)
 xadmin.site.register(Department, DepartmentAdmin)
 xadmin.site.register(Staff, StaffAdmin)
 

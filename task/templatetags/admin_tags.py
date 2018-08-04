@@ -10,11 +10,22 @@ register = template.Library()
 def build_department_ele():
     """构建部门下拉框"""
     dp_list = department_db.query_department_list()
-    eles = "<option value=0 >------</option>"
+    eles = ""
     for item in dp_list:
         ele = """<option value={0} >{1}</option>""".format(item.id, item.department)
         eles += ele
     return mark_safe(eles)
+
+@register.simple_tag
+def build_staff_ele():
+    """构建员工下拉框"""
+    dp_list = staff_db.query_staff_list()
+    eles = ""
+    for item in dp_list:
+        ele = """<option value={0} >{1}</option>""".format(item.sid, item.name)
+        eles += ele
+    return mark_safe(eles)
+
 
 @register.simple_tag
 def build_performence_ele():
@@ -169,9 +180,10 @@ def change_to_task_type(tpid):
 @register.simple_tag
 def change_to_staff(sid):
     """获取根据id员工"""
+    print(sid)
     issuer = staff_db.query_staff_by_id(sid)
     if issuer:
-        name =  issuer.name
+        name = issuer.name
     else:
         name ="无"
     return name

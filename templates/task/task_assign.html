@@ -129,7 +129,8 @@
                             <label for="department" class="control-label col-xs-2">指派对象：</label>
                            <div  class="col-xs-5">
                             <select name="department" id="department"  class="form-control  col-xs-8"  style="width: 65%"  data-live-search="true" onchange="FetchStaff2Assign(this)">
-                            {% build_department_ele %}
+                                <option value=0 >------</option>
+                                {% build_department_ele %}
                             </select>
                            </div>
                         </div>

@@ -26,27 +26,50 @@ class DepartmentDB(object):
         return result_db
 
 
-class PerformenceDB(object):
+class PerformanceDB(object):
     """绩效表"""
     def query_performence_list(self):
-        result_db = Performemce.objects.filter().all().order_by("-pid")
+        result_db = Performance.objects.filter().all().order_by("-pid")
         return result_db
 
     def query_performence_by_pid(self, pid):
-        result_db = Performemce.objects.filter(pid=pid).first()
+        result_db = Performance.objects.filter(pid=pid).first()
         return result_db
 
     def insert_performence(self, modify_info):
-        is_exists = Performemce.objects.filter(name=modify_info['name'])
+        is_exists = Performance.objects.filter(name=modify_info['name'])
         if is_exists:
             raise Exception('绩效已存在')
-        Performemce.objects.create(**modify_info)
+        Performance.objects.create(**modify_info)
 
     def update_performence(self, modify_info):
-        Performemce.objects.filter(pid=modify_info['pid']).update(**modify_info)
+        Performance.objects.filter(pid=modify_info['pid']).update(**modify_info)
 
     def mutil_delete_performence(self, id_list):
-        Performemce.objects.filter(pid__in=id_list).delete()
+        Performance.objects.filter(pid__in=id_list).delete()
+
+
+class PerformanceRecordDB(object):
+
+    def insert_performence_record(self, modify_info):
+        is_exists = PerformanceRecord.objects.filter(tmid=modify_info['tmid'], sid=modify_info['sid'])
+        if not is_exists:
+            PerformanceRecord.objects.create(**modify_info)
+
+    def update_performence_record(self, modify_info):
+        query_set = PerformanceRecord.objects.filter(tmid=modify_info["tmid"], sid=modify_info['sid']).first()
+        if query_set:
+            query_set.team_score=modify_info['team_score']
+            query_set.save()
+        else:
+            self.insert_performence_record(**modify_info)
+
+    def query_total_score(self):
+        result_db = PerformanceRecord.objects.raw("""select prid, sid_id,sum(personal_score) as total_score from performance_record GROUP BY sid_id""")
+        # cursor = connection.cursor()
+        # cursor.execute("""select sid_id,sum(score) as total_score from performance_record GROUP BY sid_id""")
+        # result_db = cursor.fetchall()
+        return result_db
 
 
 class TaskDB(object):
@@ -56,7 +79,6 @@ class TaskDB(object):
         {"id": 0, "caption": "删除"},
         {"id": 1, "caption": "启动"},
     )
-
 
     def insert_task(self, modify_info):
         task_sql = """insert into task(%s) value(%s);"""
@@ -150,7 +172,9 @@ class TaskMapDB(object):
         return tmid
 
     def update_task(self, modify_info):
-        TaskMap.objects.filter(tmid=modify_info['tmid']).update(**modify_info)
+        result_db=TaskMap.objects.filter(tmid=modify_info['tmid']).update(**modify_info)
+        print("result_db",result_db)
+        return result_db
 
     def query_task_lists(self):
         result_db = TaskMap.objects.filter().all().order_by("-tmid")
@@ -494,7 +518,8 @@ task_type_db = TaskTypeDB()
 task_attachment_db = TaskAttachmentDB()
 task_tag_db = TaskTagDB()
 task_review_db = TaskReviewDB()
-performence_db = PerformenceDB()
+performence_db = PerformanceDB()
+performance_record_db = PerformanceRecordDB()
 task_assign_db = TaskAssignDB()
 task_submit_record_db = TaskSubmitRecordDB()
 task_submit_attach_db = TaskSubmitAttachmentDB()

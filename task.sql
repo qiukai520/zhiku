@@ -34,8 +34,8 @@ create TABLE `task_map`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务指派';
 
 
-drop TABLE if exists `performemce`;
-create TABLE `performemce`(
+drop TABLE if exists `performance`;
+create TABLE `performance`(
 `pid` int(11) primary key auto_increment,
 `name` varchar(32) NOT NULL COMMENT '名称' unique,
 `personal_score` int(11)  NOT NULL COMMENT '个人分值',
@@ -47,6 +47,17 @@ create TABLE `performemce`(
 
 
 
+drop TABLE if exists `performance_record`;
+create TABLE `performance_record`(
+`prid` int(11) primary key auto_increment,
+`sid_id` int(11)  NOT NULL COMMENT '员工',
+`tmid_id` int(11)  NOT NULL COMMENT '任务',
+`personal_score` int(11)  NOT NULL COMMENT '个人分值',
+`team_score` int(11)  NOT NULL COMMENT '团队分值',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务绩效记录';
+alter table performance_record  ADD UNIQUE KEY `sid_tmid`(`sid_id`,`tmid_id`) USING BTREE;
 
 drop TABLE if exists `task_type`;
 create TABLE `task_type`(

@@ -17,21 +17,38 @@ class Department(models.Model):
         return self.department
 
 
-class Performemce(models.Model):
+class Performance(models.Model):
     pid = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=32,verbose_name='绩效名称')
+    name = models.CharField(unique=True, max_length=32, verbose_name='绩效名称')
     personal_score = models.IntegerField(verbose_name='个人分值')
     personal_total = models.IntegerField(verbose_name='个人总分')
     team_score = models.IntegerField(verbose_name='团队分值')
     team_total = models.IntegerField(verbose_name='团队总分')
 
     class Meta:
-        db_table = 'performemce'
+        db_table = 'performance'
         verbose_name = '绩效分类'
         verbose_name_plural = '绩效分类'
 
     def __str__(self):
         return self.name
+
+
+# 绩效记录
+class PerformanceRecord(models.Model):
+    prid = models.AutoField(primary_key=True)
+    sid = models.ForeignKey("Staff", to_field='sid', on_delete=models.CASCADE, db_constraint=False,
+                            verbose_name='员工')
+    tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
+    personal_score = models.IntegerField(verbose_name="个人分值", default=0)
+    team_score = models.IntegerField(verbose_name="团队分值", default=0)
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'performance_record'
+        verbose_name = '任务绩效记录'
+        verbose_name_plural = '任务绩效记录'
 
 
 class Staff(models.Model):
@@ -105,10 +122,10 @@ class TaskMap(models.Model):
 
     tmid = models.AutoField(primary_key=True)
     tid = models.ForeignKey("Task", to_field="tid", on_delete=models.CASCADE, verbose_name='任务',
-                             db_constraint = False)
+                            db_constraint = False)
     assigner = models.ForeignKey('Staff', to_field="sid", on_delete=models.CASCADE, verbose_name='指派人',
-                               db_constraint =False, parent_link=True)  # '指派人',
-    perfor = models.ForeignKey('Performemce', to_field='pid', on_delete=models.CASCADE, db_constraint=False,
+                                 db_constraint =False, parent_link=True)  # '指派人',
+    perfor = models.ForeignKey('Performance', to_field='pid', on_delete=models.CASCADE, db_constraint=False,
                                verbose_name='绩效分类')  # '绩效分类',
     execute_way = models.IntegerField(choices=execute_way_choice, verbose_name='执行方式')  # '0代表并行执行，1次序执行',
     teamwork_auth = models.IntegerField(choices=teamwork_auth_choice, default=1,
