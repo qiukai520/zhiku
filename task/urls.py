@@ -35,7 +35,6 @@ urlpatterns = [
     path('assign_content', views.show_assign_content, name="show_assign_content"),
     # path('task_mutil_assign.html', views.task_mutil_assign, name="task_mutil_assign"),
     path('wait_review', views.task_wait_review, name="task_wait_review"),
-    path("final_review",views.task_final_review, name="final_review"),
     path("review", views.task_review, name='task_review'),
     path("review_record",views.task_review_record,name="task_review_record.html"),
     path('personal_review', views.personal_task_review, name='personal_task_review'),

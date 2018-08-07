@@ -8,7 +8,7 @@ from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse,redirect
 from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm,TaskReviewForm,TaskSortForm,TaskMapForm,LoginForm
 from .server import *
-from .utils import build_attachment_info, build_tags_info, build_reviewer_info, compare_json,build_assign_tags_info,build_assign_attach_info
+from .utils import build_attachment_info, build_tags_info, build_statistic_filter, compare_json,build_assign_tags_info,build_assign_attach_info
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required,permission_required
 # Create your views here.
@@ -19,7 +19,6 @@ def index(request):
     print(request.session['user_info'])
     print(request.path_info)
     staff = request.user.staff
-    print("staff",staff.roles.filter(title="任务工作者").first().title)
     return render(request,'index_v3.html')
 
 
@@ -66,7 +65,6 @@ def publish_task(request):
         return HttpResponse(json.dumps(ret))
 
 
-@login_required()
 def task_edit(request):
     """任务编辑"""
     method = request.method
@@ -136,14 +134,13 @@ def task_edit(request):
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
 
-@login_required()
+
 def task_detail(request):
     tmid = request.GET.get("tmid", None)
     task_obj = task_map_db.query_task_by_tmid(tmid)
-    print("task_obj",task_obj)
     return render(request, 'task/task_detail.html', {"task_obj": task_obj})
 
-@login_required()
+
 def task_base_detail(request):
     tid = request.GET.get("tid", None)
     # 据任务分配ID获取内容
@@ -565,6 +562,7 @@ def task_review(request):
                         # 获取任务id
                         task_assign_obj = task_assign_db.query_task_assign_by_tasid(data['tasid_id'])
                         task_assign_obj = task_assign_obj.first()
+                        tmid = task_assign_obj.tmid_id
                         # 获取任务审核人
                         task_review_list = task_review_db.query_task_reviewer_by_tmid(task_assign_obj.tmid_id)
                         # 遍历该所有审核人对其的记录
@@ -582,11 +580,25 @@ def task_review(request):
                             query_sets = task_assign_db.query_task_assign_by_tasid(data["tasid_id"])
                             query_sets.update(is_finish=1)
                             # 添加任务绩效
-                            task_map_obj = task_map_db.query_task_by_tmid(task_assign_obj.tmid_id)
+                            task_map_obj = task_map_db.query_task_by_tmid(tmid)
                             performence_obj = performence_db.query_performence_by_pid(task_map_obj.perfor_id)
                             score = performence_obj.personal_score
-                            perf_data = {"tmid_id": task_assign_obj.tmid_id, "sid_id": user_id, "personal_score": score}
+                            perf_data = {"tmid_id": tmid, "sid_id": user_id, "personal_score": score}
                             performance_record_db.insert_performence_record(perf_data)
+                            # 检查任务是否是团队任务
+                            if task_map_obj.team:
+                                # 检查任务是否全部完成后
+                                task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
+                                checked = True
+                                for obj in task_assign_list:
+                                    if obj.is_finish == 0:
+                                        checked = False
+                                        break
+                                if checked:
+                                    # 添加团队绩效
+                                    for item in task_assign_list:
+                                        performance_obj ={"sid_id":item.sid_id,"tmid_id":item.tmid_id,"team_score": performence_obj.team_score}
+                                        performance_record_db.update_performence_record(performance_obj)
                     ret['status'] = True
             except Exception as e:
                 print(e)
@@ -596,33 +608,6 @@ def task_review(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
-
-
-def task_final_review(request):
-    """任务终审"""
-    ret = {"status": False,"data":"","message":""}
-    tmid = request.GET.get("tmid",None)
-    tmid = request.GET.get("is_finish",None)
-    modify_info = request.GET
-    modify_info = modify_info.dict()
-    print("tmid", modify_info)
-    if tmid:
-        # 更新任务状态
-        try:
-            task_map_obj = task_map_db.query_task_by_tmid(tmid)
-            task_map_db.update_task(modify_info)
-            # 如果是团队任务添加任务绩效
-            if task_map_obj.team:
-                # 获取任务执行者
-                task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
-                for obj in task_assign_list:
-                    performance_record_db
-
-        except Exception as e:
-            print(e)
-    else:
-        ret['message'] = "请求出错！"
-    return HttpResponse(json.dumps(ret))
 
 
 def task_review_record(request):
@@ -707,7 +692,6 @@ def department_staff(request):
             ret["message"] = "出错了"
     else:
         ret["message"] = "请选择相应的部门"
-    print("ret",ret)
     return HttpResponse(json.dumps(ret))
 
 
@@ -785,10 +769,14 @@ def performence_display(request):
 
 def performence_statistic(request):
     """绩效统计"""
-    query_sets = performance_record_db.query_total_score()
-    # query_sets = staff_db.query_staff_list()
-    print(query_sets)
-    return render(request, "task/performence_statistic.html",{"query_sets":query_sets})
+    dpid = request.GET.get('dpid', '')
+    sid = request.GET.get("sid", '')
+    # 构造过滤字典
+    filter = build_statistic_filter(dpid,sid)
+    perfor_records = performance_record_db.query_total_score(filter)
+
+    print(perfor_records)
+    return render(request, "task/performence_statistic.html",{"perfor_records":perfor_records,"dpid":dpid, "sid":sid })
 
 
 def performence_edit(request):

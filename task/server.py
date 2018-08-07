@@ -59,16 +59,28 @@ class PerformanceRecordDB(object):
     def update_performence_record(self, modify_info):
         query_set = PerformanceRecord.objects.filter(tmid=modify_info["tmid"], sid=modify_info['sid']).first()
         if query_set:
-            query_set.team_score=modify_info['team_score']
+            query_set.team_score = modify_info['team_score']
             query_set.save()
         else:
             self.insert_performence_record(**modify_info)
 
-    def query_total_score(self):
-        result_db = PerformanceRecord.objects.raw("""select prid, sid_id,sum(personal_score) as total_score from performance_record GROUP BY sid_id""")
-        # cursor = connection.cursor()
-        # cursor.execute("""select sid_id,sum(score) as total_score from performance_record GROUP BY sid_id""")
-        # result_db = cursor.fetchall()
+    def query_total_score(self,condition):
+        sql = """select prid,tmid_id, sid_id,sum(personal_score) as p_score,sum(team_score) as t_score from performance_record 
+               left join staff  on sid_id=staff.sid
+               left join department on staff.department_id = department.id {0} GROUP BY sid_id"""
+        filter="where"
+        print("condition",condition)
+        print(hasattr(condition,'dpid'))
+        if condition.get("sid",None):
+            filter += " staff.sid={0}".format(condition["sid"])
+        elif condition.get("dpid",None):
+            filter += " department.id={0}".format(condition["dpid"])
+        else:
+            filter=''
+        print("filter",filter)
+        sql=sql.format(filter)
+        print("sql",sql)
+        result_db = PerformanceRecord.objects.raw(sql)
         return result_db
 
 

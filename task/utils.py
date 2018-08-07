@@ -65,3 +65,11 @@ def compare_json(record, modify_info, id_key):
             delete_list_id_list.append(item.pk)
     return insert_list, update_list, delete_list_id_list
 
+
+def build_statistic_filter(dpid,sid):
+    filter={}
+    if sid:
+        filter["sid"]= sid
+    else:
+        filter["dpid"] = dpid
+    return filter

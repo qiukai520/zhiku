@@ -17,9 +17,13 @@ def build_department_ele():
     return mark_safe(eles)
 
 @register.simple_tag
-def build_staff_ele():
+def build_staff_ele(dpid=None):
     """构建员工下拉框"""
-    dp_list = staff_db.query_staff_list()
+    if dpid:
+         # 根据部门获取员工
+        dp_list = staff_db.query_staff_by_department_id(dpid)
+    else:
+        dp_list = staff_db.query_staff_list()
     eles = ""
     for item in dp_list:
         ele = """<option value={0} >{1}</option>""".format(item.sid, item.name)

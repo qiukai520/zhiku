@@ -197,7 +197,7 @@ class PerformanceAdmin(object):
 
 class PerformanceRecordAdmin(object):
     """绩效后台管理"""
-    list_display = ['prid','sid',"tmid", 'score']
+    list_display = ['prid','sid',"tmid", 'personal_score',"team_score"]
     list_filter = ["sid"]
     search_fields = ['sid']
     model_icon = 'fa fa-cog'
