@@ -66,7 +66,7 @@
 
 {% endblock %}
 {% block content %}
-        <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="wrapper wrapper-content animated fadeInRight" >
         <div class="row">
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
@@ -502,14 +502,15 @@ function Submit() {
             var tids = 0
             var team = 0
         {% else %}
-            var tids={{ tids }}
+            var tids="{{ tids }}"
             var team ={{ team }}
         {% endif %}
-        var assigner_id = 1;
+        var assigner_id = {{  request.user.staff.sid }};
         var attribute = $("#attribute").val();
         var cycle_id = $("#task_cycle").val();
         var start_time = $("#datetimepicker1").find("input").val();
         var deadline = $("#datetimepicker2").find("input").val();
+        alert(tids)
         $.ajax({
                 url: "{%url "task_assign"  %} ",
                 type: "POST",

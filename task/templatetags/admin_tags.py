@@ -4,6 +4,7 @@ from datetime import timedelta
 from django import template
 from django.utils.safestring import mark_safe
 from task.server import *
+from task.utils import getMonthFirstDayAndLastDay
 
 register = template.Library()
 @register.simple_tag
@@ -17,9 +18,10 @@ def build_department_ele():
     return mark_safe(eles)
 
 @register.simple_tag
-def build_staff_ele(dpid=None):
+def build_staff_ele(dpid=0):
     """构建员工下拉框"""
-    if dpid:
+    if dpid != ''and 0:
+        print("dpid", dpid)
          # 根据部门获取员工
         dp_list = staff_db.query_staff_by_department_id(dpid)
     else:
@@ -189,7 +191,7 @@ def change_to_staff(sid):
     if issuer:
         name = issuer.name
     else:
-        name ="无"
+        name ="系统生成"
     return name
 
 
@@ -282,7 +284,7 @@ def bulid_review_list(tmid):
             # 如果有记录表示已审核
             if item.is_finish:
                 status = "通过"
-                last_edit.last_edit.strftime("%Y-%m-%d")
+                last_edit=item.last_edit.strftime("%Y-%m-%d")
             else:
                 status = "审核中"
                 last_edit = ''
@@ -594,7 +596,21 @@ def fetch_assign_finish_status(status):
     return status
 
 
+@register.simple_tag
+def count_personal_total_task(sid,calendar):
+    """获取单月个人任务总数"""
+    first_day,last_day = getMonthFirstDayAndLastDay(calendar)
+    total = task_assign_db.count_personal_total_task(sid,first_day,last_day)
+    print("sid",sid)
+    print("total",total)
+    return total
 
+@register.simple_tag
+def count_personal_finish_task(sid,calendar):
+    """获取单月个人完成总数"""
+    first_day,last_day = getMonthFirstDayAndLastDay(calendar)
+    total = task_assign_db.count_personal_finish_task(sid,first_day,last_day)
+    return total
 
 
 

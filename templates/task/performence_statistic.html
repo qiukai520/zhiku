@@ -79,6 +79,16 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                    <div class="form-inline left" style="margin-bottom: 20px" >
+                                         <label for="month" style="font-weight: normal;display: inline-block">选择月份</label>&nbsp;&nbsp;&nbsp;
+                                        <div class='input-group date' id="month">
+                                            <input type='text' id='datepicker' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                         <button type="button" style="margin: 0px" onclick="BindMonthChange()" class="btn btn-primary">按月份查询</button>
+                                    </div>
                                     <div class="form-inline left">
                                          <div class="form-group">
                                              <label for="department"  style="font-weight: normal">选择部门</label>&nbsp;&nbsp;
@@ -89,15 +99,9 @@
                                                <label for="staff" style="font-weight: normal" >选择员工</label>&nbsp;&nbsp;
                                                    <select id="staff" name="staff"   class="form-control" onchange="BindStaffChange(this)">
                                                        <option value=0>所有</option>
-                                                       {% build_staff_ele dpid %}
+                                                           {% build_staff_ele dpid %}
                                                    </select>
                                           </div>
-{#                                        <div class='input-group date form_date' >#}
-{#                                            <input name="startTm" id="datetimepicker" type='text' class="form-control input-sm" readonly="readonly"/>#}
-{#                                            <span class="input-group-addon input-sm">#}
-{#                                              <span class="glyphicon glyphicon-calendar"></span>#}
-{#                                            </span>#}
-{#                                        </div>#}
                                     </div>
                                 </div>
                                 <table id="performance_statistic"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
@@ -107,8 +111,8 @@
                                              <th>姓名</th>
                                              <th>个人绩效</th>
                                              <th>团队绩效</th>
-                                             <th>个人任务</th>
-                                             <th>团队任务</th>
+                                             <th>个人任务(完成 / 总)</th>
+                                             <th>团队任务(完成 / 总)</th>
                                          </tr>
                                     </thead>
                                     <tbody>
@@ -118,7 +122,7 @@
                                               <td>{% change_to_staff obj.sid_id %}</td>
                                               <td>{{ obj.p_score }}&nbsp;&nbsp;&nbsp;</td>
                                               <td>{{ obj.t_score }}</td>
-                                              <td></td>
+                                              <td>{% count_personal_finish_task  obj.sid_id month  %}&nbsp;&nbsp;/&nbsp;&nbsp;{% count_personal_total_task obj.sid_id month %} </td>
                                               <td></td>
                                           </tr>
                                           {% endfor %}
@@ -198,7 +202,25 @@ String.prototype.format=function()
                  $("#staff").val({{ sid }})
             }
         }
+        $("#datepicker").val("{{ month }}")
     });
+
+
+        //设置日期时间控件
+$(function () {
+    $('#month').datepicker({
+        language: "zh-CN", //语言
+        todayHighlight: true, //是否今日高亮
+        format: 'yyyy-mm', //点击月份后显示在input中的格式
+        autoclose: true, //是否开启自动关闭
+        startView: 'months', //开始视图层，为月视图层
+        maxViewMode:'years', //最大视图层，为年视图层
+        minViewMode:'months', //最小视图层，为月视图层
+        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        endDate:moment().toDate() //控制可选的最晚月份，为当前月
+    });
+});
+
 
   //初始化bootastarp_table
     $(function () {
@@ -227,13 +249,24 @@ String.prototype.format=function()
     });
 
     function BindDepartmentChange(ths) {
-          var dpid=$(ths).val() ;
-          window.location.href="?dpid={0}".format(dpid)
+        var dpid=$(ths).val() ;
+       var month= $("#datepicker").val();
+        window.location.href="?dpid={0}&month={1}".format(dpid,month)
     }
      function BindStaffChange(ths) {
+          var dpid={{ dpid }};
           var sid =$(ths).val() ;
-          window.location.href="?sid={0}".format(sid)
+          var month= $("#datepicker").val();
+          window.location.href="?dpid={0}&sid={1}&month={2}".format(dpid,sid,month)
     }
+    function BindMonthChange() {
+        var dpid={{ dpid }};
+        var sid={{ sid }};
+        var month= $("#datepicker").val();
+        console.log(month);
+        window.location.href="?dpid={0}&sid={1}&month={2}".format(dpid,sid,month)
+    }
+
 
 /*
     function BindDepartmentChange(ths) {

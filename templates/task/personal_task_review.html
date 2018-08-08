@@ -107,7 +107,7 @@
                                               <td>{% change_to_staff obj.assigner_id %}</td>
                                               <td>{{ obj.deadline |date:"Y-m-d "}}</td>
                                               <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
-                                              <td>{% bulid_person_review_list 1 obj.tmid %}
+                                              <td>{% bulid_person_review_list  request.user.staff.sid  obj.tmid %}
                                               </td>
                                           </tr>
                                           {% endfor %}
@@ -191,8 +191,8 @@ String.prototype.format=function()
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 15,
-            pageList: [10, 25],
+            pageSize: 10,
+            pageList: [10,15,20, 25],
             search: true,
             strictSearch: false,
             showColumns: true,

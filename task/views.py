@@ -1,14 +1,14 @@
 import json
 import os
 import uuid
-import re
+import datetime
 from django.core import serializers
 from django.db import transaction
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse,redirect
 from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm,TaskReviewForm,TaskSortForm,TaskMapForm,LoginForm
 from .server import *
-from .utils import build_attachment_info, build_tags_info, build_statistic_filter, compare_json,build_assign_tags_info,build_assign_attach_info
+from .utils import build_attachment_info,getMonthFirstDayAndLastDay, build_tags_info, build_statistic_filter, compare_json,build_assign_tags_info,build_assign_attach_info
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required,permission_required
 # Create your views here.
@@ -25,7 +25,6 @@ def index(request):
 def publish_task(request):
     """创建任务"""
     method = request.method
-    print(request.path)
     if method == "GET":
         return render(request, "task/task_edit.html", {"tid": 0})
     else:
@@ -282,8 +281,9 @@ def task_assign(request):
             # 插入指派任务
             task_list = []
             for tid in tids_list:
-                data['tid_id'] = int(tid)
-                task_list.append(data)
+                item = data.copy()
+                item["tid_id"] = int(tid)
+                task_list.append(item)
             try:
                 with transaction.atomic():
                     for modify in task_list:
@@ -292,6 +292,7 @@ def task_assign(request):
                         assigner_list = []
                         for item in assigners:
                             item['tmid_id'] = tmid
+                            item["deadline"]=data["deadline"]
                             assigner_list.append(item)
                         task_assign_db.mutil_insert_task_assign(assigner_list)
                         # 插入审核人
@@ -302,6 +303,7 @@ def task_assign(request):
                         task_review_db.mutil_insert_reviewer(reviewers_list)
                     ret['status'] = True
             except Exception as e:
+                print(e)
                 ret["message"] = "指派失败"
         else:
             errors = form.errors.as_data().values()
@@ -769,14 +771,18 @@ def performence_display(request):
 
 def performence_statistic(request):
     """绩效统计"""
-    dpid = request.GET.get('dpid', '')
-    sid = request.GET.get("sid", '')
+    today = datetime.date.today()
+    year_month = today.strftime("%Y-%m")
+    dpid = request.GET.get('dpid', 0)
+    sid = request.GET.get("sid", 0)
+    month = request.GET.get("month", year_month)
+    if not month:
+        month = year_month
+    first_day,last_day = getMonthFirstDayAndLastDay(month)
     # 构造过滤字典
-    filter = build_statistic_filter(dpid,sid)
+    filter = build_statistic_filter(dpid,sid,first_day,last_day)
     perfor_records = performance_record_db.query_total_score(filter)
-
-    print(perfor_records)
-    return render(request, "task/performence_statistic.html",{"perfor_records":perfor_records,"dpid":dpid, "sid":sid })
+    return render(request, "task/performence_statistic.html",{"perfor_records":perfor_records,"dpid":dpid, "sid":sid,"month":month})
 
 
 def performence_edit(request):

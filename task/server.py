@@ -1,5 +1,5 @@
 from django.db import connection
-
+from datetime import timedelta
 from .models import *
 
 
@@ -68,18 +68,16 @@ class PerformanceRecordDB(object):
         sql = """select prid,tmid_id, sid_id,sum(personal_score) as p_score,sum(team_score) as t_score from performance_record 
                left join staff  on sid_id=staff.sid
                left join department on staff.department_id = department.id {0} GROUP BY sid_id"""
-        filter="where"
-        print("condition",condition)
-        print(hasattr(condition,'dpid'))
+        query ="where performance_record.create_time Between '{0}' AND '{1}' ".format(condition['first_day'],condition['last_day'])
+        filter = ''
         if condition.get("sid",None):
             filter += " staff.sid={0}".format(condition["sid"])
         elif condition.get("dpid",None):
             filter += " department.id={0}".format(condition["dpid"])
-        else:
-            filter=''
-        print("filter",filter)
-        sql=sql.format(filter)
-        print("sql",sql)
+        if filter:
+            query += " AND "
+            query += filter
+        sql=sql.format(query)
         result_db = PerformanceRecord.objects.raw(sql)
         return result_db
 
@@ -328,6 +326,10 @@ class TaskReviewDB(object):
         result_db = TaskReview.objects.filter(tmid_id=tmid, sid_id=sid).first()
         return result_db
 
+    def query_task_reviewer_by_tid_follow(self, tmid, pre_follow):
+        result_db =TaskReview.objects.filter(tmid_id=tmid,follow=pre_follow).first()
+        return result_db
+
     def mutil_update_reviewer(self, modify_info):
         for item in modify_info:
             TaskReview.objects.filter(tmid_id=item['tmid_id'], sid_id=item['sid_id']).update(**item)
@@ -337,6 +339,7 @@ class TaskReviewDB(object):
 
     def mutil_delete_reviewer_by_tid(self,tid_list):
         TaskReview.objects.filter(tmid_id__in=tid_list).delete()
+
 
 
 class TaskAssignDB(object):
@@ -377,8 +380,16 @@ class TaskAssignDB(object):
         return result_db
 
     def mutil_delete_assign_by_tasid(self,id_list):
-        print("id_list",id_list)
         TaskAssign.objects.filter(tasid__in=id_list).delete()
+
+    def count_personal_total_task(self,sid,first_day, last_day):
+        result_db = TaskAssign.objects.filter(member_id_id=sid, deadline__range=(first_day,last_day+timedelta(days=1))).count()
+        return result_db
+
+    def count_personal_finish_task(self, sid, first_day, last_day):
+        print()
+        result_db = TaskAssign.objects.filter(member_id_id=sid,is_finish=1,deadline__range=(first_day, last_day+timedelta(days=1))).count()
+        return result_db
 
 
 class TaskSubmitRecordDB(object):

@@ -49,7 +49,7 @@
 {% block content %}
      <div class="wrapper wrapper-content animated fadeInRight">
         <!-- Panel Other -->
-        <div class="ibox float-e-margins">
+        <div class="ibox float-e-margins" >
             <div class="ibox-title">
                 <h5>已指派任务</h5>
                 <div class="ibox-tools">
@@ -280,8 +280,8 @@ $(function () {
             sortable: true,                     //是否启用排序
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 15,
-            pageList: [10, 25],
+            pageSize: 10,
+            pageList: [10,15,20,25],
             search: true,
             strictSearch: false,
             showColumns: true,
