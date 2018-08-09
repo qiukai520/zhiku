@@ -143,7 +143,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                  </div>
                                  {% endfor %}
                             {% else %}
-                                {% query_task_attachment_by_tid total_task_obj.tid as t_attachment_list %}
+                                {% query_task_attachment_by_tid total_task_obj.tid_id as t_attachment_list %}
                                  <div class="form-group"  >
                                    <label class="form-label" for="task_title">任务描述:</label>
                                     <span id="task_title"  >{{ base_task.content }}</span>

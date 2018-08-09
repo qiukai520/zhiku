@@ -44,10 +44,15 @@ urlpatterns = [
     path('sort_edit', views.task_sort_edit, name="task_sort_edit"),
     path('sort_list', views.task_sort_list, name='task_sort_list'),
     path('sort_delete', views.task_sort_delete, name="task_sort_delete"),
-    path('department_staff', views.department_staff, name="department_staff"),
     path('performence_list', views.performence_display, name='performence_list'),
     path('performence_edit', views.performence_edit, name="performence_edit"),
     path('performence_statistic', views.performence_statistic, name="performence_statistic"),
+    path("perfor_statistic_detail",views.perfor_statistic_detail,name="perfor_statistic_detail"),
     path('performence_delete',views.performence_delete, name="performence_delete"),
+    path('department_staff', views.department_staff, name="department_staff"),
+    path("department_list",views.department_list,name="department_list"),
+    path("department_edit",views.department_edit,name='department_edit'),
+    path("staff_list", views.staff_list, name="staff_list"),
+    path("staff_edit", views.staff_edit, name='staff_edit')
 
 ]

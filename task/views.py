@@ -6,7 +6,7 @@ from django.core import serializers
 from django.db import transaction
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse,redirect
-from task.forms.form import TaskForm, PerformForm, TaskAssignForm, CompleteTaskForm,TaskReviewForm,TaskSortForm,TaskMapForm,LoginForm
+from task.forms.form import *
 from .server import *
 from .utils import build_attachment_info,getMonthFirstDayAndLastDay, build_tags_info, build_statistic_filter, compare_json,build_assign_tags_info,build_assign_attach_info
 from django.contrib import auth
@@ -697,6 +697,60 @@ def department_staff(request):
     return HttpResponse(json.dumps(ret))
 
 
+def department_list(request):
+    query_sets = department_db.query_department_list()
+    return render(request,"personnel/department_list.html",{"query_sets":query_sets})
+
+
+def department_edit(request):
+    """"部门添加或编辑"""
+    method = request.method
+    if method == "GET":
+        dpid = request.GET.get("dpid", "")
+        # 有则为编辑 ,无则添加
+        if dpid:
+            department_obj = department_db.query_department_by_id(dpid)
+        else:
+            dpid = 0
+            department_obj = []
+        return render(request, 'personnel/department_edit.html', {"department_obj": department_obj, "dpid": dpid})
+    else:
+        form = DepartmentForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            dpid = request.POST.get("id", "")
+            data = request.POST
+            data = data.dict()
+            # 有则为编辑 ,无则添加
+            if dpid:
+                try:
+                    print("update",data)
+                    department_db.update_deaprtment(data)
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+            else:
+                try:
+                    department_db.insert_department(data)
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
+
+
+def staff_list(request):
+    query_sets = staff_db.query_staff_list()
+    return render(request,"personnel/staff_list.html",{"query_sets":query_sets})
+
+
+def staff_edit(request):
+    pass
+
+
 def task_sort_list(request):
     """绩效列表"""
     query_sets = task_type_db.query_task_type_list()
@@ -766,7 +820,7 @@ def performence_display(request):
     """绩效列表"""
     query_sets = performence_db.query_performence_list()
 
-    return render(request, "task/performence.html", {"query_sets": query_sets})
+    return render(request, "task/perfor.html", {"query_sets": query_sets})
 
 
 def performence_statistic(request):
@@ -775,14 +829,36 @@ def performence_statistic(request):
     year_month = today.strftime("%Y-%m")
     dpid = request.GET.get('dpid', 0)
     sid = request.GET.get("sid", 0)
-    month = request.GET.get("month", year_month)
-    if not month:
-        month = year_month
-    first_day,last_day = getMonthFirstDayAndLastDay(month)
+    startMonth = request.GET.get("startMonth", year_month)
+    endMonth = request.GET.get("endMonth", startMonth)
+    if not startMonth:
+        startMonth = year_month
+    if not endMonth:
+        endMonth = startMonth
+    if endMonth < startMonth:
+        startMonth,endMonth = endMonth,startMonth
+    first_day,last_day = getMonthFirstDayAndLastDay(startMonth,endMonth)
     # 构造过滤字典
     filter = build_statistic_filter(dpid,sid,first_day,last_day)
     perfor_records = performance_record_db.query_total_score(filter)
-    return render(request, "task/performence_statistic.html",{"perfor_records":perfor_records,"dpid":dpid, "sid":sid,"month":month})
+    return render(request, "task/perfor_statistic.html", {"perfor_records":perfor_records, "dpid":dpid, "sid":sid , "startMonth":startMonth , "endMonth": endMonth})
+
+
+def perfor_statistic_detail(requset):
+    sid = requset.GET.get("sid",0)
+    today = datetime.date.today()
+    year_month = today.strftime("%Y-%m")
+    startMonth=requset.GET.get("startMonth",year_month)
+    endMonth=requset.GET.get("endMonth",year_month)
+    if not startMonth:
+        startMonth = year_month
+    if not endMonth:
+        endMonth = startMonth
+    if endMonth < startMonth:
+        startMonth, endMonth = endMonth, startMonth
+    first_day,last_day = getMonthFirstDayAndLastDay(startMonth,endMonth)
+    query_sets=performance_record_db.query_perfor_score_by_sid(sid,first_day,last_day)
+    return render(requset,'task/perfor_statistic_detail.html',{"query_sets":query_sets, "sid":sid , "startMonth":startMonth , "endMonth": endMonth})
 
 
 def performence_edit(request):
@@ -796,7 +872,7 @@ def performence_edit(request):
         else:
             pid = 0
             performence_obj = []
-        return render(request, 'task/performence_edit.html', {"performence_obj": performence_obj, "pid": pid})
+        return render(request, 'task/perfor_edit.html', {"performence_obj": performence_obj, "pid": pid})
     else:
         form = PerformForm(data=request.POST)
         ret = {'status': False, "data": '', "message": ""}
@@ -850,6 +926,7 @@ def personal_task_list(request):
     search_key = int(filters.get("s", 0))
     query_sets = task_assign_db.query_task_assign_by_member_id(user_id)
     query_sets = query_sets.filter(is_finish=search_key).all()
+    print(query_sets)
     return render(request, 'task/personal_task_list.html', {"query_sets": query_sets,"filter": search_key})
 
 

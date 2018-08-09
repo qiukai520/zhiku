@@ -36,6 +36,10 @@ class TaskSortForm(django_forms.Form):
     name = django_fields.CharField(error_messages={"required": "分类名称不能为空"})
 
 
+class DepartmentForm(django_forms.Form):
+    department = django_fields.CharField(error_messages={"required": "部门名称不能为空"})
+
+
 class TaskAssignForm(django_forms.Form):
     title = django_fields.CharField(error_messages={"required": "标题不能为空"})
     content = django_fields.CharField(error_messages={'required': '任务内容不能为空'})

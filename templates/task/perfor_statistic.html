@@ -3,48 +3,14 @@
 
 {% block css  %}
      <style>
-        .form-horizontal .control-label {
-            padding-top: 7px;
-            margin-bottom: 0;
-            text-align: right;
-        }
-
-      .select-box{
-          top:5px;
-          height: 200px !important;
-          width: 100%;
-        border-radius: 3px;
-      }
-       span.glyphicon.glyphicon-arrow-left, span.glyphicon.glyphicon-arrow-right {
-        position: absolute;
-        right: -8px;
-        text-align: center;
-        margin-top: 80px;
-        color: blue;
-    }
-    span.glyphicon.glyphicon-arrow-right {
-        margin-top:120px;
-    }
-    ul{
-        padding:0px;
-    }
-       ul>li{
-       cursor: pointer;
-       padding:0;margin:0;list-style:none
-  }
-       li {list-style-type:none;}
 
 
-       .member_name{
-           color:blue;
-
-     }
-       .member_name:hover{
-          color:red;
-       }
       #toolbar >button{
           margin: 0 2px;
       }
+     #datepicker1>input,#datepicker2>input {
+         text-align: center;
+     }
      </style>
 {%endblock%}
 
@@ -81,8 +47,15 @@
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
                                     <div class="form-inline left" style="margin-bottom: 20px" >
                                          <label for="month" style="font-weight: normal;display: inline-block">选择月份</label>&nbsp;&nbsp;&nbsp;
-                                        <div class='input-group date' id="month">
-                                            <input type='text' id='datepicker' class="form-control" />
+                                        <div class='input-group date' id="datepicker1">
+                                            <input type='text' id='startMonth' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <span>至</span>
+                                        <div class='input-group date' id="datepicker2">
+                                            <input type='text' id='endMonth' class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -119,11 +92,11 @@
                                            {% for obj in  perfor_records%}
                                           <tr>
                                               <td><input type="checkbox"></td>
-                                              <td>{% change_to_staff obj.sid_id %}</td>
+                                              <td><a href="{% url "perfor_statistic_detail" %}?sid={{ obj.sid_id }}&startMonth={{ startMonth }}&endMonth={{ endMonth }}">{% change_to_staff obj.sid_id %}</a></td>
                                               <td>{{ obj.p_score }}&nbsp;&nbsp;&nbsp;</td>
                                               <td>{{ obj.t_score }}</td>
-                                              <td>{% count_personal_finish_task  obj.sid_id month  %}&nbsp;&nbsp;/&nbsp;&nbsp;{% count_personal_total_task obj.sid_id month %} </td>
-                                              <td></td>
+                                              <td>{% count_personal_finish_task  obj.sid_id startMonth endMonth %}&nbsp;&nbsp;/&nbsp;&nbsp;{% count_personal_total_task obj.sid_id startMonth endMonth%} </td>
+                                              <td>{% count_team_finish_task  obj.sid_id startMonth endMonth %}&nbsp;&nbsp;/&nbsp;&nbsp;{% count_team_total_task obj.sid_id startMonth endMonth%}</td>
                                           </tr>
                                           {% endfor %}
                                     </tbody>
@@ -202,13 +175,25 @@ String.prototype.format=function()
                  $("#staff").val({{ sid }})
             }
         }
-        $("#datepicker").val("{{ month }}")
+        $("#startMonth").val("{{ startMonth }}")
+        $("#endMonth").val("{{ endMonth }}")
     });
 
 
         //设置日期时间控件
 $(function () {
-    $('#month').datepicker({
+    $('#datepicker1').datepicker({
+        language: "zh-CN", //语言
+        todayHighlight: true, //是否今日高亮
+        format: 'yyyy-mm', //点击月份后显示在input中的格式
+        autoclose: true, //是否开启自动关闭
+        startView: 'months', //开始视图层，为月视图层
+        maxViewMode:'years', //最大视图层，为年视图层
+        minViewMode:'months', //最小视图层，为月视图层
+        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        endDate:moment().toDate() //控制可选的最晚月份，为当前月
+    });
+     $('#datepicker2').datepicker({
         language: "zh-CN", //语言
         todayHighlight: true, //是否今日高亮
         format: 'yyyy-mm', //点击月份后显示在input中的格式
@@ -232,8 +217,8 @@ $(function () {
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 15,
-            pageList: [10, 25],
+            pageSize: 10,
+            pageList: [10,15,20,25],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -250,51 +235,26 @@ $(function () {
 
     function BindDepartmentChange(ths) {
         var dpid=$(ths).val() ;
-       var month= $("#datepicker").val();
-        window.location.href="?dpid={0}&month={1}".format(dpid,month)
+        var startMonth= $("#startMonth").val();
+        var endMonth= $("#endMonth").val();
+        window.location.href="?dpid={0}&startMonth={1}&endMonth={2}".format(dpid,startMonth,endMonth)
     }
      function BindStaffChange(ths) {
           var dpid={{ dpid }};
           var sid =$(ths).val() ;
-          var month= $("#datepicker").val();
-          window.location.href="?dpid={0}&sid={1}&month={2}".format(dpid,sid,month)
+          var startMonth= $("#startMonth").val();
+          var endMonth= $("#endMonth").val();
+          window.location.href="?dpid={0}&sid={1}&startMonth={2}&endMonth={3}".format(dpid,sid,startMonth,endMonth)
     }
     function BindMonthChange() {
         var dpid={{ dpid }};
         var sid={{ sid }};
-        var month= $("#datepicker").val();
-        console.log(month);
-        window.location.href="?dpid={0}&sid={1}&month={2}".format(dpid,sid,month)
+        var startMonth= $("#startMonth").val();
+        var endMonth = $("#endMonth").val();
+        window.location.href="?dpid={0}&sid={1}&startMonth={2}&endMonth={3}".format(dpid,sid,startMonth,endMonth)
     }
 
 
-/*
-    function BindDepartmentChange(ths) {
-         var dpid=$(ths).val();
-        $.ajax({
-        url:"",
-        type:'get',
-        data:{"dpid":dpid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-            $("#staff option:gt(0)").remove();
-            var objs = JSON.parse(arg.data);
-            $(objs).each(function () {
-            var o = document.createElement("option");
-            o.value = this['pk'];
-            o.text = this['fields']['name'];
-             $("#staff").append(o);
-
-	  });
-	},
-        error: function (arg) {
-          alert("获取员工列表失败");
-        },
-    });
-
-    }
-*/
 
 
       </script>

@@ -84,12 +84,16 @@ create TABLE `staff`(
 `department` int(11) COMMENT'部门'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工表';
 
+
+
 drop TABLE if exists `department`;
 create TABLE `department`(
 `id` int(11) primary key auto_increment,
 `department` varchar(32) COMMENT '部分'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工部门表';
-
+ALTER TABLE `department` ADD UNIQUE (
+`department`
+)
 drop TABLE if exists `task_tag`;
 create TABLE `task_tag`(
 `ttid` int(11) NOT NULL primary key auto_increment,

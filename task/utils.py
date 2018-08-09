@@ -78,30 +78,36 @@ def build_statistic_filter(dpid,sid,first_day,last_day):
     return filter
 
 
-def getMonthFirstDayAndLastDay(year_month):
+def getMonthFirstDayAndLastDay(startMonth,endMonth):
     """
     :param year: 年份，默认是本年，可传int或str类型
     :param month: 月份，默认是本月，可传int或str类型
     :return: firstDay: 当月的第一天，datetime.date类型
               lastDay: 当月的最后一天，datetime.date类型
     """
-    year, month = str(year_month).split("-")
-    if year:
-        year = int(year)
+    start_year, start_month = str(startMonth).split("-")
+    end_year, end_month = str(endMonth).split("-")
+    if start_year:
+        start_year = int(start_year)
     else:
-        year = datetime.date.today().year
-
-    if month:
-        month = int(month)
+        start_year = datetime.date.today().year
+    if start_month:
+        start_month = int(start_month)
     else:
-        month = datetime.date.today().month
-
-    # 获取当月第一天的星期和当月的总天数
-    firstDayWeekDay, monthRange = calendar.monthrange(year, month)
-    # 获取当月的第一天
-    firstDay = datetime.date(year=year, month=month, day=1)
-    lastDay = datetime.date(year=year, month=month, day=monthRange)
-
-    print(firstDay,lastDay)
+        start_month = datetime.date.today().month
+    if end_year:
+        end_year = int(end_year)
+    else:
+        end_year = datetime.date.today().year
+    if end_month:
+        end_month = int(end_month)
+    else:
+        end_month = datetime.date.today().month
+    # 获取endMonth第一天的星期和当月的总天数
+    firstDayWeekDay, monthRange = calendar.monthrange(end_year, end_month)
+    # 获取strtMonth的第一天
+    firstDay = datetime.date(year=start_year, month=start_month, day=1)
+    # 获取endMonth的第一天
+    lastDay = datetime.date(year=end_year, month=end_month, day=monthRange)
 
     return firstDay, lastDay

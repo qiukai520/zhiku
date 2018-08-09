@@ -176,12 +176,24 @@ def change_to_task_way(team_id):
         if int(item["id"]) == team_id:
             return item["caption"]
 
+@register.simple_tag
+def query_task_way_by_tmid(tmid):
+    print("tmid",tmid)
+    task_map_obj = task_map_db.query_task_by_tmid(tmid)
+    print(task_map_obj)
+    if task_map_obj:
+        caption = change_to_task_way(task_map_obj.team)
+        return caption
+    return "未知"
+
 
 @register.simple_tag
 def change_to_task_type(tpid):
     """转化成任务类型"""
-    task_type = task_type_db.query_task_type_by_id(tpid)
-    return task_type.name
+    if tpid:
+        task_type = task_type_db.query_task_type_by_id(tpid)
+        return task_type.name
+    return ""
 
 @register.simple_tag
 def change_to_staff(sid):
@@ -217,6 +229,14 @@ def change_to_task_status(id):
     for item in status_list:
         if int(item["id"]) == id:
             return item['caption']
+
+@register.simple_tag
+def change_to_task_assign_finish(is_finish):
+    is_finish_list = task_assign_db.is_finish
+    for item in is_finish_list:
+        if int(item["id"]) == is_finish:
+            return item['caption']
+
 
 @register.simple_tag
 def change_to_task_perfomance(pid):
@@ -345,7 +365,7 @@ def bulid_person_review_list(user_id,tmid):
                         status = "进行中"
                         last_edit = ''
                     # 构建任务审核对象列表
-                ele = """<li > <a  style="color:blue" href="task_review.html?tasid={0}">{1} &nbsp
+                ele = """<li > <a  style="color:blue" href="review?tasid={0}">{1} &nbsp
                           <span >{2}</span> &nbsp<span style="color:red"> [ </span><span>{3}</span><span style="color:red"> ] 
                           </span></a> &nbsp<span style="color:#9F9F9F">{4}</span></li>
                           """.format(item.tasid,member.name, is_review, status,last_edit)
@@ -383,16 +403,24 @@ def build_record_tags_ele(tsid):
 
 @register.simple_tag
 def query_task_by_tid(tid):
-    print("tid",tid)
-    tid = int(tid)
-    result_db = task_db.query_task_by_tid(tid)
-    return result_db
+    if tid:
+        tid = int(tid)
+        result_db = task_db.query_task_by_tid(tid)
+        return result_db
+    return ""
 
 @register.simple_tag
 def query_task_map_by_tmid(tmid):
     result_db = task_map_db.query_task_by_tmid(tmid)
     return result_db
 
+@register.simple_tag
+def query_task_by_tmid(tmid):
+    task_map_obj = task_map_db.query_task_by_tmid(tmid)
+    if task_map_obj:
+        task_obj = task_db.query_task_by_tid(task_map_obj.tid_id)
+        return task_obj
+    return ''
 
 @register.simple_tag
 def query_task_attachment_by_tasid(tasid):
@@ -404,9 +432,11 @@ def query_task_attachment_by_tasid(tasid):
 
 @register.simple_tag
 def query_task_attachment_by_tid(tid):
-    tid = int(tid)
-    result_db = task_attachment_db.query_task_attachment_by_tid(tid)
-    return result_db
+    if tid:
+        tid = int(tid)
+        result_db = task_attachment_db.query_task_attachment_by_tid(tid)
+        return result_db
+    return ''
 
 
 @register.simple_tag
@@ -597,24 +627,40 @@ def fetch_assign_finish_status(status):
 
 
 @register.simple_tag
-def count_personal_total_task(sid,calendar):
+def count_personal_total_task(sid,startMonth,endMonth):
     """获取单月个人任务总数"""
-    first_day,last_day = getMonthFirstDayAndLastDay(calendar)
+    first_day,last_day = getMonthFirstDayAndLastDay(startMonth,endMonth)
     total = task_assign_db.count_personal_total_task(sid,first_day,last_day)
-    print("sid",sid)
-    print("total",total)
     return total
 
 @register.simple_tag
-def count_personal_finish_task(sid,calendar):
+def count_personal_finish_task(sid,startMonth,endMonth):
     """获取单月个人完成总数"""
-    first_day,last_day = getMonthFirstDayAndLastDay(calendar)
+    first_day,last_day = getMonthFirstDayAndLastDay(startMonth,endMonth)
     total = task_assign_db.count_personal_finish_task(sid,first_day,last_day)
     return total
 
+@register.simple_tag
+def count_team_total_task(sid,startMonth,endMonth):
+    """获取单月团队任务总数"""
+    first_day,last_day = getMonthFirstDayAndLastDay(startMonth,endMonth)
+    total = task_assign_db.count_team_total_task(sid,first_day,last_day)
+    return total
+
+@register.simple_tag
+def count_team_finish_task(sid,startMonth,endMonth):
+    """获取单月团队完成总数"""
+    first_day,last_day = getMonthFirstDayAndLastDay(startMonth,endMonth)
+    total = task_assign_db.count_team_finish_task(sid,first_day,last_day)
+    return total
 
 
-
+@register.simple_tag
+def change_to_sex(sex_id):
+    sex_list = staff_db.sex
+    for item in sex_list:
+        if int(item["id"]) == sex_id:
+            return item["caption"]
 
 
 

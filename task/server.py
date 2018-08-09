@@ -5,6 +5,7 @@ from .models import *
 
 class StaffDB(object):
     """员工表"""
+    sex = ({"id": 0, "caption": "男"}, {"id": 1, "caption": "女"})
 
     def query_staff_list(self):
         result_db = Staff.objects.filter().all()
@@ -24,6 +25,22 @@ class DepartmentDB(object):
     def query_department_list(self):
         result_db = Department.objects.filter().all()
         return result_db
+
+    def query_department_by_id(self,id):
+        result_db = Department.objects.filter(id=id).first()
+        return result_db
+
+    def update_deaprtment(self, modify_info):
+        is_exist = Department.objects.filter(department=modify_info['department']).first()
+        if is_exist:
+            raise Exception("该部门名称已存在")
+        Department.objects.filter(id=modify_info['id']).update(**modify_info)
+
+    def insert_department(self, modify_info):
+        is_exist = Department.objects.filter(department=modify_info['department']).first()
+        if is_exist:
+            raise Exception("该部门名称已存在")
+        Department.objects.create(**modify_info)
 
 
 class PerformanceDB(object):
@@ -79,6 +96,10 @@ class PerformanceRecordDB(object):
             query += filter
         sql=sql.format(query)
         result_db = PerformanceRecord.objects.raw(sql)
+        return result_db
+
+    def query_perfor_score_by_sid(self,sid, first_day, last_day):
+        result_db=PerformanceRecord.objects.filter(sid_id=sid,create_time__range=(first_day,last_day+timedelta(days=1))).all()
         return result_db
 
 
@@ -183,7 +204,6 @@ class TaskMapDB(object):
 
     def update_task(self, modify_info):
         result_db=TaskMap.objects.filter(tmid=modify_info['tmid']).update(**modify_info)
-        print("result_db",result_db)
         return result_db
 
     def query_task_lists(self):
@@ -341,7 +361,6 @@ class TaskReviewDB(object):
         TaskReview.objects.filter(tmid_id__in=tid_list).delete()
 
 
-
 class TaskAssignDB(object):
     """任务指派表"""
     # 是否完成
@@ -352,7 +371,6 @@ class TaskAssignDB(object):
 
     def mutil_insert_task_assign(self, modify_info_list):
         for item in modify_info_list:
-            print("item",item)
             is_exist = TaskAssign.objects.filter(tmid_id=item['tmid_id'], member_id_id=item['member_id_id'])
             if is_exist:
                 continue
@@ -382,13 +400,20 @@ class TaskAssignDB(object):
     def mutil_delete_assign_by_tasid(self,id_list):
         TaskAssign.objects.filter(tasid__in=id_list).delete()
 
-    def count_personal_total_task(self,sid,first_day, last_day):
-        result_db = TaskAssign.objects.filter(member_id_id=sid, deadline__range=(first_day,last_day+timedelta(days=1))).count()
+    def count_personal_total_task(self, sid, first_day, last_day):
+        result_db = TaskAssign.objects.filter(member_id_id=sid,tmid_id__team=0,deadline__range=(first_day,last_day+timedelta(days=1))).count()
         return result_db
 
     def count_personal_finish_task(self, sid, first_day, last_day):
-        print()
-        result_db = TaskAssign.objects.filter(member_id_id=sid,is_finish=1,deadline__range=(first_day, last_day+timedelta(days=1))).count()
+        result_db = TaskAssign.objects.filter(member_id_id=sid,is_finish=1,tmid_id__team=0, deadline__range=(first_day, last_day+timedelta(days=1))).count()
+        return result_db
+
+    def count_team_total_task(self, sid, first_day, last_day):
+        result_db = TaskAssign.objects.filter(member_id_id=sid, tmid_id__team=1, deadline__range=(first_day,last_day+timedelta(days=1))).count()
+        return result_db
+
+    def count_team_finish_task(self, sid, first_day, last_day):
+        result_db = TaskAssign.objects.filter(member_id_id=sid,is_finish=1,tmid_id__team=1,deadline__range=(first_day, last_day+timedelta(days=1))).count()
         return result_db
 
 

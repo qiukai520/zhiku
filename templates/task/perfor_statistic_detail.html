@@ -1,0 +1,227 @@
+{% extends "layout.html" %}
+{% load  admin_tags %}
+
+{% block css  %}
+     <style>
+
+
+      #toolbar >button{
+          margin: 0 2px;
+      }
+     #datepicker1>input,#datepicker2>input {
+         text-align: center;
+     }
+     </style>
+{%endblock%}
+
+{% block content %}
+     <div class="wrapper wrapper-content animated fadeInRight">
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>个人绩效清单</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">选项1</a>
+                        </li>
+                        <li><a href="#">选项2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <!-- Example Events -->
+                        <div class="example-wrap">
+                            <div class="example">
+                                <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                    <div class="form-inline left" style="margin-bottom: 20px" >
+                                         <label for="month" style="font-weight: normal;display: inline-block">选择月份</label>&nbsp;&nbsp;&nbsp;
+                                        <div class='input-group date' id="datepicker1">
+                                            <input type='text' id='startMonth' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <span>至</span>
+                                        <div class='input-group date' id="datepicker2">
+                                            <input type='text' id='endMonth' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                         <button type="button" style="margin: 0px" onclick="BindMonthChange()" class="btn btn-primary">按月份查询</button>
+                                    </div>
+                                </div>
+                                <table id="performance_statistic"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                    <thead>
+                                         <tr >
+                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                             <th>姓名</th>
+                                             <th>任务</th>
+                                             <th>任务方式</th>
+                                             <th>个人绩效</th>
+                                             <th>团队绩效</th>
+                                             <th>完成时间</th>
+                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                           {% for obj in  query_sets%}
+                                          <tr>
+                                              <td><input type="checkbox"></td>
+                                              <td>{% change_to_staff obj.sid_id %}</td>
+                                              <td>{% query_task_by_tmid  obj.tmid_id%}</td>
+                                              <td>{% query_task_way_by_tmid   obj.tmid_id%}</td>
+                                              <td>{{ obj.personal_score }}&nbsp;&nbsp;&nbsp;</td>
+                                              <td>{{ obj.team_score }}</td>
+                                              <td>{{ obj.create_time |date:'Y-m-d H:i'}}</td>
+                                          </tr>
+                                          {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End Example Events -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+
+    <!-- Modal -->
+    <!-- delete-->
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">警告！</h4>
+      </div>
+      <div class="modal-body" style="text-align: center;font-size: 20px;">
+        您确定要删除吗？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button"  id="ensure"  class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%endblock %}
+
+{% block js %}
+
+    <script src="/static/js/plugins/moment/moment.js"></script>
+    <script src="/static/js/plugins/datepicker/bootstrap-datetimepicker.js"> </script>
+    <script src="/static/js/jquery.cookie.js"></script>
+        <script>
+        //预防csrf
+            var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+         //字符串格式化
+String.prototype.format=function()
+{
+  if(arguments.length==0) return this;
+  for(var s=this, i=0; i<arguments.length; i++)
+    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+  return s;
+};
+
+      /*
+    自执行函数
+    */
+    $(function () {
+        //初始化时间控件
+        $("#startMonth").val("{{ startMonth }}")
+        $("#endMonth").val("{{ endMonth }}")
+    });
+
+
+        //设置日期时间控件
+$(function () {
+    $('#datepicker1').datepicker({
+        language: "zh-CN", //语言
+        todayHighlight: true, //是否今日高亮
+        format: 'yyyy-mm', //点击月份后显示在input中的格式
+        autoclose: true, //是否开启自动关闭
+        startView: 'months', //开始视图层，为月视图层
+        maxViewMode:'years', //最大视图层，为年视图层
+        minViewMode:'months', //最小视图层，为月视图层
+        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        endDate:moment().toDate() //控制可选的最晚月份，为当前月
+    });
+     $('#datepicker2').datepicker({
+        language: "zh-CN", //语言
+        todayHighlight: true, //是否今日高亮
+        format: 'yyyy-mm', //点击月份后显示在input中的格式
+        autoclose: true, //是否开启自动关闭
+        startView: 'months', //开始视图层，为月视图层
+        maxViewMode:'years', //最大视图层，为年视图层
+        minViewMode:'months', //最小视图层，为月视图层
+        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        endDate:moment().toDate() //控制可选的最晚月份，为当前月
+    });
+});
+
+
+  //初始化bootastarp_table
+    $(function () {
+        $("#performance_statistic").bootstrapTable({
+            toolbar: "#toolbar",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 10,
+            pageList: [10,15,20,25],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false,
+        });
+    });
+
+
+    function BindMonthChange() {
+        var sid={{ sid }};
+        var startMonth= $("#startMonth").val();
+        var endMonth = $("#endMonth").val();
+        window.location.href="?sid={0}&startMonth={1}&endMonth={2}".format(sid,startMonth,endMonth)
+    }
+
+
+
+
+      </script>
+{% endblock %}
