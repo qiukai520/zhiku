@@ -7,6 +7,7 @@ from django.db import transaction
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse,redirect
 from task.forms.form import *
+from personnel.server import staff_db,department_db
 from .server import *
 from .utils import build_attachment_info,getMonthFirstDayAndLastDay, build_tags_info, build_statistic_filter, compare_json,build_assign_tags_info,build_assign_attach_info
 from django.contrib import auth
@@ -180,7 +181,7 @@ def task_base_detail(request):
 #         ret["message"] = "删除失败"
 #     return HttpResponse(json.dumps(ret))
 
-@login_required()
+
 def task_delete(request):
     """任务软删除"""
     ret = {'status': False, "data": "", "message": ""}
@@ -748,7 +749,9 @@ def staff_list(request):
 
 
 def staff_edit(request):
-    pass
+    mothod=request.method
+    if mothod == "GET":
+        return  render(request,"personnel/staff_edit.html",)
 
 
 def task_sort_list(request):
@@ -1037,8 +1040,7 @@ def login(request):
                     request.session["user_info"] = {"user_id": user_obj.sid,
                                                     "user_name": user_obj.name}
                     init_permission(user_obj, request)
-                result['status'] = True
-                print("login")
+                    result['status'] = True
         else:
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])

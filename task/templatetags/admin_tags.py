@@ -4,6 +4,7 @@ from datetime import timedelta
 from django import template
 from django.utils.safestring import mark_safe
 from task.server import *
+from personnel.server import *
 from task.utils import getMonthFirstDayAndLastDay
 
 register = template.Library()
@@ -627,30 +628,30 @@ def fetch_assign_finish_status(status):
 
 
 @register.simple_tag
-def count_personal_total_task(sid,startMonth,endMonth):
+def count_personal_total_task(sid, startMonth, endMonth):
     """获取单月个人任务总数"""
-    first_day,last_day = getMonthFirstDayAndLastDay(startMonth,endMonth)
-    total = task_assign_db.count_personal_total_task(sid,first_day,last_day)
+    first_day,last_day = getMonthFirstDayAndLastDay(startMonth, endMonth)
+    total = task_assign_db.count_personal_total_task(sid, first_day, last_day)
     return total
 
 @register.simple_tag
-def count_personal_finish_task(sid,startMonth,endMonth):
+def count_personal_finish_task(sid, startMonth, endMonth):
     """获取单月个人完成总数"""
-    first_day,last_day = getMonthFirstDayAndLastDay(startMonth,endMonth)
-    total = task_assign_db.count_personal_finish_task(sid,first_day,last_day)
+    first_day, last_day = getMonthFirstDayAndLastDay(startMonth, endMonth)
+    total = task_assign_db.count_personal_finish_task(sid, first_day, last_day)
     return total
 
 @register.simple_tag
-def count_team_total_task(sid,startMonth,endMonth):
+def count_team_total_task(sid, startMonth, endMonth):
     """获取单月团队任务总数"""
     first_day,last_day = getMonthFirstDayAndLastDay(startMonth,endMonth)
     total = task_assign_db.count_team_total_task(sid,first_day,last_day)
     return total
 
 @register.simple_tag
-def count_team_finish_task(sid,startMonth,endMonth):
+def count_team_finish_task(sid, startMonth, endMonth):
     """获取单月团队完成总数"""
-    first_day,last_day = getMonthFirstDayAndLastDay(startMonth,endMonth)
+    first_day,last_day = getMonthFirstDayAndLastDay(startMonth, endMonth)
     total = task_assign_db.count_team_finish_task(sid,first_day,last_day)
     return total
 

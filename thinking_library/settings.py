@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'task.apps.TaskConfig',
     'rbac.apps.RbacConfig',
+    'personnel.apps.PersonnelConfig',
     'xadmin',
     'crispy_forms',
     'reversion',
@@ -148,7 +149,6 @@ PERMISSION_MENU_KEY = "afsdfasdfadfsdfsdf"
 
 VALID_URL = [
     "/login/",
-    "/index/",
     "/xadmin/",
     "/logout/"
 ]

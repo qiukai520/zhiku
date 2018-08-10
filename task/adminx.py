@@ -203,21 +203,6 @@ class PerformanceRecordAdmin(object):
     model_icon = 'fa fa-cog'
 
 
-class DepartmentAdmin(object):
-    """部门后台管理"""
-    list_display = ['id',"department"]
-    list_filter = ["department"]
-    search_fields = ['department']
-    model_icon = 'fa fa-user'
-
-
-class StaffAdmin(object):
-    """后台管理"""
-    list_display = ['sid','job_number','name',"sex","user","phone","company","department","current_project","hire_day"]
-    list_filter = ['name', "department"]
-    search_fields = ['name', 'department', ]
-    model_icon = 'fa fa-user'
-    style_fields = {'roles': 'm2m_transfer'}
 
 
 # settings
@@ -241,7 +226,5 @@ xadmin.site.register(TaskReview, TaskReviewAdmin)
 xadmin.site.register(TaskReviewRecord,TaskReviewRecordAdmin)
 xadmin.site.register(Performance,PerformanceAdmin)
 xadmin.site.register(PerformanceRecord,PerformanceRecordAdmin)
-xadmin.site.register(Department, DepartmentAdmin)
-xadmin.site.register(Staff, StaffAdmin)
 
 

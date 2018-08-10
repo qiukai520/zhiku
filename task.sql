@@ -80,9 +80,35 @@ create TABLE `task_attachment`(
 drop TABLE if exists `staff`;
 create TABLE `staff`(
 `sid` int(11) primary key auto_increment,
-`name` varchar(64) NOT NUll,
-`department` int(11) COMMENT'部门'
+`job_number` varchar (32) NOT NULL  COMMENT '工号',
+`user_id`  int(11)   COMMENT '用户ID',
+`name` varchar(16) NOT NUll COMMENT '员工姓名',
+`life_photo` varchar (128) COMMENT '生活照片',
+`sex` tinyint(1) NOT NULL  DEFAULT 0 COMMENT '性别:0男，1女',
+`phone` varchar (128) COMMENT '手机号码',
+`email` varchar (32) COMMENT '邮箱',
+`company` varchar (32) COMMENT '公司名称',
+`project` varchar (32) COMMENT '公司名称',
+`department_id` int(11) COMMENT'所属部门',
+`job_rank` varchar (32) COMMENT '职级',
+`birthday` datetime  COMMENT '生日',
+`is_lunar` tinyint(1)   DEFAULT 0 COMMENT '生日农历or公历:0公历，1农历',
+`hire_day` datetime  COMMENT '入职时间',
+`native_place` varchar (16) COMMENT '籍贯',
+`nationality` varchar (8) COMMENT '民族',
+`family_address` varchar (128) COMMENT '家庭住址',
+`current_address` varchar (128) COMMENT '现住地址',
+`education` varchar (16) COMMENT '学历',
+`id_card` varchar (16) NOT NULL COMMENT '身份证号码',
+`bank` varchar (32) COMMENT '开户银行',
+`bank_account` varchar (32) COMMENT '银行账号',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工表';
+ALTER TABLE `staff` ADD UNIQUE (
+`user_id`,`job_number`,
+)
 
 
 

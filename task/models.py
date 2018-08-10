@@ -1,20 +1,7 @@
 
 from django.db import models
-from rbac.models import Role
-from django.contrib.auth.models import User
 
-
-class Department(models.Model):
-    id = models.AutoField(primary_key=True)
-    department = models.CharField(max_length=32, blank=True, null=True, verbose_name='部门')
-
-    class Meta:
-        db_table = 'department'
-        verbose_name = '部门'
-        verbose_name_plural = '部门'
-
-    def __str__(self):
-        return self.department
+from personnel.models import Staff
 
 
 class Performance(models.Model):
@@ -37,7 +24,7 @@ class Performance(models.Model):
 # 绩效记录
 class PerformanceRecord(models.Model):
     prid = models.AutoField(primary_key=True)
-    sid = models.ForeignKey("Staff", to_field='sid', on_delete=models.CASCADE, db_constraint=False,
+    sid = models.ForeignKey(Staff, to_field='sid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='员工')
     tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
     personal_score = models.IntegerField(verbose_name="个人分值", default=0)
@@ -51,43 +38,6 @@ class PerformanceRecord(models.Model):
         verbose_name_plural = '任务绩效记录'
 
 
-class Staff(models.Model):
-    sex_choice = ((0,"男"),(1,"女"))
-    delete_status_choice = ((0, '已删除'), (1, '保留'))
-    sid = models.AutoField(primary_key=True)
-    job_number = models.CharField(max_length=32, verbose_name='工号',blank=True, null=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE,verbose_name="用户",blank=True, null=True)
-    name = models.CharField(max_length=32, verbose_name='员工姓名')
-    sex = models.SmallIntegerField(choices=sex_choice, verbose_name="性别",default=0)
-    phone = models.IntegerField(verbose_name="手机号码",blank=True, null=True)
-    email = models.EmailField(verbose_name="邮箱",blank=True, null=True)
-    company = models.CharField(max_length=128,verbose_name="公司名称",blank=True, null=True)
-    project = models.CharField(max_length=64,verbose_name="所在项目",blank=True, null=True)
-    department = models.ForeignKey('Department',to_field="id", on_delete=models.CASCADE, db_constraint=False, default=1, verbose_name='所属部门')
-    current_project = models.CharField(max_length=64, verbose_name="职级",blank=True, null=True)
-    birthday = models.DateField(verbose_name="生日",blank=True, null=True)
-    hire_day = models.DateField(verbose_name="入职日期",blank=True, null=True)
-    native_place = models.CharField(max_length=64,verbose_name="籍贯", blank=True, null=True)
-    nationality = models.CharField(max_length=32,verbose_name='民族', blank=True, null=True)
-    education = models.CharField(max_length=32,verbose_name='学历', blank=True, null=True)
-    roles = models.ManyToManyField(Role, verbose_name="具有的所有的角色", blank=True)
-    delete_status = models.SmallIntegerField(choices=delete_status_choice,default=1, verbose_name='删除状态')
-    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
-    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
-
-
-    class Meta:
-        db_table = 'staff'
-        verbose_name = '员工'
-        verbose_name_plural = '员工'
-        permissions = (('publish_task',u"发布任务"),  # 权限字段名称及其解释)
-                                   ('task_edit', u"任务编辑"),
-                                   ('task_detail',u"任务详情"), )
-    
-    def __str__(self):
-        return self.name
-
-
 class Task(models.Model):
     task_status_choice = ((1, '启动'), (0, '删除'))
 
@@ -96,7 +46,7 @@ class Task(models.Model):
     content = models.TextField(verbose_name='任务描述')  # 任务描述',
     type = models.ForeignKey("TaskType", to_field="tpid", on_delete=models.CASCADE, verbose_name='任务类型',
                              db_constraint=False, default=1)
-    issuer = models.ForeignKey('Staff', to_field="sid", on_delete=models.CASCADE, verbose_name='发布人',
+    issuer = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='发布人',
                                db_constraint=False, parent_link=True)  # '发布人',
     cycle = models.ForeignKey('TaskCycle', to_field="tcid", on_delete=models.CASCADE, db_constraint=False, default=1,
                               verbose_name='任务周期')  # 任务周期
@@ -123,7 +73,7 @@ class TaskMap(models.Model):
     tmid = models.AutoField(primary_key=True)
     tid = models.ForeignKey("Task", to_field="tid", on_delete=models.CASCADE, verbose_name='任务',
                             db_constraint = False)
-    assigner = models.ForeignKey('Staff', to_field="sid", on_delete=models.CASCADE, verbose_name='指派人',
+    assigner = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='指派人',
                                  db_constraint =False, parent_link=True)  # '指派人',
     perfor = models.ForeignKey('Performance', to_field='pid', on_delete=models.CASCADE, db_constraint=False,
                                verbose_name='绩效分类')  # '绩效分类',
@@ -155,7 +105,7 @@ class TaskAssign(models.Model):
     delete_status_choice = ((0, '已删除'), (1, '保留'))
     tasid = models.AutoField(primary_key=True)
     tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
-    member_id = models.ForeignKey('Staff', to_field="sid", on_delete=models.CASCADE, verbose_name='员工',
+    member_id = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='员工',
                                   db_constraint=False)
     title = models.CharField(max_length=512, blank=True, null=True, verbose_name='任务名称')
     content = models.TextField(blank=True, null=True, verbose_name='任务内容')
@@ -267,7 +217,7 @@ class TaskReview(models.Model):
     delete_status_choice = ((0, '已删除'), (1, '保留'))
     tvid = models.AutoField(primary_key=True)
     tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
-    sid = models.ForeignKey("Staff", to_field='sid', on_delete=models.CASCADE, db_constraint=False,
+    sid = models.ForeignKey(Staff, to_field='sid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='审核人')
     follow = models.IntegerField(verbose_name='审核顺序')
     delete_status = models.SmallIntegerField(choices=delete_status_choice,default=1, verbose_name='删除状态')
