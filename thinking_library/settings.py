@@ -71,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.template.context_processors.media",
             ],
         },
     },
@@ -133,10 +134,14 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/' # 设置静态文件的相对路径
+
+MEDIA_URL = '/media/'  # 设置媒体文件的相对路径
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 设置媒体文件的绝对路径
 
 STATICFILES_DIRS = (
    os.path.join(BASE_DIR, 'static'),
+   os.path.join(BASE_DIR, 'media'),
 )
 
 # LOGIN_URL = '/login/'

@@ -16,16 +16,20 @@ Including another URLconf
 import xadmin
 from django.contrib import admin
 from django.urls import path,include
-from task import views
-import task
+from task import views as task_view
+from personnel import views as p_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
-    path('index/', views.index, name='index'),
-    path('login/', views.login, name='login'),
-    path('logout/', views.logout, name='logout'),
+    path('index/', task_view.index, name='index'),
+    path('login/', task_view.login, name='login'),
+    path('logout/', task_view.logout, name='logout'),
     path("task/", include('task.urls')),
-    path('attachment_upload.html', views.attachment_upload, name='attachment_upload'),
-    path("attachment_download.html", views.attachment_download, name="attachment_download"),
-]
+    path("personnel/", include('personnel.urls')),
+    path('attachment_upload.html', task_view.attachment_upload, name='attachment_upload'),
+    path("attachment_download.html", task_view.attachment_download, name="attachment_download"),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # 配置media

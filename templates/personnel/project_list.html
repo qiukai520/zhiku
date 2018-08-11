@@ -13,7 +13,7 @@
         <!-- Panel Other -->
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>人事列表</h5>
+                <h5>项目列表</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -39,47 +39,26 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                     <a href="{% url "staff_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
-                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
+                                     <a href="{% url "project_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+{#                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                 </div>
-                                <table id="task_sort"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                <table id="project"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                          <tr >
-                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
-
-                                             <th>所在公司</th>
-                                             <th>工号</th>
-                                             <th>姓名</th>
-                                             <th>性别</th>
-                                             <th>籍贯</th>
-                                             <th>民族</th>
-                                             <th>学历</th>
-                                             <th>所在项目</th>
-                                             <th>所在部门</th>
-                                              <th>电话</th>
-                                             <th>邮箱</th>
-                                             <th>生日</th>
-                                             <th>操作</th>
+                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                              <th>ID</th>
+                                              <th>项目名称</th>
+                                              <th>操作</th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                      {% for obj in query_sets %}
                                       <tr>
                                           <td><input type="checkbox"></td>
-                                          <td>{{ obj.company_id }}</td>
-                                          <td>{{ obj.job_number }}</td>
-                                          <td>{{ obj.name }}</td>
-                                          <td>{% change_to_sex obj.sex %} </td>
-                                          <td>{{ obj.native_place }}</td>
-                                          <td>{{ obj.nationality }}</td>
-                                          <td>{{ obj.education }}</td>
-                                          <td>{{ obj.project_id }}</td>
-                                          <td>{{ obj.department_id }}</td>
-                                           <td>{{ obj.phone }}</td>
-                                          <td>{{ obj.email }}</td>
-                                          <td>{{ obj.birthday }}</td>
+                                          <td>{{ obj.id }}</td>
+                                          <td>{{ obj.project }}</td>
                                             <td>
-                                              <a  href="{%url "staff_edit" %}?sid={{ obj.id }}" class="btn btn-primary" >编辑</a>
+                                              <a  href="{%url "project_edit" %}?id={{ obj.id }}" class="btn btn-primary" >编辑</a>
                                           </td>
                                       </tr>
                                       {% endfor %}
@@ -124,7 +103,7 @@
     自执行函数
     */
     $(function () {
-        $("#task_sort").bootstrapTable({
+        $("#project").bootstrapTable({
             toolbar: "#toolbar",
             striped: true,
             sidePagination: "client",
@@ -167,7 +146,7 @@
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "task_sort_edit" %}",
+            url:"{% url "project_edit" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",

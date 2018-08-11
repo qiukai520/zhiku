@@ -698,62 +698,6 @@ def department_staff(request):
     return HttpResponse(json.dumps(ret))
 
 
-def department_list(request):
-    query_sets = department_db.query_department_list()
-    return render(request,"personnel/department_list.html",{"query_sets":query_sets})
-
-
-def department_edit(request):
-    """"部门添加或编辑"""
-    method = request.method
-    if method == "GET":
-        dpid = request.GET.get("dpid", "")
-        # 有则为编辑 ,无则添加
-        if dpid:
-            department_obj = department_db.query_department_by_id(dpid)
-        else:
-            dpid = 0
-            department_obj = []
-        return render(request, 'personnel/department_edit.html', {"department_obj": department_obj, "dpid": dpid})
-    else:
-        form = DepartmentForm(data=request.POST)
-        ret = {'status': False, "data": '', "message": ""}
-        if form.is_valid():
-            dpid = request.POST.get("id", "")
-            data = request.POST
-            data = data.dict()
-            # 有则为编辑 ,无则添加
-            if dpid:
-                try:
-                    print("update",data)
-                    department_db.update_deaprtment(data)
-                    ret['status'] = True
-                except Exception as e:
-                    ret['message'] = str(e)
-            else:
-                try:
-                    department_db.insert_department(data)
-                    ret['status'] = True
-                except Exception as e:
-                    ret['message'] = str(e)
-        else:
-            errors = form.errors.as_data().values()
-            firsterror = str(list(errors)[0][0])
-            ret['message'] = firsterror
-    return HttpResponse(json.dumps(ret))
-
-
-def staff_list(request):
-    query_sets = staff_db.query_staff_list()
-    return render(request,"personnel/staff_list.html",{"query_sets":query_sets})
-
-
-def staff_edit(request):
-    mothod=request.method
-    if mothod == "GET":
-        return  render(request,"personnel/staff_edit.html",)
-
-
 def task_sort_list(request):
     """绩效列表"""
     query_sets = task_type_db.query_task_type_list()
@@ -1055,10 +999,11 @@ def attachment_upload(request):
         # 获取文件对象
         file_obj = request.FILES.get("file")
         raw_name = file_obj.name
+        postfix = raw_name.split(".")[-1]
         if not file_obj:
             pass
         else:
-            file_name = str(uuid.uuid4())
+            file_name = str(uuid.uuid4())+"."+postfix
             file_path = os.path.join("static/upload/task", file_name)
             with open(file_path, "wb") as f:
                 for chunk in file_obj.chunks():

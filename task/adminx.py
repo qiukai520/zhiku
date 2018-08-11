@@ -84,7 +84,7 @@ class TaskMapAdmin(object):
 
 class TaskAttachmentAdmin(object):
     """任务附件后台管理"""
-    list_display = ['tamid','tid', 'attachment', 'name', 'description']
+    list_display = ['tamid','tid', 'attach', 'name', 'description']
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'
@@ -133,7 +133,7 @@ class TaskAssignTagAdmin(object):
 
 class TaskAssignAttachAdmin(object):
     """任务指派附件后台管理"""
-    list_display = ['taaid','tasid', 'attachment', 'name', 'description']
+    list_display = ['taaid','tasid', 'attach', 'name', 'description']
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'
@@ -173,7 +173,7 @@ class TaskSubmitTagAdmin(object):
 
 class TaskSubmitAttachmentAdmin(object):
     """任务提交附件后台管理"""
-    list_display = ["tsaid",'tsid', 'attachment', 'name', 'description']
+    list_display = ["tsaid",'tsid', 'attach', 'name', 'description']
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'

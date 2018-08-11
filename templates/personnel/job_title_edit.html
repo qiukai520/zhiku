@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+{% load admin_tags %}
+{% block css %}
+    <style>
+     .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+    .form-group{
+         margin-top:30px;
+    }
+    </style>
+
+{%endblock %}
+{% block content %}
+
+      <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>职称编辑 </h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#">选项1</a>
+                                </li>
+                                <li><a href="#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label for="name" class="col-xs-2 control-label">职称：</label>
+                                      <div class="col-xs-4">
+                                          <input name="name"  class="form-control"  id="name" placeholder="职称">
+                                        </input>
+                                      </div>
+                                </div>
+
+                                  <div class="form-group col-xs-6" style="text-align: center">
+                                      <a href="{% url "job_title_list" %}" class="btn btn-danger"  style="margin-right: 50px;">返回</a>
+                            {% if id %}
+                                  <button  onclick="Edit()" class="btn btn-primary" style="">修改</button>
+                            {% else %}
+                                <button  onclick="Submit()" class="btn btn-primary" style="">创建</button>
+                            {% endif %}
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block js%}
+     <script>
+       //自执行函数
+  $(function () {
+
+      if({{ id }}){
+          DataInit()//初始化化数据
+      }
+  })
+  function DataInit() {
+        $("#name").val("{{ job_title_obj.job_title }}");
+}
+
+     function Submit() {
+        var name = $("#name").val().trim();
+        $.ajax({
+                url: '{% url "job_title_edit"%}',
+                type: "post",
+                data:  {"job_title":name,
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("添加成功");
+                    window.location.href='{% url "job_title_list" %}';
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
+    }
+
+    function Edit() {
+        var name = $("#name").val().trim();
+        $.ajax({
+                url: "{% url "job_title_edit"%}",
+                type: "post",
+                data:  {
+                    "id":{{ id }},
+                    "job_title":name,
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    alert("修改成功")
+                    window.location.reload()
+                } else {
+                    alert(arg.message)
+                }
+            }
+        })
+    }
+    </script>
+{% endblock %}

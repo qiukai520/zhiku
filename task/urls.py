@@ -50,9 +50,5 @@ urlpatterns = [
     path("perfor_statistic_detail",views.perfor_statistic_detail,name="perfor_statistic_detail"),
     path('performence_delete',views.performence_delete, name="performence_delete"),
     path('department_staff', views.department_staff, name="department_staff"),
-    path("department_list",views.department_list,name="department_list"),
-    path("department_edit",views.department_edit,name='department_edit'),
-    path("staff_list", views.staff_list, name="staff_list"),
-    path("staff_edit", views.staff_edit, name='staff_edit')
 
 ]
