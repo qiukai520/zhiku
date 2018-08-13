@@ -1,8 +1,25 @@
+from django.db import connection
 from .models import *
+
 
 class StaffDB(object):
     """员工表"""
-    sex = ({"id": 0, "caption": "男"}, {"id": 1, "caption": "女"})
+    gender_choice = ({"id": 0, "caption": "男"}, {"id": 1, "caption": "女"})
+
+
+    def insert_staff(self,modify_info):
+        staff_sql = """insert into staff(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        staff_sql = staff_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(staff_sql, modify_info)
+        sid = cursor.lastrowid
+        return sid
+
 
     def query_staff_list(self):
         result_db = Staff.objects.filter().all()
@@ -134,9 +151,46 @@ class JobTitleDB(object):
         JobTitle.objects.create(**modify_info)
 
 
+class StaffLifePhotoDB(object):
+    """人事生活照"""
+
+    def insert_life_photo(self,modify):
+        StaffLifePhoto.objects.create(**modify)
+
+
+class StaffAttachDB(object):
+    """任务附件表"""
+    def query_staff_attachment_list(self):
+        result_db = StaffAttach.objects.filter().all()
+        return result_db
+
+    def query_staff_attachment_by_tid(self, sid):
+        result_db = StaffAttach.objects.filter(sid_id=sid).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            StaffAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            StaffAttach.objects.filter(said=item['said']).update(**item)
+
+    def mutil_delete_task_attachment(self, id_list):
+        StaffAttach.objects.filter(said__in=id_list).delete()
+
+    def multi_delete_attach_by_sid(self,id_list):
+        StaffAttach.objects.filter(sid_id__in=id_list).filter().delete()
+
+    def delete_task_attachment(self,said):
+        StaffAttach.objects.filter(said=said).delete()
+
+
 department_db = DepartmentDB()
 company_db = CompanyDB()
 project_db = ProjectDB()
 job_rank_db = JobRankDB()
 job_title_db = JobTitleDB()
 staff_db = StaffDB()
+staff_life_photo_db = StaffLifePhotoDB()
+staff_attach_db = StaffAttachDB()

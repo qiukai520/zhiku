@@ -656,12 +656,6 @@ def count_team_finish_task(sid, startMonth, endMonth):
     return total
 
 
-@register.simple_tag
-def change_to_sex(sex_id):
-    sex_list = staff_db.sex
-    for item in sex_list:
-        if int(item["id"]) == sex_id:
-            return item["caption"]
 
 
 

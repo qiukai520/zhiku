@@ -73,13 +73,10 @@
                                 <span class="fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level">
-
                                 <li>
                                     <a  href="{% url 'index' %}">主页</a>
                                 </li>
-
                             </ul>
-
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">工作任务管理</span><span class="fa arrow"></span></a>
@@ -104,12 +101,6 @@
                                  <li>
                                     <a  href="{% url 'personal_task_review' %} ">我的审核任务</a>
                                 </li>
-                                <li>
-                                     <a  href="{% url "performence_list" %}">绩效分类</a>
-                                </li>
-                                 <li>
-                                     <a  href="{% url "task_sort_list" %}">任务分类</a>
-                                </li>
                                  <li>
                                      <a  href="{% url "performence_statistic" %}">任务绩效统计</a>
                                 </li>
@@ -121,23 +112,36 @@
                                  <li>
                                      <a  href="{% url "staff_list" %}">人事档案</a>
                                 </li>
-                                  <li>
-                                     <a  href="{% url "company_list" %}">公司管理</a>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">基础设置</span><span class="fa arrow"></span></a>
+                            <ul id="left_menu" class="nav nav-second-level">
+                                 <li>
+                                     <a  href="{% url "performence_list" %}">绩效分类</a>
+                                </li>
+                                 <li>
+                                     <a  href="{% url "task_sort_list" %}">任务分类</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "department_list" %}">部门管理</a>
+                                     <a  href="{% url "company_list" %}">公司名称</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "project_list" %}">项目管理</a>
+                                     <a  href="{% url "department_list" %}">部门名称</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "job_rank_list" %}">职级管理</a>
+                                     <a  href="{% url "project_list" %}">项目名称</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "job_title_list" %}">职称管理</a>
+                                     <a  href="{% url "job_rank_list" %}">职级名称</a>
+                                </li>
+                                  <li>
+                                     <a  href="{% url "job_title_list" %}">职称名称</a>
                                 </li>
                             </ul>
                         </li>
+
                 </ul>
             </div>
         </nav>

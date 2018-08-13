@@ -1,6 +1,6 @@
 
 {% extends "layout.html" %}
-{% load admin_tags %}
+{% load personnel_tags %}
 {% block css %}
     <style>
      .minus  {
@@ -45,7 +45,7 @@
                             <div class="form-group">
                             <label class="col-sm-2 control-label">工号</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="job_number" value="" placeholder="必填选项">
+                                <input type="text"id="job_number" class="form-control" name="job_number" value="" placeholder="必填选项">
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
@@ -55,17 +55,14 @@
                                     <a href="" class="hide"width="100"  height="100" id="pre_link" target="_blank">
                                     <p><img width="100"  id="life_photo" height="100"style=" border: 1px solid #dddddd;" ></p>
                                     </a>
-                                    <form action="{% url "life_photo" %}" method="POST" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                            <input type="file" name="life_photo"  class="form-control"  onchange="UploadImage(this)" >
-                                    </form>
+                                    <input type="file" id="photo_input"  class="form-control"  onchange="UploadImage(this)" >
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">姓名</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" value="" placeholder="必填选项" name="name">
+                                <input type="text" id="name" class="form-control" value="" placeholder="必填选项" name="name">
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
@@ -101,35 +98,45 @@
                            <div class="form-group">
                             <label class="col-sm-2 control-label">公司名称</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="company" value=""> <span class="help-block m-b-none"></span>
+                                <select  name="company" class="form-control" id="company" >
+                                    {% build_company_ele %}
+                                </select>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                            <div class="form-group">
                             <label class="col-sm-2 control-label">所在项目</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="project" value=""> <span class="help-block m-b-none"></span>
+                                <select  name="project" class="form-control" id="project" >
+                                    {% build_project_ele %}
+                                </select>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                            <div class="form-group">
                             <label class="col-sm-2 control-label">所在部门</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="department" value=""> <span class="help-block m-b-none"></span>
+                                <select  name="department" class="form-control" id="department" >
+                                    {% build_department_ele %}
+                                </select>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">职级</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="job_rank" value=""> <span class="help-block m-b-none"></span>
+                                <select  name="job_rank" class="form-control" id="job_rank" >
+                                    {% build_job_rank_ele %}
+                                </select>
                             </div>
                         </div>
                               <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">职称</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="rank_name" value=""> <span class="help-block m-b-none"></span>
+                                <select  name="job_title" class="form-control" id="job_title" >
+                                    {% build_job_title_ele %}
+                                </select>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
@@ -157,28 +164,28 @@
                             <div class="form-group">
                             <label class="col-sm-2 control-label">籍贯</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="native_place2" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="native_place" value=""> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">民族</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="nation2" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="nationality" value=""> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">学历</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="education2" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="education" value=""> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">入职时间</label>
+                            <label class="col-sm-2 control-label">入职日期</label>
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" name="entry_time2" value=""> <span class="help-block m-b-none"></span>
+                                <input type="date" class="form-control" name="hire_day" value=""> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
@@ -213,14 +220,7 @@
                             <div class="form-group">
                             <label class="col-sm-2 control-label">紧急联系人关系</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="relation" value=""> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                            <label class="col-sm-2 control-label">家庭电话</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="family_phone" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="contact_relation" value=""> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
@@ -234,7 +234,7 @@
                             <div class="form-group">
                             <label class="col-sm-2 control-label">现住址</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="present_address" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="current_address" value=""> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
@@ -293,7 +293,6 @@
                             </div>
                          </div>
                     </div>
-                     <iframe id='upload_img_iframe' name='upload_img_iframe' src=""  class="hide"></iframe>
                 </div>
             </div>
         </div>
@@ -302,7 +301,10 @@
 
 {% block js %}
      <script src="/static/js/jquery.cookie.js"></script>
-    <script src="/static/js/icheck.min.js"></script>
+{#    <script src="/static/js/"></script>#}
+    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/js/custom/form-validate-staff.min.js"></script>
+    <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
     <script>
         var csrftoken = $.cookie('csrftoken');
         function csrfSafeMethod(method) {
@@ -406,42 +408,61 @@ function FetchAttachment(){
 }
 
 
-
  /*
     上传图片
     */
     function UploadImage(ths){
-        document.getElementById('upload_img_iframe').onload = UploadBigImageComplete;
-        //当iframe上传文件成功时，执行
-        $(ths).parent()[0].target = 'upload_img_iframe';//设置form提交到iframe，target属性告诉浏览器希望将所链接的资源显示在哪里，提交后返回数据将显示到框架里
-        $(ths).parent()[0].submit();//提交到iframe，上传
-    }
-    /*
-    上传大图成功的回调函数
-     */
-    function UploadBigImageComplete(){
-        var origin = $("#upload_img_iframe").contents().find("body").text();//获取图片数据，获取某元素下面所有元素节点，包括文本节点，如果是 iframe，则可以查找文本内容，集合元素
-        var obj = JSON.parse(origin); //转换成JavaScript对象
-        // 创建img标签，将图片添加到指定位置
-        if(obj.status){
-            // 创建img和input标签添加到
-            console.log(obj.data.path);
-            $('#life_photo').attr("src","/"+obj.data.path);
-            var perLink= $("#pre_link");
-            perLink.attr("href","/"+obj.data.path)
-            perLink.removeClass("hide");
-        }else{
-            alert('上传失败', obj.summary, 'error');
+        //去掉旧文件
+        $("#pre_link").addClass("hide")
+        $(ths).parent().find("input[name=file_path]").remove();
+        $(ths).parent().find("input[name=file_name]").remove();
+        //上传新文件
+        var file_obj = $(ths)[0].files[0];
+        if(file_obj){
+            var fileSize = file_obj.size;
+            var size = fileSize / 1024;
+            if(size>8000){
+                 alert("上传图片不能大于8M");
+                 $(ths)[0].value="";
+                 return false;   //阻止上传
+                 }
+            var form = new FormData();
+            form.append("file", file_obj);
+            $.ajax({
+                url:"{% url 'life_photo' %}",
+                type:"POST",
+                data: form ,
+                dataType:"JSON",
+                // 告诉jQuery不要去处理发送的数据
+                processData : false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType : false,
+                success:function (arg) {
+                    //添加新的file
+                    var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
+                    var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
+                    $(ths).parent().append(path_input);
+                    $(ths).parent().append(name_input);
+
+                    $(ths).parent().find("input[name=file_path]").val(arg.data.path)
+                    $(ths).parent().find("input[name=file_name]").val(arg.data.name)
+                    //预览
+                    $("#life_photo").attr("src","/"+arg.data.path)
+                    $("#pre_link").attr("src","/"+arg.data.path)
+                    $("#pre_link").removeClass("hide")
+                },
+            })
         }
+
     }
 
 //上传附件
 function UploadFile(ths){
     var file_obj = $(ths)[0].files[0];
-    var  fileSize = file_obj.size;
+    var fileSize = file_obj.size;
     var size = fileSize / 1024;
-    if(size>2000){
-         alert("附件不能大于2M");
+    if(size>10000){
+         alert("附件不能大于10M");
          $(ths)[0].value="";
          return false;   //阻止上传
          }
@@ -449,7 +470,7 @@ function UploadFile(ths){
     var form = new FormData();
     form.append("file", file_obj);
     $.ajax({
-        url:"{% url 'attachment_upload' %}",
+        url:"{% url 'staff_attach' %}",
         type:"POST",
         data: form ,
         dataType:"JSON",
@@ -473,24 +494,50 @@ function UploadFile(ths){
 
     })
 }
+
+//创建时获取生活照
+    function  FetchLifePhoto() {
+        var life_photo_path = $("#photo_input").next().val();
+        console.log("life_photo_path",life_photo_path)
+        var life_photo_name= $("#photo_input").next().next().val();
+        if (life_photo_path){
+             var life_photo = { "life_photo":life_photo_path,"name":life_photo_name}
+        }
+        else{
+            life_photo={}
+        }
+        life_photo = JSON.stringify(life_photo)
+        return life_photo
+    }
 //添加
     function Submit(){
+        var form =$("#fm");
+        console.log(form)
+        //验证表单
+         if ( form.valid()){
+              //把生活照添加到form中
+            var life_photo=FetchLifePhoto;
+             var life_photo_ele=$("<input type='text' class='hide' name='life_photo'  value={0} />".format(life_photo));
+             form.append(life_photo_ele)
+            //把附件添加到form中
+            var attachment=FetchAttachment()
+            var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
+            form.append(attachment_ele)
+               $.ajax({
+                url: '{% url "staff_edit" %}',
+                type: 'POST',
+                data: form.serialize(),
+                dataType: 'JSON',
+                success: function (arg) {
+                    if(arg.status){
+                        location.href = '/'
+                    }else{
 
-        var data = $("#fm")
-        console.log(data)
-         $.ajax({
-                    url: '{% url "staff_edit" %}',
-                    type: 'POST',
-                    data: $('#fm').serialize(),
-                    dataType: 'JSON',
-                    success: function (arg) {
-                        if(arg.status){
-                            location.href = '/'
-                        }else{
-
-                        }
                     }
-                })
+                }
+         })
+         }
+
     }
 
 

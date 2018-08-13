@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% load admin_tags %}
+{% load personnel_tags %}
 {% block css %}
     <style>
      #toolbar >button{
@@ -66,15 +66,15 @@
                                      {% for obj in query_sets %}
                                       <tr>
                                           <td><input type="checkbox"></td>
-                                          <td>{{ obj.company_id }}</td>
+                                          <td>{% change_to_company obj.company_id%}</td>
                                           <td>{{ obj.job_number }}</td>
                                           <td>{{ obj.name }}</td>
                                           <td>{% change_to_sex obj.sex %} </td>
                                           <td>{{ obj.native_place }}</td>
                                           <td>{{ obj.nationality }}</td>
                                           <td>{{ obj.education }}</td>
-                                          <td>{{ obj.project_id }}</td>
-                                          <td>{{ obj.department_id }}</td>
+                                          <td>{% change_to_project  obj.project_id%}</td>
+                                          <td>{% change_to_department obj.department_id%} </td>
                                            <td>{{ obj.phone }}</td>
                                           <td>{{ obj.email }}</td>
                                           <td>{{ obj.birthday }}</td>

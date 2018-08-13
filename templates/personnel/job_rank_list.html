@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% load admin_tags %}
+{% load personnel_tags %}
 {% block css %}
     <style>
      #toolbar >button{
@@ -111,8 +111,8 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 15,
-            pageList: [10, 25],
+            pageSize: 10,
+            pageList: [10,15,20, 25],
             search: true,
             strictSearch: false,
             showColumns: true,
