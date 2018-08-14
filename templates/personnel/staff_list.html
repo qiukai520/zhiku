@@ -66,20 +66,20 @@
                                      {% for obj in query_sets %}
                                       <tr>
                                           <td><input type="checkbox"></td>
-                                          <td>{% change_to_company obj.company_id%}</td>
+                                          <td>{% change_to_company obj.company_id %}</td>
                                           <td>{{ obj.job_number }}</td>
                                           <td>{{ obj.name }}</td>
-                                          <td>{% change_to_sex obj.sex %} </td>
-                                          <td>{{ obj.native_place }}</td>
-                                          <td>{{ obj.nationality }}</td>
-                                          <td>{{ obj.education }}</td>
+                                          <td>{% change_to_sex obj.gender %} </td>
+                                          <td>{% if obj.native_place  %}{{ obj.native_place }}{% else  %}空{% endif %}</td>
+                                          <td>{% if obj.nationality  %}{{ obj.nationality }}{% else  %}空{% endif %}</td>
+                                          <td>{% if obj.education  %}{{ obj.education }}{% else  %}空{% endif %}</td>
                                           <td>{% change_to_project  obj.project_id%}</td>
                                           <td>{% change_to_department obj.department_id%} </td>
-                                           <td>{{ obj.phone }}</td>
-                                          <td>{{ obj.email }}</td>
-                                          <td>{{ obj.birthday }}</td>
+                                           <td>{% if obj.phone  %}{{ obj.phone }}{% else  %}空{% endif %}</td>
+                                          <td>{% if obj.email  %}{{ obj.email }}{% else  %}空{% endif %}</td>
+                                          <td>{% if obj.birthday  %}{{ obj.birthday }}{% else  %}空{% endif %}</td>
                                             <td>
-                                              <a  href="{%url "staff_edit" %}?sid={{ obj.id }}" class="btn btn-primary" >编辑</a>
+                                              <a  href="{%url "staff_edit" %}?sid={{ obj.sid }}" class="btn btn-primary" >编辑</a>
                                           </td>
                                       </tr>
                                       {% endfor %}

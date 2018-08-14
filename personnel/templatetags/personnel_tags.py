@@ -20,7 +20,7 @@ def change_to_company(id):
         company_obj = company_db.query_company_by_id(id)
         if company_obj:
             return company_obj.company
-    return ""
+    return "空"
 
 @register.simple_tag
 def change_to_project(id):
@@ -28,7 +28,7 @@ def change_to_project(id):
         project_obj = project_db.query_project_by_id(id)
         if project_obj:
             return project_obj.project
-    return ""
+    return "空"
 
 
 @register.simple_tag
@@ -37,7 +37,7 @@ def change_to_department(id):
         department_obj = department_db.query_department_by_id(id)
         if department_obj:
             return department_obj.department
-    return ""
+    return "空"
 
 
 @register.simple_tag

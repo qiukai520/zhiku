@@ -154,8 +154,12 @@ class JobTitleDB(object):
 class StaffLifePhotoDB(object):
     """人事生活照"""
 
-    def insert_life_photo(self,modify):
+    def insert_life_photo(self, modify):
         StaffLifePhoto.objects.create(**modify)
+
+    def query_life_photo_by_sid(self,sid):
+        result_db = StaffLifePhoto.objects.filter(sid_id=sid).first()
+        return result_db
 
 
 class StaffAttachDB(object):
@@ -164,7 +168,7 @@ class StaffAttachDB(object):
         result_db = StaffAttach.objects.filter().all()
         return result_db
 
-    def query_staff_attachment_by_tid(self, sid):
+    def query_staff_attachment_by_sid(self, sid):
         result_db = StaffAttach.objects.filter(sid_id=sid).all()
         return result_db
 
@@ -194,3 +198,4 @@ job_title_db = JobTitleDB()
 staff_db = StaffDB()
 staff_life_photo_db = StaffLifePhotoDB()
 staff_attach_db = StaffAttachDB()
+

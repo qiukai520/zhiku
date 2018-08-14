@@ -20,10 +20,9 @@ def build_assign_tags_info(tasid,tags):
     return tags_list
 
 
-def build_attachment_info(id_dict, attachment):
+def build_attachment_info(id_dict, attachment_list):
     att_list = []
-    attachment = json.loads(attachment)
-    for item in list(attachment):
+    for item in attachment_list:
         item.update(id_dict)
         att_list.append(item)
     return att_list

@@ -15,7 +15,7 @@ class TaskForm(django_forms.Form):
 
 class TaskMapForm(django_forms.Form):
     cycle_id = django_fields.IntegerField(required=False)
-    assigner = django_fields.IntegerField(required=False)
+    assigner_id = django_fields.IntegerField(required=False)
     perfor_id = django_fields.IntegerField(required=False)
     start_time = django_fields.CharField(error_messages={"required": "起始时间不能为空"})
     team = django_fields.IntegerField(error_messages={"required": "任务方式不能为空"})

@@ -72,11 +72,9 @@
                             <div class="col-sm-8">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" value=""  checked="checked" name="gender">男</label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" value="" name="gender">女</label>
+                                        <input type="radio" value=0  checked="checked" name="gender">男</label>
+                                     <label>&nbsp;&nbsp;
+                                        <input type="radio" value=1 name="gender">女</label>
                                 </div>
                             </div>
                         </div>
@@ -84,21 +82,21 @@
                            <div class="form-group">
                             <label class="col-sm-2 control-label">联系手机</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="phone" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="phone" id="phone"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                            <div class="form-group">
                             <label class="col-sm-2 control-label">联系邮箱</label>
                             <div class="col-sm-8">
-                                <input type="email" class="form-control" name="email" value=""> <span class="help-block m-b-none"></span>
+                                <input type="email" class="form-control" name="email" id="email"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                            <div class="form-group">
                             <label class="col-sm-2 control-label">公司名称</label>
                             <div class="col-sm-8">
-                                <select  name="company" class="form-control" id="company" >
+                                <select  name="company_id" class="form-control" id="company_id" >
                                     {% build_company_ele %}
                                 </select>
                             </div>
@@ -107,7 +105,7 @@
                            <div class="form-group">
                             <label class="col-sm-2 control-label">所在项目</label>
                             <div class="col-sm-8">
-                                <select  name="project" class="form-control" id="project" >
+                                <select  name="project_id" class="form-control" id="project_id" >
                                     {% build_project_ele %}
                                 </select>
                             </div>
@@ -116,7 +114,7 @@
                            <div class="form-group">
                             <label class="col-sm-2 control-label">所在部门</label>
                             <div class="col-sm-8">
-                                <select  name="department" class="form-control" id="department" >
+                                <select  name="department_id" class="form-control" id="department_id" >
                                     {% build_department_ele %}
                                 </select>
                             </div>
@@ -125,7 +123,7 @@
                             <div class="form-group">
                             <label class="col-sm-2 control-label">职级</label>
                             <div class="col-sm-8">
-                                <select  name="job_rank" class="form-control" id="job_rank" >
+                                <select  name="job_rank_id" class="form-control" id="job_rank_id" >
                                     {% build_job_rank_ele %}
                                 </select>
                             </div>
@@ -134,7 +132,7 @@
                             <div class="form-group">
                             <label class="col-sm-2 control-label">职称</label>
                             <div class="col-sm-8">
-                                <select  name="job_title" class="form-control" id="job_title" >
+                                <select  name="job_title_id" class="form-control" id="job_title_id" >
                                     {% build_job_title_ele %}
                                 </select>
                             </div>
@@ -143,20 +141,18 @@
                              <div class="form-group">
                             <label class="col-sm-2 control-label">生日</label>
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" name="birthday" value=""> <span class="help-block m-b-none"></span>
+                                <input type="date" class="form-control" name="birthday" id="birthday"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">阳历or农历
+                            <label class="col-sm-2 control-label">阳历 / 农历
                             </label>
                             <div class="col-sm-8">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" value=""   checked="checked" name="is_lunar">阳历</label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" value=""  name="is_lunar">农历</label>
+                                        <input type="radio" value=0  checked="checked" name="is_lunar">阳历</label>&nbsp;&nbsp;
+                                      <label>
+                                          <input type="radio" value=1  name="is_lunar">农历</label>
                                 </div>
                             </div>
                         </div>
@@ -164,105 +160,105 @@
                             <div class="form-group">
                             <label class="col-sm-2 control-label">籍贯</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="native_place" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="native_place" id="native_place"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">民族</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="nationality" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="nationality" id="nationality"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">学历</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="education" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="education" id="education"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">入职日期</label>
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" name="hire_day" value=""> <span class="help-block m-b-none"></span>
+                                <input type="date" class="form-control" name="hire_day" id="hire_day"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">招聘渠道</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="recruit_channel" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="recruit_channel" id="recruit_channel"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">引荐员工姓名</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="referrer" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="referrer" id="referrer"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">紧急联系人电话</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="contact_phone" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="contact_phone" id="contact_phone"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">紧急联系人姓名</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="contact_man" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="contact_man" id="contact_man"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">紧急联系人关系</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="contact_relation" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="contact_relation" id="contact_relation"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">家庭住址</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="family_address" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="family_address" id="family_address"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">现住址</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="current_address" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="current_address" id="current_address"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">银行卡号</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="band_account" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="band_account" id="band_account"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">开户名</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="account_name" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="account_name" id="account_name"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                            <div class="form-group">
                             <label class="col-sm-2 control-label">开户银行</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="bank" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="bank" id="bank"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                            <div class="form-group">
                             <label class="col-sm-2 control-label">备注</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="remark" value=""> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="remark" id="remark"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                            <div class="attachment">
@@ -328,10 +324,85 @@ String.prototype.format=function()
   return s;
 };
 
+
+ /*
+    自执行函数
+    */
+    $(function () {
+        //如果tid不为0，则为创建
+        var sid="{{ sid }}"
+        if ( sid!=""){
+           InitData()//初始化数据
+        }
+        else {
+
+        }
+    });
+     //初始化数据
+function InitData() {
+        //初始化form
+        $("#sid").val("{{ query_set.sid }}");
+        $("#job_number").val("{{ query_set.job_number }}");
+        $("#name").val("{{ query_set.name }}");
+        $("#phone").val("{% if  query_set.phone %}{{ query_set.phone }} {% endif %}");
+        $("input[name=gender]").val({{ query_set.gender }});
+        $("#email").val("{% if  query_set.email %}{{ query_set.email }} {% endif %}");
+        $("#company_id").val({{ query_set.company_id }});
+        $("#project_id").val({{ query_set.project_id }});
+        $("#department_id").val({{ query_set.department_id }});
+        $("#job_rank_id").val({{ query_set.job_rank_id }});
+        $("#job_title_id").val({{ query_set.job_title_id }});
+        $("#birthday").val("{{ query_set.birthday |date:'Y/m/d'}}");
+        $("input[name=is_lunar]").val({{query_set.is_lunar }});
+        $("#nationality").val("{% if  query_set.nationality %}{{ query_set.nationality }} {% endif %}");
+        $("#native_place").val("{% if  query_set.native_place %}{{ query_set.native_place }} {% endif %}");
+        $("#education").val("{% if  query_set.education %}{{ query_set.education }} {% endif %}");
+        $("#recruit_channel").val("{% if  query_set.recruit_channel %}{{ query_set.recruit_channel }} {% endif %}");
+         $("#referrer").val("{% if  query_set.referrer %}{{ query_set.referrer }} {% endif %}");
+        $("#hire_day").val({{ query_set.hire_day |date:'Y/m/d'}});
+        $("#contact_phone").val("{% if  query_set.contact_phone %}{{ query_set.contact_phone }} {% endif %}");
+        $("#contact_man").val("{% if  query_set.contact_man %}{{ query_set.contact_man }} {% endif %}");
+         $("#contact_relation").val("{% if  query_set.contact_relation %}{{ query_set.contact_relation }} {% endif %}");
+        $("#bank").val("{% if  query_set.bank %}{{ query_set.bank }} {% endif %}");
+        $("#bank_account").val("{% if  query_set.bank_account %}{{ query_set.bank_account }} {% endif %}");
+        $("#account_name").val("{% if  query_set.account_name %}{{ query_set.account_name }} {% endif %}");
+        $("#family_address").val("{% if  query_set.family_address %}{{ query_set.family_address }} {% endif %}");
+        $("#current_address").val("{% if  query_set.current_address %}{{ query_set.current_address }} {% endif %}");
+        $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
+        //初始化生活照
+         var photo= "{{ life_photo }}"
+        if (photo!=""){
+             var path="{{ life_photo.life_photo }}"
+            console.log(path)
+             var name="{{ life_photo.name }}"
+             //添加新的file
+            var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
+            var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
+            $("#photo_input").parent().append(path_input);
+            $("#photo_input").parent().append(name_input);
+
+            $("#photo_input").parent().find("input[name=file_path]").val(path)
+             $("#photo_input").parent().find("input[name=file_name]").val(name)
+            //预览
+            $("#life_photo").attr("src","/"+"{{ life_photo.life_photo }}")
+            $("#pre_link").attr("src","/"+"{{ life_photo.life_photo }}")
+            $("#pre_link").removeClass("hide")
+        }
+        //初始化附件
+        var staff_attach= "{{ staff_attach}}"
+       if (staff_attach !=""){
+
+       }
+
+
+    }
+
+
 //添加附件
 
 var att_num=1
-//如果是修改的话，附件计数器设定为已存在的附件数
+//如果是修改的话，附件计数器设定为已存在的附件
+
 
 function  AddAttachment (ths){
     var tag = $(ths).parent().parent().parent().clone();
@@ -491,7 +562,6 @@ function UploadFile(ths){
             $(ths).parent().find("input[name=file_path]").val(arg.data.path)
             $(ths).parent().find("input[name=file_name]").val(arg.data.name)
         },
-
     })
 }
 
@@ -516,7 +586,7 @@ function UploadFile(ths){
         //验证表单
          if ( form.valid()){
               //把生活照添加到form中
-            var life_photo=FetchLifePhoto;
+             var life_photo=FetchLifePhoto;
              var life_photo_ele=$("<input type='text' class='hide' name='life_photo'  value={0} />".format(life_photo));
              form.append(life_photo_ele)
             //把附件添加到form中
@@ -529,16 +599,26 @@ function UploadFile(ths){
                 data: form.serialize(),
                 dataType: 'JSON',
                 success: function (arg) {
-                    if(arg.status){
-                        location.href = '/'
-                    }else{
-
+                   if (arg.status) {
+                        alert("登记成功")
+                        window.location.href='{% url "staff_list" %}';
+                    } else {
+                        alert(arg.message)
                     }
                 }
          })
          }
-
+         else {
+            console.log($('.help-block').offset().top)
+            gotTop()
+         }
     }
+    function gotTop() {
+        console.log("gor")
+        $('html,body').animate({scrollTop:$('.help-block').offset().top}, 200);//定位到错误处
+    }
+
+
 
 
 

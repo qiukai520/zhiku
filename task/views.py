@@ -40,6 +40,7 @@ def publish_task(request):
             data.pop("tags")
             # 获取附件并删除
             attachment = data.get("attachment", None)
+            attachment = list(json.loads(attachment))
             data.pop("attachment")
             if data:
                 try:
@@ -98,6 +99,7 @@ def task_edit(request):
             attachment = data.get("attachment", None)
             data.pop("attachment")
             attachment_list = list(json.loads(attachment))
+            print("attachment", attachment_list)
             if tid:
                 try:
                     with transaction.atomic():
@@ -265,6 +267,7 @@ def task_assign(request):
         ret = {"status": False, "data": "", "message": ''}
         data = request.POST
         form =TaskMapForm(data=data)
+        print("form",data)
         if form.is_valid():
             # 获取任务id并删除
             data = data.dict()
@@ -918,6 +921,7 @@ def complete_task(request):
             data.pop("tags")
             # 获取附件并删除
             attachment = data.get("attachment", None)
+            attachment = list(json.loads(attachment))
             data.pop("attachment")
             if data:
                 # 获取完成进度
@@ -995,6 +999,7 @@ def login(request):
 def attachment_upload(request):
     """附件上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
+    target_path = "static/upload/task"
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -1004,7 +1009,13 @@ def attachment_upload(request):
             pass
         else:
             file_name = str(uuid.uuid4())+"."+postfix
-            file_path = os.path.join("static/upload/task", file_name)
+            # 查看路径是否存在，没有则生成
+            if not os.path.exists(os.path.dirname(target_path)):
+                os.makedirs(os.path.dirname(target_path))
+            file_path = os.path.join(target_path, file_name)
+            # os.path.join()在Linux/macOS下会以斜杠（/）分隔路径，而在Windows下则会以反斜杠（\）分隔路径,
+            # 故统一路径将'\'替换成'/'
+            file_path = file_path.replace('\\', "/")
             with open(file_path, "wb") as f:
                 for chunk in file_obj.chunks():
                     f.write(chunk)
@@ -1013,6 +1024,7 @@ def attachment_upload(request):
             ret["data"]['name'] = raw_name
     except Exception as e:
         ret["summary"] = str(e)
+    print("task",ret)
     return HttpResponse(json.dumps(ret))
 
 

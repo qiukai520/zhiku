@@ -373,7 +373,6 @@ function SelectReviewer(){
             }
         });
         // 检查是否选择审核人
-    console.log(reviewers)
         if (reviewers.length>0){
             reviewers =JSON.stringify(reviewers)//对象转化成json
         }else {
@@ -424,7 +423,6 @@ function GetAssigner(){
 
             var Assigner=$(this).val()
             var tasid=$(this).attr("tasid")
-              console.log(tasid)
             var Assign= {"member_id_id":Assigner,'tmid_id':tmid}
             if (tasid){
                 var Assign=$.extend(Assign,{"tasid":tasid})
@@ -512,7 +510,8 @@ function Submit() {
         var cycle_id = $("#task_cycle").val();
         var start_time = $("#datetimepicker1").find("input").val();
         var deadline = $("#datetimepicker2").find("input").val();
-        alert(tids)
+        console.log(cycle_id)
+        console.log(assigner_id)
         $.ajax({
                 url: "{%url "task_assign"  %} ",
                 type: "POST",
