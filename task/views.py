@@ -7,9 +7,10 @@ from django.db import transaction
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse,redirect
 from task.forms.form import *
+from common.functions import *
 from personnel.server import staff_db,department_db
 from .server import *
-from .utils import build_attachment_info,getMonthFirstDayAndLastDay, build_tags_info, build_statistic_filter, compare_json,build_assign_tags_info,build_assign_attach_info
+from .utils import *
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required,permission_required
 # Create your views here.
@@ -99,7 +100,6 @@ def task_edit(request):
             attachment = data.get("attachment", None)
             data.pop("attachment")
             attachment_list = list(json.loads(attachment))
-            print("attachment", attachment_list)
             if tid:
                 try:
                     with transaction.atomic():
@@ -1011,7 +1011,7 @@ def attachment_upload(request):
             file_name = str(uuid.uuid4())+"."+postfix
             # 查看路径是否存在，没有则生成
             if not os.path.exists(os.path.dirname(target_path)):
-                os.makedirs(os.path.dirname(target_path))
+                os.makedirs(target_path)
             file_path = os.path.join(target_path, file_name)
             # os.path.join()在Linux/macOS下会以斜杠（/）分隔路径，而在Windows下则会以反斜杠（\）分隔路径,
             # 故统一路径将'\'替换成'/'
@@ -1024,7 +1024,6 @@ def attachment_upload(request):
             ret["data"]['name'] = raw_name
     except Exception as e:
         ret["summary"] = str(e)
-    print("task",ret)
     return HttpResponse(json.dumps(ret))
 
 

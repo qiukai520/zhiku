@@ -531,7 +531,6 @@ function Edit() {
         var title = $("#task_name").val().trim();
         var content = $("#content").val().trim();
         var type_id =$("#task_type").val()
-        var issuer_id = 1;
         var cycle_id = $("#task_cycle").val();
         $.ajax({
                 url: "{% url "task_edit"%}",
@@ -539,7 +538,6 @@ function Edit() {
                 data:  {
                     "tid":{{ tid }},
                     "title": title,
-                    "issuer_id": issuer_id,
                     "content": content,
                     "cycle_id": cycle_id,
                     "type_id":type_id,

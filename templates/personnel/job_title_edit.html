@@ -49,15 +49,26 @@
                                         </input>
                                       </div>
                                 </div>
+                                 <div class="hr-line-dashed"></div>
+                                <div class="row" id="content_footer" >
+                                    <div class="form-actions well well-sm clearfix">
+                                        {% if id %}
+                                          <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存</button>
+                                            <button type="submit"  onclick="Submit(2)" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                                <button type="submit"  onclick="Submit(3)" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+                                        {% else %}
+                                             <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存</button>
+                                                <button type="submit"  onclick="Submit(2)" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                        {% endif %}
+                                            <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                                <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                                </span>
+                                                <span id="error_msg" style="font-size: 14px;"></span>
+                                            </div>
 
-                                  <div class="form-group col-xs-6" style="text-align: center">
-                                      <a href="{% url "job_title_list" %}" class="btn btn-danger"  style="margin-right: 50px;">返回</a>
-                            {% if id %}
-                                  <button  onclick="Edit()" class="btn btn-primary" style="">修改</button>
-                            {% else %}
-                                <button  onclick="Submit()" class="btn btn-primary" style="">创建</button>
-                            {% endif %}
-                        </div>
+                                        </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -69,6 +80,14 @@
 {% endblock %}
 {% block js%}
      <script>
+          //字符串格式化
+String.prototype.format=function()
+{
+  if(arguments.length==0) return this;
+  for(var s=this, i=0; i<arguments.length; i++)
+    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+  return s;
+};
        //自执行函数
   $(function () {
 
@@ -79,45 +98,38 @@
   function DataInit() {
         $("#name").val("{{ job_title_obj.job_title }}");
 }
-
-     function Submit() {
+       function Submit(cons) {
+        var $msg = $('#error_msg');
+        $msg.parent().addClass('hide');
         var name = $("#name").val().trim();
+        var id={{ id }}
+         console.log(id)
+        if(id!=0){
+           var data=  {"job_title":name,"id":id}
+        }else {
+            var data={"job_title":name,}
+        }
         $.ajax({
                 url: '{% url "job_title_edit"%}',
                 type: "post",
-                data:  {"job_title":name,
-        },
+                data:  data,
             dataType: "json",
             success: function (arg) {
                 if (arg.status) {
-                    alert("添加成功");
-                    window.location.href='{% url "job_title_list" %}';
+                     if (cons==1){
+                             window.location.href='{% url "job_title_list" %}';
+                        }else if(cons==2){
+                             window.location.href='{% url "job_title_edit" %}';
+                        }else{
+                              window.location.href='{% url "job_title_edit" %}?id={0}'.format(arg.data);
+                        }
                 } else {
-                    alert(arg.message)
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
                 }
             }
         })
     }
 
-    function Edit() {
-        var name = $("#name").val().trim();
-        $.ajax({
-                url: "{% url "job_title_edit"%}",
-                type: "post",
-                data:  {
-                    "id":{{ id }},
-                    "job_title":name,
-        },
-            dataType: "json",
-            success: function (arg) {
-                if (arg.status) {
-                    alert("修改成功")
-                    window.location.reload()
-                } else {
-                    alert(arg.message)
-                }
-            }
-        })
-    }
     </script>
 {% endblock %}

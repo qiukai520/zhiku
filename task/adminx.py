@@ -44,8 +44,9 @@ class TaskAdmin(object):
 class TaskAdmin(object):
     """工作任务后台管理"""
     # 数据展示
-    list_display = ['tid','title', 'content', 'type','cycle','create_time',]
-    field = ['tid','title', 'content', 'type','cycle','create_time']
+    show_detail_fields = ['title']  # 在指定的字段后添加一个显示数据详情的一个按钮
+    list_display = ['title', 'content', 'type','cycle','create_time',]
+    field = ['title', 'content', 'type','cycle','create_time']
     # 筛选(后台管理页面中的过滤器)
     list_filter = ['type']
     # 查询
@@ -65,6 +66,7 @@ class TaskAdmin(object):
 class TaskMapAdmin(object):
     """工作任务后台管理"""
     # 数据展示
+    show_detail_fields = ['tid']  # 在指定的字段后添加一个显示数据详情的一个按钮
     list_display = ['tid','assigner', 'team', 'is_finish',"status",'cycle','start_time',"deadline",'create_time']
     # 筛选(后台管理页面中的过滤器)
     list_filter = ['team','tid']
@@ -84,7 +86,7 @@ class TaskMapAdmin(object):
 
 class TaskAttachmentAdmin(object):
     """任务附件后台管理"""
-    list_display = ['tamid','tid', 'attach', 'name', 'description']
+    list_display = ['tamid','tid', 'attachment', 'name', 'description']
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'
@@ -116,7 +118,8 @@ class TaskTypeAdmin(object):
 
 class TaskAssignAdmin(object):
     """任务指派后台管理"""
-    list_display = ['tasid','tmid', 'title', 'content', 'member_id','progress', 'deadline','create_time','last_edit']
+    show_detail_fields = ['tmid']  # 在指定的字段后添加一个显示数据详情的一个按钮
+    list_display = ['tmid', 'title', 'content', 'member_id','progress', 'deadline','create_time','last_edit']
     list_filter = ['tmid','member_id', 'deadline']
     search_fields = ['title', 'content']
     fields = ['tmid', 'title', 'content', 'member_id', 'deadline','create_time','last_edit']
@@ -157,7 +160,8 @@ class TaskReviewAdmin(object):
 
 class TaskSubmitRecordAdmin(object):
     """任务提交记录后台管理"""
-    list_display = ["tsid", 'tasid', 'title', 'summary', 'remark','completion','is_assist','create_time','last_edit']
+    show_detail_fields = ['tasid']  # 在指定的字段后添加一个显示数据详情的一个按钮
+    list_display = ['tasid', 'title', 'summary', 'remark','completion','is_assist','create_time','last_edit']
     list_filter = []
     search_fields = ['tasid',"title"]
     model_icon = 'fa fa-cog'
@@ -181,7 +185,8 @@ class TaskSubmitAttachmentAdmin(object):
 
 class TaskReviewRecordAdmin(object):
     """任务审核记录后台管理"""
-    list_display = ['trrid','tasid', "tvid",'is_complete', 'reason','comment', 'evaluate','create_time']
+    show_detail_fields = ['tasid']  # 在指定的字段后添加一个显示数据详情的一个按钮
+    list_display = ['tasid', "tvid",'is_complete', 'reason','comment', 'evaluate','create_time']
     list_filter = ['tasid']
     search_fields = []
     model_icon = 'fa fa-cog'
@@ -189,7 +194,8 @@ class TaskReviewRecordAdmin(object):
 
 class PerformanceAdmin(object):
     """绩效后台管理"""
-    list_display = ['pid', "name", 'personal_score','personal_total','team_score', 'team_total']
+    show_detail_fields = ['name']  # 在指定的字段后添加一个显示数据详情的一个按钮
+    list_display = [ "name", 'personal_score','personal_total','team_score', 'team_total']
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'

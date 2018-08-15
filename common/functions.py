@@ -25,7 +25,27 @@ def filter_fields(white_fields, modify_info):
 
 def compare_fields(white_fields, record, modify_info):
     # 比较参数
-
-    final = {field: modify_info[field] for field in white_fields if field in modify_info.keys() and modify_info[field] != record[field]}
+    final = {field: modify_info[field] for field in white_fields if field in modify_info.keys() and modify_info[field] != getattr(record,field)}
 
     return final
+
+
+def compare_json(record, modify_info, id_key):
+    # json 数据对比
+    id_key = str(id_key)
+    insert_list = []
+    update_list = []
+    update_id_list = []
+    delete_list_id_list = []
+    for item in modify_info:
+        id = item.get(id_key,None)
+        if id:
+             update_id_list.append(int(id))
+             update_list.append(item)
+        else:
+            insert_list.append(item)
+    for item in record:
+        key = getattr(item, id_key)
+        if int(key) not in update_id_list:
+            delete_list_id_list.append(item.pk)
+    return insert_list, update_list, delete_list_id_list

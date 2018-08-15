@@ -58,7 +58,7 @@
                                           <td>{{ obj.id }}</td>
                                           <td>{{ obj.department }}</td>
                                             <td>
-                                              <a  href="{%url "department_edit" %}?dpid={{ obj.id }}" class="btn btn-primary" >编辑</a>
+                                              <a  href="{%url "department_edit" %}?id={{ obj.id }}" class="btn btn-primary" >编辑</a>
                                           </td>
                                       </tr>
                                       {% endfor %}

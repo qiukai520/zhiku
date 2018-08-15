@@ -12,7 +12,7 @@ class CompanyForm(django_forms.Form):
 
 
 class JobRankForm(django_forms.Form):
-    job_rank = django_fields.CharField(error_messages={"required": "职级名称不能为空"})
+    rank = django_fields.CharField(error_messages={"required": "职级名称不能为空"})
 
 
 class JobTitlekForm(django_forms.Form):

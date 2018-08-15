@@ -20,7 +20,6 @@ class StaffDB(object):
         sid = cursor.lastrowid
         return sid
 
-
     def query_staff_list(self):
         result_db = Staff.objects.filter().all()
         return result_db
@@ -32,6 +31,9 @@ class StaffDB(object):
     def query_staff_by_department_id(self, department_id):
         result_db = Staff.objects.filter(department=department_id).all()
         return result_db
+
+    def update_staff(self, modify):
+        Staff.objects.filter(sid=modify['sid']).update(**modify)
 
 
 class DepartmentDB(object):
@@ -115,13 +117,13 @@ class JobRankDB(object):
         return result_db
 
     def update_job_rank(self, modify_info):
-        is_exist = JobRank.objects.filter(job_rank=modify_info['job_rank']).first()
+        is_exist = JobRank.objects.filter(rank=modify_info['rank']).first()
         if is_exist:
             raise Exception("该项目名称已存在")
         JobRank.objects.filter(id=modify_info['id']).update(**modify_info)
 
     def insert_job_rank(self, modify_info):
-        is_exist = JobRank.objects.filter(job_rank=modify_info['job_rank']).first()
+        is_exist = JobRank.objects.filter(rank=modify_info['rank']).first()
         if is_exist:
             raise Exception("该项目名称已存在")
         JobRank.objects.create(**modify_info)
@@ -160,6 +162,12 @@ class StaffLifePhotoDB(object):
     def query_life_photo_by_sid(self,sid):
         result_db = StaffLifePhoto.objects.filter(sid_id=sid).first()
         return result_db
+
+    def update_photo(self, modify):
+        StaffLifePhoto.objects.filter(sid_id=modify["sid_id"]).update(**modify)
+
+    def delete_photo_by_sid(self, sid):
+       StaffLifePhoto.objects.filter(sid_id=sid).delete()
 
 
 class StaffAttachDB(object):

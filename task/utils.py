@@ -46,25 +46,6 @@ def build_reviewer_info(tmid, reviewers):
     return re_list
 
 
-def compare_json(record, modify_info, id_key):
-    # json 数据对比
-    id_key = str(id_key)
-    insert_list = []
-    update_list = []
-    update_id_list = []
-    delete_list_id_list = []
-    for item in modify_info:
-        id = item.get(id_key,None)
-        if id:
-             update_id_list.append(int(id))
-             update_list.append(item)
-        else:
-            insert_list.append(item)
-    for item in record:
-        key = getattr(item, id_key)
-        if int(key) not in update_id_list:
-            delete_list_id_list.append(item.pk)
-    return insert_list, update_list, delete_list_id_list
 
 
 def build_statistic_filter(dpid,sid,first_day,last_day):

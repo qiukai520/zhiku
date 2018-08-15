@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<div class="hr-line-dashed"></div>
+<div class="row" id="content_footer" >
+    <div class="form-actions well well-sm clearfix">
+    {% if id %}
+      <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存</button>
+        <button type="submit"  onclick="Submit(2)" class="btn btn-default" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+            <button type="submit"  onclick="Submit(3)" class="btn btn-default" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+    {% else %}
+         <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存</button>
+            <button type="submit"  onclick="Submit(2)" class="btn btn-default" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+    {% endif %}
+        <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+            <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+            </span>
+            <span id="error_msg" style="font-size: 14px;"></span>
+        </div>
+
+    </div>
+</div>
+<body>
+<script>
+
+</script>
+var $msg = $('#error_msg');
+$msg.parent().addClass('hide');
+
+$msg.parent().removeClass('hide');
+$msg.text(arg.message);
+</body>
+</html>
