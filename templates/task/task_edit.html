@@ -91,15 +91,16 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                    <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+                    <div class="row form-horizontal" style="position: relative;">
                     <div class="col-xs-12">
                 <div class="form-group">
                     <label for="task_name" class="col-xs-2 control-label">任务名称：</label>
                       <div class="col-xs-6">
-                          <textarea name="title"  class="form-control"  id="task_name" placeholder="任务名称">
-                        </textarea>
+                          <input name="title"  class="form-control"  id="task_name" placeholder="任务名称">
+                        </input>
                       </div>
                 </div>
+                        <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <label for="content" class="control-label col-xs-2">任务描述：</label>
                     <div class="col-xs-6">
@@ -107,6 +108,7 @@
                     </textarea>
                     </div>
                 </div>
+                        <div class="hr-line-dashed"></div>
                 <div class="form-group" style="padding: 0px">
                     <label for="tag" class="control-label col-xs-2">任务标签：</label>
                     <div class="col-xs-6" style="padding: 0px">
@@ -118,20 +120,20 @@
                         </div>
                         <div class="col-xs-12" id="tag_container" >
                         <div class="tag hidden  " >
-                            <div class="alert alert-info alert-dismissible pull-left" role="alert" style="padding: 2px;margin-right: 25px;">
+                            <div class="alert alert-info alert-dismissible pull-left" role="alert" style="margin-bottom: 0px; padding: 2px;margin-right: 25px;">
                                 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                                <strong></strong>
+                                <strong style="margin-left:10px;"></strong>
                             </div>
                         </div>
                             <!--初始化标签-->
                             {% if tid %}
                             {% for obj in task_tag_info %}
                                 <div class="tag  " >
-                                <div class="alert alert-info alert-dismissible pull-left" role="alert" style="padding: 2px;margin-right: 25px;">
+                                <div class="alert alert-info alert-dismissible pull-left" role="alert" style=" margin-bottom: 0px;padding: 2px;margin-right: 25px;">
                                 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
                                     <input type="text" name="ttid" class="hidden" value="{{ obj.ttid }}">
 
-                                    <strong>{{ obj.name }}</strong>
+                                    <strong style="margin-left:10px;">{{ obj.name }}</strong>
                                 </div>
                                 </div>
                             {% endfor %}
@@ -139,6 +141,7 @@
                         </div>
                     </div>
                     </div>
+                        <div class="hr-line-dashed"></div>
                 <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
                     {% if tid %}
@@ -160,7 +163,7 @@
                             <div class="form-group">
                                 <label for="content" class="control-label col-xs-2">附件描述：</label>
                                 <div class="col-xs-6">
-                                    <input name="content" class="form-control" value="{{ obj.description }}" style="height:50px" placeholder="附件描述">
+                                    <input name="content" class="form-control" value="{{ obj.description }}" placeholder="附件描述">
                                 </div>
                             </div>
                         </div>
@@ -177,11 +180,12 @@
                         <div class="form-group">
                             <label for="content" class="control-label col-xs-2">附件描述：</label>
                             <div class="col-xs-6">
-                                <input name="content" class="form-control" style="height:50px"  placeholder="附件描述">
+                                <input name="content" class="form-control" placeholder="附件描述">
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <label for="task_cycle" class="control-label col-xs-2">任务周期：</label>
                     <div class="col-xs-6">
@@ -246,6 +250,7 @@
 {#                        </div>#}
 {#                    </div>#}
 {#                </div>#}
+                <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <label for="task_type" class="control-label col-xs-2">归档分类：</label>
                     <div class="col-xs-6">
@@ -254,25 +259,27 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-xs-6">
+                <div class="hr-line-dashed"></div>
+                    <div class="row" id="content_footer" >
+                        <div class="form-actions well well-sm clearfix ">
                         {% if tid %}
-                              <button  onclick="Edit()" class="btn btn-primary" style="float: right;">修改</button>
+                          <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                            <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                            <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
                         {% else %}
-                            <button  onclick="Submit()" class="btn btn-primary" style="float: right;">创建</button>
+                             <button type="submit" onclick="Submit(1)"  class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                             <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                         {% endif %}
-                        <a href="#" class="btn btn-danger" style="float:right;margin-right: 50px;">返回</a>
-                    </div>
-                    <div class="col-xs-6" style="padding-left: 0;">
-                            <div class="alert alert-danger hide">
+                            <a href="{% url "task_assign_center" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                            <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
                                 <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
                                     <i class="fa fa-minus-circle" aria-hidden="true"></i>
                                 </span>
-                                <span id="error_msg" style="font-size: 12px;"></span>
+                                <span id="error_msg" style="font-size: 14px;"></span>
                             </div>
                         </div>
-                </div>
-            </div>
+                    </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -297,8 +304,7 @@
         });
 
 //字符串格式化
-String.prototype.format=function()
-{
+String.prototype.format=function() {
   if(arguments.length==0) return this;
   for(var s=this, i=0; i<arguments.length; i++)
     s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
@@ -309,7 +315,8 @@ String.prototype.format=function()
     */
     $(function () {
         //如果tid不为0，则为创建
-        if ({{ tid }}){
+        var tid={{ tid }}
+        if (tid!=0){
            InitData()//初始化数据
         }
         else {
@@ -551,6 +558,58 @@ function Edit() {
                     window.location.reload()
                 } else {
                     alert(arg.message)
+                }
+            }
+        })
+    }
+    //创建or修改
+    function Submit(cons) {
+        var $msg = $('#error_msg');
+        $msg.parent().addClass('hide');
+        var title = $("#task_name").val().trim();
+        var content = $("#content").val().trim();
+        var type_id =$("#task_type").val()
+        var issuer_id = {{ request.user.staff.sid }};
+        var cycle_id = $("#task_cycle").val();
+        var id={{ tid }}
+        if(id!=0){
+           var data= {
+                    "tid":id,
+                    "title": title,
+                    "content": content,
+                    "cycle_id": cycle_id,
+                    "type_id":type_id,
+                    "tags":GetTag(),
+                    "attachment":GetAttachment(),
+        }
+        }else {
+            var data={
+                    "title": title,
+                    "issuer_id": issuer_id,
+                    "content": content,
+                    "cycle_id": cycle_id,
+                    "type_id":type_id,
+                    "status":1,
+                    "tags":FetchTag(),
+                    "attachment":FetchAttachment(),}
+        }
+        $.ajax({
+                url: '{% url "task_edit"%}',
+                type: "post",
+                data:  data,
+            dataType: "json",
+            success: function (arg) {
+                 if (arg.status) {
+                     if (cons==1){
+                             window.location.href='{% url "task_assign_center" %}';
+                        }else if(cons==2){
+                             window.location.href='{% url "task_edit" %}';
+                        }else{
+                              window.location.href='{% url "task_edit" %}?tid={0}'.format(arg.data);
+                        }
+                } else {
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
                 }
             }
         })

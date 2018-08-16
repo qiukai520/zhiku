@@ -221,6 +221,9 @@ class TaskTypeDB(object):
         return result_db
 
     def insert_task_type(self, modify_info):
+        is_exist = TaskType.objects.filter(name=modify_info['name']).first()
+        if is_exist:
+            raise Exception("该分类名称已存在")
         TaskType.objects.create(**modify_info)
 
     def query_task_type_by_id(self, tpid):
@@ -228,7 +231,10 @@ class TaskTypeDB(object):
         return result_db
 
     def update_task_type(self, modify_info):
-        TaskType.objects.update(**modify_info)
+        is_exist = TaskType.objects.filter(name=modify_info['name']).first()
+        if is_exist:
+            raise Exception("该分类名称已存在")
+        TaskType.objects.filter(tpid=modify_info["tpid"]).update(**modify_info)
 
     def mutil_delete_task_type(self,ids):
         TaskType.objects.filter(tpid__in=ids).delete()
@@ -340,9 +346,6 @@ class TaskAssignDB(object):
 
     def update_task_assign(self, modify_info):
         TaskAssign.objects.filter(tasid=modify_info["tasid"]).update(**modify_info)
-
-    def update_finish_status(self,is_finish):
-        TaskAssign.objects.update(is_finish=is_finish)
 
     # def update_progress(self,tasid, progress):
     #     TaskAssign.objects.filter(tasid=tasid).update(progress=progress)

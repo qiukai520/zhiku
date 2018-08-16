@@ -190,7 +190,8 @@
                             <label for="department" class="control-label col-xs-2">选择审核人：</label>
                                    <div  class="col-xs-5">
                                     <select name="department" id="department"  class="form-control  col-xs-8"  style="width: 65%" data-live-search="true" onchange="FetchStaff2Review(this)">
-                                    {% build_department_ele %}
+                                        <option value=0 >------</option>
+                                        {% build_department_ele %}
                                     </select>
                                 <label for="follow" class="control-label " style="margin-left:10px">次序审核：</label>
                                 <!--查看审核人是否有序-->
@@ -226,16 +227,26 @@
                                 </textarea>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-xs-6">
-                                {% if edit %}
-                                    <button  onclick="Edit()" class="btn btn-primary" style="float: right;">修改</button>
-                                {% else%}
-                                    <button  onclick="Submit()" class="btn btn-primary" style="float: right;">指派</button>
-                                {% endif %}
-                                <a href="#" class="btn btn-danger" style="float:right;margin-right: 50px;">返回</a>
+                      <div class="hr-line-dashed"></div>
+                    <div class="row" id="content_footer" >
+                        <div class="form-actions well well-sm clearfix ">
+                        {% if edit %}
+                          <button type="submit" onclick="Edit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="指派中.."><i class="fa fa-save"></i> 保存并返回</button>
+                            <button type="submit"  onclick="Edit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+                            <a href="{% url "task_assign_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                        {% else %}
+                             <button type="submit" onclick="Submit(1)"  class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 指派并返回</button>
+                            <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 指派并继续编辑</button>
+                            <a href="{% url "task_assign_center" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                        {% endif %}
+                            <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </span>
+                                <span id="error_msg" style="font-size: 14px;"></span>
                             </div>
                         </div>
+                    </div>
                     </div>
                     </div>
                 </div>
@@ -496,7 +507,7 @@ function FetchStaff2Review(ths) {
 }
 
 //创建
-function Submit() {
+function Submit(cons) {
     var remark = $("#remark").val().trim();
         {% if edit %}
             var tids = 0
@@ -530,16 +541,22 @@ function Submit() {
             dataType: "json",
             success: function (arg) {
                 if (arg.status) {
-                    alert("指派成功")
-                    window.location.href='{% url "task_assign_list" %}';
+                    if (cons==1){
+                             window.location.href='{% url "task_assign_center" %}';
+                        }else{
+                              window.location.href='{% url "task_map_edit" %}?tmid={0}'.format(arg.data);
+                        }
                 } else {
-                    alert(arg.message)
+                    $msg.parent().removeClass('hide');
+                    $msg.text(arg.message);
                 }
             }
         })
     }
     //修改
-function Edit() {
+function Edit(cons) {
+        var $msg = $('#error_msg');
+        $msg.parent().addClass('hide');
         var team=$("#team").val().trim();
         var type_id =$("#task_type").val();
         var perfor_id = $("#attribute").val();
@@ -570,10 +587,14 @@ function Edit() {
             dataType: "json",
             success: function (arg) {
                 if (arg.status) {
-                    alert("修改成功")
-                    window.location.reload()
+                    if (cons==1){
+                             window.location.href='{% url "task_assign_center" %}';
+                        }else{
+                              window.location.href='{% url "task_map_edit" %}?tmid={0}'.format(arg.data);
+                        }
                 } else {
-                    alert(arg.message)
+                     $msg.parent().removeClass('hide');
+                    $msg.text(arg.message);
                 }
             }
         })

@@ -4,7 +4,6 @@ function Hidden(ths) {
       $(ths).addClass("hide")
 
     }
-
     //字符串格式化
 String.prototype.format=function()
 {

@@ -73,17 +73,22 @@ def task_edit(request):
     if method == "GET":
         tid = request.GET.get("tid", None)
         if tid:
+            # 编辑
             # 获取任务信息及其标签信息、附件信息、审核人
             task_info = task_db.query_task_by_tid(tid)
             task_tag_info = task_tag_db.query_task_tag_by_tid(tid)
             task_attachment_info = task_attachment_db.query_task_attachment_by_tid(tid)
-            return render(request, 'task/task_edit.html',
-                      {"tid": tid,
-                       "task_info": task_info,
-                       "task_tag_info": task_tag_info,
-                       "task_attachment_data": task_attachment_info,}
-                          )
-        return HttpResponse(json.dumps({"status": "False", "message": "找不到相关信息"}))
+        else:
+            # 创建
+            tid=0
+            task_info = {}
+            task_tag_info = {}
+            task_attachment_info = {}
+        return render(request, 'task/task_edit.html',{"tid": tid,
+                                                      "task_info": task_info,
+                                                      "task_tag_info": task_tag_info,
+                                                      "task_attachment_data": task_attachment_info,
+                                                      })
     else:
         ret = {"status": False, "data": "", "message": ""}
         form = TaskForm(data=request.POST)
@@ -92,15 +97,16 @@ def task_edit(request):
             data = data.dict()
             # 获取任务id
             tid = data.get("tid", None)
-            # 获取标签并删除
-            tags = data.get("tags", None)
-            data.pop("tags")
-            tag_list = list(json.loads(tags))
             # 获取附件并删除
             attachment = data.get("attachment", None)
             data.pop("attachment")
             attachment_list = list(json.loads(attachment))
             if tid:
+                # 编辑
+                # 获取标签并删除
+                tags = data.get("tags", None)
+                data.pop("tags")
+                tag_list = list(json.loads(tags))
                 try:
                     with transaction.atomic():
                         # 更新任务
@@ -126,10 +132,37 @@ def task_edit(request):
                         if delete_id_att:
                             task_attachment_db.mutil_delete_task_attachment(delete_id_att)
                         ret['status'] = True
+                        ret["data"] = tid
                 except Exception as e:
                     ret["message"] = "更新失败"
             else:
-                ret["message"] = "更新失败"
+                print("创建")
+                # 创建
+                # 获取标签并删除
+                tags = data.get("tags", None)
+                tag_list = tags.split("|")
+                data.pop("tags")
+                try:
+                    with transaction.atomic():
+                        tid = task_db.insert_task(data)
+                        print("tid",tid)
+                        # 如果任务插入成功
+                        if tid:
+                            # 插入标签
+                            id_dict = {"tid_id": tid}
+                            tags_list = build_tags_info(id_dict, tag_list)
+                            task_tag_db.mutil_insert_tag(tags_list)
+                            # 插入附件
+                            print()
+                            attachment_list = build_attachment_info(id_dict, attachment_list)
+                            print(attachment_list)
+                            task_attachment_db.mutil_insert_attachment(attachment_list)
+                            print("attach")
+                        ret["status"] = True
+                        ret['data'] = tid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "创建失败"
         else:
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
@@ -266,7 +299,7 @@ def task_assign(request):
     else:
         ret = {"status": False, "data": "", "message": ''}
         data = request.POST
-        form =TaskMapForm(data=data)
+        form = TaskMapForm(data=data)
         print("form",data)
         if form.is_valid():
             # 获取任务id并删除
@@ -296,16 +329,17 @@ def task_assign(request):
                         assigner_list = []
                         for item in assigners:
                             item['tmid_id'] = tmid
-                            item["deadline"]=data["deadline"]
+                            item["deadline"] = data["deadline"]
                             assigner_list.append(item)
                         task_assign_db.mutil_insert_task_assign(assigner_list)
                         # 插入审核人
-                        reviewers_list =[]
+                        reviewers_list = []
                         for item in reviewers:
                             item['tmid_id'] = tmid
                             reviewers_list.append(item)
                         task_review_db.mutil_insert_reviewer(reviewers_list)
                     ret['status'] = True
+                    ret['data'] = tmid
             except Exception as e:
                 print(e)
                 ret["message"] = "指派失败"
@@ -376,10 +410,11 @@ def task_map_edit(request):
                             task_assign_tag_db.mutil_delete_tag_by_tasid(delete_id_assign)
                             task_assign_attach_db.mutil_delete_attach_by_tasid(delete_id_assign)
                         ret['status'] = True
+                        ret["data"] = tmid
                 except Exception as e:
                     ret["message"] = "修改失败"
             else:
-                ret['message'] ="修改失败"
+                ret['message'] = "修改失败"
         else:
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
@@ -712,7 +747,7 @@ def task_sort_edit(request):
     """"任务分类添加或编辑"""
     method = request.method
     if method == "GET":
-        tpid = request.GET.get("tpid", None)
+        tpid = request.GET.get("tpid", '')
         # 有则为编辑 ,无则添加
         if tpid:
             task_sort_obj = task_type_db.query_task_type_by_id(tpid)
@@ -730,10 +765,16 @@ def task_sort_edit(request):
             # 有则为编辑 ,无则添加
             if pid:
                 try:
-                    task_type_db.update_task_type(data)
+                    record = task_type_db.query_task_type_by_id(pid)
+                    final_info = compare_fields(TaskType._update, record, data)
+                    if final_info:
+                        final_info["tpid"] = pid
+                        task_type_db.update_task_type(final_info)
                     ret['status'] = True
+                    ret["data"] = pid
                 except Exception as e:
-                    ret['message'] = str(e)
+                    print(e)
+                    ret['message'] = "更新失败"
             else:
                 try:
                     task_type_db.insert_task_type(data)
@@ -770,7 +811,7 @@ def performence_display(request):
     """绩效列表"""
     query_sets = performence_db.query_performence_list()
 
-    return render(request, "task/perfor.html", {"query_sets": query_sets})
+    return render(request, "task/perfor_list.html", {"query_sets": query_sets})
 
 
 def performence_statistic(request):
@@ -833,7 +874,12 @@ def performence_edit(request):
             # 有则为编辑 ,无则添加
             if pid:
                 try:
-                    performence_db.update_performence(data)
+                    record = performence_db.query_performence_by_pid(pid)
+                    final_info = compare_fields(Performance._update, record, data)
+                    if final_info:
+                        final_info["pid"] = pid
+                        performence_db.update_performence(final_info)
+                    ret["data"] = pid
                     ret['status'] = True
                 except Exception as e:
                     ret['message'] = str(e)

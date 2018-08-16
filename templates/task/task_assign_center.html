@@ -295,10 +295,12 @@ String.prototype.format=function()
             var tids=SelectTask()
             window.location.href="{% url 'task_assign' %}?tids={0}&team={1}".format(tids,team)
         } else{
-         alert("至少应选中一个任务")
+          layer.alert('至少选择一个任务', {icon: 6 ,
+              time: 2000, //20s后自动关闭
+                btn: [ '知道了']}
+                );
         }
     }
-
 
         //触发指派模态框
 function ShowAssign() {
@@ -308,7 +310,10 @@ function ShowAssign() {
      if (is_checked){
          $('#task_assign').modal('show')
         }else{
-         alert("至少应选中一个任务")
+         layer.alert('至少选择一个任务', {icon: 6 ,
+              time: 1000, //20s后自动关闭
+                btn: [ '知道了']}
+                );
      }
 }
 
@@ -319,11 +324,16 @@ function TeamAssignShow() {
               $('#task_assign').modal('show')
                $("#submit").attr("onclick","TeamAssingSubmit()")
          }else{
-             alert("组队任务不能选择多个任务")
+              layer.alert('组队任务不能选择多个任务', {icon: 6 ,
+              time: 2000, //20s后自动关闭
+                btn: [ '知道了']});
          }
     }else{
-         alert("请选择一个任务")
+         layer.alert('请选择一个任务', {icon: 6 ,
+              time: 2000, //20s后自动关闭
+                btn: [ '知道了']});
     }
+
 }
 
 

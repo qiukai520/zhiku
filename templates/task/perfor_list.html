@@ -48,31 +48,31 @@
                                 <table id="performence_sort"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                           <tr >
-          <th><input type="checkbox" onclick="SelectAll(this)"></th>
-          <th>ID</th>
-          <th>绩效名称</th>
-          <th>个人分值</th>
-          <th>个人总分</th>
-          <th>团队分值</th>
-          <th>团队总分</th>
-          <th>操作</th>
-      </tr>
+                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                              <th>ID</th>
+                                              <th>绩效名称</th>
+                                              <th>个人分值</th>
+                                              <th>个人总分</th>
+                                              <th>团队分值</th>
+                                              <th>团队总分</th>
+                                              <th>操作</th>
+                                          </tr>
                                     </thead>
                                     <tbody>
                                      {% for obj in query_sets %}
-      <tr>
-          <td><input type="checkbox"></td>
-          <td>{{ obj.pid }}</td>
-          <td>{{ obj.name }}</td>
-          <td>{{ obj.personal_score}}</td>
-          <td>{{ obj.personal_total}}</td>
-          <td>{{ obj.team_score}}</td>
-          <td>{{ obj.team_total}}</td>
-            <td>
-              <a  href="{%url "performence_edit" %}?pid={{ obj.pid }}" class="btn btn-primary" >编辑</a>
-          </td>
-      </tr>
-      {% endfor %}
+                                        <tr>
+                                          <td><input type="checkbox"></td>
+                                          <td>{{ obj.pid }}</td>
+                                          <td>{{ obj.name }}</td>
+                                          <td>{{ obj.personal_score}}</td>
+                                          <td>{{ obj.personal_total}}</td>
+                                          <td>{{ obj.team_score}}</td>
+                                          <td>{{ obj.team_total}}</td>
+                                            <td>
+                                              <a  href="{%url "performence_edit" %}?pid={{ obj.pid }}" class="btn btn-info" >编辑</a>
+                                          </td>
+                                        </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

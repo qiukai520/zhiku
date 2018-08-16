@@ -47,11 +47,11 @@
                                 <table id="task_sort"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                          <tr >
-          <th><input type="checkbox" onclick="SelectAll(this)"></th>
-          <th>ID</th>
-          <th>分类名称</th>
-          <th>操作</th>
-      </tr>
+                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                              <th>ID</th>
+                                              <th>分类名称</th>
+                                              <th>操作</th>
+                                          </tr>
                                     </thead>
                                     <tbody>
                                      {% for obj in query_sets %}
@@ -60,7 +60,7 @@
                                           <td>{{ obj.tpid }}</td>
                                           <td>{{ obj.name }}</td>
                                             <td>
-                                              <a  href="{%url "task_sort_edit" %}?tpid={{ obj.tpid }}" class="btn btn-primary" >编辑</a>
+                                              <a  href="{%url "task_sort_edit" %}?tpid={{ obj.tpid }}" class="btn btn-info" >编辑</a>
                                           </td>
                                       </tr>
                                       {% endfor %}
@@ -75,7 +75,6 @@
         </div>
         <!-- End Panel Other -->
     </div>
-
     <!-- Modal -->
     <!-- delete-->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

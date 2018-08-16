@@ -49,15 +49,26 @@
                                         </input>
                                       </div>
                                 </div>
-
-                                  <div class="form-group col-xs-6" style="text-align: center">
-                                      <a href="{% url "task_sort_list" %}" class="btn btn-danger"  style="margin-right: 50px;">返回</a>
-                            {% if pid %}
-                                  <button  onclick="Edit()" class="btn btn-primary" style="">修改</button>
-                            {% else %}
-                                <button  onclick="Submit()" class="btn btn-primary" style="">创建</button>
-                            {% endif %}
-                        </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="row" id="content_footer" >
+                                    <div class="form-actions well well-sm clearfix">
+                                    {% if tpid %}
+                                      <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                        <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                        <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+                                    {% else %}
+                                         <button type="submit" onclick="Submit(1)"  class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                         <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                    {% endif %}
+                                        <a href="{% url "task_sort_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                        <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                            <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                            </span>
+                                            <span id="error_msg" style="font-size: 14px;"></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -82,44 +93,37 @@
         $("#name").val("{{ task_sort_obj.name }}");
 }
 
-     function Submit() {
+function Submit(cons) {
+        var $msg = $('#error_msg');
+        $msg.parent().addClass('hide');
         var name = $("#name").val().trim();
+        var id={{ tpid }}
+        if(id!=0){
+           var data=  {"name":name,"tpid":id}
+        }else {
+            var data={"name":name,}
+        }
         $.ajax({
                 url: '{% url "task_sort_edit"%}',
                 type: "post",
-                data:  {"name":name,
-        },
+                data:  data,
             dataType: "json",
             success: function (arg) {
                 if (arg.status) {
-                    alert("添加成功");
-                    window.location.href='{% url "task_sort_list" %}';
+                     if (cons==1){
+                             window.location.href='{% url "task_sort_list" %}';
+                        }else if(cons==2){
+                             window.location.href='{% url "task_sort_edit" %}';
+                        }else{
+                              window.location.href='{% url "task_sort_edit" %}?tpid={0}'.format(arg.data);
+                        }
                 } else {
-                    alert(arg.message)
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
                 }
             }
         })
     }
 
-    function Edit() {
-        var name = $("#name").val().trim();
-        $.ajax({
-                url: "{% url "task_sort_edit"%}",
-                type: "post",
-                data:  {
-                    "tpid":{{ tpid }},
-                    "name":name,
-        },
-            dataType: "json",
-            success: function (arg) {
-                if (arg.status) {
-                    alert("修改成功")
-                    window.location.reload()
-                } else {
-                    alert(arg.message)
-                }
-            }
-        })
-    }
     </script>
 {% endblock %}

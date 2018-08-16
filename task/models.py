@@ -20,6 +20,11 @@ class Performance(models.Model):
     def __str__(self):
         return self.name
 
+    _insert = ['name', "personal_score", "team_socre","personal_total","team_score"]
+    _update = ['name', "personal_score", "team_socre","personal_total","team_score"]
+
+
+
 
 # 绩效记录
 class PerformanceRecord(models.Model):
@@ -330,3 +335,6 @@ class TaskType(models.Model):
 
     def __str__(self):
         return self.name
+
+    _insert = ["name"]
+    _update = ["name"]
