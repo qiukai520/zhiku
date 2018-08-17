@@ -1,5 +1,4 @@
-/static/upload/*
+/media/upload/*
 *.xml
 *.pyc
 .idea/*
-/static/img/*
