@@ -90,7 +90,7 @@ class JobTitle(models.Model):
 class Staff(models.Model):
     gender_choice = ((0, "男"), (1, "女"))
     is_lunar = ((0, "公历"), (1, "农历"))
-    delete_status_choice = ((0, '已删除'), (1, '保留'))
+    delete_status_choice = ((0, '离职'), (1, '在职'))
 
     sid = models.AutoField(primary_key=True)
     job_number = models.CharField(max_length=32, verbose_name='工号')
@@ -128,7 +128,7 @@ class Staff(models.Model):
     recruit_channel = models.CharField(max_length=16, verbose_name='招聘渠道', blank=True, null=True)
     referrer = models.CharField(max_length=16, verbose_name='引荐人', blank=True, null=True)
     remark = models.CharField(max_length=512, verbose_name="备注", blank=True, null=True)
-    delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
+    delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='在职状态')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
@@ -149,7 +149,6 @@ class Staff(models.Model):
                "birthday", "is_lunar", "job_rank_id", "job_title_id", "hire_day", "native_place", "nationality","family_address",
                "current_address", "education", "id_card", "bank", "bank_account", "account_name", "contact_phone",
                "contact_man", "contact_relation", "recruit_channel", "referer", "remark"]
-
 
 
 class StaffAttach(models.Model):

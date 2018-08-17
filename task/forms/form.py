@@ -7,14 +7,13 @@ class TaskForm(django_forms.Form):
     title = django_fields.CharField(error_messages={"required": "任务名称不能为空"})
     content = django_fields.CharField(error_messages={"required": "任务描述不能为空"})
     type_id = django_fields.IntegerField(error_messages={"required": "归档分类不能为空"})
-    cycle_id = django_fields.IntegerField(error_messages={"required": "任务周期不能为空"})
     issuer_id = django_fields.IntegerField(required=False)
     tags = django_fields.CharField(required=False)
     attachment = django_fields.CharField(required=False)
 
 
 class TaskMapForm(django_forms.Form):
-    cycle_id = django_fields.IntegerField(required=False)
+    cycle_id = django_fields.IntegerField(error_messages={"required": "任务周期不能为空"})
     assigner_id = django_fields.IntegerField(required=False)
     perfor_id = django_fields.IntegerField(required=False)
     start_time = django_fields.CharField(error_messages={"required": "起始时间不能为空"})

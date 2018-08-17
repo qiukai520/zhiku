@@ -5,8 +5,6 @@ from .models import *
 class StaffDB(object):
     """员工表"""
     gender_choice = ({"id": 0, "caption": "男"}, {"id": 1, "caption": "女"})
-
-
     def insert_staff(self,modify_info):
         staff_sql = """insert into staff(%s) value(%s);"""
         k_list = []
@@ -21,19 +19,22 @@ class StaffDB(object):
         return sid
 
     def query_staff_list(self):
-        result_db = Staff.objects.filter().all()
+        result_db = Staff.objects.filter(delete_status=1).all()
         return result_db
 
     def query_staff_by_id(self, sid):
-        result_db = Staff.objects.filter(sid=sid).first()
+        result_db = Staff.objects.filter(sid=sid,delete_status=1).first()
         return result_db
 
     def query_staff_by_department_id(self, department_id):
-        result_db = Staff.objects.filter(department=department_id).all()
+        result_db = Staff.objects.filter(department=department_id,delete_status=1).all()
         return result_db
 
     def update_staff(self, modify):
-        Staff.objects.filter(sid=modify['sid']).update(**modify)
+        Staff.objects.filter(sid=modify['sid'],delete_status=1).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        Staff.objects.filter(sid__in=id_list).update(**delete_status)
 
 
 class DepartmentDB(object):

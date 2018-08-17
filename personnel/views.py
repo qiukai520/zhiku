@@ -287,73 +287,102 @@ def staff_edit(request):
                                                              "sid": sid})
     else:
         ret = {'status': False, "data": '', "message": ""}
-        data = request.POST
-        data = data.dict()
-        life_photo = data.get("life_photo",None)
-        staff_attach = data.get("attach",None)
-        sid = data.get("sid",None)
-        life_photo = json.loads(life_photo)
-        staff_attach = list(json.loads(staff_attach))
-        if sid:
-            # 更新
-            try:
-                with transaction.atomic():
-                    # 更新人事信息
-                    staff_info = filter_fields(Staff._update,data)
-                    if staff_info:
-                        staff_db.update_staff(staff_info)
-                    # 插入人事生活照
-                    photo_record = staff_life_photo_db.query_life_photo_by_sid(sid)
-                    if life_photo:
-                        # 数据对比
-                        if photo_record:
-                            final_photo = compare_fields(StaffLifePhoto._update, photo_record, life_photo)
-                            final_photo["sid_id"] = sid
-                            if final_photo:
-                                staff_life_photo_db.update_photo(final_photo)
+        form = StaffForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            life_photo = data.get("life_photo",None)
+            staff_attach = data.get("attach",None)
+            sid = data.get("sid", None)
+            life_photo = json.loads(life_photo)
+            staff_attach = list(json.loads(staff_attach))
+            if sid:
+                # 更新
+                try:
+                    with transaction.atomic():
+                        # 更新人事信息
+                        record = staff_db.query_staff_by_id(sid)
+                        staff_info = compare_fields(Staff._update,record,data)
+                        if staff_info:
+                            staff_info["sid"] = sid
+                            staff_db.update_staff(staff_info)
+                        # 插入人事生活照
+                        photo_record = staff_life_photo_db.query_life_photo_by_sid(sid)
+                        if life_photo:
+                            # 数据对比
+                            if photo_record:
+                                final_photo = compare_fields(StaffLifePhoto._update, photo_record, life_photo)
+                                final_photo["sid_id"] = sid
+                                if final_photo:
+                                    staff_life_photo_db.update_photo(final_photo)
+                            else:
+                                staff_life_photo_db.insert_life_photo(life_photo)
                         else:
+                            # 删除旧数据
+                            if photo_record:
+                                staff_life_photo_db.delete_photo_by_sid(sid)
+                        if staff_attach:
+                            # 更新附件
+                            att_record = staff_attach_db.query_staff_attachment_by_sid(sid)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, staff_attach, "said")
+                            if insert_att:
+                                insert_att = build_attachment_info({"sid_id": sid}, insert_att)
+                                staff_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                staff_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                staff_attach_db.mutil_delete_task_attachment(delete_id_att)
+                        ret['status'] = True
+                        ret['data'] = sid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "更新失败"
+            else:
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入人事信息
+                        staff_info = filter_fields(Staff._insert,data)
+                        sid = staff_db.insert_staff(staff_info)
+                        life_photo["sid_id"]=sid
+                        # 插入人事生活照
+                        if life_photo:
                             staff_life_photo_db.insert_life_photo(life_photo)
-                    else:
-                        # 删除旧数据
-                        if photo_record:
-                            staff_life_photo_db.delete_photo_by_sid(sid)
-                    if staff_attach:
-                        # 更新附件
-                        att_record = staff_attach_db.query_staff_attachment_by_sid(sid)
-                        # 数据对比
-                        insert_att, update_att, delete_id_att = compare_json(att_record, staff_attach, "said")
-                        if insert_att:
-                            insert_att = build_attachment_info({"sid_id": sid}, insert_att)
-                            staff_attach_db.mutil_insert_attachment(insert_att)
-                        if update_att:
-                            staff_attach_db.mutil_update_attachment(update_att)
-                        if delete_id_att:
-                            staff_attach_db.mutil_delete_task_attachment(delete_id_att)
-                    ret['status'] = True
-                    ret['data'] = sid
-            except Exception as e:
-                print(e)
-                ret["message"] = "更新失败"
+                        if staff_attach:
+                            staff_attach = build_attachment_info({"sid_id":sid}, staff_attach)
+                            staff_attach_db.mutil_insert_attachment(staff_attach)
+                        ret['status'] = True
+                        ret['data'] = sid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
         else:
-            # 创建
-            try:
-                with transaction.atomic():
-                    # 插入人事信息
-                    staff_info = filter_fields(Staff._insert,data)
-                    sid = staff_db.insert_staff(staff_info)
-                    life_photo["sid_id"]=sid
-                    # 插入人事生活照
-                    if life_photo:
-                        staff_life_photo_db.insert_life_photo(life_photo)
-                    if staff_attach:
-                        staff_attach = build_attachment_info({"sid_id":sid}, staff_attach)
-                        staff_attach_db.mutil_insert_attachment(staff_attach)
-                    ret['status'] = True
-                    ret['data'] = sid
-            except Exception as e:
-                print(e)
-                ret["message"] = "添加失败"
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
+
+
+def staff_delete(request):
+    """任务软删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    print(ids)
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    status = {"delete_status": 0}
+    try:
+        staff_db.multi_delete(id_list, status)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
 
 
 def life_photo(request):

@@ -248,7 +248,6 @@ String.prototype.format=function()
     }
 //批量删除
     function MultiDelete() {
-        $("#delete_modal").modal("show");//显示模态框
         var ids="";
         $("tbody input:checkbox:checked").each(function () {
             id = $(this).parent().next().text();
@@ -257,6 +256,15 @@ String.prototype.format=function()
                 ids+=id;
             }
         });
+        //是否选中
+        if (ids==""){
+             layer.alert('至少选择一个任务', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $("#delete_modal").modal("show");//显示模态框
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
@@ -266,11 +274,13 @@ String.prototype.format=function()
             dataType:"JSON",
             success:function (arg) {
                 if (arg.status){
-                   alert("删除成功");
                     window.location.reload()
                 }else{
-                    alert("删除失败")
-                    window.location.reload()
+                   layer.alert('删除失败', {icon: 2 ,
+                                  time: 2000, //2s后自动关闭
+                                    btn: [ '知道了']}
+                                    );
+
                 }
             }
         })

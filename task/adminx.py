@@ -23,36 +23,14 @@ class GlobalSettings(object):
 class TaskAdmin(object):
     """工作任务后台管理"""
     # 数据展示
-    list_display = ['tid','title', 'content', 'type','cycle','create_time',]
-    field = ['tid','title', 'content', 'type','cycle','create_time']
+    list_display = ['tid','title', 'content', 'type','create_time','delete_status']
+    field = ['tid','title', 'content', 'type','create_time']
     # 筛选(后台管理页面中的过滤器)
-    list_filter = ['type']
+    list_filter = ['type','status']
     # 查询
     search_fields =['title', 'content']
     # 后台自定义默认排序
-    ordering = ['-create_time']
-    # 后台直接在表上修改数据
-    list_editable = []
-    # 自定义后台系统的icon
-    model_icon = 'fa fa-cog'
-    # xadmin/plugins/refresh插件定时刷新页面
-    refresh_times = [60]  # 后台可选择10秒刷新一次或者60秒刷新一次
-    # 后台自定义字段只可读
-    readonly_fields = []
-
-
-class TaskAdmin(object):
-    """工作任务后台管理"""
-    # 数据展示
-    show_detail_fields = ['title']  # 在指定的字段后添加一个显示数据详情的一个按钮
-    list_display = ['title', 'content', 'type','cycle','create_time',]
-    field = ['title', 'content', 'type','cycle','create_time']
-    # 筛选(后台管理页面中的过滤器)
-    list_filter = ['type']
-    # 查询
-    search_fields =['title', 'content']
-    # 后台自定义默认排序
-    ordering = ['-create_time']
+    ordering = ['-create_time','delete_status']
     # 后台直接在表上修改数据
     list_editable = []
     # 自定义后台系统的icon

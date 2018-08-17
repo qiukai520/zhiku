@@ -24,8 +24,6 @@ class Performance(models.Model):
     _update = ['name', "personal_score", "team_socre","personal_total","team_score"]
 
 
-
-
 # 绩效记录
 class PerformanceRecord(models.Model):
     prid = models.AutoField(primary_key=True)
@@ -53,9 +51,7 @@ class Task(models.Model):
                              db_constraint=False, default=1)
     issuer = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='发布人',
                                db_constraint=False, parent_link=True)  # '发布人',
-    cycle = models.ForeignKey('TaskCycle', to_field="tcid", on_delete=models.CASCADE, db_constraint=False, default=1,
-                              verbose_name='任务周期')  # 任务周期
-    status = models.IntegerField(choices=task_status_choice, default=1, verbose_name='任务状态')
+    delete_status = models.IntegerField(choices=task_status_choice, default=1, verbose_name='删除状态')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True,verbose_name='最后编辑时间')
 

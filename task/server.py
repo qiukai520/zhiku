@@ -90,23 +90,19 @@ class TaskDB(object):
         Task.objects.filter(tid=modify_info['tid']).update(**modify_info)
 
     def query_task_lists(self):
-        result_db = Task.objects.filter(status__gt=0).all().order_by("-tid")
-        return result_db
-
-    def query_task_assign_lists(self):
-        result_db = Task.objects.all().order_by("-tid")
+        result_db = Task.objects.filter(delete_status__gt=0).all().order_by("-tid")
         return result_db
 
     def query_task_by_tid(self, tid):
-        result_db = Task.objects.filter(tid=tid).first()
+        result_db = Task.objects.filter(tid=tid,).first()
         return result_db
 
     def query_task_by_tids(self,tids):
-        result_db = Task.objects.filter(tid__in=tids).all()
+        result_db = Task.objects.filter(tid__in=tids,).all()
         return result_db
 
     def query_task_by_type(self, type_id):
-        result_db = Task.objects.filter(type_id=type_id).all()
+        result_db = Task.objects.filter(type_id=type_id,).all()
         return result_db
 
     def query_task_by_issuer_id(self, issuer_id):

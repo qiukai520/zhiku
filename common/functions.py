@@ -24,8 +24,8 @@ def filter_fields(white_fields, modify_info):
 
 
 def compare_fields(white_fields, record, modify_info):
-    # 比较参数
-    final = {field: modify_info[field] for field in white_fields if field in modify_info.keys() and modify_info[field] != getattr(record,field)}
+    # 比较参数,并去掉字符串多余空格
+    final = {field: modify_info[field].strip() for field in white_fields if field in modify_info.keys() and modify_info[field] != getattr(record,field)}
 
     return final
 
