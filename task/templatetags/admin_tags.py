@@ -441,6 +441,15 @@ def query_task_attachment_by_tid(tid):
 
 
 @register.simple_tag
+def query_task_map_attachment_by_tmid(tmid):
+    if tmid:
+        tmid = int(tmid)
+        result_db = task_map_att_db.query_attachment_by_tmid(tmid)
+        return result_db
+    return ''
+
+
+@register.simple_tag
 def query_submit_attachment_by_tsid(tsid):
     """获取任务提交记录附件"""
     tsid = int(tsid)
@@ -467,6 +476,17 @@ def build_task_tags_list(tid):
     """构建任务标签列表"""
     ele_list = ''
     record_tags = task_tag_db.query_task_tag_by_tid(tid)
+    for item in record_tags:
+        if item.name:
+            ele = "<li><a><i class='fa fa-tag'></i> {0}</a></li>".format(item.name)
+            ele_list += ele
+    return mark_safe(ele_list)
+
+@register.simple_tag
+def build_task_map_tags_list(tmid):
+    """构建任务指派标签列表"""
+    ele_list = ''
+    record_tags = task_map_tag_db.query_tag_by_tmid(tmid)
     for item in record_tags:
         if item.name:
             ele = "<li><a><i class='fa fa-tag'></i> {0}</a></li>".format(item.name)

@@ -37,12 +37,10 @@
                                     <dt>任务分类：</dt>
                                     <dd>{% change_to_task_type  task_obj.type_id  %}
                                     </dd>
-
                                 </dl>
                             </div>
                             <div class="col-sm-7" id="cluster_info">
                                 <dl class="dl-horizontal">
-
                                     <dt>最后更新：</dt>
                                     <dd>{{ task_obj.last_edit|date:"Y-m-d H:i"}}</dd>
                                     <dt>创建于：</dt>
@@ -66,7 +64,6 @@
                                             <div class="tab-pane active" id="tab-1">
                                                 <div class="feed-activity-list">
                                                      {% fetch_task_map_record task_obj.tid as task_map_record %}
-
                                                         {% for record_obj in task_map_record %}
                                                              <div class="feed-element">
                                                             <a href="profile.html#" class="pull-left">
@@ -87,9 +84,7 @@
 
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>

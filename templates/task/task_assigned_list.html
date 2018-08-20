@@ -78,7 +78,9 @@
 
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                    <button  onclick="MultiCancle()" class="btn btn-info">批量取消</button>
                                      <button  onclick="MultiDelete()" class="btn btn-danger">批量删除</button>
+
                                 </div>
                                 <table id="task_assign"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
@@ -97,16 +99,15 @@
                                     <tbody>
                                     {% if query_sets %}
                                        {% for obj in  query_sets%}
-                                           {% query_task_by_tid obj.tid_id  as base_task%}
                                           <tr>
-                                              <td><input type="checkbox"></td>
+                                              <td><input type="checkbox"><input class="hide" type="text" value="{{ obj.tmid }}"></td>
                                               <td class="project-status">
                                                 <span class="label label-primary">{% change_to_task_status obj.status %}
                                                 </span>
                                               </td>
-                                              <td><a  href="{%url "task_detail" %}?tmid={{ obj.tmid }}">{{ base_task.title }}</a></td>
+                                              <td><a  href="{%url "task_detail" %}?tmid={{ obj.tmid }}">{{ obj.title }}</a></td>
                                               <td>{%  change_to_task_way obj.team %} </td>
-                                              <td>{% change_to_task_type  base_task.type_id  %}</td>
+                                              <td>{% change_to_task_type  obj.type_id  %}</td>
                                               <td>{% change_to_staff obj.assigner_id %}</td>
                                               <td name="deadline">{{ obj.deadline |date:"Y-m-d "}}</td>
                                               <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
@@ -268,9 +269,6 @@
             }
         });
 
-
-
-
 $(function () {
         $("#task_assign").bootstrapTable({
             toolbar: "#toolbar",
@@ -295,8 +293,6 @@ $(function () {
             cache: false
         });
     });
-
-
 
       /*
     自执行函数
@@ -323,22 +319,55 @@ String.prototype.format=function()
         //如果选中则全选中,否则取消选中
         $(ths).parent().parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
     }
-
 //批量删除
     function MultiDelete() {
         $("#delete_modal").modal("show");//显示模态框
         var ids="";
         $("tbody input:checkbox:checked").each(function () {
-            id = $(this).parent().next().text();
+            id = $(this).next().val();
             if (id){
                 id+="|";
                 ids+=id;
             }
         });
+        console.log("ids",ids)
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "task_delete" %}",
+            url:"{% url "task_map_delete" %}",
+            data:{"ids":ids},
+            type:"get",
+            dataType:"JSON",
+            success:function (arg) {
+                if (arg.status){
+                   alert("删除成功");
+                    window.location.reload()
+                }else{
+                    alert("删除失败"),
+                    window.location.reload()
+                }
+            }
+        })
+        });
+    }
+
+    //批量取消
+    function MultiCancle() {
+        $("#delete_modal").modal("show");//显示模态框
+        $("modal-body").text("你确定要取消一下任务吗？")
+        var ids="";
+        $("tbody input:checkbox:checked").each(function () {
+            id = $(this).next().val();
+            if (id){
+                id+="|";
+                ids+=id;
+            }
+        });
+        console.log("ids",ids)
+        $("#ensure").click(function () {
+            $("#delete_modal").hide();
+              $.ajax({
+            url:"{% url "task_map_delete" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",

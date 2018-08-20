@@ -153,11 +153,8 @@ def task_edit(request):
                             tags_list = build_tags_info(id_dict, tag_list)
                             task_tag_db.mutil_insert_tag(tags_list)
                             # 插入附件
-                            print()
                             attachment_list = build_attachment_info(id_dict, attachment_list)
-                            print(attachment_list)
                             task_attachment_db.mutil_insert_attachment(attachment_list)
-                            print("attach")
                         ret["status"] = True
                         ret['data'] = tid
                 except Exception as e:
@@ -169,6 +166,82 @@ def task_edit(request):
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
 
+
+def task_map_content(request):
+    """任务指派内容编辑"""
+    method = request.method
+    if method == "GET":
+        tmid = request.GET.get("tmid", None)
+        if tmid:
+            # 编辑
+            # 获取任务信息及其标签信息、附件信息
+            task_map_info = task_map_db.query_task_by_tmid(tmid)
+            task_map_tag_info = task_map_tag_db.query_tag_by_tmid(tmid)
+            task_map_attach_info = task_map_att_db.query_attachment_by_tmid(tmid)
+        else:
+            # 创建
+            tmid = 0
+            task_map_info = {}
+            task_map_tag_info = {}
+            task_map_attach_info = {}
+        return render(request, 'task/task_map_edit.html',{"tmid": tmid,
+                                                      "task_info": task_map_info,
+                                                      "task_tag_info": task_map_tag_info,
+                                                      "task_attachment_data": task_map_attach_info,
+                                                      })
+    else:
+        ret = {"status": False, "data": "", "message": ""}
+        form = TaskForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            print("data",data)
+            # 获取任务id
+            tmid = data.get("tmid", None)
+            # 获取附件并删除
+            attachment = data.get("attachment", None)
+            data.pop("attachment")
+            attachment_list = list(json.loads(attachment))
+            if tmid:
+                # 编辑
+                # 获取标签并删除
+                tags = data.get("tags", None)
+                data.pop("tags")
+                tag_list = list(json.loads(tags))
+                try:
+                    with transaction.atomic():
+                        # 更新任务
+                        task_map_db.update_task(data)
+                        # 更新标签
+                        tags_record = task_map_tag_db.query_tag_by_tmid(tmid)
+                        # 数据对比
+                        insert_tag, update_tag, delete_tag_id = compare_json(tags_record, tag_list, "tmtid")
+                        if insert_tag:
+                            task_map_tag_db.mutil_insert_tag(insert_tag)
+                        if update_tag:
+                            task_map_tag_db.mutil_update_tag(update_tag)
+                        if delete_tag_id:
+                            task_map_tag_db.mutil_delete_tag(delete_tag_id)
+                        # 更新附件
+                        att_record = task_map_att_db.query_attachment_by_tmid(tmid)
+                        # 数据对比
+                        insert_att, update_att, delete_id_att = compare_json(att_record, attachment_list, "tmaid")
+                        if insert_att:
+                            task_map_att_db.mutil_insert_attachment(insert_att)
+                        if update_att:
+                            task_map_att_db.mutil_update_attachment(update_att)
+                        if delete_id_att:
+                            task_map_att_db.mutil_delete_attachment(delete_id_att)
+                        ret['status'] = True
+                        ret["data"] = tmid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "更新失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
 
 def task_detail(request):
     tmid = request.GET.get("tmid", None)
@@ -182,7 +255,7 @@ def task_base_detail(request):
     task_obj = task_db.query_task_by_tid(tid)
     if task_obj:
         return render(request, 'task/task_base_detail.html', {"task_obj": task_obj})
-    return render(request,'404.html')
+    return render(request, '404.html')
 
 
 # def task_delete(request):
@@ -235,6 +308,35 @@ def task_delete(request):
         print(e)
         ret['status'] = "删除失败"
     return HttpResponse(json.dumps(ret))
+
+
+def task_map_delete(request):
+    """指派任务软删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    status = {"status": 0} # 更改为删除状态
+    try:
+        task_map_db.multi_delete(id_list, status)
+        # 查看任务是否已经完成
+        for id in id_list:
+            task_map_obj = task_map_db.query_task_by_tmid(id)
+            # 未完成则与其相关的指派任务该为取消状态
+            if not task_map_obj.is_finish:
+                status = {"status", 0}
+                task_assign_db.update_status_by_tmid(id, status)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    print(ret)
+    return HttpResponse(json.dumps(ret))
+
 
 
 # def task_mutil_assign(request):
@@ -300,7 +402,6 @@ def task_assign(request):
         ret = {"status": False, "data": "", "message": ''}
         data = request.POST
         form = TaskMapForm(data=data)
-        print("form",data)
         if form.is_valid():
             # 获取任务id并删除
             data = data.dict()
@@ -319,12 +420,41 @@ def task_assign(request):
             task_list = []
             for tid in tids_list:
                 item = data.copy()
-                item["tid_id"] = int(tid)
+                # 获取任务内容
+                task_obj = task_db.query_task_by_tid(int(tid))
+                if task_obj:
+                    item["tid_id"] = task_obj.tid
+                    item["title"] = task_obj.title
+                    item["content"] = task_obj.content
+                    item['type_id'] = task_obj.type_id
                 task_list.append(item)
             try:
                 with transaction.atomic():
                     for modify in task_list:
                         tmid = task_map_db.insert_task(modify)
+                        tid = modify["tid_id"]
+                        # 插入指派附件
+                        task_att_list = task_attachment_db.query_task_attachment_by_tid(tid)
+                        att_list = []
+                        for obj in task_att_list:
+                            att_json = {}
+                            att_json["tmid_id"] = tmid
+                            att_json["attachment"]=obj.attachment
+                            att_json["description"] = obj.description
+                            att_json["name"] = obj.name
+                            att_list.append(att_json)
+                        if att_list:
+                            task_map_att_db.mutil_insert_attachment(att_list)
+                        # 插入指派标签
+                        task_tag_list = task_tag_db.query_task_tag_by_tid(tid)
+                        tag_list = []
+                        for obj in task_tag_list:
+                            tag_json = {}
+                            tag_json["tmid_id"] = tmid
+                            tag_json["name"] = obj.name
+                            tag_list.append(tag_json)
+                        if tag_list:
+                            task_map_tag_db.mutil_insert_tag(tag_list)
                         # 插入指派对象
                         assigner_list = []
                         for item in assigners:
@@ -351,7 +481,7 @@ def task_assign(request):
 
 
 def task_map_edit(request):
-    """编辑任务指派"""
+    """编辑个人任务指派"""
     method = request.method
     if method == "GET":
         tmid = request.GET.get("tmid", None)
@@ -420,6 +550,7 @@ def task_map_edit(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
+
 
 
 def task_assign_list(request):

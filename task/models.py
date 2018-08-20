@@ -53,7 +53,7 @@ class Task(models.Model):
                                db_constraint=False, parent_link=True)  # '发布人',
     delete_status = models.IntegerField(choices=task_status_choice, default=1, verbose_name='删除状态')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
-    last_edit = models.DateTimeField(auto_now=True,verbose_name='最后编辑时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
     class Meta:
         db_table = 'task'
@@ -66,14 +66,18 @@ class Task(models.Model):
 
 class TaskMap(models.Model):
     execute_way_choice = ((0, '并行执行'), (1, '次序执行'))
-    task_status_choice = ((1, '进行中'), (2, '暂停'), (3, '取消'))
+    task_status_choice = ((0, '删除'), (1, '进行中'), (2, '暂停'), (3, '取消'))
     is_finish = ((0, '进行中'), (1, '已完成'))
     teamwork_auth_choice = ((0, '相互可见'), (1, '互不可见'), (3, '指定可见'))
     team_choice = ((0, '个人任务'), (1, '组队任务'))
 
     tmid = models.AutoField(primary_key=True)
     tid = models.ForeignKey("Task", to_field="tid", on_delete=models.CASCADE, verbose_name='任务',
-                            db_constraint = False)
+                            db_constraint=False)
+    title = models.CharField(max_length=512, verbose_name='任务名称')  # 任务名称
+    content = models.TextField(verbose_name='任务描述')  # 任务描述',
+    type = models.ForeignKey("TaskType", to_field="tpid", on_delete=models.CASCADE, verbose_name='任务类型',
+                             db_constraint=False, default=1)
     assigner = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='指派人',
                                  db_constraint =False, parent_link=True)  # '指派人',
     perfor = models.ForeignKey('Performance', to_field='pid', on_delete=models.CASCADE, db_constraint=False,
@@ -84,7 +88,8 @@ class TaskMap(models.Model):
     cycle = models.ForeignKey('TaskCycle', to_field="tcid", on_delete=models.CASCADE, db_constraint=False, default=1,
                               verbose_name='任务周期')  # 任务周期
     start_time = models.DateTimeField(blank=True, null=True, verbose_name='起始时间')
-    deadline = models.DateTimeField(blank=True, null=True, verbose_name='截止时间')
+    deadline = models.DateTimeField(blank=True, null=True, verbose_name='单次截止时间')
+    project_deadline = models.DateTimeField(blank=True, null=True, verbose_name='项目截止时间')
     is_finish = models.IntegerField(choices=is_finish, default=0, verbose_name='完成状态')
     team = models.IntegerField(choices=team_choice, default=0, verbose_name='任务方式')
     remark = models.CharField(max_length=512, blank=True, null=True, verbose_name='备注')
@@ -104,6 +109,7 @@ class TaskMap(models.Model):
 class TaskAssign(models.Model):
     is_finish = ((0, '未通过'), (1, '通过'))
     delete_status_choice = ((0, '已删除'), (1, '保留'))
+    status_choice = ((0, '取消'), (1, "进行中"), (2,"暂停"))
     tasid = models.AutoField(primary_key=True)
     tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
     member_id = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='员工',
@@ -113,32 +119,32 @@ class TaskAssign(models.Model):
     deadline = models.DateTimeField(blank=True, null=True, verbose_name='截止时间')
     progress = models.SmallIntegerField(default=0, verbose_name='完成进度(%)')
     is_finish = models.SmallIntegerField(choices=is_finish, default=0, verbose_name='审核状态')
-    delete_status = models.SmallIntegerField(choices=delete_status_choice,default=1, verbose_name='删除状态')
+    status = models.SmallIntegerField(choices=status_choice, default=1, verbose_name='任务状态')
+    delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
-
     class Meta:
         db_table = 'task_assign'
         unique_together = (('tmid', 'member_id'),)
-        verbose_name = '任务指派内容'
-        verbose_name_plural = '任务指派内容'
+        verbose_name = '个人指派内容'
+        verbose_name_plural = '个人指派内容'
 
     def __str__(self):
-        return "任务指派内容:{0}".format(self.title)
+        return "个人指派内容:{0}".format(self.title)
 
 
 class TaskAssignAttach(models.Model):
     taaid = models.AutoField(primary_key=True)
     tasid = models.ForeignKey('TaskAssign', to_field='tasid', on_delete=models.CASCADE, db_constraint=False,
-                              verbose_name='指派任务')
+                              verbose_name='个人指派任务')
     attachment = models.CharField(max_length=512, blank=True, null=True, verbose_name='附件路径')
     name = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件名称')
     description = models.CharField(max_length=512, blank=True, null=True, verbose_name='附件描述')
 
     class Meta:
         db_table = 'task_assign_attach'
-        verbose_name = '任务指派附件'
-        verbose_name_plural = '任务指派附件'
+        verbose_name = '个人指派附件'
+        verbose_name_plural = '个人指派附件'
 
     def __str__(self):
         return "任务指派附件:{0}".format(self.tasid)
@@ -156,8 +162,22 @@ class TaskAttachment(models.Model):
         verbose_name = '任务附件'
         verbose_name_plural = '任务附件'
 
+
+class TaskMapAttachment(models.Model):
+    tmaid = models.AutoField(primary_key=True)
+    tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False,
+                            verbose_name ='任务指派内容')
+    attachment = models.CharField(max_length=512, blank=True, null=True, verbose_name='附件路径')
+    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=512, blank=True, null=True, verbose_name='附件描述')
+
+    class Meta:
+        db_table = 'task_map_attachment'
+        verbose_name = '任务指派附件'
+        verbose_name_plural = '任务指派附件'
+
     def __str__(self):
-        return "任务附件:{0}".format(self.name)
+        return "任务指派附件:{0}".format(self.name)
 
 
 class TaskAuth(models.Model):
@@ -285,7 +305,22 @@ class TaskTag(models.Model):
         verbose_name_plural = '任务标签'
 
     def __str__(self):
-        return '任务提交记录{0}'.format(self.name)
+        return '任务标签：{0}'.format(self.name)
+
+
+class TaskMapTag(models.Model):
+    tmtid = models.AutoField(primary_key=True)
+    tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务指派')
+    name = models.CharField(max_length=32, blank=True, null=True, verbose_name='标签名称')
+
+    class Meta:
+        db_table = 'task_map_tag'
+        unique_together = (('tmid', 'name'),)
+        verbose_name = '任务指派标签'
+        verbose_name_plural = '任务指派标签'
+
+    def __str__(self):
+        return '任务指派标签:{0}'.format(self.name)
 
 
 class TaskAssignTag(models.Model):
@@ -297,11 +332,11 @@ class TaskAssignTag(models.Model):
     class Meta:
         db_table = 'task_assign_tag'
         unique_together = (('tasid', 'name'),)
-        verbose_name = '任务指派标签'
-        verbose_name_plural = '任务指派标签'
+        verbose_name = '个人指派标签'
+        verbose_name_plural = '个人指派标签'
 
     def __str__(self):
-        return '任务指派标签{0}'.format(self.tasid)
+        return '个人指派标签{0}'.format(self.tasid)
 
 
 class TaskSubmitTag(models.Model):

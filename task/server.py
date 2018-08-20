@@ -94,15 +94,15 @@ class TaskDB(object):
         return result_db
 
     def query_task_by_tid(self, tid):
-        result_db = Task.objects.filter(tid=tid,).first()
+        result_db = Task.objects.filter(tid=tid).first()
         return result_db
 
     def query_task_by_tids(self,tids):
-        result_db = Task.objects.filter(tid__in=tids,).all()
+        result_db = Task.objects.filter(tid__in=tids).all()
         return result_db
 
     def query_task_by_type(self, type_id):
-        result_db = Task.objects.filter(type_id=type_id,).all()
+        result_db = Task.objects.filter(type_id=type_id).all()
         return result_db
 
     def query_task_by_issuer_id(self, issuer_id):
@@ -112,7 +112,7 @@ class TaskDB(object):
     def multi_delete_task(self, id_list, delete_status):
         Task.objects.filter(tid__in=id_list).update(**delete_status)
 
-    def update_task_status_by_tid(self, tid,modify_info):
+    def update_task_status_by_tid(self,tid,modify_info):
         Task.objects.filter(tid=tid).update(**modify_info)
 
 
@@ -161,11 +161,11 @@ class TaskMapDB(object):
         return tmid
 
     def update_task(self, modify_info):
-        result_db=TaskMap.objects.filter(tmid=modify_info['tmid']).update(**modify_info)
+        result_db = TaskMap.objects.filter(tmid=modify_info['tmid']).update(**modify_info)
         return result_db
 
     def query_task_lists(self):
-        result_db = TaskMap.objects.filter().all().order_by("-tmid")
+        result_db = TaskMap.objects.filter(status__gt=0).all().order_by("-tmid")
         return result_db
 
     def query_task_by_is_assign(self,):
@@ -192,10 +192,10 @@ class TaskMapDB(object):
         result_db = TaskMap.objects.filter(assigner=assigner).first()
         return result_db
 
-    def multi_delete_task(self, id_list):
-        TaskMap.objects.filter(tmid__in=id_list).delete()
+    def multi_delete(self, id_list, delete_status):
+        TaskMap.objects.filter(tmid__in=id_list).update(**delete_status)
 
-    def update_task_status_by_tid(self, tmid,modify_info):
+    def update_task_status_by_tmid(self, tmid,modify_info):
         TaskMap.objects.filter(tmid=tmid).update(**modify_info)
 
 
@@ -263,6 +263,34 @@ class TaskAttachmentDB(object):
     def delete_task_attachment(self,tamid):
         TaskAttachment.objects.filter(tamid=tamid).delete()
 
+class TaskMapAttachmentDB(object):
+    """任务指派附件表"""
+
+    def query_attachment_list(self):
+        result_db = TaskMapAttachment.objects.filter().all()
+        return result_db
+
+    def query_attachment_by_tmid(self, tmid):
+        result_db = TaskMapAttachment.objects.filter(tmid_id=tmid).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            TaskMapAttachment.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            TaskMapAttachment.objects.filter(tmaid=item['tmaid']).update(**item)
+
+    def mutil_delete_attachment(self, id_list):
+        TaskMapAttachment.objects.filter(tmaid__in=id_list).delete()
+
+    def multi_delete_attach_by_tmid(self, id_list):
+        TaskMapAttachment.objects.filter(tmid_id__in=id_list).filter().delete()
+
+    def delete_attachment(self, tmaid):
+        TaskMapAttachment.objects.filter(tmaid=tmaid).delete()
+
 
 class TaskTagDB(object):
     """任务标签"""
@@ -285,6 +313,30 @@ class TaskTagDB(object):
 
     def query_task_tag_by_tid(self, tid):
         result_db = TaskTag.objects.filter(tid_id=tid).all()
+        return result_db
+
+
+class TaskMapTagDB(object):
+    """任务指派标签"""
+    def mutil_insert_tag(self, modify_info_list):
+        for item in modify_info_list:
+            is_exists = TaskMapTag.objects.filter(tmid_id=item['tmid_id'], name=item['name'])
+            if is_exists:
+                continue
+            TaskMapTag.objects.create(**item)
+
+    def mutil_update_tag(self, modify_info_list):
+        for item in modify_info_list:
+            TaskMapTag.objects.filter(tmtid=item['tmtid']).update(**item)
+
+    def mutil_delete_tag(self, id_list):
+        TaskMapTag.objects.filter(tmtid__in=id_list).delete()
+
+    def mutil_delete_tag_by_tmid(self, id_list):
+        TaskMapTag.objects.filter(tmid_id__in=id_list).delete()
+
+    def query_tag_by_tmid(self, tmid):
+        result_db = TaskMapTag.objects.filter(tmid_id=tmid).all()
         return result_db
 
 
@@ -376,6 +428,10 @@ class TaskAssignDB(object):
     def count_team_finish_task(self, sid, first_day, last_day):
         result_db = TaskAssign.objects.filter(member_id_id=sid,is_finish=1,tmid_id__team=1,deadline__range=(first_day, last_day+timedelta(days=1))).count()
         return result_db
+
+    def update_status_by_tmid(self, tmid, status):
+        TaskAssign.objects.filter(tmid_id=tmid).update(**status)
+
 
 
 class TaskSubmitRecordDB(object):
@@ -520,6 +576,8 @@ class TaskReviewRecordDB(object):
 
 task_db = TaskDB()
 task_map_db = TaskMapDB()
+task_map_att_db = TaskMapAttachmentDB()
+task_map_tag_db = TaskMapTagDB()
 task_cycle_db = TaskCycleDB()
 task_type_db = TaskTypeDB()
 task_attachment_db = TaskAttachmentDB()

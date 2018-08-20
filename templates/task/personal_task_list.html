@@ -61,7 +61,6 @@
                                     <thead>
                                          <tr >
                                               <th><input type="checkbox" onclick="SelectAll(this)"></th>
-{#                                              <th>ID</th>#}
                                               <th>任务名称</th>
                                               <th>任务方式</th>
                                               <th>任务类别</th>
@@ -83,7 +82,7 @@
 
                                               <td><a  href="{%url "personal_task_detail" %}?tasid={{ obj.tasid }}">{{ obj.title }}</a></td>
                                                <td>{%  change_to_task_way task_obj.team %} </td>
-                                              <td>{% change_to_task_type  base_obj.type_id  %}</td>
+                                              <td>{% change_to_task_type  task_obj.type_id  %}</td>
                                     {#          <td>{% change_to_staff obj.issuer_id %}</td>#}
                                     {#          <td>{% change_to_task_assign_status  obj.is_assign%}</td>#}
                                     {#          <td>{% change_to_task_status obj.status %} </td>#}
@@ -112,9 +111,9 @@
                                             <tr>
                                               <td><input type="checkbox"></td>
 {#                                              <td>{{ obj.tid_id }}</td>#}
-                                            <td><a  href="{%url "personal_task_detail" %}?tasid={{ obj.tasid }}">{{ base_obj.title }}</a></td>
-                                              <td>{{ base_obj.content|slice:"20"}}</td>
-                                              <td>{% change_to_task_type  base_obj.type_id  %}</td>
+                                            <td><a  href="{%url "personal_task_detail" %}?tasid={{ obj.tasid }}">{{ task_obj.title }}</a></td>
+                                              <td>{{ task_obj.content|slice:"20"}}</td>
+                                              <td>{% change_to_task_type  task_obj.type_id  %}</td>
                                     {#          <td>{% change_to_staff obj.issuer_id %}</td>#}
                                     {#          <td>{% change_to_task_assign_status  obj.is_assign%}</td>#}
                                     {#          <td>{% change_to_task_status obj.status %} </td>#}

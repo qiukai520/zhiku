@@ -36,7 +36,6 @@ class Company(models.Model):
     _update = ["company"]
 
 
-
 class Project(models.Model):
     id = models.AutoField(primary_key=True)
     project = models.CharField(max_length=32, blank=True, null=True, verbose_name='所在项目')

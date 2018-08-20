@@ -17,11 +17,15 @@ drop TABLE if exists `task_map`;
 create TABLE `task_map`(
 `tmid` int(11) primary key auto_increment,
 `tid_id` int(11) NOT NULL  COMMENT '任务ID',
+`title` varchar(512) NOT NUll  COMMENT '任务名称',
+`content` text NOT NULL COMMENT '任务描述',
+`type_id` smallint NOT NULL COMMENT ' 任务类型',
 `perfor_id` int(11) NOT NUll COMMENT '绩效分类',
-`assinger_id` int(11) NOT NULL  COMMENT '指派人',
+`assigner_id` int(11) NOT NULL  COMMENT '指派人',
 `cycle_id`  int(11) NOT NULL  COMMENT '任务周期类型',
 `start_time` datetime  DEFAULT NULL  COMMENT '起止日期',
-`deadline` datetime  DEFAULT NUll  COMMENT '终止期限',
+`deadline` datetime  DEFAULT NUll  COMMENT '单次终止期限',
+`project_deadline` datetime  DEFAULT NUll  COMMENT '项目终止期限',
 `remark` varchar(512) NOT NUll  COMMENT '备注',
 `execute_way` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0代表并行执行，1次序执行',
 `teamwork_auth` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0代表相互可见；1互不可见；2指定可见',
@@ -76,6 +80,16 @@ create TABLE `task_attachment`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务附件总表';
 
 
+drop TABLE if exists `task_map_attachment`;
+create TABLE `task_map_attachment`(
+`tmaid` int(11) primary key auto_increment,
+`tmid_id` int(11) NOT NULL  COMMENT '任务指派编号',
+`attachment` varchar(512) COMMENT '附件',
+`name` varchar(128) COMMENT '附件名称',
+`description` varchar(512) COMMENT '附件描述'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务指派附件总表';
+
+
 drop TABLE if exists `staff`;
 create TABLE `staff`(
 `sid` int(11) primary key auto_increment,
@@ -128,6 +142,15 @@ create TABLE `task_tag`(
 alter table task_tag  ADD UNIQUE KEY `tid_name`(`tid`,`name`) USING BTREE;
 
 
+drop TABLE if exists `task_map_tag`;
+create TABLE `task_map_tag`(
+`tmtid` int(11) NOT NULL primary key auto_increment,
+`tmid_id` int(11) NOT NULL  COMMENT '任务指派编号',
+`name` varchar(32) NOT NULL COMMENT '指派标签名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务标签表';
+alter table task_map_tag  ADD UNIQUE KEY `tmid_name`(`tmid`,`name`) USING BTREE;
+
+
 drop TABLE if exists `task_assign_tag`;
 create TABLE `task_assign_tag`(
 `tatid` int(11) NOT NULL primary key auto_increment,
@@ -163,12 +186,12 @@ create TABLE `task_assign`(
 `deadline` datetime  DEFAULT NUll COMMENT '最后期限',
 `progress` tinyint(1)   COMMENT '进度:0-100',
 `is_finish` tinyint(1)  NOT NULL  DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
+`status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '任务状态:0取消，1进行中，2，暂停',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间',
 `delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务分配表';
-alter table task_assign  ADD UNIQUE KEY `task_member_id`(`tmid`,`member_id`) USING BTREE;
-
+alter table task_assign  ADD UNIQUE KEY `task_member_id`(`tmid_id`,`member_id_id`) USING BTREE;
 
 
 drop TABLE if exists `task_assign_attach`;
