@@ -38,18 +38,18 @@
         right: 38px
 
     }
-    .btn-primary:hover {
-    background-color:black !important;
-}
-    .btn-danger:hover{
-            background-color: orangered !important;
-          }
-    .btn{
-           border: none;
-       }
-    .btn-info:hover{
-              background-color: #2271f0 !important;
-        }
+{#    .btn-primary:hover {#}
+{#    background-color:black !important;#}
+{#}#}
+{#    .btn-danger:hover{#}
+{#            background-color: orangered !important;#}
+{#          }#}
+{#    .btn{#}
+{#           border: none;#}
+{#       }#}
+{#    .btn-info:hover{#}
+{#              background-color: #2271f0 !important;#}
+{#        }#}
     .row > [class*="col-"] {
     margin-bottom: 0px;
 }
@@ -97,9 +97,8 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                         <div class="container"   style="border-bottom: 2px double #9F9F9F ; width:80%;">
                             <div class="form-group  " id="top"  style=" font-size:14px;font-weight:bold;">
                                 {% query_task_map_by_tmid  task_obj.tmid_id  as total_task_obj %}
-                                {% query_task_by_tid  total_task_obj.tid_id  as base_task %}
                                 <label class="form-label" for="attribute"  >任务分类:</label>
-                                <span id="attribute" >{% change_to_task_type  base_task.type_id  %}</span>
+                                <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>
                                <label class="form-label" for="publisher"  >指派人:</label>
                                 <span id="publisher"  >{% change_to_staff total_task_obj.assigner_id %}</span>
                                <label class="form-label" for="deadline" >创建时间:</label>
@@ -121,11 +120,11 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                     <div class="col-xs-4" style="position: relative" ><span  style="color:#9F9F9F;font-size: 18px; float: right" class="right" ><span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px; background-color: red; "></span><br></span>
                                        <h4 style="color:#1ab394">主任务：</h4>
                                        <label class="form-label" for="task_title"  >任务标题:</label>
-                                       <span id="task_title" >{{ base_task.title }}</span>
+                                       <span id="task_title" >{{ total_task_obj.title }}</span>
                                          {% query_task_attachment_by_tid total_task_obj.tid_id as t_attachment_list %}
                                          <div class="form-group  " style="margin-bottom: 0px" id="top" >
                                            <label class="form-label"  >任务描述:</label>
-                                            <span  >{{ base_task.content }}</span>
+                                            <span  >{{ total_task_obj.content }}</span>
                                         </div>
                                         {% for t_obj in t_attachment_list %}
                                          <div class="form-group  "style="margin-bottom: 0px"   >
@@ -244,9 +243,22 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                         </div>
                                             </div>
                                             <div class="hr-line-dashed"></div>
-                                            <div class="form-group col-xs-8">
-                                                <button  onclick="Submit()" class="btn btn-primary "  style="float: right;margin:20px">提交</button>
-                                                <a href="{% url "personal_task_list" %}" class="btn btn-danger" style=" float: right;margin:20px" >返回</a>
+                                            <div class="form-group col-xs-12" style="margin-left: 0px">
+                                                <div class="hr-line-dashed"></div>
+                                                 <div class="row" id="content_footer" >
+                                                     <div class="form-actions well well-sm clearfix">
+                                                         <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                                         <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并继续</button>
+                                                         <a href="{% url "personal_task_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                                         <!--error_msg-->
+                                                         <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                                            <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                                            </span>
+                                                            <span id="error_msg" style="font-size: 14px;"></span>
+                                                        </div>
+                                                     </div>
+                                                 </div>
                                             </div>
                                     </div>
                            </div>
@@ -510,8 +522,11 @@ function UploadFile(ths){
     })
 }
 
+
 //任务提交
-function Submit() {
+function Submit(cons) {
+        var $msg = $('#error_msg');
+        $msg.parent().addClass('hide');
         var title = $("#title").val().trim();
         var summary = $("#summary").val().trim();
         var remark = $("#remark").val().trim();
@@ -534,12 +549,16 @@ function Submit() {
         },
             dataType: "json",
             success: function (arg) {
-                if (arg.status) {
-                    alert("提交成功")
-                    window.location.href="{%url "complete_task" %}?tasid={{ task_obj.tasid }}" ;
-                } else {
-                    alert(arg.message)
-                }
+                     if (arg.status) {
+                        if (cons==1){
+                             window.location.href='{% url "personal_task_list" %}';
+                        }else{
+                              window.location.href='{% url "complete_task" %}?tasid={0}'.format({{ task_obj.tasid }});
+                        }
+                    } else {
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
+                    }
             }
         })
     }

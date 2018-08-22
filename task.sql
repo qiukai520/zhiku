@@ -172,7 +172,8 @@ alter table task_submit_tag  ADD UNIQUE KEY `tstid_name`(`tsid`,`name`) USING BT
 drop TABLE if exists `task_cycle`;
 create TABLE `task_cycle`(
 `tcid` int(11) NOT NULL  primary key auto_increment,
-`name` varchar(32) NOT NULL UNIQUE
+`name` varchar(32) NOT NULL UNIQUE COMMENT '周期名称',
+`number` smallint NOT NULL COMMENT '编号',
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务周期表';
 
 
@@ -183,7 +184,8 @@ create TABLE `task_assign`(
 `member_id_id` int(11) NOT NULL COMMENT' 员工ID',
 `title`  varchar(32)  COMMENT '标题',
 `content` text   COMMENT '任务描述',
-`deadline` datetime  DEFAULT NUll COMMENT '最后期限',
+`start_time` datetime  DEFAULT NUll COMMENT '开始时间',
+`deadline` datetime  DEFAULT NUll COMMENT '截止时间',
 `progress` tinyint(1)   COMMENT '进度:0-100',
 `is_finish` tinyint(1)  NOT NULL  DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
 `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '任务状态:0取消，1进行中，2，暂停',

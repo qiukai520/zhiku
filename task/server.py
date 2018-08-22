@@ -3,8 +3,6 @@ from datetime import timedelta
 from .models import *
 
 
-
-
 class PerformanceDB(object):
     """绩效表"""
     def query_performence_list(self):
@@ -120,10 +118,10 @@ class TaskMapDB(object):
     """任务表列表"""
     # 任务状态
     task_status = (
+        {"id": 0, "caption": "已删除"},
         {"id": 1, "caption": "进行中"},
-        {"id": 2, "caption": "已完成"},
-        {"id": 3, "caption": "已暂停"},
-        {"id": 4, "caption": "已终止"},
+        {"id": 2, "caption": "已暂停"},
+        {"id": 3, "caption": "已取消"},
     )
     # 执行方式
     execute_way = (
@@ -139,13 +137,14 @@ class TaskMapDB(object):
     # 是否完成
     is_finish = (
         {"id": 0, "caption": "进行中"},
-        {"id": 1, "caption": "已完成"}
+        {"id": 1, "caption": "已完成"},
     )
     # 任务方式
     task_way = (
         {"id": 0, "caption": "个人任务"},
         {"id": 1, "caption": "组队任务"}
     )
+    cycle_choice = ({"id":1,"caption":"单次"},{"id":2, "caption":"每天"}, {"id":3,"caption":"每周"},{"id":4,"caption":"每月"})
 
     def insert_task(self, modify_info):
         task_sql = """insert into task_map(%s) value(%s);"""
@@ -263,6 +262,7 @@ class TaskAttachmentDB(object):
     def delete_task_attachment(self,tamid):
         TaskAttachment.objects.filter(tamid=tamid).delete()
 
+
 class TaskMapAttachmentDB(object):
     """任务指派附件表"""
 
@@ -344,6 +344,9 @@ class TaskReviewDB(object):
     """任务审核人"""
     def mutil_insert_reviewer(self, modify_info_list):
         for item in modify_info_list:
+            is_exists=TaskReview.objects.filter(sid_id=item["sid_id"],tmid_id=item["tmid_id"]).first()
+            if is_exists:
+                continue
             TaskReview.objects.create(**item)
 
     def query_task_reviewer_by_tmid(self,tmid):
@@ -368,6 +371,9 @@ class TaskReviewDB(object):
 
     def mutil_update_reviewer(self, modify_info):
         for item in modify_info:
+            is_exists = TaskReview.objects.filter(sid_id=item["sid_id"], tmid_id=item["tmid_id"]).first()
+            if is_exists:
+                continue
             TaskReview.objects.filter(tmid_id=item['tmid_id'], sid_id=item['sid_id']).update(**item)
 
     def mutil_delete_reviewer(self, id_list):
@@ -384,6 +390,13 @@ class TaskAssignDB(object):
         {"id": 0, "caption": "进行中"},
         {"id": 1, "caption": "已完成"}
     )
+    # 任务状态
+    status = (
+        {"id": 0, "caption": "已取消"},
+        {"id": 1, "caption": "进行中"},
+        {"id": 2, "caption": "已暂停"}
+    )
+
 
     def mutil_insert_task_assign(self, modify_info_list):
         for item in modify_info_list:

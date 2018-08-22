@@ -47,22 +47,35 @@ def build_performence_ele():
 @register.simple_tag
 def build_task_execute_way_ele():
     """构建任务执行方式下拉框"""
-    way_list = task_db.execute_way
+    way_list = task_map_db.execute_way
     eles = ""
     for item in way_list:
       ele = """<option value={0}>{1}</option>""".format(item["execute_way"], item["caption"])
       eles += ele
     return mark_safe(eles)
 
+
 @register.simple_tag
 def build_task_cycle_ele():
     """构建任务周期下拉框"""
-    cycle_list = task_cycle_db.query_task_cycle_list()
+    way_list = task_map_db.cycle_choice
     eles = ""
-    for item in cycle_list:
-        ele = """<option value={0}>{1}</option>""".format(item.tcid, item.name)
-        eles += ele
+    for item in way_list:
+      ele = """<option value={0}>{1}</option>""".format(item["id"], item["caption"])
+      eles += ele
     return mark_safe(eles)
+
+
+
+# @register.simple_tag
+# def build_task_cycle_ele():
+#     """构建任务周期下拉框"""
+#     cycle_list = task_cycle_db.query_task_cycle_list()
+#     eles = ""
+#     for item in cycle_list:
+#         ele = """<option value={0}>{1}</option>""".format(item.tcid, item.name)
+#         eles += ele
+#     return mark_safe(eles)
 
 
 @register.simple_tag
@@ -215,13 +228,13 @@ def change_to_task_cycle(tcid):
     return task_cycle.name
 
 
-@register.simple_tag
-def change_to_task_assign_status(id):
-    """获取任务指派状态"""
-    assign_list = task_db.is_assign
-    for item in assign_list:
-        if int(item["iaid"]) == id:
-            return item["caption"]
+# @register.simple_tag
+# def change_to_task_assign_status(id):
+#     """获取任务指派状态"""
+#     assign_list = task_db.is_assign
+#     for item in assign_list:
+#         if int(item["iaid"]) == id:
+#             return item["caption"]
 
 @register.simple_tag
 def change_to_task_status(id):
@@ -238,6 +251,13 @@ def change_to_task_assign_finish(is_finish):
         if int(item["id"]) == is_finish:
             return item['caption']
 
+
+@register.simple_tag
+def change_to_task_assign_status(status):
+    status_list = task_assign_db.status
+    for item in status_list:
+        if int(item["id"]) == status:
+            return item['caption']
 
 @register.simple_tag
 def change_to_task_perfomance(pid):
@@ -508,6 +528,8 @@ def build_task_assign_tags_list(tasid):
 @register.simple_tag
 def fetch_task_assing_member(tmid):
     """获取任务成员"""
+    # 指派路径
+    path = "/task/map/edit"
     task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     eles = ''
     if task_assign_list:
@@ -517,7 +539,7 @@ def fetch_task_assing_member(tmid):
                 ele = "<a href='task_review_record.html?tasid={0}'>{1};&nbsp</a>".format(item.tasid, member.name)
                 eles+= ele
     else:
-        ele = "<span>暂未指派</span> &nbsp<a href='task_assign_center.html'>去指派</a>"
+        ele = "<span>暂未指派</span> &nbsp<a href='{0}?tmid={1}'>去指派</a>".format(path,tmid)
         eles += ele
     return mark_safe(eles)
 

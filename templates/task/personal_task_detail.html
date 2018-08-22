@@ -22,12 +22,11 @@
                 <div class="ibox">
                     <div class="ibox-content">
                         {% query_task_map_by_tmid task_obj.tmid_id as task_map %}
-                        {% query_task_by_tid task_map.tid_id as base_task %}
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="m-b-md">
 {#                                    <a href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-white btn-xs pull-right">编辑项目</a>#}
-                                    <h3 style="color:#1ab394">主任务：{{ base_task.title }}</h3>
+                                    <h3 style="color:#1ab394">主任务：{{ task_map.title }}</h3>
                                 </div>
                                 <dl class="dl-horizontal">
                                     <dt>任务状态：</dt>
@@ -55,7 +54,7 @@
                                     <dd><span><i class="fa fa-circle text-warning"></i>{% fetch_review_follow task_obj.tmid %} </span>
                                     </dd>
                                     <dt>任务分类：</dt>
-                                    <dd>{% change_to_task_type  base_task.type_id  %}
+                                    <dd>{% change_to_task_type  task_map.type_id  %}
                                     </dd>
                                     <dt>任务周期：</dt>
                                     <dd>{% change_to_task_cycle task_map.cycle_id %}</dd>
@@ -142,9 +141,7 @@
                                                              {% endif %}
                                                         </tr>
                                                             {% endif %}
-
                                                         {% endfor %}
-
                                                     </tbody>
                                                 </table>
 
@@ -152,9 +149,7 @@
                                             <div class="tab-pane" id="tab-2">
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -165,17 +160,17 @@
         <div class="col-sm-3">
             <div class="wrapper wrapper-content project-manager">
                 <h4>任务描述</h4>
-                <p class="small" style="text-indent:2em">{{ base_task.content }}
+                <p class="small" style="text-indent:2em">{{ task_map.content }}
                 </p>
                 <h5>项目标签</h5>
                 <ul class="tag-list" style="padding: 0">
-                    {% build_task_tags_list  base_task.tid%}
+                    {% build_task_map_tags_list  task_map.tmid%}
                 </ul>
                 <br>
                 <br>
                 <h5>项目附件</h5>
                 <ul class="list-unstyled project-files">
-                    {% query_task_attachment_by_tid base_task.tid as t_attachement %}
+                    {% query_task_map_attachment_by_tmid task_map.tmid as t_attachement %}
                     {% for obj in t_attachement %}
                          <li>
                              <label class="form-label"   >任务附件{{ forloop.counter }}:</label>

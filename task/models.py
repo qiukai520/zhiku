@@ -66,10 +66,11 @@ class Task(models.Model):
 
 class TaskMap(models.Model):
     execute_way_choice = ((0, '并行执行'), (1, '次序执行'))
-    task_status_choice = ((0, '删除'), (1, '进行中'), (2, '暂停'), (3, '取消'))
+    task_status_choice = ((0, '已删除'), (1, '进行中'), (2, '已暂停'), (3, '已取消'), )
     is_finish = ((0, '进行中'), (1, '已完成'))
     teamwork_auth_choice = ((0, '相互可见'), (1, '互不可见'), (3, '指定可见'))
     team_choice = ((0, '个人任务'), (1, '组队任务'))
+    cycle_choice = ((1, "单次"), (2, "每天"), (3, "每周"), (4, "每月"))
 
     tmid = models.AutoField(primary_key=True)
     tid = models.ForeignKey("Task", to_field="tid", on_delete=models.CASCADE, verbose_name='任务',
@@ -85,8 +86,9 @@ class TaskMap(models.Model):
     execute_way = models.IntegerField(choices=execute_way_choice, verbose_name='执行方式')  # '0代表并行执行，1次序执行',
     teamwork_auth = models.IntegerField(choices=teamwork_auth_choice, default=1,
                                         verbose_name='是否可见')  # '0代表相互可见；1互不可见；2指定可见',
-    cycle = models.ForeignKey('TaskCycle', to_field="tcid", on_delete=models.CASCADE, db_constraint=False, default=1,
-                              verbose_name='任务周期')  # 任务周期
+    # cycle = models.ForeignKey('TaskCycle', to_field="tcid", on_delete=models.CASCADE, db_constraint=False, default=1,
+    #                           verbose_name='任务周期')  # 任务周期
+    cycle_id = models.SmallIntegerField(choices=cycle_choice, verbose_name='任务周期')
     start_time = models.DateTimeField(blank=True, null=True, verbose_name='起始时间')
     deadline = models.DateTimeField(blank=True, null=True, verbose_name='单次截止时间')
     project_deadline = models.DateTimeField(blank=True, null=True, verbose_name='项目截止时间')
@@ -107,15 +109,16 @@ class TaskMap(models.Model):
 
 
 class TaskAssign(models.Model):
-    is_finish = ((0, '未通过'), (1, '通过'))
+    is_finish = ((0, '进行中'), (1, '已完成'))
     delete_status_choice = ((0, '已删除'), (1, '保留'))
-    status_choice = ((0, '取消'), (1, "进行中"), (2,"暂停"))
+    status_choice = ((0, '已取消'), (1, "进行中"), (2,"已暂停"))
     tasid = models.AutoField(primary_key=True)
     tmid = models.ForeignKey('TaskMap', to_field='tmid', on_delete=models.CASCADE, db_constraint=False, verbose_name='任务')
     member_id = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='员工',
                                   db_constraint=False)
     title = models.CharField(max_length=512, blank=True, null=True, verbose_name='任务名称')
     content = models.TextField(blank=True, null=True, verbose_name='任务内容')
+    start_time = models.DateTimeField(blank=True, null=True, verbose_name='开始时间')
     deadline = models.DateTimeField(blank=True, null=True, verbose_name='截止时间')
     progress = models.SmallIntegerField(default=0, verbose_name='完成进度(%)')
     is_finish = models.SmallIntegerField(choices=is_finish, default=0, verbose_name='审核状态')
@@ -201,6 +204,7 @@ class TaskAuth(models.Model):
 class TaskCycle(models.Model):
     tcid = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=32, blank=True, null=True, verbose_name='任务周期')
+    number = models.SmallIntegerField(verbose_name="周期编号")
 
     class Meta:
         db_table = 'task_cycle'

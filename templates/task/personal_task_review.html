@@ -105,8 +105,8 @@
                                               <td>{{ base_task.content|slice:"15"}}</td>
                                               <td>{% change_to_task_type  base_task.type_id  %}</td>
                                               <td>{% change_to_staff obj.assigner_id %}</td>
+                                              <td>{{ obj.start_time|date:"Y-m-d H:i" }}</td>
                                               <td>{{ obj.deadline |date:"Y-m-d "}}</td>
-                                              <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
                                               <td>{% bulid_person_review_list  request.user.staff.sid  obj.tmid %}
                                               </td>
                                           </tr>

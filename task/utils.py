@@ -1,6 +1,7 @@
 import json
-import datetime
 import calendar
+import datetime
+from datetime import timedelta
 
 
 def build_tags_info(dict, tags):
@@ -62,8 +63,8 @@ def getMonthFirstDayAndLastDay(startMonth,endMonth):
     """
     :param year: 年份，默认是本年，可传int或str类型
     :param month: 月份，默认是本月，可传int或str类型
-    :return: firstDay: 当月的第一天，datetime.date类型
-              lastDay: 当月的最后一天，datetime.date类型
+    :return: firstDay: 开始月的第一天，datetime.date类型
+              lastDay: 结束月的最后一天，datetime.date类型
     """
     start_year, start_month = str(startMonth).split("-")
     end_year, end_month = str(endMonth).split("-")
@@ -91,3 +92,55 @@ def getMonthFirstDayAndLastDay(startMonth,endMonth):
     lastDay = datetime.date(year=end_year, month=end_month, day=monthRange)
 
     return firstDay, lastDay
+
+
+def calculate_deadline(cycle_id, deadline, start_time=None):
+    """
+    根据项目截止时间与周期，计算每次任务的开始时间与截止时间
+    :param cycle_id: 任务周期id
+    :param start_time: 开始时间
+    :param deadline: 截止时间
+    :return:start_time,deadline
+    """
+    # 查看任务周期
+    # 如果是每天任务
+    print(cycle_id)
+    if not start_time:
+        start_time = datetime.datetime.today()
+    else:
+        start_time = datetime.datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
+        print("start_time", start_time)
+
+    if int(cycle_id) == 1:
+        # 单次任务
+        pass
+    elif int(cycle_id) == 2:
+        # 每天任务
+        pass
+    elif int(cycle_id) == 3:
+        print("周")
+        # 每周任务
+        weekday = start_time.weekday()
+        target_day = calendar.FRIDAY
+        print(weekday)
+        del_day = target_day-weekday
+        now = datetime.datetime.today()
+        start_time_zero = start_time - datetime.timedelta(hours=now.hour, minutes=now.minute, seconds=now.second,microseconds=now.microsecond)
+        deadline = start_time_zero + timedelta(del_day)
+        deadline += timedelta(hours=18)
+        deadline = deadline.strftime("%Y-%m-%d %H:%M:%S")
+        print(deadline)
+    elif int(cycle_id) == 4:
+        # 每月任务
+        print("yue")
+        current_year = start_time.year
+        current_month = start_time.month
+        print(current_month,current_year)
+        # 获取当前月第一天的星期和当月的总天数
+        firstDayWeekDay, monthRange = calendar.monthrange(current_year, current_month)
+        print(calendar.monthrange(current_year, current_month))
+        # 获取当前月的 最后一天
+        lastDay = datetime.datetime(year=current_year, month=current_month, day=monthRange)
+        deadline += timedelta(hours=18)
+        deadline = lastDay.strftime("%Y-%m-%d %H:%M:%S")
+    return start_time,deadline

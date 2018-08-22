@@ -80,7 +80,7 @@ def task_edit(request):
             task_attachment_info = task_attachment_db.query_task_attachment_by_tid(tid)
         else:
             # 创建
-            tid=0
+            tid = 0
             task_info = {}
             task_tag_info = {}
             task_attachment_info = {}
@@ -136,7 +136,6 @@ def task_edit(request):
                 except Exception as e:
                     ret["message"] = "更新失败"
             else:
-                print("创建")
                 # 创建
                 # 获取标签并删除
                 tags = data.get("tags", None)
@@ -145,7 +144,6 @@ def task_edit(request):
                 try:
                     with transaction.atomic():
                         tid = task_db.insert_task(data)
-                        print("tid",tid)
                         # 如果任务插入成功
                         if tid:
                             # 插入标签
@@ -187,15 +185,13 @@ def task_map_content(request):
         return render(request, 'task/task_map_edit.html',{"tmid": tmid,
                                                       "task_info": task_map_info,
                                                       "task_tag_info": task_map_tag_info,
-                                                      "task_attachment_data": task_map_attach_info,
-                                                      })
+                                                      "task_attachment_data": task_map_attach_info,})
     else:
         ret = {"status": False, "data": "", "message": ""}
         form = TaskForm(data=request.POST)
         if form.is_valid():
             data = request.POST
             data = data.dict()
-            print("data",data)
             # 获取任务id
             tmid = data.get("tmid", None)
             # 获取附件并删除
@@ -242,6 +238,7 @@ def task_map_content(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
+
 
 def task_detail(request):
     tmid = request.GET.get("tmid", None)
@@ -334,7 +331,34 @@ def task_map_delete(request):
     except Exception as e:
         print(e)
         ret['status'] = "删除失败"
-    print(ret)
+    return HttpResponse(json.dumps(ret))
+
+
+def task_map_cancel(request):
+    """指派任务取消"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    status = {"status": 3}  # 更改为取消状态
+    try:
+        task_map_db.multi_delete(id_list, status)
+        # 查看任务是否已经完成
+        for id in id_list:
+            task_map_obj = task_map_db.query_task_by_tmid(id)
+            # 未完成则与其相关的指派任务该为取消状态
+            if not task_map_obj.is_finish:
+                status = {"status": 0}
+                print("status",status)
+                task_assign_db.update_status_by_tmid(id, status)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "取消任务失败"
     return HttpResponse(json.dumps(ret))
 
 
@@ -379,6 +403,7 @@ def task_map_delete(request):
 #     else:
 #         ret['message'] = "至少选择一个员工"
 #     return HttpResponse(json.dumps(ret))
+
 
 
 def task_assign(request):
@@ -439,7 +464,7 @@ def task_assign(request):
                         for obj in task_att_list:
                             att_json = {}
                             att_json["tmid_id"] = tmid
-                            att_json["attachment"]=obj.attachment
+                            att_json["attachment"] = obj.attachment
                             att_json["description"] = obj.description
                             att_json["name"] = obj.name
                             att_list.append(att_json)
@@ -458,8 +483,12 @@ def task_assign(request):
                         # 插入指派对象
                         assigner_list = []
                         for item in assigners:
+                            # 查看任务周期类型，根据任务周期计算截止时间
+                            start_time,deadline = calculate_deadline(data["cycle_id"],data["deadline"],data["start_time"])
+                            print("cal",start_time,deadline)
                             item['tmid_id'] = tmid
-                            item["deadline"] = data["deadline"]
+                            item["start_time"] = start_time
+                            item["deadline"] = deadline
                             assigner_list.append(item)
                         task_assign_db.mutil_insert_task_assign(assigner_list)
                         # 插入审核人
@@ -501,6 +530,8 @@ def task_map_edit(request):
         if form.is_valid():
             data = request.POST
             data = data.dict()
+            print("修改指派")
+            print(data)
             # 获取任务指派id
             tmid = data.get("tmid", None)
             # 获取审核人并删除
@@ -542,6 +573,7 @@ def task_map_edit(request):
                         ret['status'] = True
                         ret["data"] = tmid
                 except Exception as e:
+                    print(e)
                     ret["message"] = "修改失败"
             else:
                 ret['message'] = "修改失败"
@@ -550,7 +582,6 @@ def task_map_edit(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
-
 
 
 def task_assign_list(request):
@@ -720,6 +751,7 @@ def task_review(request):
         user_id = request.user.staff.sid
         ret = {'status': False, 'message':'', 'data':''}
         data = request.POST
+        print(data)
         form = TaskReviewForm(data=data)
         if form.is_valid():
             try:
@@ -1092,6 +1124,7 @@ def complete_task(request):
         if form.is_valid():
             data = request.POST
             data = data.dict()
+            print(data)
             # 获取标签并删除
             tags = data.get("tags", None)
             tag_list = tags.split("|")
@@ -1113,18 +1146,22 @@ def complete_task(request):
                             task_assign_obj.progress = data["completion"]
                             task_assign_obj.save()
                         tsid = task_submit_record_db.insert_task_submit_record(data)
+                        print("tsid",tsid)
                         # 如果任务提交记录插入成功
                         if tsid:
                             # 插入标签
                             id_dict = {"tsid_id": tsid}
                             tags_list = build_tags_info(id_dict,tag_list)
                             task_submit_tag_db.mutil_insert_tag(tags_list)
+                            print("tags_list",tags_list)
                             # 插入附件
                             attachment_list = build_attachment_info(id_dict, attachment)
                             task_submit_attach_db.mutil_insert_attachment(attachment_list)
+                            print(attachment_list)
                             ret["status"] = True
                 except Exception as e:
-                    ret["message"] = "添加失败"
+                    print(e)
+                    ret["message"] = "提交失败"
         else:
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])

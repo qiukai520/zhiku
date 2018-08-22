@@ -78,8 +78,8 @@
 
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                    <button  onclick="MultiCancle()" class="btn btn-info">批量取消</button>
-                                     <button  onclick="MultiDelete()" class="btn btn-danger">批量删除</button>
+                                    <button  onclick="MultiCancel()" class="btn btn-info"><i class="glyphicon glyphicon-remove"></i>&nbsp;取消</button>
+                                     <button  onclick="MultiDelete()" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;删除</button>
 
                                 </div>
                                 <table id="task_assign"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
@@ -109,8 +109,8 @@
                                               <td>{%  change_to_task_way obj.team %} </td>
                                               <td>{% change_to_task_type  obj.type_id  %}</td>
                                               <td>{% change_to_staff obj.assigner_id %}</td>
-                                              <td name="deadline">{{ obj.deadline |date:"Y-m-d "}}</td>
                                               <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
+                                              <td name="deadline">{{ obj.deadline |date:"Y-m-d "}}</td>
                                               <td>{% bulid_assign_member_list obj.tmid obj.deadline%}</td>
                                           </tr>
                                           {% endfor %}
@@ -126,7 +126,6 @@
         </div>
         <!-- End Panel Other -->
     </div>
-
 <!-- task_assign-->
 <!-- Modal -->
 <div class="modal fade" id="assign_member"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -224,7 +223,6 @@
     </div>
     </div>
 </div>
-
     <!-- Modal -->
     <!-- delete-->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -232,21 +230,18 @@
     <div class="modal-content">
         <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="myModalLabel">警告！</h3>
+        <h2 class="modal-title" id="myModalLabel">警告！</h2>
       </div>
-      <div class="modal-body" style="text-align: center;font-size: 20px;">
+      <div class="modal-body" id="modal-body" style="text-align: center;font-size: 20px;">
         您确定要删除吗？删除后数据将不可恢复
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
         <button type="button"  id="ensure"  class="btn btn-primary">确定</button>
-
       </div>
     </div>
   </div>
 </div>
-
-
 {%endblock %}
 
 {% block js %}
@@ -321,7 +316,6 @@ String.prototype.format=function()
     }
 //批量删除
     function MultiDelete() {
-        $("#delete_modal").modal("show");//显示模态框
         var ids="";
         $("tbody input:checkbox:checked").each(function () {
             id = $(this).next().val();
@@ -330,31 +324,37 @@ String.prototype.format=function()
                 ids+=id;
             }
         });
-        console.log("ids",ids)
+        //是否选中
+        if (ids==""){
+             layer.alert('至少选择一个任务', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $("#delete_modal").modal("show");//显示模态框
         $("#ensure").click(function () {
             $("#delete_modal").hide();
-              $.ajax({
-            url:"{% url "task_map_delete" %}",
-            data:{"ids":ids},
-            type:"get",
-            dataType:"JSON",
-            success:function (arg) {
-                if (arg.status){
-                   alert("删除成功");
-                    window.location.reload()
-                }else{
-                    alert("删除失败"),
-                    window.location.reload()
+            $.ajax({
+                url:"{% url "task_map_delete" %}",
+                data:{"ids":ids},
+                type:"get",
+                dataType:"JSON",
+                success:function (arg) {
+                   if (arg.status){
+                        window.location.reload()
+                    }else{
+                       layer.alert('删除失败', {icon: 2 ,
+                                      time: 2000, //2s后自动关闭
+                                        btn: [ '知道了']}
+                                        );
                 }
-            }
-        })
+                }
+            })
         });
     }
-
     //批量取消
-    function MultiCancle() {
-        $("#delete_modal").modal("show");//显示模态框
-        $("modal-body").text("你确定要取消一下任务吗？")
+    function MultiCancel() {
         var ids="";
         $("tbody input:checkbox:checked").each(function () {
             id = $(this).next().val();
@@ -363,23 +363,32 @@ String.prototype.format=function()
                 ids+=id;
             }
         });
+         //是否选中
+        if (ids==""){
+             layer.alert('至少选择一个任务', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $("#delete_modal").modal("show");//显示模态框
+        $("#modal-body").text("你确定要取消该任务吗？")
         console.log("ids",ids)
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "task_map_delete" %}",
+            url:"{% url "task_map_cancel" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",
             success:function (arg) {
                 if (arg.status){
-                   alert("删除成功");
-                    window.location.reload()
-                }else{
-                    alert("删除失败"),
-                    window.location.reload()
-
-
+                        window.location.reload()
+                    }else{
+                       layer.alert('任务已取消', {icon: 2 ,
+                                      time: 2000, //2s后自动关闭
+                                        btn: [ '知道了']}
+                                        );
                 }
             }
         })
@@ -399,8 +408,7 @@ function AddTag(ths){
             alert("输入不能为空")
         }
     }
-
-     //获取标签内容
+        //获取标签内容
 function  FetchTag() {
     var tags=new Array();
     $("#tag").parent().parent().find("strong").each(function () {

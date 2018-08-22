@@ -105,19 +105,18 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                             <div class="form-group  " id="top" style="font-size:14px;margin-top: 10px;">
 
                                 {% query_task_map_by_tmid  task_assign_info.tmid_id  as total_task_obj %}
-                                {% query_task_by_tid total_task_obj.tid_id as base_task %}
 
                                {% if task_assign_info.title %}
                                     <label class="form-label" for="task_title"  >任务标题:</label>
                                     <span id="task_title" >{{ task_assign_info.title }}</span>
                                 {% else %}
                                    <label class="form-label" for="task_title"  >任务标题:</label>
-                                   <span id="task_title" >{{ base_task.title }}</span>
+                                   <span id="task_title" >{{ total_task_obj.title }}</span>
                                 {% endif %}
                                <label class="form-label" for="publisher"  >指派人:</label>
                                 <span id="publisher"  >{% change_to_staff total_task_obj.assigner_id %}</span>
                                <label class="form-label" for="attribute"  >任务分类:</label>
-                                <span id="attribute" >{% change_to_task_type  base_task.type_id  %}</span>
+                                <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>
                                <label class="form-label" for="deadline" >截止时间:</label>
                                {% if task_assign_info.deadline %}
                                    <span id="deadline" >{{ task_assign_info.deadline |date:"Y-m-d H:i"}}</span>
@@ -146,7 +145,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                 {% query_task_attachment_by_tid total_task_obj.tid_id as t_attachment_list %}
                                  <div class="form-group"  >
                                    <label class="form-label" for="task_title">任务描述:</label>
-                                    <span id="task_title"  >{{ base_task.content }}</span>
+                                    <span id="task_title"  >{{ total_task_obj.content }}</span>
                                 </div>
                                 {% for t_obj in t_attachment_list %}
                                  <div class="form-group  "  >
@@ -359,13 +358,13 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
            type:"post",
            dataType:'json',
            success:function (arg) {
-           if (arg.status){
-               alert("审核提交成功")
-               window.location.reload()
-           }
-           else{
-                alert("审核提交失败")
-           }
+            if (arg.status){
+                    window.location.reload()
+                }else{
+                   layer.alert('审核失败', {icon: 2 ,
+                                  time: 2000, //2s后自动关闭
+                                    btn: [ '知道了']});
+          }
     }
        })
 }
@@ -375,20 +374,28 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
        var evaluate=$("#evaluate").val();
        var tasid_id ={{task_assign_info.tasid }};
        var tvid_id = {{ task_review.tvid }}
+            //是否评分
+        if (evaluate==""){
+             layer.alert('请评价一个星级', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
        $.ajax({
            url:"{% url 'task_review' %}",
            data:{ "tasid_id":tasid_id,"tvid_id":tvid_id,"comment":comment,"is_complete":is_complete,"evaluate":evaluate},
            type:"post",
            dataType:'json',
            success:function (arg) {
-           if (arg.status){
-               alert("审核提交成功")
-               window.location.reload()
-           }
-           else{
-                alert("审核提交失败")
-           }
-    }
+          if (arg.status){
+                    window.location.reload()
+                }else{
+                   layer.alert('审核失败', {icon: 2 ,
+                                  time: 2000, //2s后自动关闭
+                                    btn: [ '知道了']});
+          }
+       }
        })
     }
     </script>
