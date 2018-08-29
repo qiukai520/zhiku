@@ -198,6 +198,79 @@ class TaskMapDB(object):
         TaskMap.objects.filter(tmid=tmid).update(**modify_info)
 
 
+class TaskPeriodDB(object):
+    """任务表列表"""
+    # 任务状态
+    task_status = (
+        {"id": 0, "caption": "已删除"},
+        {"id": 1, "caption": "进行中"},
+        {"id": 2, "caption": "已暂停"},
+        {"id": 3, "caption": "已取消"},
+    )
+    # 执行方式
+    execute_way = (
+        {"execute_way": 0, "caption": "并行执行"},
+        {"execute_way": 1, "caption": "次序执行"},
+    )
+    # 是否指派
+    is_assign = (
+        {"iaid": 0, "caption": "未指派"},
+        {"iaid": 1, "caption": "已指派"}
+
+    )
+    # 是否完成
+    is_finish = (
+        {"id": 0, "caption": "进行中"},
+        {"id": 1, "caption": "已完成"},
+    )
+    # 任务方式
+    task_way = (
+        {"id": 0, "caption": "个人任务"},
+        {"id": 1, "caption": "组队任务"}
+    )
+    cycle_choice = ({"id":1,"caption":"单次"},{"id":2, "caption":"每天"}, {"id":3,"caption":"每周"},{"id":4,"caption":"每月"})
+
+    def insert_task(self, modify_info):
+        task_sql = """insert into task_period (%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        task_sql = task_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(task_sql, modify_info)
+        tpid = cursor.lastrowid
+        return tpid
+
+    def update_task(self, modify_info):
+        result_db = TaskPeriod.objects.filter(tpid=modify_info['tpid']).update(**modify_info)
+        return result_db
+
+    def query_task_lists(self):
+        result_db = TaskPeriod.objects.filter(status__gt=0).all().order_by("-tpid")
+        return result_db
+
+
+    def query_task_by_tpid(self, tpid):
+        result_db = TaskPeriod.objects.filter(tpid=tpid).first()
+        return result_db
+
+    def query_task_by_tids(self,tmids):
+        result_db = TaskPeriod.objects.filter(tmid__in=tmids).all()
+        return result_db
+
+    def query_expire_task(self, cycle, today):
+        try:
+            result_db = TaskPeriod.objects.filter(cycle_id=cycle, deadline__gt=today).all()
+        except Exception as e:
+            print(e)
+        return result_db
+
+    def multi_delete(self, id_list, delete_status):
+        TaskPeriod.objects.filter(tpid__in=id_list).update(**delete_status)
+
+
 class TaskCycleDB(object):
     """任务周期表"""
     def query_task_cycle_list(self):
@@ -292,6 +365,36 @@ class TaskMapAttachmentDB(object):
         TaskMapAttachment.objects.filter(tmaid=tmaid).delete()
 
 
+class TaskPeriodAttachmentDB(object):
+    """周期任务指派附件表"""
+
+    def query_attachment_list(self):
+        result_db = TaskPeriodAttachment.objects.filter().all()
+        return result_db
+
+    def query_attachment_by_tpid(self, tpid):
+        result_db = TaskPeriodAttachment.objects.filter(tpid_id=tpid).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            TaskPeriodAttachment.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            TaskPeriodAttachment.objects.filter(tpaid=item['tpaid']).update(**item)
+
+    def mutil_delete_attachment(self, id_list):
+        TaskPeriodAttachment.objects.filter(tpaid__in=id_list).delete()
+
+    def multi_delete_attach_by_tmid(self, id_list):
+        TaskPeriodAttachment.objects.filter(tpid_id__in=id_list).filter().delete()
+
+    def delete_attachment(self, tpaid):
+        TaskPeriodAttachment.objects.filter(tpaid=tpaid).delete()
+
+
+
 class TaskTagDB(object):
     """任务标签"""
     def mutil_insert_tag(self, modify_info_list):
@@ -338,6 +441,117 @@ class TaskMapTagDB(object):
     def query_tag_by_tmid(self, tmid):
         result_db = TaskMapTag.objects.filter(tmid_id=tmid).all()
         return result_db
+
+
+class TaskPeroidTagDB(object):
+    """周期任务标签"""
+    def mutil_insert_tag(self, modify_info_list):
+        for item in modify_info_list:
+            is_exists = TaskPeriodTag.objects.filter(tpid_id=item['tpid_id'], name=item['name'])
+            if is_exists:
+                continue
+            TaskPeriodTag.objects.create(**item)
+
+    def mutil_update_tag(self, modify_info_list):
+        for item in modify_info_list:
+            TaskPeriodTag.objects.filter(tptid=item['tptid']).update(**item)
+
+    def mutil_delete_tag(self, id_list):
+        TaskPeriodTag.objects.filter(tptid__in=id_list).delete()
+
+    def mutil_delete_tag_by_tpid(self, id_list):
+        TaskPeriodTag.objects.filter(tpid_id__in=id_list).delete()
+
+    def query_tag_by_tpid(self, tpid):
+        result_db = TaskPeriodTag.objects.filter(tpid_id=tpid).all()
+        return result_db
+
+
+class TaskPeriodReviewDB(object):
+    """周期任务审核人"""
+    def mutil_insert_reviewer(self, modify_info_list):
+        for item in modify_info_list:
+            is_exists = TaskPeriodReview.objects.filter(sid_id=item["sid_id"],tpid_id=item["tpid_id"]).first()
+            if is_exists:
+                continue
+            TaskPeriodReview.objects.create(**item)
+
+    def query_task_reviewer_by_tpid(self,tpid):
+        result_db = TaskPeriodReview.objects.filter(tpid_id=tpid).all()
+        return result_db
+
+    def query_task_reviewer_by_sid(self, sid):
+        result_db = TaskPeriodReview.objects.filter(sid_id=sid).all()
+        return result_db
+
+    def query_task_reviewer_by_tvid(self, tvid):
+        result_db = TaskPeriodReview.objects.filter(tvid=tvid).first()
+        return result_db
+
+    def query_task_reviewer_by_tid_sid(self, tpid, sid):
+        result_db = TaskPeriodReview.objects.filter(tpid_id=tpid, sid_id=sid).first()
+        return result_db
+
+    def query_task_reviewer_by_tid_follow(self, tpid, pre_follow):
+        result_db = TaskPeriodReview.objects.filter(tpid_id=tpid, follow=pre_follow).first()
+        return result_db
+
+    def mutil_update_reviewer(self, modify_info):
+        for item in modify_info:
+            is_exists = TaskPeriodReview.objects.filter(sid_id=item["sid_id"], tpid_id=item["tpid_id"]).first()
+            if is_exists:
+                continue
+            TaskPeriodReview.objects.filter(tpid_id=item['tpid_id'], sid_id=item['sid_id']).update(**item)
+
+    def mutil_delete_reviewer(self, id_list):
+        TaskPeriodReview.objects.filter(tvid__in=id_list).delete()
+
+    def mutil_delete_reviewer_by_tid(self,tid_list):
+        TaskPeriodReview.objects.filter(tpid_id__in=tid_list).delete()
+
+
+class TaskPeriodAssignerDB(object):
+    """周期任务指派人"""
+    def mutil_insert_assigner(self, modify_info_list):
+        for item in modify_info_list:
+            is_exists = TaskPeriodAssigner.objects.filter(member_id_id=item["member_id_id"],tpid_id=item["tpid_id"]).first()
+            if is_exists:
+                continue
+            TaskPeriodAssigner.objects.create(**item)
+
+    def query_task_assigner_by_tpid(self,tpid):
+
+        result_db = TaskPeriodAssigner.objects.filter(tpid_id=tpid).all()
+        return result_db
+
+    def query_task_assigner_by_sid(self, sid):
+        result_db = TaskPeriodAssigner.objects.filter(member_id_id=sid).all()
+        return result_db
+
+    def query_task_assigner_by_tvid(self, tpaid):
+        result_db = TaskPeriodAssigner.objects.filter(tpaid=tpaid).first()
+        return result_db
+
+    def query_task_assigner_by_tid_sid(self, tpid, sid):
+        result_db = TaskPeriodAssigner.objects.filter(tpid_id=tpid, member_id_id=sid).first()
+        return result_db
+
+    def query_task_assigner_by_tid_follow(self, tpid, pre_follow):
+        result_db = TaskPeriodAssigner.objects.filter(tpid_id=tpid, follow=pre_follow).first()
+        return result_db
+
+    def mutil_update_assigner(self, modify_info):
+        for item in modify_info:
+            is_exists = TaskPeriodAssigner.objects.filter(member_id_id=item["member_id_id"], tpid_id=item["tpid_id"]).first()
+            if is_exists:
+                continue
+            TaskPeriodAssigner.objects.filter(tpid_id=item['tpid_id'], member_id_id=item['member_id_id']).update(**item)
+
+    def mutil_delete_assigner(self, id_list):
+        TaskPeriodAssigner.objects.filter(tpaid__in=id_list).delete()
+
+    def mutil_delete_assigner_by_tid(self,tid_list):
+        TaskPeriodAssigner.objects.filter(tpid_id__in=tid_list).delete()
 
 
 class TaskReviewDB(object):
@@ -589,8 +803,13 @@ class TaskReviewRecordDB(object):
 
 task_db = TaskDB()
 task_map_db = TaskMapDB()
+task_period_db = TaskPeriodDB()
 task_map_att_db = TaskMapAttachmentDB()
+task_period_att_db = TaskPeriodAttachmentDB()
 task_map_tag_db = TaskMapTagDB()
+task_period_tag_db = TaskPeroidTagDB()
+task_period_review_db = TaskPeriodReviewDB()
+task_period_assigner_db = TaskPeriodAssignerDB()
 task_cycle_db = TaskCycleDB()
 task_type_db = TaskTypeDB()
 task_attachment_db = TaskAttachmentDB()

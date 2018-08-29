@@ -104,41 +104,37 @@ def calculate_deadline(cycle_id, deadline, start_time=None):
     """
     # 查看任务周期
     # 如果是每天任务
-    print(cycle_id)
     if not start_time:
         start_time = datetime.datetime.today()
     else:
-        start_time = datetime.datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
-        print("start_time", start_time)
+        start_time = datetime.datetime.strptime(start_time, "%Y-%m-%d %H:%M")
 
     if int(cycle_id) == 1:
         # 单次任务
         pass
+
     elif int(cycle_id) == 2:
         # 每天任务
-        pass
+        now = datetime.datetime.today()
+        deadline = start_time - datetime.timedelta(hours=now.hour, minutes=now.minute, seconds=now.second,microseconds=now.microsecond)
+        deadline += timedelta(hours=18)
+        deadline = deadline.strftime("%Y-%m-%d %H:%M")
     elif int(cycle_id) == 3:
-        print("周")
         # 每周任务
         weekday = start_time.weekday()
         target_day = calendar.FRIDAY
-        print(weekday)
         del_day = target_day-weekday
         now = datetime.datetime.today()
         start_time_zero = start_time - datetime.timedelta(hours=now.hour, minutes=now.minute, seconds=now.second,microseconds=now.microsecond)
         deadline = start_time_zero + timedelta(del_day)
         deadline += timedelta(hours=18)
-        deadline = deadline.strftime("%Y-%m-%d %H:%M:%S")
-        print(deadline)
+        deadline = deadline.strftime("%Y-%m-%d %H:%M")
     elif int(cycle_id) == 4:
         # 每月任务
-        print("yue")
         current_year = start_time.year
         current_month = start_time.month
-        print(current_month,current_year)
         # 获取当前月第一天的星期和当月的总天数
         firstDayWeekDay, monthRange = calendar.monthrange(current_year, current_month)
-        print(calendar.monthrange(current_year, current_month))
         # 获取当前月的 最后一天
         lastDay = datetime.datetime(year=current_year, month=current_month, day=monthRange)
         deadline += timedelta(hours=18)

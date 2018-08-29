@@ -51,7 +51,7 @@ class StaffAdmin(object):
     """员工后台管理"""
     # list_display_links = ("job_number",)  #:显示修改或查看数据详情连接的列
     show_detail_fields = ['job_number']  # 在指定的字段后添加一个显示数据详情的一个按钮
-    list_display_links_details = True  #: 点击列表连接后是否转到详情页面
+    # list_display_links_details = True  #: 点击列表连接后是否转到详情页面
     list_display = ['job_number','name',"gender","user","phone","company","department","job_rank","hire_day","delete_status"]
     list_filter = ['name', "department","delete_status"]
     search_fields = ['name', 'department',]

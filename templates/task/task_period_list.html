@@ -1,0 +1,303 @@
+{% extends "layout.html" %}
+{% load  admin_tags %}
+
+{% block css  %}
+     <style>
+        .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+
+      .select-box{
+          top:5px;
+          height: 200px !important;
+          width: 100%;
+        border-radius: 3px;
+      }
+       span.glyphicon.glyphicon-arrow-left, span.glyphicon.glyphicon-arrow-right {
+        position: absolute;
+        right: -8px;
+        text-align: center;
+        margin-top: 80px;
+        color: blue;
+    }
+    span.glyphicon.glyphicon-arrow-right {
+        margin-top:120px;
+    }
+    ul{
+        padding:0px;
+    }
+       ul>li{
+       cursor: pointer;
+       padding:0;margin:0;list-style:none
+  }
+
+       .member_name{
+           color:blue;
+
+     }
+       .member_name:hover{
+          color:red;
+       }
+      #toolbar >button{
+          margin: 0 2px;
+      }
+     </style>
+{%endblock%}
+
+{% block content %}
+     <div class="wrapper wrapper-content animated fadeInRight">
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins" >
+            <div class="ibox-title">
+                <h5>周期任务管理</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">选项1</a>
+                        </li>
+                        <li><a href="#">选项2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <!-- Example Events -->
+                        <div class="example-wrap">
+
+                            <div class="example">
+                                <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                    <button  onclick="MultiCancel()" class="btn btn-info"><i class="glyphicon glyphicon-remove"></i>&nbsp;取消</button>
+                                     <button  onclick="MultiDelete()" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;删除</button>
+
+                                </div>
+                                <table id="task_assign"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                    <thead>
+                                        <tr >
+                                            <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                            <th>任务状态</th>
+                                            <th>任务名称</th>
+                                            <th>任务方式</th>
+                                            <th>任务周期</th>
+                                            <th>任务类别</th>
+                                            <th>指派人</th>
+                                            <th>开始时间</th>
+                                            <th>截止时间</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if query_sets %}
+                                       {% for obj in  query_sets%}
+                                          <tr>
+                                              <td><input type="checkbox"><input class="hide" type="text" value="{{ obj.tpid }}"></td>
+                                              <td class="project-status">
+                                                <span class="label label-primary">{% change_to_task_status obj.status %}
+                                                </span>
+                                              </td>
+                                              <td><a  href="{%url "task_period_detail" %}?tpid={{ obj.tpid }}">{{ obj.title }}</a></td>
+                                              <td>{%  change_to_task_way obj.team %} </td>
+                                               <td>{%  change_to_task_cycle obj.cycle_id %} </td>
+                                              <td>{% change_to_task_type  obj.type_id  %}</td>
+                                              <td>{% change_to_staff obj.assigner_id %}</td>
+                                              <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
+                                              <td name="deadline">{{ obj.deadline |date:"Y-m-d "}}</td>
+                                          </tr>
+                                          {% endfor %}
+                                      {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End Example Events -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+    <!-- Modal -->
+    <!-- delete-->
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title" id="myModalLabel">警告！</h2>
+      </div>
+      <div class="modal-body" id="modal-body" style="text-align: center;font-size: 20px;">
+        您确定要删除吗？删除后数据将不可恢复
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button"  id="ensure"  class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock %}
+
+{% block js %}
+
+        <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
+        <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="/static/js/jquery.cookie.js"></script>
+        <script>
+        //预防csrf
+            var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+$(function () {
+        $("#task_assign").bootstrapTable({
+            toolbar: "#toolbar",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,                     //是否启用排序
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 10,
+            pageList: [10,15,20,25],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false
+        });
+    });
+
+      /*
+    自执行函数
+    */
+    $(function () {
+         //设置日期时间控件
+        $('#datetimepicker1').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm',
+        locale: moment.locale('zh-cn')
+            });
+    });
+
+        //字符串格式化
+String.prototype.format=function()
+{
+  if(arguments.length==0) return this;
+  for(var s=this, i=0; i<arguments.length; i++)
+    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+  return s;
+};
+    function  SelectAll(ths) {
+        //判断是否选中
+        ischecked=$(ths).is(":checked");
+        //如果选中则全选中,否则取消选中
+        $(ths).parent().parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
+    }
+//批量删除
+    function MultiDelete() {
+        var ids="";
+        $("tbody input:checkbox:checked").each(function () {
+            id = $(this).next().val();
+            if (id){
+                id+="|";
+                ids+=id;
+            }
+        });
+        //是否选中
+        if (ids==""){
+             layer.alert('至少选择一个任务', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $("#delete_modal").modal("show");//显示模态框
+        $("#ensure").click(function () {
+            $("#delete_modal").hide();
+            $.ajax({
+                url:"{% url "task_period_delete" %}",
+                data:{"ids":ids},
+                type:"get",
+                dataType:"JSON",
+                success:function (arg) {
+                   if (arg.status){
+                        window.location.reload()
+                    }else{
+                       layer.alert('删除失败', {icon: 2 ,
+                                      time: 2000, //2s后自动关闭
+                                        btn: [ '知道了']}
+                                        );
+                }
+                }
+            })
+        });
+    }
+    //批量取消
+    function MultiCancel() {
+        var ids="";
+        $("tbody input:checkbox:checked").each(function () {
+            id = $(this).next().val();
+            if (id){
+                id+="|";
+                ids+=id;
+            }
+        });
+         //是否选中
+        if (ids==""){
+             layer.alert('至少选择一个任务', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $("#delete_modal").modal("show");//显示模态框
+        $("#modal-body").text("你确定要取消该任务吗？")
+        console.log("ids",ids)
+        $("#ensure").click(function () {
+            $("#delete_modal").hide();
+              $.ajax({
+            url:"{% url "task_period_cancel" %}",
+            data:{"ids":ids},
+            type:"get",
+            dataType:"JSON",
+            success:function (arg) {
+                if (arg.status){
+                        window.location.reload()
+                    }else{
+                       layer.alert('任务已取消', {icon: 2 ,
+                                      time: 2000, //2s后自动关闭
+                                        btn: [ '知道了']}
+                                        );
+                }
+            }
+        })
+        });
+    }
+
+
+      </script>
+{% endblock %}

@@ -24,9 +24,8 @@ create TABLE `task_map`(
 `assigner_id` int(11) NOT NULL  COMMENT '指派人',
 `cycle_id`  int(11) NOT NULL  COMMENT '任务周期类型',
 `start_time` datetime  DEFAULT NULL  COMMENT '起止日期',
-`deadline` datetime  DEFAULT NUll  COMMENT '单次终止期限',
-`project_deadline` datetime  DEFAULT NUll  COMMENT '项目终止期限',
-`remark` varchar(512) NOT NUll  COMMENT '备注',
+`deadline` datetime  DEFAULT NUll  COMMENT '终止期限',
+`remark` varchar(512)   COMMENT '备注',
 `execute_way` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0代表并行执行，1次序执行',
 `teamwork_auth` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0代表相互可见；1互不可见；2指定可见',
 `is_finish` tinyint(1) NOT NULL DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
@@ -35,6 +34,69 @@ create TABLE `task_map`(
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务指派';
+
+
+
+drop TABLE if exists `task_period`;
+create TABLE `task_period`(
+`tpid` int(11) primary key auto_increment,
+`tid_id` int(11) NOT NULL  COMMENT '任务ID',
+`title` varchar(512) NOT NUll  COMMENT '任务名称',
+`content` text NOT NULL COMMENT '任务描述',
+`type_id` smallint NOT NULL COMMENT ' 任务类型',
+`perfor_id` int(11) NOT NUll COMMENT '绩效分类',
+`assigner_id` int(11) NOT NULL  COMMENT '指派人',
+`cycle_id`  int(11) NOT NULL  COMMENT '任务周期类型',
+`start_time` datetime  DEFAULT NULL  COMMENT '起止日期',
+`deadline` datetime  DEFAULT NUll  COMMENT '终止期限',
+`remark` varchar(512)   COMMENT '备注',
+`execute_way` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0代表并行执行，1次序执行',
+`teamwork_auth` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0代表相互可见；1互不可见；2指定可见',
+`is_finish` tinyint(1) NOT NULL DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
+`team` tinyint(1) NOT NULL DEFAULT 0 COMMENT '任务方式：0个人任务;1组队任务',
+`status` tinyint(1) NOT NUll DEFAULT 1 COMMENT'1启动,2暂停,3终止',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='周期任务';
+
+
+drop TABLE if exists `task_period_tag`;
+create TABLE `task_period_tag`(
+`tptid` int(11) NOT NULL primary key auto_increment,
+`tpid_id` int(11) NOT NULL  COMMENT '任务指派编号',
+`name` varchar(32) NOT NULL COMMENT '指派标签名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='周期任务标签';
+alter table task_period_tag  ADD UNIQUE KEY `tpid_name`(`tpid_id`,`name`) USING BTREE;
+
+
+drop TABLE if exists `task_period_attachment`;
+create TABLE `task_period_attachment`(
+`tpaid` int(11) primary key auto_increment,
+`tpid_id` int(11) NOT NULL  COMMENT '任务指派编号',
+`attachment` varchar(512) COMMENT '附件',
+`name` varchar(128) COMMENT '附件名称',
+`description` varchar(512) COMMENT '附件描述'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='周期任务附件';
+
+
+drop TABLE if exists `task_period_review`;
+create TABLE `task_period_review`(
+`tvid`int(11) primary key auto_increment,
+`tpid_id` int(11) NOT NULL COMMENT'任务ID',
+`sid_id` int(11) NOT NULL COMMENT '审核人ID',
+`follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '次序',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除,1保留'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='周期任务审核人';
+alter table task_period_review  ADD UNIQUE KEY `task_staff_id`(`tpid_id`,`sid_id`) USING BTREE;
+
+
+drop TABLE if exists `task_period_assigner`;
+create TABLE `task_period_assigner`(
+`tpaid`int(11) primary key auto_increment,
+`tpid_id` int(11) NOT NULL COMMENT'任务ID',
+`member_id_id` int(11) NOT NULL COMMENT '指派人ID'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='周期任务指派人';
+alter table task_period_assigner  ADD UNIQUE KEY `task_staff_id`(`tpid_id`,`member_id_id`) USING BTREE;
 
 
 drop TABLE if exists `performance`;
@@ -88,6 +150,7 @@ create TABLE `task_map_attachment`(
 `name` varchar(128) COMMENT '附件名称',
 `description` varchar(512) COMMENT '附件描述'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务指派附件总表';
+
 
 
 drop TABLE if exists `staff`;

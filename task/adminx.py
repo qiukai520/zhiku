@@ -26,7 +26,7 @@ class TaskAdmin(object):
     list_display = ['tid','title', 'content', 'type','create_time','delete_status']
     field = ['tid','title', 'content', 'type','create_time']
     # 筛选(后台管理页面中的过滤器)
-    list_filter = ['type','status']
+    list_filter = ['type']
     # 查询
     search_fields =['title', 'content']
     # 后台自定义默认排序
@@ -45,7 +45,7 @@ class TaskMapAdmin(object):
     """工作任务后台管理"""
     # 数据展示
     show_detail_fields = ['tid']  # 在指定的字段后添加一个显示数据详情的一个按钮
-    list_display = ['tid','assigner', 'team', 'is_finish',"status",'cycle','start_time',"deadline",'create_time']
+    list_display = ['tid','assigner', 'team', 'is_finish',"status",'cycle_id','start_time',"deadline",'create_time']
     # 筛选(后台管理页面中的过滤器)
     list_filter = ['team','tid']
     # 查询

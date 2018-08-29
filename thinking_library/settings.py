@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+from __future__ import absolute_import
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'xadmin',
     'crispy_forms',
     'reversion',
+    'djcelery',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +158,42 @@ VALID_URL = [
     "/xadmin/",
     "/logout/"
 ]
+
+
+# 配置celery
+# celery 配置信息 start
+#############################
+import djcelery
+djcelery.setup_loader()
+BROKER_URL = 'redis://127.0.0.1:6379/9'
+CELERY_IMPORTS = ('task.tasks')
+CELERY_TIMEZONE = 'Asia/Shanghai'
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+
+from celery.schedules import timedelta
+# 下面是定时任务的设置，我一共配置了三个定时任务.
+from celery.schedules import crontab
+CELERYBEAT_SCHEDULE = {
+    # 定时任务一：　每24小时周期执行任务(daily_task)
+    u'指派日常任务': {
+        "task": "task.tasks.daily_task",
+        "schedule": crontab(minute='*/2'),
+        # "schedule":timedelta(seconds=5),
+        "args": (),
+    },
+    # 定时任务二:　每周一的凌晨00:00分，执行任务(weekly_task)
+    u'指派每周任务': {
+        'task': 'task.tasks.weekly_task',
+        'schedule': crontab(minute=0, hour=0,day_of_week="0"),
+        # "schedule":timedelta(seconds=10),
+        "args": ()
+    },
+    # 定时任务三:每个月的１号的00:00启动，执行任务(monthly_task)
+    u'指派月任务': {
+            'task': 'task.tasks.monthly_task',
+            'schedule': crontab(hour=0, minute=0,   day_of_month='1'),
+              # "schedule":timedelta(seconds=3),
+            "args": ()
+    },
+}

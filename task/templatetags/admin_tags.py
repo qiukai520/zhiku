@@ -22,7 +22,6 @@ def build_department_ele():
 def build_staff_ele(dpid=0):
     """构建员工下拉框"""
     if dpid != ''and 0:
-        print("dpid", dpid)
          # 根据部门获取员工
         dp_list = staff_db.query_staff_by_department_id(dpid)
     else:
@@ -153,6 +152,22 @@ def build_task_review_ele(tmid):
         ele_list += ele
     return mark_safe(ele_list)
 
+@register.simple_tag
+def build_task_period_review_ele(tpid):
+    """构建周期任务标签"""
+    ele_list = ''
+    task_review_ids = task_period_review_db.query_task_reviewer_by_tpid(tpid).order_by("follow")
+    if task_review_ids:
+        for item in task_review_ids:
+            staff = staff_db.query_staff_by_id(item.sid_id)
+            if staff:
+                ele = "<span>{0};</span>".format(staff.name)
+                ele_list += ele
+    else:
+        ele = "<span>{0};</span>".format("暂未指定")
+        ele_list += ele
+    return mark_safe(ele_list)
+
 
 @register.simple_tag
 def build_task_type_ele():
@@ -192,9 +207,7 @@ def change_to_task_way(team_id):
 
 @register.simple_tag
 def query_task_way_by_tmid(tmid):
-    print("tmid",tmid)
     task_map_obj = task_map_db.query_task_by_tmid(tmid)
-    print(task_map_obj)
     if task_map_obj:
         caption = change_to_task_way(task_map_obj.team)
         return caption
@@ -212,7 +225,6 @@ def change_to_task_type(tpid):
 @register.simple_tag
 def change_to_staff(sid):
     """获取根据id员工"""
-    print(sid)
     issuer = staff_db.query_staff_by_id(sid)
     if issuer:
         name = issuer.name
@@ -224,8 +236,13 @@ def change_to_staff(sid):
 @register.simple_tag
 def change_to_task_cycle(tcid):
     """获取任务周期"""
-    task_cycle = task_cycle_db.query_task_cycled_by_tcid(tcid)
-    return task_cycle.name
+    task_cycle = task_period_db.cycle_choice
+    if tcid:
+        for item in task_cycle:
+            if int(item["id"]) == tcid:
+                return item['caption']
+    else:
+        return "未知"
 
 
 # @register.simple_tag
@@ -315,6 +332,7 @@ def bulid_assign_member_list(tmid,deadline):
 @register.simple_tag
 def bulid_review_list(tmid):
     """构建任务审核对象"""
+    path = "record"
     task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     # task_review_list = task_review_db.query_task_reviewer_by_tid(tid)
     eles = """<ul>"""
@@ -330,10 +348,10 @@ def bulid_review_list(tmid):
                 status = "审核中"
                 last_edit = ''
                 # 构建任务审核对象列表
-            ele = """<li > <a  style="color:#1ab394" href="review_record?tasid={0}">{1} &nbsp
-                     <span style="color:red"> [ </span><span>{2}</span><span style="color:red"> ] 
-                      </span></a> &nbsp<span style="color:#9F9F9F">{3}</span></li>
-                      """.format(item.tasid, member.name, status, last_edit)
+            ele = """<li > <a  style="color:#1ab394" href="{0}?tasid={1}">{2} &nbsp
+                     <span style="color:red"> [ </span><span>{3}</span><span style="color:red"> ] 
+                      </span></a> &nbsp<span style="color:#9F9F9F">{4}</span></li>
+                      """.format(path,item.tasid, member.name, status, last_edit)
             eles += ele
     eles += "</ul>"
     return mark_safe(eles)
@@ -470,6 +488,14 @@ def query_task_map_attachment_by_tmid(tmid):
 
 
 @register.simple_tag
+def query_task_period_attachment_by_tpid(tpid):
+    if tpid:
+        tpid = int(tpid)
+        result_db = task_period_att_db.query_attachment_by_tpid(tpid)
+        return result_db
+    return []
+
+@register.simple_tag
 def query_submit_attachment_by_tsid(tsid):
     """获取任务提交记录附件"""
     tsid = int(tsid)
@@ -514,6 +540,17 @@ def build_task_map_tags_list(tmid):
     return mark_safe(ele_list)
 
 @register.simple_tag
+def build_task_period_tags_list(tpid):
+    """构建周期任务标签列表"""
+    ele_list = ''
+    record_tags = task_period_tag_db.query_tag_by_tpid(tpid)
+    for item in record_tags:
+        if item.name:
+            ele = "<li><a><i class='fa fa-tag'></i> {0}</a></li>".format(item.name)
+            ele_list += ele
+    return mark_safe(ele_list)
+
+@register.simple_tag
 def build_task_assign_tags_list(tasid):
     """构建任务标签列表"""
     ele_list = ''
@@ -526,28 +563,60 @@ def build_task_assign_tags_list(tasid):
 
 
 @register.simple_tag
-def fetch_task_assing_member(tmid):
+def fetch_task_assign_member(tmid):
     """获取任务成员"""
     # 指派路径
-    path = "/task/map/edit"
     task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     eles = ''
     if task_assign_list:
+        path = "/task/review/record"
         for item in task_assign_list:
             member = staff_db.query_staff_by_id(item.member_id_id)
             if member:
-                ele = "<a href='task_review_record.html?tasid={0}'>{1};&nbsp</a>".format(item.tasid, member.name)
+                ele = "<a href='{0}?tasid={1}'>{2};&nbsp</a>".format(path,item.tasid, member.name)
                 eles+= ele
     else:
+        path = "/task/map/edit"
         ele = "<span>暂未指派</span> &nbsp<a href='{0}?tmid={1}'>去指派</a>".format(path,tmid)
         eles += ele
     return mark_safe(eles)
 
 
 @register.simple_tag
+def fetch_task_period_assign_member(tpid):
+    """获取任务成员"""
+    # 指派路径
+    task_assign_list = task_period_assigner_db.query_task_assigner_by_tpid(tpid)
+    eles = ''
+    if task_assign_list:
+        for item in task_assign_list:
+            member = staff_db.query_staff_by_id(item.member_id_id)
+            if member:
+                ele = "<span>{0};&nbsp</span>".format(member.name)
+                eles+= ele
+    else:
+        ele = "<span>暂未指派</span> &nbsp"
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
 def fetch_review_follow(tmid):
     """获取任务审核次序"""
     task_review = task_review_db.query_task_reviewer_by_tmid(tmid)
+    if task_review:
+        if task_review[0].follow:
+            result = '是'
+        else:
+            result = '否'
+    else:
+        result = "未指定"
+    return result
+
+
+@register.simple_tag
+def fetch_task_period_review_follow(tpid):
+    """获取任务审核次序"""
+    task_review = task_period_review_db.query_task_reviewer_by_tpid(tpid)
     if task_review:
         if task_review[0].follow:
             result = '是'

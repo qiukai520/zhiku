@@ -228,7 +228,6 @@ def department_edit(request):
     else:
         form = DepartmentForm(data=request.POST)
         ret = {'status': False, "data": '', "message": ""}
-        print("department")
         if form.is_valid():
             id = request.POST.get("id", "")
             data = request.POST
