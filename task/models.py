@@ -352,6 +352,28 @@ class TaskReviewRecord(models.Model):
         return '任务审核记录{0}'.format(self.trrid)
 
 
+
+class TaskReviewResult(models.Model):
+    result_choice = ((0, '未审核'),(1,'未通过'), (2, "通过"), (1, '自动通过'))
+    trrid = models.AutoField(primary_key=True)
+    tasid = models.ForeignKey('TaskAssign', to_field='tasid', on_delete=models.CASCADE, db_constraint=False,
+                              verbose_name='指派任务')
+    sid = models.ForeignKey(Staff, to_field='sid', on_delete=models.CASCADE, db_constraint=False,
+                             verbose_name='审核人')
+    follow = models.SmallIntegerField(verbose_name='审核顺序')
+    result = models.SmallIntegerField(choices=result_choice, verbose_name='审核状态')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='审核时间')
+
+    class Meta:
+            db_table = 'task_review_result'
+            verbose_name = '任务审核结果'
+            verbose_name_plural = '任务审核结果'
+
+    def __str__(self):
+        return '任务审核结果{0}'.format(self.trrid)
+
+
 class TaskReview(models.Model):
     delete_status_choice = ((0, '已删除'), (1, '保留'))
     tvid = models.AutoField(primary_key=True)

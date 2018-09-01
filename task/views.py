@@ -3,10 +3,12 @@ import json
 import os
 import uuid
 import datetime
+from  thinking_library.settings import res
 from django.core import serializers
 from django.db import transaction
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, HttpResponse,redirect
+from django.core.cache import cache
 from task.forms.form import *
 from common.functions import *
 from personnel.server import staff_db,department_db
@@ -16,10 +18,14 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required,permission_required
 # Create your views here.
 from django.conf import settings
-from .tasks import weekly_task
+from .tasks import weekly_task,task_auot_review
+
 
 def index(request):
     weekly_task()
+    task_auot_review()
+    cache.set("user_id",123)
+    print(dir(cache))
     print(request.session['user_info'])
     print(request.path_info)
     staff = request.user.staff
@@ -504,7 +510,7 @@ def task_assign(request):
                     for modify in task_list:
                         # 查看是否为周期还是单次任务
                         if int(modify["cycle_id"]) > 1:
-                            # 周期任务
+                            # 周期任务,把信息保存到周期任务相关表中
                             tpid = task_period_db.insert_task(modify)
                             tid = modify["tid_id"]
                             # 插入指派附件
@@ -577,7 +583,18 @@ def task_assign(request):
                             item["start_time"] = start_time
                             item["deadline"] = deadline
                             assigner_list.append(item)
-                        task_assign_db.mutil_insert_task_assign(assigner_list)
+                        # task_assign_db.mutil_insert_task_assign(assigner_list)
+                        for obj in assigner_list:
+                            tasid = task_assign_db.insert_task_assign(obj)
+                            # 插入任务审核结果记录信息
+                            review_result = []
+                            for item in reviewers:
+                                result_dict ={}
+                                result_dict["tasid_id"] = tasid
+                                result_dict["sid_id"] = item['sid_id']
+                                result_dict["follow"] = item["follow"]
+                                review_result.append(result_dict)
+                            task_review_result_db.mutil_insert(review_result)
                         # 插入审核人
                         reviewers_list = []
                         for item in reviewers:
@@ -587,6 +604,7 @@ def task_assign(request):
                     ret['status'] = True
                     ret['data'] = tmid
             except Exception as e:
+                print(e)
                 ret["message"] = "指派失败"
         else:
             errors = form.errors.as_data().values()
@@ -654,12 +672,28 @@ def task_map_edit(request):
                             # 删除指派的任务标签附件
                             task_assign_tag_db.mutil_delete_tag_by_tasid(delete_id_assign)
                             task_assign_attach_db.mutil_delete_attach_by_tasid(delete_id_assign)
-                        ret['status'] = True
-                        ret["data"] = tmid
+                    # 更新审核结果信息
+                    task_assign = task_assign_db.query_task_assign_by_tmid(tmid)
+                    review_result = []
+                    for obj in task_assign:
+                        review_list = task_review_db.query_task_reviewer_by_tmid(tmid)
+                        for item in review_list:
+                            result_dict={}
+                            result_dict["tasid_id"]= obj.tasid
+                            result_dict["sid_id"] = item.sid_id
+                            result_dict["follow"] = item.follow
+                            review_result.append(result_dict)
+                    # 删除旧信息
+                    for item in review_result:
+                        task_review_result_db.delete_review_result(item["tasid_id"])
+                    task_review_result_db.mutil_insert(review_result)
+                    ret['status'] = True
+                    ret["data"] = tmid
                 except Exception as e:
-                    ret["message"] = "修改失败"
+                    print(e)
+                    ret["message"] = "编辑失败"
             else:
-                ret['message'] = "修改失败"
+                ret['message'] = "编辑失败"
         else:
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
@@ -878,6 +912,7 @@ def task_review(request):
         user_id = request.user.staff.sid
         ret = {'status': False, 'message':'', 'data':''}
         data = request.POST
+        tasid = data['tasid_id']
         form = TaskReviewForm(data=data)
         if form.is_valid():
             try:
@@ -888,16 +923,19 @@ def task_review(request):
                     # 如果通过 更新相应任务的完成状态
                     is_finish = True
                     if is_complete:
+                        # 更新该任务审核状态
+                        result = {"result": 2}
+                        task_review_result_db.update_result(tasid,user_id,result)
                         # check 是否所有审核人都确认通过
                         # 获取任务id
-                        task_assign_obj = task_assign_db.query_task_assign_by_tasid(data['tasid_id'])
+                        task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)
                         task_assign_obj = task_assign_obj.first()
                         tmid = task_assign_obj.tmid_id
                         # 获取任务审核人
                         task_review_list = task_review_db.query_task_reviewer_by_tmid(task_assign_obj.tmid_id)
                         # 遍历该所有审核人对其的记录
                         for item in task_review_list:
-                            last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(item.tvid,data['tasid_id'])
+                            last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(item.tvid,tasid)
                             if not last_review_record:
                                 is_finish = False
                                 break
@@ -907,7 +945,7 @@ def task_review(request):
                                     break
                         if is_finish:
                             # 更新任务为通过状态
-                            query_sets = task_assign_db.query_task_assign_by_tasid(data["tasid_id"])
+                            query_sets = task_assign_db.query_task_assign_by_tasid(tasid)
                             query_sets.update(is_finish=1)
                             # 添加任务绩效
                             task_map_obj = task_map_db.query_task_by_tmid(tmid)
@@ -929,8 +967,13 @@ def task_review(request):
                                     for item in task_assign_list:
                                         performance_obj ={"sid_id":item.sid_id,"tmid_id":item.tmid_id,"team_score": performence_obj.team_score}
                                         performance_record_db.update_performence_record(performance_obj)
+                    else:
+                        # 更新该任务审核状态
+                        result = {"result": 1}
+                        task_review_result_db.update_result(tasid, user_id, result)
                     ret['status'] = True
             except Exception as e:
+                print(e)
                 ret["message"] = "任务审核提交失败"
         else:
             errors = form.errors.as_data().values()
@@ -1276,8 +1319,27 @@ def complete_task(request):
                             # 插入附件
                             attachment_list = build_attachment_info(id_dict, attachment)
                             task_submit_attach_db.mutil_insert_attachment(attachment_list)
-                            ret["status"] = True
+                        # 如果任务完成，则添加到缓存里 等待审核
+                        if int(data["completion"]) == 100:
+                            today = datetime.datetime.today()
+                            weekday = today.weekday()
+                            del_day = calculate_expire_date(weekday)
+                            expire_date = today + timedelta(del_day)
+                            expire_date = expire_date.strftime("%Y-%m-%d %H:%M:%S")
+                            k1 = "task_review"
+                            k2 = data["tasid_id"]
+                            if not res.hexists(k1,k2):
+                                res.hset(k1,k2,expire_date)
+
+                            # keys = "task&{0}".format(data["tasid_id"])
+                            # print(cache.get())
+                            # print(cache.has_key(keys))
+                            # if not cache.has_key(keys):
+                            #     cache.set(keys,keys, expire_date)
+                            print(str(res.hget(k1,k2),encoding ="utf-8"))
+                        ret["status"] = True
                 except Exception as e:
+                    print(e)
                     ret["message"] = "提交失败"
         else:
             errors = form.errors.as_data().values()

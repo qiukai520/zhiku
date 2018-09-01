@@ -1,10 +1,11 @@
 # Create your tasks here
+from thinking_library.settings import res
 from django.db import transaction
 import datetime
 from .server import *
 from thinking_library.celery import app
 from common.functions import filter_fields
-from .utils import calculate_deadline
+from .utils import calculate_deadline,calculate_expire_date
 
 
 @app.task
@@ -71,7 +72,19 @@ def daily_task():
                         ass_json["start_time"] = start_time
                         ass_json["deadline"] = deadline
                         assigner_list.append(ass_json)
-                    task_assign_db.mutil_insert_task_assign(assigner_list)
+                    # task_assign_db.mutil_insert_task_assign(assigner_list)
+                        # 指派任务
+                        for obj in assigner_list:
+                            tasid = task_assign_db.insert_task_assign(obj)
+                            # 插入任务审核结果记录信息
+                            review_result = []
+                            for item in reviewers:
+                                result_dict = {}
+                                result_dict["tasid_id"] = tasid
+                                result_dict["sid_id"] = item.sid_id
+                                result_dict["follow"] = item["follow"]
+                                review_result.append(result_dict)
+                            task_review_result_db.mutil_insert(review_result)
         except Exception as e:
             print(e)
 
@@ -139,7 +152,19 @@ def weekly_task():
                         ass_json["start_time"] = start_time
                         ass_json["deadline"] = deadline
                         assigner_list.append(ass_json)
-                    task_assign_db.mutil_insert_task_assign(assigner_list)
+                    # task_assign_db.mutil_insert_task_assign(assigner_list)
+                    # 指派任务
+                    for obj in assigner_list:
+                        tasid = task_assign_db.insert_task_assign(obj)
+                        # 插入任务审核结果记录信息
+                        review_result = []
+                        for item in reviewers:
+                            result_dict = {}
+                            result_dict["tasid_id"] = tasid
+                            result_dict["sid_id"] = item.sid_id
+                            result_dict["follow"] = item["follow"]
+                            review_result.append(result_dict)
+                        task_review_result_db.mutil_insert(review_result)
         except Exception as e:
             print(e)
 
@@ -147,7 +172,6 @@ def weekly_task():
 @app.task
 def monthly_task():
     """指派月任务"""
-    print("月任务")
     cycle = 4
     today = datetime.datetime.today()
     # 获取周期任务
@@ -208,8 +232,53 @@ def monthly_task():
                         ass_json["start_time"] = start_time
                         ass_json["deadline"] = deadline
                         assigner_list.append(ass_json)
-                    task_assign_db.mutil_insert_task_assign(assigner_list)
+                    # task_assign_db.mutil_insert_task_assign(assigner_list)
+                    # 指派任务
+                    for obj in assigner_list:
+                        tasid = task_assign_db.insert_task_assign(obj)
+                        # 插入任务审核结果记录信息
+                        review_result = []
+                        for item in reviewers:
+                            result_dict = {}
+                            result_dict["tasid_id"] = tasid
+                            result_dict["sid_id"] = item.sid_id
+                            result_dict["follow"] = item["follow"]
+                            review_result.append(result_dict)
+                        task_review_result_db.mutil_insert(review_result)
         except Exception as e:
             print(e)
+
+
+def task_auot_review():
+    """自动审核到期任务"""
+    # 获取所有等待审核人任务
+    k1="task_review"
+    task_tuple = res.hgetall(k1),
+    for item in task_tuple:
+        for k in item:
+            key = str(k,encoding="utf-8")
+            value = str(item[k],encoding="utf-8")
+            now_time = datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+            # 已过期，审核自动通过
+            modify = {"result": 3}
+            if now_time > value:
+                # 查看是否为次序审核任务，且未审核
+                query_set=task_review_result_db.query_task_review_by_follow(key)
+                if query_set:
+                    # 次序审核,通过
+                    query_set.update(**modify)
+                    # 更新过期时间
+                    weekday = datetime.datetime.today().weekday()
+                    del_day = calculate_expire_date(weekday)
+                    expire_date = now_time+timedelta(del_day)
+                    res.hset(k1, key, expire_date)
+                    # 最后一条则删除缓存
+                    if len(query_set) == 1:
+                        res.hdel(k1,key)
+                else:
+                    # 自动审核通过
+                    task_review_result_db.auto_update_result(key,modify)
+                    # 删除过期审核
+                    res.hdel(k1, key)
 
 

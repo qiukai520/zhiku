@@ -30,13 +30,8 @@
                                 </div>
                                 <dl class="dl-horizontal">
                                     <dt>任务状态：</dt>
-                                    {% if task_obj.is_finish  %}
-                                        <dd><span class="label label-primary">已完成</span>
+                                        <dd><span class="label label-primary">{% change_to_task_status task_obj.status %}</span>
                                     </dd>
-                                    {% else %}
-                                    <dd><span class="label label-primary">进行中</span>
-                                    </dd>
-                                    {% endif %}
                                 </dl>
                             </div>
                         </div>

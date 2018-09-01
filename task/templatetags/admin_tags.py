@@ -360,6 +360,7 @@ def bulid_review_list(tmid):
 @register.simple_tag
 def bulid_person_review_list(user_id,tmid):
     """构建个人任务审核对象"""
+    path = "/task/review"
     task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     eles = """<ul>"""
     for item in task_assign_list:
@@ -404,10 +405,10 @@ def bulid_person_review_list(user_id,tmid):
                         status = "进行中"
                         last_edit = ''
                     # 构建任务审核对象列表
-                ele = """<li > <a  style="color:blue" href="review?tasid={0}">{1} &nbsp
-                          <span >{2}</span> &nbsp<span style="color:red"> [ </span><span>{3}</span><span style="color:red"> ] 
-                          </span></a> &nbsp<span style="color:#9F9F9F">{4}</span></li>
-                          """.format(item.tasid,member.name, is_review, status,last_edit)
+                ele = """<li > <a  style="color:blue" href="{0}?tasid={1}">{2} &nbsp
+                          <span >{3}</span> &nbsp<span style="color:red"> [ </span><span>{4}</span><span style="color:red"> ] 
+                          </span></a> &nbsp<span style="color:#9F9F9F">{5}</span></li>
+                          """.format(path,item.tasid,member.name, is_review, status,last_edit)
             else:
                 ele = """<li ><span style="color:blue" >{0}</span> &nbsp<span style="color:red"> [ </span><span>上一审核人还未审核</span><span style="color:red"> ] 
                                  </span></li>
@@ -628,7 +629,8 @@ def fetch_task_period_review_follow(tpid):
 
 @register.simple_tag
 def fetch_task_map_record(tid):
-    result_db = task_map_db.query_task_by_tid(tid)
+    query_set = task_map_db.query_task_by_tid(tid)
+    result_db = query_set.order_by("-tmid")
     return result_db
 
 
@@ -646,7 +648,8 @@ def build_task_progress(tmid):
         total_progress = 0
         total_finish = 0
         for item in task_assign_list:
-            total_progress += item.progress
+            if item.progress:
+                total_progress += item.progress
             total_finish += item.is_finish
         if total_progress > 0:
             progress_score = total_progress/(length*100)*progress_rate
@@ -675,12 +678,13 @@ def fetch_task_submit_record(tmid):
 
 @register.simple_tag
 def fetch_task_assign_member_by_tasid(tasid,show=1):
+    path="review/record"
     task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)
     task_assign_obj = task_assign_obj.first()
     staff_obj = staff_db.query_staff_by_id(task_assign_obj.member_id_id)
     if staff_obj:
         if show:
-            ele = "<a href='task_review_record.html?tasid={0}'>{1}&nbsp</a>".format(tasid, staff_obj.name)
+            ele = "<a href='{0}?tasid={1}'>{2}&nbsp</a>".format(path,tasid, staff_obj.name)
         else:
             ele ="<span>{0}</span>".format(staff_obj.name)
         return mark_safe(ele)

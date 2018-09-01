@@ -249,7 +249,7 @@ create TABLE `task_assign`(
 `content` text   COMMENT '任务描述',
 `start_time` datetime  DEFAULT NUll COMMENT '开始时间',
 `deadline` datetime  DEFAULT NUll COMMENT '截止时间',
-`progress` tinyint(1)   COMMENT '进度:0-100',
+`progress` tinyint(1) DEFAULT 0  COMMENT '进度:0-100',
 `is_finish` tinyint(1)  NOT NULL  DEFAULT 0 COMMENT '完成状态：0未完成;1已完成',
 `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '任务状态:0取消，1进行中，2，暂停',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -285,15 +285,27 @@ create TABLE `task_auth`(
 drop TABLE if exists `task_review_record`;
 create TABLE `task_review_record`(
 `trrid` int(11) NOT NULL primary key auto_increment,
-`tasid` int(11) NOT NULL COMMENT '任务分配ID',
-`tvid`  int(11) NOT NULL COMMENT '任务审核ID',
+`tasid_id` int(11) NOT NULL COMMENT '任务分配ID',
+`tvid_id`  int(11) NOT NULL COMMENT '任务审核ID',
 `is_complete` tinyint(1)  COMMENT '是否通过',
 `reason` text COMMENT '原因',
 `comment`text COMMENT '评语',
 `evaluate` decimal (2,1) COMMENT '评价:1.0-5.0',
-`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
+
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务审核记录表';
 
+
+drop TABLE if exists `task_review_result`;
+create TABLE `task_review_result`(
+`trrid` int(11) NOT NULL primary key auto_increment,
+`tasid_id` int(11) NOT NULL COMMENT '任务分配ID',
+`sid_id`  int(11) NOT NULL COMMENT '审核人',
+`result` tinyint(1) NOT NULL DEFAULT 0  COMMENT '审核结果:0未审核;1未通过;2通过;3自动通过',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务审核结果表';
 
 drop TABLE if exists `task_submit_record`;
 create TABLE `task_submit_record`(

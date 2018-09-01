@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 from __future__ import absolute_import
 import os
+import redis
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -159,15 +160,31 @@ VALID_URL = [
     "/logout/"
 ]
 
+# 缓存配置
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/0',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+             # "PASSWORD": "***",
+        },
+    },
+}
 
-# 配置celery
-# celery 配置信息 start
+# redis
+pool = redis.ConnectionPool(host='127.0.0.1', port=6379, db=1)
+res = redis.Redis(connection_pool=pool)
+
+
+# celery 配置信息
 #############################
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = 'redis://127.0.0.1:6379/9'
 CELERY_IMPORTS = ('task.tasks')
 CELERY_TIMEZONE = 'Asia/Shanghai'
+
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
 
@@ -195,5 +212,12 @@ CELERYBEAT_SCHEDULE = {
             'schedule': crontab(hour=0, minute=0,   day_of_month='1'),
               # "schedule":timedelta(seconds=3),
             "args": ()
+    },
+    # 自动审核已完成任务:每30分钟执行一遍
+    u'指派月任务': {
+        'task': 'task.tasks.auto_task_review',
+        'schedule': crontab(minute=30),
+        # "schedule":timedelta(seconds=3),
+        "args": ()
     },
 }

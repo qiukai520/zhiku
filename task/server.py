@@ -261,10 +261,7 @@ class TaskPeriodDB(object):
         return result_db
 
     def query_expire_task(self, cycle, today):
-        try:
-            result_db = TaskPeriod.objects.filter(cycle_id=cycle, deadline__gt=today).all()
-        except Exception as e:
-            print(e)
+        result_db = TaskPeriod.objects.filter(cycle_id=cycle, deadline__gt=today,status=1).all()
         return result_db
 
     def multi_delete(self, id_list, delete_status):
@@ -443,7 +440,7 @@ class TaskMapTagDB(object):
         return result_db
 
 
-class TaskPeroidTagDB(object):
+class TaskPeriodTagDB(object):
     """周期任务标签"""
     def mutil_insert_tag(self, modify_info_list):
         for item in modify_info_list:
@@ -597,6 +594,29 @@ class TaskReviewDB(object):
         TaskReview.objects.filter(tmid_id__in=tid_list).delete()
 
 
+class TaskReviewResultDB(object):
+    """任务审核结果"""
+    def mutil_insert(self, modify_info_list):
+        for item in modify_info_list:
+            is_exists = TaskReviewResult.objects.filter(sid_id=item["sid_id"],tasid_id=item["tasid_id"]).first()
+            if is_exists:
+                continue
+            TaskReviewResult.objects.create(**item)
+
+    def update_result(self, tasid, sid, modify):
+        TaskReviewResult.objects.filter(tasid_id=tasid, sid_id=sid).update(**modify)
+
+    def query_task_review_by_follow(self, tasid):
+        result_db = TaskReviewResult.objects.filter(tasid_id=tasid, follow__gt=1, result=0)
+        return result_db
+
+    def auto_update_result(self,tasid,modify):
+        TaskReviewResult.objects.filter(tasid_id=tasid,result=0).update(**modify)
+
+    def delete_review_result(self,tasid):
+        TaskReviewResult.objects.filter(tasid_id=tasid).delete()
+
+
 class TaskAssignDB(object):
     """任务指派表"""
     # 是否完成
@@ -611,6 +631,18 @@ class TaskAssignDB(object):
         {"id": 2, "caption": "已暂停"}
     )
 
+    def insert_task_assign(self, modify_info):
+        task_sql = """insert into task_assign (%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        task_sql = task_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(task_sql, modify_info)
+        tasid = cursor.lastrowid
+        return tasid
 
     def mutil_insert_task_assign(self, modify_info_list):
         for item in modify_info_list:
@@ -807,7 +839,7 @@ task_period_db = TaskPeriodDB()
 task_map_att_db = TaskMapAttachmentDB()
 task_period_att_db = TaskPeriodAttachmentDB()
 task_map_tag_db = TaskMapTagDB()
-task_period_tag_db = TaskPeroidTagDB()
+task_period_tag_db = TaskPeriodTagDB()
 task_period_review_db = TaskPeriodReviewDB()
 task_period_assigner_db = TaskPeriodAssignerDB()
 task_cycle_db = TaskCycleDB()
@@ -815,6 +847,7 @@ task_type_db = TaskTypeDB()
 task_attachment_db = TaskAttachmentDB()
 task_tag_db = TaskTagDB()
 task_review_db = TaskReviewDB()
+task_review_result_db = TaskReviewResultDB()
 performence_db = PerformanceDB()
 performance_record_db = PerformanceRecordDB()
 task_assign_db = TaskAssignDB()

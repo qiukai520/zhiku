@@ -140,3 +140,15 @@ def calculate_deadline(cycle_id, deadline, start_time=None):
         deadline += timedelta(hours=18)
         deadline = lastDay.strftime("%Y-%m-%d %H:%M:%S")
     return start_time,deadline
+
+
+def calculate_expire_date(weekday):
+    """计算等待审核过期时间"""
+    if weekday < 3:
+        del_day = 2
+    elif weekday in [3, 4, 5]:
+        del_day = 4
+    elif weekday == 6:
+        del_day = 3
+    return del_day
+

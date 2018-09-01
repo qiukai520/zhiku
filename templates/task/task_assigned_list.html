@@ -107,8 +107,8 @@
                                               <td>{%  change_to_task_way obj.team %} </td>
                                               <td>{% change_to_task_type  obj.type_id  %}</td>
                                               <td>{% change_to_staff obj.assigner_id %}</td>
-                                              <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
-                                              <td name="deadline">{{ obj.deadline |date:"Y-m-d "}}</td>
+                                              <td>{{ obj.create_time|date:"Y-m-d " }}</td>
+                                              <td name="deadline">{{ obj.deadline |date:"Y-m-d H:i"}}</td>
                                               <td>{% bulid_assign_member_list obj.tmid obj.deadline%}</td>
                                           </tr>
                                           {% endfor %}
