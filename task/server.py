@@ -29,12 +29,12 @@ class PerformanceDB(object):
 class PerformanceRecordDB(object):
 
     def insert_performence_record(self, modify_info):
-        is_exists = PerformanceRecord.objects.filter(tmid=modify_info['tmid'], sid=modify_info['sid'])
+        is_exists = PerformanceRecord.objects.filter(tmid_id=modify_info['tmid_id'], sid_id=modify_info['sid_id'])
         if not is_exists:
             PerformanceRecord.objects.create(**modify_info)
 
     def update_performence_record(self, modify_info):
-        query_set = PerformanceRecord.objects.filter(tmid=modify_info["tmid"], sid=modify_info['sid']).first()
+        query_set = PerformanceRecord.objects.filter(tmid_id=modify_info["tmid_id"], sid_id=modify_info['sid_id']).first()
         if query_set:
             query_set.team_score = modify_info['team_score']
             query_set.save()
@@ -184,7 +184,7 @@ class TaskMapDB(object):
         return result_db
 
     def query_task_by_tids(self,tmids):
-        result_db = TaskMap.objects.filter(tmid__in=tmids).all()
+        result_db = TaskMap.objects.filter(tmid__in=tmids).order_by("-tmid").all()
         return result_db
 
     def query_task_by_assigner_id(self, assigner):
@@ -565,7 +565,7 @@ class TaskReviewDB(object):
         return result_db
 
     def query_task_reviewer_by_sid(self,sid):
-        result_db = TaskReview.objects.filter(sid_id=sid).all()
+        result_db = TaskReview.objects.filter(sid_id=sid).order_by("-tvid").all()
         return result_db
 
     def query_task_reviewer_by_tvid(self,tvid):
@@ -596,6 +596,13 @@ class TaskReviewDB(object):
 
 class TaskReviewResultDB(object):
     """任务审核结果"""
+    result_choice = (
+        {"id": 0, "caption": "未审核"},
+        {"id": 1, "caption": "驳回"},
+        {"id": 2, "caption": "痛过"},
+        {"id": 3, "caption": "自动痛过"},
+    )
+
     def mutil_insert(self, modify_info_list):
         for item in modify_info_list:
             is_exists = TaskReviewResult.objects.filter(sid_id=item["sid_id"],tasid_id=item["tasid_id"]).first()
@@ -608,6 +615,10 @@ class TaskReviewResultDB(object):
 
     def query_task_review_by_follow(self, tasid):
         result_db = TaskReviewResult.objects.filter(tasid_id=tasid, follow__gt=1, result=0)
+        return result_db
+
+    def query_task_review_by_tasid(self,tasid):
+        result_db = TaskReviewResult.objects.filter(tasid_id=tasid).all()
         return result_db
 
     def auto_update_result(self,tasid,modify):

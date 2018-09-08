@@ -593,6 +593,7 @@ def task_assign(request):
                                 result_dict["tasid_id"] = tasid
                                 result_dict["sid_id"] = item['sid_id']
                                 result_dict["follow"] = item["follow"]
+                                result_dict["result"] = 0
                                 review_result.append(result_dict)
                             task_review_result_db.mutil_insert(review_result)
                         # 插入审核人
@@ -682,6 +683,7 @@ def task_map_edit(request):
                             result_dict["tasid_id"]= obj.tasid
                             result_dict["sid_id"] = item.sid_id
                             result_dict["follow"] = item.follow
+                            result_dict["result"] = 0
                             review_result.append(result_dict)
                     # 删除旧信息
                     for item in review_result:
@@ -913,48 +915,67 @@ def task_review(request):
         ret = {'status': False, 'message':'', 'data':''}
         data = request.POST
         tasid = data['tasid_id']
+        print("data",data)
         form = TaskReviewForm(data=data)
         if form.is_valid():
             try:
                 with transaction.atomic():
                     data = data.dict()
                     task_review_record_db.insert_review_record(data)
-                    is_complete = data["is_complete"]
+                    is_complete = int(data["is_complete"])
+                    print("is_complete",is_complete)
                     # 如果通过 更新相应任务的完成状态
                     is_finish = True
-                    if is_complete:
+                    is_reviewed = True
+                    if is_complete > 0:
                         # 更新该任务审核状态
                         result = {"result": 2}
                         task_review_result_db.update_result(tasid,user_id,result)
                         # check 是否所有审核人都确认通过
-                        # 获取任务id
-                        task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)
-                        task_assign_obj = task_assign_obj.first()
-                        tmid = task_assign_obj.tmid_id
-                        # 获取任务审核人
-                        task_review_list = task_review_db.query_task_reviewer_by_tmid(task_assign_obj.tmid_id)
-                        # 遍历该所有审核人对其的记录
-                        for item in task_review_list:
-                            last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(item.tvid,tasid)
-                            if not last_review_record:
+                        review_result = task_review_result_db.query_task_review_by_tasid(tasid)
+                        for item in review_result:
+                            if item.result < 2:
                                 is_finish = False
-                                break
-                            else:
-                                if not last_review_record.is_complete:
-                                    is_finish = False
-                                    break
+                            # 检查是否所有人都已审核过，则清除缓存自动审核任务
+                            if item.result == 0:
+                                is_reviewed = False
+                        if is_reviewed:
+                            k1 = "task_review"
+                            res.hdel(k1, tasid)
+                        # check 是否所有审核人都确认通过
+                        # 获取任务id
+                        # task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)
+                        # task_assign_obj = task_assign_obj.first()
+                        # tmid = task_assign_obj.tmid_id
+                        # 获取任务审核人
+                        # task_review_list = task_review_db.query_task_reviewer_by_tmid(task_assign_obj.tmid_id)
+                        # 遍历该所有审核人对其的记录
+                        # for item in task_review_list:
+                        #     last_review_record = task_review_record_db.query_task_review_record_last_by_tvid_and_tasid(item.tvid,tasid)
+                        #     if not last_review_record:
+                        #         is_finish = False
+                        #         break
+                        #     else:
+                        #         if not last_review_record.is_complete:
+                        #             is_finish = False
+                        #             break
                         if is_finish:
                             # 更新任务为通过状态
                             query_sets = task_assign_db.query_task_assign_by_tasid(tasid)
                             query_sets.update(is_finish=1)
                             # 添加任务绩效
+                            task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)
+                            task_assign_obj = task_assign_obj.first()
+                            tmid = task_assign_obj.tmid_id
+                            print("tmid",tmid)
                             task_map_obj = task_map_db.query_task_by_tmid(tmid)
                             performence_obj = performence_db.query_performence_by_pid(task_map_obj.perfor_id)
                             score = performence_obj.personal_score
                             perf_data = {"tmid_id": tmid, "sid_id": user_id, "personal_score": score}
+                            print("per_data",perf_data)
                             performance_record_db.insert_performence_record(perf_data)
                             # 检查任务是否是团队任务
-                            if task_map_obj.team:
+                            if task_map_obj.team == 1:
                                 # 检查任务是否全部完成后
                                 task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
                                 checked = True
@@ -966,6 +987,7 @@ def task_review(request):
                                     # 添加团队绩效
                                     for item in task_assign_list:
                                         performance_obj ={"sid_id":item.sid_id,"tmid_id":item.tmid_id,"team_score": performence_obj.team_score}
+                                        print("perform_obj",performance_obj)
                                         performance_record_db.update_performence_record(performance_obj)
                     else:
                         # 更新该任务审核状态

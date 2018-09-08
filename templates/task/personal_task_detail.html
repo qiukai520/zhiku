@@ -75,7 +75,7 @@
                                     <dd>{% build_countdown_time task_map.deadline  %}天</dd>
                                     <dt>团队成员：</dt>
                                     <dd class="project-people">
-                                        {% fetch_task_assing_member task_map.tmid %}
+                                        {% fetch_team_member task_map.tmid %}
                                     </dd>
                                 </dl>
                             </div>
@@ -100,14 +100,43 @@
                                     <div class="panel-heading">
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
-                                                <li class="active"><a href="task_detail.html#tab-1"   data-toggle="tab">团队进度</a>
+                                                <li class="active"><a href="task_detail.html#tab-1" data-toggle="tab">审核信息</a>
+                                                </li>
+                                                <li class=""><a href="task_detail.html#tab-2"   data-toggle="tab">团队进度</a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="panel-body">
                                         <div class="tab-content">
-                                            <div class="tab-pane active" id="tab-1">
+                                          <div class="tab-pane active" id="tab-1">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>审核状态</th>
+                                                            <th>审核人</th>
+                                                            <th>评价</th>
+                                                            <th>审核时间</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% fetch_task_review_result  task_obj.tasid  as review_result   %}
+                                                        {% fetch_task_assing_list task_obj.tmid as task_assign_list %}
+                                                        {% for obj in review_result %}
+                                                             <tr>
+                                                                 <td>
+                                                                <span class="label label-primary"> {% change_to_review_result  obj.result %}</span>
+                                                            </td>
+                                                                 <td> {% change_to_staff obj.sid_id %}</td>
+                                                                 <td></td>
+                                                            <td>{{ obj.create_time }}</td>
+                                                        </tr>
+                                                        {% endfor %}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane " id="tab-2">
                                                 <table class="table table-striped">
                                                     <thead>
                                                         <tr>
@@ -145,8 +174,6 @@
                                                     </tbody>
                                                 </table>
 
-                                            </div>
-                                            <div class="tab-pane" id="tab-2">
                                             </div>
                                         </div>
                                     </div>

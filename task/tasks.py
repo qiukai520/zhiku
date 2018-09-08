@@ -83,6 +83,7 @@ def daily_task():
                                 result_dict["tasid_id"] = tasid
                                 result_dict["sid_id"] = item.sid_id
                                 result_dict["follow"] = item["follow"]
+                                result_dict["result"] = 0
                                 review_result.append(result_dict)
                             task_review_result_db.mutil_insert(review_result)
         except Exception as e:
@@ -163,6 +164,7 @@ def weekly_task():
                             result_dict["tasid_id"] = tasid
                             result_dict["sid_id"] = item.sid_id
                             result_dict["follow"] = item["follow"]
+                            result_dict["result"] = 0
                             review_result.append(result_dict)
                         task_review_result_db.mutil_insert(review_result)
         except Exception as e:
@@ -243,6 +245,7 @@ def monthly_task():
                             result_dict["tasid_id"] = tasid
                             result_dict["sid_id"] = item.sid_id
                             result_dict["follow"] = item["follow"]
+                            result_dict["result"] = 0
                             review_result.append(result_dict)
                         task_review_result_db.mutil_insert(review_result)
         except Exception as e:

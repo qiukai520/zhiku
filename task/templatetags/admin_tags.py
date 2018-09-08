@@ -190,11 +190,20 @@ def build_reviewer_ele(dpid):
         eles += ele
     return mark_safe(eles)
 
+
 @register.simple_tag
 def change_to_task_execute_way(way_id):
     way_list = task_db.execute_way
     for item in way_list:
         if int(item["execute_way"]) == way_id:
+            return item["caption"]
+
+@register.simple_tag
+def change_to_review_result(result):
+    print(result)
+    result_choice=task_review_result_db.result_choice
+    for item in result_choice:
+        if int(item["id"]) == result:
             return item["caption"]
 
 
@@ -563,6 +572,7 @@ def build_task_assign_tags_list(tasid):
     return mark_safe(ele_list)
 
 
+
 @register.simple_tag
 def fetch_task_assign_member(tmid):
     """获取任务成员"""
@@ -582,6 +592,22 @@ def fetch_task_assign_member(tmid):
         eles += ele
     return mark_safe(eles)
 
+
+@register.simple_tag
+def fetch_team_member(tmid):
+    """获取团队成员"""
+    task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
+    eles = ''
+    if task_assign_list:
+        for item in task_assign_list:
+            member = staff_db.query_staff_by_id(item.member_id_id)
+            if member:
+                ele = "<span>{0};&nbsp</span>".format(member.name)
+                eles+= ele
+    else:
+        ele = "<span>无</span> &nbsp"
+        eles += ele
+    return mark_safe(eles)
 
 @register.simple_tag
 def fetch_task_period_assign_member(tpid):
@@ -730,6 +756,15 @@ def fetch_task_assing_list(tmid):
     """获取任务成员列表"""
     task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     return task_assign_list
+
+
+@register.simple_tag
+def fetch_task_review_result(tasid):
+    """获取任务审核结果"""
+    print("tasid",tasid)
+    if tasid:
+        task_review_result = task_review_result_db.query_task_review_by_tasid(tasid)
+        return task_review_result
 
 
 @register.simple_tag

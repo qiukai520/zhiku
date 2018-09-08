@@ -152,9 +152,6 @@ class TaskPeriod(models.Model):
         return "周期任务:{0}".format(self.tid)
 
 
-
-
-
 class TaskPeriodAttachment(models.Model):
     tpaid = models.AutoField(primary_key=True)
     tpid = models.ForeignKey('TaskPeriod', to_field='tpid', on_delete=models.CASCADE, db_constraint=False,
@@ -354,7 +351,7 @@ class TaskReviewRecord(models.Model):
 
 
 class TaskReviewResult(models.Model):
-    result_choice = ((0, '未审核'),(1,'未通过'), (2, "通过"), (1, '自动通过'))
+    result_choice = ((0, '未审核'),(1,'驳回'), (2, "通过"), (3, '自动通过'))
     trrid = models.AutoField(primary_key=True)
     tasid = models.ForeignKey('TaskAssign', to_field='tasid', on_delete=models.CASCADE, db_constraint=False,
                               verbose_name='指派任务')

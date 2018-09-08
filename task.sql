@@ -7,7 +7,7 @@ create TABLE `task`(
 `content` text NOT NULL COMMENT '任务描述',
 `type_id` smallint NOT NULL COMMENT ' 任务类型',
 `issuer_id` int(11) NOT NULL  COMMENT '发布人',
-`status` tinyint(1) NOT NUll DEFAULT 1 COMMENT'1启动,2暂停,3取消',
+`delete_status` tinyint(1) NOT NUll DEFAULT 1 COMMENT'1启动,2暂停,3取消',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务表';
@@ -161,7 +161,7 @@ create TABLE `staff`(
 `name` varchar(16) NOT NUll COMMENT '员工姓名',
 `life_photo` varchar (128) COMMENT '生活照片',
 `sex` tinyint(1) NOT NULL  DEFAULT 0 COMMENT '性别:0男，1女',
-`phone` varchar (128) COMMENT '手机号码',
+`phone` varchar (11) COMMENT '手机号码',
 `email` varchar (32) COMMENT '邮箱',
 `company` varchar (32) COMMENT '公司名称',
 `project` varchar (32) COMMENT '公司名称',
@@ -182,10 +182,17 @@ create TABLE `staff`(
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工表';
-ALTER TABLE `staff` ADD UNIQUE (
-`user_id`,`job_number`,
-)
+ALTER TABLE `staff` ADD UNIQUE (`user_id`,`job_number`,)
 
+
+
+drop TABLE if exists `staff_life_photo`;
+create TABLE `staff_life_photo`(
+`nid` int(11) primary key auto_increment,
+`sid_id` int(11) NOT NULL  COMMENT '员工编号',
+`life_photo` varchar(512) COMMENT '路径',
+`name` varchar(128) COMMENT '名称',
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='生活照片';
 
 
 drop TABLE if exists `department`;
@@ -293,7 +300,6 @@ create TABLE `task_review_record`(
 `evaluate` decimal (2,1) COMMENT '评价:1.0-5.0',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
-
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务审核记录表';
 
 
@@ -302,10 +308,12 @@ create TABLE `task_review_result`(
 `trrid` int(11) NOT NULL primary key auto_increment,
 `tasid_id` int(11) NOT NULL COMMENT '任务分配ID',
 `sid_id`  int(11) NOT NULL COMMENT '审核人',
-`result` tinyint(1) NOT NULL DEFAULT 0  COMMENT '审核结果:0未审核;1未通过;2通过;3自动通过',
+`result` tinyint(1)NOT NULL DEFAULT 0 COMMENT '审核结果:0未审核;1未通过;2通过;3自动通过',
+`follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核次序',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务审核结果表';
+
 
 drop TABLE if exists `task_submit_record`;
 create TABLE `task_submit_record`(
@@ -329,6 +337,7 @@ create TABLE `task_submit_attachment`(
 `name` varchar(128) COMMENT '附件名称',
 `description` varchar(512) COMMENT '附件描述'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务提交附件表';
+
 
 drop TABLE if exists `task_review`;
 create TABLE `task_review`(
