@@ -29,6 +29,7 @@ urlpatterns = [
     path('logout/', task_view.logout, name='logout'),
     path("task/", include('task.urls')),
     path("personnel/", include('personnel.urls')),
+    path("inventory/", include('inventory.urls')),
     path('attachment_upload.html', task_view.attachment_upload, name='attachment_upload'),
     path("attachment_download.html", task_view.attachment_download, name="attachment_download"),
 

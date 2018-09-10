@@ -77,13 +77,13 @@ class TaskTagAdmin(object):
     search_fields = ['name']
     model_icon = 'fa fa-cog'
 
-
-class TaskCycleAdmin(object):
-    """任务周期后台管理"""
-    list_display = ['tcid', "name"]
-    list_filter = ["name"]
-    search_fields = ['name']
-    model_icon = 'fa fa-cog'
+#
+# class TaskCycleAdmin(object):
+#     """任务周期后台管理"""
+#     list_display = ['tcid', "name"]
+#     list_filter = ["name"]
+#     search_fields = ['name']
+#     model_icon = 'fa fa-cog'
 
 
 class TaskTypeAdmin(object):
@@ -197,7 +197,7 @@ xadmin.site.register(views.CommAdminView, GlobalSettings)
 xadmin.site.register(Task, TaskAdmin)
 xadmin.site.register(TaskTag, TaskTagAdmin)
 xadmin.site.register(TaskAttachment, TaskAttachmentAdmin)
-xadmin.site.register(TaskCycle, TaskCycleAdmin)
+# xadmin.site.register(TaskCycle, TaskCycleAdmin)
 xadmin.site.register(TaskType,TaskTypeAdmin)
 xadmin.site.register(TaskMap, TaskMapAdmin)
 xadmin.site.register(TaskAssign, TaskAssignAdmin)

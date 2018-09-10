@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'task.apps.TaskConfig',
     'rbac.apps.RbacConfig',
     'personnel.apps.PersonnelConfig',
+    'inventory.apps.InventoryConfig',
     'xadmin',
     'crispy_forms',
     'reversion',

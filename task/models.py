@@ -312,18 +312,18 @@ class TaskAuth(models.Model):
         return "任务附件:{0}".format(self.tasid)
 
 
-class TaskCycle(models.Model):
-    tcid = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=32, blank=True, null=True, verbose_name='任务周期')
-    number = models.SmallIntegerField(verbose_name="周期编号")
-
-    class Meta:
-        db_table = 'task_cycle'
-        verbose_name = '任务周期'
-        verbose_name_plural = '任务周期'
-
-    def __str__(self):
-        return self.name
+# class TaskCycle(models.Model):
+#     tcid = models.AutoField(primary_key=True)
+#     name = models.CharField(unique=True, max_length=32, blank=True, null=True, verbose_name='任务周期')
+#     number = models.SmallIntegerField(verbose_name="周期编号")
+#
+#     class Meta:
+#         db_table = 'task_cycle'
+#         verbose_name = '任务周期'
+#         verbose_name_plural = '任务周期'
+#
+#     def __str__(self):
+#         return self.name
 
 
 class TaskReviewRecord(models.Model):
