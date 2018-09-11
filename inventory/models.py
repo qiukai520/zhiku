@@ -15,7 +15,7 @@ class Supplier(models.Model):
                                db_constraint=False)
     introduce = models.CharField(max_length=512, verbose_name="简介", blank=True, null=True)
     website = models.CharField(max_length=64, verbose_name="网站", blank=True, null=True)
-    phone = models.CharField(max_length=16, verbose_name="电话", blank=True, null=True)
+    phone = models.CharField(max_length=16, verbose_name="联系电话", blank=True, null=True)
     bank = models.CharField(max_length=512, verbose_name="开户银行", blank=True, null=True)
     bank_account = models.CharField(max_length=512, verbose_name="银行账户", blank=True, null=True)
     account_name = models.CharField(max_length=512, verbose_name="账户名", blank=True, null=True)
@@ -42,8 +42,7 @@ class Goods(models.Model):
     name = models.CharField(max_length=64,verbose_name="商品名称")
     description = models.CharField(max_length=256,verbose_name="描述", blank=True, null=True)
 
-    unit = models.ForeignKey("GoodsUnit", to_field="nid", on_delete=models.CASCADE, verbose_name='商品单位',
-                               db_constraint=False)
+    unit = models.CharField(max_length=64,verbose_name="商品单位")
     standard = models.IntegerField(verbose_name='商品规格', blank=True, null=True)
     start_time = models.DateTimeField(blank=True, null=True, verbose_name='起始产期',)
     end_time = models.DateTimeField(blank=True, null=True, verbose_name='结束期')
@@ -174,20 +173,23 @@ class SupplierPhoto(models.Model):
     def __str__(self):
         return "供应商营业执照:{0}".format(self.name)
 
-    _update = ["licence","name"]
+    _update = ["photo","name"]
 
 
-class GoodsUnit(models.Model):
-    nid = models.AutoField(primary_key=True)
-    caption = models.CharField(max_length=16,verbose_name="单位")
-
-    class Meta:
-        db_table = 'goods_unit'
-        verbose_name = '商品单位'
-        verbose_name_plural = '商品单位'
-
-    def __str__(self):
-        return self.caption
+# class GoodsUnit(models.Model):
+#     nid = models.AutoField(primary_key=True)
+#     caption = models.CharField(max_length=16,verbose_name="单位")
+#
+#     class Meta:
+#         db_table = 'goods_unit'
+#         verbose_name = '商品单位'
+#         verbose_name_plural = '商品单位'
+#
+#     def __str__(self):
+#         return self.caption
+#
+#     _insert = ["caption"]
+#     _update = ["caption"]
 
 
 class GoodsCategory(models.Model):
@@ -203,6 +205,10 @@ class GoodsCategory(models.Model):
         return self.caption
 
 
+    _insert = ["caption"]
+    _update = ["caption"]
+
+
 class SupplierCategory(models.Model):
     nid = models.AutoField(primary_key=True)
     caption = models.CharField(max_length=16,verbose_name="类别")
@@ -214,6 +220,9 @@ class SupplierCategory(models.Model):
 
     def __str__(self):
         return self.caption
+
+    _insert = ["caption"]
+    _update = ["caption"]
 
 
 class Industry(models.Model):
@@ -228,6 +237,9 @@ class Industry(models.Model):
     def __str__(self):
         return self.industry
 
+    _insert = ["industry"]
+    _update = ["industry"]
+
 
 class Nation(models.Model):
     nid = models.AutoField(primary_key=True)
@@ -241,10 +253,15 @@ class Nation(models.Model):
     def __str__(self):
         return self.nation
 
+    _insert = ["nation"]
+    _update = ["nation"]
+
 
 class Province(models.Model):
     nid = models.AutoField(primary_key=True)
     province = models.CharField(max_length=16, verbose_name="省份")
+    nation = models.ForeignKey(Nation, to_field="nid", on_delete=models.CASCADE, verbose_name='国家',
+                                 db_constraint=False)
 
     class Meta:
         db_table = 'province'
@@ -254,10 +271,13 @@ class Province(models.Model):
     def __str__(self):
         return self.province
 
+    _insert = ["province", "nation_id"]
+    _update = ["province", "nation_id"]
+
 
 class City(models.Model):
     nid = models.AutoField(primary_key=True)
-    city =models.CharField(max_length=16,verbose_name="城市")
+    city = models.CharField(max_length=16, verbose_name="城市")
     province = models.ForeignKey(Province, to_field="nid", on_delete=models.CASCADE, verbose_name='省份',
                                db_constraint=False)
 
@@ -268,6 +288,9 @@ class City(models.Model):
 
     def __str__(self):
         return self.city
+
+    _insert = ["province_id", "city"]
+    _update = ["province_id", "city"]
 
 
 class Country(models.Model):
@@ -283,3 +306,8 @@ class Country(models.Model):
 
     def __str__(self):
         return self.country
+
+    _insert = ["city_id", "country"]
+    _update = ["city_id", "country"]
+
+

@@ -80,12 +80,12 @@ class SupplierPhotoAdmin(object):
     search_fields = ['supplier']
     model_icon = 'fa fa-user'
 
-
-class GoodsUnitAdmin(object):
-    """商品单位"""
-    list_display = ["caption"]
-    search_fields = ['caption']
-    model_icon = 'fa fa-user'
+#
+# class GoodsUnitAdmin(object):
+#     """商品单位"""
+#     list_display = ["caption"]
+#     search_fields = ['caption']
+#     model_icon = 'fa fa-user'
 
 
 class GoodsCategoryAdmin(object):
@@ -150,7 +150,6 @@ xadmin.site.register(SupplierPhoto, SupplierPhotoAdmin)
 xadmin.site.register(Goods, GoodsAdmin)
 xadmin.site.register(GoodsAttach, GoodsAttachAdmin)
 xadmin.site.register(GoodsCategory, GoodsCategoryAdmin)
-xadmin.site.register(GoodsUnit, GoodsUnitAdmin)
 xadmin.site.register(Industry, IndustryAdmin)
 xadmin.site.register(Linkman, LinkmanAdmin)
 xadmin.site.register(LinkmanAttach, LinkmanAttachAdmin)

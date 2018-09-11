@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% load personnel_tags %}
+{% load inventory_tags %}
 {% block css %}
     <style>
      #toolbar >button{
@@ -13,7 +13,7 @@
         <!-- Panel Other -->
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>公司列表</h5>
+                <h5>商品分类列表</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -39,7 +39,7 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                     <a href="{% url "company_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                     <a href="{% url "goods_category_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                 </div>
                                 <table id="company"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
@@ -47,7 +47,7 @@
                                          <tr >
                                               <th><input type="checkbox" onclick="SelectAll(this)"></th>
                                               <th>ID</th>
-                                              <th>公司名称</th>
+                                              <th>分类名称</th>
                                               <th>操作</th>
                                           </tr>
                                     </thead>
@@ -55,10 +55,10 @@
                                      {% for obj in query_sets %}
                                       <tr>
                                           <td><input type="checkbox"></td>
-                                          <td>{{ obj.id }}</td>
-                                          <td>{{ obj.company }}</td>
+                                          <td>{{ obj.nid }}</td>
+                                          <td>{{ obj.caption}}</td>
                                             <td>
-                                              <a  href="{%url "company_edit" %}?id={{ obj.id }}" class="btn btn-info" >编辑</a>
+                                              <a  href="{%url "goods_category_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
                                           </td>
                                       </tr>
                                       {% endfor %}

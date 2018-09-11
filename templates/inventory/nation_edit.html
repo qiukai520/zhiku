@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% load personnel_tags %}
+{% load inventory_tags %}
 
 {% block css %}
     <style>
@@ -21,7 +21,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>公司编辑 </h5>
+                        <h5>国家编辑</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -44,9 +44,9 @@
                         <div class="row form-horizontal" style="position: relative;margin-top: 30px">
                             <div class="col-xs-12">
                                 <div class="form-group">
-                                    <label for="name" class="col-xs-2 control-label">公司名称：</label>
+                                    <label for="name" class="col-xs-2 control-label">国家：</label>
                                       <div class="col-xs-4">
-                                          <input name="name"  class="form-control"  id="name" placeholder="公司名称">
+                                          <input name="name"  class="form-control"  id="name" placeholder="国家">
                                         </input>
                                       </div>
                                 </div>
@@ -54,14 +54,14 @@
                                 <div class="row" id="content_footer" >
                                     <div class="form-actions well well-sm clearfix">
                                     {% if id %}
-                                      <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                        <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
                                         <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                         <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
                                     {% else %}
                                          <button type="submit" onclick="Submit(1)"  class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
                                          <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                     {% endif %}
-                                        <a href="{% url "company_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                        <a href="{% url "nation_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
                                         <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
                                             <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
                                                 <i class="fa fa-minus-circle" aria-hidden="true"></i>
@@ -99,7 +99,7 @@ String.prototype.format=function()
       }
   })
   function DataInit() {
-        $("#name").val("{{ company_obj.company }}");
+        $("#name").val("{{ obj.nation}}");
 }
 
      function Submit(cons) {
@@ -107,25 +107,24 @@ String.prototype.format=function()
         $msg.parent().addClass('hide');
         var name = $("#name").val().trim();
         var id={{ id }}
-         console.log(id)
         if(id!=0){
-           var data=  {"company":name,"id":id}
+           var data=  {"nation" :name,"id":id}
         }else {
-            var data={"company":name,}
+            var data={"nation":name,}
         }
         $.ajax({
-                url: '{% url "company_edit"%}',
+                url: '{% url 'nation_edit'%}',
                 type: "post",
                 data:  data,
             dataType: "json",
             success: function (arg) {
                 if (arg.status) {
                      if (cons==1){
-                             window.location.href='{% url "company_list" %}';
+                             window.location.href='{% url "nation_list" %}';
                         }else if(cons==2){
-                             window.location.href='{% url "company_edit" %}';
+                             window.location.href='{% url "nation_edit" %}';
                         }else{
-                              window.location.href='{% url "company_edit" %}?id={0}'.format(arg.data);
+                              window.location.href='{% url "nation_edit" %}?id={0}'.format(arg.data);
                         }
                 } else {
                         $msg.parent().removeClass('hide');
