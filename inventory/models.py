@@ -167,13 +167,32 @@ class SupplierPhoto(models.Model):
 
     class Meta:
         db_table = 'supplier_photo'
-        verbose_name = '供应商图片'
-        verbose_name_plural = '供应商图片'
+        verbose_name = '供应商公司图片'
+        verbose_name_plural = '供应商公司图片'
 
     def __str__(self):
-        return "供应商营业执照:{0}".format(self.name)
+        return "供应商公司图片:{0}".format(self.name)
 
     _update = ["photo","name"]
+
+
+class GoodsBarCode(models.Model):
+    nid = models.AutoField(primary_key=True)
+    goods = models.ForeignKey("Goods", to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                              verbose_name='商品')
+    bar_code = models.CharField(max_length=128, blank=True, null=True, verbose_name='路径')
+    name = models.CharField(max_length=128, blank=True, null=True, verbose_name='名称')
+
+    class Meta:
+        db_table = 'goods_bar_code'
+        verbose_name = '商品条码'
+        verbose_name_plural = '商品条码'
+
+    def __str__(self):
+        return "商品条码:{0}".format(self.name)
+
+    _update = ["bar_code","name"]
+
 
 
 # class GoodsUnit(models.Model):

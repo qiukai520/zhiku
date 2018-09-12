@@ -21,7 +21,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>城市编辑</h5>
+                        <h5>县(区)编辑</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -44,10 +44,11 @@
                         <div class="row form-horizontal" style="position: relative;margin-top: 30px">
                             <div class="col-xs-12">
                                <div class="form-group">
-                                    <label class="col-xs-2 control-label">国家:</label>
+                                    <label class="col-xs-1 control-label">国家:</label>
                                     <div class="col-xs-2">
-                                        <select  name="nation" class="form-control chosen-select" id="nation" onchange="SelectNation(this)" >
-                                            {% fetch_nation_nid obj.province_id as nation_id  %}
+                                        <select  name="nation" class="form-control" id="nation" onchange="SelectNation(this)" >
+                                            {% fetch_province_nid obj.city_id as province_id  %}
+                                            {% fetch_nation_nid province_id as nation_id  %}
                                             {% if id %}
                                                 {% build_nation_ele nation_id %}
                                             {% else %}
@@ -56,21 +57,30 @@
                                             {% endif %}
                                         </select>
                                     </div>
-                                   <label class="col-xs-2 control-label">省份:</label>
+                                   <label class="col-xs-1 control-label">省份:</label>
                                     <div class="col-xs-2">
-                                        <select  name="province" class="form-control chosen-select" id="province"  >
+                                        <select  name="province" class="form-control" id="province" onchange="SelectProvince(this)" >
                                          {%  if  id %}
-                                             {% build_province_ele nation_id %}
+                                             {% build_province_ele nation_id province_id=province_id %}
+                                             {% else %}
+                                              <option value=0>请选择省份</option>
+                                         {% endif %}
+                                        </select>
+                                    </div>
+                                <label class="col-xs-1 control-label">城市:</label>
+                                    <div class="col-xs-2">
+                                        <select  name="city" class="form-control" id="city"  >
+                                         {%  if  id %}
+                                             {% build_city_ele province_id %}
                                             {% endif %}
-                                          <option value=0>请选择省份</option>
                                         </select>
                                     </div>
                                 </div>
                              <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                    <label for="name" class="col-xs-2 control-label">城市：</label>
-                                      <div class="col-xs-6">
-                                          <input name="name"  class="form-control"  id="name" placeholder="城市">
+                                    <label for="name" class="col-xs-1 control-label">县(区)：</label>
+                                      <div class="col-xs-8">
+                                          <input name="name"  class="form-control"  id="name" placeholder="县(区)">
                                         </input>
                                       </div>
                                 </div>
@@ -85,7 +95,7 @@
                                          <button type="submit" onclick="Submit(1)"  class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
                                          <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                     {% endif %}
-                                        <a href="{% url "city_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                        <a href="{% url "country_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
                                         <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
                                             <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
                                                 <i class="fa fa-minus-circle" aria-hidden="true"></i>
@@ -116,25 +126,23 @@ String.prototype.format=function()
 };
        //自执行函数
   $(function () {
-        //
-       $(".chosen-select").chosen({no_results_text: "未找到此选项！",max_selected_options: 10});
       var id={{ id }}
       if(id!=0){
           DataInit()//初始化化数据
       }
   })
   function DataInit() {
-        $("#province").val("{{ obj.province_id }}")
-        $("#name").val("{{ obj.city}}");
+        $("#city").val("{{ obj.city_id }}")
+        $("#name").val("{{ obj.country}}");
 }
 
      function Submit(cons) {
         var $msg = $('#error_msg');
         $msg.parent().addClass('hide');
         var name = $("#name").val().trim();
-        var province=parseInt($("#province").val());
+        var city =parseInt($("#city").val());
          if ( !province){
-              layer.alert("请选择相应省份", {icon: 6 ,
+              layer.alert("请选择相应城市", {icon: 6 ,
               time: 1500, //20s后自动关闭
                    btn: [ '知道了']},
               );
@@ -142,24 +150,24 @@ String.prototype.format=function()
          }
         var id={{ id }}
         if(id!=0){
-           var data=  {"city" :name ,"id":id,"province_id":province}
+           var data=  {"country" :name ,"id":id,"city_id":city}
         }else {
-            var data={"city":name,"province_id":province}
+            var data={"country":name,"city_id":city}
         }
         console.log("data",data)
         $.ajax({
-                url: '{% url 'city_edit'%}',
+                url: '{% url 'country_edit'%}',
                 type: "post",
                 data:  data,
             dataType: "json",
             success: function (arg) {
                 if (arg.status) {
                      if (cons==1){
-                             window.location.href='{% url "city_list" %}';
+                             window.location.href='{% url "country_list" %}';
                         }else if(cons==2){
-                             window.location.href='{% url "city_edit" %}';
+                             window.location.href='{% url "country_edit" %}';
                         }else{
-                              window.location.href='{% url "city_edit" %}?id={0}'.format(arg.data);
+                              window.location.href='{% url "country_edit" %}?id={0}'.format(arg.data);
                         }
                 } else {
                         $msg.parent().removeClass('hide');
@@ -169,12 +177,12 @@ String.prototype.format=function()
         })
     }
 
-    // 根据国家获取相应的省份
-    function SelectNation(ths) {
+    // 根据省份获取相应的城市
+    function SelectProvince(ths) {
       var nid=$(ths).val();
-      $("#province").children().remove();
+      $("#city").children().remove();
       $.ajax({
-        url:"{% url "nation_province" %}",
+        url:"{% url "province_city" %}",
         type:'get',
         data:{"id":nid},
         dataType:'json',
@@ -184,12 +192,35 @@ String.prototype.format=function()
 	    $(objs).each(function () {
 		var o = document.createElement("option");
 		o.value = this['pk'];
+		o.text = this['fields']['city'];
+		 $("#city").append(o);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
+    }
+      // 根据国家获取相应的身份
+    function SelectNation(ths) {
+      var nid=$(ths).val();
+      $("#province").children().remove();
+       $("#city").children().remove();
+      $.ajax({
+        url:"{% url "nation_province" %}",
+        type:'get',
+        data:{"id":nid},
+        dataType:'json',
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    $("#province").append("<option value=0 >请选择省份</option>")
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
 		o.text = this['fields']['province'];
 		 $("#province").append(o);
 	  });
-	    //刷新select
-            $("#province").trigger("chosen:updated")
-
 	},
         error: function (arg) {
           alert(arg.message);
@@ -198,34 +229,5 @@ String.prototype.format=function()
 
 
     }
-
-    function FetchStaff2Assign(ths) {
-    var dpid=$(ths).val();
-    //清空select的内容
-     DualListboxAssign.children("option:not(:selected)").remove();
-     DualListboxAssign.bootstrapDualListbox('refresh', true);
-    {#var opt_eles="{% build_reviewer_ele dpid %}"#}
-    {#$("#id_staff_from").append(opt_eles)#}
-    $.ajax({
-        url:"{% url "department_staff" %}",
-        type:'get',
-        data:{"dpid":dpid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['name'];
-		 DualListboxAssign.append(o);
-		 DualListboxAssign.bootstrapDualListbox('refresh', true);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-}
      </script>
 {% endblock %}

@@ -13,7 +13,7 @@
         <!-- Panel Other -->
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>城市列表</h5>
+                <h5>县区列表</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -39,7 +39,7 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                     <a href="{% url "city_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                     <a href="{% url "country_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                 </div>
                                 <table id="company"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
@@ -47,6 +47,7 @@
                                          <tr >
                                               <th><input type="checkbox" onclick="SelectAll(this)"></th>
                                               <th>ID</th>
+                                              <th>县(区)</th>
                                               <th>城市</th>
                                               <th>所属省份</th>
                                               <th>所属国家</th>
@@ -55,15 +56,17 @@
                                     </thead>
                                     <tbody>
                                      {% for obj in query_sets %}
-                                         {% fetch_nation_nid obj.province_id as nation_id  %}
-                                      <tr>
-                                          <td><input type="checkbox"></td>
-                                          <td>{{ obj.nid }}</td>
-                                           <td> {{ obj.city }}</td>
-                                          <td>{% change_to_province obj.province_id %}</td>
-                                           <td>{% change_to_nation nation_id %}</td>
+                                          {% fetch_province_nid obj.city_id as province_id  %}
+                                          {% fetch_nation_nid province_id  as nation_id  %}
+                                         <tr>
+                                             <td><input type="checkbox"></td>
+                                             <td>{{ obj.nid }}</td>
+                                             <td>{{ obj.country}}</td>
+                                             <td> {% change_to_city obj.city_id %}</td>
+                                             <td>{% change_to_province province_id %}</td>
+                                             <td>{% change_to_nation nation_id %}</td>
                                             <td>
-                                              <a  href="{%url "city_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
+                                              <a  href="{%url "country_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
                                           </td>
                                       </tr>
                                       {% endfor %}

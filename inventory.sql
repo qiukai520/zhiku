@@ -112,6 +112,13 @@ create TABLE `supplier_photo`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='供应商照片';
 
 
+drop TABLE if exists `goods_bar_code`;
+create TABLE `goods_bar_code`(
+`nid` int(11) primary key auto_increment,
+`goods_id` int(11) NOT NULL  COMMENT '商品编号',
+`bar_code` varchar(128) COMMENT '路径',
+`name` varchar(64) COMMENT '名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品条码';
 
 drop TABLE if exists `industry`;
 create table `industry`(

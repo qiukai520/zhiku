@@ -47,3 +47,13 @@ class NationForm(django_forms.Form):
 class ProvinceForm(django_forms.Form):
     province = django_fields.CharField(error_messages={"required": "省份不能为空"})
     nation_id = django_fields.IntegerField(error_messages={"required":"请选择国家"})
+
+
+class CityForm(django_forms.Form):
+    city = django_fields.CharField(error_messages={"required": "城市不能为空"})
+    province_id = django_fields.IntegerField(error_messages={"required":"请选择省份"})
+
+
+class CountryForm(django_forms.Form):
+    country = django_fields.CharField(error_messages={"required": "县区不能为空"})
+    city_id = django_fields.IntegerField(error_messages={"required": "请选择城市"})

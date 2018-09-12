@@ -136,6 +136,10 @@ class ProvinceDB(object):
         result_db = Province.objects.filter().all()
         return result_db
 
+    def query_province_by_nation(self,nation_id):
+        result_db=Province.objects.filter(nation_id=nation_id).all()
+        return result_db
+
     def query_province_by_id(self, nid):
         result_db = Province.objects.filter(nid=nid).first()
         return result_db
@@ -157,11 +161,77 @@ class ProvinceDB(object):
         return result_db
 
 
+class CityDB(object):
+    """城市"""
+    def __init__(self):
+        pass
+
+    def query_city_list(self):
+        result_db = City.objects.filter().all()
+        return result_db
+
+    def query_city_by_id(self, nid):
+        result_db = City.objects.filter(nid=nid).first()
+        return result_db
+
+    def query_city_by_province(self, province_id):
+        result_db = City.objects.filter(province_id=province_id).all()
+        return result_db
+
+    def update_city(self, modify_info):
+        is_exist = self.is_exist(modify_info["province_id"], modify_info["city"])
+        if is_exist:
+            raise Exception("该城市已存在")
+        City.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_city(self, modify_info):
+        is_exist = self.is_exist(modify_info["province_id"],modify_info["city"])
+        if is_exist:
+            raise Exception("该城市已存在")
+        City.objects.create(**modify_info)
+
+    def is_exist(self,province,city):
+        result_db = City.objects.filter(province_id=province, city=city).first()
+        return result_db
+
+
+class CountryDB(object):
+    """县区"""
+    def __init__(self):
+        pass
+
+    def query_country_list(self):
+        result_db = Country.objects.filter().all()
+        return result_db
+
+    def query_country_by_id(self, nid):
+        result_db = Country.objects.filter(nid=nid).first()
+        return result_db
+
+    def update_country(self, modify_info):
+        is_exist = self.is_exist(modify_info["country"], modify_info["city_id"])
+        if is_exist:
+            raise Exception("该县区已存在")
+        Country.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_country(self, modify_info):
+        is_exist = self.is_exist(modify_info["country"],modify_info["city_id"])
+        if is_exist:
+            raise Exception("该县区已存在")
+        Country.objects.create(**modify_info)
+
+    def is_exist(self,country,city_id):
+        result_db = Country.objects.filter(country=country, city_id=city_id).first()
+        return result_db
+
+
 supplier_db = SupplierDB()
 industry_db = IndustryDB()
 supplier_category_db = SupplierCategoryDB()
 goods_category_db = GoodsCategoryDB()
 nation_db = NationDB()
 province_db = ProvinceDB()
+city_db = CityDB()
+country_db = CountryDB()
 
 
