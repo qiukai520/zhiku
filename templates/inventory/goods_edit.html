@@ -27,7 +27,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>添加供应商 <small></small></h5>
+                        <h5>商品编辑 <small></small></h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -39,130 +39,133 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal">
-                         <form action="{% url "supplier_edit" %}" method="post" id="fm" class="form-horizontal" enctype="multipart/form-data">
+                         <form action="{% url "goods_edit" %}" method="post" id="good_fm" class="form-horizontal" enctype="multipart/form-data">
                              {% csrf_token %}
                              <input type="hidden" name="nid" id="nid" >
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">供应商类别</label>
+                            <label class="col-sm-2 control-label">商品分类</label>
                             <div class="col-sm-8">
                                 <select  name="category_id" class="form-control" id="category_id" >
-{#                                    {% build_company_ele %}#}
-                                </select>
-                            </div>
-                        </div>
-                             <div class="hr-line-dashed"></div>
-                          <div class="form-group">
-                            <label class="col-sm-2 control-label">行业</label>
-                            <div class="col-sm-8">
-                                <select  name="industry_id" class="form-control" id="industry_id" >
-{#                                    {% build_company_ele %}#}
+                                    {% build_goods_category_ele %}
                                 </select>
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">公司名称</label>
+                            <label class="col-sm-2 control-label">商品名称</label>
                             <div class="col-sm-8">
-                                <input type="text"id="company" class="form-control" name="company" value="" placeholder="必填选项">
+                                <input type="text" id="name" class="form-control" name="name"  placeholder="必填选项">
                             </div>
                         </div>
-                            <div class="hr-line-dashed"></div>
+                           <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">公司人数</label>
-                            <div class="col-sm-8">
-                                <input type="text"id="employees" class="form-control" name="employees" value="" placeholder="">
+                                <label class="col-sm-2 control-label">商品照片</label>
+                                <div class="col-sm-8">
+                                    <a href="" class="hide"width="100"  height="100" id="pre_link" target="_blank">
+                                    <p><img width="100"  target="_blank"  id="photo" height="100"style=" border: 1px solid #dddddd;" ></p>
+                                    </a>
+                                    <input type="file" id="photo_input"  class="form-control"  onchange="UploadImage(this)" >
+                                </div>
                             </div>
-                        </div>
-                            <div class="hr-line-dashed"></div>
-                          <div class="form-group">
-                            <label class="col-sm-2 control-label">主营商品</label>
-                            <div class="col-sm-8">
-                                <select  name="goods_id" class="form-control" id="goods_id" >
-{#                                    {% build_company_ele %}#}
-                                </select>
-                            </div>
-                        </div>
                          <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">公司简介</label>
+                            <label class="col-sm-2 control-label">商品描述</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="introduce" id="introduce"> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
-                         <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                            <label class="col-sm-2 control-label">公司网站</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="website" id="website"> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="description" id="description"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                           <div class="hr-line-dashed"></div>
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">联系电话</label>
+                            <label class="col-sm-2 control-label">商品单位</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="phone" id="phone"> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="unit" id="unit" placeholder='商品单位，如：个、件等'>  <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">地址</label>
+                            <label class="col-sm-2 control-label">规格</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="address" id="address"> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="standard" id="standard"> <span class="help-block m-b-none"></span>
                             </div>
-                        </div>
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                            <label class="col-sm-2 control-label">银行卡号</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="bank_account" id="bank_account"> <span class="help-block m-b-none"></span>
                             </div>
-                        </div>
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                            <label class="col-sm-2 control-label">开户名</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="account_name" id="account_name"> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
-                            <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">开户银行</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="bank" id="bank"> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
-                            <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">备注</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="remark" id="remark"> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
                           <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">营业执照</label>
+                            <label class="col-sm-2 control-label">商品条码</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="code" id="code"> <span class="help-block m-b-none"></span>
+                            </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">条码照片</label>
                                 <div class="col-sm-8">
-                                    <a href="" class="hide"width="100"  height="100" id="pre_link" target="_blank">
-                                    <p><img width="100"  id="licence" height="100"style=" border: 1px solid #dddddd;" ></p>
+                                    <a href="" class="hide"width="100"  height="100" id="code_pre_link" target="_blank">
+                                    <p><img width="100"   target="_blank"  id="code_photo" height="100"style=" border: 1px solid #dddddd;" ></p>
                                     </a>
-                                    <input type="file" id="photo_input"  class="form-control"  onchange="UploadLicence(this)" >
+                                    <input type="file" id="code_photo_input"  class="form-control"  onchange="UploadBarCode(this)" >
                                 </div>
                             </div>
                              <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">公司照片</label>
-                                <div class="col-sm-8">
-                                    <a href="" class="hide"width="100"  height="100" id="pre_link" target="_blank">
-                                    <p><img width="100"  id="photo" height="100"style=" border: 1px solid #dddddd;" ></p>
-                                    </a>
-                                    <input type="file" id="photo_input"  class="form-control"  onchange="UploadPhoto(this)" >
+                           <div class="form-group  ">
+                            <label class="col-sm-2 control-label">产期</label>
+                            <div class="col-sm-8 form-inline">
+                                <input type="text"  class="form-control" name="start_month" id="start_month" placeholder="开始月份：1-12">
+                                <span>至</span>
+                                <input type="text"  class="form-control" name="end_month" id="end_month" placeholder="结束月份：1-12">
+                            </div>
+                        </div>
+                            <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">产地</label>
+                            <div class="col-sm-8">
+                                <div class="col-xs-2" style="padding: 0px">
+                                    <select  name="nation" class="form-control" id="nation" onchange="SelectNation(this)" >
+                                        {% fetch_city_nid query_set.country_id as city_id%}
+                                        {% fetch_province_nid city_id as province_id  %}
+                                        {% fetch_nation_nid province_id as nation_id  %}
+                                        {% if nid %}
+                                            {% build_nation_ele nation_id %}
+                                        {% else %}
+                                             <option value=0>请选择国家</option>
+                                        {% build_nation_ele %}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                               <label class="col-xs-1 control-label">省份</label>
+                                <div class="col-xs-2">
+                                    <select  name="province" class="form-control" id="province" onchange="SelectProvince(this)" >
+                                     {%  if  nid %}
+                                         {% build_province_ele nation_id province_id=province_id %}
+                                         {% else %}
+                                          <option value=0>请选择省份</option>
+                                     {% endif %}
+                                    </select>
+                                </div>
+                               <label class="col-xs-1 control-label">城市</label>
+                                <div class="col-xs-2">
+                                    <select  name="city" class="form-control" id="city" onchange="SelectCity(this)" >
+                                     {%  if  nid %}
+                                         {% build_city_ele province_id city_id=city_id %}
+                                         {% else %}
+                                          <option value=0>请选择城市</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                             <label class="col-xs-1 control-label">县区</label>
+                                <div class="col-xs-2">
+                                    <select  name="country_id" class="form-control" id="country"  >
+                                     {%  if  nid %}
+                                         {% build_country_ele city_id  query_set.country_id %}
+                                        {% endif %}
+                                    </select>
                                 </div>
                             </div>
+                        </div>
                              <div class="hr-line-dashed"></div>
                         <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
-                    {% if sid %}
-                        {% for obj in staff_attach%}
+                    {% if nid %}
+                        {% for obj in goods_attach%}
                              <div class="attachment">
                             <div class="form-group ">
                             <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
@@ -188,14 +191,14 @@
                     {%endif  %}
                   <div class="attachment">
                         <div  class="form-group ">
-                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件：</label>
+                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件</label>
                           <div class="col-xs-6">
                               <input type="file" name="file"  onchange="UploadFile(this)">
                               <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>
                           </div>
                         </div>
                         <div class="form-group">
-                            <label for="content" class="control-label col-xs-2">附件描述：</label>
+                            <label for="content" class="control-label col-xs-2">附件描述</label>
                             <div class="col-xs-8">
                                 <input name="content" class="form-control"  placeholder="附件描述">
                             </div>
@@ -210,7 +213,7 @@
                                  <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
                                  <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                  <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
-                                 <a href="{% url "staff_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                 <a href="{% url "goods_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
 
                                  <!--error_msg-->
                                  <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
@@ -233,7 +236,7 @@
      <script src="/static/js/jquery.cookie.js"></script>
 {#    <script src="/static/js/"></script>#}
     <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="/static/js/custom/form-validate-staff.min.js"></script>
+    <script src="/static/js/custom/form-validate.min.js"></script>
     <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
     <script>
         var csrftoken = $.cookie('csrftoken');
@@ -264,8 +267,8 @@ String.prototype.format=function()
     */
     $(function () {
         //如果tid不为0，则为创建
-        var sid="{{ sid }}"
-        if ( sid!=""){
+        var nid="{{ nid }}"
+        if ( nid!=""){
            InitData()//初始化数据
         }
         else {
@@ -275,40 +278,18 @@ String.prototype.format=function()
      //初始化数据
 function InitData() {
         //初始化form
-        $("#sid").val({{ query_set.sid }});
-        $("#job_number").val("{{ query_set.job_number }}");
+        $("#nid").val({{ query_set.nid }});
         $("#name").val("{{ query_set.name }}");
-        $("#phone").val("{% if  query_set.phone %}{{ query_set.phone }} {% endif %}");
-        $("input[name=gender]").val();
-        $("input[name=gender][value={{ query_set.gender }}]").attr("checked",true);
-        $("#email").val("{% if  query_set.email %}{{ query_set.email }} {% endif %}");
-        $("#company_id").val({{ query_set.company_id }});
-        $("#project_id").val({{ query_set.project_id }});
-        $("#department_id").val({{ query_set.department_id }});
-        $("#job_rank_id").val({{ query_set.job_rank_id }});
-        $("#job_title_id").val({{ query_set.job_title_id }});
-        $("#id_card").val("{{ query_set.id_card }}")
-        $("#birthday").val("{{ query_set.birthday |date:'Y-m-d'}}");
-        $("input[name=is_lunar][value={{ query_set.is_lunar }}]").attr("checked",true);
-        $("#nationality").val("{% if  query_set.nationality %}{{ query_set.nationality }} {% endif %}");
-        $("#native_place").val("{% if  query_set.native_place %}{{ query_set.native_place }} {% endif %}");
-        $("#education").val("{% if  query_set.education %}{{ query_set.education }} {% endif %}");
-        $("#recruit_channel").val("{% if  query_set.recruit_channel %}{{ query_set.recruit_channel }} {% endif %}");
-         $("#referrer").val("{% if  query_set.referrer %}{{ query_set.referrer }} {% endif %}");
-        $("#hire_day").val("{{ query_set.hire_day |date:'Y-m-d'}}");
-        $("#contact_phone").val("{% if  query_set.contact_phone %}{{ query_set.contact_phone }} {% endif %}");
-        $("#contact_man").val("{% if  query_set.contact_man %}{{ query_set.contact_man }} {% endif %}");
-         $("#contact_relation").val("{% if  query_set.contact_relation %}{{ query_set.contact_relation }} {% endif %}");
-        $("#bank").val("{% if  query_set.bank %}{{ query_set.bank }} {% endif %}");
-        $("#bank_account").val("{% if  query_set.bank_account %}{{ query_set.bank_account }} {% endif %}");
-        $("#account_name").val("{% if  query_set.account_name %}{{ query_set.account_name }} {% endif %}");
-        $("#family_address").val("{% if  query_set.family_address %}{{ query_set.family_address }} {% endif %}");
-        $("#current_address").val("{% if  query_set.current_address %}{{ query_set.current_address }} {% endif %}");
-        $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
-        //初始化生活照
+        $("#start_month").val("{% if  query_set.start_month %}{{ query_set.start_month }} {% endif %}");
+        $("#end_month").val("{% if  query_set.end_month %}{{ query_set.end_month }} {% endif %}");
+        $("#category_id").val({{ query_set.category_id }});
+        $("#description").val("{% if  query_set.description %}{{ query_set.description }} {% endif %}");
+        $("#standard").val("{% if  query_set.standard %}{{ query_set.standard }} {% endif %}");
+        $("#unit").val("{% if  query_set.unit %}{{ query_set.unit }} {% endif %}");
+        //初始化商品照
          var photo= "{{ life_photo }}"
         if (photo!=""){
-             var path="{{ life_photo.life_photo }}"
+             var path="{{ life_photo.photo }}"
             console.log(path)
              var name="{{ life_photo.name }}"
              //添加新的file
@@ -320,17 +301,29 @@ function InitData() {
             $("#photo_input").parent().find("input[name=file_path]").val(path)
              $("#photo_input").parent().find("input[name=file_name]").val(name)
             //预览
-            $("#life_photo").attr("src","/"+"{{ life_photo.life_photo }}")
-            $("#pre_link").attr("src","/"+"{{ life_photo.life_photo }}")
+            $("#photo").attr("src","/"+"{{ life_photo.photo }}")
+            $("#pre_link").attr("src","/"+"{{ life_photo.photo }}")
             $("#pre_link").removeClass("hide")
         }
-        //初始化附件
-        var staff_attach= "{{ staff_attach}}"
-       if (staff_attach !=""){
+         //初始化商品条码
+         var code_photo= "{{ goods_code }}"
+        if (code_photo!=""){
+             var path="{{ goods_code.photo }}"
+            console.log(path)
+             var name="{{ goods_code.name }}"
+             //添加新的file
+            var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
+            var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
+            $("#photo_input").parent().append(path_input);
+            $("#photo_input").parent().append(name_input);
 
-       }
-
-
+            $("#photo_input").parent().find("input[name=file_path]").val(path)
+             $("#photo_input").parent().find("input[name=file_name]").val(name)
+            //预览
+            $("#code_photo").attr("src","/"+"{{ goods_code.photo }}")
+            $("#code_pre_link").attr("src","/"+"{{ goods_code.photo }}")
+            $("#code_pre_link").removeClass("hide")
+        }
     }
 
 
@@ -436,7 +429,7 @@ function FetchAttachment(){
             var form = new FormData();
             form.append("file", file_obj);
             $.ajax({
-                url:"{% url 'life_photo' %}",
+                url:"{% url 'goods_photo' %}",
                 type:"POST",
                 data: form ,
                 dataType:"JSON",
@@ -454,7 +447,7 @@ function FetchAttachment(){
                     $(ths).parent().find("input[name=file_path]").val(arg.data.path)
                     $(ths).parent().find("input[name=file_name]").val(arg.data.name)
                     //预览
-                    $("#life_photo").attr("src","/"+arg.data.path)
+                    $("#photo").attr("src","/"+arg.data.path)
                     $("#pre_link").attr("src","/"+arg.data.path)
                     $("#pre_link").removeClass("hide")
                 },
@@ -463,6 +456,53 @@ function FetchAttachment(){
 
     }
 
+     /*
+    上传商品条码
+    */
+    function UploadBarCode(ths){
+        //去掉旧文件
+        $("#code_pre_link").addClass("hide")
+        $(ths).parent().find("input[name=file_path]").remove();
+        $(ths).parent().find("input[name=file_name]").remove();
+        //上传新文件
+        var file_obj = $(ths)[0].files[0];
+        if(file_obj){
+            var fileSize = file_obj.size;
+            var size = fileSize / 1024;
+            if(size>8000){
+                 alert("上传图片不能大于8M");
+                 $(ths)[0].value="";
+                 return false;   //阻止上传
+                 }
+            var form = new FormData();
+            form.append("file", file_obj);
+            $.ajax({
+                url:"{% url 'goods_code' %}",
+                type:"POST",
+                data: form ,
+                dataType:"JSON",
+                // 告诉jQuery不要去处理发送的数据
+                processData : false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType : false,
+                success:function (arg) {
+                    //添加新的file
+                    var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
+                    var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
+                    $(ths).parent().append(path_input);
+                    $(ths).parent().append(name_input);
+
+                    $(ths).parent().find("input[name=file_path]").val(arg.data.path)
+                    $(ths).parent().find("input[name=file_name]").val(arg.data.name)
+                    //预览
+                    $("#code_photo").attr("src","/"+arg.data.path)
+                    $("#code_pre_link").attr("src","/"+arg.data.path)
+                    $("#code_pre_link").removeClass("hide")
+                },
+            })
+        }
+
+    }
 //上传附件
 function UploadFile(ths){
     var file_obj = $(ths)[0].files[0];
@@ -477,7 +517,7 @@ function UploadFile(ths){
     var form = new FormData();
     form.append("file", file_obj);
     $.ajax({
-        url:"{% url 'staff_attach' %}",
+        url:"{% url 'goods_attach' %}",
         type:"POST",
         data: form ,
         dataType:"JSON",
@@ -501,13 +541,12 @@ function UploadFile(ths){
     })
 }
 
-//创建时获取生活照
-    function  FetchLifePhoto() {
-        var life_photo_path = $("#photo_input").next().val();
-        console.log("life_photo_path",life_photo_path)
-        var life_photo_name= $("#photo_input").next().next().val();
-        if (life_photo_path){
-             var life_photo = { "life_photo":life_photo_path,"name":life_photo_name}
+//创建时获取商品照片
+    function  FetchGoodsPhoto() {
+        var photo_path = $("#photo_input").next().val();
+        var photo_name= $("#photo_input").next().next().val();
+        if (photo_path){
+             var life_photo = { "photo":photo_path,"name":photo_name}
         }
         else{
             life_photo={}
@@ -515,21 +554,38 @@ function UploadFile(ths){
         life_photo = JSON.stringify(life_photo)
         return life_photo
     }
+        //创建时获取商品照片
+    function  FetchGoodsCode() {
+        var photo_path = $("#code_photo_input").next().val();
+        var photo_name= $("#code_photo_input").next().next().val();
+        if (photo_path){
+             var life_photo = { "photo":photo_path,"name":photo_name}
+        }
+        else{
+            life_photo={}
+        }
+        life_photo = JSON.stringify(life_photo)
+        return life_photo
+    }
+
 //添加or编辑
       function Submit(cons){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
-         var form =$("#fm");
+         var form =$("#good_fm");
          console.log(form)
         //验证表单
          if ( form.valid()){
               //把生活照添加到form中
-             var life_photo=FetchLifePhoto;
-             var life_photo_ele=$("<input type='text' class='hide' name='life_photo'  value={0} />".format(life_photo));
-             form.append(life_photo_ele)
+             var goods_photo= FetchGoodsPhoto();
+             var goods_photo_ele=$("<input type='text' class='hide' name='goods_photo'  value={0} />".format(goods_photo));
+             form.append(goods_photo_ele)
+              var goods_code=FetchGoodsCode();
+             var goods_code_ele=$("<input type='text' class='hide' name='goods_code'  value={0} />".format(goods_code));
+             form.append(goods_code_ele)
             //把附件添加到form中
-              var sid="{{ sid }}"
-             if(sid!=""){
+              var nid="{{ nid }}"
+             if(nid!=""){
                   //编辑
                  var attachment=GetAttachment()
                  var success_msg="修改成功"
@@ -541,18 +597,18 @@ function UploadFile(ths){
              var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
              form.append(attachment_ele)
              $.ajax({
-                url: '{% url "staff_edit" %}',
+                url: '{% url "goods_edit" %}',
                 type: 'POST',
                 data: form.serialize(),
                 dataType: 'JSON',
                 success: function (arg) {
                    if (arg.status) {
                         if (cons==1){
-                             window.location.href='{% url "staff_list" %}';
+                             window.location.href='{% url "goods_list" %}';
                         }else if(cons==2){
-                             window.location.href='{% url "staff_edit" %}';
+                             window.location.href='{% url "goods_edit" %}';
                         }else{
-                              window.location.href='{% url "staff_edit" %}?sid={0}'.format(arg.data);
+                              window.location.href='{% url "goods_edit" %}?id={0}'.format(arg.data);
                         }
                     } else {
                         $msg.parent().removeClass('hide');
@@ -562,7 +618,87 @@ function UploadFile(ths){
          })
          }
     }
+   // 根据城市获取县区的身份
+    function SelectCity(ths) {
+      var nid=$(ths).val();
+       $("#country").children().remove();
+      $.ajax({
+        url:"{% url "city_country" %}",
+        type:'get',
+        data:{"id":nid},
+        dataType:'json',
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
+		o.text = this['fields']['country'];
+		 $("#country").append(o);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
 
+
+    }
+ // 根据省份获取相应的城市
+    function SelectProvince(ths) {
+      var nid=$(ths).val();
+      $("#city").children().remove();
+      $("#country").children().remove();
+      $.ajax({
+        url:"{% url "province_city" %}",
+        type:'get',
+        data:{"id":nid},
+        dataType:'json',
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    $("#city").append("<option value=0 >请选择城市</option>")
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
+		o.text = this['fields']['city'];
+		 $("#city").append(o);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
+    }
+      // 根据国家获取相应的身份
+    function SelectNation(ths) {
+      var nid=$(ths).val();
+      $("#province").children().remove();
+       $("#city").children().remove();
+       $("#country").children().remove();
+      $.ajax({
+        url:"{% url "nation_province" %}",
+        type:'get',
+        data:{"id":nid},
+        dataType:'json',
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    $("#province").append("<option value=0 >请选择省份</option>")
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
+		o.text = this['fields']['province'];
+		 $("#province").append(o);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
+
+
+    }
 
 
  </script>

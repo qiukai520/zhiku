@@ -40,6 +40,12 @@ class StaffForm(django_forms.Form):
     remark = django_fields.CharField(required=False,max_length=128)
 
 
+class GoodsForm(django_forms.Form):
+    category_id = django_fields.IntegerField(error_messages={"required": "请选择商品分类"})
+    name = django_fields.CharField(error_messages={"required":"商品名称不能为空"})
+    country_id = django_fields.IntegerField(error_messages={"required": "请选择相应的县(区)"})
+
+
 class NationForm(django_forms.Form):
     nation = django_fields.CharField(error_messages={"required": "国家名称不能为空"})
 

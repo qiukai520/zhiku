@@ -48,3 +48,11 @@ def compare_json(record, modify_info, id_key):
         if int(key) not in update_id_list:
             delete_list_id_list.append(item.pk)
     return insert_list, update_list, delete_list_id_list
+
+
+def build_attachment_info(id_dict, attachment_list):
+    att_list = []
+    for item in attachment_list:
+        item.update(id_dict)
+        att_list.append(item)
+    return att_list

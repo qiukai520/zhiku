@@ -5,6 +5,10 @@
      #toolbar >button{
           margin: 0 2px;
       }
+     #cover img{
+        width: 75px;
+        height: 50px;
+    }
     </style>
 {%endblock %}
 {% block content %}
@@ -39,7 +43,7 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                     <a href="{% url "supplier_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                     <a href="{% url "goods_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
                                     <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
                                 <table id="task_sort"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
@@ -48,11 +52,11 @@
                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
                                              <th>商品分类</th>
                                              <th>商品名称</th>
-                                             <th>图片</th>
+                                             <th>商品图片</th>
+                                             <th>商品单位</th>
                                              <th>商品规格</th>
                                              <th>产地</th>
-                                             <th>开始月份</th>
-                                             <th>结束月份</th>
+                                             <th>产期</th>
                                              <th>操作</th>
                                           </tr>
                                     </thead>
@@ -61,19 +65,29 @@
                                       <tr>
                                           <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.nid }}"></td>
 {#                                          <td>{% change_to_company obj.company_id %}</td>#}
-                                          <td>{{ obj.job_number }}</td>
+                                          <td>{% change_to_goods_category obj.category_id%} </td>
                                           <td>{{ obj.name }}</td>
-{#                                          <td>{% change_to_sex obj.gender %} </td>#}
-                                          <td>{% if obj.native_place  %}{{ obj.native_place }}{% else  %}空{% endif %}</td>
-                                          <td>{% if obj.nationality  %}{{ obj.nationality }}{% else  %}空{% endif %}</td>
-                                          <td>{% if obj.education  %}{{ obj.education }}{% else  %}空{% endif %}</td>
-{#                                          <td>{% change_to_project  obj.project_id%}</td>#}
-{#                                          <td>{% change_to_department obj.department_id%} </td>#}
-                                           <td>{% if obj.phone  %}{{ obj.phone }}{% else  %}空{% endif %}</td>
-                                          <td>{% if obj.email  %}{{ obj.email }}{% else  %}空{% endif %}</td>
-                                          <td>{% if obj.birthday  %}{{ obj.birthday }}{% else  %}空{% endif %}</td>
+                                          {% fetch_goods_photo obj.nid  as good_photo%}
+                                          <td id="cover">
+                                              {% if good_photo %}
+                                                   <img src="/{{ good_photo }}" alt="">
+                                              {% else %}
+                                              {% endif %}
+                                          </td>
+                                          <td>{% if  obj.unit  %}{{ obj.unit }}{% else %}空{% endif %}</td>
+                                           <td>{% if  obj.standard  %}{{ obj.standard }}{% else %}空{% endif %}</td>
+                                          {% fetch_city_nid  obj.country_id  as city_id %}
+                                          {% fetch_province_nid  city_id  as province_id %}
+                                          {% fetch_nation_nid  province_id  as nation_id %}
+                                          <td>
+                                               {% change_to_nation nation_id %}/
+                                               {% change_to_province province_id  %}/
+                                              {% change_to_city city_id %}/
+                                              {% change_to_country obj.country_id %}
+                                          </td>
+                                          <td>{{ obj.start_month }}月-{{ obj.end_month }}月</td>
                                             <td>
-                                              <a  href="{%url "supplier_edit" %}?sid={{ obj.sid }}" class="btn btn-info" >编辑</a>
+                                              <a  href="{%url "goods_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
                                           </td>
                                       </tr>
                                       {% endfor %}

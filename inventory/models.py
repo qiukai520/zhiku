@@ -4,6 +4,7 @@ from django.db import models
 
 
 class Supplier(models.Model):
+    delete_status_choice = ((0, '删除'), (1, '保留'))
     nid = models.AutoField(primary_key=True)
     category = models.ForeignKey("SupplierCategory", to_field="nid", on_delete=models.CASCADE, verbose_name='供应商分类',
                                db_constraint=False)
@@ -23,6 +24,7 @@ class Supplier(models.Model):
                                db_constraint = False)
     address = models.CharField(max_length=64, verbose_name="地址", blank=True, null=True)
     remark = models.CharField(max_length=512, verbose_name="备注", blank=True, null=True)
+    delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
@@ -36,6 +38,8 @@ class Supplier(models.Model):
 
 
 class Goods(models.Model):
+    delete_status_choice = ((0, '删除'), (1, '保留'))
+
     nid = models.AutoField(primary_key=True)
     category = models.ForeignKey("GoodsCategory", to_field="nid", on_delete=models.CASCADE, verbose_name='商品分类',
                                db_constraint=False)
@@ -43,11 +47,13 @@ class Goods(models.Model):
     description = models.CharField(max_length=256,verbose_name="描述", blank=True, null=True)
 
     unit = models.CharField(max_length=64,verbose_name="商品单位")
+    code = models.CharField(max_length=64, verbose_name="商品条码")
     standard = models.IntegerField(verbose_name='商品规格', blank=True, null=True)
-    start_time = models.DateTimeField(blank=True, null=True, verbose_name='起始产期',)
-    end_time = models.DateTimeField(blank=True, null=True, verbose_name='结束期')
+    start_month = models.SmallIntegerField(blank=True, null=True, verbose_name='起始产期',)
+    end_month = models.SmallIntegerField(blank=True, null=True, verbose_name='结束期')
     country = models.ForeignKey("Country", to_field="nid", on_delete=models.CASCADE, verbose_name='县(区',
                                 db_constraint=False)
+    delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
@@ -58,6 +64,8 @@ class Goods(models.Model):
 
     def __str__(self):
         return self.name
+    _insert=["category_id","name","description","unit","code","standard","start_month","end_month","country_id"]
+    _update=["category_id","name","description","unit","code","standard","start_month","end_month","country_id"]
 
 
 class Linkman(models.Model):
@@ -180,7 +188,7 @@ class GoodsBarCode(models.Model):
     nid = models.AutoField(primary_key=True)
     goods = models.ForeignKey("Goods", to_field='nid', on_delete=models.CASCADE, db_constraint=False,
                               verbose_name='商品')
-    bar_code = models.CharField(max_length=128, blank=True, null=True, verbose_name='路径')
+    photo = models.CharField(max_length=128, blank=True, null=True, verbose_name='路径')
     name = models.CharField(max_length=128, blank=True, null=True, verbose_name='名称')
 
     class Meta:
@@ -190,8 +198,25 @@ class GoodsBarCode(models.Model):
 
     def __str__(self):
         return "商品条码:{0}".format(self.name)
+    _update = ["photo","name"]
 
-    _update = ["bar_code","name"]
+
+class GoodsPhoto(models.Model):
+    nid = models.AutoField(primary_key=True)
+    goods = models.ForeignKey("Goods", to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                              verbose_name='商品')
+    photo = models.CharField(max_length=128, blank=True, null=True, verbose_name='路径')
+    name = models.CharField(max_length=128, blank=True, null=True, verbose_name='名称')
+
+    class Meta:
+        db_table = 'goods_photo'
+        verbose_name = '商品图片'
+        verbose_name_plural = '商品图片'
+
+    def __str__(self):
+        return "商品图片:{0}".format(self.name)
+
+    _update = ["photo","name"]
 
 
 

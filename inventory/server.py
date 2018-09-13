@@ -208,6 +208,10 @@ class CountryDB(object):
         result_db = Country.objects.filter(nid=nid).first()
         return result_db
 
+    def query_country_by_city(self, city_id):
+        result_db = Country.objects.filter(city_id=city_id).all()
+        return result_db
+
     def update_country(self, modify_info):
         is_exist = self.is_exist(modify_info["country"], modify_info["city_id"])
         if is_exist:
@@ -225,6 +229,102 @@ class CountryDB(object):
         return result_db
 
 
+class GoodsDB(object):
+    """商品表"""
+    def insert_goods(self,modify_info):
+        staff_sql = """insert into goods(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        staff_sql = staff_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(staff_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_goods_list(self):
+        result_db = Goods.objects.filter(delete_status=1).all()
+        return result_db
+
+    def query_goods_by_id(self, nid):
+        result_db = Goods.objects.filter(nid=nid,delete_status=1).first()
+        return result_db
+
+    def query_goods_by_category(self, category_id):
+        result_db = Goods.objects.filter(category_id=category_id,delete_status=1).all()
+        return result_db
+
+    def update_goods(self, modify):
+        Goods.objects.filter(nid=modify['nid'],delete_status=1).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        Goods.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class GoodsPhotoDB(object):
+    """商品图片"""
+
+    def insert_photo(self, modify):
+        GoodsPhoto.objects.create(**modify)
+
+    def query_goods_photo(self,id):
+        result_db = GoodsPhoto.objects.filter(goods_id=id).first()
+        return result_db
+
+    def update_photo(self, modify):
+        GoodsPhoto.objects.filter(goods_id=modify["goods_id"]).update(**modify)
+
+    def delete_photo_by_goods_id(self, id):
+        GoodsPhoto.objects.filter(goods_id=id).delete()
+
+
+class GoodsBarCodeDB(object):
+    """商品条码"""
+
+    def insert_bar(self, modify):
+        GoodsBarCode.objects.create(**modify)
+
+    def query_goods_bar(self,id):
+        result_db = GoodsBarCode.objects.filter(goods_id=id).first()
+        return result_db
+
+    def update_bar(self, modify):
+        GoodsBarCode.objects.filter(goods_id=modify["goods_id"]).update(**modify)
+
+    def delete_photo_by_goods_id(self, id):
+        GoodsBarCode.objects.filter(goods_id=id).delete()
+
+
+class GoodsAttachDB(object):
+    """商品附件表"""
+    def query_goods_attachment_list(self):
+        result_db = GoodsAttach.objects.filter().all()
+        return result_db
+
+    def query_goods_attachment(self,id):
+        result_db = GoodsAttach.objects.filter(goods_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            GoodsAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            GoodsAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_goods_attachment(self, id_list):
+        GoodsAttach.objects.filter(nid__in=id_list).delete()
+
+    def multi_delete_attach_by_goods_id(self,id_list):
+        GoodsAttach.objects.filter(goods_id__in=id_list).filter().delete()
+
+    def delete_goods_attachment(self,nid):
+        GoodsAttach.objects.filter(nid=nid).delete()
+
+
 supplier_db = SupplierDB()
 industry_db = IndustryDB()
 supplier_category_db = SupplierCategoryDB()
@@ -233,5 +333,9 @@ nation_db = NationDB()
 province_db = ProvinceDB()
 city_db = CityDB()
 country_db = CountryDB()
+goods_db = GoodsDB()
+goods_photo_db = GoodsPhotoDB()
+goods_code_db = GoodsBarCodeDB()
+goods_attach_db = GoodsAttachDB()
 
 

@@ -1,3 +1,6 @@
+import uuid
+import os
+from django.db import transaction
 from django.shortcuts import render,HttpResponse
 from django.core import serializers
 from .server import *
@@ -16,11 +19,142 @@ def supplier_edit(request):
 
 
 def goods_list(request):
-    pass
+    query_sets = goods_db.query_goods_list()
+    return render(request, 'inventory/goods_list.html',{"query_sets":query_sets})
+
 
 
 def goods_edit(request):
-    pass
+    mothod = request.method
+    if mothod == "GET":
+        nid = request.GET.get("id", "")
+        if nid:
+            # 更新
+            query_sets = goods_db.query_goods_by_id(nid)
+            life_photo = goods_photo_db.query_goods_photo(nid)
+            goods_code = goods_code_db.query_goods_bar(nid)
+            goods_attach = goods_attach_db.query_goods_attachment(nid)
+            if not life_photo:
+                life_photo = {}
+            if not goods_attach:
+                goods_attach = {}
+            if not goods_code:
+                goods_code={}
+        else:
+            query_sets = {}
+            life_photo = {}
+            goods_attach = {}
+            goods_code = {}
+        print("query_sets",query_sets)
+        print("goods_code",goods_code.photo)
+        print("goods_attach",goods_attach)
+        print("ndi",nid)
+        return render(request, "inventory/goods_edit.html", {"query_set": query_sets,
+                                                             "life_photo": life_photo,
+                                                             "goods_code": goods_code,
+                                                             "goods_attach": goods_attach,
+                                                             "nid": nid})
+    else:
+        ret = {'status': False, "data": '', "message": ""}
+        form = GoodsForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            goods_photo = data.get("goods_photo", None)
+            goods_code = data.get("goods_code", None)
+            goods_attach = data.get("attach", None)
+            nid = data.get("nid", None)
+            goods_photo = json.loads(goods_photo)
+            goods_code = json.loads(goods_code)
+            goods_attach = list(json.loads(goods_attach))
+            if nid:
+                # 更新
+                try:
+                    with transaction.atomic():
+                        # 更新人事信息
+                        record = goods_db.query_goods_by_id(nid)
+                        goods_info = compare_fields(Goods._update, record, data)
+                        if goods_info:
+                            goods_info["nid"] = nid
+                            goods_db.update_goods(goods_info)
+                        # 插入人事生活照
+                        photo_record = goods_photo_db.query_goods_photo(nid)
+                        if goods_photo:
+                            # 数据对比
+                            if photo_record:
+                                final_photo = compare_fields(GoodsPhoto._update, photo_record, goods_photo)
+                                final_photo["goods_id"] = nid
+                                if final_photo:
+                                    goods_photo_db.update_photo(final_photo)
+                            else:
+                                goods_photo_db.insert_photo(goods_photo)
+                        else:
+                            # 删除旧数据
+                            if photo_record:
+                                goods_photo_db.delete_photo_by_goods_id(nid)
+                        if goods_code:
+                            # 数据对比
+                            if photo_record:
+                                final_photo = compare_fields(GoodsBarCode._update, photo_record, goods_code)
+                                final_photo["goods_id"] = nid
+                                if final_photo:
+                                    goods_code_db.update_bar(final_photo)
+                            else:
+                                goods_code_db.insert_bar(goods_code)
+                        else:
+                            # 删除旧数据
+                            if photo_record:
+                                goods_code_db.delete_photo_by_goods_id(nid)
+                        if goods_attach:
+                            # 更新附件
+                            att_record = goods_attach_db.query_goods_attachment(nid)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, goods_attach, "nid")
+                            if insert_att:
+                                insert_att = build_attachment_info({"goods_id": nid}, insert_att)
+                                goods_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                goods_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                goods_attach_db.mutil_delete_task_attachment(delete_id_att)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "更新失败"
+            else:
+                print("添加")
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入人事信息
+                        goods_info = filter_fields(Goods._insert, data)
+                        nid = goods_db.insert_goods(goods_info)
+                        print("nid",nid)
+                        # 插入商品照片
+                        if goods_photo:
+                            print("photo")
+                            goods_photo["goods_id"] = nid
+                            goods_photo_db.insert_photo(goods_photo)
+                        # 插入商品条码照
+                        if goods_code:
+                            goods_code["goods_id"] = nid
+                            goods_code_db.insert_bar(goods_code)
+                        if goods_attach:
+                            print("att")
+                            goods_attach = build_attachment_info({"goods_id": nid}, goods_attach)
+                            goods_attach_db.mutil_insert_attachment(goods_attach)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
 
 
 def industry_list(request):
@@ -400,7 +534,6 @@ def province_city(request):
     """根据省份获取城市"""
     ret = {"status":False,"data":"","message":""}
     id = request.GET.get("id")
-    print("id",id)
     if id:
         city_list = city_db.query_city_by_province(id)
         # 序列化queryset对象
@@ -409,5 +542,110 @@ def province_city(request):
         ret["data"] = data
     else:
         ret['message'] = "请选择相应的省份"
-    print(ret)
     return HttpResponse(json.dumps(ret))
+
+
+def city_country(request):
+    """根据城市获取县区"""
+    ret = {"status":False,"data":"","message":""}
+    id = request.GET.get("id")
+    if id:
+        country_list = country_db.query_country_by_city(id)
+        # 序列化queryset对象
+        data = serializers.serialize("json", country_list)
+        ret['status'] = True
+        ret["data"] = data
+    else:
+        ret['message'] = "请选择相应的城市"
+    return HttpResponse(json.dumps(ret))
+
+
+def goods_photo(request):
+    """商品照片上传"""
+    ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
+    # 保存路径
+    target_path = "media/upload/inventory/goods/photo"
+    try:
+        # 获取文件对象
+        file_obj = request.FILES.get("file")
+        raw_name = file_obj.name
+        postfix = raw_name.split(".")[-1]
+        if file_obj:
+            file_name = str(uuid.uuid4())+"."+postfix
+            if not os.path.exists(os.path.dirname(target_path)):
+                os.makedirs(target_path)
+            file_path = os.path.join(target_path, file_name)
+            # os.path.join()在Linux/macOS下会以斜杠（/）分隔路径，而在Windows下则会以反斜杠（\）分隔路径,
+            # 故统一路径将'\'替换成'/'
+            file_path = file_path.replace('\\',"/")
+            with open(file_path, "wb") as f:
+                for chunk in file_obj.chunks():
+                    f.write(chunk)
+            ret["status"] = True
+            ret["data"]['path'] = file_path
+            ret["data"]['name'] = raw_name
+    except Exception as e:
+        ret["summary"] = str(e)
+    return HttpResponse(json.dumps(ret))
+
+
+def goods_code(request):
+    """商品照片上传"""
+    ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
+    # 保存路径
+    target_path = "media/upload/inventory/goods/code"
+    try:
+        # 获取文件对象
+        file_obj = request.FILES.get("file")
+        raw_name = file_obj.name
+        postfix = raw_name.split(".")[-1]
+        if file_obj:
+            file_name = str(uuid.uuid4())+"."+postfix
+            if not os.path.exists(os.path.dirname(target_path)):
+                os.makedirs(target_path)
+            file_path = os.path.join(target_path, file_name)
+            # os.path.join()在Linux/macOS下会以斜杠（/）分隔路径，而在Windows下则会以反斜杠（\）分隔路径,
+            # 故统一路径将'\'替换成'/'
+            file_path = file_path.replace('\\',"/")
+            with open(file_path, "wb") as f:
+                for chunk in file_obj.chunks():
+                    f.write(chunk)
+            ret["status"] = True
+            ret["data"]['path'] = file_path
+            ret["data"]['name'] = raw_name
+    except Exception as e:
+        ret["summary"] = str(e)
+    return HttpResponse(json.dumps(ret))
+
+
+def goods_attach(request):
+    """商品附件上传"""
+    ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
+    # 保存路径
+    target_path = "media/upload/inventory/goods/attach"
+    try:
+        # 获取文件对象
+        file_obj = request.FILES.get("file")
+        raw_name = file_obj.name
+        postfix = raw_name.split(".")[-1]
+        if not file_obj:
+            pass
+        else:
+            file_name = str(uuid.uuid4()) + "." + postfix
+            # 查看路径是否存在，没有则生成
+            if not os.path.exists(os.path.dirname(target_path)):
+                os.makedirs(target_path)
+            file_path = os.path.join(target_path, file_name)
+            # os.path.join()在Linux/macOS下会以斜杠（/）分隔路径，而在Windows下则会以反斜杠（\）分隔路径,
+            # 故统一路径将'\'替换成'/'
+            file_path = file_path.replace('\\', "/")
+            with open(file_path, "wb") as f:
+                for chunk in file_obj.chunks():
+                    f.write(chunk)
+            ret["status"] = True
+            ret["data"]['path'] = file_path
+            ret["data"]['name'] = raw_name
+    except Exception as e:
+        ret["summary"] = str(e)
+    return HttpResponse(json.dumps(ret))
+

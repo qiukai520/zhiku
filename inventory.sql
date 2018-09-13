@@ -16,6 +16,7 @@ create TABLE `supplier`(
 `country_id`int(11)  NOT NUll COMMENT '县(区)',
 `address` varchar (128) COMMENT '详细地址',
 `remark` varchar (128) COMMENT '备注',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='供应商';
@@ -29,9 +30,11 @@ create TABLE `goods`(
 `description` varchar (512) COMMENT '商品描述',
 `standard` varchar (32)   COMMENT '商品规格',
 `unit` varchar (16) COMMENT '商品单位',
-`start_time` datetime  DEFAULT NUll COMMENT '起始产期',
-`end_time` datetime  DEFAULT NUll COMMENT '结束期',
+`code` varchar (32) COMMENT '商品条码',
+`start_month` tinyint(1)  COMMENT '起始产期:1-12月份',
+`end_month` tinyint(1)   COMMENT '结束期：1-12月份',
 `country_id`int(11)  NOT NUll COMMENT '县(区)',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品';
@@ -116,9 +119,19 @@ drop TABLE if exists `goods_bar_code`;
 create TABLE `goods_bar_code`(
 `nid` int(11) primary key auto_increment,
 `goods_id` int(11) NOT NULL  COMMENT '商品编号',
-`bar_code` varchar(128) COMMENT '路径',
+`photo` varchar(128) COMMENT '路径',
 `name` varchar(64) COMMENT '名称'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品条码';
+
+
+drop TABLE if exists `goods_photo`;
+create TABLE `goods_photo`(
+`nid` int(11) primary key auto_increment,
+`goods_id` int(11) NOT NULL  COMMENT '商品编号',
+`photo` varchar(128) COMMENT '路径',
+`name` varchar(64) COMMENT '名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品图片';
+
 
 drop TABLE if exists `industry`;
 create table `industry`(
