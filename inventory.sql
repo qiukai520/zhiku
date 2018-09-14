@@ -28,8 +28,8 @@ create TABLE `goods`(
 `category_id` smallint (6) COMMENT '商品分类',
 `name` varchar(32) NOT NUll COMMENT '商品名称',
 `description` varchar (512) COMMENT '商品描述',
-`standard` varchar (32)   COMMENT '商品规格',
-`unit` varchar (16) COMMENT '商品单位',
+`standard` varchar (32)   COMMsENT '商品规格',
+`unit_id` smallint (6) COMMENT '商品单位',
 `code` varchar (32) COMMENT '商品条码',
 `start_month` tinyint(1)  COMMENT '起始产期:1-12月份',
 `end_month` tinyint(1)   COMMENT '结束期：1-12月份',
@@ -101,7 +101,7 @@ drop TABLE if exists `supplier_licence`;
 create TABLE `supplier_licence`(
 `nid` int(11) primary key auto_increment,
 `supplier_id` int(11) NOT NULL  COMMENT '运营商',
-`licence` varchar(128) COMMENT '路径',
+`photo` varchar(128) COMMENT '路径',
 `name` varchar(64) COMMENT '名称'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='供应商营业执照';
 

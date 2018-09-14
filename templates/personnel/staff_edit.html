@@ -635,7 +635,7 @@ function UploadFile(ths){
         //验证表单
          if ( form.valid()){
               //把生活照添加到form中
-             var life_photo=FetchLifePhoto;
+             var life_photo=FetchLifePhoto();
              var life_photo_ele=$("<input type='text' class='hide' name='life_photo'  value={0} />".format(life_photo));
              form.append(life_photo_ele)
             //把附件添加到form中

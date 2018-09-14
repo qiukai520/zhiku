@@ -29,6 +29,8 @@ urlpatterns = [
     path("goods_edit", views.goods_edit, name='goods_edit'),
     path("goods_category", views.goods_category_list, name="goods_category_list"),
     path("goods_category_edit", views.goods_category_edit, name='goods_category_edit'),
+    path("goods_unit", views.goods_unit_list, name="goods_unit_list"),
+    path("goods_unit_edit", views.goods_unit_edit, name='goods_unit_edit'),
     path("nation", views.nation_list, name="nation_list"),
     path("nation_edit", views.nation_edit, name='nation_edit'),
     path("nation_province", views.nation_province, name='nation_province'),
@@ -43,6 +45,9 @@ urlpatterns = [
     path("supplier_category_edit", views.supplier_category_edit, name='supplier_category_edit'),
     path("upload_goods_photo", views.goods_photo, name="goods_photo"),
     path("upload_goods_code", views.goods_code, name="goods_code"),
+    path("upload_supplier_photo", views.supplier_photo, name="supplier_photo"),
+    path("upload_supplier_licence", views.supplier_licence, name="supplier_licence"),
+    path("upload_attach", views.supplier_attach, name="supplier_attach"),
     path("upload_attach", views.goods_attach, name="goods_attach"),
 
 ]

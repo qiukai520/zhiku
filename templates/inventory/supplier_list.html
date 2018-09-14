@@ -52,8 +52,8 @@
                                              <th>主营商品</th>
                                              <th>简介</th>
                                              <th>公司网站</th>
+                                              <th>电话</th>
                                              <th>所在区域</th>
-                                             <th>电话</th>
                                              <th>操作</th>
                                           </tr>
                                     </thead>
@@ -61,20 +61,24 @@
                                      {% for obj in query_sets %}
                                       <tr>
                                           <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.nid }}"></td>
-{#                                          <td>{% change_to_company obj.company_id %}</td>#}
-                                          <td>{{ obj.job_number }}</td>
-                                          <td>{{ obj.name }}</td>
-{#                                          <td>{% change_to_sex obj.gender %} </td>#}
-                                          <td>{% if obj.native_place  %}{{ obj.native_place }}{% else  %}空{% endif %}</td>
-                                          <td>{% if obj.nationality  %}{{ obj.nationality }}{% else  %}空{% endif %}</td>
-                                          <td>{% if obj.education  %}{{ obj.education }}{% else  %}空{% endif %}</td>
-{#                                          <td>{% change_to_project  obj.project_id%}</td>#}
-{#                                          <td>{% change_to_department obj.department_id%} </td>#}
-                                           <td>{% if obj.phone  %}{{ obj.phone }}{% else  %}空{% endif %}</td>
-                                          <td>{% if obj.email  %}{{ obj.email }}{% else  %}空{% endif %}</td>
-                                          <td>{% if obj.birthday  %}{{ obj.birthday }}{% else  %}空{% endif %}</td>
+                                          <td>{% change_to_supplier_category obj.category_id%} </td>
+                                          <td>{{ obj.company }}</td>
+                                          <td>{% change_to_industry obj.industry_id%}</td>
+{#                                            <td>{% change_to_goods obj.goods_id%}</td>
+                                          <td>{% if obj.introduce  %}{{ obj.introduce }}{% else  %}空{% endif %}</td>
+                                          <td>{% if obj.website  %}{{ obj.website }}{% else  %}空{% endif %}</td>
+                                          <td>{% if obj.phone  %}{{ obj.phone }}{% else  %}空{% endif %}</td>
+                                       {% fetch_city_nid  obj.country_id  as city_id %}
+                                          {% fetch_province_nid  city_id  as province_id %}
+                                          {% fetch_nation_nid  province_id  as nation_id %}
+                                          <td>
+                                               {% change_to_nation nation_id %}/
+                                               {% change_to_province province_id  %}/
+                                              {% change_to_city city_id %}/
+                                              {% change_to_country obj.country_id %}
+                                          </td>
                                             <td>
-                                              <a  href="{%url "supplier_edit" %}?sid={{ obj.sid }}" class="btn btn-info" >编辑</a>
+                                              <a  href="{%url "supplier_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
                                           </td>
                                       </tr>
                                       {% endfor %}

@@ -78,7 +78,9 @@
                            <div class="form-group">
                             <label class="col-sm-2 control-label">商品单位</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="unit" id="unit" placeholder='商品单位，如：个、件等'>  <span class="help-block m-b-none"></span>
+                                 <select  name="unit_id" class="form-control" id="unit_id" >
+                                    {% build_goods_unit_ele %}
+                                </select>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
@@ -170,7 +172,7 @@
                             <div class="form-group ">
                             <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
                               <div class="col-xs-8">
-                                  <input type="text" name="said" class="hidden" value="{{ obj.said }}">
+                                  <input type="text" name="attach_id" class="hidden" value="{{ obj.nid }}">
                                   <div class="old_file">
                                   <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}" style="color:blue;margin-top:6px;display: inline-block">{{ obj.name }}</a>
                                   <span onclick="clearAttachment(this)" style=" color:blue; margin-left: 50px;">点击清除</span>
@@ -260,8 +262,6 @@ String.prototype.format=function()
     s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
   return s;
 };
-
-
  /*
     自执行函数
     */
@@ -280,12 +280,13 @@ function InitData() {
         //初始化form
         $("#nid").val({{ query_set.nid }});
         $("#name").val("{{ query_set.name }}");
-        $("#start_month").val("{% if  query_set.start_month %}{{ query_set.start_month }} {% endif %}");
-        $("#end_month").val("{% if  query_set.end_month %}{{ query_set.end_month }} {% endif %}");
+        $("#start_month").val({% if  query_set.start_month %}{{ query_set.start_month }} {% endif %});
+        $("#end_month").val({% if  query_set.end_month %}{{ query_set.end_month }} {% endif %});
         $("#category_id").val({{ query_set.category_id }});
         $("#description").val("{% if  query_set.description %}{{ query_set.description }} {% endif %}");
         $("#standard").val("{% if  query_set.standard %}{{ query_set.standard }} {% endif %}");
-        $("#unit").val("{% if  query_set.unit %}{{ query_set.unit }} {% endif %}");
+        $("#code").val("{% if  query_set.code %}{{ query_set.code }} {% endif %}");
+        $("#unit_id").val({{ query_set.unit_id }});
         //初始化商品照
          var photo= "{{ life_photo }}"
         if (photo!=""){
@@ -314,24 +315,20 @@ function InitData() {
              //添加新的file
             var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
             var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
-            $("#photo_input").parent().append(path_input);
-            $("#photo_input").parent().append(name_input);
+            $("#code_photo_input").parent().append(path_input);
+            $("#code_photo_input").parent().append(name_input);
 
-            $("#photo_input").parent().find("input[name=file_path]").val(path)
-             $("#photo_input").parent().find("input[name=file_name]").val(name)
+            $("#code_photo_input").parent().find("input[name=file_path]").val(path)
+             $("#code_photo_input").parent().find("input[name=file_name]").val(name)
             //预览
             $("#code_photo").attr("src","/"+"{{ goods_code.photo }}")
             $("#code_pre_link").attr("src","/"+"{{ goods_code.photo }}")
             $("#code_pre_link").removeClass("hide")
         }
     }
-
-
 //添加附件
-
 var att_num=1
 //如果是修改的话，附件计数器设定为已存在的附件
-
 
 function  AddAttachment (ths){
     var tag = $(ths).parent().parent().parent().clone();
@@ -352,20 +349,18 @@ function RemoveAttachment(ths){
         i+=1
     })
 }
-
 //清除任务附件标签
 function clearAttachment(ths) {
     $(ths).parent().parent().parent().parent().remove()
     att_num-=1
 }
 
-
 //修改时获取附件
 function GetAttachment(){
      var attachment_list=new Array()
      $(".attachment").each(function () {
         var attachment = {"attachment":'',"description":'',"name":'',};
-        var said= $(this).find("input[name=said]").val();
+        var attach_id= $(this).find("input[name=attach_id]").val();
         var file_path= $(this).find("input[name=file_path]").val();
         if (file_path==null){
             //空附件处理
@@ -377,15 +372,14 @@ function GetAttachment(){
         attachment.attachment=file_path;
         attachment.description=content;
         attachment.name=name;
-        if (said){
-            attachment['said']=said;
+        if (attach_id){
+            attachment['nid']=attach_id;
         }
         attachment_list.push(attachment)
         });
       attachment_list=JSON.stringify(attachment_list)//对象转化成json
     return attachment_list
 }
-
 //创建时获取附件
 function FetchAttachment(){
     var attachment_list=new Array()
@@ -406,8 +400,6 @@ function FetchAttachment(){
     attachment_list=JSON.stringify(attachment_list)//对象转化成json
     return attachment_list
 }
-
-
  /*
     上传图片
     */
@@ -453,9 +445,7 @@ function FetchAttachment(){
                 },
             })
         }
-
     }
-
      /*
     上传商品条码
     */
@@ -501,7 +491,6 @@ function FetchAttachment(){
                 },
             })
         }
-
     }
 //上传附件
 function UploadFile(ths){
@@ -540,7 +529,6 @@ function UploadFile(ths){
         },
     })
 }
-
 //创建时获取商品照片
     function  FetchGoodsPhoto() {
         var photo_path = $("#photo_input").next().val();
@@ -567,7 +555,6 @@ function UploadFile(ths){
         life_photo = JSON.stringify(life_photo)
         return life_photo
     }
-
 //添加or编辑
       function Submit(cons){
          var $msg = $('#error_msg');
@@ -641,8 +628,6 @@ function UploadFile(ths){
           alert(arg.message);
         },
     });
-
-
     }
  // 根据省份获取相应的城市
     function SelectProvince(ths) {
@@ -696,8 +681,6 @@ function UploadFile(ths){
           alert(arg.message);
         },
     });
-
-
     }
 
 

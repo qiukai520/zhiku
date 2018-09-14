@@ -15,6 +15,10 @@ class GoodsCategoryForm(django_forms.Form):
     caption = django_fields.CharField(error_messages={"required": "商品分类名称不能为空"})
 
 
+class GoodsUnitForm(django_forms.Form):
+    caption = django_fields.CharField(error_messages={"required": "商品单位名称不能为空"})
+
+
 class StaffForm(django_forms.Form):
     job_number = django_fields.CharField(error_messages={"required": "工号不能为空"}, max_length=32)
     name = django_fields.CharField(error_messages={"required":"员工姓名不能为空"},max_length=16)
@@ -43,6 +47,12 @@ class StaffForm(django_forms.Form):
 class GoodsForm(django_forms.Form):
     category_id = django_fields.IntegerField(error_messages={"required": "请选择商品分类"})
     name = django_fields.CharField(error_messages={"required":"商品名称不能为空"})
+    country_id = django_fields.IntegerField(error_messages={"required": "请选择相应的县(区)"})
+
+
+class SupplierForm(django_forms.Form):
+    category_id = django_fields.IntegerField(error_messages={"required": "请选择商品分类"})
+    company = django_fields.CharField(error_messages={"required": "公司名称不能为空"})
     country_id = django_fields.IntegerField(error_messages={"required": "请选择相应的县(区)"})
 
 

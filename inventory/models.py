@@ -36,6 +36,11 @@ class Supplier(models.Model):
     def __str__(self):
         return self.company
 
+    _insert = [ "category_id","company", "industry_id", "employees","goods_id","introduce",'website',"remark","address",
+                "country_id","account_name","bank_account","bank","phone"]
+    _update = ["category_id", "company", "industry_id", "employees", "goods_id", "introduce", 'website', "remark", "address",
+               "country_id", "account_name", "bank_account", "bank", "phone"]
+
 
 class Goods(models.Model):
     delete_status_choice = ((0, '删除'), (1, '保留'))
@@ -46,9 +51,10 @@ class Goods(models.Model):
     name = models.CharField(max_length=64,verbose_name="商品名称")
     description = models.CharField(max_length=256,verbose_name="描述", blank=True, null=True)
 
-    unit = models.CharField(max_length=64,verbose_name="商品单位")
+    unit = models.ForeignKey("GoodsUnit", to_field="nid", on_delete=models.CASCADE, verbose_name='商品单位',
+                                 db_constraint=False)
     code = models.CharField(max_length=64, verbose_name="商品条码")
-    standard = models.IntegerField(verbose_name='商品规格', blank=True, null=True)
+    standard = models.CharField(max_length=32,verbose_name='商品规格', blank=True, null=True)
     start_month = models.SmallIntegerField(blank=True, null=True, verbose_name='起始产期',)
     end_month = models.SmallIntegerField(blank=True, null=True, verbose_name='结束期')
     country = models.ForeignKey("Country", to_field="nid", on_delete=models.CASCADE, verbose_name='县(区',
@@ -152,7 +158,7 @@ class SupplierLicence(models.Model):
     nid = models.AutoField(primary_key=True)
     supplier = models.ForeignKey('Supplier', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
                               verbose_name='供应商')
-    licence = models.CharField(max_length=255, blank=True, null=True, verbose_name='路径')
+    photo = models.CharField(max_length=255, blank=True, null=True, verbose_name='路径')
     name = models.CharField(max_length=128, blank=True, null=True, verbose_name='名称')
 
     class Meta:
@@ -220,20 +226,20 @@ class GoodsPhoto(models.Model):
 
 
 
-# class GoodsUnit(models.Model):
-#     nid = models.AutoField(primary_key=True)
-#     caption = models.CharField(max_length=16,verbose_name="单位")
-#
-#     class Meta:
-#         db_table = 'goods_unit'
-#         verbose_name = '商品单位'
-#         verbose_name_plural = '商品单位'
-#
-#     def __str__(self):
-#         return self.caption
-#
-#     _insert = ["caption"]
-#     _update = ["caption"]
+class GoodsUnit(models.Model):
+    nid = models.AutoField(primary_key=True)
+    caption = models.CharField(max_length=16,verbose_name="单位")
+
+    class Meta:
+        db_table = 'goods_unit'
+        verbose_name = '商品单位'
+        verbose_name_plural = '商品单位'
+
+    def __str__(self):
+        return self.caption
+
+    _insert = ["caption"]
+    _update = ["caption"]
 
 
 class GoodsCategory(models.Model):

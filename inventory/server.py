@@ -3,21 +3,21 @@ from .models import *
 
 
 class SupplierDB(object):
-    """员工表"""
+    """供应商表"""
     gender_choice = ({"id": 0, "caption": "男"}, {"id": 1, "caption": "女"})
 
-    def insert_staff(self, modify_info):
-        staff_sql = """insert into supplier(%s) value(%s);"""
+    def insert_supplier(self, modify_info):
+        supplier_sql = """insert into supplier(%s) value(%s);"""
         k_list = []
         v_list = []
         for k, v in modify_info.items():
             k_list.append(k)
             v_list.append("%%(%s)s" % k)
-        staff_sql = staff_sql % (",".join(k_list), ",".join(v_list))
+        supplier_sql = supplier_sql % (",".join(k_list), ",".join(v_list))
         cursor = connection.cursor()
-        cursor.execute(staff_sql, modify_info)
-        sid = cursor.lastrowid
-        return sid
+        cursor.execute(supplier_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
 
     def query_supplier_list(self):
         result_db = Supplier.objects.filter(delete_status=1).all()
@@ -33,6 +33,67 @@ class SupplierDB(object):
 
     def multi_delete(self, id_list, delete_status):
         Supplier.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class SupplierPhotoDB(object):
+    """供应商图片"""
+
+    def insert_photo(self, modify):
+        SupplierPhoto.objects.create(**modify)
+
+    def query_supplier_photo(self,id):
+        result_db = SupplierPhoto.objects.filter(supplier_id=id).first()
+        return result_db
+
+    def update_photo(self, modify):
+        SupplierPhoto.objects.filter(supplier_id=modify["supplier_id"]).update(**modify)
+
+    def delete_photo_by_supplier_id(self, id):
+        SupplierPhoto.objects.filter(supplier_id=id).delete()
+
+class SupplierLicenceDB(object):
+    """商品营业执照"""
+
+    def insert_photo(self, modify):
+        SupplierLicence.objects.create(**modify)
+
+    def query_supplier_licence(self,id):
+        result_db = SupplierLicence.objects.filter(supplier_id=id).first()
+        return result_db
+
+    def update_licence(self, modify):
+        SupplierLicence.objects.filter(supplier_id=modify["supplier_id"]).update(**modify)
+
+    def delete_licence_by_supplier_id(self,id):
+        SupplierLicence.objects.filter(supplier_id=id).delete()
+
+
+class SupplierAttachDB(object):
+    """供应商附件表"""
+    def query_supplier_attachment_list(self):
+        result_db = SupplierAttach.objects.filter().all()
+        return result_db
+
+    def query_supplier_attachment(self,id):
+        result_db = SupplierAttach.objects.filter(supplier_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            SupplierAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            SupplierAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_goods_attachment(self, id_list):
+        SupplierAttach.objects.filter(nid__in=id_list).delete()
+
+    def multi_delete_attach_by_supplier_id(self,id_list):
+        SupplierAttach.objects.filter(supplier_id__in=id_list).filter().delete()
+
+    def delete_supplier_attachment(self,nid):
+        SupplierAttach.objects.filter(nid=nid).delete()
 
 
 class IndustryDB(object):
@@ -82,7 +143,7 @@ class SupplierCategoryDB(object):
 
 
 class GoodsCategoryDB(object):
-    """供应商分类"""
+    """商品分类"""
     def query_category_list(self):
         result_db = GoodsCategory.objects.filter().all()
         return result_db
@@ -102,6 +163,29 @@ class GoodsCategoryDB(object):
         if is_exist:
             raise Exception("该商品分类名称已存在")
         GoodsCategory.objects.create(**modify_info)
+
+
+class GoodsUnitDB(object):
+    """商品单位"""
+    def query_unit_list(self):
+        result_db = GoodsUnit.objects.filter().all()
+        return result_db
+
+    def query_unit_by_id(self, nid):
+        result_db = GoodsUnit.objects.filter(nid=nid).first()
+        return result_db
+
+    def update_unit(self, modify_info):
+        is_exist = GoodsUnit.objects.filter(caption=modify_info['caption']).first()
+        if is_exist:
+            raise Exception("该商品单位已存在")
+        GoodsUnit.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_unit(self, modify_info):
+        is_exist = GoodsUnit.objects.filter(caption=modify_info['caption']).first()
+        if is_exist:
+            raise Exception("该商品单位已存在")
+        GoodsUnit.objects.create(**modify_info)
 
 
 class NationDB(object):
@@ -326,9 +410,13 @@ class GoodsAttachDB(object):
 
 
 supplier_db = SupplierDB()
+supplier_photo_db = SupplierPhotoDB()
+supplier_licence_db = SupplierLicenceDB()
+supplier_attach_db =SupplierAttachDB()
 industry_db = IndustryDB()
 supplier_category_db = SupplierCategoryDB()
 goods_category_db = GoodsCategoryDB()
+goods_unit_db = GoodsUnitDB()
 nation_db = NationDB()
 province_db = ProvinceDB()
 city_db = CityDB()

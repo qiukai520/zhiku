@@ -7,7 +7,6 @@ register = template.Library()
 @register.simple_tag
 def build_goods_category_ele(selected=None):
     """构建商品分类下拉框"""
-    """构建国家下拉框"""
     category_list = goods_category_db.query_category_list()
     eles = ""
     if selected:
@@ -20,6 +19,83 @@ def build_goods_category_ele(selected=None):
     else:
         for item in category_list:
             ele = """<option value={0}>{1}</option>""".format(item.nid, item.caption)
+            eles += ele
+    return mark_safe(eles)
+
+
+@register.simple_tag
+def build_goods_unit_ele(selected=None):
+    """构建商品分类下拉框"""
+    unit_list = goods_unit_db.query_unit_list()
+    eles = ""
+    if selected:
+        for item in unit_list:
+            if item.nid == selected:
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.nid, item.caption)
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.caption)
+            eles += ele
+    else:
+        for item in unit_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.caption)
+            eles += ele
+    return mark_safe(eles)
+
+
+@register.simple_tag
+def build_supplier_category_ele(selected=None):
+    """构建供应商分类下拉框"""
+    category_list = supplier_category_db.query_category_list()
+    eles = ""
+    if selected:
+        for item in category_list:
+            if item.nid == selected:
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.nid, item.caption)
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.caption)
+            eles += ele
+    else:
+        for item in category_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.caption)
+            eles += ele
+    return mark_safe(eles)
+
+
+@register.simple_tag
+def build_industry_category_ele(selected=None):
+    """构建供应商行业下拉框"""
+    industry_list = industry_db.query_industry_list()
+    eles = ""
+    if selected:
+        for item in industry_list:
+            if item.nid == selected:
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.nid, item.industry)
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.industry)
+            eles += ele
+    else:
+        for item in industry_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.industry)
+            eles += ele
+    return mark_safe(eles)
+
+
+
+@register.simple_tag
+def build_goods_ele(selected=None):
+    """构建商品下拉框"""
+    goods_list = goods_db.query_goods_list()
+    eles = ""
+    if selected:
+        for item in goods_list:
+            if item.nid == selected:
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.nid, item.name)
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.name)
+            eles += ele
+    else:
+        for item in goods_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.name)
             eles += ele
     return mark_safe(eles)
 
@@ -152,6 +228,32 @@ def change_to_goods_category(id):
         obj = goods_category_db.query_category_by_id(id)
         if obj:
             return obj.caption
+
+
+@register.simple_tag
+def change_to_supplier_category(id):
+    """转换成供应商分类"""
+    if id:
+        obj = supplier_category_db.query_category_by_id(id)
+        if obj:
+            return obj.caption
+
+@register.simple_tag
+def change_to_industry(id):
+    """转换行业分类"""
+    if id:
+        obj = industry_db.query_industry_by_id(id)
+        if obj:
+            return obj.industry
+
+
+@register.simple_tag
+def change_to_goods(id):
+    """转换成商品"""
+    if id:
+        obj = goods_db.query_goods_by_id(id)
+        if obj:
+            return obj.name
 
 
 @register.simple_tag
