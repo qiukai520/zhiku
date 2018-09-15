@@ -62,7 +62,7 @@
                                 <label class="col-sm-2 control-label">商品照片</label>
                                 <div class="col-sm-8">
                                     <a href="" class="hide"width="100"  height="100" id="pre_link" target="_blank">
-                                    <p><img width="100"  target="_blank"  id="photo" height="100"style=" border: 1px solid #dddddd;" ></p>
+                                    <p><img width="100"  target="_blank"  id="photo" height="100"style=" border: 1px solid #dddddd;"  onclick="javascript:window.open(this.src)"></p>
                                     </a>
                                     <input type="file" id="photo_input"  class="form-control"  onchange="UploadImage(this)" >
                                 </div>
@@ -102,7 +102,7 @@
                                 <label class="col-sm-2 control-label">条码照片</label>
                                 <div class="col-sm-8">
                                     <a href="" class="hide"width="100"  height="100" id="code_pre_link" target="_blank">
-                                    <p><img width="100"   target="_blank"  id="code_photo" height="100"style=" border: 1px solid #dddddd;" ></p>
+                                    <p><img width="100"   target="_blank"  id="code_photo" height="100"style=" border: 1px solid #dddddd;" onclick="javascript:window.open(this.src)" ></p>
                                     </a>
                                     <input type="file" id="code_photo_input"  class="form-control"  onchange="UploadBarCode(this)" >
                                 </div>
@@ -286,9 +286,10 @@ function InitData() {
         $("#description").val("{% if  query_set.description %}{{ query_set.description }} {% endif %}");
         $("#standard").val("{% if  query_set.standard %}{{ query_set.standard }} {% endif %}");
         $("#code").val("{% if  query_set.code %}{{ query_set.code }} {% endif %}");
-        $("#unit_id").val({{ query_set.unit_id }});
+        $("#unit_id").val({% if query_set.unit_id  %}{{ query_set.unit_id }}{% endif %});
         //初始化商品照
          var photo= "{{ life_photo }}"
+         console.log("life_photo",photo)
         if (photo!=""){
              var path="{{ life_photo.photo }}"
             console.log(path)

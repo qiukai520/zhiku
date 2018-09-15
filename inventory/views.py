@@ -34,7 +34,6 @@ def supplier_edit(request):
             supplier_photo = {}
             supplier_licence = {}
             supplier_attach = {}
-        print(supplier_photo.photo)
         print(supplier_licence)
         print(supplier_attach)
         return render(request, "inventory/supplier_edit.html", {"query_set": query_sets,
@@ -50,8 +49,6 @@ def supplier_edit(request):
             data = data.dict()
             supplier_photo = data.get("supplier_photo", None)
             supplier_licence = data.get("supplier_licence", None)
-            print("supplier_licence",supplier_licence)
-            print("supplier_photo",supplier_photo)
             supplier_attach = data.get("attach", None)
             nid = data.get("nid", None)
             supplier_photo = json.loads(supplier_photo)
@@ -64,13 +61,14 @@ def supplier_edit(request):
                         # 更新商品信息
                         record = supplier_db.query_supplier_by_id(nid)
                         supplier_info = compare_fields(Supplier._update, record, data)
-                        if  supplier_info:
+                        if supplier_info:
                             supplier_info["nid"] = nid
                             supplier_db.update_supplier(supplier_info)
-                        # 插入商品照片
+                        # 插入供应商照片
                         photo_record = supplier_photo_db.query_supplier_photo(nid)
                         if supplier_photo:
                             # 数据对比
+                            supplier_licence["supplier_id"] = nid
                             if photo_record:
                                 final_photo = compare_fields(SupplierPhoto._update, photo_record, supplier_photo)
                                 final_photo["supplier_id"] = nid
@@ -82,10 +80,13 @@ def supplier_edit(request):
                             # 删除旧数据
                             if photo_record:
                                 supplier_photo_db.delete_photo_by_supplier_id(nid)
+                        # 插入供应商执照
+                        licence_record = supplier_licence_db.query_supplier_licence(nid)
                         if supplier_licence:
                             # 数据对比
-                            if photo_record:
-                                final_photo = compare_fields(SupplierLicence._update, photo_record, supplier_licence)
+                            supplier_licence["supplier_id"] = nid
+                            if licence_record:
+                                final_photo = compare_fields(SupplierLicence._update, licence_record, supplier_licence)
                                 final_photo["supplier_id"] = nid
                                 if final_photo:
                                     supplier_licence_db.update_licence(final_photo)
@@ -93,7 +94,7 @@ def supplier_edit(request):
                                 supplier_licence_db.insert_photo(supplier_licence)
                         else:
                             # 删除旧数据
-                            if photo_record:
+                            if licence_record:
                                 supplier_licence_db.delete_licence_by_supplier_id(nid)
                         if supplier_attach:
                             # 更新附件
@@ -106,34 +107,28 @@ def supplier_edit(request):
                             if update_att:
                                 supplier_attach_db.mutil_update_attachment(update_att)
                             if delete_id_att:
-                                supplier_attach_db.mutil_delete_task_attachment(delete_id_att)
+                                supplier_attach_db.mutil_delete_supplier_attachment(delete_id_att)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
                     print(e)
                     ret["message"] = "更新失败"
             else:
-                print("添加")
                 # 创建
                 try:
                     with transaction.atomic():
                         # 插入供应商信息
-                        print("data",data)
                         supplier_info = filter_fields(Supplier._insert, data)
                         nid = supplier_db.insert_supplier(supplier_info)
-                        print("nid", nid)
                         # 插入供应商照片
                         if supplier_photo:
-                            print("photo",supplier_photo)
                             supplier_photo["supplier_id"] = nid
                             supplier_photo_db.insert_photo(supplier_photo)
                         # 插入供应商执照
                         if supplier_licence:
-                            print("licence",supplier_licence)
                             supplier_licence["supplier_id"] = nid
                             supplier_licence_db.insert_photo(supplier_licence)
                         if supplier_attach:
-                            print("att")
                             supplier_attach = build_attachment_info({"supplier_id": nid}, supplier_attach)
                             supplier_attach_db.mutil_insert_attachment(supplier_attach)
                         ret['status'] = True
@@ -175,7 +170,9 @@ def goods_edit(request):
             life_photo = {}
             goods_attach = {}
             goods_code = {}
-
+        print("life_photo",life_photo)
+        print("goods_attach",goods_attach)
+        print("goods_code",goods_code)
         return render(request, "inventory/goods_edit.html", {"query_set": query_sets,
                                                              "life_photo": life_photo,
                                                              "goods_code": goods_code,

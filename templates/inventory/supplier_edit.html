@@ -190,7 +190,7 @@
                                 <label class="col-sm-2 control-label">营业执照</label>
                                 <div class="col-sm-8">
                                     <a href="" class="hide"width="100"  height="100" id="licence_pre_link" target="_blank">
-                                    <p><img width="100"  id="licence" height="100" style=" border: 1px solid #dddddd;" ></p>
+                                    <p><img width="100"  id="licence"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
                                     </a>
                                     <input type="file" id="licence_input"  class="form-control"  onchange="UploadLicence(this)" >
                                 </div>
@@ -200,7 +200,7 @@
                                 <label class="col-sm-2 control-label">公司照片</label>
                                 <div class="col-sm-8">
                                     <a href="" class="hide"width="100"  height="100" id="pre_link" target="_blank">
-                                    <p><img width="100"  id="photo" height="100"style=" border: 1px solid #dddddd;" ></p>
+                                    <p><img width="100"  id="photo" height="100"style=" border: 1px solid #dddddd;"  onclick="javascript:window.open(this.src)" ></p>
                                     </a>
                                     <input type="file" id="photo_input"  class="form-control"  onchange="UploadPhoto(this)" >
                                 </div>
@@ -214,7 +214,7 @@
                             <div class="form-group ">
                             <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
                               <div class="col-xs-8">
-                                  <input type="text" name="said" class="hidden" value="{{ obj.said }}">
+                                  <input type="text" name="attach_id" class="hidden" value="{{ obj.nid }}">
                                   <div class="old_file">
                                   <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}" style="color:blue;margin-top:6px;display: inline-block">{{ obj.name }}</a>
                                   <span onclick="clearAttachment(this)" style=" color:blue; margin-left: 50px;">点击清除</span>
@@ -328,9 +328,9 @@ function InitData() {
         $("#introduce").val("{% if  query_set.introduce %}{{ query_set.introduce }} {% endif %}");
          $("#website").val("{% if  query_set.website %}{{ query_set.website }} {% endif %}");
         $("#employees").val("{% if  query_set.employees %}{{ query_set.employees }} {% endif %}");
-        $("#remark").val("{% if  query_set.code %}{{ query_set.remark }} {% endif %}");
-        $("#phone").val("{% if  query_set.unit %}{{ query_set.phone }} {% endif %}");
-    $("#bank").val("{% if  query_set.bank %}{{ query_set.bank }} {% endif %}");
+        $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
+        $("#phone").val("{% if  query_set.phone %}{{ query_set.phone }} {% endif %}");
+        $("#bank").val("{% if  query_set.bank %}{{ query_set.bank }} {% endif %}");
         $("#bank_account").val("{% if  query_set.bank_account %}{{ query_set.bank_account }} {% endif %}");
         $("#account_name").val("{% if  query_set.account_name %}{{ query_set.account_name }} {% endif %}");
         $("#address").val("{% if  query_set.address %}{{ query_set.address }} {% endif %}");
@@ -413,7 +413,6 @@ function GetAttachment(){
         }
         var content=$(this).find("input[name=content]").val();
         var name=$(this).find("input[name=file_name]").val();
-        console.log(file_path,content,name)
         attachment.attachment=file_path;
         attachment.description=content;
         attachment.name=name;
@@ -566,8 +565,6 @@ function UploadFile(ths){
             var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
             $(ths).parent().append(path_input);
             $(ths).parent().append(name_input);
-            console.log(arg.data.path);
-            console.log(arg.data.name);
             $(ths).parent().find("input[name=file_path]").val(arg.data.path)
             $(ths).parent().find("input[name=file_name]").val(arg.data.name)
         },
@@ -611,9 +608,10 @@ function UploadFile(ths){
              var supplier_photo= FetchSupplierPhoto();
              var supplier_photo_ele=$("<input type='text' class='hide' name='supplier_photo'  value={0} />".format(supplier_photo));
              form.append(supplier_photo_ele)
-              var licence=FetchSupplierLicence();
-             var licence=$("<input type='text' class='hide' name='supplier_licence'  value={0} />".format(licence));
-             form.append(licence)
+             var licence=FetchSupplierLicence();
+             console.log("licence",licence)
+             var licence_ele=$("<input type='text' class='hide' name='supplier_licence'  value={0} />".format(licence));
+             form.append(licence_ele)
             //把附件添加到form中
               var nid="{{ nid }}"
              if(nid!=""){

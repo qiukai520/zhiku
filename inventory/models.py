@@ -87,7 +87,8 @@ class Linkman(models.Model):
     age = models.SmallIntegerField(verbose_name="年龄", blank=True, null=True)
     marriage = models.SmallIntegerField(choices=marriage_choice, verbose_name="婚姻", default=0)
     mobile = models.CharField(max_length=11, verbose_name="手机号码", blank=True, null=True)
-    phone = models.CharField(max_length=11, verbose_name="电话", blank=True, null=True)
+    phone = models.CharField(max_length=16, verbose_name="电话", blank=True, null=True)
+    ext_phone = models.CharField(max_length=16, verbose_name="分机", blank=True, null=True)
     birthday = models.DateField(verbose_name="生日", blank=True, null=True)
     native_place = models.CharField(max_length=64, verbose_name="籍贯", blank=True, null=True)
     delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
@@ -169,7 +170,7 @@ class SupplierLicence(models.Model):
     def __str__(self):
         return "供应商营业执照:{0}".format(self.name)
 
-    _update = ["licence","name"]
+    _update = ["photo","name"]
 
 
 class SupplierPhoto(models.Model):
@@ -223,7 +224,6 @@ class GoodsPhoto(models.Model):
         return "商品图片:{0}".format(self.name)
 
     _update = ["photo","name"]
-
 
 
 class GoodsUnit(models.Model):

@@ -358,6 +358,7 @@ def staff_edit(request):
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
+            print("errors",form.errors)
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))

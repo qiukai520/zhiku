@@ -86,7 +86,7 @@ class SupplierAttachDB(object):
         for item in modify_info_list:
             SupplierAttach.objects.filter(nid=item['nid']).update(**item)
 
-    def mutil_delete_goods_attachment(self, id_list):
+    def mutil_delete_supplier_attachment(self, id_list):
         SupplierAttach.objects.filter(nid__in=id_list).delete()
 
     def multi_delete_attach_by_supplier_id(self,id_list):

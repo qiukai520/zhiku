@@ -53,7 +53,7 @@
                                 <label class="col-sm-2 control-label">生活照片</label>
                                 <div class="col-sm-8">
                                     <a href="" class="hide"width="100"  height="100" id="pre_link" target="_blank">
-                                    <p><img width="100"  id="life_photo" height="100"style=" border: 1px solid #dddddd;" ></p>
+                                    <p><img width="100"  id="life_photo" height="100"style=" border: 1px solid #dddddd;"  onclick="javascript:window.open(this.src)"></p>
                                     </a>
                                     <input type="file" id="photo_input"  class="form-control"  onchange="UploadImage(this)" >
                                 </div>
@@ -398,7 +398,7 @@ function InitData() {
         $("#department_id").val({{ query_set.department_id }});
         $("#job_rank_id").val({{ query_set.job_rank_id }});
         $("#job_title_id").val({{ query_set.job_title_id }});
-        $("#id_card").val("{{ query_set.id_card }}")
+        $("#id_card").val("{% if  query_set.id_card %}{{ query_set.id_card }} {% endif %}");
         $("#birthday").val("{{ query_set.birthday |date:'Y-m-d'}}");
         $("input[name=is_lunar][value={{ query_set.is_lunar }}]").attr("checked",true);
         $("#nationality").val("{% if  query_set.nationality %}{{ query_set.nationality }} {% endif %}");
@@ -615,7 +615,6 @@ function UploadFile(ths){
 //创建时获取生活照
     function  FetchLifePhoto() {
         var life_photo_path = $("#photo_input").next().val();
-        console.log("life_photo_path",life_photo_path)
         var life_photo_name= $("#photo_input").next().next().val();
         if (life_photo_path){
              var life_photo = { "life_photo":life_photo_path,"name":life_photo_name}

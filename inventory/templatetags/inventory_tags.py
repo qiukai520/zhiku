@@ -105,7 +105,6 @@ def build_nation_ele(selected=None):
     """构建国家下拉框"""
     nation_list = nation_db.query_nation_list()
     eles = ""
-    print("nation_select",selected)
     if selected:
         for item in nation_list:
             if item.nid == selected:
@@ -166,7 +165,6 @@ def build_city_ele(province_id=None, city_id=None):
 @register.simple_tag
 def build_country_ele(city_id=None, selected=None):
     """构建城市下拉框"""
-    print("selected",selected)
     if city_id:
         country_list = country_db.query_country_by_city(city_id)
     else:
@@ -262,7 +260,6 @@ def fetch_nation_nid(province_id):
     if province_id:
         obj = province_db.query_province_by_id(province_id)
         if obj:
-            print("nation_id",obj.nation_id)
             return obj.nation_id
 
 
@@ -272,7 +269,6 @@ def fetch_province_nid(city_id):
     if city_id:
         obj = city_db.query_city_by_id(city_id)
         if obj:
-            print("province_id", obj.province_id)
             return obj.province_id
 
 @register.simple_tag
@@ -280,7 +276,6 @@ def fetch_city_nid(country_id):
     """根据城市获取省份nid"""
     if country_id:
         obj = country_db.query_country_by_id(country_id)
-        print("city_id", obj.city_id)
         if obj:
             return obj.city_id
 

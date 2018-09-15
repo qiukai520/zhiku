@@ -140,14 +140,14 @@ class Staff(models.Model):
             return self.name
 
     _insert = ["job_number", "name", "gender","phone","email", "company_id", "project_id", "department_id",
-                 "birthday", "is_lunar","job_rank_id", "job_title_id","hire_day","native_place", "nationality", "family_address",
-                 "current_address", "education","id_card","bank","bank_account", "account_name","contact_phone",
-                 "contact_man","contact_relation", "recruit_channel", "referer", "remark"]
+                 "birthday", "is_lunar","job_rank_id", "job_title_id","hire_day","native_place", "nationality",
+               "family_address","current_address", "education","id_card","bank","bank_account", "account_name",
+               "contact_phone","contact_man","contact_relation", "recruit_channel", "referer", "remark"]
 
     _update = ["sid","job_number", "name", "gender", "phone", "email", "company_id", "project_id", "department_id",
-               "birthday", "is_lunar", "job_rank_id", "job_title_id", "hire_day", "native_place", "nationality","family_address",
-               "current_address", "education", "id_card", "bank", "bank_account", "account_name", "contact_phone",
-               "contact_man", "contact_relation", "recruit_channel", "referer", "remark"]
+               "birthday", "is_lunar", "job_rank_id", "job_title_id", "hire_day", "native_place", "nationality",
+               "family_address", "current_address", "education", "id_card", "bank", "bank_account", "account_name",
+               "contact_phone","contact_man", "contact_relation", "recruit_channel", "referer", "remark"]
 
 
 class StaffAttach(models.Model):
