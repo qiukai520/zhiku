@@ -99,6 +99,60 @@ def build_goods_ele(selected=None):
             eles += ele
     return mark_safe(eles)
 
+@register.simple_tag
+def build_supplier_ele(selected=None):
+    """构建商品下拉框"""
+    goods_list = goods_db.query_goods_list()
+    eles = ""
+    if selected:
+        for item in goods_list:
+            if item.nid == selected:
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.nid, item.name)
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.name)
+            eles += ele
+    else:
+        for item in goods_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.name)
+            eles += ele
+    return mark_safe(eles)
+
+
+@register.simple_tag
+def build_contact_category_ele(selected=None):
+    """构建交易分类下拉框"""
+    category_list = supplier_contact_db.category
+    eles = ""
+    if selected:
+        for item in category_list:
+            if item['id'] == selected:
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item['id'], item['caption'])
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item['id'], item['caption'])
+            eles += ele
+    else:
+        for item in category_list:
+            ele = """<option value={0}>{1}</option>""".format(item['id'], item['caption'])
+            eles += ele
+    return mark_safe(eles)
+
+
+@register.simple_tag
+def build_supplier_linkman_ele(supplier_id,selected=None):
+    linkman_list = linkman_db.query_linkman_by_supplier_id(supplier_id)
+    eles = ""
+    if selected:
+        for item in linkman_list:
+            if item.nid == selected:
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.nid, item.name)
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.name)
+            eles += ele
+    else:
+        for item in linkman_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.name)
+            eles += ele
+    return mark_safe(eles)
 
 @register.simple_tag
 def build_nation_ele(selected=None):
@@ -220,6 +274,31 @@ def change_to_country(id):
 
 
 @register.simple_tag
+def change_to_contact_category(id):
+    category_list = supplier_contact_db.category
+    for item in category_list:
+        print("item",item)
+        if item['id'] == int(id):
+            return item["caption"]
+
+@register.simple_tag
+def change_to_linkman(id):
+    if id:
+        obj = linkman_db.query_linkman_by_id(id)
+        if obj:
+            return obj.name
+
+
+@register.simple_tag
+def change_to_gender(id):
+    gender_choice = linkman_db.gender_choice
+    for item in gender_choice:
+        print("item", item)
+        if item['id'] == int(id):
+            return item["caption"]
+
+
+@register.simple_tag
 def change_to_goods_category(id):
     """转换成商品分类"""
     if id:
@@ -287,3 +366,17 @@ def fetch_goods_photo(id):
         obj = goods_photo_db.query_goods_photo(id)
         if obj:
             return obj.photo
+
+@register.simple_tag
+def fetch_supplier_linkman_list(id):
+    if id :
+        linkman_list = linkman_db.query_linkman_by_supplier_id(id)
+        return linkman_list
+
+@register.simple_tag
+def fetch_supplier_contact_list(id):
+    print("contact",id)
+    if id:
+        contact_list = supplier_contact_db.query_contact_by_supplier(id)
+        print(contact_list)
+        return contact_list

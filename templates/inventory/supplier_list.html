@@ -39,8 +39,10 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                     <a href="{% url "supplier_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
-                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
+                                     <a href="{% url "supplier_edit" %}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                    <button  onclick="AddLinkman()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加联系人</button>
+                                    <button  onclick="AddContact()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加收支</button>
+                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
                                 <table id="task_sort"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
@@ -60,9 +62,9 @@
                                     <tbody>
                                      {% for obj in query_sets %}
                                       <tr>
-                                          <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.nid }}"></td>
+                                          <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>
                                           <td>{% change_to_supplier_category obj.category_id%} </td>
-                                          <td>{{ obj.company }}</td>
+                                          <td><a href=" {% url 'supplier_detail' %}?id={{ obj.nid }}">{{ obj.company }}</a></td>
                                           <td>{% change_to_industry obj.industry_id%}</td>
                                            <td>{% change_to_goods obj.goods_id%}</td>
                                           <td>{% if obj.introduce  %}{{ obj.introduce }}{% else  %}空{% endif %}</td>
@@ -79,6 +81,7 @@
                                           </td>
                                             <td>
                                               <a  href="{%url "supplier_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
+                                                <a  href="{%url "supplier_detail" %}?id={{ obj.nid }}" class="btn btn-primary" >详细</a>
                                           </td>
                                       </tr>
                                       {% endfor %}
@@ -192,6 +195,46 @@
             }
         })
         });
+    }
+    //添加联系人
+    function AddLinkman() {
+       //是否有选中供应商
+     var is_checked=$("tbody input:checkbox:checked").length
+        if (is_checked==1){
+            var sid=$("tbody input:checkbox:checked").eq(0).next().val()
+            window.location.href="{% url 'supplier_linkman' %}?sid={0}".format(sid)
+        } else if(is_checked > 1){
+           layer.alert('只能选择一个供应商', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
+        else{
+           layer.alert('请选择供应商', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
+    }
+        //添加联系人
+    function AddContact() {
+       //是否有选中供应商
+     var is_checked=$("tbody input:checkbox:checked").length
+        if (is_checked==1){
+            var sid=$("tbody input:checkbox:checked").eq(0).next().val()
+            window.location.href="{% url 'supplier_contact' %}?sid={0}".format(sid)
+        } else if(is_checked > 1){
+           layer.alert('只能选择一个供应商', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
+        else{
+           layer.alert('请选择供应商', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
     }
     </script>
 {% endblock %}

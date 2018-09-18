@@ -43,11 +43,19 @@ urlpatterns = [
     path("supplier_edit", views.supplier_edit, name='supplier_edit'),
     path("supplier_category", views.supplier_category_list, name="supplier_category_list"),
     path("supplier_category_edit", views.supplier_category_edit, name='supplier_category_edit'),
+    path("supplier_linkman", views.supplier_linkman, name='supplier_linkman'),
+    path("supplier_contact", views.supplier_contact, name='supplier_contact'),
+    path("supplier_detail", views.supplier_detail, name='supplier_detail'),
     path("upload_goods_photo", views.goods_photo, name="goods_photo"),
     path("upload_goods_code", views.goods_code, name="goods_code"),
+    path("upload_linkman_photo", views.linkman_photo, name="linkman_photo"),
+    path("upload_linkman_card", views.linkman_card, name="linkman_card"),
     path("upload_supplier_photo", views.supplier_photo, name="supplier_photo"),
     path("upload_supplier_licence", views.supplier_licence, name="supplier_licence"),
     path("upload_attach", views.supplier_attach, name="supplier_attach"),
     path("upload_attach", views.goods_attach, name="goods_attach"),
+    path("upload_attach", views.linkman_attach, name="linkman_attach"),
+    path("upload_attach", views.contact_attach, name="contact_attach"),
+
 
 ]

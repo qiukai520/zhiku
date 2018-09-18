@@ -366,43 +366,6 @@ function TeamAssignShow() {
     }
 
 
-{#function AssignSubmit() {#}
-{#    $.ajax({#}
-{#        url:"{% url 'task_mutil_assign' %} ",#}
-{#        data:{"task_assign":SelectMember()},#}
-{#        type:"post",#}
-{#        dataType:"json",#}
-{#        success:function (arg) {#}
-{#            if (arg.status){#}
-{#                alert("指派成功")#}
-{#                 $('#task_assign').modal('hide')#}
-{#                 window.location.reload()#}
-{#            }else {#}
-{#                alert(arg.message)#}
-{#            }#}
-{#        }#}
-{##}
-{#    })#}
-{#}#}
-{##}
-{#function TeamAssingSubmit() {#}
-{#    $.ajax({#}
-{#        url:"{% url 'task_team_assign' %} ",#}
-{#        data:{"team_assign":SelectMember()},#}
-{#        type:"post",#}
-{#        dataType:"json",#}
-{#        success:function (arg) {#}
-{#            if (arg.status){#}
-{#                alert("指派成功")#}
-{#                 $('#task_assign').modal('hide')#}
-{#                 window.location.reload()#}
-{#            }else {#}
-{#                alert(arg.message)#}
-{#            }#}
-{#        }#}
-{#    })#}
-{#}#}
-
 
 </script>
 

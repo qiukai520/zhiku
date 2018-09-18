@@ -1,0 +1,252 @@
+{% extends "layout.html" %}
+{% load  inventory_tags %}
+
+{% block css %}
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+    <style>
+    .download_file{
+        color:#337ab7 !important
+    }
+     #content-main{
+      overflow :auto
+     }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row" style="width: 100%">
+        <div class="col-sm-9">
+            <div class="wrapper wrapper-content animated fadeInUp">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="m-b-md">
+                                    <a href="{%url "supplier_edit" %}?id={{ query_set.nid }}" class="btn btn-white btn-xs pull-right">去编辑</a>
+                                    <h3>{{ query_set.company }}</h3>
+                                </div>
+                                    <dl class="dl-horizontal">
+                                    <dt>主营商品：</dt>
+                                    <dd><span class="label label-primary">{% change_to_goods query_set.goods_id %}</span>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <dl class="dl-horizontal">
+                                    <dt>所属行业：</dt>
+                                    <dd>{% change_to_industry query_set.industry_id %}</dd>
+                                    <dt>公司人数：</dt>
+                                    <dd>{{ query_set.employees }}人</dd>
+                                    <dt>公司网站：</dt>
+                                    <dd>{{ query_set.website }}</dd>
+                                    <dt>联系电话：</dt>
+                                    <dd>{{ query_set.phone }}
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-7" id="cluster_info">
+                                <dl class="dl-horizontal">
+                                    <dt>银行卡号：</dt>
+                                    <dd>{{ query_set.bank}}</dd>
+                                    <dt>用户名：</dt>
+                                    <dd>{{ query_set.account_name}}</dd>
+                                    <dt>开户银行：</dt>
+                                    <dd>{{ query_set.bank_account}}}</dd>
+                                    <dt>创建时间：</dt>
+                                    <dd>{{ query_set.create_time|date:"Y-m-d" }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <dl class="dl-horizontal">
+                                    <dt>公司介绍：</dt>
+                                    <dd> {{ query_set.introduce }}
+                                    </dd>
+                                     <dt>公司地址：</dt>
+                                    <dd>
+                                         {% fetch_city_nid  query_set.country_id  as city_id %}
+                                          {% fetch_province_nid  city_id  as province_id %}
+                                          {% fetch_nation_nid  province_id  as nation_id %}
+                                          {% change_to_nation nation_id %}/
+                                          {% change_to_province province_id  %}/
+                                          {% change_to_city city_id %}/
+                                          {% change_to_country query_set.country_id %}
+                                          /{{ query_set.address }}
+                                    </dd>
+                                </dl>
+
+                            </div>
+                        </div>
+                        <div class="row m-t-sm">
+                            <div class="col-sm-12">
+                                <div class="panel blank-panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-options">
+                                            <ul class="nav nav-tabs">
+                                                <li><a href="task_detail.html#tab-1" data-toggle="tab">联系人</a>
+                                                </li>
+                                                <li class=""><a href="task_detail.html#tab-2" data-toggle="tab">收支来往</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>姓名</th>
+                                                            <th>性别</th>
+                                                            <th>手机</th>
+                                                            <th>电话</th>
+                                                            <th>分机</th>
+                                                            <th>籍贯</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% fetch_supplier_linkman_list query_set.nid as linkman_list %}
+                                                        {% for obj in linkman_list %}
+                                                             <tr>
+                                                            <td>
+                                                                <span class="label label-primary"> {{ obj.name}}</span>
+                                                            </td>
+                                                            <td>{% change_to_gender obj.gender%}</td>
+                                                              <td >
+                                                                  {% if obj.mobile %}{{ obj.mobile }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.phone %}{{ obj.phone }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.ext_phone %}{{ obj.ext_phone }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                            <td> {% if obj.native_place %}{{ obj.native_place }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}</td>
+
+                                                        </tr>
+                                                        {% endfor %}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="tab-2">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>收支分类</th>
+                                                            <th>项目名称</th>
+                                                            <th>联系人</th>
+                                                            <th>应收/应付</th>
+                                                            <th>已收/已付</th>
+                                                            <th>待收/待付</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% fetch_supplier_contact_list query_set.nid as contact_list %}
+                                                        {% for obj in contact_list %}
+                                                             <tr>
+                                                            <td>
+                                                                <span class="label label-primary"> {% change_to_contact_category obj.category%}</span>
+                                                            </td>
+                                                              <td >
+                                                                  {% if obj.project %}{{ obj.project }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+
+                                                           </td>
+                                                               <td> {% change_to_linkman obj.linkman_id%}</td>
+                                                              <td >
+                                                                  {% if obj.receivable %}{{ obj.receivable }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.received %}{{ obj.received }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                            <td> {% if obj.pending %}{{ obj.pending }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}</td>
+
+                                                        </tr>
+                                                        {% endfor %}
+
+
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="wrapper wrapper-content project-manager">
+               {% if supplier_photo %}
+                     <h4>公司照片</h4>
+                        <p><img width="100" src="/{{supplier_photo.photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
+             {% endif %}
+
+             {% if supplier_photo %}
+                     <h4>公司执照</h4>
+                        <p><img width="100" src="/{{supplier_licence.photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
+             {% endif %}
+                <br>
+                <h5>供应商附件</h5>
+                <ul class="list-unstyled project-files">
+{#                    {% query_task_map_attachment_by_tmid task_obj.tmid as t_attachement %}#}
+                    {% for obj in supplier_attach%}
+                         <li>
+                             <label class="form-label"   >附件{{ forloop.counter }}:</label>
+                             <a class="download_file" href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
+                            <label class="form-label" for="task_title"  >附件描述:</label>
+                            <span  >{{ obj.description }}</span>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+                 <lable>备注：</lable>
+                <span class="small" style="text-indent:2em">{{ query_set.remark }}
+                </span>
+            </div>
+        </div>
+    </div>
+{% endblock%}
+
+{% block js %}
+    <script>
+        $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+    </script>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+{% endblock %}
+

@@ -95,7 +95,26 @@ create TABLE `linkman_attach`(
 `attachment` varchar(128) COMMENT '附件路径',
 `description` varchar(128) COMMENT '附件描述',
 `name` varchar(64) COMMENT '附件名称'
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品附件';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='联系人附件';
+
+
+drop TABLE if exists `linkman_card`;
+create TABLE `linkman_card`(
+`nid` int(11) primary key auto_increment,
+`linkman_id` int(11) NOT NULL  COMMENT '联系人',
+`photo` varchar(128) COMMENT '路径',
+`name` varchar(64) COMMENT '名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='联系人名片';
+
+
+drop TABLE if exists `linkman_photo`;
+create TABLE `linkman_photo`(
+`nid` int(11) primary key auto_increment,
+`linkman_id` int(11) NOT NULL  COMMENT '联系人',
+`photo` varchar(128) COMMENT '路径',
+`name` varchar(64) COMMENT '名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='联系人照片';
+
 
 drop TABLE if exists `supplier_licence`;
 create TABLE `supplier_licence`(
@@ -171,7 +190,6 @@ create table `country`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='市';
 
 
-
 drop TABLE if exists `linkman`;
 create TABLE `linkman`(
 `nid` int(11) primary key auto_increment,
@@ -180,12 +198,45 @@ create TABLE `linkman`(
 `gender` tinyint(1) NOT NULL  DEFAULT 0 COMMENT '性别:0男，1女',
 `age`  tinyint(1) COMMENT '年龄',
 `marriage`  tinyint(1) NOT NULL  DEFAULT 0 COMMENT '婚姻:0未婚，1已婚',
-`birthday` datetime  COMMENT '生日',
+`birthday` datetime  DEFAULT NUll  COMMENT '生日',
+`is_lunar` tinyint(1)   DEFAULT 0 COMMENT '生日农历or公历:0公历，1农历',
 `mobile` varchar (11) COMMENT '手机号码',
 `phone` varchar (16) COMMENT '电话号码',
+`ext_phone` varchar (16) COMMENT '分机号码',
 `native_place` varchar (16) COMMENT '籍贯',
 `delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
 `remark` varchar (128) COMMENT '备注',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工表';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='联系人表';
+
+
+drop TABLE  if  exists `supplier_contact`;
+create table `supplier_contact`(
+`nid` int(11) primary key auto_increment,
+`supplier_id` int(11) NOT NULL COMMENT '供应商',
+`linkman_id` int (11) NOT NULL COMMENT '联系人',
+`category` tinyint(1) NOT NULL COMMENT '交易分类',
+`project` varchar (64) NOT NULL COMMENT '项目名称',
+`description` varchar (128)   COMMENT '项目详细',
+`received`  DECIMAL (8,2) COMMENT'已收/已付金额',
+`received_remark` varchar (128) COMMENT'已收/已付备注' ,
+`receivable`  DECIMAL (8,2) COMMENT'应收/应付金额',
+`receivable_remark` varchar (128) COMMENT'应收/应付备注' ,
+`pending`  DECIMAL (8,2) COMMENT'待收/待付金额',
+`pending_remark` varchar (128) COMMENT'待收/待付备注' ,
+`date`  datetime  DEFAULT NUll  COMMENT '交易日期',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='供应商来往表';
+
+
+drop TABLE if exists `contact_attach`;
+create TABLE `contact_attach`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`contact_id` int(11) NOT NULL COMMENT'供应商来往',
+`attachment` varchar(128) COMMENT '附件路径',
+`description` varchar(128) COMMENT '附件描述',
+`name` varchar(64) COMMENT '附件名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='来往附件';

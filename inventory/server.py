@@ -2,98 +2,7 @@ from django.db import connection
 from .models import *
 
 
-class SupplierDB(object):
-    """供应商表"""
-    gender_choice = ({"id": 0, "caption": "男"}, {"id": 1, "caption": "女"})
 
-    def insert_supplier(self, modify_info):
-        supplier_sql = """insert into supplier(%s) value(%s);"""
-        k_list = []
-        v_list = []
-        for k, v in modify_info.items():
-            k_list.append(k)
-            v_list.append("%%(%s)s" % k)
-        supplier_sql = supplier_sql % (",".join(k_list), ",".join(v_list))
-        cursor = connection.cursor()
-        cursor.execute(supplier_sql, modify_info)
-        nid = cursor.lastrowid
-        return nid
-
-    def query_supplier_list(self):
-        result_db = Supplier.objects.filter(delete_status=1).all()
-        return result_db
-
-    def query_supplier_by_id(self, nid):
-        result_db = Supplier.objects.filter(nid=nid,delete_status=1).first()
-        return result_db
-
-
-    def update_supplier(self, modify):
-        Supplier.objects.filter(nid=modify['nid'],delete_status=1).update(**modify)
-
-    def multi_delete(self, id_list, delete_status):
-        Supplier.objects.filter(nid__in=id_list).update(**delete_status)
-
-
-class SupplierPhotoDB(object):
-    """供应商图片"""
-
-    def insert_photo(self, modify):
-        SupplierPhoto.objects.create(**modify)
-
-    def query_supplier_photo(self,id):
-        result_db = SupplierPhoto.objects.filter(supplier_id=id).first()
-        return result_db
-
-    def update_photo(self, modify):
-        SupplierPhoto.objects.filter(supplier_id=modify["supplier_id"]).update(**modify)
-
-    def delete_photo_by_supplier_id(self, id):
-        SupplierPhoto.objects.filter(supplier_id=id).delete()
-
-class SupplierLicenceDB(object):
-    """商品营业执照"""
-
-    def insert_photo(self, modify):
-        SupplierLicence.objects.create(**modify)
-
-    def query_supplier_licence(self,id):
-        result_db = SupplierLicence.objects.filter(supplier_id=id).first()
-        return result_db
-
-    def update_licence(self, modify):
-        SupplierLicence.objects.filter(supplier_id=modify["supplier_id"]).update(**modify)
-
-    def delete_licence_by_supplier_id(self,id):
-        SupplierLicence.objects.filter(supplier_id=id).delete()
-
-
-class SupplierAttachDB(object):
-    """供应商附件表"""
-    def query_supplier_attachment_list(self):
-        result_db = SupplierAttach.objects.filter().all()
-        return result_db
-
-    def query_supplier_attachment(self,id):
-        result_db = SupplierAttach.objects.filter(supplier_id=id).all()
-        return result_db
-
-    def mutil_insert_attachment(self, modify_info_list):
-        for item in modify_info_list:
-            SupplierAttach.objects.create(**item)
-
-    def mutil_update_attachment(self, modify_info_list):
-        for item in modify_info_list:
-            SupplierAttach.objects.filter(nid=item['nid']).update(**item)
-
-    def mutil_delete_supplier_attachment(self, id_list):
-        SupplierAttach.objects.filter(nid__in=id_list).delete()
-
-    def multi_delete_attach_by_supplier_id(self,id_list):
-        SupplierAttach.objects.filter(supplier_id__in=id_list).filter().delete()
-
-    def delete_supplier_attachment(self,nid):
-        SupplierAttach.objects.filter(nid=nid).delete()
 
 
 class IndustryDB(object):
@@ -409,10 +318,272 @@ class GoodsAttachDB(object):
         GoodsAttach.objects.filter(nid=nid).delete()
 
 
+class SupplierDB(object):
+    """供应商表"""
+    gender_choice = ({"id": 0, "caption": "男"}, {"id": 1, "caption": "女"})
+
+    def insert_supplier(self, modify_info):
+        supplier_sql = """insert into supplier(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        supplier_sql = supplier_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(supplier_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_supplier_list(self):
+        result_db = Supplier.objects.filter(delete_status=1).all()
+        return result_db
+
+    def query_supplier_by_id(self, nid):
+        result_db = Supplier.objects.filter(nid=nid,delete_status=1).first()
+        return result_db
+
+
+    def update_supplier(self, modify):
+        Supplier.objects.filter(nid=modify['nid'],delete_status=1).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        Supplier.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class SupplierPhotoDB(object):
+    """供应商图片"""
+
+    def insert_photo(self, modify):
+        SupplierPhoto.objects.create(**modify)
+
+    def query_supplier_photo(self,id):
+        result_db = SupplierPhoto.objects.filter(supplier_id=id).first()
+        return result_db
+
+    def update_photo(self, modify):
+        SupplierPhoto.objects.filter(supplier_id=modify["supplier_id"]).update(**modify)
+
+    def delete_photo_by_supplier_id(self, id):
+        SupplierPhoto.objects.filter(supplier_id=id).delete()
+
+
+class SupplierLicenceDB(object):
+    """商品营业执照"""
+
+    def insert_photo(self, modify):
+        SupplierLicence.objects.create(**modify)
+
+    def query_supplier_licence(self,id):
+        result_db = SupplierLicence.objects.filter(supplier_id=id).first()
+        return result_db
+
+    def update_licence(self, modify):
+        SupplierLicence.objects.filter(supplier_id=modify["supplier_id"]).update(**modify)
+
+    def delete_licence_by_supplier_id(self,id):
+        SupplierLicence.objects.filter(supplier_id=id).delete()
+
+
+class SupplierAttachDB(object):
+    """供应商附件表"""
+    def query_supplier_attachment_list(self):
+        result_db = SupplierAttach.objects.filter().all()
+        return result_db
+
+    def query_supplier_attachment(self,id):
+        result_db = SupplierAttach.objects.filter(supplier_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            SupplierAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            SupplierAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_supplier_attachment(self, id_list):
+        SupplierAttach.objects.filter(nid__in=id_list).delete()
+
+    def multi_delete_attach_by_supplier_id(self,id_list):
+        SupplierAttach.objects.filter(supplier_id__in=id_list).filter().delete()
+
+    def delete_supplier_attachment(self,nid):
+        SupplierAttach.objects.filter(nid=nid).delete()
+
+
+
+class LinkmanDB(object):
+    """联系人表"""
+    gender_choice = ({"id": 0, "caption": "男"}, {"id": 1, "caption": "女"})
+    marriage_choice = ({"id": 0, "caption": "未婚"}, {"id": 1, "caption": "已婚"})
+
+    def insert_linkman(self, modify_info):
+        linkman_sql = """insert into linkman(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        linkman_sql = linkman_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(linkman_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_linkman_list(self):
+        result_db = Linkman.objects.filter(delete_status=1).all()
+        return result_db
+
+    def query_linkman_by_id(self, nid):
+        result_db = Linkman.objects.filter(nid=nid,delete_status=1).first()
+        return result_db
+
+    def query_linkman_by_supplier_id(self,id):
+        result_db = Linkman.objects.filter(supplier_id=id, delete_status=1).all()
+        return result_db
+
+    def update_linkman(self, modify):
+        Linkman.objects.filter(nid=modify['nid'],delete_status=1).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        Linkman.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class SupplierContactDB(object):
+    """供应商来往"""
+    category= ({"id": 0, "caption": "交易收入"}, {"id": 1, "caption": "商务支出"})
+
+    def insert_contact(self, modify_info):
+        contact_sql = """insert into supplier_contact(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        contact_sql = contact_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(contact_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_contact_list(self):
+        result_db = SupplierContact.objects.filter(delete_status=1).all()
+        return result_db
+
+    def query_contact_by_id(self, nid):
+        result_db = SupplierContact.objects.filter(nid=nid,delete_status=1).first()
+        return result_db
+
+    def query_contact_by_supplier(self,supplier_id):
+        result_db = SupplierContact.objects.filter(supplier_id=supplier_id, delete_status=1)
+        return result_db
+
+    def update_contact(self, modify):
+        SupplierContact.objects.filter(nid=modify['nid'],delete_status=1).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        SupplierContact.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class ContactAttachDB(object):
+    """来往附件表"""
+    def query_contact_attachment_list(self):
+        result_db = ContactAttach.objects.filter().all()
+        return result_db
+
+    def query_contact_attachment(self, id):
+        print("id",id)
+        result_db = ContactAttach.objects.filter(contact_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            ContactAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            ContactAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_linkman_attachment(self, id_list):
+        ContactAttach.objects.filter(nid__in=id_list).delete()
+
+    def multi_delete_attach_by_linkman_id(self,id_list):
+        ContactAttach.objects.filter(linkman_id__in=id_list).filter().delete()
+
+    def delete_contact_attachment(self,nid):
+        ContactAttach.objects.filter(nid=nid).delete()
+
+
+class LinkmanPhotoDB(object):
+    """供应商图片"""
+
+    def insert_photo(self, modify):
+        LinkmanPhoto.objects.create(**modify)
+
+    def query_linkman_photo(self,id):
+        result_db = LinkmanPhoto.objects.filter(linkman_id=id).first()
+        return result_db
+
+    def update_photo(self, modify):
+        LinkmanPhoto.objects.filter(linkman_id=modify["linkman_id"]).update(**modify)
+
+    def delete_photo_by_linkman_id(self, id):
+        LinkmanPhoto.objects.filter(linkman_id=id).delete()
+
+
+class LinkmanCardDB(object):
+    """联系人卡片"""
+
+    def insert_photo(self, modify):
+        LinkmanCard.objects.create(**modify)
+
+    def query_linkman_card(self,id):
+        result_db = LinkmanCard.objects.filter(linkman_id=id).first()
+        return result_db
+
+    def update_card(self, modify):
+        LinkmanCard.objects.filter(linkman_id=modify["linkman_id"]).update(**modify)
+
+    def delete_card_by_card_id(self,id):
+        LinkmanCard.objects.filter(linkman_id=id).delete()
+
+
+class LinkmanAttachDB(object):
+    """联系人附件表"""
+    def query_linkman_attachment_list(self):
+        result_db = LinkmanAttach.objects.filter().all()
+        return result_db
+
+    def query_linkman_attachment(self,id):
+        result_db = LinkmanAttach.objects.filter(linkman_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            LinkmanAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            LinkmanAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_linkman_attachment(self, id_list):
+        LinkmanAttach.objects.filter(nid__in=id_list).delete()
+
+    def multi_delete_attach_by_linkman_id(self,id_list):
+        LinkmanAttach.objects.filter(linkman_id__in=id_list).filter().delete()
+
+    def delete_linkman_attachment(self,nid):
+        LinkmanAttach.objects.filter(nid=nid).delete()
+
+
 supplier_db = SupplierDB()
 supplier_photo_db = SupplierPhotoDB()
 supplier_licence_db = SupplierLicenceDB()
-supplier_attach_db =SupplierAttachDB()
+supplier_attach_db = SupplierAttachDB()
+supplier_contact_db = SupplierContactDB()
+contact_attach_db = ContactAttachDB()
 industry_db = IndustryDB()
 supplier_category_db = SupplierCategoryDB()
 goods_category_db = GoodsCategoryDB()
@@ -425,5 +596,9 @@ goods_db = GoodsDB()
 goods_photo_db = GoodsPhotoDB()
 goods_code_db = GoodsBarCodeDB()
 goods_attach_db = GoodsAttachDB()
+linkman_db = LinkmanDB()
+linkman_photo_db = LinkmanPhotoDB()
+linkman_card_db = LinkmanCardDB()
+linkman_attach_db = LinkmanAttachDB()
 
 

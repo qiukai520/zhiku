@@ -56,6 +56,20 @@ class SupplierForm(django_forms.Form):
     country_id = django_fields.IntegerField(error_messages={"required": "请选择相应的县(区)"})
 
 
+class LinkmanForm(django_forms.Form):
+    supplier_id = django_fields.IntegerField(error_messages={"required": "请选择供应商"})
+    name = django_fields.CharField(error_messages={"required": "联系人姓名不能为空"})
+    birthday = django_fields.DateField(error_messages={"required": "生日不能为空", "invalid": "生日日期格式错误"})
+
+
+class ContactForm(django_forms.Form):
+    supplier_id = django_fields.IntegerField(error_messages={"required": "请选择供应商"})
+    category = django_fields.IntegerField(error_messages={"required": "请选择交易分类"})
+    linkman_id = django_fields.IntegerField(error_messages={"required": "请选择联系人"})
+    project = django_fields.CharField(error_messages={"required": "交易项目不能为空"})
+    date = django_fields.DateField(error_messages={"required": "交易日期不能为空", "invalid": "日期格式错误"})
+
+
 class NationForm(django_forms.Form):
     nation = django_fields.CharField(error_messages={"required": "国家名称不能为空"})
 
