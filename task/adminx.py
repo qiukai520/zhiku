@@ -24,7 +24,7 @@ class TaskAdmin(object):
     """工作任务后台管理"""
     # 数据展示
     list_display = ['tid','title', 'content', 'type','create_time','delete_status']
-    field = ['tid','title', 'content', 'type','create_time']
+    field = ['tid','title', 'content', 'type',]
     # 筛选(后台管理页面中的过滤器)
     list_filter = ['type']
     # 查询
@@ -96,11 +96,11 @@ class TaskTypeAdmin(object):
 
 class TaskAssignAdmin(object):
     """任务指派后台管理"""
-    show_detail_fields = ['tmid']  # 在指定的字段后添加一个显示数据详情的一个按钮
-    list_display = ['tmid', 'title', 'content', 'member_id','progress', 'deadline','create_time','last_edit']
+    # show_detail_fields = ['tmid']  # 在指定的字段后添加一个显示数据详情的一个按钮
+    list_display = ['tmid', 'title', 'content', 'member_id','progress', 'deadline',]
     list_filter = ['tmid','member_id', 'deadline']
     search_fields = ['title', 'content']
-    fields = ['tmid', 'title', 'content', 'member_id', 'deadline','create_time','last_edit']
+    fields = ['tmid', 'title', 'content', 'member_id', 'deadline',]
     model_icon = 'fa fa-cog'
 
 
@@ -114,7 +114,7 @@ class TaskAssignTagAdmin(object):
 
 class TaskAssignAttachAdmin(object):
     """任务指派附件后台管理"""
-    list_display = ['taaid','tasid', 'attach', 'name', 'description']
+    list_display = ['taaid','tasid', 'attachment', 'name', 'description']
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'
@@ -155,7 +155,7 @@ class TaskSubmitTagAdmin(object):
 
 class TaskSubmitAttachmentAdmin(object):
     """任务提交附件后台管理"""
-    list_display = ["tsaid",'tsid', 'attach', 'name', 'description']
+    list_display = ["tsaid",'tsid', 'attachment', 'name', 'description']
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'

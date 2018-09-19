@@ -418,6 +418,7 @@ class LinkmanDB(object):
     """联系人表"""
     gender_choice = ({"id": 0, "caption": "男"}, {"id": 1, "caption": "女"})
     marriage_choice = ({"id": 0, "caption": "未婚"}, {"id": 1, "caption": "已婚"})
+    lunar_choice = ({"id": 0, "caption": "公历"}, {"id": 1, "caption": "农历"})
 
     def insert_linkman(self, modify_info):
         linkman_sql = """insert into linkman(%s) value(%s);"""

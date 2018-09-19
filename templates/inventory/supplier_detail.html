@@ -12,6 +12,22 @@
      #content-main{
       overflow :auto
      }
+    .value{
+        margin:0px;
+        background-color: #F8F8F8;
+        border-color: #dddddd;
+    }
+    .label_form{
+        padding: 22px 10px 7px 0px;
+        border:1px #dddddd;
+    }
+    .p_form{
+        background-color:white ;padding: 15px 10px 15px 10px
+    }
+    #attach_container>label{
+        font-weight: normal;
+    }
+
     </style>
 {% endblock %}
 
@@ -25,7 +41,7 @@
                             <div class="col-sm-12">
                                 <div class="m-b-md">
                                     <a href="{%url "supplier_edit" %}?id={{ query_set.nid }}" class="btn btn-white btn-xs pull-right">去编辑</a>
-                                    <h3>{{ query_set.company }}</h3>
+                                    <h3 style="margin-left:15px"> {{ query_set.company }}</h3>
                                 </div>
                                     <dl class="dl-horizontal">
                                     <dt>主营商品：</dt>
@@ -55,7 +71,7 @@
                                     <dt>用户名：</dt>
                                     <dd>{{ query_set.account_name}}</dd>
                                     <dt>开户银行：</dt>
-                                    <dd>{{ query_set.bank_account}}}</dd>
+                                    <dd>{{ query_set.bank_account}}</dd>
                                     <dt>创建时间：</dt>
                                     <dd>{{ query_set.create_time|date:"Y-m-d" }}</dd>
                                 </dl>
@@ -79,7 +95,6 @@
                                           /{{ query_set.address }}
                                     </dd>
                                 </dl>
-
                             </div>
                         </div>
                         <div class="row m-t-sm">
@@ -98,7 +113,7 @@
                                     <div class="panel-body">
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab-1">
-                                                <table class="table table-striped">
+                                                <table id="linkman"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
                                                             <th>姓名</th>
@@ -107,6 +122,7 @@
                                                             <th>电话</th>
                                                             <th>分机</th>
                                                             <th>籍贯</th>
+                                                            <th>操作</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -122,7 +138,6 @@
                                                                       {% else %}
                                                                       空
                                                                   {% endif %}
-
                                                            </td>
                                                               <td >
                                                                   {% if obj.phone %}{{ obj.phone }}
@@ -140,7 +155,9 @@
                                                                       {% else %}
                                                                       空
                                                                   {% endif %}</td>
-
+                                                             <td><a href="{% url 'supplier_linkman' %}?sid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <a href="" data-toggle="modal" onclick="ShowLinkmanDetail({{ obj.nid }})" class="btn btn-info">详细</a>
+                                                             </td>
                                                         </tr>
                                                         {% endfor %}
 
@@ -148,7 +165,7 @@
                                                 </table>
                                             </div>
                                             <div class="tab-pane" id="tab-2">
-                                                <table class="table table-striped">
+                                                <table id="contact"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
                                                             <th>收支分类</th>
@@ -157,6 +174,8 @@
                                                             <th>应收/应付</th>
                                                             <th>已收/已付</th>
                                                             <th>待收/待付</th>
+                                                            <th>交易日期</th>
+                                                             <th>操作</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -171,7 +190,6 @@
                                                                       {% else %}
                                                                       空
                                                                   {% endif %}
-
                                                            </td>
                                                                <td> {% change_to_linkman obj.linkman_id%}</td>
                                                               <td >
@@ -190,19 +208,18 @@
                                                                       {% else %}
                                                                       空
                                                                   {% endif %}</td>
-
+                                                               <td> {{ obj.date |date:"Y-m-d"}}
+                                                                      </td>
+                                                              <td><a href="{% url 'supplier_contact' %}?sid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <a href="" class="btn btn-info">详细</a>
+                                                             </td>
                                                         </tr>
                                                         {% endfor %}
-
-
                                                     </tbody>
                                                 </table>
-
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -216,7 +233,6 @@
                      <h4>公司照片</h4>
                         <p><img width="100" src="/{{supplier_photo.photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
              {% endif %}
-
              {% if supplier_photo %}
                      <h4>公司执照</h4>
                         <p><img width="100" src="/{{supplier_licence.photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
@@ -233,7 +249,6 @@
                             <span  >{{ obj.description }}</span>
                         </li>
                     {% endfor %}
-
                 </ul>
                  <lable>备注：</lable>
                 <span class="small" style="text-indent:2em">{{ query_set.remark }}
@@ -241,11 +256,218 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal linkman_detail -->
+<div class="modal fade " id="linkman_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">联系人</h3>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;">
+            <div class="col-xs-12">
+                <div class="form-container row clearfix">
+                        <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
+                            <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
+{#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
+                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px">
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">姓名</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="name" ></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value hidden" id="photo_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">照片</div>
+                                          <div class="col-xs-9 p_form">
+                                            <p><img width="100"  id="linkman_photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">年龄</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="age"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">婚姻</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="marriage"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value hidden" id="card_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">名片</div>
+                                          <div class="col-xs-9 p_form">
+                                            <p><img width="100"  id="linkman_card"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">手机</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="mobile"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">电话</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="phone"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">电话</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="ext_phone"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">生日</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="birthday"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">籍贯</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="native_place"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value hidden " id="attach_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="attach_container">
+
+                                          </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+         </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="ClearData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <a class="btn btn-submit btn-primary edit-btn" id="edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+      </div>
+    </div>
+    </div>
+</div>
+
 {% endblock%}
 
 {% block js %}
     <script>
         $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+              /*
+    自执行函数
+    */
+    $(function () {
+        $("#contact").bootstrapTable({
+            {#toolbar: "#toolbar",#}
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            {#sortable: true,#}
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 6,
+            pageList: [10,15,20],
+            {#search: true,#}
+            strictSearch: false,
+            {#showColumns: true,#}
+            {#showRefresh: true,#}
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            {#showToggle:true,#}
+            cardView: false,
+            detailView: false,
+            cache: false
+        });
+         $("#linkman").bootstrapTable({
+            {#toolbar: "#toolbar",#}
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            {#sortable: true,#}
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 10,
+            pageList: [5, 10,15],
+            {#search: true,#}
+            strictSearch: false,
+            {#showColumns: true,#}
+            {#showRefresh: true,#}
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            {#showToggle:true,#}
+            cardView: false,
+            detailView: false,
+            cache: false
+        });
+    });
+
+    //指派任务内容
+function ShowLinkmanDetail(cons) {
+
+      $('#linkman_detail').modal('show');
+      var id =cons
+      $.ajax({
+          url:"{% url "linkman_detail" %}",
+          type:"get",
+          data:{'id':id},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  console.log(arg)
+                  var data=arg.data;
+                  console.log(data.name)
+                  $("#name").text(data.name);
+                  $("#gender").text(data.gender);
+                  $("#age").text(data.age);
+                  $("#marriage").text(data.marriage);
+                  $("#mobile").text(data.mobile);
+                  $("#phone").text(data.phone);
+                  $("#ext_phone").text(data.ext_phone);
+                  if (data.birthday!=""){
+                       $("#birthday").text(data.birthday +"(" +data.is_lunar +")");
+                  }
+                  $("#native_place").text(data.native_place);
+                  if (data.photo != ""){
+                       $("#linkman_photo").attr("src","/"+data.photo )
+                       $("#photo_block").removeClass("hidden")
+                  }
+                   if (data.card != ""){
+                       $("#linkman_card").attr("src","/"+data.card )
+                       $("#card_block").removeClass("hidden")
+                  }
+                  if (data.attach != ""){
+                       $("#linkman_card").attr("src","/"+data.card )
+                       $("#card_block").removeClass("hidden")
+                  }
+                  //初始化附件
+                  var attachs = JSON.parse(data.attach);
+                  if (attachs!=""){
+                       for (var i=0;i<attachs.length;i++){
+                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles=a_ele+l_ele+"<br>"
+                      $("#attach_container").append(eles)
+                  }
+                      $("#edit").attr("href","supplier_linkman?sid={0}&id={1}".format({{ query_set.nid }},data.nid))
+                      $("#attach_block").removeClass("hidden")
+                  }
+
+
+              }
+          }
+      });
+    }
+    //清空指派模态框的数据
+    function ClearData(){
+            window.location.reload();
+}
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 {% endblock %}

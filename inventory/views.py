@@ -6,6 +6,7 @@ from django.core import serializers
 from .server import *
 from .forms.form import *
 from common.functions import *
+from .templatetags.inventory_tags import *
 # Create your views here.
 
 
@@ -157,9 +158,6 @@ def goods_edit(request):
             life_photo = {}
             goods_attach = {}
             goods_code = {}
-        print("life_photo",life_photo)
-        print("goods_attach",goods_attach)
-        print("goods_code",goods_code)
         return render(request, "inventory/goods_edit.html", {"query_set": query_sets,
                                                              "life_photo": life_photo,
                                                              "goods_code": goods_code,
@@ -238,13 +236,11 @@ def goods_edit(request):
                 # 创建
                 try:
                     with transaction.atomic():
-                        # 插入人事信息
+                        # 插入商品信息
                         goods_info = filter_fields(Goods._insert, data)
                         nid = goods_db.insert_goods(goods_info)
-                        print("nid",nid)
                         # 插入商品照片
                         if goods_photo:
-                            print("photo")
                             goods_photo["goods_id"] = nid
                             goods_photo_db.insert_photo(goods_photo)
                         # 插入商品条码照
@@ -252,7 +248,6 @@ def goods_edit(request):
                             goods_code["goods_id"] = nid
                             goods_code_db.insert_bar(goods_code)
                         if goods_attach:
-                            print("att")
                             goods_attach = build_attachment_info({"goods_id": nid}, goods_attach)
                             goods_attach_db.mutil_insert_attachment(goods_attach)
                         ret['status'] = True
@@ -575,8 +570,6 @@ def supplier_edit(request):
             supplier_photo = {}
             supplier_licence = {}
             supplier_attach = {}
-        print(supplier_licence)
-        print(supplier_attach)
         return render(request, "inventory/supplier_edit.html", {"query_set": query_sets,
                                                              "supplier_photo": supplier_photo,
                                                              "supplier_licence": supplier_licence,
@@ -759,7 +752,6 @@ def supplier_linkman(request):
                     linkman_photo = {}
                     linkman_card = {}
                     linkman_attach = {}
-                print(supplier_obj)
                 return render(request, "inventory/supplier_linkman.html", {"query_set": query_sets,
                                                                             "linkman_photo": linkman_photo,
                                                                             "linkman_card": linkman_card,
@@ -783,16 +775,15 @@ def supplier_linkman(request):
             linkman_attach = list(json.loads(linkman_attach))
             if nid:
                 # 更新
+                print("genxin")
                 try:
                     with transaction.atomic():
                         # 更新联系人信息
-                        print("更新联系人信息")
                         record = linkman_db.query_linkman_by_id(nid)
                         linkman_info = compare_fields(Linkman._update, record, data)
                         if linkman_info:
                             linkman_info["nid"] = nid
                             linkman_db.update_linkman(linkman_info)
-                        print("update_linkman",linkman_info)
                         # 插入联系人照片
                         photo_record = linkman_photo_db.query_linkman_photo(nid)
                         if linkman_photo:
@@ -826,9 +817,11 @@ def supplier_linkman(request):
                             if card_record:
                                 linkman_card_db.delete_card_by_card_id(nid)
                         if linkman_attach:
+                            print("linkman_attach",linkman_attach)
                             # 更新附件
-                            att_record = supplier_attach_db.query_supplier_attachment(nid)
+                            att_record = linkman_attach_db.query_linkman_attachment(nid)
                             # 数据对比
+                            print(att_record)
                             insert_att, update_att, delete_id_att = compare_json(att_record, linkman_attach, "nid")
                             if insert_att:
                                 insert_att = build_attachment_info({"linkman_id": nid}, insert_att)
@@ -836,7 +829,8 @@ def supplier_linkman(request):
                             if update_att:
                                 linkman_attach_db.mutil_update_attachment(update_att)
                             if delete_id_att:
-                                linkman_attach_db.mutil_delete_supplier_attachment(delete_id_att)
+                                print("delete",delete_id_att)
+                                linkman_attach_db.mutil_delete_linkman_attachment(delete_id_att)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -884,7 +878,6 @@ def supplier_contact(request):
                 if nid:
                     # 更新
                     query_sets = supplier_contact_db.query_contact_by_id(nid)
-                    print("nid",nid)
                     contact_attach = contact_attach_db.query_contact_attachment(nid)
                     if not contact_attach:
                         contact_attach = ''
@@ -906,22 +899,16 @@ def supplier_contact(request):
             contact_attach = data.get("attach", None)
             nid = data.get("nid", None)
             contact_attach = list(json.loads(contact_attach))
-            print("data",data)
-            print("nid",nid)
             if nid:
-                print("更新")
                 # 更新
                 try:
                     with transaction.atomic():
                         # 更新联系人信息
-                        print("更新来往信息")
                         record = supplier_contact_db.query_contact_by_id(nid)
                         contact_info = compare_fields(SupplierContact._update, record, data)
                         if contact_info:
                             contact_info["nid"] = nid
-                            print(contact_info)
                             supplier_contact_db.update_contact(contact_info)
-                        print("update_linkman",contact_info)
                         if contact_attach:
                             # 更新附件
                             att_record = supplier_attach_db.query_supplier_attachment(nid)
@@ -940,7 +927,6 @@ def supplier_contact(request):
                     print(e)
                     ret["message"] = "更新失败"
             else:
-                print("创建")
                 # 创建
                 try:
                     with transaction.atomic():
@@ -962,13 +948,10 @@ def supplier_contact(request):
         return HttpResponse(json.dumps(ret))
 
 
-
 def supplier_detail(request):
     sid = request.GET.get("id",None)
-    print("id",sid)
     if sid:
         query_sets = supplier_db.query_supplier_by_id(sid)
-        print(query_sets)
         if query_sets:
             supplier_photo = supplier_photo_db.query_supplier_photo(sid)
             supplier_licence = supplier_licence_db.query_supplier_licence(sid)
@@ -984,6 +967,46 @@ def supplier_detail(request):
                                                                  "supplier_licence": supplier_licence,
                                                                  "supplier_attach": supplier_attach,
                                                                 })
+    return render(request,'404.html')
+
+
+def linkman_detail(request):
+    id = request.GET.get("id",None)
+    ret={"status":False,"data":"","message":""}
+    if id:
+        try:
+            linkman_obj = linkman_db.query_linkman_by_id(id)
+            if linkman_obj:
+                # 格式化数据
+                linkman_json = linkman_obj.__dict__
+                linkman_json.pop('_state')
+                linkman_json["gender"] = change_to_gender(linkman_json["gender"])
+                linkman_json['marriage'] = change_to_linkman_marriage(linkman_json['marriage'])
+                linkman_json['is_lunar'] = change_to_linkman_lunar(linkman_json['is_lunar'])
+                linkman_json['birthday'] = linkman_json['birthday'].strftime('%Y-%m-%d') if linkman_json['birthday'] else ''
+                linkman_json['create_time'] = linkman_json['create_time'].strftime('%Y-%m-%d %H:%I:%S')
+                linkman_json['last_edit'] = linkman_json['last_edit'].strftime('%Y-%m-%d %H:%I:%S')
+                linkman_photo = linkman_photo_db.query_linkman_photo(id)
+                linkman_card = linkman_card_db.query_linkman_card(id)
+                linkman_attach = linkman_attach_db.query_linkman_attachment(id)
+                if linkman_photo:
+                    linkman_json['photo'] = linkman_photo.photo
+                else:
+                    linkman_json['photo'] = ''
+                if linkman_card:
+                    linkman_json['card'] =linkman_card.photo
+                else:
+                    linkman_json['card'] = ''
+                if linkman_attach:
+                     linkman_json['attach'] = serializers.serialize("json",linkman_attach)
+                else:
+                    linkman_json['attach'] = ''
+                ret['status']=True
+                ret['data'] = linkman_json
+                return HttpResponse(json.dumps(ret))
+
+        except Exception as e:
+            print(e)
     return render(request,'404.html')
 
 # 文件上传
@@ -1195,7 +1218,6 @@ def supplier_photo(request):
     except Exception as e:
         print(e)
         ret["summary"] = str(e)
-    print(ret)
     return HttpResponse(json.dumps(ret))
 
 

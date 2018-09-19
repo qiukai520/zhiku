@@ -41,7 +41,7 @@ class PerformanceRecord(models.Model):
 
 
 class Task(models.Model):
-    task_status_choice = ((1, '启动'), (0, '删除'))
+    task_status_choice = ((1, '保留'), (0, '删除'))
 
     tid = models.AutoField(primary_key=True)
     title = models.CharField(max_length=512, verbose_name='任务名称')  # 任务名称
@@ -237,6 +237,7 @@ class TaskAssign(models.Model):
     delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
     class Meta:
         db_table = 'task_assign'
         unique_together = (('tmid', 'member_id'),)
@@ -244,7 +245,7 @@ class TaskAssign(models.Model):
         verbose_name_plural = '个人指派内容'
 
     def __str__(self):
-        return "个人指派内容:{0}".format(self.title)
+        return "个人指派内容:{0}".format(self.tmid)
 
 
 class TaskAssignAttach(models.Model):

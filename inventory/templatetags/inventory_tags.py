@@ -297,6 +297,22 @@ def change_to_gender(id):
         if item['id'] == int(id):
             return item["caption"]
 
+@register.simple_tag
+def change_to_linkman_marriage(id):
+    marriage_choice = linkman_db.marriage_choice
+    for item in marriage_choice:
+        print("item", item)
+        if item['id'] == int(id):
+            return item["caption"]
+
+
+@register.simple_tag
+def change_to_linkman_lunar(id):
+    lunar_choice = linkman_db.lunar_choice
+    for item in lunar_choice:
+        print("item", item)
+        if item['id'] == int(id):
+            return item["caption"]
 
 @register.simple_tag
 def change_to_goods_category(id):

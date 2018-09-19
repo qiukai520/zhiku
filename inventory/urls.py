@@ -46,6 +46,7 @@ urlpatterns = [
     path("supplier_linkman", views.supplier_linkman, name='supplier_linkman'),
     path("supplier_contact", views.supplier_contact, name='supplier_contact'),
     path("supplier_detail", views.supplier_detail, name='supplier_detail'),
+    path("linkman_detail", views.linkman_detail, name="linkman_detail"),
     path("upload_goods_photo", views.goods_photo, name="goods_photo"),
     path("upload_goods_code", views.goods_code, name="goods_code"),
     path("upload_linkman_photo", views.linkman_photo, name="linkman_photo"),
