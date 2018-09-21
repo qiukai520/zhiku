@@ -321,7 +321,13 @@ def change_to_goods_category(id):
         obj = goods_category_db.query_category_by_id(id)
         if obj:
             return obj.caption
-
+@register.simple_tag
+def change_to_goods_unit(id):
+    """转换成商品单位"""
+    if id:
+        unit_obj=goods_unit_db.query_unit_by_id(id)
+        if unit_obj:
+            return unit_obj.caption
 
 @register.simple_tag
 def change_to_supplier_category(id):
@@ -391,8 +397,12 @@ def fetch_supplier_linkman_list(id):
 
 @register.simple_tag
 def fetch_supplier_contact_list(id):
-    print("contact",id)
     if id:
         contact_list = supplier_contact_db.query_contact_by_supplier(id)
-        print(contact_list)
         return contact_list
+
+@register.simple_tag
+def fetch_supplier_memo_list(id):
+    if id:
+        memo_list = supplier_memo_db.query_memo_by_supplier_id(id)
+        return memo_list

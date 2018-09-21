@@ -1,14 +1,17 @@
 import json
 from datetime import date
 from datetime import datetime
+import decimal
 
 
 class CJSONEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, datetime.datetime):
-            return obj.strftime('%Y-%m-%d %H:%M:%S')
+        if isinstance(obj, datetime):
+            return obj.strftime('%Y-%m-%d ')
         elif isinstance(obj, date):
             return obj.strftime('%Y-%m-%d')
+        elif isinstance(obj, decimal.Decimal):
+            return float(obj)
         else:
             return json.JSONEncoder.default(self, obj)
 # dl= json.dumps(datalist, cls=JsonCustomEncoder)
@@ -25,7 +28,7 @@ def filter_fields(white_fields, modify_info):
 
 def compare_fields(white_fields, record, modify_info):
     # 比较参数,并去掉字符串多余空格
-    final = {field:  modify_info[field].strip() if type(modify_info[field]) == str else modify_info[field] for field in white_fields if field in modify_info.keys() and modify_info[field] != getattr(record,field)}
+    final = {field:  modify_info[field].strip() if type(modify_info[field]) == str else modify_info[field] for field in white_fields if field in modify_info.keys() and modify_info[field].strip() != getattr(record,field)}
     return final
 
 

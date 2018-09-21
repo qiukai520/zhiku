@@ -9,6 +9,22 @@
         width: 75px;
         height: 50px;
     }
+      .value{
+        margin:0px;
+        background-color: #F8F8F8;
+        border-color: #dddddd;
+    }
+    .label_form{
+        padding: 22px 10px 7px 0px;
+        border:1px #dddddd;
+    }
+    .p_form{
+        background-color:white ;padding: 15px 10px 15px 10px
+    }
+    #attach_container>label{
+        font-weight: normal;
+    }
+
     </style>
 {%endblock %}
 {% block content %}
@@ -87,6 +103,8 @@
                                           <td>{{ obj.start_month }}月-{{ obj.end_month }}月</td>
                                             <td>
                                               <a  href="{%url "goods_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
+                                                <button  data-toggle="modal" onclick="ShowGoodsDetail({{ obj.nid }})" class="btn btn-info">详细</button>
+
                                           </td>
                                       </tr>
                                       {% endfor %}
@@ -122,6 +140,99 @@
   </div>
 </div>
     </div>
+          <!-- Modal goods_detail -->
+<div class="modal fade " id="goods_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">商品详细</h3>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;">
+            <div class="col-xs-12">
+                <div class="form-container row clearfix">
+                        <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
+                            <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
+{#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
+                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px">
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">商品分类</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="category_id" ></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">商品名称</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="name"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value hidden" id="photo_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">照片</div>
+                                          <div class="col-xs-9 p_form">
+                                            <p><img width="100"  id="goods_photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">商品描述</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="description"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">商品单位</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="unit_id"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">商品规格</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="standard"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">商品条码</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="code_bar"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value hidden" id="code_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">条码图片</div>
+                                          <div class="col-xs-9 p_form">
+                                            <p><img width="100"  id="goods_code"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">产期</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="product_cycle"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">地区</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="region"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value hidden " id="attach_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="attach_container">
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+         </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="ClearData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <a class="btn btn-submit btn-primary edit-btn" id="goods_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+      </div>
+    </div>
+    </div>
+</div>
 
 {% endblock %}
 {% block js%}
@@ -183,7 +294,7 @@
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "staff_delete" %}",
+            url:"{% url "goods_delete" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",
@@ -201,5 +312,57 @@
         })
         });
     }
+        //展示联系人详细内容
+function ShowGoodsDetail(cons) {
+
+      $('#goods_detail').modal('show');
+      var id =cons
+      $.ajax({
+          url:"{% url "goods_detail" %}",
+          type:"get",
+          data:{'id':id},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  console.log(arg)
+                  var data=arg.data;
+                  console.log(data.name)
+                  $("#category_id").text(data.category_id);
+                  $("#name").text(data.name);
+                  $("#description").text(data.description);
+                  $("#unit_id").text(data.unit_id);
+                  $("#standard").text(data.standard);
+                  $("#code_bar").text(data.code);
+                  $("#product_cycle").text(data.start_month+"月"+"-"+data.end_month+"月")
+                  $("#region").text(data.region);
+                  if (data.photo != ""){
+                       $("#goods_photo").attr("src","/"+data.photo )
+                       $("#photo_block").removeClass("hidden")
+                  }
+                   if (data.code_photo != ""){
+                       $("#goods_code").attr("src","/"+data.code_photo )
+                       $("#code_block").removeClass("hidden")
+                  }
+                  //初始化附件
+                  console.log(data.nid)
+                  if (data.attach!=""){
+                      var attachs = JSON.parse(data.attach);
+                      for (var i=0;i<attachs.length;i++){
+                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles=a_ele+l_ele+"<br>"
+                      $("#attach_container").append(eles)
+                          $("#attach_block").removeClass("hidden")
+                      }
+                  }
+                  $("#goods_edit").attr("href","goods_edit?id={0}".format(data.nid))
+              }
+          }
+      });
+    }
+        //清空指派模态框的数据
+    function ClearData(){
+            window.location.reload();
+}
     </script>
 {% endblock %}

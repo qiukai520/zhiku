@@ -2,9 +2,6 @@ from django.db import connection
 from .models import *
 
 
-
-
-
 class IndustryDB(object):
     """部门表"""
     def query_industry_list(self):
@@ -49,6 +46,37 @@ class SupplierCategoryDB(object):
         if is_exist:
             raise Exception("该供应商分类名称已存在")
         SupplierCategory.objects.create(**modify_info)
+
+
+class SupplierMemoDB(object):
+    """供应商备忘"""
+    def insert_memo(self, modify_info):
+        memo_sql = """insert into supplier_memo(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        memo_sql = memo_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(memo_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_memo_list(self):
+        result_db = SupplierMemo.objects.filter().all()
+        return result_db
+
+    def query_memo_by_id(self, nid):
+        result_db = SupplierMemo.objects.filter(nid=nid).first()
+        return result_db
+
+    def query_memo_by_supplier_id(self, sid):
+        result_db = SupplierMemo.objects.filter(supplier_id=sid).all()
+        return result_db
+
+    def update_memo(self, modify_info):
+        SupplierMemo.objects.filter(nid=modify_info['nid']).update(**modify_info)
 
 
 class GoodsCategoryDB(object):
@@ -343,7 +371,6 @@ class SupplierDB(object):
         result_db = Supplier.objects.filter(nid=nid,delete_status=1).first()
         return result_db
 
-
     def update_supplier(self, modify):
         Supplier.objects.filter(nid=modify['nid'],delete_status=1).update(**modify)
 
@@ -516,6 +543,33 @@ class ContactAttachDB(object):
     def delete_contact_attachment(self,nid):
         ContactAttach.objects.filter(nid=nid).delete()
 
+class MemoAttachDB(object):
+    """备忘附件表"""
+    def query_memo_attachment_list(self):
+        result_db = MemoAttach.objects.filter().all()
+        return result_db
+
+    def query_memo_attachment(self, id):
+        result_db = MemoAttach.objects.filter(memo_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            MemoAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            MemoAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_memo_attachment(self, id_list):
+        MemoAttach.objects.filter(nid__in=id_list).delete()
+
+    def multi_delete_attach_by_linkman_id(self,id_list):
+        MemoAttach.objects.filter(memo_id__in=id_list).filter().delete()
+
+    def delete_memo_attachment(self,nid):
+        MemoAttach.objects.filter(nid=nid).delete()
+
 
 class LinkmanPhotoDB(object):
     """供应商图片"""
@@ -584,7 +638,9 @@ supplier_photo_db = SupplierPhotoDB()
 supplier_licence_db = SupplierLicenceDB()
 supplier_attach_db = SupplierAttachDB()
 supplier_contact_db = SupplierContactDB()
+supplier_memo_db= SupplierMemoDB()
 contact_attach_db = ContactAttachDB()
+memo_attach_db = MemoAttachDB()
 industry_db = IndustryDB()
 supplier_category_db = SupplierCategoryDB()
 goods_category_db = GoodsCategoryDB()

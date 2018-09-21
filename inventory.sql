@@ -152,6 +152,27 @@ create TABLE `goods_photo`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品图片';
 
 
+drop TABLE if exists `supplier_memo`;
+create table `supplier_memo`(
+`nid` int(11) primary key auto_increment,
+`supplier_id`int(11) NOT NULL  COMMENT '供应商',
+`title` varchar (128) NOT NULL  COMMENT '标题',
+`detail` varchar (512) NOT NULL  COMMENT '详细',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='供应商备忘';
+
+
+drop TABLE if exists `memo_attach`;
+create TABLE `memo_attach`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`memo_id` int(11) NOT NULL COMMENT'备忘',
+`attachment` varchar(128) COMMENT '附件路径',
+`description` varchar(128) COMMENT '附件描述',
+`name` varchar(64) COMMENT '附件名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='备忘附件';
+
+
 drop TABLE if exists `industry`;
 create table `industry`(
 `nid` int(11) primary key auto_increment,

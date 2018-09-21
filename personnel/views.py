@@ -2,12 +2,14 @@ import json
 import uuid
 import os
 from django.db import transaction
+from django.core import serializers
 from django.shortcuts import render,HttpResponse
 from task.utils import build_attachment_info
 from .server import *
 from .forms.form import *
 from common.functions import *
 from .models import *
+from .templatetags.personnel_tags import  *
 
 # Create your views here.
 
@@ -289,6 +291,7 @@ def staff_edit(request):
         form = StaffForm(data=request.POST)
         if form.is_valid():
             data = request.POST
+            # print("data",data)
             data = data.dict()
             life_photo = data.get("life_photo",None)
             staff_attach = data.get("attach",None)
@@ -364,8 +367,45 @@ def staff_edit(request):
         return HttpResponse(json.dumps(ret))
 
 
+def staff_detail(request):
+    id = request.GET.get("id",None)
+    ret={"status":False,"data":"","message":""}
+    if id:
+        try:
+            staff_obj = staff_db.query_staff_by_id(id)
+            if staff_obj:
+                # 格式化数据
+                staff_json = staff_obj.__dict__
+                staff_json.pop('_state')
+                print("staff_json",staff_json)
+                staff_json["gender"] = change_to_sex(staff_json["gender"])
+                staff_json['company_id'] = change_to_company(staff_json['company_id'])
+                staff_json['project_id'] = change_to_project(staff_json['project_id'])
+                staff_json['department_id'] = change_to_department(staff_json['department_id'])
+                staff_json['job_rank_id'] = change_to_job_rank(staff_json['job_rank_id'])
+                staff_json['job_title_id'] = change_to_job_title(staff_json['job_title_id'])
+                staff_json['is_lunar'] = change_to_lunar(staff_json['is_lunar'])
+                staff_photo = staff_life_photo_db.query_life_photo_by_sid(id)
+                staff_attach = staff_attach_db.query_staff_attachment_by_sid(id)
+                if staff_photo:
+                    staff_json['photo'] = staff_photo.life_photo
+                else:
+                    staff_json['photo'] = ''
+                if staff_attach:
+                    staff_json['attach'] = serializers.serialize("json",staff_attach)
+                else:
+                    staff_json['attach'] = ''
+                ret['status'] = True
+                ret['data'] = staff_json
+                print(ret)
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
+
+
 def staff_delete(request):
-    """任务软删除"""
+    """人事软删除"""
     ret = {'status': False, "data": "", "message": ""}
     ids = request.GET.get("ids", '')
     ids = ids.split("|")

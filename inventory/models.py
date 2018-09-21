@@ -7,13 +7,13 @@ class Supplier(models.Model):
     delete_status_choice = ((0, '删除'), (1, '保留'))
     nid = models.AutoField(primary_key=True)
     category = models.ForeignKey("SupplierCategory", to_field="nid", on_delete=models.CASCADE, verbose_name='供应商分类',
-                               db_constraint=False)
+                               db_constraint = False)
     company = models.CharField(max_length=64,verbose_name="公司名称")
     industry = models.ForeignKey("Industry", to_field="nid", on_delete=models.CASCADE, verbose_name='行业',
-                               db_constraint=False)
+                               db_constraint = False)
     employees = models.IntegerField(verbose_name='公司人数')
     goods = models.ForeignKey("Goods", to_field="nid", on_delete=models.CASCADE, verbose_name='主营商品',
-                               db_constraint=False)
+                               db_constraint = False)
     introduce = models.CharField(max_length=512, verbose_name="简介", blank=True, null=True)
     website = models.CharField(max_length=64, verbose_name="网站", blank=True, null=True)
     phone = models.CharField(max_length=16, verbose_name="联系电话", blank=True, null=True)
@@ -55,8 +55,8 @@ class Goods(models.Model):
                                  db_constraint=False)
     code = models.CharField(max_length=64, verbose_name="商品条码")
     standard = models.CharField(max_length=32,verbose_name='商品规格', blank=True, null=True)
-    start_month = models.SmallIntegerField(blank=True, null=True, verbose_name='起始产期',)
-    end_month = models.SmallIntegerField(blank=True, null=True, verbose_name='结束期')
+    start_month = models.SmallIntegerField(blank=True, null=True, verbose_name='起始产期(月份)',)
+    end_month = models.SmallIntegerField(blank=True, null=True, verbose_name='结束期(月份)')
     country = models.ForeignKey("Country", to_field="nid", on_delete=models.CASCADE, verbose_name='县(区',
                                 db_constraint=False)
     delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
@@ -70,8 +70,8 @@ class Goods(models.Model):
 
     def __str__(self):
         return self.name
-    _insert=["category_id","name","description","unit","code","standard","start_month","end_month","country_id"]
-    _update=["category_id","name","description","unit","code","standard","start_month","end_month","country_id"]
+    _insert=["category_id","name","description","unit_id","code","standard","start_month","end_month","country_id"]
+    _update=["category_id","name","description","unit_id","code","standard","start_month","end_month","country_id"]
 
 
 class SupplierContact(models.Model):
@@ -252,7 +252,6 @@ class LinkmanPhoto(models.Model):
     _update = ["photo","name"]
 
 
-
 class SupplierLicence(models.Model):
     nid = models.AutoField(primary_key=True)
     supplier = models.ForeignKey('Supplier', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
@@ -371,6 +370,44 @@ class SupplierCategory(models.Model):
 
     _insert = ["caption"]
     _update = ["caption"]
+
+
+class SupplierMemo(models.Model):
+    nid = models.AutoField(primary_key=True)
+    supplier = models.ForeignKey('Supplier', to_field="nid", on_delete=models.CASCADE, db_constraint=False,
+                                 default=1, verbose_name='供应商')
+    title = models.CharField(max_length=16,verbose_name="标题")
+    detail = models.CharField(max_length=16,verbose_name="详细")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'supplier_memo'
+        verbose_name = '供应商备忘'
+        verbose_name_plural = '供应商备忘'
+
+    def __str__(self):
+        return self.title
+
+    _insert = ["supplier_id","title",'detail']
+    _update = ["supplier_id","title",'detail']
+
+
+class MemoAttach(models.Model):
+    nid = models.AutoField(primary_key=True)
+    memo = models.ForeignKey('SupplierMemo', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                              verbose_name='供应商备忘')
+    attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
+    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
+
+    class Meta:
+        db_table = 'memo_attach'
+        verbose_name = '备忘附件'
+        verbose_name_plural = '备忘附件'
+
+    def __str__(self):
+        return "备忘附件:{0}".format(self.name)
 
 
 class Industry(models.Model):

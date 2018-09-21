@@ -6,6 +6,7 @@ from django.core import serializers
 from .server import *
 from .forms.form import *
 from common.functions import *
+from .utils import *
 from .templatetags.inventory_tags import *
 # Create your views here.
 
@@ -309,6 +310,43 @@ def goods_category_edit(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
     return HttpResponse(json.dumps(ret))
+
+
+def goods_detail(request):
+    id = request.GET.get("id",None)
+    ret={"status":False,"data":"","message":""}
+    if id:
+        try:
+            goods_obj = goods_db.query_goods_by_id(id)
+            if goods_obj:
+                # 格式化数据
+                goods_json = goods_obj.__dict__
+                goods_json.pop('_state')
+                goods_json["category_id"] = change_to_goods_category(goods_json["category_id"])
+                goods_json['unit_id'] = change_to_goods_unit(goods_json['unit_id'])
+                goods_json['region'] = build_region(goods_json['country_id'])
+                good_photo = goods_photo_db.query_goods_photo(id)
+                goods_code = goods_code_db.query_goods_bar(id)
+                goods_attach = goods_attach_db.query_goods_attachment(id)
+                if good_photo:
+                    goods_json['photo'] = good_photo.photo
+                else:
+                    goods_json['photo'] = ''
+                if goods_code:
+                    goods_json['code_photo'] =goods_code.photo
+                else:
+                    goods_json['code_photo'] = ''
+                if goods_attach:
+                    goods_json['attach'] = serializers.serialize("json",goods_attach)
+                else:
+                    goods_json['attach'] = ''
+                ret['status']=True
+                ret['data'] = goods_json
+                print(ret)
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
 
 
 def goods_unit_list(request):
@@ -866,7 +904,6 @@ def supplier_linkman(request):
         return HttpResponse(json.dumps(ret))
 
 
-
 def supplier_contact(request):
     mothod = request.method
     if mothod == "GET":
@@ -948,6 +985,89 @@ def supplier_contact(request):
         return HttpResponse(json.dumps(ret))
 
 
+def supplier_memo(request):
+    mothod = request.method
+    if mothod == "GET":
+        nid = request.GET.get("id", "")
+        sid = request.GET.get("sid",'')
+        if sid:
+            supplier_obj = supplier_db.query_supplier_by_id(sid)
+            if supplier_obj:
+                if nid:
+                    # 更新
+                    query_sets = supplier_memo_db.query_memo_by_id(nid)
+                    memo_attach = memo_attach_db.query_memo_attachment(nid)
+                    if not memo_attach:
+                        memo_attach = ''
+                else:
+                    query_sets = {}
+                    memo_attach = {}
+                return render(request, "inventory/supplier_memo.html", {"query_set": query_sets,
+                                                                            "memo_attach": memo_attach,
+                                                                            "nid": nid,
+                                                                            "supplier_obj":supplier_obj
+                                                                           })
+        return render(request,"404.html")
+    else:
+        ret = {'status': False, "data": '', "message": ""}
+        form = MemoForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            memo_attach = data.get("attach", None)
+            nid = data.get("nid", None)
+            memo_attach = list(json.loads(memo_attach))
+            if nid:
+                # 更新
+                try:
+                    with transaction.atomic():
+                        # 更新联系人信息
+                        record = supplier_memo_db.query_memo_by_id(nid)
+                        memo_info = compare_fields(SupplierMemo._update, record, data)
+                        if memo_info:
+                            memo_info["nid"] = nid
+                            supplier_memo_db.update_memo(memo_info)
+                        if memo_attach:
+                            # 更新附件
+                            att_record = memo_attach_db.query_memo_attachment(nid)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, memo_attach, "nid")
+                            if insert_att:
+                                insert_att = build_attachment_info({"memo_id": nid}, insert_att)
+                                memo_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                memo_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                memo_attach_db.mutil_delete_memo_attachment(delete_id_att)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "更新失败"
+            else:
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入备忘信息
+                        memo_info = filter_fields(SupplierMemo._insert, data)
+                        print("memo_inof",memo_info)
+                        nid = supplier_memo_db.insert_memo(memo_info)
+                        print("nid",nid)
+                        if memo_attach:
+                            memo_attach = build_attachment_info({"memo_id": nid}, memo_attach)
+                            memo_attach_db.mutil_insert_attachment(memo_attach)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
+
 def supplier_detail(request):
     sid = request.GET.get("id",None)
     if sid:
@@ -970,6 +1090,33 @@ def supplier_detail(request):
     return render(request,'404.html')
 
 
+def contact_detail(request):
+    id = request.GET.get("id",None)
+    ret={"status":False,"data":"","message":""}
+    if id:
+        try:
+            contact_obj = supplier_contact_db.query_contact_by_id(id)
+            if contact_obj:
+                # 格式化数据
+                contact_json = contact_obj.__dict__
+                print(contact_json)
+                contact_json.pop('_state')
+                contact_json["category"] = change_to_contact_category(contact_json["category"])
+                contact_json['linkman_id'] = change_to_linkman(contact_json['linkman_id'])
+                contact_attach = contact_attach_db.query_contact_attachment(id)
+                if contact_attach:
+                    contact_json['attach'] = serializers.serialize("json",contact_attach)
+                else:
+                    contact_json['attach'] = ''
+                ret['status'] = True
+                ret['data'] = contact_json
+                print(ret)
+                return HttpResponse(json.dumps(ret,cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
+
+
 def linkman_detail(request):
     id = request.GET.get("id",None)
     ret={"status":False,"data":"","message":""}
@@ -983,9 +1130,6 @@ def linkman_detail(request):
                 linkman_json["gender"] = change_to_gender(linkman_json["gender"])
                 linkman_json['marriage'] = change_to_linkman_marriage(linkman_json['marriage'])
                 linkman_json['is_lunar'] = change_to_linkman_lunar(linkman_json['is_lunar'])
-                linkman_json['birthday'] = linkman_json['birthday'].strftime('%Y-%m-%d') if linkman_json['birthday'] else ''
-                linkman_json['create_time'] = linkman_json['create_time'].strftime('%Y-%m-%d %H:%I:%S')
-                linkman_json['last_edit'] = linkman_json['last_edit'].strftime('%Y-%m-%d %H:%I:%S')
                 linkman_photo = linkman_photo_db.query_linkman_photo(id)
                 linkman_card = linkman_card_db.query_linkman_card(id)
                 linkman_attach = linkman_attach_db.query_linkman_attachment(id)
@@ -1003,13 +1147,79 @@ def linkman_detail(request):
                     linkman_json['attach'] = ''
                 ret['status']=True
                 ret['data'] = linkman_json
-                return HttpResponse(json.dumps(ret))
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
 
         except Exception as e:
             print(e)
     return render(request,'404.html')
 
+
+def memo_detail(request):
+    id = request.GET.get("id",None)
+    ret={"status":False,"data":"","message":""}
+    if id:
+        try:
+            memo_obj = supplier_memo_db.query_memo_by_id(id)
+            if memo_obj:
+                # 格式化数据
+                memo_json = memo_obj.__dict__
+                memo_json.pop('_state')
+                memo_attach = memo_attach_db.query_memo_attachment(id)
+                if memo_attach:
+                    memo_json['attach'] = serializers.serialize("json",memo_attach)
+                else:
+                    memo_json['attach'] = ''
+                ret['status']=True
+                ret['data'] = memo_json
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
+
+
+def goods_delete(request):
+    """商品软删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    status = {"delete_status": 0}
+    try:
+        goods_db.multi_delete(id_list, status)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def supplier_delete(request):
+    """供应商软删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    print(ids)
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    status = {"delete_status": 0}
+    try:
+        supplier_db.multi_delete(id_list, status)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
 # 文件上传
+
 
 def goods_photo(request):
     """商品照片上传"""

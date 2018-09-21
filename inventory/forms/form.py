@@ -45,7 +45,7 @@ class StaffForm(django_forms.Form):
 
 
 class GoodsForm(django_forms.Form):
-    category_id = django_fields.IntegerField(error_messages={"required": "请选择商品分类"})
+    category_id = django_fields.IntegerField(error_messages={"required": "请选择商品分类",})
     name = django_fields.CharField(error_messages={"required":"商品名称不能为空"})
     country_id = django_fields.IntegerField(error_messages={"required": "请选择相应的县(区)"})
 
@@ -68,6 +68,12 @@ class ContactForm(django_forms.Form):
     linkman_id = django_fields.IntegerField(error_messages={"required": "请选择联系人"})
     project = django_fields.CharField(error_messages={"required": "交易项目不能为空"})
     date = django_fields.DateField(error_messages={"required": "交易日期不能为空", "invalid": "日期格式错误"})
+
+
+class MemoForm(django_forms.Form):
+    supplier_id = django_fields.IntegerField(error_messages={"required": "请选择供应商"})
+    title = django_fields.CharField(error_messages={"required": "标题不能为空"})
+    detail = django_fields.CharField(error_messages={"required": "详细不能为空"})
 
 
 class NationForm(django_forms.Form):

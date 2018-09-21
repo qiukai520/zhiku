@@ -42,6 +42,7 @@
                                      <a href="{% url "supplier_edit" %}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
                                     <button  onclick="AddLinkman()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加联系人</button>
                                     <button  onclick="AddContact()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加收支</button>
+                                    <button  onclick="AddMemo()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp添加备忘</button>
                                     <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
                                 <table id="task_sort"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
@@ -178,7 +179,7 @@
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "staff_delete" %}",
+            url:"{% url "supplier_delete" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",
@@ -223,6 +224,26 @@
         if (is_checked==1){
             var sid=$("tbody input:checkbox:checked").eq(0).next().val()
             window.location.href="{% url 'supplier_contact' %}?sid={0}".format(sid)
+        } else if(is_checked > 1){
+           layer.alert('只能选择一个供应商', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
+        else{
+           layer.alert('请选择供应商', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
+    }
+            //添加备忘
+    function AddMemo() {
+       //是否有选中供应商
+     var is_checked=$("tbody input:checkbox:checked").length
+        if (is_checked==1){
+            var sid=$("tbody input:checkbox:checked").eq(0).next().val()
+            window.location.href="{% url 'supplier_memo' %}?sid={0}".format(sid)
         } else if(is_checked > 1){
            layer.alert('只能选择一个供应商', {icon: 6 ,
               time: 1500, //1.5s后自动关闭

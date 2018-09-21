@@ -13,6 +13,12 @@ def change_to_sex(gender):
         if int(item["id"]) == gender:
             return item["caption"]
 
+@register.simple_tag
+def change_to_lunar(lunar):
+    lunar_choice = staff_db.lunar_choice
+    for item in lunar_choice:
+        if int(item["id"]) == lunar:
+            return item["caption"]
 
 @register.simple_tag
 def change_to_company(id):
@@ -39,6 +45,21 @@ def change_to_department(id):
             return department_obj.department
     return "空"
 
+@register.simple_tag
+def change_to_job_rank(id):
+    if id:
+        job_rank_obj = job_rank_db.query_job_rank_by_id(id)
+        if job_rank_obj:
+            return job_rank_obj.rank
+    return "空"
+
+@register.simple_tag
+def change_to_job_title(id):
+    if id:
+        job_title_obj = job_title_db.query_job_title_by_id(id)
+        if job_title_obj:
+            return job_title_obj.job_title
+    return "空"
 
 @register.simple_tag
 def build_company_ele():

@@ -5,6 +5,8 @@ from .models import *
 class StaffDB(object):
     """员工表"""
     gender_choice = ({"id": 0, "caption": "男"}, {"id": 1, "caption": "女"})
+    lunar_choice = ({"id": 0, "caption": "公历"}, {"id": 1, "caption": "农历"})
+
     def insert_staff(self,modify_info):
         staff_sql = """insert into staff(%s) value(%s);"""
         k_list = []
