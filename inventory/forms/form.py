@@ -11,6 +11,10 @@ class SupplierCategoryForm(django_forms.Form):
     caption = django_fields.CharField(error_messages={"required": "供应商分类名称不能为空"})
 
 
+class RetailSupplierForm(django_forms.Form):
+    caption = django_fields.CharField(error_messages={"required": "零售供应商不能为空"})
+
+
 class GoodsCategoryForm(django_forms.Form):
     caption = django_fields.CharField(error_messages={"required": "商品分类名称不能为空"})
 
@@ -75,6 +79,23 @@ class MemoForm(django_forms.Form):
     title = django_fields.CharField(error_messages={"required": "标题不能为空"})
     detail = django_fields.CharField(error_messages={"required": "详细不能为空"})
 
+
+class PriceForm(django_forms.Form):
+    supplier_id = django_fields.IntegerField(min_value=1, error_messages={"required": "请选择供应商","min_value":"请选择供应商"})
+    linkman_id = django_fields.IntegerField(min_value=1,error_messages={"required": "请选择联系人","min_value":"请选择联系人"})
+    amount = django_fields.IntegerField(error_messages={"required": "请输入数量","invalid": "请输入合法的数字"})
+    price = django_fields.DecimalField(max_digits=8, decimal_places=2,error_messages={"required": "请输入价格",
+                                                                                            "invalid": "请输入合法的价格"})
+    date = django_fields.DateField(error_messages={"required": "报价日期不能为空", "invalid": "日期格式错误"})
+    logistics = django_fields.DecimalField(max_digits=8, decimal_places=2,error_messages={"required": "请输入价格", "invalid": "请输入合法的价格"})
+
+
+class PriceCompareForm(django_forms.Form):
+    retail_id = django_fields.IntegerField(min_value=1, error_messages={"required": "请选择零售商","min_value":"请选择零售商"})
+    amount = django_fields.IntegerField(error_messages={"required": "请输入数量","invalid": "请输入合法的数字"})
+    price = django_fields.DecimalField(max_digits=8, decimal_places=2,error_messages={"required": "请输入价格",
+                                                                                            "invalid": "请输入合法的价格"})
+    date = django_fields.DateField(error_messages={"required": "比价日期不能为空", "invalid": "日期格式错误"})
 
 class NationForm(django_forms.Form):
     nation = django_fields.CharField(error_messages={"required": "国家名称不能为空"})

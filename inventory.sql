@@ -6,7 +6,7 @@ create TABLE `supplier`(
 `company` varchar (32) COMMENT '公司名称',
 `industry_id` varchar (32) NOT NULL  COMMENT '所属行业',
 `employees` int(11) NOT NUll COMMENT '人数',
-`goods_id` int (11)  NOT NUll COMMENT '主营商品',
+`product` varchar (64)  NOT NUll COMMENT '主营商品',
 `introduce` varchar (512) COMMENT '公司介紹',
 `website` varchar (64) COMMENT '公司网站',
 `phone` varchar (16) COMMENT '公司电话',
@@ -261,3 +261,52 @@ create TABLE `contact_attach`(
 `description` varchar(128) COMMENT '附件描述',
 `name` varchar(64) COMMENT '附件名称'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='来往附件';
+
+drop TABLE if  exists `goods_price`;
+create TABLE `goods_price`(
+`nid` int(11) primary key auto_increment,
+`goods_id` int(11) NOT NULL COMMENT '商品',
+`supplier_id` int(11) NOT NULL COMMENT '供应商',
+`unit_id` int(11) NOT NULL COMMENT '单位',
+`amount` smallint(6)   COMMENT '数量',
+`logistics` DECIMAL (8,2)  COMMENT'物流费用',
+`logis_remark` varchar (128)   COMMENT '物流备注',
+`price`  DECIMAL (8,2) COMMENT'单价',
+`linkman_id` int (11) NOT NULL COMMENT '联系人',
+`date` datetime  DEFAULT NUll  COMMENT '报价日期',
+`staff_id` int (11) NOT NULL COMMENT '录入人',
+`remark` varchar (128)   COMMENT '备注',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品报价';
+
+drop table if exists `price_compare`;
+create table `price_compare`(
+`nid` int(11) primary key auto_increment,
+`goods_id` int(11) NOT NULL  COMMENT '商品',
+`unit_id` int(11) NOT NULL COMMENT '单位',
+`retail_id` int(11) NOT NULL COMMENT '比价商家',
+`amount` int(11) COMMENT '数量',
+`price` decimal (8,2) NOT NULL COMMENT '价格',
+`date` datetime  DEFAULT NUll  COMMENT '比价日期',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
+`create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT '创建时间',
+`last_edit`   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE  CURRENT_TIMESTAMP COMMENT'最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='零售比价';
+
+drop table  if exists retail_supplier;
+create table  `retail_supplier`(
+`nid` int(11) primary key  auto_increment,
+`caption` varchar(32) NOT NULL COMMENT'零售商'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='零售供应商';
+
+drop TABLE if exists `price_attach`;
+create TABLE `price_attach`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`price_id` int(11) NOT NULL COMMENT'报价附件',
+`attachment` varchar(128) COMMENT '附件路径',
+`description` varchar(128) COMMENT '附件描述',
+`name` varchar(64) COMMENT '附件名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报价附件';
+

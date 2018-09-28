@@ -32,9 +32,19 @@
     <link rel="stylesheet" href="/static/css/plugins/datapicker/datepicker3.css">
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <style>
+        .old_file,.old_file>a{
+            color:#1ab394
+        }
+         .old_file>span:hover{
+             cursor: pointer;
+         }
+          #toolbar >.btn{
+          margin: 0 2px;
+      }
 
     </style>
     {% block css %}
+
 
     {% endblock %}
 </head>
@@ -88,7 +98,7 @@
                                     <a  href="{% url "personal_task_list" %}">我的任务</a>
                                 </li>
                                 <li>
-                                    <a  href="{% url "publish_task" %}">创建任务</a>
+                                    <a  href="{% url "task_edit" %}">创建任务</a>
                                 </li>
                                 <li>
                                     <a  href="{% url "task_assign_center" %}">任务指派中心</a>
@@ -124,6 +134,9 @@
                                 </li>
                                  <li>
                                      <a  href="{% url "goods_list" %}">商品</a>
+                                </li>
+                                 <li>
+                                     <a  href="{% url "retail_supplier_list" %}">比价商家</a>
                                 </li>
                                  <li>
                                      <a  href="{% url "industry_list" %}">行业分类</a>

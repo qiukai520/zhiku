@@ -291,7 +291,6 @@ def staff_edit(request):
         form = StaffForm(data=request.POST)
         if form.is_valid():
             data = request.POST
-            # print("data",data)
             data = data.dict()
             life_photo = data.get("life_photo",None)
             staff_attach = data.get("attach",None)
@@ -361,7 +360,6 @@ def staff_edit(request):
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
-            print("errors",form.errors)
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
@@ -377,7 +375,6 @@ def staff_detail(request):
                 # 格式化数据
                 staff_json = staff_obj.__dict__
                 staff_json.pop('_state')
-                print("staff_json",staff_json)
                 staff_json["gender"] = change_to_sex(staff_json["gender"])
                 staff_json['company_id'] = change_to_company(staff_json['company_id'])
                 staff_json['project_id'] = change_to_project(staff_json['project_id'])
@@ -397,7 +394,6 @@ def staff_detail(request):
                     staff_json['attach'] = ''
                 ret['status'] = True
                 ret['data'] = staff_json
-                print(ret)
                 return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
         except Exception as e:
             print(e)
@@ -411,7 +407,6 @@ def staff_delete(request):
     ids = ids.split("|")
     # 转化成数字
     id_list = []
-    print(ids)
     for item in ids:
         if item:
             id_list.append(int(item))

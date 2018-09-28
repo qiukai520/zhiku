@@ -507,3 +507,5 @@ class TaskType(models.Model):
 
     _insert = ["name"]
     _update = ["name"]
+
+

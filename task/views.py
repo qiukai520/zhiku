@@ -32,49 +32,6 @@ def index(request):
     return render(request,'index_v3.html')
 
 
-def publish_task(request):
-    """创建任务"""
-    method = request.method
-    if method == "GET":
-        return render(request, "task/task_edit.html", {"tid": 0})
-    else:
-        ret = {"status": False, "data": "", "message": ""}
-        form = TaskForm(data=request.POST)
-        if form.is_valid():
-            data = request.POST
-            data = data.dict()
-            # 获取标签并删除
-            tags = data.get("tags", None)
-            tag_list = tags.split("|")
-            data.pop("tags")
-            # 获取附件并删除
-            attachment = data.get("attachment", None)
-            attachment = list(json.loads(attachment))
-            data.pop("attachment")
-            if data:
-                try:
-                    with transaction.atomic():
-                        tid = task_db.insert_task(data)
-                        # 如果任务插入成功
-                        if tid:
-                            # 插入标签
-                            id_dict = {"tid_id": tid}
-                            tags_list = build_tags_info(id_dict, tag_list)
-                            task_tag_db.mutil_insert_tag(tags_list)
-                            # 插入附件
-                            attachment_list = build_attachment_info(id_dict, attachment)
-                            task_attachment_db.mutil_insert_attachment(attachment_list)
-                            ret["status"] = True
-                except Exception as e:
-                    print(e)
-                    ret["message"] = "添加失败"
-        else:
-            errors = form.errors.as_data().values()
-            firsterror = str(list(errors)[0][0])
-            ret['message'] = firsterror
-        return HttpResponse(json.dumps(ret))
-
-
 def task_edit(request):
     """任务编辑"""
     method = request.method
@@ -111,6 +68,7 @@ def task_edit(request):
             attachment_list = list(json.loads(attachment))
             if tid:
                 # 编辑
+                print("edit",data)
                 # 获取标签并删除
                 tags = data.get("tags", None)
                 data.pop("tags")
@@ -313,7 +271,7 @@ def task_delete(request):
     for item in ids:
         if item:
             id_list.append(int(item))
-    status = {"status": 0}
+    status = {"delete_status": 0}
     try:
         task_db.multi_delete_task(id_list, status)
         ret['status'] = True

@@ -1,5 +1,5 @@
 from django.db import models
-
+from personnel.models import Staff
 # Create your models here.
 
 
@@ -12,8 +12,7 @@ class Supplier(models.Model):
     industry = models.ForeignKey("Industry", to_field="nid", on_delete=models.CASCADE, verbose_name='行业',
                                db_constraint = False)
     employees = models.IntegerField(verbose_name='公司人数')
-    goods = models.ForeignKey("Goods", to_field="nid", on_delete=models.CASCADE, verbose_name='主营商品',
-                               db_constraint = False)
+    products = models.CharField(max_length=64, verbose_name="主营商品",)
     introduce = models.CharField(max_length=512, verbose_name="简介", blank=True, null=True)
     website = models.CharField(max_length=64, verbose_name="网站", blank=True, null=True)
     phone = models.CharField(max_length=16, verbose_name="联系电话", blank=True, null=True)
@@ -202,7 +201,7 @@ class SupplierAttach(models.Model):
 class LinkmanAttach(models.Model):
     nid = models.AutoField(primary_key=True)
     linkman = models.ForeignKey('Linkman', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
-                            verbose_name='商品')
+                            verbose_name='联系人')
     attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
     name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
     description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
@@ -408,6 +407,104 @@ class MemoAttach(models.Model):
 
     def __str__(self):
         return "备忘附件:{0}".format(self.name)
+
+
+class GoodsPrice(models.Model):
+    delete_status_choice = ((0, '删除'), (1, '保留'))
+
+    nid = models.IntegerField(primary_key=True)
+    goods = models.ForeignKey('Goods', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                              verbose_name='商品')
+    unit = models.ForeignKey("GoodsUnit", to_field="nid", on_delete=models.CASCADE, verbose_name='单位',
+                             db_constraint=False)
+    amount = models.IntegerField(verbose_name="数量")
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="单价")
+    logistics = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="物流费用")
+    logis_remark = models.CharField(verbose_name="物流备注",max_length=128, blank=True, null=True)
+    supplier = models.ForeignKey('Supplier', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                                 verbose_name='供应商')
+    linkman = models.ForeignKey('Linkman', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                                verbose_name='联系人')
+    staff = models.ForeignKey(Staff, to_field='sid', on_delete=models.CASCADE, db_constraint=False,
+                                    verbose_name='录入人')
+    remark = models.CharField(verbose_name="备注",max_length=128, blank=True, null=True)
+    date = models.DateField(verbose_name="报价日期")
+    delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'goods_price'
+        verbose_name = '商品比价'
+        verbose_name_plural = '商品比价'
+
+    def __str__(self):
+        return self.goods_id
+
+    _insert = ["goods_id", "unit_id", 'amount','price', 'date','logistics','logis_remark',"supplier_id","linkman_id","staff_id","remark"]
+    _update = ["goods_id", "unit_id", 'amount','price', 'date','logistics','logis_remark',"supplier_id","linkman_id","staff_id","remark"]
+
+
+class PriceAttach(models.Model):
+    nid = models.AutoField(primary_key=True)
+    price = models.ForeignKey("GoodsPrice", to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                            verbose_name='供应来往')
+    attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
+    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
+
+    class Meta:
+        db_table = 'price_attach'
+        verbose_name = '报价附件'
+        verbose_name_plural = '报价附件'
+
+    def __str__(self):
+        return "报价附件:{0}".format(self.name)
+
+
+class RetailSupplier(models.Model):
+    nid = models.AutoField(primary_key=True)
+    caption = models.CharField(max_length=16, verbose_name="零食商家")
+
+    class Meta:
+        db_table = 'retail_supplier'
+        verbose_name = '零售供应商'
+        verbose_name_plural = '零售供应商'
+
+    def __str__(self):
+        return self.caption
+
+    _insert = ["caption"]
+    _update = ["caption"]
+
+
+class PriceCompare(models.Model):
+    delete_status_choice = ((0, '删除'), (1, '保留'))
+
+    nid = models.AutoField(primary_key=True)
+    goods = models.ForeignKey('Goods', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                              verbose_name='商品')
+    retail = models.ForeignKey('RetailSupplier', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                                 verbose_name='零售商')
+    unit = models.ForeignKey("GoodsUnit", to_field="nid", on_delete=models.CASCADE, verbose_name='单位',
+                             db_constraint=False)
+    amount = models.IntegerField(verbose_name="数量")
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="单价")
+    date = models.DateField(verbose_name="比价日期")
+    delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'price_compare'
+        verbose_name = '零售比价'
+        verbose_name_plural = '零售比价'
+
+    def __str__(self):
+        return self.retail_id
+
+    _insert = ["goods_id", "unit_id", 'amount', 'date','price',"retail_id"]
+    _update = ["goods_id", "unit_id", 'amount', 'date', 'price',"retail_id"]
 
 
 class Industry(models.Model):

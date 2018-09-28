@@ -20,8 +20,6 @@ from task import views
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-
-    path('add', views.publish_task, name="publish_task"),
     path('edit', views.task_edit, name='task_edit'),
     path("detail", views.task_detail, name="task_detail"),
     path("period/detail",views.task_period_detail,name="task_period_detail"),

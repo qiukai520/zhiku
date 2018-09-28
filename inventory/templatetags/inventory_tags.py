@@ -1,6 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 from ..server import *
+from personnel.server import staff_db
 
 register = template.Library()
 
@@ -101,19 +102,38 @@ def build_goods_ele(selected=None):
 
 @register.simple_tag
 def build_supplier_ele(selected=None):
-    """构建商品下拉框"""
-    goods_list = goods_db.query_goods_list()
+    """构建供应商下拉框"""
+    supplier_list = supplier_db.query_supplier_list()
     eles = ""
     if selected:
-        for item in goods_list:
+        for item in supplier_list:
             if item.nid == selected:
-                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.nid, item.name)
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.nid, item.company)
             else:
-                ele = """<option value={0}>{1}</option>""".format(item.nid, item.name)
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.company)
             eles += ele
     else:
-        for item in goods_list:
-            ele = """<option value={0}>{1}</option>""".format(item.nid, item.name)
+        for item in supplier_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.company)
+            eles += ele
+    return mark_safe(eles)
+
+
+@register.simple_tag
+def build_retailer_ele(selected=None):
+    """构建零售商下拉框"""
+    retailer_list = retailer_db.query_retail_list()
+    eles = ""
+    if selected:
+        for item in retailer_list:
+            if item.nid == selected:
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.nid, item.caption)
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.caption)
+            eles += ele
+    else:
+        for item in retailer_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.caption)
             eles += ele
     return mark_safe(eles)
 
@@ -329,6 +349,33 @@ def change_to_goods_unit(id):
         if unit_obj:
             return unit_obj.caption
 
+
+@register.simple_tag
+def change_to_supplier(id):
+    """转换成供应商分类"""
+    if id:
+        obj = supplier_db.query_supplier_by_id(id)
+        if obj:
+            return obj.company
+
+@register.simple_tag
+def change_to_retailer(id):
+    """转换成比价供应商"""
+    if id:
+        obj = retailer_db.query_retail_by_id(id)
+        if obj:
+            return obj.caption
+
+
+
+@register.simple_tag
+def change_to_staff(id):
+    if id:
+        staff_obj=staff_db.query_staff_by_id(id)
+        if staff_obj:
+            return staff_obj.name
+
+
 @register.simple_tag
 def change_to_supplier_category(id):
     """转换成供应商分类"""
@@ -336,6 +383,7 @@ def change_to_supplier_category(id):
         obj = supplier_category_db.query_category_by_id(id)
         if obj:
             return obj.caption
+
 
 @register.simple_tag
 def change_to_industry(id):
@@ -406,3 +454,15 @@ def fetch_supplier_memo_list(id):
     if id:
         memo_list = supplier_memo_db.query_memo_by_supplier_id(id)
         return memo_list
+
+@register.simple_tag
+def fetch_goods_price_list(id):
+    if id:
+        goods_list = goods_price_db.query_price_by_goods(id)
+        return goods_list
+
+@register.simple_tag
+def fetch_compare_price_list(id):
+    if id:
+        compare_list = price_compare_db.query_price_by_goods(id)
+        return compare_list

@@ -27,7 +27,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>供应商往来 <small></small></h5>
+                        <h5>商品报价 <small></small></h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -39,104 +39,95 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal">
-                         <form action="{% url "supplier_contact" %}" method="post" id="contact_fm" class="form-horizontal" enctype="multipart/form-data">
+                         <form action="{% url "supplier_contact" %}" method="post" id="price_fm" class="form-horizontal" enctype="multipart/form-data">
                              {% csrf_token %}
-                             <input type="hidden" name="nid" id="nid"  >
+                             <input type="hidden" name="nid" id="nid" value="{{ query_set.nid }}" >
+                          <input type="text" class="hidden" name="staff_id" id="staff_id" value={{ request.user.staff.sid }}>
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">供应商</label>
+                            <label class="col-sm-2 control-label">商品</label>
                             <div class="col-sm-8">
-                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ supplier_obj.company }}</p>
-                                <input type="text" class="hidden" name="supplier_id" id="supplier_id" value={{ supplier_obj.nid }}>
-                            </div>
-                        </div>
-                             <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">联系人</label>
-                            <div class="col-sm-8">
-                                <select  name="linkman_id" class="form-control" id="linkman_id" >
-                                    {% build_supplier_linkman_ele  supplier_obj.nid%}
-                                </select>
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ goods_obj.name }}</p>
+                                <input type="text" class="hidden" name="goods_id" id="goods_id" value={{ goods_obj.nid }}>
                             </div>
                         </div>
                            <div class="hr-line-dashed"></div>
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">交易分类</label>
+                            <label class="col-sm-2 control-label">供应商</label>
                             <div class="col-sm-8">
-                                {% if nid %}
-                               <p   class="form-control" style="margin: 0px;">{% change_to_contact_category  query_set.category  %}</p>
-                                      <input type="text" class="hidden" name="category" id="category" value={{ query_set.category  }}>
-                                {% else %}
-                                     <select  name="category" class="form-control" id="category" onchange="ChangeCategory(this)">
-                                    {% build_contact_category_ele  supplier_obj.nid%}
+                                <select  name="supplier_id" class="form-control" id="supplier_id"  onchange="FetchLinkman(this)">
+                                    <option value=0>选择供应商</option>
+                                    {% build_supplier_ele  %}
                                 </select>
-                                {% endif %}
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                            <label class="col-sm-2 control-label">项目名称</label>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">供应商联系人</label>
                             <div class="col-sm-8">
-                                <input type="text" id="project" class="form-control" name="project"  placeholder="必填选项">
+                                <select  name="linkman_id" class="form-control" id="linkman_id" >
+                                    {% if nid %}
+                                         {% build_supplier_linkman_ele query_set.supplier_id query_set.linkman_id %}
+                                        {% else %}
+                                    {% endif %}
+{#
+                                </select>
+                            </div>
+                        </div>
+                              <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">单位</label>
+                            <div class="col-sm-8">
+                                 <select  name="unit_id" class="form-control" id="unit_id" >
+                                    {% build_goods_unit_ele %}
+                                </select>
                             </div>
                         </div>
                          <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">项目详细</label>
+                            <label class="col-sm-2 control-label">数量</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="description" id="description"> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="amount" id="amount" placeholder="整数"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">应收金额</label>
+                            <label class="col-sm-2 control-label">价格</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="receivable" id="receivable"> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="price" id="price" placeholder="0.00"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
+                              <div class="hr-line-dashed"></div>
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">备注</label>
+                            <label class="col-sm-2 control-label">物流费用</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="receivable_remark" id="receivable_remark"> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="logistics" id="logistics" placeholder="0.00"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
-                           <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">已收金额</label>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">物流备注</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="received" id="received"> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="logis_remark" id="logis_remark"  > <span class="help-block m-b-none"></span>
                             </div>
                         </div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">备注</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="received_remark" id="received_remark"> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
-                           <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">待收金额</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="pending" id="pending"> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">备注</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="pending_remark" id="pending_remark"> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
-                           <div class="hr-line-dashed"></div>
+                          <div class="hr-line-dashed"></div>
                              <div class="form-group">
-                            <label class="col-sm-2 control-label">日期</label>
+                            <label class="col-sm-2 control-label">报价日期</label>
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" name="date" id="date"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="remark" id="remark"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>
                         <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
                     {% if nid %}
-                        {% for obj in contact_attach %}
+                        {% for obj in price_attach %}
                              <div class="attachment">
                             <div class="form-group ">
                             <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
@@ -184,8 +175,7 @@
                                  <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
                                  <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                  <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
-                                 <a href="{% url "supplier_detail" %}?id={{ supplier_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
-
+                                 <a href="{% url "goods_detail" %}?id={{ goods_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
                                  <!--error_msg-->
                                  <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
                                     <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
@@ -248,19 +238,16 @@ String.prototype.format=function()
 function InitData() {
         //初始化form
         $("#nid").val({{ query_set.nid }})
-        $("#supplier_id").val({{ supplier_obj.nid}});
+        $("#supplier_id").val({{ query_set.supplier_id}});
         $("#linkman_id").val({{ query_set.linkman_id }});
-        $("#category").val({{ query_set.category }});
-        $("#project").val("{{ query_set.project }}");
-        $("#description").val("{% if  query_set.description %}{{ query_set.description }} {% endif %}");
+        $("#unit_id").val({{ query_set.unit_id }});
+        $("#amount").val("{{ query_set.amount }}");
+        $("#price").val("{% if  query_set.price %}{{ query_set.price }} {% endif %}");
+        $("#logistics").val("{% if  query_set.logistics %}{{ query_set.logistics }} {% endif %}");
+        $("#logis_remark").val("{% if  query_set.logis_remark %}{{ query_set.logis_remark }} {% endif %}");
+         $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
         $("#date").val("{% if query_set.date  %}{{ query_set.date |date:'Y-m-d'}}{% endif %}");
-        $("#receivable").val("{% if  query_set.receivable %}{{ query_set.receivable }} {% endif %}");
-        $("#receivable_remark").val("{% if  query_set.receivable_remark %}{{ query_set.receivable_remark }} {% endif %}");
-         $("#received").val("{% if  query_set.received %}{{ query_set.received }} {% endif %}");
-         $("#received_remark").val("{% if  query_set.received_remark %}{{ query_set.received_remark }} {% endif %}");
-         $("#pending").val("{% if  query_set.pending %}{{ query_set.pending }} {% endif %}");
-         $("#pending_remark").val("{% if  query_set.pending_remark %}{{ query_set.pending_remark }} {% endif %}");
-         ChangeCategory({{ query_set.category }})
+
     }
 //添加附件
 var att_num=1
@@ -373,11 +360,37 @@ function UploadFile(ths){
 }
 
 
+  // 根据供应商选择相应联系人
+    function FetchLinkman(ths) {
+      var nid=$(ths).val();
+       $("#linkman_id").children().remove();
+      $.ajax({
+        url:"{% url "fetch_linkman" %}",
+        type:'get',
+        data:{"id":nid},
+        dataType:'json',
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
+		o.text = this['fields']['name'];
+		 $("#linkman_id").append(o);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
+    }
+
+
 //添加or编辑
         function Submit(cons){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
-         var form =$("#contact_fm");
+         var form =$("#price_fm");
          console.log(form.valid())
         //验证表单
          if ( form.valid()){
@@ -385,27 +398,27 @@ function UploadFile(ths){
              if(nid!=""){
                   //编辑
                  var attachment=GetAttachment()
-                 var success_msg="修改成功"
+                 var success_msg = "修改成功"
              }else{
                   //创建
-                 var attachment=FetchAttachment()
+                 var attachment = FetchAttachment()
                  var success_msg="添加成功"
              }
              var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
              form.append(attachment_ele)
              $.ajax({
-                url: '{% url "supplier_contact" %}',
+                url: '{% url "goods_price"%}',
                 type: 'POST',
                 data: form.serialize(),
                 dataType: 'JSON',
                 success: function (arg) {
                    if (arg.status) {
                         if (cons==1){
-                             window.location.href='{% url "supplier_detail" %}?id= {0}'.format({{ supplier_obj.nid }});
+                             window.location.href='{% url "goods_list" %}'
                         }else if(cons==2){
-                             window.location.href='{% url "supplier_contact" %}?sid={0}'.format({{ supplier_obj.nid }});
+                             window.location.href='{% url "goods_price" %}?gid={0}'.format({{ goods_obj.nid }});
                         }else{
-                              window.location.href='{% url "supplier_contact" %}?sid={0}&id={1}'.format({{ supplier_obj.nid }},arg.data);
+                              window.location.href='{% url "goods_price" %}?gid={0}&id={1}'.format({{ goods_obj.nid }},arg.data);
                         }
                     } else {
                         $msg.parent().removeClass('hide');
@@ -416,19 +429,6 @@ function UploadFile(ths){
          }
     }
 
-function ChangeCategory(ths) {
-    var cons=$(ths).val()
-    console.log("cons",cons)
-    if (cons==1){
-         $("#receivable").parent().parent().find("label").text("应付金额")
-         $("#received").parent().parent().find("label").text("已付金额")
-         $("#pending").parent().parent().find("label").text("待付金额")
-    } else{
-         $("#receivable").parent().parent().find("label").text("应收金额")
-         $("#received").parent().parent().find("label").text("已收金额")
-         $("#pending").parent().parent().find("label").text("待收金额")
-    }
-}
 
 
  </script>

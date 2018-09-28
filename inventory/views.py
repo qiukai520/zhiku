@@ -215,8 +215,8 @@ def goods_edit(request):
                             # 删除旧数据
                             if photo_record:
                                 goods_code_db.delete_photo_by_goods_id(nid)
+                        # 更新附件
                         if goods_attach:
-                            # 更新附件
                             att_record = goods_attach_db.query_goods_attachment(nid)
                             # 数据对比
                             insert_att, update_att, delete_id_att = compare_json(att_record, goods_attach, "nid")
@@ -227,6 +227,8 @@ def goods_edit(request):
                                 goods_attach_db.mutil_update_attachment(update_att)
                             if delete_id_att:
                                 goods_attach_db.mutil_delete_task_attachment(delete_id_att)
+                        else:
+                            goods_attach_db.multi_delete_attach_by_goods_id(nid)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -262,6 +264,63 @@ def goods_edit(request):
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
 
+
+def goods_detail(request):
+    nid = request.GET.get("id",None)
+    if nid:
+        query_sets = goods_db.query_goods_by_id(nid)
+        if query_sets:
+            life_photo = goods_photo_db.query_goods_photo(nid)
+            goods_code = goods_code_db.query_goods_bar(nid)
+            goods_attach = goods_attach_db.query_goods_attachment(nid)
+            if not life_photo:
+                life_photo = ''
+            if not goods_code:
+                goods_code = ''
+            if not goods_attach:
+                goods_attach = ''
+            return render(request,"inventory/goods_detail.html",{"query_set": query_sets,
+                                                                 "life_photo": life_photo,
+                                                                 "goods_code": goods_code,
+                                                                 "goods_attach": goods_attach,
+                                                                })
+    return render(request,'404.html')
+
+# def goods_detail(request):
+#     id = request.GET.get("id",None)
+#     ret={"status":False,"data":"","message":""}
+#     if id:
+#         try:
+#             goods_obj = goods_db.query_goods_by_id(id)
+#             if goods_obj:
+#                 # 格式化数据
+#                 goods_json = goods_obj.__dict__
+#                 goods_json.pop('_state')
+#                 goods_json["category_id"] = change_to_goods_category(goods_json["category_id"])
+#                 goods_json['unit_id'] = change_to_goods_unit(goods_json['unit_id'])
+#                 goods_json['region'] = build_region(goods_json['country_id'])
+#                 good_photo = goods_photo_db.query_goods_photo(id)
+#                 goods_code = goods_code_db.query_goods_bar(id)
+#                 goods_attach = goods_attach_db.query_goods_attachment(id)
+#                 if good_photo:
+#                     goods_json['photo'] = good_photo.photo
+#                 else:
+#                     goods_json['photo'] = ''
+#                 if goods_code:
+#                     goods_json['code_photo'] =goods_code.photo
+#                 else:
+#                     goods_json['code_photo'] = ''
+#                 if goods_attach:
+#                     goods_json['attach'] = serializers.serialize("json",goods_attach)
+#                 else:
+#                     goods_json['attach'] = ''
+#                 ret['status']=True
+#                 ret['data'] = goods_json
+#                 print(ret)
+#                 return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+#         except Exception as e:
+#             print(e)
+#     return render(request,'404.html')
 
 def goods_category_list(request):
     query_sets = goods_category_db.query_category_list()
@@ -312,41 +371,7 @@ def goods_category_edit(request):
     return HttpResponse(json.dumps(ret))
 
 
-def goods_detail(request):
-    id = request.GET.get("id",None)
-    ret={"status":False,"data":"","message":""}
-    if id:
-        try:
-            goods_obj = goods_db.query_goods_by_id(id)
-            if goods_obj:
-                # 格式化数据
-                goods_json = goods_obj.__dict__
-                goods_json.pop('_state')
-                goods_json["category_id"] = change_to_goods_category(goods_json["category_id"])
-                goods_json['unit_id'] = change_to_goods_unit(goods_json['unit_id'])
-                goods_json['region'] = build_region(goods_json['country_id'])
-                good_photo = goods_photo_db.query_goods_photo(id)
-                goods_code = goods_code_db.query_goods_bar(id)
-                goods_attach = goods_attach_db.query_goods_attachment(id)
-                if good_photo:
-                    goods_json['photo'] = good_photo.photo
-                else:
-                    goods_json['photo'] = ''
-                if goods_code:
-                    goods_json['code_photo'] =goods_code.photo
-                else:
-                    goods_json['code_photo'] = ''
-                if goods_attach:
-                    goods_json['attach'] = serializers.serialize("json",goods_attach)
-                else:
-                    goods_json['attach'] = ''
-                ret['status']=True
-                ret['data'] = goods_json
-                print(ret)
-                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
-        except Exception as e:
-            print(e)
-    return render(request,'404.html')
+
 
 
 def goods_unit_list(request):
@@ -567,6 +592,21 @@ def province_edit(request):
     return HttpResponse(json.dumps(ret))
 
 
+def fetch_linkman(request):
+    """根据供应商获取联系人"""
+    ret = {"status":False,"data":"","message":""}
+    id = request.GET.get("id")
+    if id:
+        linkman_list = linkman_db.query_linkman_by_supplier_id(id)
+        # 序列化queryset对象
+        data = serializers.serialize("json", linkman_list)
+        ret['status'] = True
+        ret["data"] = data
+    else:
+        ret['message'] = "请选择相应的供应商"
+    return HttpResponse(json.dumps(ret))
+
+
 def province_city(request):
     """根据省份获取城市"""
     ret = {"status":False,"data":"","message":""}
@@ -668,8 +708,8 @@ def supplier_edit(request):
                             # 删除旧数据
                             if licence_record:
                                 supplier_licence_db.delete_licence_by_supplier_id(nid)
+                        # 更新附件
                         if supplier_attach:
-                            # 更新附件
                             att_record = supplier_attach_db.query_supplier_attachment(nid)
                             # 数据对比
                             insert_att, update_att, delete_id_att = compare_json(att_record, supplier_attach, "nid")
@@ -680,6 +720,8 @@ def supplier_edit(request):
                                 supplier_attach_db.mutil_update_attachment(update_att)
                             if delete_id_att:
                                 supplier_attach_db.mutil_delete_supplier_attachment(delete_id_att)
+                        else:
+                            supplier_attach_db.multi_delete_attach_by_supplier_id(nid)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -763,6 +805,54 @@ def supplier_category_edit(request):
             ret['message'] = firsterror
     return HttpResponse(json.dumps(ret))
 
+
+def retail_supplier_list(request):
+    query_sets = retailer_db.query_retail_list()
+    return render(request,"inventory/retail_supplier_list.html",{"query_sets":query_sets})
+
+
+def retail_supplier_edit(request):
+    """"零售供应商添加或编辑"""
+    method = request.method
+    if method == "GET":
+        id = request.GET.get("id", "")
+        # 有则为编辑 ,无则添加
+        if id:
+            obj = retailer_db.query_retail_by_id(id)
+        else:
+            id = 0
+            obj = []
+        return render(request, 'inventory/retail_supplier_edit.html', {"obj": obj, "id": id})
+    else:
+        form = RetailSupplierForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("id", 0)
+            data = request.POST
+            data = data.dict()
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    record = retailer_db.query_retail_by_id(id)
+                    final_info = compare_fields(RetailSupplier._update, record, data)
+                    if final_info:
+                        final_info["nid"] = id
+                        retailer_db.update_retail(final_info)
+                    ret['status'] = True
+                    ret['data'] = id
+                except Exception as e:
+                    ret['message'] = str(e)
+            else:
+                try:
+                    retailer_db.insert_retail(data)
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
 
 
 def supplier_linkman(request):
@@ -854,12 +944,10 @@ def supplier_linkman(request):
                             # 删除旧数据
                             if card_record:
                                 linkman_card_db.delete_card_by_card_id(nid)
+                        # 更新附件
                         if linkman_attach:
-                            print("linkman_attach",linkman_attach)
-                            # 更新附件
                             att_record = linkman_attach_db.query_linkman_attachment(nid)
                             # 数据对比
-                            print(att_record)
                             insert_att, update_att, delete_id_att = compare_json(att_record, linkman_attach, "nid")
                             if insert_att:
                                 insert_att = build_attachment_info({"linkman_id": nid}, insert_att)
@@ -867,8 +955,9 @@ def supplier_linkman(request):
                             if update_att:
                                 linkman_attach_db.mutil_update_attachment(update_att)
                             if delete_id_att:
-                                print("delete",delete_id_att)
                                 linkman_attach_db.mutil_delete_linkman_attachment(delete_id_att)
+                        else:
+                            linkman_attach_db.multi_delete_attach_by_linkman_id(nid)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -934,6 +1023,7 @@ def supplier_contact(request):
             data = request.POST
             data = data.dict()
             contact_attach = data.get("attach", None)
+            print("attach",contact_attach)
             nid = data.get("nid", None)
             contact_attach = list(json.loads(contact_attach))
             if nid:
@@ -946,8 +1036,8 @@ def supplier_contact(request):
                         if contact_info:
                             contact_info["nid"] = nid
                             supplier_contact_db.update_contact(contact_info)
+                        # 更新附件
                         if contact_attach:
-                            # 更新附件
                             att_record = supplier_attach_db.query_supplier_attachment(nid)
                             # 数据对比
                             insert_att, update_att, delete_id_att = compare_json(att_record, contact_attach, "nid")
@@ -958,6 +1048,9 @@ def supplier_contact(request):
                                 contact_attach_db.mutil_update_attachment(update_att)
                             if delete_id_att:
                                 contact_attach_db.mutil_delete_linkman_attachment(delete_id_att)
+                        else:
+                            print("nid",nid)
+                            contact_attach_db.multi_delete_attach_by_linkman_id(nid)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -1027,8 +1120,8 @@ def supplier_memo(request):
                         if memo_info:
                             memo_info["nid"] = nid
                             supplier_memo_db.update_memo(memo_info)
+                        # 更新附件
                         if memo_attach:
-                            # 更新附件
                             att_record = memo_attach_db.query_memo_attachment(nid)
                             # 数据对比
                             insert_att, update_att, delete_id_att = compare_json(att_record, memo_attach, "nid")
@@ -1039,6 +1132,8 @@ def supplier_memo(request):
                                 memo_attach_db.mutil_update_attachment(update_att)
                             if delete_id_att:
                                 memo_attach_db.mutil_delete_memo_attachment(delete_id_att)
+                        else:
+                            memo_attach_db.multi_delete_attach_by_linkman_id(nid)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -1050,9 +1145,7 @@ def supplier_memo(request):
                     with transaction.atomic():
                         # 插入备忘信息
                         memo_info = filter_fields(SupplierMemo._insert, data)
-                        print("memo_inof",memo_info)
                         nid = supplier_memo_db.insert_memo(memo_info)
-                        print("nid",nid)
                         if memo_attach:
                             memo_attach = build_attachment_info({"memo_id": nid}, memo_attach)
                             memo_attach_db.mutil_insert_attachment(memo_attach)
@@ -1154,6 +1247,34 @@ def linkman_detail(request):
     return render(request,'404.html')
 
 
+def price_detail(request):
+    id = request.GET.get("id",None)
+    ret={"status":False,"data":"","message":""}
+    if id:
+        try:
+            price_obj = goods_price_db.query_price_by_id(id)
+            if price_obj:
+                # 格式化数据
+                price_json = price_obj.__dict__
+                price_json.pop('_state')
+                price_json["supplier_id"] = change_to_supplier(price_json["supplier_id"])
+                price_json['linkman_id'] = change_to_linkman(price_json['linkman_id'])
+                price_json['unit_id'] =change_to_goods_unit(price_json['unit_id'])
+                price_json['staff_id'] = change_to_staff(price_json['staff_id'])
+                price_attach = price_attach_db.query_price_attachment(id)
+                if price_attach:
+                    price_json['attach'] = serializers.serialize("json",price_attach)
+                else:
+                    price_json['attach'] = ''
+                ret['status']=True
+                ret['data'] = price_json
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
+
+
 def memo_detail(request):
     id = request.GET.get("id",None)
     ret={"status":False,"data":"","message":""}
@@ -1195,6 +1316,151 @@ def goods_delete(request):
         print(e)
         ret['status'] = "删除失败"
     return HttpResponse(json.dumps(ret))
+
+
+def goods_price(request):
+    mothod = request.method
+    if mothod == "GET":
+        nid = request.GET.get("id", "")
+        gid = request.GET.get("gid","")
+        if gid:
+            goods_obj = goods_db.query_goods_by_id(gid)
+            if goods_obj:
+                if nid:
+                    # 更新
+                    query_sets = goods_price_db.query_price_by_id(nid)
+                    price_attach = price_attach_db.query_price_attachment(nid)
+                    if not price_attach:
+                        price_attach = ''
+                else:
+                    query_sets = {}
+                    price_attach = {}
+                return render(request, "inventory/goods_price.html", {"query_set": query_sets,
+                                                                            "price_attach": price_attach,
+                                                                            "nid": nid,
+                                                                            "goods_obj":goods_obj
+                                                                           })
+        return render(request,"404.html")
+    else:
+        ret = {'status': False, "data": '', "message": ""}
+        form = PriceForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            price_attach = data.get("attach", '')
+            nid = data.get("nid", None)
+            price_attach = list(json.loads(price_attach))
+            if nid:
+                # 更新
+                try:
+                    with transaction.atomic():
+                        # 更新商品报价信息
+                        record = goods_price_db.query_price_by_id(nid)
+                        price_info = compare_fields(GoodsPrice._update, record, data)
+                        if price_info:
+                            price_info["nid"] = nid
+                            goods_price_db.update_price(price_info)
+                        # 更新附件
+                        if price_attach:
+                            # 更新附件
+                            att_record = price_attach_db.query_price_attachment(nid)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, price_attach, "nid")
+                            if insert_att:
+                                insert_att = build_attachment_info({"price_id": nid}, insert_att)
+                                price_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                price_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                price_attach_db.mutil_delete_price_attachment(delete_id_att)
+                        else:
+                            price_attach_db.multi_delete_attach_by_price_id(nid)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "更新失败"
+            else:
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入报价信息
+                        price_info = filter_fields(GoodsPrice._insert, data)
+                        print(price_info)
+                        nid = goods_price_db.insert_price(price_info)
+                        if price_attach:
+                            price_attach = build_attachment_info({"price_id": nid}, price_attach)
+                            price_attach_db.mutil_insert_attachment(price_attach)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
+
+def price_compare(request):
+    mothod = request.method
+    if mothod == "GET":
+        nid = request.GET.get("id", "")
+        gid = request.GET.get("gid","")
+        if gid:
+            goods_obj = goods_db.query_goods_by_id(gid)
+            if goods_obj:
+                if nid:
+                    # 更新
+                    query_sets = price_compare_db.query_price_by_id(nid)
+                else:
+                    query_sets = {}
+                return render(request, "inventory/goods_price_compare.html", {"query_set": query_sets,
+                                                                            "nid": nid,
+                                                                            "goods_obj":goods_obj
+                                                                           })
+        return render(request,"404.html")
+    else:
+        ret = {'status': False, "data": '', "message": ""}
+        form = PriceCompareForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            nid = data.get("nid", None)
+            if nid:
+                # 更新
+                try:
+                    with transaction.atomic():
+                        # 更新商品报价信息
+                        record = price_compare_db.query_price_by_id(nid)
+                        price_info = compare_fields(PriceCompare._update, record, data)
+                        if price_info:
+                            price_info["nid"] = nid
+                            price_compare_db.update_price(price_info)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "更新失败"
+            else:
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入报价信息
+                        price_info = filter_fields(PriceCompare._insert, data)
+                        print(price_info)
+                        nid = price_compare_db.insert_price(price_info)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
 
 
 def supplier_delete(request):

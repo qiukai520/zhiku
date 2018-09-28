@@ -43,10 +43,10 @@
                              {% csrf_token %}
                              <input type="hidden" name="nid" id="nid"  >
                            <div class="form-group">
-                            <label class="col-sm-2 control-label"></label>
+                            <label class="col-sm-2 control-label">供应商</label>
                             <div class="col-sm-8">
-                               <p   class="form-control" style="margin: 0px;">{{ supplier_obj.company }}</p>
-                                <input type="text" class="hidden" name="supplier_id" id="supplier_id" value={{ supplier_obj.nid }}>
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ supplier_obj.company }}</p>
+                                <input type="text" class="hidden"  name="supplier_id" id="supplier_id" value={{ supplier_obj.nid }}>
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>

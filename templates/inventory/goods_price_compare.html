@@ -1,0 +1,206 @@
+
+{% extends "layout.html" %}
+{% load inventory_tags %}
+{% block css %}
+    <style>
+     .minus  {
+        cursor: pointer;
+       margin-left: 0px !important;
+       color: red;
+       position: absolute;
+       top: 10px;
+       left: -85px;
+
+}
+    .plus{
+         cursor: pointer;
+        position: absolute;
+        top: 10px;
+        left: -85px;
+        color: #1ab394
+    }
+    </style>
+{% endblock %}
+{% block content %}
+        <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>零售比价 <small></small></h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-horizontal">
+                         <form method="post" id="price_fm" class="form-horizontal" enctype="multipart/form-data">
+                             {% csrf_token %}
+                             <input type="hidden" name="nid" id="nid"  >
+                          <input type="text" class="hidden" name="staff_id" id="staff_id" value={{ request.user.staff.sid }}>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">商品</label>
+                            <div class="col-sm-8">
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ goods_obj.name }}</p>
+                                <input type="text" class="hidden" name="goods_id" id="goods_id" value={{ goods_obj.nid }}>
+                            </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">比价商家</label>
+                            <div class="col-sm-8">
+                                <select  name="retail_id" class="form-control" id="retail_id" >
+                                    <option value=0>选择比价商家</option>
+                                    {% build_retailer_ele  %}
+                                </select>
+                            </div>
+                        </div>
+                             <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">单位</label>
+                            <div class="col-sm-8">
+                                 <select  name="unit_id" class="form-control" id="unit_id" >
+                                    {% build_goods_unit_ele %}
+                                </select>
+                            </div>
+                        </div>
+                         <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">数量</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="amount" id="amount" placeholder="整数"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                             <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">比价</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="price" id="price" placeholder="0.00"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                              <div class="hr-line-dashed"></div>
+                             <div class="form-group">
+                            <label class="col-sm-2 control-label">比价日期</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" name="date" id="date"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                         </form>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                         <div class="row" id="content_footer" >
+                             <div class="form-actions well well-sm clearfix">
+                                 <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                 <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                 <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+                                 <a href="{% url "goods_detail" %}?id={{ goods_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                 <!--error_msg-->
+                                 <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                    <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                    </span>
+                                    <span id="error_msg" style="font-size: 14px;"></span>
+                                </div>
+                             </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+     <script src="/static/js/jquery.cookie.js"></script>
+{#    <script src="/static/js/"></script>#}
+    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/js/custom/form-validate.min.js"></script>
+    <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+//字符串格式化
+String.prototype.format=function()
+{
+  if(arguments.length==0) return this;
+  for(var s=this, i=0; i<arguments.length; i++)
+    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+  return s;
+};
+ /*
+    自执行函数
+    */
+    $(function () {
+        //如果tid不为0，则为创建
+        var nid="{{ nid }}"
+        if ( nid!=""){
+           InitData()//初始化数据
+        }
+        else {
+
+        }
+    });
+     //初始化数据
+function InitData() {
+         $("#nid").val({{ query_set.nid }})
+        $("#retail_id").val({{ query_set.retail_id}});
+        $("#unit_id").val({{ query_set.unit_id }});
+        $("#amount").val("{{ query_set.amount }}");
+        $("#price").val("{% if  query_set.price %}{{ query_set.price }} {% endif %}");
+        $("#date").val("{% if query_set.date  %}{{ query_set.date |date:'Y-m-d'}}{% endif %}");
+
+    }
+//添加or编辑
+        function Submit(cons){
+         var $msg = $('#error_msg');
+         $msg.parent().addClass('hide');
+         var form =$("#price_fm");
+         console.log(form.valid())
+        //验证表单
+         if ( form.valid()){
+              var nid="{{ nid }}"
+             $.ajax({
+                url: '{% url "price_compare"%}',
+                type: 'POST',
+                data: form.serialize(),
+                dataType: 'JSON',
+                success: function (arg) {
+                   if (arg.status) {
+                        if (cons==1){
+                             window.location.href='{% url "goods_detail" %}'
+                        }else if(cons==2){
+                             window.location.href='{% url "price_compare" %}?gid={0}'.format({{ goods_obj.nid }});
+                        }else{
+                              window.location.href='{% url "price_compare" %}?gid={0}&id={1}'.format({{ goods_obj.nid }},arg.data);
+                        }
+                    } else {
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
+                    }
+                }
+         })
+         }
+    }
+
+
+
+ </script>
+{% endblock %}
+

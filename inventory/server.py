@@ -125,6 +125,127 @@ class GoodsUnitDB(object):
         GoodsUnit.objects.create(**modify_info)
 
 
+class GoodsPriceDB(object):
+    """商品比价"""
+
+    def insert_price(self, modify_info):
+        price_sql = """insert into goods_price(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        price_sql = price_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(price_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_price_list(self):
+        result_db = GoodsPrice.objects.filter(delete_status=1).all()
+        return result_db
+
+    def query_price_by_id(self, nid):
+        result_db = GoodsPrice.objects.filter(nid=nid, delete_status=1).first()
+        return result_db
+
+    def query_price_by_goods(self,goods_id):
+        result_db = GoodsPrice.objects.filter(goods_id=goods_id, delete_status=1)
+        return result_db
+
+    def update_price(self, modify):
+        GoodsPrice.objects.filter(nid=modify['nid'], delete_status=1).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        GoodsPrice.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class PriceCompareDB(object):
+    """商品比价"""
+
+    def insert_price(self, modify_info):
+        price_sql = """insert into price_compare(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        price_sql = price_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(price_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_price_list(self):
+        result_db = PriceCompare.objects.filter(delete_status=1).all()
+        return result_db
+
+    def query_price_by_id(self, nid):
+        result_db = PriceCompare.objects.filter(nid=nid,delete_status=1).first()
+        return result_db
+
+    def query_price_by_goods(self,goods_id):
+        result_db = PriceCompare.objects.filter(goods_id=goods_id, delete_status=1)
+        return result_db
+
+    def update_price(self, modify):
+        PriceCompare.objects.filter(nid=modify['nid'], delete_status=1).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        PriceCompare.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class PriceAttachDB(object):
+    """备忘附件表"""
+    def query_price_attachment_list(self):
+        result_db = PriceAttach.objects.filter().all()
+        return result_db
+
+    def query_price_attachment(self, id):
+        result_db = PriceAttach.objects.filter(price_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            PriceAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            PriceAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_price_attachment(self, id_list):
+        PriceAttach.objects.filter(nid__in=id_list).delete()
+
+    def multi_delete_attach_by_price_id(self,id_list):
+        PriceAttach.objects.filter(price_id__in=id_list).filter().delete()
+
+    def delete_price_attachment(self,nid):
+        PriceAttach.objects.filter(nid=nid).delete()
+
+
+class RetailSupplierDB(object):
+    """零售供应商"""
+    def query_retail_list(self):
+        result_db = RetailSupplier.objects.filter().all()
+        return result_db
+
+    def query_retail_by_id(self, nid):
+        result_db = RetailSupplier.objects.filter(nid=nid).first()
+        return result_db
+
+    def update_retail(self, modify_info):
+        is_exist = RetailSupplier.objects.filter(caption=modify_info['caption']).first()
+        if is_exist:
+            raise Exception("该零售商已存在")
+        RetailSupplier.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_retail(self, modify_info):
+        is_exist = RetailSupplier.objects.filter(caption=modify_info['caption']).first()
+        if is_exist:
+            raise Exception("该零售已存在")
+        RetailSupplier.objects.create(**modify_info)
+
+
 class NationDB(object):
     """国家"""
     def query_nation_list(self):
@@ -522,7 +643,6 @@ class ContactAttachDB(object):
         return result_db
 
     def query_contact_attachment(self, id):
-        print("id",id)
         result_db = ContactAttach.objects.filter(contact_id=id).all()
         return result_db
 
@@ -538,10 +658,11 @@ class ContactAttachDB(object):
         ContactAttach.objects.filter(nid__in=id_list).delete()
 
     def multi_delete_attach_by_linkman_id(self,id_list):
-        ContactAttach.objects.filter(linkman_id__in=id_list).filter().delete()
+        ContactAttach.objects.filter(contact_id__in=id_list).filter().delete()
 
     def delete_contact_attachment(self,nid):
         ContactAttach.objects.filter(nid=nid).delete()
+
 
 class MemoAttachDB(object):
     """备忘附件表"""
@@ -638,7 +759,7 @@ supplier_photo_db = SupplierPhotoDB()
 supplier_licence_db = SupplierLicenceDB()
 supplier_attach_db = SupplierAttachDB()
 supplier_contact_db = SupplierContactDB()
-supplier_memo_db= SupplierMemoDB()
+supplier_memo_db = SupplierMemoDB()
 contact_attach_db = ContactAttachDB()
 memo_attach_db = MemoAttachDB()
 industry_db = IndustryDB()
@@ -650,6 +771,10 @@ province_db = ProvinceDB()
 city_db = CityDB()
 country_db = CountryDB()
 goods_db = GoodsDB()
+goods_price_db = GoodsPriceDB()
+price_compare_db = PriceCompareDB()
+retailer_db = RetailSupplierDB()
+price_attach_db = PriceAttachDB()
 goods_photo_db = GoodsPhotoDB()
 goods_code_db = GoodsBarCodeDB()
 goods_attach_db = GoodsAttachDB()
