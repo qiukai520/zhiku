@@ -214,9 +214,7 @@ def task_detail(request):
 
 def task_period_detail(request):
     tpid = request.GET.get("tpid", None)
-    print("tpid",tpid)
     task_obj = task_period_db.query_task_by_tpid(tpid)
-    print("task_obj",task_obj)
     return render(request, 'task/task_period_detail.html', {"task_obj": task_obj})
 
 
@@ -346,11 +344,11 @@ def task_map_cancel(request):
             task_map_obj = task_map_db.query_task_by_tmid(id)
             # 未完成则与其相关的指派任务该为取消状态
             if not task_map_obj.is_finish:
-                status = {"status": 0}
+                status = {"status": 0,"is_finish":3}
                 task_assign_db.update_status_by_tmid(id, status)
         ret['status'] = True
     except Exception as e:
-        ret['status'] = "取消任务失败"
+        ret['status'] = "任务取消失败，已完成任务无法取消"
     return HttpResponse(json.dumps(ret))
 
 

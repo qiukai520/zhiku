@@ -83,7 +83,6 @@ def country_list(request):
     query_sets = country_db.query_country_list()
     return render(request,"inventory/country_list.html",{"query_sets":query_sets})
 
-
 def country_edit(request):
     """"县区添加或编辑"""
     method = request.method
@@ -122,6 +121,63 @@ def country_edit(request):
             else:
                 try:
                     country_db.insert_country(data)
+                    ret['status'] = True
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
+
+
+def town_list(request):
+    query_sets = town_db.query_town_list()
+    return render(request,"inventory/town_list.html",{"query_sets":query_sets})
+
+
+def town_edit(request):
+    """"县区添加或编辑"""
+    method = request.method
+    if method == "GET":
+        id = request.GET.get("id", "")
+        # 有则为编辑 ,无则添加
+        if id:
+            obj = town_db.query_town_by_id(id)
+        else:
+            id = 0
+            obj = []
+        return render(request, 'inventory/town_edit.html', {"obj": obj, "id": id})
+    else:
+        form = TownForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("id", 0)
+            data = request.POST
+            data = data.dict()
+            print(data)
+            # data["country_id"] = int(data["country_id"])
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    record = town_db.query_town_by_id(id)
+                    final_info = compare_fields(Town._update,record,data)
+                    if final_info:
+                        final_info["nid"] = id
+                        final_info["country_id"] = data["country_id"]
+                        final_info["town"] = data["town"]
+
+                        town_db.update_town(final_info)
+                    ret['status'] = True
+                    ret['data'] = id
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+            else:
+                try:
+                    print('insert',data)
+                    town_db.insert_town(data)
                     ret['status'] = True
                 except Exception as e:
                     print(e)

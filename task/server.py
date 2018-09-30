@@ -633,13 +633,16 @@ class TaskAssignDB(object):
     # 是否完成
     is_finish = (
         {"id": 0, "caption": "进行中"},
-        {"id": 1, "caption": "已完成"}
+        {"id": 1, "caption": "已完成"},
+        {"id": 3, "caption": "已取消"},
+        {"id": 2, "caption": "已暂停"},
     )
     # 任务状态
     status = (
         {"id": 0, "caption": "已取消"},
         {"id": 1, "caption": "进行中"},
-        {"id": 2, "caption": "已暂停"}
+        {"id": 2, "caption": "已暂停"},
+        {"id": 3, "caption": "已完成"},
     )
 
     def insert_task_assign(self, modify_info):

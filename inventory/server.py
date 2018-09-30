@@ -371,6 +371,40 @@ class CountryDB(object):
         return result_db
 
 
+class TownDB(object):
+    """县区"""
+    def __init__(self):
+        pass
+
+    def query_town_list(self):
+        result_db = Town.objects.filter().all()
+        return result_db
+
+    def query_town_by_id(self, nid):
+        result_db = Town.objects.filter(nid=nid).first()
+        return result_db
+
+    def query_town_by_country(self, country_id):
+        result_db = Town.objects.filter(country_id=country_id).all()
+        return result_db
+
+    def update_town(self, modify_info):
+        is_exist = self.is_exist( modify_info["town"],modify_info["country_id"])
+        if is_exist:
+            raise Exception("该镇已存在")
+        Town.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_town(self, modify_info):
+        is_exist = self.is_exist(modify_info["town"],modify_info["country_id"])
+        if is_exist:
+            raise Exception("该镇已存在")
+        Town.objects.create(**modify_info)
+
+    def is_exist(self,town,country_id):
+        result_db = Town.objects.filter(town=town, country_id=country_id).first()
+        return result_db
+
+
 class GoodsDB(object):
     """商品表"""
     def insert_goods(self,modify_info):
@@ -770,6 +804,7 @@ nation_db = NationDB()
 province_db = ProvinceDB()
 city_db = CityDB()
 country_db = CountryDB()
+town_db = TownDB()
 goods_db = GoodsDB()
 goods_price_db = GoodsPriceDB()
 price_compare_db = PriceCompareDB()

@@ -114,3 +114,8 @@ class CityForm(django_forms.Form):
 class CountryForm(django_forms.Form):
     country = django_fields.CharField(error_messages={"required": "县区不能为空"})
     city_id = django_fields.IntegerField(error_messages={"required": "请选择城市"})
+
+
+class TownForm(django_forms.Form):
+    town = django_fields.CharField(error_messages={"required": "镇不能为空"})
+    country_id = django_fields.IntegerField(error_messages={"required": "请选择县(区)","invalid": "请输入合法的县(区)"})

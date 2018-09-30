@@ -593,3 +593,38 @@ class Country(models.Model):
     _update = ["city_id", "country"]
 
 
+class Town(models.Model):
+    nid = models.AutoField(primary_key=True)
+    town = models.CharField(max_length=16, verbose_name="镇")
+    country = models.ForeignKey(Country, to_field="nid", on_delete=models.CASCADE, verbose_name='县区',
+                             db_constraint=False,)
+
+    class Meta:
+        db_table = 'town'
+        verbose_name = '镇'
+        verbose_name_plural = "镇"
+
+    def __str__(self):
+        return self.country
+
+    _insert = ["town", "country_id"]
+    _update = ["town", "country_id"]
+
+
+class Warehouse(models.Model):
+    nid = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=32,verbose_name="仓库名称")
+    town = models.ForeignKey("Town",on_delete=models.CASCADE, verbose_name='县区',
+                             db_constraint=False,)
+    address = models.CharField(max_length=128,verbose_name="详细地址")
+
+    class Meta:
+        db_table = 'warehouse'
+        verbose_name = '仓库'
+        verbose_name_plural = "仓库"
+
+    def __str__(self):
+        return self.name
+
+    _insert = ["name", "town_id", "address" ]
+    _update = ["name", "town_id", "address" ]

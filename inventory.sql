@@ -211,6 +211,13 @@ create table `country`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='市';
 
 
+drop TABLE if exists `town`;
+create table `town`(
+`nid` int(11) primary key auto_increment,
+`town` varchar (16) NOT NULL  COMMENT '街道',
+`country_id` int (11) NOT NULL  COMMENT '所属县(区)'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='街道';
+
 drop TABLE if exists `linkman`;
 create TABLE `linkman`(
 `nid` int(11) primary key auto_increment,
@@ -295,11 +302,13 @@ create table `price_compare`(
 `last_edit`   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE  CURRENT_TIMESTAMP COMMENT'最后编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='零售比价';
 
+
 drop table  if exists retail_supplier;
 create table  `retail_supplier`(
 `nid` int(11) primary key  auto_increment,
 `caption` varchar(32) NOT NULL COMMENT'零售商'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='零售供应商';
+
 
 drop TABLE if exists `price_attach`;
 create TABLE `price_attach`(
@@ -310,3 +319,11 @@ create TABLE `price_attach`(
 `name` varchar(64) COMMENT '附件名称'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报价附件';
 
+
+drop TABLE if exists `warehouse`;
+create TABLE `warehouse`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`town_id` int(11) NOT NULL COMMENT'街道',
+`name` varchar(128) COMMENT '仓库名称',
+`address` varchar(128) COMMENT '详细地址',
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库';

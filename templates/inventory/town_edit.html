@@ -1,0 +1,269 @@
+{% extends "layout.html" %}
+{% load inventory_tags %}
+
+{% block css %}
+    <style>
+     .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+    .form-group{
+         margin-top:30px;
+    }
+    </style>
+
+{%endblock %}
+{% block content %}
+
+      <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>街道编辑</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#">选项1</a>
+                                </li>
+                                <li><a href="#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+                            <div class="col-xs-12">
+                               <div class="form-group">
+                                    <label class="col-xs-1 control-label">国家:</label>
+                                    <div class="col-xs-2">
+                                        <select  name="nation" class="form-control" id="nation" onchange="SelectNation(this)" >
+                                          {% fetch_city_nid obj.country_id as city_id  %}
+                                          {% fetch_province_nid city_id  as province_id  %}
+                                          {% fetch_nation_nid province_id  as nation_id  %}
+                                            {% if id %}
+                                                {% build_nation_ele nation_id %}
+                                            {% else %}
+                                                 <option value=0>请选择国家</option>
+                                            {% build_nation_ele %}
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                   <label class="col-xs-1 control-label">省份:</label>
+                                    <div class="col-xs-2">
+                                        <select  name="province" class="form-control" id="province" onchange="SelectProvince(this)" >
+                                         {%  if  id %}
+                                             {% build_province_ele nation_id province_id=province_id %}
+                                             {% else %}
+                                              <option value=0>请选择省份</option>
+                                         {% endif %}
+                                        </select>
+                                    </div>
+                                   <label class="col-xs-1 control-label">城市:</label>
+                                    <div class="col-xs-2">
+                                        <select  name="city" class="form-control" id="city"  onchange="SelectCity(this)" >
+                                         {%  if  id %}
+                                             {% build_city_ele province_id %}
+                                             {% else %}
+                                             <option value=0 >请选择城市</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                <label class="col-xs-1 control-label">县区</label>
+                                <div class="col-xs-2">
+                                    <select  name="country_id" class="form-control" id="country"  >
+                                     {%  if  id %}
+                                         {% build_country_ele city_id  %}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                </div>
+                             <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label for="name" class="col-xs-1 control-label">街道:</label>
+                                      <div class="col-xs-8">
+                                          <input name="name"  class="form-control"  id="name" placeholder="街道">
+                                        </input>
+                                      </div>
+                                </div>
+                                  <div class="hr-line-dashed"></div>
+                                <div class="row" id="content_footer" >
+                                    <div class="form-actions well well-sm clearfix">
+                                    {% if id %}
+                                        <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                        <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                        <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+                                    {% else %}
+                                         <button type="submit" onclick="Submit(1)"  class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                         <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                    {% endif %}
+                                        <a href="{% url "town_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                        <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                            <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                            </span>
+                                            <span id="error_msg" style="font-size: 14px;"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block js%}
+     <script>
+        //字符串格式化
+String.prototype.format=function()
+{
+  if(arguments.length==0) return this;
+  for(var s=this, i=0; i<arguments.length; i++)
+    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+  return s;
+};
+       //自执行函数
+  $(function () {
+      var id={{ id }}
+      if(id!=0){
+          DataInit()//初始化化数据
+      }
+  })
+  function DataInit() {
+        $("#country").val("{{ obj.country_id }}")
+        $("#name").val("{{ obj.town}}");
+}
+
+     function Submit(cons) {
+        var $msg = $('#error_msg');
+        $msg.parent().addClass('hide');
+        var name = $("#name").val().trim();
+        var country_id =parseInt($("#country").val());
+         if ( !country_id){
+              layer.alert("请选择相应县区", {icon: 6 ,
+              time: 1500, //20s后自动关闭
+                   btn: [ '知道了']},
+              );
+              return;
+         }
+        var id={{ id }}
+        if(id!=0){
+           var data=  {"town" :name ,"id":id,"country_id":country_id}
+        }else {
+            var data={"town":name,"country_id":country_id}
+        }
+        console.log("data",data)
+        $.ajax({
+                url: '{% url 'town_edit'%}',
+                type: "post",
+                data:  data,
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                     if (cons==1){
+                             window.location.href='{% url "town_list" %}';
+                        }else if(cons==2){
+                             window.location.href='{% url "town_edit" %}';
+                        }else{
+                              window.location.href='{% url "town_edit" %}?id={0}'.format(arg.data);
+                        }
+                } else {
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
+                }
+            }
+        })
+    }
+        // 根据省份获取相应的城市
+    function SelectCity(ths) {
+      var nid=$(ths).val();
+      $("#country").children().remove();
+      $.ajax({
+        url:"{% url "city_country" %}",
+        type:'get',
+        data:{"id":nid},
+        dataType:'json',
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
+		o.text = this['fields']['country'];
+		 $("#country").append(o);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
+    }
+
+    // 根据省份获取相应的城市
+    function SelectProvince(ths) {
+      var nid=$(ths).val();
+      $("#city").children().remove();
+      $.ajax({
+        url:"{% url "province_city" %}",
+        type:'get',
+        data:{"id":nid},
+        dataType:'json',
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    $("#city").append("<option value=0 >请选择城市</option>")
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
+		o.text = this['fields']['city'];
+		 $("#city").append(o);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
+    }
+      // 根据国家获取相应的身份
+    function SelectNation(ths) {
+      var nid=$(ths).val();
+      $("#province").children().remove();
+       $("#city").children().remove();
+      $.ajax({
+        url:"{% url "nation_province" %}",
+        type:'get',
+        data:{"id":nid},
+        dataType:'json',
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    $("#province").append("<option value=0 >请选择省份</option>")
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
+		o.text = this['fields']['province'];
+		 $("#province").append(o);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
+
+
+    }
+     </script>
+{% endblock %}

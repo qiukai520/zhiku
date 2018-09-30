@@ -86,7 +86,7 @@
                             <div class="form-group">
                             <label class="col-sm-2 control-label">数量</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="amount" id="amount" placeholder="整数"> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="amount" id="amount" value=1 placeholder="整数"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>
@@ -112,8 +112,11 @@
                           <div class="hr-line-dashed"></div>
                              <div class="form-group">
                             <label class="col-sm-2 control-label">报价日期</label>
-                            <div class="col-sm-8">
-                                <input type="date" class="form-control" name="date" id="date"> <span class="help-block m-b-none"></span>
+                            <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker1">
+                                <input type='text'  name="date" id='date' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
                             </div>
                         </div>
                            <div class="hr-line-dashed"></div>
@@ -234,6 +237,23 @@ String.prototype.format=function()
 
         }
     });
+
+            //设置日期时间控件
+$(function () {
+    $('#datepicker1').datepicker({
+        language: "zh-CN", //语言
+        todayHighlight: true, //是否今日高亮
+        format: 'yyyy-mm-dd', //点击月份后显示在input中的格式
+        autoclose: true, //是否开启自动关闭
+        startView: 'months', //开始视图层，为月视图层
+        maxViewMode:'years', //最大视图层，为年视图层
+        minViewMode:'days', //最小视图层，为月视图层
+        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
+        {#setDate:new Date(),#}
+    });
+    $('#datepicker1').datepicker('setDate', new Date());
+});
      //初始化数据
 function InitData() {
         //初始化form
@@ -245,9 +265,8 @@ function InitData() {
         $("#price").val("{% if  query_set.price %}{{ query_set.price }} {% endif %}");
         $("#logistics").val("{% if  query_set.logistics %}{{ query_set.logistics }} {% endif %}");
         $("#logis_remark").val("{% if  query_set.logis_remark %}{{ query_set.logis_remark }} {% endif %}");
-         $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
+        $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
         $("#date").val("{% if query_set.date  %}{{ query_set.date |date:'Y-m-d'}}{% endif %}");
-
     }
 //添加附件
 var att_num=1
