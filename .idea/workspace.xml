@@ -5,24 +5,7 @@
     <bookmark url="file://$PROJECT_DIR$/inventory.sql" line="28" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/inventory/town_edit.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/inventory/town_list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/inventory/warehouse_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory.sql" beforeDir="false" afterPath="$PROJECT_DIR$/inventory.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/forms/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/forms/form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/custom/form-validate.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/custom/form-validate.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_price.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_price.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
-    </list>
+    <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,115 +26,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="town_edit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/town_edit.html">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="23" column="30" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
+            <state relative-caret-position="108">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="town_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/town_list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="61" column="91" lean-forward="true" selection-start-line="59" selection-start-column="40" selection-end-line="61" selection-end-column="91" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="inventory.sql" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/inventory.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="295" column="10" selection-start-line="295" selection-start-column="1" selection-end-line="295" selection-end-column="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="inventory_tags.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inventory/templatetags/inventory_tags.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-169">
-              <caret line="287" column="4" selection-start-line="287" selection-start-column="4" selection-end-line="287" selection-end-column="4" />
-              <folding>
-                <element signature="e#0#27#0" expanded="true" />
-                <element signature="e#3554#4150#0" />
-                <element signature="e#7681#8340#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/task/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1107">
-              <caret line="349" column="17" selection-start-line="349" selection-start-column="17" selection-end-line="349" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inventory/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
-              <folding>
-                <element signature="e#640#653#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inventory/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
-              <caret line="170" column="36" selection-start-line="170" selection-start-column="36" selection-end-line="170" selection-end-column="36" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#2829#4573#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/inventory/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
+            <state relative-caret-position="4">
               <caret line="609" column="36" lean-forward="true" selection-start-line="609" selection-start-column="36" selection-end-line="609" selection-end-column="36" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="warehouse_edit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/warehouse_edit.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-54">
-              <caret line="25" column="38" lean-forward="true" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inventory/server.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="819" lean-forward="true" selection-start-line="819" selection-end-line="819" />
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-                <element signature="e#2746#3533#0" />
-                <element signature="e#3567#4310#0" />
-                <element signature="e#11440#12501#0" />
               </folding>
             </state>
           </provider>
@@ -302,18 +192,12 @@
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="inventory" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="inventory" type="462c0819:PsiDirectoryNode" />
-              <item name="forms" type="462c0819:PsiDirectoryNode" />
+              <item name="personnel" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -324,29 +208,12 @@
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="custom" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="task" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -454,47 +321,61 @@
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32937685" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3298611" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.48214287" visible="true" weight="0.28703704" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.18657635" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.18965517" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49938422" weight="0.3275463" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" sideWeight="0.092150174" side_tool="true" weight="0.18596059" />
       <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4981527" weight="0.39930555" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4981527" weight="0.39930555" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.18657635" />
+      <window_info anchor="right" id="SciView" order="3" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32942554" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32900944" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3298611" />
       <window_info anchor="right" id="Data View" order="4" />
+      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
+      <window_info id="Structure" order="1" sideWeight="0.092150174" side_tool="true" weight="0.18596059" />
       <window_info anchor="right" x="0" y="0" width="374" height="826" id="Documentation" order="6" side_tool="true" weight="0.3294335" />
+      <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.51785713" side_tool="true" weight="0.26967594" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49938422" weight="0.3275463" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.48214287" visible="true" weight="0.28703704" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.32937685" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.2364532" />
+      <window_info anchor="right" id="Data View" order="4" />
       <window_info id="Structure" order="1" sideWeight="0.092150174" side_tool="true" weight="0.18596059" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32942554" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32900944" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3298611" />
-      <window_info anchor="right" id="Data View" order="4" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.2364532" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.3298611" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49938422" weight="0.3275463" />
       <window_info anchor="right" x="0" y="0" width="374" height="826" id="Documentation" order="6" side_tool="true" weight="0.3294335" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4981527" weight="0.39930555" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.48214287" visible="true" weight="0.24421297" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.51785713" side_tool="true" weight="0.26967594" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32900944" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" id="Database" order="5" />
-      <window_info anchor="bottom" id="Python Console" order="8" weight="0.3298611" />
+      <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -516,16 +397,10 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/task/projects.html" />
     <entry file="file://$PROJECT_DIR$/templates/task/task_map_edit.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="386" column="43" selection-start-line="386" selection-start-column="35" selection-end-line="386" selection-end-column="43" />
-          <folding>
-            <element signature="e#6036#6062#0#HTML" expanded="true" />
-            <element signature="e#6465#6520#0#HTML" expanded="true" />
-            <element signature="e#6612#6651#0#HTML" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -552,11 +427,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-90">
           <caret line="283" column="79" selection-start-line="283" selection-start-column="79" selection-end-line="283" selection-end-column="79" />
-          <folding>
-            <element signature="e#16259#16285#0#HTML" expanded="true" />
-            <element signature="e#16686#16741#0#HTML" expanded="true" />
-            <element signature="e#16833#16872#0#HTML" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -623,9 +493,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="37">
           <caret line="34" column="4" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -689,9 +556,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="98">
           <caret line="417" column="13" selection-start-line="417" selection-start-column="8" selection-end-line="417" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -755,10 +619,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
           <caret line="97" column="72" selection-start-line="97" selection-start-column="69" selection-end-line="97" selection-end-column="72" />
-          <folding>
-            <element signature="e#1849#2274#0#HTML" />
-            <element signature="e#8751#9677#0#HTML" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -787,10 +647,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="27">
           <caret line="110" column="75" selection-start-line="110" selection-start-column="75" selection-end-line="110" selection-end-column="75" />
-          <folding>
-            <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="e#5442#5448#0#HTML" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -798,10 +654,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="382">
           <caret line="120" column="14" selection-start-line="120" selection-start-column="4" selection-end-line="120" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-            <element signature="e#6194#6345#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -816,9 +668,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
-          <folding>
-            <element signature="e#640#653#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -826,10 +675,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="403">
           <caret line="170" column="36" selection-start-line="170" selection-start-column="36" selection-end-line="170" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#2829#4573#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -837,12 +682,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="346">
           <caret line="819" lean-forward="true" selection-start-line="819" selection-end-line="819" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-            <element signature="e#2746#3533#0" />
-            <element signature="e#3567#4310#0" />
-            <element signature="e#11440#12501#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -850,19 +689,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1107">
           <caret line="349" column="17" selection-start-line="349" selection-start-column="17" selection-end-line="349" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="609" column="36" lean-forward="true" selection-start-line="609" selection-start-column="36" selection-end-line="609" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -884,11 +710,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-169">
           <caret line="287" column="4" selection-start-line="287" selection-start-column="4" selection-end-line="287" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#3554#4150#0" />
-            <element signature="e#7681#8340#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -896,6 +717,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="367">
           <caret line="295" column="10" selection-start-line="295" selection-start-column="1" selection-end-line="295" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4">
+          <caret line="609" column="36" lean-forward="true" selection-start-line="609" selection-start-column="36" selection-end-line="609" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
