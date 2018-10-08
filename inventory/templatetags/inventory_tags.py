@@ -213,6 +213,22 @@ def build_province_ele(nation_id=None,province_id=None):
             eles += ele
     return mark_safe(eles)
 
+@register.simple_tag
+def build_china_province_ele(province_id=None):
+    province_list = province_db.query_china_province_list()
+    eles = ""
+    if province_id:
+        for item in province_list:
+            if item.nid == province_id:
+                ele = """<option selected=selected value={0}>{1}</option>""".format(item.nid, item.province)
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.province)
+            eles += ele
+    else:
+        for item in province_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.province)
+            eles += ele
+    return mark_safe(eles)
 
 @register.simple_tag
 def build_city_ele(province_id=None, city_id=None):
@@ -236,6 +252,7 @@ def build_city_ele(province_id=None, city_id=None):
     return mark_safe(eles)
 
 
+
 @register.simple_tag
 def build_country_ele(city_id=None, selected=None):
     """构建城市下拉框"""
@@ -256,6 +273,29 @@ def build_country_ele(city_id=None, selected=None):
             ele = """<option value={0}>{1}</option>""".format(item.nid, item.country)
             eles += ele
     return mark_safe(eles)
+
+
+@register.simple_tag
+def build_town_ele(country_id=None, selected=None):
+    """构建城市下拉框"""
+    if country_id:
+        town_list = town_db.query_town_by_country(country_id)
+    else:
+        town_list = town_db.query_town_list()
+    eles = ""
+    if selected:
+        for item in town_list:
+            if item.nid == selected:
+                ele = """<option selected=selected value={0}>{1}</option>""".format(item.nid, item.town)
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.town)
+            eles += ele
+    else:
+        for item in town_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.town)
+            eles += ele
+    return mark_safe(eles)
+
 
 @register.simple_tag
 def change_to_nation(id):
@@ -291,7 +331,13 @@ def change_to_country(id):
         obj = country_db.query_country_by_id(id)
         if obj:
             return obj.country
-
+@register.simple_tag
+def change_to_town(id):
+    """根据id转换成街道"""
+    if id:
+        obj = town_db.query_town_by_id(id)
+        if obj:
+            return obj.town
 
 @register.simple_tag
 def change_to_contact_category(id):
@@ -422,11 +468,19 @@ def fetch_province_nid(city_id):
 
 @register.simple_tag
 def fetch_city_nid(country_id):
-    """根据城市获取省份nid"""
+    """根据县获取城市nid"""
     if country_id:
         obj = country_db.query_country_by_id(country_id)
         if obj:
             return obj.city_id
+
+@register.simple_tag
+def fetch_country_nid(town_id):
+    """根据街道获取县id"""
+    if town_id:
+        obj = town_db.query_town_by_id(town_id)
+        if obj:
+            return obj.country_id
 
 @register.simple_tag
 def fetch_goods_photo(id):

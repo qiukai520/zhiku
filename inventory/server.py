@@ -278,8 +278,13 @@ class ProvinceDB(object):
         result_db = Province.objects.filter().all()
         return result_db
 
+    def query_china_province_list(self):
+        nation_id = 1  # china
+        result_db = Province.objects.filter(nation_id=nation_id).all()
+        return result_db
+
     def query_province_by_nation(self,nation_id):
-        result_db=Province.objects.filter(nation_id=nation_id).all()
+        result_db = Province.objects.filter(nation_id=nation_id).all()
         return result_db
 
     def query_province_by_id(self, nid):
@@ -788,6 +793,36 @@ class LinkmanAttachDB(object):
         LinkmanAttach.objects.filter(nid=nid).delete()
 
 
+class WarehouseDB(object):
+    """仓库"""
+
+    def query_warehouse_list(self):
+        result_db = Warehouse.objects.filter().all()
+        return result_db
+
+    def query_warehouse_by_id(self, id):
+        result_db = Warehouse.objects.filter(nid=id).first()
+        return result_db
+
+    def insert_warehouse(self,modify_info):
+        warehouse_sql = """insert into warehouse(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        warehouse_sql = warehouse_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(warehouse_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def update_warehouse(self,modify_info):
+        Warehouse.objects.update(**modify_info)
+
+
+
+
 supplier_db = SupplierDB()
 supplier_photo_db = SupplierPhotoDB()
 supplier_licence_db = SupplierLicenceDB()
@@ -817,5 +852,5 @@ linkman_db = LinkmanDB()
 linkman_photo_db = LinkmanPhotoDB()
 linkman_card_db = LinkmanCardDB()
 linkman_attach_db = LinkmanAttachDB()
-
+warehouse_db = WarehouseDB()
 

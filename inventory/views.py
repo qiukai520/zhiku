@@ -2,6 +2,7 @@ import uuid
 import os
 from django.db import transaction
 from django.shortcuts import render,HttpResponse
+from django.views.generic.base import View
 from django.core import serializers
 from .server import *
 from .forms.form import *
@@ -65,6 +66,7 @@ def city_edit(request):
             ret['message'] = firsterror
     return HttpResponse(json.dumps(ret))
 
+
 def city_country(request):
     """根据城市获取县区"""
     ret = {"status":False,"data":"","message":""}
@@ -79,9 +81,11 @@ def city_country(request):
         ret['message'] = "请选择相应的城市"
     return HttpResponse(json.dumps(ret))
 
+
 def country_list(request):
     query_sets = country_db.query_country_list()
     return render(request,"inventory/country_list.html",{"query_sets":query_sets})
+
 
 def country_edit(request):
     """"县区添加或编辑"""
@@ -129,6 +133,21 @@ def country_edit(request):
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
+
+
+def country_town(request):
+    """根据县区获取街道"""
+    ret = {"status":False,"data":"","message":""}
+    id = request.GET.get("id")
+    if id:
+        town_list = town_db.query_town_by_country(id)
+        # 序列化queryset对象
+        data = serializers.serialize("json", town_list)
+        ret['status'] = True
+        ret["data"] = data
+    else:
+        ret['message'] = "请选择相应的县区"
     return HttpResponse(json.dumps(ret))
 
 
@@ -1526,7 +1545,6 @@ def supplier_delete(request):
     ids = ids.split("|")
     # 转化成数字
     id_list = []
-    print(ids)
     for item in ids:
         if item:
             id_list.append(int(item))
@@ -1540,7 +1558,61 @@ def supplier_delete(request):
     return HttpResponse(json.dumps(ret))
 
 
-# 文件上传
+def warehouse_list(request):
+    query_sets = warehouse_db.query_warehouse_list()
+    return render(request,"inventory/warehouse_list.html",{"query_sets":query_sets})
+
+
+class WarehouseViewSet(View):
+    def get(self,request):
+        id = request.GET.get("id", "")
+
+        # 有则为编辑 ,无则添加
+        if id:
+            obj = warehouse_db.query_warehouse_by_id(id)
+            if obj:
+                obj ={"nid":obj.nid,"name":obj.name,"town_id":obj.town_id,"address":obj.address}
+        else:
+            id = 0
+            obj = {}
+        return render(request, "inventory/warehouse_edit.html",{"obj":obj,"id": id})
+
+    def post(self, request):
+        form = WarehouseForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("id", 0)
+            data = request.POST
+            data = data.dict()
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    record = warehouse_db.query_warehouse_by_id(id)
+                    final_info = compare_fields(Warehouse._update, record, data)
+                    print(final_info)
+                    if final_info:
+                        warehouse_db.update_warehouse(final_info)
+                    ret['status'] = True
+                    ret['data'] = id
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+            else:
+                try:
+                    data_info = filter_fields(Warehouse._insert, data)
+                    print("data_info", data_info)
+                    id = warehouse_db.insert_warehouse(data_info)
+                    ret['status'] = True
+                    ret['data'] = id
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        print("ret",ret)
+        return HttpResponse(json.dumps(ret))
 
 
 def goods_photo(request):

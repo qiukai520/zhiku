@@ -324,6 +324,7 @@ drop TABLE if exists `warehouse`;
 create TABLE `warehouse`(
 `nid`int(11) NOT NULL primary key auto_increment,
 `town_id` int(11) NOT NULL COMMENT'街道',
-`name` varchar(128) COMMENT '仓库名称',
+`name` varchar(64) COMMENT '仓库名称',
 `address` varchar(128) COMMENT '详细地址',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库';

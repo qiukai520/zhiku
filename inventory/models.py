@@ -595,14 +595,14 @@ class Country(models.Model):
 
 class Town(models.Model):
     nid = models.AutoField(primary_key=True)
-    town = models.CharField(max_length=16, verbose_name="镇")
+    town = models.CharField(max_length=16, verbose_name="街道")
     country = models.ForeignKey(Country, to_field="nid", on_delete=models.CASCADE, verbose_name='县区',
                              db_constraint=False,)
 
     class Meta:
         db_table = 'town'
-        verbose_name = '镇'
-        verbose_name_plural = "镇"
+        verbose_name = '街道'
+        verbose_name_plural = "街道"
 
     def __str__(self):
         return self.country
@@ -612,11 +612,13 @@ class Town(models.Model):
 
 
 class Warehouse(models.Model):
+    delete_status_choice = ((0, '删除'), (1, '保留'))
     nid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=32,verbose_name="仓库名称")
-    town = models.ForeignKey("Town",on_delete=models.CASCADE, verbose_name='县区',
+    town = models.ForeignKey("Town",on_delete=models.CASCADE, verbose_name='街道',
                              db_constraint=False,)
     address = models.CharField(max_length=128,verbose_name="详细地址")
+    delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
 
     class Meta:
         db_table = 'warehouse'
@@ -626,5 +628,5 @@ class Warehouse(models.Model):
     def __str__(self):
         return self.name
 
-    _insert = ["name", "town_id", "address" ]
-    _update = ["name", "town_id", "address" ]
+    _insert = ["name", "town_id", "address"]
+    _update = ["name", "town_id", "address"]
