@@ -23,6 +23,25 @@ def build_goods_category_ele(selected=None):
             eles += ele
     return mark_safe(eles)
 
+@register.simple_tag
+def build_warehouse_ele(selected=None):
+    """构建商品分类下拉框"""
+    warehouse_list = warehouse_db.query_warehouse_list()
+    eles = ""
+    if selected:
+        for item in warehouse_list:
+            if item.nid == selected:
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.nid, item.name)
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.name)
+            eles += ele
+    else:
+        for item in warehouse_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.name)
+            eles += ele
+    return mark_safe(eles)
+
+
 
 @register.simple_tag
 def build_goods_unit_ele(selected=None):
@@ -304,6 +323,15 @@ def change_to_nation(id):
         obj = nation_db.query_nation_by_id(id)
         if obj:
             return obj.nation
+
+
+@register.simple_tag
+def change_to_warehouse(id):
+    """根据id转换成国家"""
+    if id:
+        obj = warehouse_db.query_warehouse_by_id(id)
+        if obj:
+            return obj.name
 
 
 @register.simple_tag

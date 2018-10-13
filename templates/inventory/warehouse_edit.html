@@ -2,6 +2,7 @@
 {% load inventory_tags %}
 
 {% block css %}
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
     <style>
      .form-horizontal .control-label {
             padding-top: 7px;
@@ -119,7 +120,33 @@
                                       </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
+                               <div class="form-group">
+                                    <label for="name" class="col-xs-1 control-label">定位</label>
+                                    <div class="col-xs-8">
+                                        <div id="mark_container" style="width:100%;height:300px">
+                                    </div>
+                                        <div id="myPageTop" style="position:absolute;">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <label>输入搜索地址：</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input name="tip" id="tipinput"/>
+                                                    <input class="hidden" type="text"  id="lng" name="lng">
+                                                     <input class="hidden" type="text" id="lat"  name="lat">
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                             </div>
+                               </div>
+                             <div class="hr-line-dashed"></div>
                             </div>
+                        <div>
+                    </div>
                         </form>
                         </div>
                          <div class="row" id="content_footer" >
@@ -151,6 +178,12 @@
     <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/static/js/custom/form-validate.min.js"></script>
     <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
+
+     //mark
+    <script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script src="http://webapi.amap.com/maps?v=1.4.3&key=c4d8f8eff1d622c4b83023b746d10b23&plugin=AMap.PlaceSearch,AMap.AdvancedInfoWindow"></script>
+    <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+{#    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>#}
      <script>
         //字符串格式化
 String.prototype.format=function()
@@ -160,20 +193,77 @@ String.prototype.format=function()
     s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
   return s;
 };
+
+ //mark
+ var lng,lat,mark,name
+function initMap(lng=113.324954,lat=22.98682,mark=false,name=''){
+     //地图加载
+    var map = new AMap.Map('mark_container', {
+    resizeEnable: true,
+    zoom:11,
+    center: [lng,lat],//默认的地图中心经纬度
+      zoomToAccuracy: true
+    });
+    //输入提示和POI搜索插件用到的JS
+   AMap.plugin(['AMap.Autocomplete','AMap.PlaceSearch',"AMap.Marker"],function(){
+    var autoOptions = {
+        city: "广州", //城市，默认全国
+        input: "tipinput"//使用联想输入的input的id（也就是上边那个唯一的id）
+    };
+    autocomplete= new AMap.Autocomplete(autoOptions);
+    var placeSearch = new AMap.PlaceSearch({
+        city:'广州',
+        map:map
+    });
+    AMap.event.addListener(autocomplete, "select", function(e){
+        //TODO 针对选中的poi实现自己的功能
+        placeSearch.setCity(e.poi.adcode);
+        placeSearch.search(e.poi.name);
+        var lng=e.poi.location.lng
+        var lat=e.poi.location.lat
+        $("#lng").val(lng)
+        $("#lat").val(lat)
+    });
+    if(mark){
+         //点标记
+    var marker = new AMap.Marker({
+        icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png",
+        position: new AMap.LngLat(lng, lat),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+        title:name,
+        visible :true,
+});
+    map.add(marker);
+    }
+    //拖拽
+})
+}
+
        //自执行函数
   $(function () {
       var id={{ id }}
+       lng={% if obj.lng %}{{ obj.lng }}{% else %}0{% endif %};
+       lat ={% if obj.lat %}{{ obj.lat }}{% else %}0{% endif %};
+       name="{{ obj.name }}"
       if(id!=0){
           DataInit()//初始化化数据
+           if (lng!=0){
+              initMap(lng,lat,true,name)
+           }else{
+               initMap()
+           }
+      }else{
+          initMap()
       }
   })
+
   function DataInit() {
             {#console.log(typeof({{ obj }}))#}
             $("#nid").val("{{ obj.nid }}")
             $("#town_id").val("{{ obj.town_id }}" )
             $("#name").val("{{ obj.name }}");
             $("#address").val( "{{ obj.address }}");
-
+            $("#lng").val({% if obj.lng %}{{ obj.lng }}0{% endif %})
+            $("#lat").val({% if obj.lat %}{{ obj.lat }}0{% endif %})
 }
 
     //添加or编辑

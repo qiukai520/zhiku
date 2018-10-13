@@ -125,3 +125,8 @@ class WarehouseForm(django_forms.Form):
     name = django_fields.CharField(error_messages={"required": "仓库名称不能为空"})
     town_id = django_fields.IntegerField(error_messages={"required":"请选择街道"})
     address = django_fields.CharField(error_messages={"required": "地址不能为空"})
+
+
+class WareLocationForm(django_forms.Form):
+    location = django_fields.CharField(error_messages={"required": "库位名称不能为空"})
+    warehouse_id = django_fields.IntegerField(error_messages={"required":"请选择仓库"})

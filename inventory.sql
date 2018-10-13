@@ -326,5 +326,41 @@ create TABLE `warehouse`(
 `town_id` int(11) NOT NULL COMMENT'街道',
 `name` varchar(64) COMMENT '仓库名称',
 `address` varchar(128) COMMENT '详细地址',
-`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
+`lng` decimal(10,6) COMMENT '经度',
+`lat` decimal(10,6) COMMENT '纬度',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库';
+
+
+drop table if exists `inventory`;
+create table `inventory`(
+`nid` int(11) primary key auto_increment,
+`goods_id` int(11) NOT NULL  COMMENT '商品',
+`unit_id` int(11) NOT NULL COMMENT '单位',
+`warehouse_id` int(11) NOT NULL COMMENT '所在仓库',
+`recoder` int(11) NOT NULL COMMENT '录入人',
+`batch` int(11) NOT NUL COMMENT '入库批次',
+`amount` int(11) COMMENT '数量',
+`date` datetime  DEFAULT NUll  COMMENT '入库日期',
+`location` varchar (64) COMMENT '位置',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
+`create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT '创建时间',
+`last_edit`   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE  CURRENT_TIMESTAMP COMMENT'最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='库存';
+
+drop TABLE if exists `inventory_attach`;
+create TABLE `inventory_attach`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`inventory_id` int(11) NOT NULL COMMENT'库存',
+`attachment` varchar(128) COMMENT '附件路径',
+`description` varchar(128) COMMENT '附件描述',
+`name` varchar(64) COMMENT '附件名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报价附件';
+
+
+drop TABLE if exists `ware_location`;
+create table `ware_location`(
+`nid` int(11) primary key auto_increment,
+`location` varchar (16) NOT NULL  COMMENT '库位',
+`warehouse_id` int (11) NOT NULL  COMMENT '所属仓库'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='库位';

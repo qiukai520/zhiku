@@ -547,6 +547,60 @@ def industry_edit(request):
     return HttpResponse(json.dumps(ret))
 
 
+def invent_list(request):
+    query_sets ={}
+    return render(request,"inventory/inventory_list.html",{"query_sets":query_sets})
+
+
+class InventViewSet(View):
+    def get(self,request):
+        id = request.GET.get("id", "")
+        # 有则为编辑 ,无则添加
+        if id:
+            obj = warehouse_db.query_warehouse_by_id(id)
+            if obj:
+                obj ={"nid":obj.nid,"name":obj.name,"town_id":obj.town_id,"address":obj.address}
+        else:
+            id = 0
+            obj = {}
+        return render(request, "inventory/inventory_edit.html",{"obj":obj,"id": id})
+
+    def post(self, request):
+        form = WarehouseForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("id", 0)
+            data = request.POST
+            data = data.dict()
+            print("data",data)
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    record = warehouse_db.query_warehouse_by_id(id)
+                    final_info = compare_fields(Warehouse._update, record, data)
+                    print(final_info)
+                    if final_info:
+                        warehouse_db.update_warehouse(final_info)
+                    ret['status'] = True
+                    ret['data'] = id
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+            else:
+                try:
+                    data_info = filter_fields(Warehouse._insert, data)
+                    id = warehouse_db.insert_warehouse(data_info)
+                    ret['status'] = True
+                    ret['data'] = id
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        print("ret",ret)
+        return HttpResponse(json.dumps(ret))
 
 def nation_list(request):
     query_sets = nation_db.query_nation_list()
@@ -1571,7 +1625,7 @@ class WarehouseViewSet(View):
         if id:
             obj = warehouse_db.query_warehouse_by_id(id)
             if obj:
-                obj ={"nid":obj.nid,"name":obj.name,"town_id":obj.town_id,"address":obj.address}
+                obj ={"nid":obj.nid,"name":obj.name,"town_id":obj.town_id,"address":obj.address,"lng":obj.lng,"lat":obj.lat}
         else:
             id = 0
             obj = {}
@@ -1584,6 +1638,7 @@ class WarehouseViewSet(View):
             id = request.POST.get("id", 0)
             data = request.POST
             data = data.dict()
+            print("data",data)
             # 有则为编辑 ,无则添加
             if id:
                 try:
@@ -1600,7 +1655,6 @@ class WarehouseViewSet(View):
             else:
                 try:
                     data_info = filter_fields(Warehouse._insert, data)
-                    print("data_info", data_info)
                     id = warehouse_db.insert_warehouse(data_info)
                     ret['status'] = True
                     ret['data'] = id
@@ -1613,6 +1667,82 @@ class WarehouseViewSet(View):
             ret['message'] = firsterror
         print("ret",ret)
         return HttpResponse(json.dumps(ret))
+
+
+def ware_location_list(request):
+    query_sets = ware_location_db.query_location_list()
+    return render(request,"inventory/ware_location_list.html",{"query_sets":query_sets})
+
+
+class WareLocationViewSet(View):
+    def get(self,request):
+        id = request.GET.get("id", "")
+        # 有则为编辑 ,无则添加
+        if id:
+            obj = ware_location_db.query_location_by_id(id)
+            if obj:
+                obj ={"nid":obj.nid,"name":obj.location,"warehouse":obj.warehouse_id}
+        else:
+            id = 0
+            obj = {}
+        print("obj",obj)
+        return render(request, "inventory/ware_location_edit.html",{"obj":obj,"id": id})
+
+    def post(self, request):
+        form = WareLocationForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("id", 0)
+            data = request.POST
+            data = data.dict()
+            print("data",data)
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    record = ware_location_db.query_location_by_id(id)
+                    final_info = filter_fields(WareLocation._update, data)
+                    print(final_info)
+                    if final_info:
+                        final_info["nid"] = id
+                        ware_location_db.update_location(final_info)
+                    ret['status'] = True
+                    ret['data'] = id
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+            else:
+                try:
+                    print(data)
+                    data_info = filter_fields(WareLocation._insert, data)
+                    print(data_info)
+                    ware_location_db.insert_location(data_info)
+                    ret['status'] = True
+                    ret['data'] = id
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        print("ret",ret)
+        return HttpResponse(json.dumps(ret))
+
+
+def warehouse_location(request):
+    """根据仓库获取相应库位"""
+    ret = {"status":False,"data":"","message":""}
+    id =request.GET.get("id")
+    if id:
+        location_list =ware_location_db.query_location_by_house(id)
+        # 序列化queryset对象
+        data = serializers.serialize("json", location_list)
+        ret['status'] = True
+        ret["data"]= data
+    else:
+        ret['message'] = "请选择相应的仓库"
+
+    return HttpResponse(json.dumps(ret))
 
 
 def goods_photo(request):

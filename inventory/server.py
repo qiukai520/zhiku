@@ -820,7 +820,75 @@ class WarehouseDB(object):
     def update_warehouse(self,modify_info):
         Warehouse.objects.update(**modify_info)
 
+class InventDB(object):
+    "库存"
 
+    def insert_invent(self, modify_info):
+        invent_sql = """insert into invnet(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        invent_sql = invent_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(invent_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_invent_list(self):
+        result_db = Inventory.objects.filter(delete_status=1).all()
+        return result_db
+
+    def query_invent_by_id(self, nid):
+        result_db = Inventory.objects.filter(nid=nid, delete_status=1).first()
+        return result_db
+
+    def query_goods_by_category(self, category_id):
+        result_db = Inventory.objects.filter(category_id=category_id, delete_status=1).all()
+        return result_db
+
+    def update_goods(self, modify):
+        Goods.objects.filter(nid=modify['nid'], delete_status=1).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        Goods.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class WareLocationDB(object):
+    """城市"""
+
+    def __init__(self):
+        pass
+
+    def query_location_list(self):
+        result_db = WareLocation.objects.filter().all()
+        return result_db
+
+    def query_location_by_id(self, nid):
+        result_db = WareLocation.objects.filter(nid=nid).first()
+        return result_db
+
+    def query_location_by_house(self, warehouse_id):
+        result_db = WareLocation.objects.filter(warehouse_id=warehouse_id).all()
+        return result_db
+
+    def update_location(self, modify_info):
+        is_exist = self.is_exist(modify_info["warehouse_id"], modify_info["location"])
+        print(is_exist)
+        if is_exist:
+            raise Exception("该库位已存在")
+        WareLocation.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_location(self, modify_info):
+        is_exist = self.is_exist(modify_info["warehouse_id"], modify_info["location"])
+        if is_exist:
+            raise Exception("该库位已存在")
+        WareLocation.objects.create(**modify_info)
+
+    def is_exist(self, warehouse_id, location):
+        result_db = WareLocation.objects.filter(warehouse_id=warehouse_id, location=location).first()
+        return result_db
 
 
 supplier_db = SupplierDB()
@@ -853,4 +921,6 @@ linkman_photo_db = LinkmanPhotoDB()
 linkman_card_db = LinkmanCardDB()
 linkman_attach_db = LinkmanAttachDB()
 warehouse_db = WarehouseDB()
+ware_location_db = WareLocationDB()
+invent_db =InventDB()
 

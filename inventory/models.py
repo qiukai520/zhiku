@@ -618,6 +618,8 @@ class Warehouse(models.Model):
     town = models.ForeignKey("Town",on_delete=models.CASCADE, verbose_name='街道',
                              db_constraint=False,)
     address = models.CharField(max_length=128,verbose_name="详细地址")
+    lng = models.DecimalField(max_digits=10, decimal_places=6, verbose_name="经度")
+    lat = models.DecimalField(max_digits=10, decimal_places=6, verbose_name="纬度")
     delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
 
     class Meta:
@@ -628,5 +630,66 @@ class Warehouse(models.Model):
     def __str__(self):
         return self.name
 
-    _insert = ["name", "town_id", "address"]
-    _update = ["name", "town_id", "address"]
+    _insert = ["name", "town_id", "address","lng","lat"]
+    _update = ["name", "town_id", "address","lng","lat"]
+
+
+class Inventory(models.Model):
+    delete_status_choice = ((0, '删除'), (1, '保留'))
+
+    nid = models.AutoField(primary_key=True)
+    goods = models.ForeignKey("Goods",verbose_name="商品",on_delete=models.CASCADE,
+                             db_constraint=False,)
+    recoder = models.ForeignKey(Staff, verbose_name="录入人", on_delete=models.CASCADE, db_constraint=False)
+    amount = models.IntegerField(verbose_name="入库数量")
+    unit = models.ForeignKey("GoodsUnit", to_field="nid", on_delete=models.CASCADE, verbose_name='单位',
+                             db_constraint=False)
+    batch = models.IntegerField(verbose_name="入库批次")
+    warehouse = models.ForeignKey("Warehouse",verbose_name="仓库", on_delete=models.CASCADE, db_constraint=False)
+    location = models.CharField(max_length=64,verbose_name="库位")
+    date = models.DateField(verbose_name="入库日期", blank=True, null=True)
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'inventory'
+        verbose_name = '库存'
+        verbose_name_plural = '库存'
+
+    def __str__(self):
+        return self.goods
+
+
+class InventoryAttach(models.Model):
+    nid = models.AutoField(primary_key=True)
+    inventory = models.ForeignKey('Inventory', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                                verbose_name='库存')
+    attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
+    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
+
+    class Meta:
+        db_table = 'inventory_attach'
+        verbose_name = '入库凭证'
+        verbose_name_plural = '入库凭证'
+
+    def __str__(self):
+        return "入库凭证:{0}".format(self.name)
+
+
+class WareLocation(models.Model):
+    nid = models.AutoField(primary_key=True)
+    location = models.CharField(max_length=32, verbose_name="库位")
+    warehouse = models.ForeignKey("Warehouse", to_field="nid", on_delete=models.CASCADE, verbose_name='所属仓库',
+                               db_constraint=False)
+
+    class Meta:
+        db_table = 'ware_location'
+        verbose_name = '库位'
+        verbose_name_plural = '库位'
+
+    def __str__(self):
+        return self.location
+
+    _insert = ["warehouse_id", "location"]
+    _update = ["warehouse_id", "location"]
