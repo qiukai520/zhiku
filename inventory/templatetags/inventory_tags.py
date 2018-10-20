@@ -178,6 +178,7 @@ def build_contact_category_ele(selected=None):
 
 @register.simple_tag
 def build_supplier_linkman_ele(supplier_id,selected=None):
+    print("supplier_id",supplier_id)
     linkman_list = linkman_db.query_linkman_by_supplier_id(supplier_id)
     eles = ""
     if selected:
@@ -327,11 +328,20 @@ def change_to_nation(id):
 
 @register.simple_tag
 def change_to_warehouse(id):
-    """根据id转换成国家"""
+    """根据id转换成仓库"""
     if id:
         obj = warehouse_db.query_warehouse_by_id(id)
         if obj:
             return obj.name
+
+
+@register.simple_tag
+def change_to_warelocation(id):
+    """根据id转换成库位"""
+    if id:
+        obj = ware_location_db.query_location_by_id(id)
+        if obj:
+            return obj.location
 
 
 @register.simple_tag
@@ -513,11 +523,78 @@ def fetch_country_nid(town_id):
 @register.simple_tag
 def fetch_goods_photo(id):
     """获取商品图片"""
-
     if id:
         obj = goods_photo_db.query_goods_photo(id)
         if obj:
             return obj.photo
+
+
+@register.simple_tag
+def fetch_goods_total_amount(gid):
+    """获取商品库存总数"""
+    if gid:
+        total_obj = invent_db.query_goods_total_amount(gid)
+        total_amount = total_obj[0]
+        if not total_amount:
+            total_amount = 0
+        return total_amount
+
+
+@register.simple_tag
+def fetch_warehouse_list():
+    ware_list = warehouse_db.query_warehouse_list()
+    return ware_list
+
+@register.simple_tag
+def fetch_goods_total_amount_by_warehouse(gid,wid):
+    total_obj = invent_db.query_goods_total_amount_by_warehouse(gid,wid)
+    total_amount = total_obj[0]
+    if not total_amount:
+        total_amount = 0
+    return total_amount
+
+@register.simple_tag
+def fetch_location_by_goods_last(gid):
+    invent_obj = invent_db.query_invent_by_goods(gid)
+    location = "空"
+    if invent_obj:
+        location_id = invent_obj.location_id
+        if location_id:
+            location_obj = ware_location_db.query_location_by_id(location_id)
+            if location_obj:
+                location = location_obj.location
+    return location
+
+@register.simple_tag
+def build_warelocation_ele(house_id,selected=None):
+    """构建库位下拉框"""
+    location_list = ware_location_db.query_location_by_house(house_id)
+    eles = ""
+    if selected:
+        for item in location_list:
+            if item.nid == selected:
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.nid, item.location)
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.nid, item.location)
+            eles += ele
+    else:
+        for item in location_list:
+            ele = """<option value={0}>{1}</option>""".format(item.nid, item.location)
+            eles += ele
+    return mark_safe(eles)
+
+
+@register.simple_tag
+def fetch_invent_by_goods(gid):
+    if gid:
+        invent_record = invent_db.query_invent_by_goods_list(gid)
+        return invent_record
+
+@register.simple_tag
+def fetch_purchase_by_goods(gid):
+    if gid:
+        purchase_record = purchase_db.query_purchase_by_goods_list(gid)
+        return purchase_record
 
 @register.simple_tag
 def fetch_supplier_linkman_list(id):
@@ -548,3 +625,12 @@ def fetch_compare_price_list(id):
     if id:
         compare_list = price_compare_db.query_price_by_goods(id)
         return compare_list
+
+
+@register.simple_tag
+def fetch_warehouse(house_id):
+    """根据县获取城市nid"""
+    if house_id:
+        obj = warehouse_db.query_warehouse_by_id(house_id)
+        if obj:
+            return obj

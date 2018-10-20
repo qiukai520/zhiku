@@ -8,7 +8,6 @@
             margin-bottom: 0;
             text-align: right;
         }
-
       .select-box{
           top:5px;
           height: 200px !important;
@@ -35,7 +34,6 @@
 
        .member_name{
            color:blue;
-
      }
        .member_name:hover{
           color:red;
@@ -243,9 +241,8 @@
 {%endblock %}
 
 {% block js %}
+        <script src="/static/js/plugins/datepicker/bootstrap-datetimepicker.js"></script>
 
-        <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
-        <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
         <script src="/static/js/jquery.cookie.js"></script>
         <script>
         //预防csrf

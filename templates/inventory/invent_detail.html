@@ -1,0 +1,749 @@
+{% extends "layout.html" %}
+{% load  inventory_tags %}
+
+{% block css %}
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+    <style>
+    .download_file{
+        color:#337ab7 !important
+    }
+     #content-main{
+      overflow :auto
+     }
+    .value{
+        margin:0px;
+        background-color: #F8F8F8;
+        border-color: #dddddd;
+    }
+    .label_form{
+        padding: 22px 10px 7px 0px;
+        border:1px #dddddd;
+    }
+    .p_form{
+        background-color:white ;padding: 15px 10px 15px 10px
+    }
+    #attach_container>label{
+        font-weight: normal;
+    }
+     #toolbar1 >button{
+          margin: 0 2px;
+      }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row" style="width: 100%">
+        <div class="col-sm-9">
+            <div class="wrapper wrapper-content animated fadeInUp">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="m-b-md">
+                                    <h3 style="margin-left:15px"> {{ query_set.name }}</h3>
+                                </div>
+                                    <dl class="dl-horizontal">
+                                    <dt>商品分类：</dt>
+                                    <dd><span class="label label-primary">{% change_to_goods_category query_set.category_id %}</span>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <dl class="dl-horizontal">
+                                    <dt>商品单位：</dt>
+                                    <dd>{% change_to_goods_unit query_set.unit_id %}</dd>
+                                    <dt>商品规格：</dt>
+                                    <dd>{{ query_set.standard }}</dd>
+                                    <dt>商品条码：</dt>
+                                    <dd>{{ query_set.code }}</dd>
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-7" id="cluster_info">
+                                <dl class="dl-horizontal">
+                                    <dt>产期：</dt>
+                                    <dd>{{ query_set.start_month }}月-{{ query_set.end_month }}月</dd>
+                                    <dt>产区：</dt>
+                                    <dd>
+                                         {% fetch_city_nid  query_set.country_id  as city_id %}
+                                          {% fetch_province_nid  city_id  as province_id %}
+                                          {% fetch_nation_nid  province_id  as nation_id %}
+                                          {% change_to_nation nation_id %}/
+                                          {% change_to_province province_id  %}/
+                                          {% change_to_city city_id %}/
+                                          {% change_to_country query_set.country_id %}
+                                    </dd>
+                                     <dt>创建时间：</dt>
+                                    <dd>{{ query_set.create_time|date:"Y-m-d" }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <dl class="dl-horizontal">
+                                    <dt>商品描述：</dt>
+                                    <dd> {{ query_set.description }}
+                                    </dd>
+
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row m-t-sm">
+                            <div class="col-sm-12">
+                                <div class="panel blank-panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-options">
+                                            <ul class="nav nav-tabs">
+                                                  <li id="linkman_tab"><a href="task_detail.html#tab-1" data-toggle="tab">入库记录</a>
+                                                </li>
+                                                 <li id="linkman_tab"><a href="task_detail.html#tab-2" data-toggle="tab">采购记录</a>
+                                                </li>
+                                                <li id="linkman_tab"><a href="task_detail.html#tab-3" data-toggle="tab">所在仓库</a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="tab-content">
+                                        <div class="tab-pane active " id="tab-1">
+                                                <div class="btn-group hidden-xs" id="toolbar1" role="group">
+                                                    <a href="{% url "invent_edit" %}?gid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                                    <button onclick="BindPurchase()" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;绑定采购单</button>
+{#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                                </div>
+                                                <table id="invent"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                                            <th>仓库</th>
+                                                            <th>单位</th>
+                                                            <th>数量</th>
+                                                            <th>入库批次</th>
+                                                            <th>价格</th>
+                                                            <th>入库日期</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% fetch_invent_by_goods query_set.nid as invent_list %}
+                                                        {% for obj in invent_list %}
+                                                             <tr>
+                                                                 <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.nid }}"></td>
+                                                            <td>{% change_to_warehouse obj.warehouse_id%}</td>
+                                                              <td>{% change_to_goods_unit obj.unit_id %}</td>
+                                                              <td >
+                                                                  {% if obj.amount %}{{ obj.amount }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.batch %}第{{ obj.batch }}批次
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.price %}{{ obj.price }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                           <td>{{ obj.date |date:"Y-m-d" }}</td>
+                                                             <td><a href="{% url 'invent_edit' %}?gid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <a href="" data-toggle="modal" onclick="ShowRecordDetail({{ obj.nid }})" class="btn btn-info">详细</a>
+                                                             </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                         <div class="tab-pane " id="tab-2">
+                                                <div class="btn-group hidden-xs" id="toolbar2" role="group">
+                                                    <a href="{% url "purchase_edit" %}?gid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+{#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                                </div>
+                                                <table id="purchase"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>供应商</th>
+                                                            <th>联系人</th>
+                                                            <th>单位</th>
+                                                            <th>数量</th>
+                                                            <th>单价</th>
+                                                             <th>总价</th>
+                                                            <th>采购批次</th>
+                                                            <th>采购日期</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% fetch_purchase_by_goods query_set.nid as purchase_list %}
+                                                        {% for obj in purchase_list %}
+                                                             <tr>
+                                                            <td>{% change_to_supplier obj.supplier_id%}</td>
+                                                               <td>{% change_to_linkman obj.linkman_id%}</td>
+                                                              <td>{% change_to_goods_unit obj.unit_id %}</td>
+                                                              <td >
+                                                                  {% if obj.amount %}{{ obj.amount }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                             <td >
+                                                                  {% if obj.price %}{{ obj.price }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                             <td >
+                                                                  {% if obj.total_price %}{{ obj.total_price }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.batch %}第{{ obj.batch }}批次
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                           <td>{{ obj.date |date:"Y-m-d" }}</td>
+                                                             <td><a href="{% url 'purchase_edit' %}?gid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <a href="" data-toggle="modal" onclick="ShowPurchaseDetail({{ obj.nid }})" class="btn btn-info">详细</a>
+                                                             </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane " id="tab-3">
+                                                <div class="btn-group hidden-xs" id="toolbar3" role="group">
+{#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                                </div>
+                                                <table id="goods_price"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>仓库</th>
+                                                            <th>单位</th>
+                                                            <th>数量</th>
+                                                            <th>所在货架</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% fetch_warehouse_list  as warehouse_list %}
+                                                        {% for obj in warehouse_list %}
+                                                             <tr>
+                                                            <td>{{ obj.name }}</td>
+                                                                 <td>{% change_to_goods_unit query_set.unit_id %}</td>
+                                                                <td> {% fetch_goods_total_amount_by_warehouse  query_set.nid  obj.nid  %}</td>
+                                                                 <td>{% fetch_location_by_goods_last query_set.nid  %}</td>
+                                                             </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="wrapper wrapper-content project-manager">
+               {% if life_photo %}
+                     <h4>商品照片</h4>
+                        <p><img width="100" src="/{{life_photo.photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
+             {% endif %}
+             {% if goods_code %}
+                     <h4>条码照片</h4>
+                        <p><img width="100" src="/{{goods_code.photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
+             {% endif %}
+                <br>
+                <h5>商品附件</h5>
+                <ul class="list-unstyled project-files">
+{#                    {% query_task_map_attachment_by_tmid task_obj.tmid as t_attachement %}#}
+                    {% for obj in goods_attach%}
+                         <li>
+                             <label class="form-label"   >附件{{ forloop.counter }}:</label>
+                             <a class="download_file" href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
+                            <label class="form-label" for="task_title"  >附件描述:</label>
+                            <span  >{{ obj.description }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                 <lable>备注：</lable>
+                <span class="small" style="text-indent:2em">{{ query_set.remark }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal record_detail -->
+<div class="modal fade " id="invent_record"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">入库记录</h3>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;">
+            <div class="col-xs-12">
+                <div class="form-container row clearfix">
+                        <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
+                            <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
+{#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
+                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px" id="detail_container">
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">仓库</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="warehouse_id" ></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">库位</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="location_id"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">单位</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="unit_id"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">数量</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="amount"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">批次</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="batch"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">价格</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="price"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">录入人</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="recorder_id"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">入库日期</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="date"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value hidden " id="attach_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="attach_container">
+                                          </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+         </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="ClearData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <a class="btn btn-submit btn-primary edit-btn" id="edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+      </div>
+    </div>
+    </div>
+</div>
+
+        <!-- Modal bind_purchase -->
+<div class="modal fade " id="bind_purchase"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">绑定采购单</h3>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;">
+            <div class="col-xs-12">
+                <div class="form-container row clearfix">
+                        <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
+                            <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
+{#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
+                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px" id="detail_container">
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">仓库</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="warehouse_id" ></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">库位</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="location_id"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">单位</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="unit_id"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">数量</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="amount"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">批次</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="batch"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">价格</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="price"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">录入人</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="recorder_id"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">入库日期</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="date"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value hidden " id="attach_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="attach_container">
+                                          </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+         </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="ClearData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <a class="btn btn-submit btn-primary edit-btn" id="edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+      </div>
+    </div>
+    </div>
+</div>
+
+        <!-- Modal purchase_detail -->
+<div class="modal fade " id="purchase_record"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearPurchaseData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">采购详情</h3>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;">
+            <div class="col-xs-12">
+                <div class="form-container row clearfix">
+                        <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
+                            <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
+{#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
+                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px" id="detail_container">
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">供应商</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="supplier_id" ></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">联系人</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="linkman_id"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">单位</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="p_unit_id"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">数量</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="p_amount"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">单价</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="p_price"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">总价</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="total_price"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">批次</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="p_batch"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">录入人</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="p_recorder_id"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">采购日期</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="p_date"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value hidden " id="p_attach_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="p_attach_container">
+                                          </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+         </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="ClearPurchaseData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <a class="btn btn-submit btn-primary edit-btn" id="p_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+      </div>
+    </div>
+    </div>
+</div>
+
+{% endblock%}
+
+{% block js %}
+    <script>
+        $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+              /*
+    自执行函数
+    */
+    $(function () {
+         $("#invent").bootstrapTable({
+            toolbar: "#toolbar1",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 10,
+            pageList: [5, 10,15],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+             showExport: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false
+        });
+        $("#purchase").bootstrapTable({
+            toolbar: "#toolbar2",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 6,
+            pageList: [10,15,20],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+            showExport: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false
+        });
+    });
+
+    //显示入库记录详细内容
+    function ShowRecordDetail(cons) {
+      $('#invent_record').modal('show');
+      var id =cons
+      $.ajax({
+          url:"{% url "invent_record" %}",
+          type:"get",
+          data:{'id':id},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  console.log(arg)
+                  var data=arg.data;
+                  $("#warehouse_id").text(data.warehouse_id);
+                  $("#location_id").text(data.location_id);
+                  $("#recorder_id").text(data.recorder_id);
+                  $("#unit_id").text(data.unit_id);
+                  $("#amount").text(data.amount);
+                  {#$("#price").text(data.price);#}
+                  $("#batch").text("第"+data.batch+"批次");
+                  $("#date").text(data.date);
+                  //初始化附件
+                  if (data.attach!=""){
+                      var attachs = JSON.parse(data.attach);
+                      for (var i=0;i<attachs.length;i++){
+                      var a_ele=' <label  >凭证{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >凭证描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles=a_ele+l_ele+"<br>"
+                      $("#attach_container").append(eles)
+                          $("#attach_block").removeClass("hidden")
+                      }
+                  }
+                  $("#edit").attr("href","invent_edit?gid={0}&id={1}".format({{ query_set.nid }},data.nid))
+              }
+          }
+      });
+    }
+    //显示采购记录详细内容
+    function ShowPurchaseDetail(cons) {
+        $('#purchase_record').modal('show');
+        var id =cons
+        $.ajax({
+          url:"{% url "purchase_record" %}",
+          type:"get",
+          data:{'id':id},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  var data=arg.data;
+                  $("#supplier_id").text(data.supplier_id);
+                  $("#linkman_id").text(data.linkman_id);
+                  $("#p_recorder_id").text(data.recorder_id);
+                  $("#p_unit_id").text(data.unit_id);
+                  $("#p_amount").text(data.amount);
+                  $("#p_price").text(data.price);
+                  $("#total_price").text(data.total_price);
+                  $("#p_batch").text("第"+data.batch+"批次");
+                  $("#p_date").text(data.date);
+                  //初始化附件
+                  if (data.attach!=""){
+                      var attachs = JSON.parse(data.attach);
+                      for (var i=0;i<attachs.length;i++){
+                      var a_ele=' <label  >凭证{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >凭证描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles=a_ele+l_ele+"<br>"
+                          console.log(eles)
+                      $("#p_attach_container").append(eles)
+                      $("#p_attach_block").removeClass("hidden")
+                      }
+                  }
+                  $("#p_edit").attr("href","invent_edit?gid={0}&id={1}".format({{ query_set.nid }},data.nid))
+              }
+          }
+      });
+    }
+      //绑定采购单
+        function BindPurchase() {
+        var ids="";
+        $("tbody input:checkbox:checked").each(function () {
+            console.log($(this).next().val())
+            id = $(this).next().val();
+            if (id){
+                id+="|";
+                ids+=id;
+            }
+        });
+        //是否选中
+        if (ids==""){
+             layer.alert('至少选择一条纪录', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $("#bind_modal").modal("show");//显示模态框
+        $("#ensure").click(function () {
+            $("#delete_modal").hide();
+              $.ajax({
+            url:"{% url "staff_delete" %}",
+            data:{"ids":ids},
+            type:"get",
+            dataType:"JSON",
+            success:function (arg) {
+                if (arg.status){
+                    window.location.reload()
+                }else{
+                   layer.alert('删除失败', {icon: 2 ,
+                                  time: 2000, //2s后自动关闭
+                                    btn: [ '知道了']}
+                                    );
+
+                }
+            }
+        })
+        });
+    }
+    //清空指派模态框的数据
+    function ClearData(){
+            $("#detail_container >p").each(function () {
+                $(this).text()
+            })
+           $("#attach_container").empty()
+}
+    //清空指派模态框的数据
+    function ClearPurchaseData(){
+            $("#detail_container >p").each(function () {
+                $(this).text()
+            })
+           $("#p_attach_container").empty()
+}
+  function  SelectAll(ths) {
+        //判断是否选中
+        ischecked=$(ths).is(":checked");
+        //如果选中则全选中,否则取消选中
+        $(ths).parent().parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
+    }
+    </script>
+{% endblock %}
+

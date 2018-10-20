@@ -640,16 +640,17 @@ class Inventory(models.Model):
     nid = models.AutoField(primary_key=True)
     goods = models.ForeignKey("Goods",verbose_name="商品",on_delete=models.CASCADE,
                              db_constraint=False,)
-    recoder = models.ForeignKey(Staff, verbose_name="录入人", on_delete=models.CASCADE, db_constraint=False)
+    recorder = models.ForeignKey(Staff, verbose_name="录入员", on_delete=models.CASCADE, db_constraint=False)
     amount = models.IntegerField(verbose_name="入库数量")
     unit = models.ForeignKey("GoodsUnit", to_field="nid", on_delete=models.CASCADE, verbose_name='单位',
                              db_constraint=False)
     batch = models.IntegerField(verbose_name="入库批次")
     warehouse = models.ForeignKey("Warehouse",verbose_name="仓库", on_delete=models.CASCADE, db_constraint=False)
-    location = models.CharField(max_length=64,verbose_name="库位")
+    location = models.ForeignKey("WareLocation",verbose_name="库位", on_delete=models.CASCADE, db_constraint=False)
     date = models.DateField(verbose_name="入库日期", blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+    delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
 
     class Meta:
         db_table = 'inventory'
@@ -657,7 +658,10 @@ class Inventory(models.Model):
         verbose_name_plural = '库存'
 
     def __str__(self):
-        return self.goods
+        return "库存：{0}".format(self.goods_id)
+
+    _insert = ["warehouse_id", "goods_id",'recorder_id',"unit_id","location_id","amount","batch",'date']
+    _update = ["warehouse_id", "goods_id",'recorder_id',"unit_id","location_id","amount","batch",'date']
 
 
 class InventoryAttach(models.Model):
@@ -693,3 +697,54 @@ class WareLocation(models.Model):
 
     _insert = ["warehouse_id", "location"]
     _update = ["warehouse_id", "location"]
+
+
+class Purchase(models.Model):
+    delete_status_choice = ((0, '删除'), (1, '保留'))
+
+    nid = models.AutoField(primary_key=True)
+    goods = models.ForeignKey("Goods", verbose_name="采购商品", on_delete=models.CASCADE,
+                              db_constraint=False, )
+    supplier = models.ForeignKey("Supplier",verbose_name="供应商",on_delete=models.CASCADE,
+                             db_constraint=False,)
+    linkman = models.ForeignKey("SupplierContact", verbose_name="供应商联系人", on_delete=models.CASCADE,
+                                    db_constraint=False)
+    recorder = models.ForeignKey(Staff, verbose_name="录入员", on_delete=models.CASCADE, db_constraint=False)
+    amount = models.IntegerField(verbose_name="采购数量")
+    unit = models.ForeignKey("GoodsUnit", to_field="nid", on_delete=models.CASCADE, verbose_name='采购单位',
+                             db_constraint=False)
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="单价")
+    total_price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="单价")
+    batch = models.IntegerField(verbose_name="采购批次")
+    date = models.DateField(verbose_name="采购日期", blank=True, null=True)
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+    delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
+
+    class Meta:
+        db_table = 'purchase'
+        verbose_name = '采购记录'
+        verbose_name_plural = '采购记录'
+
+    def __str__(self):
+        return "采购：{0}".format(self.goods_id)
+
+    _insert = ["goods_id","supplier_id", "linkman_id",'recorder_id',"unit_id","price","total_price","amount","batch",'date']
+    _update = ["goods_id","supplier_id", "linkman_id",'recorder_id',"unit_id","price","total_price","amount","batch",'date']
+
+
+class PurchaseAttach(models.Model):
+    nid = models.AutoField(primary_key=True)
+    purchase = models.ForeignKey("Purchase", to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                                verbose_name='采购记录')
+    attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
+    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
+
+    class Meta:
+        db_table = 'purchase_attach'
+        verbose_name = '采购凭证'
+        verbose_name_plural = '采购凭证'
+
+    def __str__(self):
+        return "采购凭证:{0}".format(self.name)

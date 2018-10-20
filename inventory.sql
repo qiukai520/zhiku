@@ -331,6 +331,12 @@ create TABLE `warehouse`(
 `delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库';
 
+drop TABLE if exists `ware_location`;
+create table `ware_location`(
+`nid` int(11) primary key auto_increment,
+`location` varchar (16) NOT NULL  COMMENT '库位',
+`warehouse_id` int (11) NOT NULL  COMMENT '所属仓库'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='库位';
 
 drop table if exists `inventory`;
 create table `inventory`(
@@ -338,11 +344,11 @@ create table `inventory`(
 `goods_id` int(11) NOT NULL  COMMENT '商品',
 `unit_id` int(11) NOT NULL COMMENT '单位',
 `warehouse_id` int(11) NOT NULL COMMENT '所在仓库',
-`recoder` int(11) NOT NULL COMMENT '录入人',
-`batch` int(11) NOT NUL COMMENT '入库批次',
+`recorder_id` int(11) NOT NULL COMMENT '录入人',
+`batch` int(11) NOT NULL COMMENT '入库批次',
 `amount` int(11) COMMENT '数量',
 `date` datetime  DEFAULT NUll  COMMENT '入库日期',
-`location` varchar (64) COMMENT '位置',
+`location_id` int (11)  COMMENT '库位',
 `delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
 `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT '创建时间',
 `last_edit`   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE  CURRENT_TIMESTAMP COMMENT'最后编辑时间'
@@ -358,9 +364,29 @@ create TABLE `inventory_attach`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报价附件';
 
 
-drop TABLE if exists `ware_location`;
-create table `ware_location`(
+drop table if exists `purchase`;
+create table `purchase`(
 `nid` int(11) primary key auto_increment,
-`location` varchar (16) NOT NULL  COMMENT '库位',
-`warehouse_id` int (11) NOT NULL  COMMENT '所属仓库'
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='库位';
+`goods_id` int(11) NOT NULL  COMMENT '商品',
+`supplier_id` int(11) NOT NULL  COMMENT '供应商',
+`unit_id` int(11) NOT NULL COMMENT '单位',
+`linkman_id` int(11) NOT NULL COMMENT '联系人',
+`recorder_id` int(11) NOT NULL COMMENT '录入人',
+`batch` int(11) NOT NULL COMMENT '采购批次',
+`amount` int(11) COMMENT '数量',
+`price` decimal (10,2) COMMENT '单价',
+`total_price` decimal (10,2) COMMENT '总价',
+`date` datetime  DEFAULT NUll  COMMENT '入库日期',
+`delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
+`create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT '创建时间',
+`last_edit`   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE  CURRENT_TIMESTAMP COMMENT'最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='库存';
+
+drop TABLE if exists `purchase_attach`;
+create TABLE `purchase_attach`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`purchase_id` int(11) NOT NULL COMMENT'采购记录',
+`attachment` varchar(128) COMMENT '凭证名称',
+`description` varchar(128) COMMENT '凭证名称',
+`name` varchar(64) COMMENT '凭证名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='采购凭证';

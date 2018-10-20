@@ -361,42 +361,6 @@ def goods_detail(request):
                                                                 })
     return render(request,'404.html')
 
-# def goods_detail(request):
-#     id = request.GET.get("id",None)
-#     ret={"status":False,"data":"","message":""}
-#     if id:
-#         try:
-#             goods_obj = goods_db.query_goods_by_id(id)
-#             if goods_obj:
-#                 # 格式化数据
-#                 goods_json = goods_obj.__dict__
-#                 goods_json.pop('_state')
-#                 goods_json["category_id"] = change_to_goods_category(goods_json["category_id"])
-#                 goods_json['unit_id'] = change_to_goods_unit(goods_json['unit_id'])
-#                 goods_json['region'] = build_region(goods_json['country_id'])
-#                 good_photo = goods_photo_db.query_goods_photo(id)
-#                 goods_code = goods_code_db.query_goods_bar(id)
-#                 goods_attach = goods_attach_db.query_goods_attachment(id)
-#                 if good_photo:
-#                     goods_json['photo'] = good_photo.photo
-#                 else:
-#                     goods_json['photo'] = ''
-#                 if goods_code:
-#                     goods_json['code_photo'] =goods_code.photo
-#                 else:
-#                     goods_json['code_photo'] = ''
-#                 if goods_attach:
-#                     goods_json['attach'] = serializers.serialize("json",goods_attach)
-#                 else:
-#                     goods_json['attach'] = ''
-#                 ret['status']=True
-#                 ret['data'] = goods_json
-#                 print(ret)
-#                 return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
-#         except Exception as e:
-#             print(e)
-#     return render(request,'404.html')
-
 def goods_category_list(request):
     query_sets = goods_category_db.query_category_list()
     return render(request,"inventory/goods_category_list.html",{"query_sets":query_sets})
@@ -548,50 +512,87 @@ def industry_edit(request):
 
 
 def invent_list(request):
-    query_sets ={}
-    return render(request,"inventory/inventory_list.html",{"query_sets":query_sets})
+    """库存列表"""
+    query_sets = goods_db.query_goods_list()
+    return render(request,"inventory/invent_list.html",{"query_sets":query_sets})
 
 
 class InventViewSet(View):
+    """ 商品入库 """
     def get(self,request):
         id = request.GET.get("id", "")
+        gid = request.GET.get("gid","")
         # 有则为编辑 ,无则添加
-        if id:
-            obj = warehouse_db.query_warehouse_by_id(id)
-            if obj:
-                obj ={"nid":obj.nid,"name":obj.name,"town_id":obj.town_id,"address":obj.address}
-        else:
-            id = 0
-            obj = {}
-        return render(request, "inventory/inventory_edit.html",{"obj":obj,"id": id})
+        if gid:
+            goods_obj = goods_db.query_goods_by_id(gid)
+            if goods_obj:
+                goods_obj={"nid":goods_obj.nid,"name":goods_obj.name}
+                if id:
+                    obj = invent_db.query_invent_by_id(id)
+                    invent_attach = invent_attach_db.query_invent_attachment(id)
+                    if obj:
+                        obj = {"nid": obj.nid, "amount": obj.amount, "unit": obj.unit_id, "batch": obj.batch,"warehouse_id":obj.warehouse_id,
+                               "location_id":obj.location_id,"date": obj.date,"recorder_id":obj.recorder_id}
+                else:
+                    id = 0
+                    obj = {}
+                    invent_attach = {}
+                return render(request, "inventory/inventory_edit.html", {"obj": obj,"goods_obj":goods_obj,"invent_attach":invent_attach, "id": id})
+        return render(request,"404.html")
 
     def post(self, request):
-        form = WarehouseForm(data=request.POST)
+        form = InventForm(data=request.POST)
         ret = {'status': False, "data": '', "message": ""}
         if form.is_valid():
-            id = request.POST.get("id", 0)
+            id = request.POST.get("nid", 0)
             data = request.POST
             data = data.dict()
-            print("data",data)
+            invent_attach = data.get("attach", None)
+            invent_attach = json.loads(invent_attach)
             # 有则为编辑 ,无则添加
             if id:
                 try:
-                    record = warehouse_db.query_warehouse_by_id(id)
-                    final_info = compare_fields(Warehouse._update, record, data)
-                    print(final_info)
-                    if final_info:
-                        warehouse_db.update_warehouse(final_info)
-                    ret['status'] = True
-                    ret['data'] = id
+                    with transaction.atomic():
+                        record = invent_db.query_invent_by_id(id)
+                        final_info = compare_fields(Inventory._update, record, data)
+                        final_info["nid"] = id
+                        if final_info:
+                            invent_db.invent_update(final_info)
+                        if invent_attach:
+                            att_record = invent_attach_db.query_invent_attachment(id)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, invent_attach, "nid")
+                            if insert_att:
+                                insert_att = build_attachment_info({"inventory_id": id}, insert_att)
+                                invent_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                invent_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                invent_attach_db.mutil_delete_invent_attachment(delete_id_att)
+                        else:
+                            invent_attach_db.delete_invent_attachment(id)
+                        ret['status'] = True
+                        ret['data'] = id
                 except Exception as e:
                     print(e)
                     ret['message'] = str(e)
             else:
                 try:
-                    data_info = filter_fields(Warehouse._insert, data)
-                    id = warehouse_db.insert_warehouse(data_info)
-                    ret['status'] = True
-                    ret['data'] = id
+                    with transaction.atomic():
+                        data_info = filter_fields(Inventory._insert, data)
+                        last_record = invent_db.query_invent_by_goods_warehouse(data.get("goods_id",0),data.get("warehouse_id",0))
+                        if last_record:
+                            batch = last_record.batch + 1
+                        else:
+                            batch = 1
+                        data_info["recorder_id"] = request.user.staff.sid
+                        data_info["batch"] = batch
+                        id = invent_db.insert_invent(data_info)
+                        if invent_attach:
+                            invent_attach = build_attachment_info({"inventory_id": id}, invent_attach)
+                            invent_attach_db.mutil_insert_attachment(invent_attach)
+                        ret['status'] = True
+                        ret['data'] = id
                 except Exception as e:
                     print(e)
                     ret['message'] = str(e)
@@ -599,8 +600,179 @@ class InventViewSet(View):
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
-        print("ret",ret)
         return HttpResponse(json.dumps(ret))
+
+
+def invent_detail(request):
+    """商品库存详细"""
+    nid = request.GET.get("id",None)
+    if nid:
+        query_sets = goods_db.query_goods_by_id(nid)
+        if query_sets:
+            life_photo = goods_photo_db.query_goods_photo(nid)
+            goods_code = goods_code_db.query_goods_bar(nid)
+            goods_attach = goods_attach_db.query_goods_attachment(nid)
+            if not life_photo:
+                life_photo = ''
+            if not goods_code:
+                goods_code = ''
+            if not goods_attach:
+                goods_attach = ''
+            return render(request,"inventory/invent_detail.html",{"query_set": query_sets,
+                                                                 "life_photo": life_photo,
+                                                                 "goods_code": goods_code,
+                                                                 "goods_attach": goods_attach,
+                                                                })
+    return render(request,'404.html')
+
+
+def invent_record(request):
+    """入库记录详细"""
+    id = request.GET.get("id",None)
+    ret = {"status":False,"data":"","message":""}
+    if id:
+        try:
+            invent_obj = invent_db.query_invent_by_id(id)
+            if invent_obj:
+                # 格式化数据
+                invent_json = invent_obj.__dict__
+                invent_json.pop('_state')
+                invent_json["warehouse_id"] = change_to_warehouse(invent_json["warehouse_id"])
+                invent_json['location_id'] = change_to_warelocation(invent_json['location_id'])
+                invent_json['unit_id'] =change_to_goods_unit(invent_json['unit_id'])
+                invent_json['recorder_id'] = change_to_staff(invent_json['recorder_id'])
+                invent_attach = invent_attach_db.query_invent_attachment(id)
+                if invent_attach:
+                    invent_json['attach'] = serializers.serialize("json",invent_attach)
+                else:
+                    invent_json['attach'] = ''
+                ret['status'] = True
+                ret['data'] = invent_json
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
+
+
+class PurchaseViewSet(View):
+    """采购录入"""
+    def get(self,request):
+        id = request.GET.get("id", "")
+        gid = request.GET.get("gid","")
+        # 有则为编辑 ,无则添加
+        if gid:
+            goods_obj = goods_db.query_goods_by_id(gid)
+            if goods_obj:
+                goods_obj={"nid":goods_obj.nid,"name":goods_obj.name}
+                if id:
+                    obj = purchase_db.query_purchase_by_id(id)
+                    invent_attach = purchase_attach_db.query_purchase_attachment(id)
+                    if obj:
+                        obj = {"nid": obj.nid, "amount": obj.amount, "unit": obj.unit_id, "batch": obj.batch,
+                               "supplier_id":obj.supplier_id, "linkman_id":obj.linkman_id,"date": obj.date,
+                               "recorder_id":obj.recorder_id,"price":obj.price,"total_price":obj.total_price}
+                else:
+                    id = 0
+                    obj = {}
+                    invent_attach = {}
+                return render(request, "inventory/purchase_edit.html", {"obj": obj,"goods_obj":goods_obj,"invent_attach":invent_attach, "id": id})
+        return render(request,"404.html")
+
+    def post(self, request):
+        form = PurchaseForm(data=request.POST)
+        print("采购编辑")
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("nid", 0)
+            data = request.POST
+            data = data.dict()
+            purchase_attach = data.get("attach", None)
+            purchase_attach = json.loads(purchase_attach)
+            print("purchase_attach",purchase_attach)
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    with transaction.atomic():
+                        record = purchase_db.query_purchase_by_id(id)
+                        final_info = compare_fields(Purchase._update, record, data)
+                        final_info["nid"] = id
+                        if final_info:
+                            purchase_db.purchase_update(final_info)
+                            # 更新附件
+                        if purchase_attach:
+                            att_record = purchase_attach_db.query_purchase_attachment(id)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, purchase_attach, "nid")
+                            if insert_att:
+                                insert_att = build_attachment_info({"purchase_id": id}, insert_att)
+                                purchase_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                purchase_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                purchase_attach_db.mutil_delete_purchase_attachment(delete_id_att)
+                        else:
+                            print("delete",purchase_attach)
+                            purchase_attach_db.delete_purchase_attachment(id)
+                        ret['status'] = True
+                        ret['data'] = id
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+            else:
+                try:
+                    with transaction.atomic():
+                        data_info = filter_fields(Purchase._insert, data)
+                        last_record = purchase_db.query_purchase_by_goods(data.get("goods_id",0))
+                        if last_record:
+                            batch = last_record.batch + 1
+                        else:
+                            batch = 1
+                        data_info["recorder_id"] = request.user.staff.sid
+                        data_info["batch"] = batch
+                        id = purchase_db.insert_purchase(data_info)
+                        if purchase_attach:
+                            purchase_attach = build_attachment_info({"purchase_id": id}, purchase_attach)
+                            purchase_attach_db.mutil_insert_attachment(purchase_attach)
+                        ret['status'] = True
+                        ret['data'] = id
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
+
+def purchase_record(request):
+    """入库记录详细"""
+    id = request.GET.get("id",None)
+    ret = {"status":False,"data":"","message":""}
+    if id:
+        try:
+            purchase_obj = purchase_db.query_purchase_by_id(id)
+            if purchase_obj:
+                # 格式化数据
+                purchase_json = purchase_obj.__dict__
+                purchase_json.pop('_state')
+                purchase_json["supplier_id"] = change_to_supplier(purchase_json["supplier_id"])
+                purchase_json['linkman_id'] = change_to_linkman(purchase_json['linkman_id'])
+                purchase_json['unit_id'] =change_to_goods_unit(purchase_json['unit_id'])
+                purchase_json['recorder_id'] = change_to_staff(purchase_json['recorder_id'])
+                purchase_attach = purchase_attach_db.query_purchase_attachment(id)
+                if purchase_attach:
+                    purchase_json['attach'] = serializers.serialize("json",purchase_attach)
+                else:
+                    purchase_json['attach'] = ''
+                ret['status'] = True
+                ret['data'] = purchase_json
+                print("invent_json",purchase_json)
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
+
 
 def nation_list(request):
     query_sets = nation_db.query_nation_list()
@@ -1032,7 +1204,6 @@ def supplier_linkman(request):
             linkman_attach = list(json.loads(linkman_attach))
             if nid:
                 # 更新
-                print("genxin")
                 try:
                     with transaction.atomic():
                         # 更新联系人信息

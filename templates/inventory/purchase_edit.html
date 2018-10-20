@@ -26,7 +26,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>库存编辑 <small></small></h5>
+                        <h5>采购录入 <small></small></h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal">
-                         <form action="{% url "invent_edit" %}" method="post" id="good_fm" class="form-horizontal" enctype="multipart/form-data">
+                         <form action="{% url "purchase_edit" %}" method="post" id="purchase_fm" class="form-horizontal" enctype="multipart/form-data">
                              {% csrf_token %}
                              <input type="hidden" name="nid" id="nid" >
                            <div class="form-group">
@@ -50,21 +50,21 @@
                         </div>
                              <div class="hr-line-dashed"></div>
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">仓库</label>
+                            <label class="col-sm-2 control-label">供应商</label>
                             <div class="col-sm-8">
-                                <select  name="warehouse_id" class="form-control" id="warehouse_id"  onchange="SelectWarehouse(this)">
-                                    <option value="0">请选择仓库</option>
-                                    {% build_warehouse_ele %}
+                                <select  name="supplier_id" class="form-control" id="supplier_id"  onchange="SelectLinkman(this)">
+                                    <option value="0">请选择供应商</option>
+                                    {% build_supplier_ele %}
                                 </select>
                             </div>
                         </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">库位</label>
+                            <label class="col-sm-2 control-label">联系人</label>
                             <div class="col-sm-8">
-                                 <select  name="location_id" class="form-control" id="location" >
+                                 <select  name="linkman_id" class="form-control" id="linkman_id" >
                                      {% if id  %}
-                                         {% build_warelocation_ele  obj.warehouse_id %}
+                                         {% build_supplier_linkman_ele obj.supplier_id obj.linkman_id %}
                                      {%endif  %}
                                 </select>
                             </div>
@@ -85,9 +85,23 @@
                                 <input type="text" class="form-control" name="amount" id="amount"> <span class="help-block m-b-none"></span>
                             </div>
                             </div>
+                          <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">单价</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="price" id="price"> <span class="help-block m-b-none"></span>
+                            </div>
+                            </div>
+                          <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">总价</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="total_price" id="total_price"> <span class="help-block m-b-none"></span>
+                            </div>
+                            </div>
                            <div class="hr-line-dashed"></div>
                              <div class="form-group">
-                            <label class="col-sm-2 control-label">入库日期</label>
+                            <label class="col-sm-2 control-label">采购日期</label>
                             <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker1">
                                 <input type='text'  name="date" id='date' class="form-control" />
                                 <span class="input-group-addon">
@@ -228,8 +242,10 @@ function InitData() {
         console.log("{{ obj.date }}")
         $("#nid").val({{ obj.nid }});
         $("#amount").val("{{ obj.amount}}");
-        $("#warehouse_id").val({{ obj.warehouse_id }});
-        $("#location").val({{ obj.location_id }});
+        $("#supplier_id").val({{ obj.supplier_id }});
+        $("#linkman_id").val({{ obj.linkman_id }});
+        $("#price").val({{ obj.price }});
+        $("#total_price").val({{ obj.total_price }});
         $("#date").val("{% if obj.date  %}{{ obj.date |date:'Y-m-d'}}{% endif %}");
         $("#unit_id").val({% if obj.unit_id  %}{{ obj.unit_id }}{% endif %});
 
@@ -351,7 +367,7 @@ function UploadFile(ths){
       function Submit(cons){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
-         var form =$("#good_fm");
+         var form =$("#purchase_fm");
          console.log(form)
         //验证表单
          if ( form.valid()){
@@ -369,7 +385,7 @@ function UploadFile(ths){
              var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
              form.append(attachment_ele)
              $.ajax({
-                url: '{% url "invent_edit" %}',
+                url: '{% url "purchase_edit" %}',
                 type: 'POST',
                 data: form.serialize(),
                 dataType: 'JSON',
@@ -378,9 +394,9 @@ function UploadFile(ths){
                         if (cons==1){
                              window.location.href='{% url "invent_list" %}';
                         }else if(cons==2){
-                             window.location.href='{% url "invent_edit" %}';
+                             window.location.href='{% url "purchase_edit" %}';
                         }else{
-                              window.location.href='{% url "invent_edit" %}?gid={0}&id={1}'.format({{ goods_obj.nid }},arg.data);
+                              window.location.href='{% url "purchase_edit" %}?gid={0}&id={1}'.format({{ goods_obj.nid }},arg.data);
                         }
                     } else {
                         $msg.parent().removeClass('hide');
@@ -392,24 +408,25 @@ function UploadFile(ths){
     }
 
 
-      // 根据仓库获取相应的库位
-    function SelectWarehouse(ths) {
+      // 根据供应商获取相应的联系人
+    function SelectLinkman(ths) {
       var nid=$(ths).val();
-      $("#location").children().remove();
+      $("#linkman_id").children().remove();
       $.ajax({
-        url:"{% url "warehouse_location" %}",
+        url:"{% url "fetch_linkman" %}",
         type:'get',
         data:{"id":nid},
         dataType:'json',
         async: true,//是否异步
         success: function (arg) {
 	    var objs = JSON.parse(arg.data);
-	    $("#location").append("<option value=0 >请选择库位</option>")
+	    console.log("link",arg.data)
+	    $("#linkman_id").append("<option value=0 >请选择联系人</option>")
 	    $(objs).each(function () {
 		var o = document.createElement("option");
 		o.value = this['pk'];
-		o.text = this['fields']['location'];
-		 $("#location").append(o);
+		o.text = this['fields']['name'];
+		 $("#linkman_id").append(o);
 	  });
 	},
         error: function (arg) {

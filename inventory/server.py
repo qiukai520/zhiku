@@ -1,4 +1,5 @@
 from django.db import connection
+from django.db.models import Sum
 from .models import *
 
 
@@ -531,6 +532,10 @@ class SupplierDB(object):
         result_db = Supplier.objects.filter(nid=nid,delete_status=1).first()
         return result_db
 
+    def query_supplier_by_goods(self, gid):
+        result_db = Supplier.objects.filter(goods_id=gid, delete_status=1).first()
+        return result_db
+
     def update_supplier(self, modify):
         Supplier.objects.filter(nid=modify['nid'],delete_status=1).update(**modify)
 
@@ -824,7 +829,7 @@ class InventDB(object):
     "库存"
 
     def insert_invent(self, modify_info):
-        invent_sql = """insert into invnet(%s) value(%s);"""
+        invent_sql = """insert into inventory(%s) value(%s);"""
         k_list = []
         v_list = []
         for k, v in modify_info.items():
@@ -836,6 +841,20 @@ class InventDB(object):
         nid = cursor.lastrowid
         return nid
 
+    def query_goods_total_amount(self, gid):
+        query_sql = """select sum(amount) as total_amount from inventory where goods_id={0}""".format(gid)
+        cursor = connection.cursor()
+        cursor.execute(query_sql)
+        result_db = cursor.fetchone()
+        return result_db
+
+    def query_goods_total_amount_by_warehouse(self,gid,wid):
+        query_sql = """select sum(amount) as total_amount from inventory where goods_id={0} and warehouse_id={1}""".format(gid,wid)
+        cursor = connection.cursor()
+        cursor.execute(query_sql)
+        result_db = cursor.fetchone()
+        return result_db
+
     def query_invent_list(self):
         result_db = Inventory.objects.filter(delete_status=1).all()
         return result_db
@@ -844,15 +863,23 @@ class InventDB(object):
         result_db = Inventory.objects.filter(nid=nid, delete_status=1).first()
         return result_db
 
-    def query_goods_by_category(self, category_id):
-        result_db = Inventory.objects.filter(category_id=category_id, delete_status=1).all()
+    def query_invent_by_goods_warehouse(self, goods_id,warehouse_id):
+        result_db = Inventory.objects.filter(goods_id=goods_id, warehouse_id=warehouse_id,delete_status=1).last()
         return result_db
 
-    def update_goods(self, modify):
-        Goods.objects.filter(nid=modify['nid'], delete_status=1).update(**modify)
+    def query_invent_by_goods(self,goods_id):
+        result_db = Inventory.objects.filter(goods_id=goods_id, delete_status=1).last()
+        return result_db
+
+    def query_invent_by_goods_list(self,goods_id):
+        result_db = Inventory.objects.filter(goods_id=goods_id, delete_status=1).order_by("-date").all()
+        return result_db
+
+    def invent_update(self, modify):
+        Inventory.objects.filter(nid=modify['nid'], delete_status=1).update(**modify)
 
     def multi_delete(self, id_list, delete_status):
-        Goods.objects.filter(nid__in=id_list).update(**delete_status)
+        Inventory.objects.filter(nid__in=id_list).update(**delete_status)
 
 
 class WareLocationDB(object):
@@ -891,6 +918,95 @@ class WareLocationDB(object):
         return result_db
 
 
+class InventoryAttachDB(object):
+    """入库附件表"""
+    def query_invent_attachment_list(self):
+        result_db = InventoryAttach.objects.filter().all()
+        return result_db
+
+    def query_invent_attachment(self, id):
+        result_db = InventoryAttach.objects.filter(inventory_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            InventoryAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            InventoryAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_invent_attachment(self, id_list):
+        InventoryAttach.objects.filter(nid__in=id_list).delete()
+
+    def delete_invent_attachment(self, inventory_id):
+        InventoryAttach.objects.filter(inventory_id=inventory_id).delete()
+
+
+class PurchaseDB(object):
+    "采购记录"
+
+    def insert_purchase(self, modify_info):
+        purchase_sql = """insert into purchase(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        purchase_sql = purchase_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(purchase_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_purchase_list(self):
+        result_db = Purchase.objects.filter(delete_status=1).all()
+        return result_db
+
+    def query_purchase_by_id(self, nid):
+        result_db = Purchase.objects.filter(nid=nid, delete_status=1).first()
+        return result_db
+
+    def query_purchase_by_goods(self,goods_id):
+        result_db = Purchase.objects.filter(goods_id=goods_id, delete_status=1).last()
+        return result_db
+
+    def query_purchase_by_goods_list(self,goods_id):
+        result_db = Purchase.objects.filter(goods_id=goods_id, delete_status=1).order_by("-date").all()
+        return result_db
+
+    def purchase_update(self, modify):
+        Purchase.objects.filter(nid=modify['nid'], delete_status=1).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        Purchase.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class PurchaseAttachDB(object):
+    """采购凭证"""
+    def query_purchase_attachment_list(self):
+        result_db = PurchaseAttach.objects.filter().all()
+        return result_db
+
+    def query_purchase_attachment(self, id):
+        result_db = PurchaseAttach.objects.filter(purchase_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            PurchaseAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            PurchaseAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_purchase_attachment(self, id_list):
+        PurchaseAttach.objects.filter(nid__in=id_list).delete()
+
+    def delete_purchase_attachment(self, purchase_id):
+        PurchaseAttach.objects.filter(purchase_id=purchase_id).delete()
+
+
 supplier_db = SupplierDB()
 supplier_photo_db = SupplierPhotoDB()
 supplier_licence_db = SupplierLicenceDB()
@@ -922,5 +1038,8 @@ linkman_card_db = LinkmanCardDB()
 linkman_attach_db = LinkmanAttachDB()
 warehouse_db = WarehouseDB()
 ware_location_db = WareLocationDB()
-invent_db =InventDB()
+invent_db = InventDB()
+invent_attach_db = InventoryAttachDB()
+purchase_db = PurchaseDB()
+purchase_attach_db = PurchaseAttachDB()
 

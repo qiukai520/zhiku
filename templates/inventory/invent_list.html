@@ -33,7 +33,7 @@
         <!-- Panel Other -->
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>商品列表</h5>
+                <h5>库存管理</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -59,12 +59,11 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                     <a href="{% url "goods_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
-                                    <button  onclick="AddPrice()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加报价</button>
-                                     <button  onclick="ComparePrice()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加比价</button>
-                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
+                                    <button onclick="Entry()" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;商品入库</button>
+                                    <button onclick="Purchase()" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;采购录入</button>
+
                                 </div>
-                                <table id="task_sort"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                <table id="task_sort"  data-mobile-responsive="true"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                          <tr >
                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
@@ -74,7 +73,8 @@
                                              <th>商品单位</th>
                                              <th>商品规格</th>
                                              <th>产地</th>
-                                             <th>产期</th>
+                                             <th>库存数量</th>
+{#                                             <th>产期</th>#}
                                              <th>操作</th>
                                           </tr>
                                     </thead>
@@ -83,7 +83,7 @@
                                       <tr>
                                           <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.nid }}"></td>
                                           <td>{% change_to_goods_category obj.category_id%} </td>
-                                          <td>{{ obj.name }}</td>
+                                          <td> <a  href="{%url "invent_detail" %}?id={{ obj.nid }}" >{{ obj.name }}</a></td>
                                           {% fetch_goods_photo obj.nid  as good_photo%}
                                           <td id="cover">
                                               {% if good_photo %}
@@ -102,11 +102,10 @@
                                               {% change_to_city city_id %}/
                                               {% change_to_country obj.country_id %}
                                           </td>
-                                          <td>{{ obj.start_month }}月-{{ obj.end_month }}月</td>
+                                         <td>{% fetch_goods_total_amount obj.nid %}</td>
+{#                                          <td>{{ obj.start_month }}月-{{ obj.end_month }}月</td>#}
                                             <td>
-                                              <a  href="{%url "goods_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
-{#                                                <button  data-toggle="modal" onclick="ShowGoodsDetail({{ obj.nid }})" class="btn btn-info">详细</button>#}
-                                                 <a  href="{%url "goods_detail" %}?id={{ obj.nid }}" class="btn btn-primary" >详细</a>
+                                                 <a  href="{%url "invent_detail" %}?id={{ obj.nid }}" class="btn btn-primary" >详细</a>
                                           </td>
                                       </tr>
                                       {% endfor %}
@@ -270,14 +269,10 @@ function ShowGoodsDetail(cons) {
           }
       });
     }
-        //清空指派模态框的数据
-    function ClearData(){
-            window.location.reload();
-}
 
-  //添加报价
+  //商品入库
     function Entry() {
-       //是否有选中供应商
+       //是否有选中商品
      var is_checked=$("tbody input:checkbox:checked").length
         if (is_checked==1){
             var sid=$("tbody input:checkbox:checked").eq(0).next().val()
@@ -296,13 +291,13 @@ function ShowGoodsDetail(cons) {
         }
     }
 
-  //添加报价
-    function AddPrice() {
-       //是否有选中供应商
+  //采购录入
+    function Purchase() {
+       //是否有选中商品
      var is_checked=$("tbody input:checkbox:checked").length
         if (is_checked==1){
             var sid=$("tbody input:checkbox:checked").eq(0).next().val()
-            window.location.href="{% url 'goods_price' %}?gid={0}".format(sid)
+            window.location.href="{% url 'purchase_edit' %}?gid={0}".format(sid)
         } else if(is_checked > 1){
            layer.alert('只能选择一个商品', {icon: 6 ,
               time: 1500, //1.5s后自动关闭
@@ -317,25 +312,5 @@ function ShowGoodsDetail(cons) {
         }
     }
 
-      //添加比价
-    function ComparePrice() {
-       //是否有选中供应商
-     var is_checked=$("tbody input:checkbox:checked").length
-        if (is_checked==1){
-            var sid=$("tbody input:checkbox:checked").eq(0).next().val()
-            window.location.href="{% url 'price_compare' %}?gid={0}".format(sid)
-        } else if(is_checked > 1){
-           layer.alert('只能选择一个商品', {icon: 6 ,
-              time: 1500, //1.5s后自动关闭
-                btn: [ '知道了']}
-                );
-        }
-        else{
-           layer.alert('请选择商品', {icon: 6 ,
-              time: 1500, //1.5s后自动关闭
-                btn: [ '知道了']}
-                );
-        }
-    }
     </script>
 {% endblock %}

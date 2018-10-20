@@ -97,6 +97,7 @@ class PriceCompareForm(django_forms.Form):
                                                                                             "invalid": "请输入合法的价格"})
     date = django_fields.DateField(error_messages={"required": "比价日期不能为空", "invalid": "日期格式错误"})
 
+
 class NationForm(django_forms.Form):
     nation = django_fields.CharField(error_messages={"required": "国家名称不能为空"})
 
@@ -130,3 +131,25 @@ class WarehouseForm(django_forms.Form):
 class WareLocationForm(django_forms.Form):
     location = django_fields.CharField(error_messages={"required": "库位名称不能为空"})
     warehouse_id = django_fields.IntegerField(error_messages={"required":"请选择仓库"})
+
+
+class InventForm(django_forms.Form):
+    goods_id = django_fields.IntegerField(error_messages={"required":"商品不能为空"})
+    warehouse_id = django_fields.IntegerField(error_messages={"required":"仓库不能为空"})
+    location_id = django_fields.CharField(error_messages={"required":"库位不能为空"})
+    amount = django_fields.IntegerField(error_messages={"required":"数量不能为空"})
+    date = django_fields.DateField(error_messages={"required":"入库日期不能为空"})
+    unit_id=django_fields.IntegerField(error_messages={"required":"单位不能为空  "})
+
+
+class PurchaseForm(django_forms.Form):
+    goods_id = django_fields.IntegerField(error_messages={"required": "采购商品不能为空"})
+    supplier_id = django_fields.IntegerField(error_messages={"required": "供应商不能为空"})
+    linkman_id = django_fields.CharField(error_messages={"required": "联系人不能为空"})
+    amount = django_fields.IntegerField(error_messages={"required": "数量不能为空"})
+    date = django_fields.DateField(error_messages={"required": "采购日期不能为空", "invalid": "日期格式错误"})
+    unit_id = django_fields.IntegerField(error_messages={"required": "单位不能为空  "})
+    price = django_fields.DecimalField(max_digits=8, decimal_places=2, error_messages={"required": "单价不能为空",
+                                                                                       "invalid": "请输入合法的价格"})
+    total_price = django_fields.DecimalField(max_digits=8, decimal_places=2, error_messages={"required": "总价不能为空",
+                                                                                       "invalid": "请输入合法的价格"})
