@@ -53,7 +53,7 @@
                         <!-- Example Events -->
                         <div class="example-wrap">
                             <div class="example">
-                                <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                <div class="btn-group " id="toolbar" role="group">
                                      <a href="{% url "staff_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
                                     <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
@@ -112,12 +112,12 @@
 
     <!-- Modal -->
     <!-- delete-->
-<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade float-center" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">警告！</h4>
+        <h3 class="modal-title" id="myModalLabel">警告！</h3>
       </div>
       <div class="modal-body" style="text-align: center;font-size: 20px;">
         您确定要删除吗？

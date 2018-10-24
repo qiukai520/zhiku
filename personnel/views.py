@@ -9,7 +9,7 @@ from .server import *
 from .forms.form import *
 from common.functions import *
 from .models import *
-from .templatetags.personnel_tags import  *
+from .templatetags.personnel_tags import *
 
 # Create your views here.
 

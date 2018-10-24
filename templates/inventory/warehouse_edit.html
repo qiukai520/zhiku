@@ -2,7 +2,8 @@
 {% load inventory_tags %}
 
 {% block css %}
-    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+
+    <link rel="stylesheet" href="/static/plugins/amap/css/main1119.css"/>
     <style>
      .form-horizontal .control-label {
             padding-top: 7px;
@@ -16,8 +17,7 @@
 
 {%endblock %}
 {% block content %}
-
-      <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="wrapper container wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
@@ -41,70 +41,56 @@
                             </a>
                         </div>
                     </div>
-                  <div class="ibox-content">
+                  <div class="ibox-content ">
                         <div class="row form-horizontal">
                         <form class="row form-horizontal"   method="post" id="warehouse_fm" enctype="multipart/form-data" >
                          {% csrf_token %}
                           {% fetch_country_nid  obj.town_id  as country_id %}
                             {% fetch_city_nid  country_id  as city_id %}
                             {% fetch_province_nid  city_id  as province_id %}
-                            {% fetch_nation_nid  province_id  as nation_id %}
                              <input type="hidden" name="id" id="nid"  >
                             <div class="col-xs-12">
                                 <div class="form-group">
-                                    <label for="name" class="col-xs-1 control-label">仓库名称:</label>
-                                      <div class="col-xs-8">
+                                    <label for="name" class="col-xs-4  col-md-2  col-lg-1 control-label">仓库名称:</label>
+                                      <div class="col-xs-7 col-md-8  col-lg-8">
                                           <input name="name"  class="form-control"  id="name" placeholder="仓库名称">
                                         </input>
                                       </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                <div class="form-group">
-{#                                    <label class="col-xs-1 control-label">国家:</label>#}
-{#                                    <div class="col-xs-2">#}
-{#                                         {% fetch_city_nid obj.country_id as city_id  %}#}
-{#                                          {% fetch_province_nid city_id  as province_id  %}#}
-{#                                          {% fetch_nation_nid province_id  as nation_id  %}#}
-{#                                        <select  name="nation" class="form-control" id="nation" onchange="SelectNation(this)" >#}
-{#                                            {% if id %}#}
-{#                                                {% build_nation_ele nation_id %}#}
-{#                                            {% else %}#}
-{#                                                 <option value=0>请选择国家</option>#}
-{#                                            {% build_nation_ele %}#}
-{#                                            {% endif %}#}
-{#                                        </select>#}
-{#                                    </div>#}
-                                   <label class="col-xs-1 control-label">省份:</label>
-                                    <div class="col-xs-2">
-                                        <select  name="province" class="form-control" id="province" onchange="SelectProvince(this)" >
+                                   <label class=" col-xs-4 col-md-2  col-lg-1 control-label">省份</label>
+                                    <div class="col-xs-7 col-md-4  col-lg-2">
+                                        <select  name="province "   class="form-control chosen-select" id="province" onchange="SelectProvince(this)" >
                                               <option value=0>请选择省份</option>
-                                            {% build_china_province_ele  province_id=province_id %}
+                                            {% build_province_ele  province_id=province_id %}
                                         </select>
                                     </div>
-                                   <label class="col-xs-1 control-label">城市:</label>
-                                    <div class="col-xs-2">
-                                        <select  name="city" class="form-control" id="city"  onchange="SelectCity(this)" >
+                                   <label class=" col-xs-4 col-md-2  col-lg-1 control-label">城市</label>
+                                    <div class="col-xs-7 col-md-4  col-lg-2">
+                                        <select  name="city" class="form-control chosen-select" id="city"  onchange="SelectCity(this)" >
                                          {%  if  id %}
                                              {% build_city_ele province_id %}
                                              {% else %}
-                                             <option value=0 >请选择城市</option>
+                                            {% build_city_ele %}
                                             {% endif %}
                                         </select>
                                     </div>
-                                <label class="col-xs-1 control-label">县区</label>
-                                <div class="col-xs-2">
-                                    <select  name="country_id" class="form-control" id="country" onchange="SelectCountry(this)" >
+                                <label class="col-xs-4 col-md-2  col-lg-1  control-label">县区</label>
+                                <div class="col-xs-7 col-md-4  col-lg-2">
+                                    <select  name="country_id" class="form-control chosen-select" id="country" onchange="SelectCountry(this)" >
                                      {%  if  id %}
                                          {% build_country_ele city_id  %}
                                          {% else %}
                                          <option value=0 >请选择县(区)</option>
+                                           {% build_country_ele   %}
                                         {% endif %}
                                     </select>
                                 </div>
 
-                                <label class="col-xs-1 control-label">街道</label>
-                                <div class="col-xs-2">
-                                    <select  name="town_id" class="form-control" id="town_id"  >
+                                <label class="col-xs-4 col-md-2  col-lg-1 control-label">街道</label>
+                                <div class="col-xs-7 col-md-4  col-lg-2">
+                                    <select  name="town_id" class="form-control chosen-select" id="town_id"  >
                                      {%  if  id %}
                                          {% build_town_ele country_id  %}
                                         {% endif %}
@@ -113,16 +99,16 @@
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                    <label for="name" class="col-xs-1 control-label">详细地址:</label>
-                                      <div class="col-xs-8">
+                                    <label for="name" class="col-xs-4 col-md-2  col-lg-1  control-label">详细地址:</label>
+                                      <div class="col-xs-7 col-md-8  col-lg-8">
                                           <input name="address"  class="form-control"  id="address" placeholder="详细地址">
                                         </input>
                                       </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                <div class="form-group">
-                                    <label for="name" class="col-xs-1 control-label">定位</label>
-                                    <div class="col-xs-8">
+                                    <label for="name" class="col-xs-4 col-md-2  col-lg-1 control-label">定位</label>
+                                    <div class="col-xs-7 col-md-8  col-lg-8">
                                         <div id="mark_container" style="width:100%;height:300px">
                                     </div>
                                         <div id="myPageTop" style="position:absolute;">
@@ -177,12 +163,13 @@
 {#    <script src="/static/js/"></script>#}
     <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/static/js/custom/form-validate.min.js"></script>
+  <script src="/static/js/custom/select-pcas.js"></script>
     <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
 
      //mark
-    <script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script src="/static/plugins/amap/js/es5.min.js"></script>
     <script src="http://webapi.amap.com/maps?v=1.4.3&key=c4d8f8eff1d622c4b83023b746d10b23&plugin=AMap.PlaceSearch,AMap.AdvancedInfoWindow"></script>
-    <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+    <script src="/static/plugins/amap/js/main.js"></script>
 {#    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>#}
      <script>
         //字符串格式化
@@ -237,9 +224,9 @@ function initMap(lng=113.324954,lat=22.98682,mark=false,name=''){
     //拖拽
 })
 }
-
        //自执行函数
   $(function () {
+
       var id={{ id }}
        lng={% if obj.lng %}{{ obj.lng }}{% else %}0{% endif %};
        lat ={% if obj.lat %}{{ obj.lat }}{% else %}0{% endif %};
@@ -298,81 +285,6 @@ function initMap(lng=113.324954,lat=22.98682,mark=false,name=''){
          }
     }
 
-            // 根据城市获取相应的县区
-    function SelectCountry(ths) {
-      var nid=$(ths).val();
-      $("#town_id").children().remove();
-      $.ajax({
-        url:"{% url "country_town" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    console.log(objs)
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['town'];
-		 $("#town_id").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
-        // 根据省份获取相应的城市
-    function SelectCity(ths) {
-      var nid=$(ths).val();
-      $("#country").children().remove();
-      $.ajax({
-        url:"{% url "city_country" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $("#country").append("<option value=0 >请选择县区</option>")
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['country'];
-		 $("#country").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
 
-    // 根据省份获取相应的城市
-    function SelectProvince(ths) {
-      var nid=$(ths).val();
-      $("#city").children().remove();
-      $.ajax({
-        url:"{% url "province_city" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $("#city").append("<option value=0 >请选择城市</option>")
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['city'];
-		 $("#city").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
      </script>
 {% endblock %}

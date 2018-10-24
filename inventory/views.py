@@ -774,6 +774,30 @@ def purchase_record(request):
     return render(request,'404.html')
 
 
+
+def purchase_bind(request):
+    pid = request.GET.get("pid",0)
+    ids = request.GET.get("ids",'')
+    ids = ids.split("|")
+    ret = {"status": False, "data": "", "message": ""}
+    if pid:
+        # 转化成数字
+        id_list = []
+        for item in ids:
+            if item:
+                id_list.append(int(item))
+        try:
+            invent_db.mutil_update_purchase(id_list,pid)
+            ret["status"]=True
+        except Exception as e:
+            print(e)
+        return HttpResponse(json.dumps(ret))
+    return render(request,"404.html")
+
+
+
+
+
 def nation_list(request):
     query_sets = nation_db.query_nation_list()
     return render(request,"inventory/nation_list.html",{"query_sets":query_sets})

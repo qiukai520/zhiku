@@ -58,10 +58,10 @@
                         <!-- Example Events -->
                         <div class="example-wrap">
                             <div class="example">
-                                <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                <div class="btn-group " id="toolbar" role="group">
                                      <a href="{% url "goods_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
                                     <button  onclick="AddPrice()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加报价</button>
-                                     <button  onclick="ComparePrice()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加比价</button>
+                                     <button  onclick="ComparePrice()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加零售比价</button>
                                     <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
                                 <table id="task_sort"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
@@ -93,14 +93,8 @@
                                           </td>
                                           <td>{% if  obj.unit  %}{{ obj.unit }}{% else %}空{% endif %}</td>
                                            <td>{% if  obj.standard  %}{{ obj.standard }}{% else %}空{% endif %}</td>
-                                          {% fetch_city_nid  obj.country_id  as city_id %}
-                                          {% fetch_province_nid  city_id  as province_id %}
-                                          {% fetch_nation_nid  province_id  as nation_id %}
                                           <td>
-                                               {% change_to_nation nation_id %}/
-                                               {% change_to_province province_id  %}/
-                                              {% change_to_city city_id %}/
-                                              {% change_to_country obj.country_id %}
+                                               {{ obj.area }}
                                           </td>
                                           <td>{{ obj.start_month }}月-{{ obj.end_month }}月</td>
                                             <td>
@@ -121,7 +115,6 @@
         </div>
         <!-- End Panel Other -->
     </div>
-
     <!-- Modal -->
     <!-- delete-->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

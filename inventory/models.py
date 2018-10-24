@@ -19,7 +19,7 @@ class Supplier(models.Model):
     bank = models.CharField(max_length=512, verbose_name="开户银行", blank=True, null=True)
     bank_account = models.CharField(max_length=512, verbose_name="银行账户", blank=True, null=True)
     account_name = models.CharField(max_length=512, verbose_name="账户名", blank=True, null=True)
-    country = models.ForeignKey("Country", to_field="nid", on_delete=models.CASCADE, verbose_name='县(区',
+    town = models.ForeignKey("Town", to_field="nid", on_delete=models.CASCADE, verbose_name='街道',
                                db_constraint = False)
     address = models.CharField(max_length=64, verbose_name="地址", blank=True, null=True)
     remark = models.CharField(max_length=512, verbose_name="备注", blank=True, null=True)
@@ -35,10 +35,10 @@ class Supplier(models.Model):
     def __str__(self):
         return self.company
 
-    _insert = [ "category_id","company", "industry_id", "employees","goods_id","introduce",'website',"remark","address",
-                "country_id","account_name","bank_account","bank","phone"]
-    _update = ["category_id", "company", "industry_id", "employees", "goods_id", "introduce", 'website', "remark", "address",
-               "country_id", "account_name", "bank_account", "bank", "phone"]
+    _insert = [ "category_id","company","products", "industry_id", "employees","goods_id","introduce",'website',"remark","address",
+                "town_id","account_name","bank_account","bank","phone"]
+    _update = ["category_id", "company", "products","industry_id", "employees", "goods_id", "introduce", 'website', "remark", "address",
+               "town_id", "account_name", "bank_account", "bank", "phone"]
 
 
 class Goods(models.Model):
@@ -56,8 +56,7 @@ class Goods(models.Model):
     standard = models.CharField(max_length=32,verbose_name='商品规格', blank=True, null=True)
     start_month = models.SmallIntegerField(blank=True, null=True, verbose_name='起始产期(月份)',)
     end_month = models.SmallIntegerField(blank=True, null=True, verbose_name='结束期(月份)')
-    country = models.ForeignKey("Country", to_field="nid", on_delete=models.CASCADE, verbose_name='县(区',
-                                db_constraint=False)
+    area = models.CharField(max_length=64, verbose_name='产地', blank=True, null=True)
     delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
@@ -69,8 +68,8 @@ class Goods(models.Model):
 
     def __str__(self):
         return self.name
-    _insert=["category_id","name","description","unit_id","code","standard","start_month","end_month","country_id"]
-    _update=["category_id","name","description","unit_id","code","standard","start_month","end_month","country_id"]
+    _insert=["category_id","name","description","unit_id","code","standard","start_month","end_month","area"]
+    _update=["category_id","name","description","unit_id","code","standard","start_month","end_month","area"]
 
 
 class SupplierContact(models.Model):
@@ -340,7 +339,9 @@ class GoodsUnit(models.Model):
 
 class GoodsCategory(models.Model):
     nid = models.AutoField(primary_key=True)
-    caption = models.CharField(max_length=16,verbose_name="商品分类")
+    caption = models.CharField(max_length=16,verbose_name="分类名称")
+    parent = models.ForeignKey("self",to_field="nid",null=True,blank=True,on_delete=models.CASCADE, db_constraint=False,
+                              verbose_name="上级分类")
 
     class Meta:
         db_table = 'goods_category'
@@ -351,8 +352,8 @@ class GoodsCategory(models.Model):
         return self.caption
 
 
-    _insert = ["caption"]
-    _update = ["caption"]
+    _insert = ["caption","parent_id"]
+    _update = ["caption","parent_id"]
 
 
 class SupplierCategory(models.Model):
@@ -541,6 +542,7 @@ class Nation(models.Model):
 
 class Province(models.Model):
     nid = models.AutoField(primary_key=True)
+    code = models.IntegerField(verbose_name="编码")
     province = models.CharField(max_length=16, verbose_name="省份")
     nation = models.ForeignKey(Nation, to_field="nid", on_delete=models.CASCADE, verbose_name='国家',
                                  db_constraint=False)
@@ -559,6 +561,7 @@ class Province(models.Model):
 
 class City(models.Model):
     nid = models.AutoField(primary_key=True)
+    code = models.IntegerField(verbose_name="编码")
     city = models.CharField(max_length=16, verbose_name="城市")
     province = models.ForeignKey(Province, to_field="nid", on_delete=models.CASCADE, verbose_name='省份',
                                db_constraint=False)
@@ -577,6 +580,7 @@ class City(models.Model):
 
 class Country(models.Model):
     nid = models.AutoField(primary_key=True)
+    code = models.IntegerField(verbose_name="编码")
     country = models.CharField(max_length=16, verbose_name="县(区)")
     city = models.ForeignKey(City, to_field="nid", on_delete=models.CASCADE, verbose_name='城市',
                              db_constraint=False,)
@@ -595,6 +599,7 @@ class Country(models.Model):
 
 class Town(models.Model):
     nid = models.AutoField(primary_key=True)
+    code = models.IntegerField(verbose_name="编码")
     town = models.CharField(max_length=16, verbose_name="街道")
     country = models.ForeignKey(Country, to_field="nid", on_delete=models.CASCADE, verbose_name='县区',
                              db_constraint=False,)
@@ -605,7 +610,7 @@ class Town(models.Model):
         verbose_name_plural = "街道"
 
     def __str__(self):
-        return self.country
+        return self.town
 
     _insert = ["town", "country_id"]
     _update = ["town", "country_id"]
@@ -647,6 +652,7 @@ class Inventory(models.Model):
     batch = models.IntegerField(verbose_name="入库批次")
     warehouse = models.ForeignKey("Warehouse",verbose_name="仓库", on_delete=models.CASCADE, db_constraint=False)
     location = models.ForeignKey("WareLocation",verbose_name="库位", on_delete=models.CASCADE, db_constraint=False)
+    purchase = models.ForeignKey("Purchase", verbose_name="采购单",blank=True, null=True, on_delete=models.CASCADE, db_constraint=False)
     date = models.DateField(verbose_name="入库日期", blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')

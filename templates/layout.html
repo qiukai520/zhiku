@@ -40,6 +40,14 @@
           #toolbar >.btn{
           margin: 0 2px;
       }
+          .float-center{
+         position: absolute;
+            top:50%;
+            left:50%;
+            width:100%;
+            transform:translate(-50%,-50%);
+            text-align: center;
+    }
 
     </style>
     {% block css %}
@@ -128,51 +136,30 @@
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">进销存管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
                                  <li>
-                                     <a  href="{% url "supplier_list" %}">供应商</a>
+                                     <a  href="{% url "supplier_list" %}">供应商管理</a>
                                 </li>
                                  <li>
                                      <a  href="{% url "goods_list" %}">商品管理</a>
                                 </li>
-                                 <li>
-                                     <a  href="{% url "retail_supplier_list" %}">比价商家</a>
-                                </li>
-                                 <li>
-                                     <a  href="{% url "industry_list" %}">行业分类</a>
-                                </li>
-                                 <li>
-                                     <a  href="{% url "supplier_category_list" %}">供应商分类</a>
-                                </li>
-                                  <li>
-                                     <a  href="{% url "goods_category_list" %}">商品分类</a>
-                                </li>
-                                  <li>
-                                     <a  href="{% url "goods_unit_list" %}">商品单位</a>
-                                </li>
+
                                 <li>
                                      <a  href="{% url "invent_list" %}">库存管理</a>
                                 </li>
-                                <li>
-                                     <a  href="{% url "warelocation" %}">库位</a>
-                                </li>
-
-                                 <li>
-                                     <a  href="{% url "warehouse_list" %}">仓库</a>
-                                </li>
-                                <li>
-                                     <a  href="{% url "nation_list" %}">国家</a>
-                                </li>
-                                <li>
-                                     <a  href="{% url "province_list" %}">省份</a>
-                                </li>
-                                 <li>
-                                     <a  href="{% url "city_list" %}">城市</a>
-                                </li>
-                                 <li>
-                                     <a  href="{% url "country_list" %}">县（区）</a>
-                                </li>
-                                 <li>
-                                     <a  href="{% url "town_list" %}">街道</a>
-                                </li>
+{#                                <li>#}
+{#                                     <a  href="{% url "nation_list" %}">国家</a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                     <a  href="{% url "province_list" %}">省份</a>#}
+{#                                </li>#}
+{#                                 <li>#}
+{#                                     <a  href="{% url "city_list" %}">城市</a>#}
+{#                                </li>#}
+{#                                 <li>#}
+{#                                     <a  href="{% url "country_list" %}">县（区）</a>#}
+{#                                </li>#}
+{#                                 <li>#}
+{#                                     <a  href="{% url "town_list" %}">街道</a>#}
+{#                                </li>#}
 
                             </ul>
                         </li>
@@ -183,25 +170,47 @@
                                     <a  href="{% url "task_period" %} ">周期任务管理</a>
                                 </li>
                                  <li>
-                                     <a  href="{% url "performence_list" %}">绩效分类</a>
+                                     <a  href="{% url "performence_list" %}">绩效分类管理</a>
                                 </li>
                                  <li>
-                                     <a  href="{% url "task_sort_list" %}">任务分类</a>
+                                     <a  href="{% url "task_sort_list" %}">任务分类管理</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "company_list" %}">公司名称</a>
+                                     <a  href="{% url "company_list" %}">公司管理</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "department_list" %}">部门名称</a>
+                                     <a  href="{% url "department_list" %}">部门管理</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "project_list" %}">项目名称</a>
+                                     <a  href="{% url "project_list" %}">项目管理</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "job_rank_list" %}">职级名称</a>
+                                     <a  href="{% url "job_rank_list" %}">职级管理</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "job_title_list" %}">职称名称</a>
+                                     <a  href="{% url "job_title_list" %}">职称管理</a>
+                                </li>
+                                 <li>
+                                     <a  href="{% url "retail_supplier_list" %}">零售比价对象管理</a>
+                                </li>
+                                 <li>
+                                     <a  href="{% url "industry_list" %}">行业分类管理</a>
+                                </li>
+                                 <li>
+                                     <a  href="{% url "supplier_category_list" %}">供应商分类</a>
+                                </li>
+                                  <li>
+                                     <a  href="{% url "goods_category_list" %}">商品分类管理</a>
+                                </li>
+                                  <li>
+                                     <a  href="{% url "goods_unit_list" %}">商品单位管理</a>
+                                </li>
+                                  <li>
+                                     <a  href="{% url "warelocation" %}">库位管理</a>
+                                </li>
+
+                                 <li>
+                                     <a  href="{% url "warehouse_list" %}">仓库管理</a>
                                 </li>
                             </ul>
                         </li>

@@ -2,8 +2,8 @@
 {% load inventory_tags %}
 {% block css %}
     <style>
-     #toolbar >button{
-          margin: 0 2px;
+     #toolbar >.btn{
+          margin: 2px;
       }
     </style>
 {%endblock %}
@@ -38,12 +38,12 @@
                         <!-- Example Events -->
                         <div class="example-wrap">
                             <div class="example">
-                                <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                     <a href="{% url "supplier_edit" %}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                <div class="btn-group" id="toolbar" role="group">
+                                     <a href="{% url "supplier_edit" %}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加供应商</a>
                                     <button  onclick="AddLinkman()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加联系人</button>
                                     <button  onclick="AddContact()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加收支</button>
                                     <button  onclick="AddMemo()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp添加备忘</button>
-                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
+                                    <button  onclick="MultiDelete()" class="btn btn-danger "  ><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
                                 <table id="task_sort"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
@@ -71,14 +71,14 @@
                                           <td>{% if obj.introduce  %}{{ obj.introduce }}{% else  %}空{% endif %}</td>
                                           <td>{% if obj.website  %} <a href=" https://{{ obj.website }}">{{ obj.website }}</a>{% else  %}空{% endif %}</td>
                                           <td>{% if obj.phone  %}{{ obj.phone }}{% else  %}空{% endif %}</td>
-                                          {% fetch_city_nid  obj.country_id  as city_id %}
+                                           {% fetch_country_nid  obj.town_id  as country_id %}
+                                          {% fetch_city_nid  country_id  as city_id %}
                                           {% fetch_province_nid  city_id  as province_id %}
-                                          {% fetch_nation_nid  province_id  as nation_id %}
                                           <td>
-                                               {% change_to_nation nation_id %}/
                                                {% change_to_province province_id  %}/
                                               {% change_to_city city_id %}/
-                                              {% change_to_country obj.country_id %}
+                                              {% change_to_country country_id %}
+                                               {% change_to_town obj.town_id %}
                                           </td>
                                             <td>
                                               <a  href="{%url "supplier_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>

@@ -21,7 +21,7 @@
     </style>
 {% endblock %}
 {% block content %}
-        <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="wrapper wrapper-content container animated fadeInRight">
         <div class="row">
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
@@ -119,47 +119,7 @@
                            <div class="form-group">
                             <label class="col-sm-2 control-label">产地</label>
                             <div class="col-sm-8">
-                                <div class="col-xs-2" style="padding: 0px">
-                                    <select  name="nation" class="form-control" id="nation" onchange="SelectNation(this)" >
-                                        {% fetch_city_nid query_set.country_id as city_id%}
-                                        {% fetch_province_nid city_id as province_id  %}
-                                        {% fetch_nation_nid province_id as nation_id  %}
-                                        {% if nid %}
-                                            {% build_nation_ele nation_id %}
-                                        {% else %}
-                                             <option value=0>请选择国家</option>
-                                        {% build_nation_ele %}
-                                        {% endif %}
-                                    </select>
-                                </div>
-                               <label class="col-xs-1 control-label">省份</label>
-                                <div class="col-xs-2">
-                                    <select  name="province" class="form-control" id="province" onchange="SelectProvince(this)" >
-                                     {%  if  nid %}
-                                         {% build_province_ele nation_id province_id=province_id %}
-                                         {% else %}
-                                          <option value=0>请选择省份</option>
-                                     {% endif %}
-                                    </select>
-                                </div>
-                               <label class="col-xs-1 control-label">城市</label>
-                                <div class="col-xs-2">
-                                    <select  name="city" class="form-control" id="city" onchange="SelectCity(this)" >
-                                     {%  if  nid %}
-                                         {% build_city_ele province_id city_id=city_id %}
-                                         {% else %}
-                                          <option value=0>请选择城市</option>
-                                        {% endif %}
-                                    </select>
-                                </div>
-                             <label class="col-xs-1 control-label">县区</label>
-                                <div class="col-xs-2">
-                                    <select  name="country_id" class="form-control" id="country"  >
-                                     {%  if  nid %}
-                                         {% build_country_ele city_id  query_set.country_id %}
-                                        {% endif %}
-                                    </select>
-                                </div>
+                                <input type="text" class="form-control" name="area" id="area"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>
@@ -285,6 +245,7 @@ function InitData() {
         $("#description").val("{% if  query_set.description %}{{ query_set.description }} {% endif %}");
         $("#standard").val("{% if  query_set.standard %}{{ query_set.standard }} {% endif %}");
         $("#code").val("{% if  query_set.code %}{{ query_set.code }} {% endif %}");
+         $("#area").val("{% if  query_set.area %}{{ query_set.area }} {% endif %}");
         $("#unit_id").val({% if query_set.unit_id  %}{{ query_set.unit_id }}{% endif %});
         //初始化商品照
          var photo= "{{ life_photo }}"
@@ -605,84 +566,6 @@ function UploadFile(ths){
          })
          }
     }
-   // 根据城市获取县区的身份
-    function SelectCity(ths) {
-      var nid=$(ths).val();
-       $("#country").children().remove();
-      $.ajax({
-        url:"{% url "city_country" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['country'];
-		 $("#country").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
- // 根据省份获取相应的城市
-    function SelectProvince(ths) {
-      var nid=$(ths).val();
-      $("#city").children().remove();
-      $("#country").children().remove();
-      $.ajax({
-        url:"{% url "province_city" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $("#city").append("<option value=0 >请选择城市</option>")
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['city'];
-		 $("#city").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
-      // 根据国家获取相应的身份
-    function SelectNation(ths) {
-      var nid=$(ths).val();
-      $("#province").children().remove();
-       $("#city").children().remove();
-       $("#country").children().remove();
-      $.ajax({
-        url:"{% url "nation_province" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $("#province").append("<option value=0 >请选择省份</option>")
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['province'];
-		 $("#province").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
-
 
  </script>
 {% endblock %}

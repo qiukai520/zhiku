@@ -57,6 +57,7 @@ urlpatterns = [
     path("invent_record",views.invent_record,name="invent_record"),
     path("purchase_record", views.purchase_record, name="purchase_record"),
     path("purchase_edit",views.PurchaseViewSet.as_view(),name="purchase_edit"),
+    path("purchase_bind", views.purchase_bind, name="purchase_bind"),
     path("supplier", views.supplier_list, name="supplier_list"),
     path("supplier_edit", views.supplier_edit, name='supplier_edit'),
     path("supplier_category", views.supplier_category_list, name="supplier_category_list"),

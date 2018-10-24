@@ -51,13 +51,12 @@ class StaffForm(django_forms.Form):
 class GoodsForm(django_forms.Form):
     category_id = django_fields.IntegerField(error_messages={"required": "请选择商品分类",})
     name = django_fields.CharField(error_messages={"required":"商品名称不能为空"})
-    country_id = django_fields.IntegerField(error_messages={"required": "请选择相应的县(区)"})
-
 
 class SupplierForm(django_forms.Form):
     category_id = django_fields.IntegerField(error_messages={"required": "请选择商品分类"})
     company = django_fields.CharField(error_messages={"required": "公司名称不能为空"})
-    country_id = django_fields.IntegerField(error_messages={"required": "请选择相应的县(区)"})
+    town_id = django_fields.IntegerField(error_messages={"required": "请选择街道"})
+    products = django_fields.CharField(error_messages={"required": "主营商品不能为空"})
 
 
 class LinkmanForm(django_forms.Form):

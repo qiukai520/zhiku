@@ -279,11 +279,6 @@ class ProvinceDB(object):
         result_db = Province.objects.filter().all()
         return result_db
 
-    def query_china_province_list(self):
-        nation_id = 1  # china
-        result_db = Province.objects.filter(nation_id=nation_id).all()
-        return result_db
-
     def query_province_by_nation(self,nation_id):
         result_db = Province.objects.filter(nation_id=nation_id).all()
         return result_db
@@ -877,6 +872,10 @@ class InventDB(object):
 
     def invent_update(self, modify):
         Inventory.objects.filter(nid=modify['nid'], delete_status=1).update(**modify)
+
+    def mutil_update_purchase(self,id_list,pid):
+        for item in id_list:
+            Inventory.objects.filter(nid=item).update(purchase_id=pid)
 
     def multi_delete(self, id_list, delete_status):
         Inventory.objects.filter(nid__in=id_list).update(**delete_status)

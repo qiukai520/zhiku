@@ -24,6 +24,15 @@
     #attach_container>label{
         font-weight: normal;
     }
+    #barCode{
+		width: 30%;height: 35px;
+        border: 1px solid #ddd;
+        border-radius:5px;
+		display: block;
+		margin : 0 auto;
+		padding: 0px 5px;
+		outline: none;
+	}
 
     </style>
 {%endblock %}
@@ -56,13 +65,18 @@
                 <div class="row row-lg">
                     <div class="col-sm-12">
                         <!-- Example Events -->
-                        <div class="example-wrap">
-                            <div class="example">
-                                <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                    <button onclick="Entry()" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;商品入库</button>
-                                    <button onclick="Purchase()" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;采购录入</button>
-
-                                </div>
+                        <div class="table-responsive">
+                            <div class="bootstrap-table">
+                               <div class="fixed-table-toolbar">
+                                   <div class="bs-bars pull-left" data-mobile-responsive="true" style="width:100%" >
+                                        <div class="btn-group " id="toolbar" role="group">
+                                            <button onclick="Entry()" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;商品入库</button>
+                                            <button onclick="Purchase()" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;采购录入</button>
+                                        </div>
+                                        <input id="barCode" class="-align-center" value=""style="margin-bottom:10px;" type="text" placeholder="扫码入库"  name="barCode">
+                                       </div>
+                               </div>
+                               <div class="fixed-table-container">
                                 <table id="task_sort"  data-mobile-responsive="true"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                          <tr >
@@ -70,6 +84,7 @@
                                              <th>商品分类</th>
                                              <th>商品名称</th>
                                              <th>商品图片</th>
+                                             <th>商品条码</th>
                                              <th>商品单位</th>
                                              <th>商品规格</th>
                                              <th>产地</th>
@@ -91,6 +106,7 @@
                                               {% else %}
                                               {% endif %}
                                           </td>
+                                         <td>{% if obj.code %}{{ obj.code }}{% else %}空{% endif %}</td>
                                           <td>{% if  obj.unit  %}{{ obj.unit }}{% else %}空{% endif %}</td>
                                            <td>{% if  obj.standard  %}{{ obj.standard }}{% else %}空{% endif %}</td>
                                           {% fetch_city_nid  obj.country_id  as city_id %}
@@ -111,7 +127,8 @@
                                       {% endfor %}
                                     </tbody>
                                 </table>
-                            </div>
+                                </div>
+                               </div>
                         </div>
                         <!-- End Example Events -->
                     </div>
@@ -145,6 +162,7 @@
 
 {% endblock %}
 {% block js%}
+    <script type="text/javascript" src="/static/js/custom/jquery.barcode.js"></script>
     <script>
 
            /*
@@ -311,6 +329,16 @@ function ShowGoodsDetail(cons) {
                 );
         }
     }
+
+    $("#barCode").startListen({
+				barcodeLen : 10,
+				letter : true,
+				number : true,
+				check  : false,
+				show : function(code){
+					layer.msg(code);
+				}
+			});
 
     </script>
 {% endblock %}

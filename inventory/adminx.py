@@ -14,9 +14,10 @@ class GoodsUnitAdmin(object):
 
 class GoodsCategoryAdmin(object):
     """商品分类"""
-    list_display = ["caption"]
-    search_fields = ['caption']
+    list_display = ["caption","parent"]
+    search_fields = ['caption',"parent"]
     model_icon = 'fa fa-cog'
+
 
 class GoodsAdmin(object):
     """供应商品"""

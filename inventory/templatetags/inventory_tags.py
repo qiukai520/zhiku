@@ -233,53 +233,48 @@ def build_province_ele(nation_id=None,province_id=None):
             eles += ele
     return mark_safe(eles)
 
+
 @register.simple_tag
-def build_china_province_ele(province_id=None):
-    province_list = province_db.query_china_province_list()
+def build_province_ele(province_id=None):
+    province_list = province_db.query_province_list()
     eles = ""
-    if province_id:
-        for item in province_list:
-            if item.nid == province_id:
-                ele = """<option selected=selected value={0}>{1}</option>""".format(item.nid, item.province)
-            else:
-                ele = """<option value={0}>{1}</option>""".format(item.nid, item.province)
-            eles += ele
-    else:
-        for item in province_list:
+    if not province_id:
+        province_id = 19 # 默认广东
+    for item in province_list:
+        if item.nid == province_id:
+            ele = """<option selected=selected value={0}>{1}</option>""".format(item.nid, item.province)
+        else:
             ele = """<option value={0}>{1}</option>""".format(item.nid, item.province)
-            eles += ele
+        eles += ele
     return mark_safe(eles)
 
 @register.simple_tag
 def build_city_ele(province_id=None, city_id=None):
     """构建城市下拉框"""
-    if province_id:
-        city_list = city_db.query_city_by_province(province_id)
-    else:
-        city_list = city_db.query_city_list()
+    if not province_id:
+       province_id = 19 # 默认广东
+    city_list = city_db.query_city_by_province(province_id)
     eles = ""
-    if city_id:
-        for item in city_list:
-            if item.nid == city_id:
-                ele = """<option selected=selected value={0}>{1}</option>""".format(item.nid, item.city)
-            else:
-                ele = """<option value={0}>{1}</option>""".format(item.nid, item.city)
-            eles += ele
-    else:
-        for item in city_list:
+    if not city_id:
+        city_id = 197 #默认广州
+    for item in city_list:
+        if item.nid == city_id:
+            ele = """<option selected=selected value={0}>{1}</option>""".format(item.nid, item.city)
+        else:
             ele = """<option value={0}>{1}</option>""".format(item.nid, item.city)
-            eles += ele
+        eles += ele
     return mark_safe(eles)
 
 
 
 @register.simple_tag
 def build_country_ele(city_id=None, selected=None):
-    """构建城市下拉框"""
+    """构建县区下拉框"""
     if city_id:
         country_list = country_db.query_country_by_city(city_id)
     else:
-        country_list = country_db.query_country_list()
+        city_id = 197 # 默认广州
+        country_list = country_db.query_country_by_city(city_id)
     eles = ""
     if selected:
         for item in country_list:
@@ -455,7 +450,8 @@ def change_to_retailer(id):
 @register.simple_tag
 def change_to_staff(id):
     if id:
-        staff_obj=staff_db.query_staff_by_id(id)
+        staff_obj = staff_db.query_staff_by_id(id)
+        print("staff",staff_obj)
         if staff_obj:
             return staff_obj.name
 
@@ -589,6 +585,15 @@ def fetch_invent_by_goods(gid):
     if gid:
         invent_record = invent_db.query_invent_by_goods_list(gid)
         return invent_record
+
+
+@register.simple_tag
+def fetch_purchase(pid):
+    if pid:
+        purchase_record = purchase_db.query_purchase_by_id(pid)
+        return purchase_record
+
+
 
 @register.simple_tag
 def fetch_purchase_by_goods(gid):

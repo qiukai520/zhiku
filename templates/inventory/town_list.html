@@ -38,7 +38,7 @@
                         <!-- Example Events -->
                         <div class="example-wrap">
                             <div class="example">
-                                <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                <div class="btn-group " id="toolbar" role="group">
                                      <a href="{% url "town_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                 </div>
@@ -51,7 +51,6 @@
                                               <th>县(区)</th>
                                               <th>城市</th>
                                               <th>所属省份</th>
-                                              <th>所属国家</th>
                                               <th>操作</th>
                                           </tr>
                                     </thead>
@@ -59,7 +58,6 @@
                                      {% for obj in query_sets %}
                                           {% fetch_city_nid obj.country_id as city_id  %}
                                           {% fetch_province_nid city_id  as province_id  %}
-                                          {% fetch_nation_nid province_id  as nation_id  %}
                                          <tr>
                                              <td><input type="checkbox"></td>
 {#                                             <td>{{ obj.nid }}</td>#}
@@ -67,7 +65,6 @@
                                               <td> {% change_to_country obj.country_id %}</td>
                                              <td> {% change_to_city city_id %}</td>
                                              <td>{% change_to_province province_id %}</td>
-                                             <td>{% change_to_nation nation_id %}</td>
                                             <td>
                                               <a  href="{%url "town_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
                                           </td>

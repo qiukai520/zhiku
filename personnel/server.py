@@ -25,7 +25,7 @@ class StaffDB(object):
         return result_db
 
     def query_staff_by_id(self, sid):
-        result_db = Staff.objects.filter(sid=sid,delete_status=1).first()
+        result_db = Staff.objects.filter(sid=sid).first()
         return result_db
 
     def query_staff_by_department_id(self, department_id):

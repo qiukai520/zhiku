@@ -74,6 +74,7 @@
                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
                                              <th>所在仓库</th>
                                              <th>商品</th>
+                                             <th>商品条码</th>
                                              <th>库位</th>
                                              <th>单位</th>
                                              <th>入库数量</th>
@@ -274,10 +275,6 @@ function ShowGoodsDetail(cons) {
           }
       });
     }
-        //清空指派模态框的数据
-    function ClearData(){
-            window.location.reload();
-}
   //添加报价
     function AddPrice() {
        //是否有选中供应商

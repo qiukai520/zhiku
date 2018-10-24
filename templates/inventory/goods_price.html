@@ -109,7 +109,7 @@
                             </div>
                         </div>
                           <div class="hr-line-dashed"></div>
-                             <div class="form-group">
+                              <div class="form-group">
                             <label class="col-sm-2 control-label">报价日期</label>
                             <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker1">
                                 <input type='text'  name="date" id='date' class="form-control" />
@@ -223,21 +223,9 @@ String.prototype.format=function()
     s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
   return s;
 };
- /*
-    自执行函数
-    */
-    $(function () {
-        //如果tid不为0，则为创建
-        var nid="{{ nid }}"
-        if ( nid!=""){
-           InitData()//初始化数据
-        }
-        else {
 
-        }
-    });
 
-            //设置日期时间控件
+   //设置日期时间控件
 $(function () {
     $('#datepicker1').datepicker({
         language: "zh-CN", //语言
@@ -253,9 +241,23 @@ $(function () {
     });
     $('#datepicker1').datepicker('setDate', new Date());
 });
+ /*
+    自执行函数
+    */
+    $(function () {
+        //如果tid不为0，则为创建
+        var nid="{{ nid }}"
+        if ( nid!=""){
+           InitData()//初始化数据
+        }
+        else {
+
+        }
+    });
      //初始化数据
 function InitData() {
         //初始化form
+        console.log( "{{ query_set.date }}")
         $("#nid").val({{ query_set.nid }})
         $("#supplier_id").val({{ query_set.supplier_id}});
         $("#linkman_id").val({{ query_set.linkman_id }});

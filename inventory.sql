@@ -13,7 +13,7 @@ create TABLE `supplier`(
 `bank` varchar (32) COMMENT '开户银行',
 `bank_account` varchar (32) COMMENT '银行账号',
 `account_name` varchar (16) COMMENT '开户名',
-`country_id`int(11)  NOT NUll COMMENT '县(区)',
+`town_id`int(11)  NOT NUll COMMENT '街道',
 `address` varchar (128) COMMENT '详细地址',
 `remark` varchar (128) COMMENT '备注',
 `delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
@@ -33,7 +33,7 @@ create TABLE `goods`(
 `code` varchar (32) COMMENT '商品条码',
 `start_month` tinyint(1)  COMMENT '起始产期:1-12月份',
 `end_month` tinyint(1)   COMMENT '结束期：1-12月份',
-`country_id`int(11)  NOT NUll COMMENT '县(区)',
+`area`varchar(64) COMMENT '产地',
 `delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
@@ -50,7 +50,8 @@ create table `goods_unit`(
 drop TABLE if exists `goods_category`;
 create table `goods_category`(
 `nid` int(11) primary key auto_increment,
-`caption` varchar (16) NOT NULL  COMMENT '商品分类'
+`caption` varchar (16) NOT NULL  COMMENT '商品分类',
+`parent_id` int(11) NOT NULL default 0 COMMENT'上级分类'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品分类';
 
 
@@ -189,8 +190,9 @@ create table `nation`(
 drop TABLE if exists `province`;
 create table `province`(
 `nid` int(11) primary key auto_increment,
+`code` int(11)  NOT NULL COMMENT '编码',
 `province` varchar (16) NOT NULL  COMMENT '省份',
-`nation_id` int (11) NOT NULL  COMMENT '所属国家'
+`nation_id` int (11)  DEFAULT 1 COMMENT '所属国家'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='省份';
 
 
@@ -198,6 +200,7 @@ create table `province`(
 drop TABLE if exists `city`;
 create table `city`(
 `nid` int(11) primary key auto_increment,
+`code` int(11)  NOT NULL COMMENT '编码',
 `city` varchar (16) NOT NULL  COMMENT '市',
 `province_id` int (11) NOT NULL  COMMENT '所属省份'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='市';
@@ -206,7 +209,8 @@ create table `city`(
 drop TABLE if exists `country`;
 create table `country`(
 `nid` int(11) primary key auto_increment,
-`country` varchar (16) NOT NULL  COMMENT '县(区)',
+`code` int(11)  NOT NULL COMMENT '编码',
+`country` varchar (32) NOT NULL  COMMENT '县(区)',
 `city_id` int (11) NOT NULL  COMMENT '所属市区'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='市';
 
@@ -214,7 +218,8 @@ create table `country`(
 drop TABLE if exists `town`;
 create table `town`(
 `nid` int(11) primary key auto_increment,
-`town` varchar (16) NOT NULL  COMMENT '街道',
+`code` int(11)  NOT NULL COMMENT '编码',
+`town` varchar (64) NOT NULL  COMMENT '街道',
 `country_id` int (11) NOT NULL  COMMENT '所属县(区)'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='街道';
 
@@ -349,6 +354,7 @@ create table `inventory`(
 `amount` int(11) COMMENT '数量',
 `date` datetime  DEFAULT NUll  COMMENT '入库日期',
 `location_id` int (11)  COMMENT '库位',
+`purchase_id`int(11)  COMMENT '采购单',
 `delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
 `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT '创建时间',
 `last_edit`   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE  CURRENT_TIMESTAMP COMMENT'最后编辑时间'

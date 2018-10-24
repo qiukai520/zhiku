@@ -85,13 +85,13 @@
                                     </dd>
                                      <dt>公司地址：</dt>
                                     <dd>
-                                         {% fetch_city_nid  query_set.country_id  as city_id %}
+                                          {% fetch_country_nid  query_set.town_id  as country_id %}
+                                          {% fetch_city_nid  country_id  as city_id %}
                                           {% fetch_province_nid  city_id  as province_id %}
-                                          {% fetch_nation_nid  province_id  as nation_id %}
-                                          {% change_to_nation nation_id %}/
                                           {% change_to_province province_id  %}/
-                                          {% change_to_city city_id %}/
-                                          {% change_to_country query_set.country_id %}
+                                              {% change_to_city city_id %}/
+                                              {% change_to_country country_id %}
+                                               {% change_to_town query_set.town_id %}
                                           /{{ query_set.address }}
                                     </dd>
                                 </dl>
@@ -312,7 +312,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearLinkmanData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h3 class="modal-title" id="myModalLabel">联系人</h3>
       </div>
       <div class="modal-body" style="height: 560px;">
@@ -396,7 +396,7 @@
             </div>
          </div>
       <div class="modal-footer">
-        <button class="btn btn-default" onclick="ClearData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+        <button class="btn btn-default" onclick="ClearLinkmanData()" data-dismiss="modal" aria-hidden="true">关闭</button>
           <a class="btn btn-submit btn-primary edit-btn" id="edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
       </div>
     </div>
@@ -408,7 +408,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearContactData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h3 class="modal-title" id="myModalLabel">收支来往</h3>
       </div>
       <div class="modal-body" style="height: 560px;">
@@ -488,7 +488,6 @@
                                      <div class=" form-group row value hidden " id="contact_attach" >
                                           <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
                                           <div class="col-xs-9 p_form" id="contact_container">
-
                                           </div>
                                     </div>
 
@@ -500,7 +499,7 @@
             </div>
          </div>
       <div class="modal-footer">
-        <button class="btn btn-default" onclick="ClearData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+        <button class="btn btn-default" onclick="ClearContactData()" data-dismiss="modal" aria-hidden="true">关闭</button>
           <a class="btn btn-submit btn-primary edit-btn" id="contact_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
       </div>
     </div>
@@ -512,7 +511,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearMemoData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h3 class="modal-title" id="myModalLabel">备忘</h3>
       </div>
       <div class="modal-body" style="height: 560px;">
@@ -549,7 +548,7 @@
             </div>
          </div>
       <div class="modal-footer">
-        <button class="btn btn-default" onclick="ClearData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+        <button class="btn btn-default" onclick="ClearMemoData()" data-dismiss="modal" aria-hidden="true">关闭</button>
           <a class="btn btn-submit btn-primary edit-btn" id="memo_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
       </div>
     </div>
@@ -767,6 +766,32 @@
     function ClearData(){
             window.location.reload();
 }
+
+ //清空指派模态框的数据
+    function ClearContactData(){
+            $("#contact_detail >p").each(function () {
+                $(this).text()
+            })
+           $("#contact_container").empty()
+           $("#attach_block").addClass("hidden")
+    }
+    //清空指派模态框的数据
+    function ClearMemoData(){
+            $("#memo_detail >p").each(function () {
+                $(this).text()
+            })
+           $("#memo_container").empty()
+          $("#memo_attach").addClass("hidden")
+    }
+      //清空指派模态框的数据
+    function ClearLinkmanData(){
+            $("#linkman_detail >p").each(function () {
+                $(this).text()
+            })
+           $("#attach_container").empty()
+          $("#linkman_attach").addClass("hidden")
+    }
+
     </script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 {% endblock %}
