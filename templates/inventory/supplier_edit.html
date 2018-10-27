@@ -108,9 +108,9 @@
                             {% fetch_province_nid  city_id  as province_id %}
                             <label class="col-sm-2 control-label">所在区域</label>
                             <div class="col-sm-8">
-                               <label class=" col-xs-4 col-md-2  col-lg-2 control-label">省份</label>
-                                    <div class="col-xs-7 col-md-4  col-lg-4">
-                                        <select  name="province "   class="form-control chosen-select" id="province" onchange="SelectProvince(this)" >
+                                   <label class=" col-xs-4 col-md-2  col-lg-2 control-label">省份</label>
+                                    <div class="col-xs-7 col-md-4  col-lg-4" >
+                                        <select  name="province "  class="form-control chosen-select" id="province" onchange="SelectProvince(this)" >
                                               <option value=0>请选择省份</option>
                                             {% build_province_ele  province_id=province_id %}
                                         </select>
@@ -125,8 +125,8 @@
                                             {% endif %}
                                         </select>
                                     </div>
-                                <label class="col-xs-4 col-md-2  col-lg-2  control-label">县区</label>
-                                <div class="col-xs-7 col-md-4  col-lg-4">
+                                    <label class="col-xs-4 col-md-2  col-lg-2  control-label">县区</label>
+                                    <div class="col-xs-7 col-md-4  col-lg-4">
                                     <select  name="country_id" class="form-control chosen-select" id="country" onchange="SelectCountry(this)" >
                                      {%  if  nid %}
                                          {% build_country_ele city_id  %}
@@ -136,8 +136,8 @@
                                         {% endif %}
                                     </select>
                                 </div>
-                                <label class="col-xs-4 col-md-2  col-lg-2 control-label">街道</label>
-                                <div class="col-xs-7 col-md-4  col-lg-4">
+                                    <label class="col-xs-4 col-md-2  col-lg-2 control-label">街道</label>
+                                    <div class="col-xs-7 col-md-4  col-lg-4">
                                     <select  name="town_id" class="form-control chosen-select" id="town_id"  >
                                      {%  if  nid %}
                                          {% build_town_ele country_id  %}

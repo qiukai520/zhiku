@@ -1,5 +1,4 @@
 (function($){
-
 	var barcode = {
 
 		listenerObj: null,
@@ -122,7 +121,7 @@
 		keepFocusInput : function(){
 			this.listenerObj.blur(function(){
 				var that = $(this);
-				setTimeout(function(){ 
+				setTimeout(function(){
 					that.focus().select();
 				},300);
 			});
@@ -144,6 +143,7 @@
 
 	};
 	$.fn.startListen = function(options){
+		console.log("options",options)
 		var settings = $.extend({
 			barcodeLen : 8,
 			letter : false,//条码不包含字母

@@ -77,7 +77,16 @@
                                        </div>
                                </div>
                                <div class="fixed-table-container">
-                                <table id="task_sort"  data-mobile-responsive="true"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                   <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                     <select id="sel_exportoption" class="form-control">
+                                         <option value="basic">导出当前页数据</option>
+                                         <option value="all">导出全部数据</option>
+{#                                         <option value="selected">导出选中数据</option>#}
+                                     </select>
+                                 </span>
+                             </div>
+                                <table id="invent"  data-mobile-responsive="true"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                          <tr >
                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
@@ -99,7 +108,7 @@
                                           <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.nid }}"></td>
                                           <td>{% change_to_goods_category obj.category_id%} </td>
                                           <td> <a  href="{%url "invent_detail" %}?id={{ obj.nid }}" >{{ obj.name }}</a></td>
-                                          {% fetch_goods_photo obj.nid  as good_photo%}
+                                           {% fetch_goods_photo obj.photo  as good_photo%}
                                           <td id="cover">
                                               {% if good_photo %}
                                                    <img src="/{{ good_photo }}" alt="">
@@ -109,14 +118,9 @@
                                          <td>{% if obj.code %}{{ obj.code }}{% else %}空{% endif %}</td>
                                           <td>{% if  obj.unit  %}{{ obj.unit }}{% else %}空{% endif %}</td>
                                            <td>{% if  obj.standard  %}{{ obj.standard }}{% else %}空{% endif %}</td>
-                                          {% fetch_city_nid  obj.country_id  as city_id %}
-                                          {% fetch_province_nid  city_id  as province_id %}
-                                          {% fetch_nation_nid  province_id  as nation_id %}
+
                                           <td>
-                                               {% change_to_nation nation_id %}/
-                                               {% change_to_province province_id  %}/
-                                              {% change_to_city city_id %}/
-                                              {% change_to_country obj.country_id %}
+                                             {{ obj.area }}
                                           </td>
                                          <td>{% fetch_goods_total_amount obj.nid %}</td>
 {#                                          <td>{{ obj.start_month }}月-{{ obj.end_month }}月</td>#}
@@ -169,7 +173,7 @@
     自执行函数
     */
     $(function () {
-        $("#task_sort").bootstrapTable({
+        $("#invent").bootstrapTable({
             toolbar: "#toolbar",
             striped: true,
             sidePagination: "client",
@@ -189,7 +193,22 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+              showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [0,-1], //忽略某一列的索引
+                fileName: '库存报表',//导出文件的名称
+                },
+        });
+    });
+       //table数据导出
+    $("#sel_exportoption").change(function () {
+        //刷新参数设置
+        console.log($(this).val())
+        $('#invent').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
         });
     });
       function  SelectAll(ths) {
@@ -239,55 +258,6 @@
         })
         });
     }
-        //展示联系人详细内容
-function ShowGoodsDetail(cons) {
-
-      $('#goods_detail').modal('show');
-      var id =cons
-      $.ajax({
-          url:"{% url "goods_detail" %}",
-          type:"get",
-          data:{'id':id},
-          dataType:"json",
-          success:function (arg) {
-              if (arg.status){
-                  console.log(arg)
-                  var data=arg.data;
-                  console.log(data.name)
-                  $("#category_id").text(data.category_id);
-                  $("#name").text(data.name);
-                  $("#description").text(data.description);
-                  $("#unit_id").text(data.unit_id);
-                  $("#standard").text(data.standard);
-                  $("#code_bar").text(data.code);
-                  $("#product_cycle").text(data.start_month+"月"+"-"+data.end_month+"月")
-                  $("#region").text(data.region);
-                  if (data.photo != ""){
-                       $("#goods_photo").attr("src","/"+data.photo )
-                       $("#photo_block").removeClass("hidden")
-                  }
-                   if (data.code_photo != ""){
-                       $("#goods_code").attr("src","/"+data.code_photo )
-                       $("#code_block").removeClass("hidden")
-                  }
-                  //初始化附件
-                  console.log(data.nid)
-                  if (data.attach!=""){
-                      var attachs = JSON.parse(data.attach);
-                      for (var i=0;i<attachs.length;i++){
-                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
-                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
-                      var eles=a_ele+l_ele+"<br>"
-                      $("#attach_container").append(eles)
-                          $("#attach_block").removeClass("hidden")
-                      }
-                  }
-                  $("#goods_edit").attr("href","goods_edit?id={0}".format(data.nid))
-              }
-          }
-      });
-    }
-
   //商品入库
     function Entry() {
        //是否有选中商品

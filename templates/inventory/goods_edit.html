@@ -2,6 +2,9 @@
 {% extends "layout.html" %}
 {% load inventory_tags %}
 {% block css %}
+      <!-- bootstarp webuploadedr -->
+    <link rel="stylesheet" href="/static/plugins/webuploader/css/webuploader.css">
+    <link rel="stylesheet" href="/static/plugins/webuploader/css/webuploader-demo.css">
     <style>
      .minus  {
         cursor: pointer;
@@ -17,6 +20,12 @@
         top: 10px;
         left: -85px;
         color: #1ab394
+    }
+    #uploader .placeholder {
+    min-height: 180px;
+    padding-top: 50px;
+    text-align: center;
+    {#background:  center 70px no-repeat;#}
     }
     </style>
 {% endblock %}
@@ -60,17 +69,66 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">商品照片</label>
                                 <div class="col-sm-8">
-                                    <a href="" class="hide"width="100"  height="100" id="pre_link" target="_blank">
-                                    <p><img width="100"  target="_blank"  id="photo" height="100"style=" border: 1px solid #dddddd;"  onclick="javascript:window.open(this.src)"></p>
-                                    </a>
-                                    <input type="file" id="photo_input"  class="form-control"  onchange="UploadImage(this)" >
+                                     <div class="page-container">
+                                         {% if nid %}
+                                             {% load_json query_set.photo as photo %}
+                                             {{ photo.data }}
+                                               <div id="moduleGallery" class="editableGallery"></div>
+                                                <div id="uploader" class="commonWebUploader">
+                                                    <div class="queueList">
+                                                        <div id="dndArea" class="placeholder">
+                                                        <div id="filePicker"></div>
+                                                        <p>或将照片拖到这里，单次最多可九张</p>
+                                                        <p style="font-size: 12px;margin-top: 2px;">提示：请上传3M以下，格式为jpg、png、bmp格式图片，以保证获得最佳效果</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="statusBar" style="display:none;">
+                                                            <div class="progress">
+                                    <span class="text">0%</span> <span class="percentage"></span>
+                                </div>
+                                                            <div class="info"></div>
+                                                             <div class="btns">
+                                                            <div id="filePicker2" class="addFileBtn"></div>
+<!--                                                         <div class="uploadBtn">开始上传</div> -->
+                                                    </div>
+                                                </div>
+                                                </div>
+                                          {% else %}
+                                            <div id="uploader"  >
+                                        <div class="queueList" >
+                                        <div id="dndArea" class="placeholder" >
+                                            <div id="filePicker"></div>
+                                            <p>或将照片拖到这里，单次最多可选9张</p>
+                                             <p style="font-size: 12px;margin-top: 2px;">提示：请上传3M以下，格式为jpg、png、bmp格式图片，以保证获得最佳效果</p>
+                                        </div>
+                                    </div>
+                                            <div class="statusBar" style="display:none;">
+                                        <div class="progress">
+                                            <span class="text">0%</span>
+                                            <span class="percentage"></span>
+                                        </div>
+                                        <div class="info"></div>
+                                        <div class="btns">
+                                            <div id="filePicker2"></div>
+                                            <div class="uploadBtn">开始上传</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                        {% endif %}
+                                    </div>
+
+{#                                    <a href="" class="hide"width="100"  height="100" id="pre_link" target="_blank">#}
+{#                                    <p><img width="100"  target="_blank"  id="photo" height="100"style=" border: 1px solid #dddddd;"  onclick="javascript:window.open(this.src)"></p>#}
+{#                                    </a>#}
+{#                                    <input type="file" id="photo_input"  class="form-control"  onchange="UploadImage(this)" >#}
                                 </div>
                             </div>
                          <div class="hr-line-dashed"></div>
                             <div class="form-group">
                             <label class="col-sm-2 control-label">商品描述</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="description" id="description"> <span class="help-block m-b-none"></span>
+                                <textarea  class="form-control" name="description" id="description" cols="30" rows="8"></textarea>
+                                <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                           <div class="hr-line-dashed"></div>
@@ -192,10 +250,16 @@
         </div>
     </div>
 {% endblock %}
-
 {% block js %}
      <script src="/static/js/jquery.cookie.js"></script>
 {#    <script src="/static/js/"></script>#}
+        <!-- bootstarp webuploadedr -->
+    <script type="text/javascript" src="/static/plugins/webuploader/js/webuploader.js"></script>
+      <script type="text/javascript" src="/static/plugins/webuploader/js/webuploader-upload.js"></script>
+      <script type="text/javascript" src="/static/plugins/webuploader/js/webuploader-edit.js"></script>
+      <script type="text/javascript">
+        var BASE_URL = '/static/plugins/webuploader/index.html';
+    </script>
     <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/static/js/custom/form-validate.min.js"></script>
     <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
@@ -285,7 +349,11 @@ function InitData() {
             $("#code_photo").attr("src","/"+"{{ goods_code.photo }}")
             $("#code_pre_link").attr("src","/"+"{{ goods_code.photo }}")
             $("#code_pre_link").removeClass("hide")
+
         }
+        var photo = JSON.parse("{% load_json query_set.photo %}")
+        console.log("photo_list",typeof photo);
+        EditWebloader(data)
     }
 //添加附件
 var att_num=1
@@ -492,18 +560,16 @@ function UploadFile(ths){
 }
 //创建时获取商品照片
     function  FetchGoodsPhoto() {
-        var photo_path = $("#photo_input").next().val();
-        var photo_name= $("#photo_input").next().next().val();
-        if (photo_path){
-             var life_photo = { "photo":photo_path,"name":photo_name}
-        }
-        else{
-            life_photo={}
-        }
-        life_photo = JSON.stringify(life_photo)
-        return life_photo
+         var path_list=new Array()
+        $(".filelist input").each(function () {
+            var path=$(this).val()
+            path_list.push(path)
+        })
+        path_list = JSON.stringify(path_list)
+        console.log("path_list",path_list)
+        return path_list
     }
-        //创建时获取商品照片
+        //创建时获取商品条码
     function  FetchGoodsCode() {
         var photo_path = $("#code_photo_input").next().val();
         var photo_name= $("#code_photo_input").next().next().val();
@@ -526,7 +592,7 @@ function UploadFile(ths){
          if ( form.valid()){
               //把生活照添加到form中
              var goods_photo= FetchGoodsPhoto();
-             var goods_photo_ele=$("<input type='text' class='hide' name='goods_photo'  value={0} />".format(goods_photo));
+             var goods_photo_ele=$("<input type='text' class='hide' name='photo'  value={0} />".format(goods_photo));
              form.append(goods_photo_ele)
               var goods_code=FetchGoodsCode();
              var goods_code_ele=$("<input type='text' class='hide' name='goods_code'  value={0} />".format(goods_code));
@@ -567,6 +633,23 @@ function UploadFile(ths){
          }
     }
 
+    //编辑按钮时展示的数据
+    function EditWebloader(photo_list) {
+         // 现有图片
+        console.log("photo_list",photo_list)
+            $('#moduleGallery').editableGallery({
+
+                 //此处可根据自己的需要进行修改参数，我这里第一个参数：一条数据的ID，第二个参数：这条数据的类型（不需要，可不要），第三个参数：这条数据对应的多张图片的路径集合
+                urls:HandlerJson(photo_list),    //2表示模块:文件类型
+                canDelete: true        //这个参数定义，鼠标移动到图片上时，显示删除按钮 （查看时，不需要编辑图片，可不要这个属性）
+                });
+    }
+function HandlerJson(arg) {
+        console.log("arg",arg);
+    result= JSON.parse(arg)
+    console.log("result",result)
+    return result
+}
  </script>
 {% endblock %}
 

@@ -45,7 +45,16 @@
                                     <button  onclick="AddMemo()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp添加备忘</button>
                                     <button  onclick="MultiDelete()" class="btn btn-danger "  ><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
-                                <table id="task_sort"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                            <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                     <select id="sel_exportoption" class="form-control">
+                                         <option value="basic">导出当前页数据</option>
+                                         <option value="all">导出全部数据</option>
+{#                                         <option value="selected">导出选中数据</option>#}
+                                     </select>
+                                 </span>
+                             </div>
+                                <table id="suppliers"  class="table export-table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                          <tr >
                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
@@ -97,7 +106,6 @@
         </div>
         <!-- End Panel Other -->
     </div>
-
     <!-- Modal -->
     <!-- delete-->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -122,12 +130,11 @@
 {% endblock %}
 {% block js%}
     <script>
-
            /*
     自执行函数
     */
     $(function () {
-        $("#task_sort").bootstrapTable({
+        $("#suppliers").bootstrapTable({
             toolbar: "#toolbar",
             striped: true,
             sidePagination: "client",
@@ -135,7 +142,7 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 15,
+            pageSize: 1,
             pageList: [10, 25],
             search: true,
             strictSearch: false,
@@ -145,9 +152,24 @@
             clickToSelect: true,
             uniqueId: "ID",
             showToggle:true,
-            cardView: false,
+            cardView:false, //是否显示详细视图
             detailView: false,
-            cache: false
+            cache: false,
+            showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+            ignoreColumn: [0,-1], //忽略某一列的索引
+            fileName: '供应商报表',//导出文件的名称
+        },
+        });
+    });
+    //table数据导出
+    $("#sel_exportoption").change(function () {
+        //刷新参数设置
+        console.log($(this).val())
+        $('#suppliers').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
         });
     });
       function  SelectAll(ths) {
@@ -156,6 +178,7 @@
         //如果选中则全选中,否则取消选中
         $(ths).parent().parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
     }
+
 //批量删除
         function MultiDelete() {
         var ids="";

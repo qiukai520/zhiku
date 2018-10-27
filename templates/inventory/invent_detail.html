@@ -44,6 +44,8 @@
                             <div class="col-sm-12">
                                 <div class="m-b-md">
                                     <h3 style="margin-left:15px"> {{ query_set.name }}</h3>
+                                    <a href="{%url "goods_detail" %}?id={{ query_set.nid }}" class="btn btn-white btn-xs pull-right">商品详细</a>
+
                                 </div>
                                     <dl class="dl-horizontal">
                                     <dt>商品分类：</dt>
@@ -70,13 +72,7 @@
                                     <dd>{{ query_set.start_month }}月-{{ query_set.end_month }}月</dd>
                                     <dt>产区：</dt>
                                     <dd>
-                                         {% fetch_city_nid  query_set.country_id  as city_id %}
-                                          {% fetch_province_nid  city_id  as province_id %}
-                                          {% fetch_nation_nid  province_id  as nation_id %}
-                                          {% change_to_nation nation_id %}/
-                                          {% change_to_province province_id  %}/
-                                          {% change_to_city city_id %}/
-                                          {% change_to_country query_set.country_id %}
+                                         {{ query_set.area }}
                                     </dd>
                                      <dt>创建时间：</dt>
                                     <dd>{{ query_set.create_time|date:"Y-m-d" }}</dd>
@@ -112,12 +108,22 @@
                                     <div class="panel-body">
                                         <div class="tab-content">
                                         <div class="tab-pane active " id="tab-1">
-                                                <div class="btn-group " id="toolbar1" role="group">
+                                            <div class="btn-group " id="toolbar1" role="group">
                                                     <a href="{% url "invent_edit" %}?gid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
                                                     <button onclick="BindPurchase()" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;绑定采购单</button>
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
-                                                <table id="invent"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                         <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption1" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
+                                            <table id="invent"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
                                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
@@ -176,12 +182,23 @@
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>
-                                            </div>
+                                          </div>
+                                         </div>
                                          <div class="tab-pane " id="tab-2">
                                                 <div class="btn-group" id="toolbar2" role="group">
                                                     <a href="{% url "purchase_edit" %}?gid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
+                                          <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
                                                 <table id="purchase"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
@@ -235,12 +252,23 @@
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>
-                                            </div>
+                                             </div>
+                                          </div>
                                             <div class="tab-pane " id="tab-3">
                                                 <div class="btn-group " id="toolbar3" role="group">
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
-                                                <table id="goods_price"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                             <div class="fixed-table-container">
+                                                   <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                     <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                         <select id="sel_exportoption3" class="form-control">
+                                                             <option value="basic">导出当前页数据</option>
+                                                             <option value="all">导出全部数据</option>
+                    {#                                         <option value="selected">导出选中数据</option>#}
+                                                         </select>
+                                                     </span>
+                                                 </div>
+                                                <table id="goods_warehouse"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
                                                             <th>仓库</th>
@@ -263,6 +291,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+                                             </div>
 
                                         </div>
                                     </div>
@@ -275,9 +304,10 @@
         </div>
         <div class="col-sm-3">
             <div class="wrapper wrapper-content project-manager">
-               {% if life_photo %}
+                {% if query_set.photo %}
+                   {% fetch_goods_photo query_set.photo  as photo%}
                      <h4>商品照片</h4>
-                        <p><img width="100" src="/{{life_photo.photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
+                        <p><img width="100" src="/{{photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
              {% endif %}
              {% if goods_code %}
                      <h4>条码照片</h4>
@@ -606,7 +636,14 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+            showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [0,-1], //忽略某一列的索引
+                fileName: '入库记录报表'//导出文件的名称
+            }
         });
         $("#purchase").bootstrapTable({
             toolbar: "#toolbar2",
@@ -629,7 +666,44 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+              showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1],
+                fileName: '采购记录报表',//导出文件的名称
+            }
+        });
+         $("#goods_warehouse").bootstrapTable({
+            toolbar: "#toolbar3",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 6,
+            pageList: [10,15,20],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+            showExport: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false,
+              showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                  ignoreColumn: [-1],
+                fileName: '商品-仓库报表',//导出文件的名称
+            }
         });
          $("#purchase_table").bootstrapTable({
             {#toolbar: "#toolbar2",#}
@@ -652,9 +726,33 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+
         });
     });
+
+      //table数据导出
+    $("#sel_exportoption1").change(function () {
+        //刷新参数设置
+        $('#invent').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
+        });
+    });
+      //table数据导出
+    $("#sel_exportoption2").change(function () {
+        //刷新参数设置
+        $('#purchase').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
+        });
+    });
+      //table数据导出
+    $("#sel_exportoption3").change(function () {
+        //刷新参数设置
+        $('#goods_warehouse').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
+        });
+    });
+
 
     //显示入库记录详细内容
     function ShowRecordDetail(cons) {

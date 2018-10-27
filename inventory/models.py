@@ -53,8 +53,9 @@ class Goods(models.Model):
     unit = models.ForeignKey("GoodsUnit", to_field="nid", on_delete=models.CASCADE, verbose_name='商品单位',
                                  db_constraint=False)
     code = models.CharField(max_length=64, verbose_name="商品条码")
-    standard = models.CharField(max_length=32,verbose_name='商品规格', blank=True, null=True)
+    standard = models.CharField(max_length=32, verbose_name='商品规格', blank=True, null=True)
     start_month = models.SmallIntegerField(blank=True, null=True, verbose_name='起始产期(月份)',)
+    photo = models.CharField(max_length=1024, blank=True, null=True,verbose_name="图片路径")
     end_month = models.SmallIntegerField(blank=True, null=True, verbose_name='结束期(月份)')
     area = models.CharField(max_length=64, verbose_name='产地', blank=True, null=True)
     delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
@@ -68,8 +69,8 @@ class Goods(models.Model):
 
     def __str__(self):
         return self.name
-    _insert=["category_id","name","description","unit_id","code","standard","start_month","end_month","area"]
-    _update=["category_id","name","description","unit_id","code","standard","start_month","end_month","area"]
+    _insert=["category_id","name","description","unit_id","code","standard","start_month","end_month","photo","area"]
+    _update=["category_id","name","description","unit_id","code","standard","start_month","end_month","photo","area"]
 
 
 class SupplierContact(models.Model):

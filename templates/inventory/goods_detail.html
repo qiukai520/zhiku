@@ -67,14 +67,8 @@
                                     <dt>产期：</dt>
                                     <dd>{{ query_set.start_month }}月-{{ query_set.end_month }}月</dd>
                                     <dt>产区：</dt>
-                                    <dd>
-                                         {% fetch_city_nid  query_set.country_id  as city_id %}
-                                          {% fetch_province_nid  city_id  as province_id %}
-                                          {% fetch_nation_nid  province_id  as nation_id %}
-                                          {% change_to_nation nation_id %}/
-                                          {% change_to_province province_id  %}/
-                                          {% change_to_city city_id %}/
-                                          {% change_to_country query_set.country_id %}
+                                     <dd>
+                                         {{ query_set.area }}
                                     </dd>
                                      <dt>录入时间：</dt>
                                     <dd>{{ query_set.create_time|date:"Y-m-d" }}</dd>
@@ -213,9 +207,10 @@
         </div>
         <div class="col-sm-3">
             <div class="wrapper wrapper-content project-manager">
-               {% if life_photo %}
+               {% if query_set.photo %}
+                   {% fetch_goods_photo query_set.photo  as photo%}
                      <h4>商品照片</h4>
-                        <p><img width="100" src="/{{life_photo.photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
+                        <p><img width="100" src="/{{photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
              {% endif %}
              {% if goods_code %}
                      <h4>条码照片</h4>

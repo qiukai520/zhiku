@@ -245,11 +245,13 @@ def goods_edit(request):
         if form.is_valid():
             data = request.POST
             data = data.dict()
-            goods_photo = data.get("goods_photo", None)
-            goods_code = data.get("goods_code", None)
-            goods_attach = data.get("attach", None)
+            goods_photo = data.get("goods_photo", '')
+            goods_code = data.get("goods_code", '')
+            goods_attach = data.get("attach", '')
             nid = data.get("nid", None)
-            goods_photo = json.loads(goods_photo)
+            print("nid",nid)
+            print("goods_photo",goods_photo)
+            # goods_photo = json.loads(goods_photo)
             goods_code = json.loads(goods_code)
             goods_attach = list(json.loads(goods_attach))
             if nid:
@@ -277,10 +279,12 @@ def goods_edit(request):
                             # 删除旧数据
                             if photo_record:
                                 goods_photo_db.delete_photo_by_goods_id(nid)
+                        code_record = goods_code_db.query_goods_bar(nid)
+                        print("code",code_record)
                         if goods_code:
                             # 数据对比
-                            if photo_record:
-                                final_photo = compare_fields(GoodsBarCode._update, photo_record, goods_code)
+                            if code_record:
+                                final_photo = compare_fields(GoodsBarCode._update, code_record, goods_code)
                                 final_photo["goods_id"] = nid
                                 if final_photo:
                                     goods_code_db.update_bar(final_photo)
@@ -307,6 +311,8 @@ def goods_edit(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
+                    import traceback
+                    traceback.print_exc()
                     print(e)
                     ret["message"] = "更新失败"
             else:
@@ -1966,6 +1972,40 @@ def goods_photo(request):
             ret["data"]['name'] = raw_name
     except Exception as e:
         ret["summary"] = str(e)
+    return HttpResponse(json.dumps(ret))
+
+
+
+def webuploader_photo(request):
+    ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
+    print("ret",ret)
+    target_path = "media/upload/inventory/goods/"
+    try:
+        # 获取文件对象
+        post_obj = request.POST
+        print("post_obj",post_obj)
+        file_obj = request.FILES.get("file")
+        raw_name = file_obj.name
+        raw_id = post_obj.get("id")
+        postfix = raw_name.split(".")[-1]
+        if file_obj:
+            file_name = str(uuid.uuid4()) + "." + postfix
+            if not os.path.exists(os.path.dirname(target_path)):
+                os.makedirs(target_path)
+            file_path = os.path.join(target_path, file_name)
+            # os.path.join()在Linux/macOS下会以斜杠（/）分隔路径，而在Windows下则会以反斜杠（\）分隔路径,
+            # 故统一路径将'\'替换成'/'
+            file_path = file_path.replace('\\', "/")
+            with open(file_path, "wb") as f:
+                for chunk in file_obj.chunks():
+                    f.write(chunk)
+            ret["status"] = True
+            ret["data"]['path'] = file_path
+            ret["data"]['name'] = raw_name
+            ret["data"]["id"] = raw_id
+    except Exception as e:
+        ret["summary"] = str(e)
+    print("ret",ret)
     return HttpResponse(json.dumps(ret))
 
 
