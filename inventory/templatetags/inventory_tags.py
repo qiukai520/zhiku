@@ -520,15 +520,14 @@ def fetch_country_nid(town_id):
 def fetch_goods_photo(photo_str):
     """获取商品第一张图片"""
     import json
-    print("fet_photo",photo_str)
     if photo_str:
-        photo_list= json.loads(photo_str)
+        photo_list = json.loads(photo_str)
         if len(photo_list):
             path = photo_list[0]
         else:
-            None
+            path= ""
     else:
-        path = None
+        path = ""
     return path
 
 
@@ -648,10 +647,13 @@ def fetch_warehouse(house_id):
             return obj
 
 
+
 @register.simple_tag
 def load_json(json_obj):
     """解析json对象"""
     import json
-    data = json.loads(json_obj)
-    data_json = json.dumps({"data":data})
-    return data_json
+    if json_obj:
+        data = json.loads(json_obj)
+    else:
+        data = []
+    return data

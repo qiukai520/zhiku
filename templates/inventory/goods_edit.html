@@ -4,7 +4,8 @@
 {% block css %}
       <!-- bootstarp webuploadedr -->
     <link rel="stylesheet" href="/static/plugins/webuploader/css/webuploader.css">
-    <link rel="stylesheet" href="/static/plugins/webuploader/css/webuploader-demo.css">
+      <link rel="stylesheet" href="/static/plugins/webuploader/css/webuploader-support.css">
+{#    <link rel="stylesheet" href="/static/plugins/webuploader/css/webuploader-uploader.css">#}
     <style>
      .minus  {
         cursor: pointer;
@@ -23,6 +24,7 @@
     }
     #uploader .placeholder {
     min-height: 180px;
+    min-width: 250px;
     padding-top: 50px;
     text-align: center;
     {#background:  center 70px no-repeat;#}
@@ -70,52 +72,19 @@
                                 <label class="col-sm-2 control-label">商品照片</label>
                                 <div class="col-sm-8">
                                      <div class="page-container">
-                                         {% if nid %}
-                                             {% load_json query_set.photo as photo %}
-                                             {{ photo.data }}
-                                               <div id="moduleGallery" class="editableGallery"></div>
-                                                <div id="uploader" class="commonWebUploader">
-                                                    <div class="queueList">
-                                                        <div id="dndArea" class="placeholder">
-                                                        <div id="filePicker"></div>
-                                                        <p>或将照片拖到这里，单次最多可九张</p>
-                                                        <p style="font-size: 12px;margin-top: 2px;">提示：请上传3M以下，格式为jpg、png、bmp格式图片，以保证获得最佳效果</p>
+                                            <div id="uploader" class="uploader" >
+                                                    <div class="wrapper" class="placeholder">
+                                                        <div class="file-list"></div>
+                                                        <p>或将照片拖到这里，单次最多可选9张</p>
                                                         </div>
+                                                    <div class="actions-area">
+                                                         <div class="actions">
+                                                <div class="filePicker action">选择图片</div>
+                                                <div class="uploadFile action upload-btn disabled">上传图片</div>
+                                            </div>
                                                     </div>
-                                                    <div class="statusBar" style="display:none;">
-                                                            <div class="progress">
-                                    <span class="text">0%</span> <span class="percentage"></span>
-                                </div>
-                                                            <div class="info"></div>
-                                                             <div class="btns">
-                                                            <div id="filePicker2" class="addFileBtn"></div>
-<!--                                                         <div class="uploadBtn">开始上传</div> -->
-                                                    </div>
-                                                </div>
-                                                </div>
-                                          {% else %}
-                                            <div id="uploader"  >
-                                        <div class="queueList" >
-                                        <div id="dndArea" class="placeholder" >
-                                            <div id="filePicker"></div>
-                                            <p>或将照片拖到这里，单次最多可选9张</p>
-                                             <p style="font-size: 12px;margin-top: 2px;">提示：请上传3M以下，格式为jpg、png、bmp格式图片，以保证获得最佳效果</p>
-                                        </div>
-                                    </div>
-                                            <div class="statusBar" style="display:none;">
-                                        <div class="progress">
-                                            <span class="text">0%</span>
-                                            <span class="percentage"></span>
-                                        </div>
-                                        <div class="info"></div>
-                                        <div class="btns">
-                                            <div id="filePicker2"></div>
-                                            <div class="uploadBtn">开始上传</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                        {% endif %}
-                                    </div>
+                                            </div>
+                                     </div>
 
 {#                                    <a href="" class="hide"width="100"  height="100" id="pre_link" target="_blank">#}
 {#                                    <p><img width="100"  target="_blank"  id="photo" height="100"style=" border: 1px solid #dddddd;"  onclick="javascript:window.open(this.src)"></p>#}
@@ -255,8 +224,9 @@
 {#    <script src="/static/js/"></script>#}
         <!-- bootstarp webuploadedr -->
     <script type="text/javascript" src="/static/plugins/webuploader/js/webuploader.js"></script>
-      <script type="text/javascript" src="/static/plugins/webuploader/js/webuploader-upload.js"></script>
-      <script type="text/javascript" src="/static/plugins/webuploader/js/webuploader-edit.js"></script>
+    <script type="text/javascript" src="/static/plugins/webuploader/js/webuploader-support.js"></script>
+{#      <script type="text/javascript" src="/static/plugins/webuploader/js/webuploader-upload.js"></script>#}
+{#      <script type="text/javascript" src="/static/plugins/webuploader/js/webuploader-edit.js"></script>#}
       <script type="text/javascript">
         var BASE_URL = '/static/plugins/webuploader/index.html';
     </script>
@@ -276,7 +246,6 @@
                 }
             }
         });
-
 //字符串格式化
 String.prototype.format=function()
 {
@@ -285,6 +254,8 @@ String.prototype.format=function()
     s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
   return s;
 };
+
+
  /*
     自执行函数
     */
@@ -295,8 +266,8 @@ String.prototype.format=function()
            InitData()//初始化数据
         }
         else {
-
         }
+
     });
      //初始化数据
 function InitData() {
@@ -311,26 +282,6 @@ function InitData() {
         $("#code").val("{% if  query_set.code %}{{ query_set.code }} {% endif %}");
          $("#area").val("{% if  query_set.area %}{{ query_set.area }} {% endif %}");
         $("#unit_id").val({% if query_set.unit_id  %}{{ query_set.unit_id }}{% endif %});
-        //初始化商品照
-         var photo= "{{ life_photo }}"
-         console.log("life_photo",photo)
-        if (photo!=""){
-             var path="{{ life_photo.photo }}"
-            console.log(path)
-             var name="{{ life_photo.name }}"
-             //添加新的file
-            var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
-            var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
-            $("#photo_input").parent().append(path_input);
-            $("#photo_input").parent().append(name_input);
-
-            $("#photo_input").parent().find("input[name=file_path]").val(path)
-             $("#photo_input").parent().find("input[name=file_name]").val(name)
-            //预览
-            $("#photo").attr("src","/"+"{{ life_photo.photo }}")
-            $("#pre_link").attr("src","/"+"{{ life_photo.photo }}")
-            $("#pre_link").removeClass("hide")
-        }
          //初始化商品条码
          var code_photo= "{{ goods_code }}"
         if (code_photo!=""){
@@ -349,11 +300,7 @@ function InitData() {
             $("#code_photo").attr("src","/"+"{{ goods_code.photo }}")
             $("#code_pre_link").attr("src","/"+"{{ goods_code.photo }}")
             $("#code_pre_link").removeClass("hide")
-
         }
-        var photo = JSON.parse("{% load_json query_set.photo %}")
-        console.log("photo_list",typeof photo);
-        EditWebloader(data)
     }
 //添加附件
 var att_num=1
@@ -531,7 +478,6 @@ function UploadFile(ths){
          $(ths)[0].value="";
          return false;   //阻止上传
          }
-    console.log("upload")
     var form = new FormData();
     form.append("file", file_obj);
     $.ajax({
@@ -561,7 +507,7 @@ function UploadFile(ths){
 //创建时获取商品照片
     function  FetchGoodsPhoto() {
          var path_list=new Array()
-        $(".filelist input").each(function () {
+        $(".file-list input").each(function () {
             var path=$(this).val()
             path_list.push(path)
         })
@@ -590,7 +536,7 @@ function UploadFile(ths){
          console.log(form)
         //验证表单
          if ( form.valid()){
-              //把生活照添加到form中
+              //把商品那个照添加到form中
              var goods_photo= FetchGoodsPhoto();
              var goods_photo_ele=$("<input type='text' class='hide' name='photo'  value={0} />".format(goods_photo));
              form.append(goods_photo_ele)
@@ -632,24 +578,51 @@ function UploadFile(ths){
          })
          }
     }
+    //webuploader 相关配置
+  var uploader = new WebUploaderSupport({
+        server: "webuploader_photo.html",
+        paste: document.body,
+        swf: BASE_URL + "/Uploader.swf",  // swf文件所处路径
+        support:  {
+            uploader: "#uploader",  //上传区域容器选择器
+            fileSize: 9,  //文件总个数, -1时无限制
+            serverFiles: HandlerFile(),
+                {#[{"src":"/media/upload/inventory/goods/code/f10887b3-1407-42ab-8cc0-85999a5a4377.PNG","name":"2.PNG","attrs":{"data-server-file":true,"data-delete-url":""}}]#}
+        },
+        duplicate: true,
+		fileNumLimit: 9,
+		fileSizeLimit: 5242880,
+		fileSingleSizeLimit: 1048576,
+        headers: {
+            "X-CSRFToken": $.cookie('csrftoken')
+        },
+    });
 
-    //编辑按钮时展示的数据
-    function EditWebloader(photo_list) {
-         // 现有图片
-        console.log("photo_list",photo_list)
-            $('#moduleGallery').editableGallery({
-
-                 //此处可根据自己的需要进行修改参数，我这里第一个参数：一条数据的ID，第二个参数：这条数据的类型（不需要，可不要），第三个参数：这条数据对应的多张图片的路径集合
-                urls:HandlerJson(photo_list),    //2表示模块:文件类型
-                canDelete: true        //这个参数定义，鼠标移动到图片上时，显示删除按钮 （查看时，不需要编辑图片，可不要这个属性）
-                });
+    function HandlerFile() {
+        var nid="{{ nid }}"
+        var photo_list=[]
+        if ( nid!=""){
+            // 构造商品途径数组
+            {%  load_json query_set.photo as photo_path %}
+            {% for item in  photo_path%}
+               photo_list.push("{{ item }}")
+            {% endfor %}
+        }
+        else {
+        }
+         var file_list=[]
+         for ( var i = 0; i < photo_list.length; i++){
+             var postfix = photo_list[i].split(".").pop()
+             console.log("postfix",postfix)
+             var item= {"src":"{0}".format(photo_list[i]),"name":"{0}.{1}".format(i+1,postfix),"attrs":{"data-server-file":true,"id":"EXIST_FILE_{0}".format(i),"data-delete-url":"webuploader_photo_delete.html "}
+        }
+        file_list.push(item)
     }
-function HandlerJson(arg) {
-        console.log("arg",arg);
-    result= JSON.parse(arg)
-    console.log("result",result)
-    return result
-}
+    return file_list
+    }
+
+    //
+
  </script>
 {% endblock %}
 

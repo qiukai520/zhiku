@@ -245,13 +245,9 @@ def goods_edit(request):
         if form.is_valid():
             data = request.POST
             data = data.dict()
-            goods_photo = data.get("goods_photo", '')
             goods_code = data.get("goods_code", '')
             goods_attach = data.get("attach", '')
             nid = data.get("nid", None)
-            print("nid",nid)
-            print("goods_photo",goods_photo)
-            # goods_photo = json.loads(goods_photo)
             goods_code = json.loads(goods_code)
             goods_attach = list(json.loads(goods_attach))
             if nid:
@@ -264,23 +260,8 @@ def goods_edit(request):
                         if goods_info:
                             goods_info["nid"] = nid
                             goods_db.update_goods(goods_info)
-                        # 插入商品照片
-                        photo_record = goods_photo_db.query_goods_photo(nid)
-                        if goods_photo:
-                            # 数据对比
-                            if photo_record:
-                                final_photo = compare_fields(GoodsPhoto._update, photo_record, goods_photo)
-                                final_photo["goods_id"] = nid
-                                if final_photo:
-                                    goods_photo_db.update_photo(final_photo)
-                            else:
-                                goods_photo_db.insert_photo(goods_photo)
-                        else:
-                            # 删除旧数据
-                            if photo_record:
-                                goods_photo_db.delete_photo_by_goods_id(nid)
+                        # 插入商品条码
                         code_record = goods_code_db.query_goods_bar(nid)
-                        print("code",code_record)
                         if goods_code:
                             # 数据对比
                             if code_record:
@@ -289,10 +270,11 @@ def goods_edit(request):
                                 if final_photo:
                                     goods_code_db.update_bar(final_photo)
                             else:
+                                goods_code["goods_id"] = nid
                                 goods_code_db.insert_bar(goods_code)
                         else:
                             # 删除旧数据
-                            if photo_record:
+                            if code_record:
                                 goods_code_db.delete_photo_by_goods_id(nid)
                         # 更新附件
                         if goods_attach:
@@ -1975,15 +1957,12 @@ def goods_photo(request):
     return HttpResponse(json.dumps(ret))
 
 
-
 def webuploader_photo(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
-    print("ret",ret)
     target_path = "media/upload/inventory/goods/"
     try:
         # 获取文件对象
         post_obj = request.POST
-        print("post_obj",post_obj)
         file_obj = request.FILES.get("file")
         raw_name = file_obj.name
         raw_id = post_obj.get("id")
@@ -2005,7 +1984,11 @@ def webuploader_photo(request):
             ret["data"]["id"] = raw_id
     except Exception as e:
         ret["summary"] = str(e)
-    print("ret",ret)
+    return HttpResponse(json.dumps(ret))
+
+
+def webuploader_photo_detele(request):
+    ret = {"status": True, "data": {"path": "", "name": ""}, "summary": ""}
     return HttpResponse(json.dumps(ret))
 
 

@@ -96,7 +96,7 @@
                                           {% fetch_goods_photo obj.photo  as good_photo%}
                                           <td id="cover">
                                               {% if good_photo %}
-                                                   <img src="/{{ good_photo }}" alt="">
+                                                   <img src="{{ good_photo }}" alt="">
                                               {% else %}
                                               {% endif %}
                                           </td>
