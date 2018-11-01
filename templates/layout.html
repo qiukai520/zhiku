@@ -124,15 +124,15 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">人事档案管理</span><span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">SFA管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
                                  <li>
-                                     <a  href="{% url "staff_list" %}">人事档案</a>
+                                     <a  href="{% url "customer_list" %}">客户管理</a>
                                 </li>
 
                             </ul>
                         </li>
-                       <li>
+                        <li>
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">进销存管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
                                  <li>
@@ -160,6 +160,15 @@
 {#                                 <li>#}
 {#                                     <a  href="{% url "town_list" %}">街道</a>#}
 {#                                </li>#}
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">人事档案管理</span><span class="fa arrow"></span></a>
+                            <ul id="left_menu" class="nav nav-second-level">
+                                 <li>
+                                     <a  href="{% url "staff_list" %}">人事档案</a>
+                                </li>
 
                             </ul>
                         </li>
@@ -487,6 +496,8 @@
     <script src="/static/js/hplus.js?v=4.1.0"></script>
     <script type="text/javascript" src="/static/js/contabs.js"></script>
     <script type="text/javascript" src="/static/js/common.js"></script>
+      <script src="/static/js/custom/select-pcas.js"></script>
+
 
     <!-- 第三方插件 -->
     <script type="text/javascript" src="/static/js/plugins/pace/pace.min.js"></script>

@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% load public_tags %}
 {% load inventory_tags %}
+{% load sfa_tags %}
 {% block css %}
     <style>
      #toolbar >.btn{
@@ -14,7 +15,7 @@
         <!-- Panel Other -->
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>供应商列表</h5>
+                <h5>客户列表</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -40,9 +41,8 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group" id="toolbar" role="group">
-                                     <a href="{% url "supplier_edit" %}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加供应商</a>
+                                     <a href="{% url "customer_edit" %}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加客户</a>
                                     <button  onclick="AddLinkman()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加联系人</button>
-                                    <button  onclick="AddContact()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加收支</button>
                                     <button  onclick="AddMemo()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp添加备忘</button>
                                     <button  onclick="MultiDelete()" class="btn btn-danger "  ><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
@@ -55,14 +55,15 @@
                                      </select>
                                  </span>
                              </div>
-                                <table id="suppliers"  class="table export-table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                <table id="customers"  class="table export-table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                          <tr >
                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
-                                             <th>供应商分类</th>
+                                             <th>客户分类</th>
+                                             <th>意向分类</th>
                                              <th>公司名称</th>
                                              <th>行业</th>
-                                             <th>主营商品</th>
+                                             <th>主营业务</th>
                                              <th>简介</th>
                                              <th>公司网站</th>
                                               <th>电话</th>
@@ -74,10 +75,11 @@
                                      {% for obj in query_sets %}
                                       <tr>
                                           <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>
-                                          <td>{% change_to_supplier_category obj.category_id%} </td>
+                                          <td> {%change_to_customer_category obj.category_id  %}</td>
+                                          <td>{% change_to_customer_purpose obj.purpose%} </td>
                                           <td><a href=" {% url 'supplier_detail' %}?id={{ obj.nid }}">{{ obj.company }}</a></td>
                                           <td>{% change_to_industry obj.industry_id%}</td>
-                                           <td>{{ obj.products }}</td>
+                                           <td>{{ obj.business }}</td>
                                           <td>{% if obj.introduce  %}{{ obj.introduce }}{% else  %}空{% endif %}</td>
                                           <td>{% if obj.website  %} <a href=" https://{{ obj.website }}">{{ obj.website }}</a>{% else  %}空{% endif %}</td>
                                           <td>{% if obj.phone  %}{{ obj.phone }}{% else  %}空{% endif %}</td>
@@ -135,7 +137,7 @@
     自执行函数
     */
     $(function () {
-        $("#suppliers").bootstrapTable({
+        $("#customers").bootstrapTable({
             toolbar: "#toolbar",
             striped: true,
             sidePagination: "client",
@@ -161,7 +163,7 @@
             exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
             exportOptions: {
             ignoreColumn: [0,-1], //忽略某一列的索引
-            fileName: '供应商报表',//导出文件的名称
+            fileName: '客户报表',//导出文件的名称
         },
         });
     });
@@ -169,7 +171,7 @@
     $("#sel_exportoption").change(function () {
         //刷新参数设置
         console.log($(this).val())
-        $('#suppliers').bootstrapTable('refreshOptions', {
+        $('#customers').bootstrapTable('refreshOptions', {
             exportDataType: $(this).val()
         });
     });
@@ -223,19 +225,19 @@
     }
     //添加联系人
     function AddLinkman() {
-       //是否有选中供应商
+       //是否有选中客户
      var is_checked=$("tbody input:checkbox:checked").length
         if (is_checked==1){
             var sid=$("tbody input:checkbox:checked").eq(0).next().val()
             window.location.href="{% url 'supplier_linkman' %}?sid={0}".format(sid)
         } else if(is_checked > 1){
-           layer.alert('只能选择一个供应商', {icon: 6 ,
+           layer.alert('只能选择一个客户', {icon: 6 ,
               time: 1500, //1.5s后自动关闭
                 btn: [ '知道了']}
                 );
         }
         else{
-           layer.alert('请选择供应商', {icon: 6 ,
+           layer.alert('请选择客户', {icon: 6 ,
               time: 1500, //1.5s后自动关闭
                 btn: [ '知道了']}
                 );
@@ -243,19 +245,19 @@
     }
         //添加联系人
     function AddContact() {
-       //是否有选中供应商
+       //是否有选中客户
      var is_checked=$("tbody input:checkbox:checked").length
         if (is_checked==1){
             var sid=$("tbody input:checkbox:checked").eq(0).next().val()
             window.location.href="{% url 'supplier_contact' %}?sid={0}".format(sid)
         } else if(is_checked > 1){
-           layer.alert('只能选择一个供应商', {icon: 6 ,
+           layer.alert('只能选择一个客户', {icon: 6 ,
               time: 1500, //1.5s后自动关闭
                 btn: [ '知道了']}
                 );
         }
         else{
-           layer.alert('请选择供应商', {icon: 6 ,
+           layer.alert('请选择客户', {icon: 6 ,
               time: 1500, //1.5s后自动关闭
                 btn: [ '知道了']}
                 );
@@ -263,19 +265,19 @@
     }
             //添加备忘
     function AddMemo() {
-       //是否有选中供应商
+       //是否有选中客户
      var is_checked=$("tbody input:checkbox:checked").length
         if (is_checked==1){
             var sid=$("tbody input:checkbox:checked").eq(0).next().val()
             window.location.href="{% url 'supplier_memo' %}?sid={0}".format(sid)
         } else if(is_checked > 1){
-           layer.alert('只能选择一个供应商', {icon: 6 ,
+           layer.alert('只能选择一个客户', {icon: 6 ,
               time: 1500, //1.5s后自动关闭
                 btn: [ '知道了']}
                 );
         }
         else{
-           layer.alert('请选择供应商', {icon: 6 ,
+           layer.alert('请选择客户', {icon: 6 ,
               time: 1500, //1.5s后自动关闭
                 btn: [ '知道了']}
                 );

@@ -30,6 +30,8 @@ urlpatterns = [
     path("task/", include('task.urls')),
     path("personnel/", include('personnel.urls')),
     path("inventory/", include('inventory.urls')),
+    path("sfa/", include('sfa.urls')),
+    path("public/", include('public.urls')),
     path('attachment_upload.html', task_view.attachment_upload, name='attachment_upload'),
     path("attachment_download.html", task_view.attachment_download, name="attachment_download"),
 

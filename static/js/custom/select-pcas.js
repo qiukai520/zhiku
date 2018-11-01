@@ -12,6 +12,7 @@
         async: true,//是否异步
         success: function (arg) {
 	    var objs = JSON.parse(arg.data);
+	     $("#town_id").append("<option value=0 >请选择街道</option>")
 	    $(objs).each(function () {
 		var o = document.createElement("option");
 		o.value = this['pk'];

@@ -19,16 +19,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-
-    path("city", views.city_list, name="city_list"),
-    path("city_edit", views.city_edit, name='city_edit'),
-    path("city_country",views.city_country, name="city_country"),
     path("contact_detail", views.contact_detail, name="contact_detail"),
-    path("town", views.town_list, name="town_list"),
-    path("town_edit", views.town_edit, name='town_edit'),
-    path("country", views.country_list, name="country_list"),
-    path("country_edit", views.country_edit, name='country_edit'),
-    path("country_town", views.country_town, name='country_town'),
     path("goods", views.goods_list, name="goods_list"),
     path("goods_edit", views.goods_edit, name='goods_edit'),
     path("goods_category", views.goods_category_list, name="goods_category_list"),
@@ -43,12 +34,6 @@ urlpatterns = [
     path("linkman_detail", views.linkman_detail, name="linkman_detail"),
     path("price_detail", views.price_detail, name="price_detail"),
     path("memo_detail", views.memo_detail,name="memo_detail"),
-    path("nation", views.nation_list, name="nation_list"),
-    path("nation_edit", views.nation_edit, name='nation_edit'),
-    path("nation_province", views.nation_province, name='nation_province'),
-    path("province_city", views.province_city, name='province_city'),
-    path("province", views.province_list, name='province_list'),
-    path("province_edit", views.province_edit, name='province_edit'),
     path("industry", views.industry_list, name="industry_list"),
     path("industry_edit", views.industry_edit, name='industry_edit'),
     path("invent", views.invent_list, name="invent_list"),
@@ -86,6 +71,4 @@ urlpatterns = [
     path("upload_attach", views.contact_attach, name="contact_attach"),
     path("webuploader_photo.html",views.webuploader_photo,name="webuploader_photo"),
     path("webuploader_photo_delete.html", views.webuploader_photo_detele, name="webuploader_photo_detele")
-
-
 ]

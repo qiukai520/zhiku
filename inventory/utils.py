@@ -1,4 +1,4 @@
-from .server import country_db,city_db,province_db,nation_db
+from public.server import country_db,city_db,province_db,nation_db
 
 def build_region(country_id):
     if country_id:

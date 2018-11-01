@@ -1,5 +1,6 @@
 from django.db import models
 from personnel.models import Staff
+from public.models import Town
 # Create your models here.
 
 
@@ -12,14 +13,14 @@ class Supplier(models.Model):
     industry = models.ForeignKey("Industry", to_field="nid", on_delete=models.CASCADE, verbose_name='行业',
                                db_constraint = False)
     employees = models.IntegerField(verbose_name='公司人数')
-    products = models.CharField(max_length=64, verbose_name="主营商品",)
+    products = models.CharField(max_length=64, verbose_name="主营商品")
     introduce = models.CharField(max_length=512, verbose_name="简介", blank=True, null=True)
     website = models.CharField(max_length=64, verbose_name="网站", blank=True, null=True)
     phone = models.CharField(max_length=16, verbose_name="联系电话", blank=True, null=True)
     bank = models.CharField(max_length=512, verbose_name="开户银行", blank=True, null=True)
     bank_account = models.CharField(max_length=512, verbose_name="银行账户", blank=True, null=True)
     account_name = models.CharField(max_length=512, verbose_name="账户名", blank=True, null=True)
-    town = models.ForeignKey("Town", to_field="nid", on_delete=models.CASCADE, verbose_name='街道',
+    town = models.ForeignKey(Town, to_field="nid", on_delete=models.CASCADE, verbose_name='街道',
                                db_constraint = False)
     address = models.CharField(max_length=64, verbose_name="地址", blank=True, null=True)
     remark = models.CharField(max_length=512, verbose_name="备注", blank=True, null=True)
@@ -525,103 +526,11 @@ class Industry(models.Model):
     _update = ["industry"]
 
 
-class Nation(models.Model):
-    nid = models.AutoField(primary_key=True)
-    nation = models.CharField(max_length=16, verbose_name="国家")
-
-    class Meta:
-        db_table = 'nation'
-        verbose_name = '国家'
-        verbose_name_plural = '国家'
-
-    def __str__(self):
-        return self.nation
-
-    _insert = ["nation"]
-    _update = ["nation"]
-
-
-class Province(models.Model):
-    nid = models.AutoField(primary_key=True)
-    code = models.IntegerField(verbose_name="编码")
-    province = models.CharField(max_length=16, verbose_name="省份")
-    nation = models.ForeignKey(Nation, to_field="nid", on_delete=models.CASCADE, verbose_name='国家',
-                                 db_constraint=False)
-
-    class Meta:
-        db_table = 'province'
-        verbose_name = '省份'
-        verbose_name_plural = '省份'
-
-    def __str__(self):
-        return self.province
-
-    _insert = ["province", "nation_id"]
-    _update = ["province", "nation_id"]
-
-
-class City(models.Model):
-    nid = models.AutoField(primary_key=True)
-    code = models.IntegerField(verbose_name="编码")
-    city = models.CharField(max_length=16, verbose_name="城市")
-    province = models.ForeignKey(Province, to_field="nid", on_delete=models.CASCADE, verbose_name='省份',
-                               db_constraint=False)
-
-    class Meta:
-        db_table = 'city'
-        verbose_name = '城市'
-        verbose_name_plural = '城市'
-
-    def __str__(self):
-        return self.city
-
-    _insert = ["province_id", "city"]
-    _update = ["province_id", "city"]
-
-
-class Country(models.Model):
-    nid = models.AutoField(primary_key=True)
-    code = models.IntegerField(verbose_name="编码")
-    country = models.CharField(max_length=16, verbose_name="县(区)")
-    city = models.ForeignKey(City, to_field="nid", on_delete=models.CASCADE, verbose_name='城市',
-                             db_constraint=False,)
-
-    class Meta:
-        db_table = 'country'
-        verbose_name = '县(区)'
-        verbose_name_plural = '县(区)'
-
-    def __str__(self):
-        return self.country
-
-    _insert = ["city_id", "country"]
-    _update = ["city_id", "country"]
-
-
-class Town(models.Model):
-    nid = models.AutoField(primary_key=True)
-    code = models.IntegerField(verbose_name="编码")
-    town = models.CharField(max_length=16, verbose_name="街道")
-    country = models.ForeignKey(Country, to_field="nid", on_delete=models.CASCADE, verbose_name='县区',
-                             db_constraint=False,)
-
-    class Meta:
-        db_table = 'town'
-        verbose_name = '街道'
-        verbose_name_plural = "街道"
-
-    def __str__(self):
-        return self.town
-
-    _insert = ["town", "country_id"]
-    _update = ["town", "country_id"]
-
-
 class Warehouse(models.Model):
     delete_status_choice = ((0, '删除'), (1, '保留'))
     nid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=32,verbose_name="仓库名称")
-    town = models.ForeignKey("Town",on_delete=models.CASCADE, verbose_name='街道',
+    town = models.ForeignKey(Town,on_delete=models.CASCADE, verbose_name='街道',
                              db_constraint=False,)
     address = models.CharField(max_length=128,verbose_name="详细地址")
     lng = models.DecimalField(max_digits=10, decimal_places=6, verbose_name="经度")

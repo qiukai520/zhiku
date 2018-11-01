@@ -169,40 +169,6 @@ class MemoAttachAdmin(object):
     list_filter = ["memo"]
     search_fields = ['memo']
     model_icon = 'fa fa-cog'
-# 地区
-# 地区
-
-
-class NationAdmin(object):
-    """国家"""
-    list_display = ["nation"]
-    search_fields = ['nation']
-    model_icon = 'fa fa-cog'
-
-
-class ProvinceAdmin(object):
-    """省份"""
-    list_display = ["province","nation"]
-    list_filter = ["nation"]
-    search_fields = ['province']
-    model_icon = 'fa fa-cog'
-
-
-class CityAdmin(object):
-    """城市"""
-    list_display = ["city","province"]
-    list_filter = ["province"]
-    search_fields = ['city']
-    model_icon = 'fa fa-cog'
-
-
-class CountryAdmin(object):
-    """县（区）"""
-    list_display = ["country","city"]
-    list_filter = ["city"]
-    search_fields = ['country']
-    model_icon = 'fa fa-cog'
-
 
 # settings
 
@@ -224,10 +190,7 @@ xadmin.site.register(Linkman, LinkmanAdmin)
 xadmin.site.register(LinkmanAttach, LinkmanAttachAdmin)
 xadmin.site.register(LinkmanPhoto, LinkmanPhotoAdmin)
 xadmin.site.register(LinkmanCard, LinkmanCardAdmin)
-xadmin.site.register(Nation, NationAdmin)
-xadmin.site.register(Province, ProvinceAdmin)
-xadmin.site.register(City, CityAdmin)
-xadmin.site.register(Country, CountryAdmin)
+
 
 
 

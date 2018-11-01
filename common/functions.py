@@ -59,3 +59,9 @@ def build_attachment_info(id_dict, attachment_list):
         item.update(id_dict)
         att_list.append(item)
     return att_list
+
+
+def delete_server_file(path):
+    import os
+    if os.path.isfile(path):
+        os.remove(path)

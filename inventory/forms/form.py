@@ -55,7 +55,7 @@ class GoodsForm(django_forms.Form):
 class SupplierForm(django_forms.Form):
     category_id = django_fields.IntegerField(error_messages={"required": "请选择商品分类"})
     company = django_fields.CharField(error_messages={"required": "公司名称不能为空"})
-    town_id = django_fields.IntegerField(error_messages={"required": "请选择街道"})
+    town_id = django_fields.IntegerField(min_value=1 , error_messages={"required": "请选择街道","min_value":"请选择街道"})
     products = django_fields.CharField(error_messages={"required": "主营商品不能为空"})
 
 
@@ -123,7 +123,7 @@ class TownForm(django_forms.Form):
 
 class WarehouseForm(django_forms.Form):
     name = django_fields.CharField(error_messages={"required": "仓库名称不能为空"})
-    town_id = django_fields.IntegerField(error_messages={"required":"请选择街道"})
+    town_id = django_fields.IntegerField(min_value=1 , error_messages={"required": "请选择街道","min_value":"请选择街道"})
     address = django_fields.CharField(error_messages={"required": "地址不能为空"})
 
 
