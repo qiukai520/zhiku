@@ -10,20 +10,20 @@
             margin-bottom: 0;
             text-align: right;
         }
-    .minus {
-       margin-left: 0px !important;
-       color: red;
-       position: absolute;
-       top: 10px;
-       left: -85px;
-
-}
-    .plus{
-        position: absolute;
-        top: 10px;
-        left: -85px;
-        color: blue
-    }
+{#    .minus {#}
+{#       margin-left: 0px !important;#}
+{#       color: red;#}
+{#       position: absolute;#}
+{#       top: 10px;#}
+{#       left: -85px;#}
+{##}
+{#}#}
+{#    .plus{#}
+{#        position: absolute;#}
+{#        top: 10px;#}
+{#        left: -85px;#}
+{#        color: blue#}
+{#    }#}
     label{
         font-weight: bold;
     }
@@ -60,7 +60,7 @@
       overflow :auto
      }
 
-    .progress{position: relative; width:350px;height: 30px;margin: 12px }
+    .progress{position: relative; width:220px ;height: 30px;margin: 12px }
     .progress_bg{height: 12px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden;background-color:#f2f2f2;}
     .progress_bar{background: #5FB878; width: 0; height: 10px; border-radius: 5px;}
     .progress_btn{width: 20px; height: 20px; border-radius: 5px; position: absolute;background:#fff;
@@ -69,7 +69,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
     </style>
 {% endblock %}
 {% block content%}
-     <div class="wrapper wrapper-content  animated fadeInRight">
+     <div class="wrapper wrapper-content container   animated fadeInRight" style="overflow: auto;min-width: 500px">
         <div class="row"  >
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
@@ -94,7 +94,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                         </div>
                     </div>
                     <div class="ibox-content" style="background-color:#F9F9F9">
-                        <div class="container"   style="border-bottom: 2px double #9F9F9F ; width:80%;">
+                        <div class="container"   style="border-bottom: 2px double #9F9F9F ;">
                             <div class="form-group  " id="top"  style=" font-size:14px;font-weight:bold;">
                                 {% query_task_map_by_tmid  task_obj.tmid_id  as total_task_obj %}
                                 <label class="form-label" for="attribute"  >任务分类:</label>
@@ -115,9 +115,9 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                {% endif %}
                             </div>
                         </div>
-                        <div class="container-fluid"style="width: 80%;margin-top: 20px;">
+                        <div class="container-fluid">
                             <div class="row">
-                                    <div class="col-xs-4" style="position: relative" ><span  style="color:#9F9F9F;font-size: 18px; float: right" class="right" ><span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px; background-color: red; "></span><br></span>
+                                    <div class="col-xs-4 col-md-4 col-lg-4" style="position: relative" ><span  style="color:#9F9F9F;font-size: 18px; float: right" class="right" ><span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px; background-color: red; "></span><br></span>
                                        <h4 style="color:#1ab394">主任务：</h4>
                                        <label class="form-label" for="task_title"  >任务标题:</label>
                                        <span id="task_title" >{{ total_task_obj.title }}</span>
@@ -157,25 +157,25 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                              {% endfor %}
                                         {% endif %}
                                     </div>
-                                    <div class="col-xs-8 left" style="border-left:2px solid #9F9F9F;padding: 0 15px 15px 15px;">
+                                    <div class="col-xs-8 col-md-8 col-lg-8 left" style="border-left:2px solid #9F9F9F;padding: 0 15px 15px 15px;">
                                         <div class="row form-horizontal" style="position: relative;margin:1px;background-color: white">
                                             <h5 style="margin:15px 28px; font-weight:bold;font-size: 15px">添加小结</h5>
                                             <div class="col-xs-12"  >
                                                 <div class="form-group" style="margin-top: 25px">
-                                                    <label for="title" class="col-xs-2 control-label">标题：</label>
-                                                      <div class="col-xs-9">
+                                                    <label for="title" class="col-xs-4  col-md-2 control-label">标题</label>
+                                                      <div class="col-xs-12 col-sm-12 col-md-9 ">
                                                           <input name="title"  class="form-control"  id="title" placeholder="任务名称">
                                                         </input>
                                                       </div>
                                                 </div>
                                                 <div class="hr-line-dashed"></div>
                                                 <div class="form-group" style="padding: 0px">
-                                                    <label for="tag" class="control-label col-xs-2">标签：</label>
-                                                    <div class="col-xs-9" style="padding: 0px">
-                                                        <div class="col-xs-10">
+                                                    <label for="tag" class="control-label col-xs-4  col-md-2">标签</label>
+                                                    <div class="col-xs-12 col-sm-12 col-md-9" style="padding: 0px">
+                                                        <div class=" col-xs-12 col-md-10">
                                                         <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
                                                         </div>
-                                                        <div class="col-xs-2" >
+                                                        <div class=" col-xs-12  col-md-2" >
                                                             <button class=" btn  btn-primary inline-block right .add" onclick="AddTag(this)">添加</button>
                                                         </div>
                                                         <div class="col-xs-12" id="tag_container" >
@@ -190,16 +190,15 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                                     </div>
                                                 <div class="hr-line-dashed"></div>
                                                 <div class="form-group">
-                                                    <label for="summary" class="col-xs-2 control-label">小结：</label>
-                                                      <div class="col-xs-9">
-                                                          <textarea name="title" style="height:100px;" class="form-control"  id="summary" placeholder="小结">
-                                                        </textarea>
+                                                    <label for="summary" class="col-xs-4  col-md-2 control-label">小结</label>
+                                                      <div class="col-xs-12 col-sm-12 col-md-9">
+                                                          <textarea name="title" style="height:100px;" class="form-control"  id="summary" placeholder="小结"></textarea>
                                                       </div>
                                                 </div>
                                                 <div class="hr-line-dashed"></div>
                                                 <div class="form-group">
-                                                    <label  class="col-xs-2 control-label" for="assist">协助：</label>
-                                                    <div class=" radio col-xs-9" id="assist">
+                                                    <label  class="col-xs-4  col-md-2 control-label" for="assist">协助</label>
+                                                    <div class=" radio col-xs-8 col-md-8" id="assist">
                                                          <label ><input type="radio" name="assist" value="0" checked>否</label>
                                                         <label ><input type="radio" name="assist" value="1" >是</label>
                                                     </div>
@@ -207,33 +206,34 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                                 <div class="hr-line-dashed"></div>
                                                 <div id="attachment-container" style="position: relative">
                                                   <div class="attachment">
-                                                        <div  class="form-group ">
-                                                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件：</label>
-                                                          <div class="col-xs-5">
-                                                              <input type="file" name="file"  onchange="UploadFile(this)">
-                                                              <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>
-                                                          </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="content" class="control-label col-xs-2">附件描述：</label>
-                                                            <div class="col-xs-9">
-                                                                <input name="content" class="form-control"   placeholder="附件描述">
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                        <div  class="form-group  form-inline" style="margin-left:0px ;margin-right: 0px">
+                                            <label for="file"  class="control-label col-xs-2">附件</label>
+                                              <div class="col-xs-10 col-lg-8 form-inline ">
+                                                  <input type="file" name="file"   class="form-control" onchange="UploadFile(this)">
+                                                  <button type="button"  class="btn btn-primary inline "  onclick="AddAttachment(this)"><i  style ="" class="glyphicon glyphicon-plus plus "></i></button>
+                    {#                              <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>#}
+                                              </div>
+                                            </div>
+                                        <div class="form-group" style="margin-left:0px ;margin-right: 0px">
+                                            <label  for="content" class="control-label col-xs-2">附件描述</label>
+                                            <div class="col-xs-8">
+                                                <input name="content" class="form-control"  placeholder="附件描述">
+                                            </div>
+                                        </div>
+                                         <div class="hr-line-dashed"></div>
+                                    </div>
                                                 </div>
                                                 <div class="hr-line-dashed"></div>
                                                 <div class="form-group">
-                                                <label for="remark" class="col-xs-2 control-label">备注：</label>
-                                                  <div class="col-xs-9">
-                                                      <input name="remark"  class="form-control"  id="remark" placeholder="备注">
-                                                    </input>
+                                                <label for="remark" class="col-xs-4  col-md-2 control-label">备注：</label>
+                                                  <div class="col-xs-12 col-sm-12 col-md-9">
+                                                      <textarea name="remark"  class="form-control"  cols="20" rows="2" id="remark" placeholder="备注"></textarea>
                                                   </div>
                                                 </div>
                                                 <div class="hr-line-dashed"></div>
                                                 <div class="form-group ">
-                                                <label for="progress" class="col-xs-2 control-label" >进度评估</label>
-                                                <div class="progress col-xs-9"  id="progress">
+                                                <label for="progress" class="col-xs-4  col-md-2 control-label" >进度评估</label>
+                                                <div class="progress col-xs-8"  id="progress">
                                                 <div class="progress_bg">
                                                     <div class="progress_bar"></div>
                                                 </div>
@@ -265,10 +265,10 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                           </div>
                             {% for item in task_submit_record %}
                                 <div class="row">
-                                    <div class="col-xs-4" style="padding:20px;position: relative" ><span  style="color:#9F9F9F;font-size: 18px; float: right;margin-top:8px" class="right" > {{ item.last_edit|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10; "></span><br><span class="right" style="font-size: 14px;position:absolute;right: 25px;">{{ item.last_edit|date:"H:i:s "}}</span></span></div>
-                                     <div class="col-xs-8" style="border-left:2px solid #9F9F9F;padding:15px" >
+                                    <div class="col-xs-4 col-md-4 col-lg-4" style="padding:20px;position: relative" ><span  style="color:#9F9F9F;font-size: 18px; float: right;margin-top:8px" class="right" > {{ item.last_edit|date:"Y-m-d " }}<span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10; "></span><br><span class="right" style="font-size: 14px;position:absolute;right: 25px;">{{ item.last_edit|date:"H:i:s "}}</span></span></div>
+                                     <div class="col-xs-8 col-md-8 col-lg-8" style="border-left:2px solid #9F9F9F;padding:15px" >
                                      <div class="row form-horizontal" style="margin:1px;background-color: white">
-                                     <div style="margin-left:28px">
+                                     <div style="margin-left:2%">
                                         <label class="form-label" style="margin: 14px  0px 8px  0px ;font-size: 15px;"  >进度评估:</label>
                                          <span  style="font-size: 15px;margin: 18px 15px 15px 15px">{{ item.completion }}%</span><br>
                                          <label class="form-label"  >标题:</label>
@@ -318,18 +318,10 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                 }
             }
         });
-    //字符串格式化
-    String.prototype.format=function()
-    {
-      if(arguments.length==0) return this;
-      for(var s=this, i=0; i<arguments.length; i++)
-        s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
-      return s;
-    };
     //进度条
     $(function(){
                 var completion={{ completion }}
-                var tag = false,ox = 0,left = 300*completion/100, bgleft = 0;
+                var tag = false,ox = 0,left = 200*completion/100, bgleft = 0;
                 $('.progress_btn').css('left', left);
                 $('.progress_bar').width(left);
                 $('.progress_btn').mousedown(function(e) {
@@ -344,12 +336,12 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                         left = e.pageX - ox;
                         if (left <= 0) {
                             left = 0;
-                        }else if (left > 300) {
-                            left = 300;
+                        }else if (left > 200) {
+                            left = 200;
                         }
                         $('.progress_btn').css('left', left);
                         $('.progress_bar').width(left);
-                        $('.text').html(parseInt((left/300)*100) + '%');
+                        $('.text').html(parseInt((left/200)*100) + '%');
                     }
                 });
                 $('.progress_bg').click(function(e) {//鼠标点击
@@ -358,12 +350,12 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                         left = e.pageX - bgleft;
                         if (left <= 0) {
                             left = 0;
-                        }else if (left > 300) {
-                            left = 300;
+                        }else if (left > 200) {
+                            left = 200;
                         }
                         $('.progress_btn').css('left', left);
-                        $('.progress_bar').animate({width:left},300);
-                        $('.text').html(parseInt((left/300)*100) + '%');
+                        $('.progress_bar').animate({width:left},200);
+                        $('.text').html(parseInt((left/200)*100) + '%');
                     }
                 });
             });
@@ -391,31 +383,6 @@ var att_num=1
     att_num+={{ forloop.counter }}
 {% endfor %}
 {% endif %}
-
-function  AddAttachment (ths){
-    var tag = $(ths).parent().parent().parent().clone();
-    att_num+=1
-    $(tag).find("input").val("")
-    $(tag).find("label").first().text("附件"+att_num+":");
-    $(tag).find("span").remove()
-    $(tag).find("input").first().parent().append('<span class="glyphicon glyphicon-minus minus " onclick="RemoveAttachment(this)" style="margin-left: 200px;color: blue;color: red;"></span>');
-    $(ths).parent().parent().parent().parent().append(tag);
-}
-//删除附件
-function RemoveAttachment(ths){
-    $(ths).parent().parent().parent().remove();
-    att_num-=1
-    var i=1
-    $("#attachment-container").find('label[name="attach"]').each(function () {
-        $(this).text("附件"+i)
-        i+=1
-    })
-}
-//清除任务附件标签
-function clearAttachment(ths) {
-    $(ths).parent().parent().parent().parent().remove()
-    att_num-=1
-}
  //获取标签内容
 function  FetchTag() {
     var tags=new Array();

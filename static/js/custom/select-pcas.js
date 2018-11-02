@@ -1,11 +1,10 @@
 
-
-          // 根据城市获取相应的县区
+          // 根据县区获取相应的街道
     function SelectCountry(ths) {
       var nid=$(ths).val();
       $("#town_id").children().remove();
       $.ajax({
-        url:"country_town",
+        url:"/public/country_town",
         type:'get',
         data:{"id":nid},
         dataType:'json',
@@ -25,12 +24,13 @@
         },
     });
     }
-        // 根据省份获取相应的城市
+        // 根据城市获取相应的县区
     function SelectCity(ths) {
       var nid=$(ths).val();
-      $("#country").children().remove();
+      $("#country").empty();
+      $("#town_id").empty();
       $.ajax({
-        url:"city_country",
+        url:"/public/city_country",
         type:'get',
         data:{"id":nid},
         dataType:'json',
@@ -54,11 +54,12 @@
     // 根据省份获取相应的城市
     function SelectProvince(ths) {
       var nid=$(ths).val();
+      console.log("nid",nid)
       $("#city").empty();
       $("#country").empty();
       $("#town_id").empty();
       $.ajax({
-        url:"province_city",
+        url:"/public/province_city",
         type:'get',
         data:{"id":nid},
         dataType:'json',

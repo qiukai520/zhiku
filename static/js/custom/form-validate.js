@@ -339,7 +339,17 @@ $.validator.setDefaults({
                         required: true,
                         maxlength: 64
                       },
-                town_id:"required",
+                town_id:{
+                     required: true,
+                     digits: true,
+                     min:1
+                },
+                lng:{
+                    required:true,
+                },
+                lat:{
+                    required:true,
+                },
                 address: {
                         required: true,
                         maxlength: 128
@@ -347,11 +357,20 @@ $.validator.setDefaults({
 
             },
             messages: {
-                town_id:e+"请选择街道",
-                name: {
-                    required: e+"请输入商品名称",
+                town_id:{
+                    required:"请选择街道",
+                    digits:"请选择街道",
+                    min:"请选择街道"
                 },
-
+                name: {
+                    required: "请输入商品名称",
+                },
+                address:{
+                     required: "请输入详细地址",
+                     maxlength: "地址不能超过128个字符"
+                },
+                lng:e+"请选择定位",
+                lat:e+"请选择定位",
 
                 // username:{required:e+"请输入您的用户名",minlength:e+"用户名必须两个字符以上"},
                 // password:{required:e+"请输入您的密码",minlength:e+"密码必须5个字符以上"},

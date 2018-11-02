@@ -3,22 +3,6 @@
 {% load inventory_tags %}
 {% block css %}
     <style>
-     .minus  {
-        cursor: pointer;
-       margin-left: 0px !important;
-       color: red;
-       position: absolute;
-       top: 10px;
-       left: -85px;
-
-}
-    .plus{
-         cursor: pointer;
-        position: absolute;
-        top: 10px;
-        left: -85px;
-        color: #1ab394
-    }
     </style>
 {% endblock %}
 {% block content %}
@@ -123,7 +107,7 @@
      <script src="/static/js/jquery.cookie.js"></script>
 {#    <script src="/static/js/"></script>#}
     <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="/static/js/custom/form-validate.min.js"></script>
+    <script src="/static/js/custom/form-validate.js"></script>
     <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
     <script>
         var csrftoken = $.cookie('csrftoken');

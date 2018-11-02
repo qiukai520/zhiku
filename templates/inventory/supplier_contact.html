@@ -3,22 +3,6 @@
 {% load inventory_tags %}
 {% block css %}
     <style>
-     .minus  {
-        cursor: pointer;
-       margin-left: 0px !important;
-       color: red;
-       position: absolute;
-       top: 10px;
-       left: -85px;
-
-}
-    .plus{
-         cursor: pointer;
-        position: absolute;
-        top: 10px;
-        left: -85px;
-        color: #1ab394
-    }
     </style>
 {% endblock %}
 {% block content %}
@@ -160,22 +144,25 @@
                         </div>
                         {%endfor%}
                     {%endif  %}
-                  <div class="attachment">
-                        <div  class="form-group ">
-                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件</label>
-                          <div class="col-xs-6">
-                              <input type="file" name="file"  onchange="UploadFile(this)">
-                              <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="content" class="control-label col-xs-2">附件描述</label>
-                            <div class="col-xs-8">
-                                <input name="content" class="form-control"  placeholder="附件描述">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <div class="attachment">
+                                        <div  class="form-group  form-inline" style="margin-left:0px ;margin-right: 0px">
+                                            <label for="file"  class="control-label col-sm-2">附件</label>
+                                              <div class="col-sm-8 form-inline ">
+                                                  <input type="file" name="file"   class="form-control" onchange="UploadFile(this)">
+                                                  <button type="button"  class="btn btn-primary inline "  onclick="AddAttachment(this)"><i  style ="" class="glyphicon glyphicon-plus plus "></i></button>
+                    {#                              <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>#}
+                                              </div>
+                                            </div>
+                                        <div class="form-group" style="margin-left:0px ;margin-right: 0px">
+                                            <label  for="content" class="control-label col-sm-2">附件描述</label>
+                                            <div class="col-sm-8">
+                                                <input name="content" class="form-control"  placeholder="附件描述">
+                                            </div>
+                                        </div>
+                                         <div class="hr-line-dashed"></div>
+                                    </div>
+
+                         </div>
                          </form>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -207,7 +194,7 @@
      <script src="/static/js/jquery.cookie.js"></script>
 {#    <script src="/static/js/"></script>#}
     <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="/static/js/custom/form-validate.min.js"></script>
+    <script src="/static/js/custom/form-validate.js"></script>
     <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
     <script>
         var csrftoken = $.cookie('csrftoken');
@@ -222,15 +209,6 @@
                 }
             }
         });
-
-//字符串格式化
-String.prototype.format=function()
-{
-  if(arguments.length==0) return this;
-  for(var s=this, i=0; i<arguments.length; i++)
-    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
-  return s;
-};
  /*
     自执行函数
     */
@@ -262,34 +240,6 @@ function InitData() {
          $("#pending_remark").val("{% if  query_set.pending_remark %}{{ query_set.pending_remark }} {% endif %}");
          ChangeCategory({{ query_set.category }})
     }
-//添加附件
-var att_num=1
-//如果是修改的话，附件计数器设定为已存在的附件
-
-function  AddAttachment (ths){
-    var tag = $(ths).parent().parent().parent().clone();
-    att_num+=1
-    $(tag).find("input").val("")
-    $(tag).find("label").first().text("附件"+att_num+":");
-    $(tag).find("span").remove()
-    $(tag).find("input").first().parent().append('<span class="glyphicon glyphicon-minus minus " onclick="RemoveAttachment(this)" style="margin-left: 200px;color: blue;color: red;"></span>');
-    $(ths).parent().parent().parent().parent().append(tag);
-}
-//删除附件
-function RemoveAttachment(ths){
-    $(ths).parent().parent().parent().remove();
-    att_num-=1
-    var i=1
-    $("#attachment-container").find('label[name="attach"]').each(function () {
-        $(this).text("附件"+i)
-        i+=1
-    })
-}
-//清除任务附件标签
-function clearAttachment(ths) {
-    $(ths).parent().parent().parent().parent().remove()
-    att_num-=1
-}
 
 //修改时获取附件
 function GetAttachment(){

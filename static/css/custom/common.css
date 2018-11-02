@@ -1,0 +1,11 @@
+
+ /*attach*/
+ .plus .minus {
+         cursor: pointer;
+    }
+    .attachment label{
+        margin-left:0px;
+    }
+    .attachment  button{
+        float: right;
+    }

@@ -121,7 +121,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <input name="tip" id="tipinput"/>
+                                                    <input name="tip"  id="tipinput"/>
                                                     <input class="hidden" type="text"  id="lng" name="lng">
                                                      <input class="hidden" type="text" id="lat"  name="lat">
                                                 </td>
@@ -163,8 +163,7 @@
       <script src="/static/js/jquery.cookie.js"></script>
 {#    <script src="/static/js/"></script>#}
     <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="/static/js/custom/form-validate.min.js"></script>
-  <script src="/static/js/custom/select-pcas.js"></script>
+    <script src="/static/js/custom/form-validate.js"></script>
     <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
 
      //mark
@@ -208,9 +207,11 @@ function initMap(lng=113.324954,lat=22.98682,mark=false,name=''){
         placeSearch.setCity(e.poi.adcode);
         placeSearch.search(e.poi.name);
         var lng=e.poi.location.lng
-        var lat=e.poi.location.lat
-        $("#lng").val(lng)
-        $("#lat").val(lat)
+        var lat=e.poi.location.lat;
+        $("#lng").val(lng);
+        $("#lat").val(lat);
+        $("#tipinput").val( "{{ obj.address }}")
+
     });
     if(mark){
          //点标记

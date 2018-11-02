@@ -3,28 +3,6 @@
 
 {% block css  %}
     <style>
-     .form-horizontal .control-label {
-            padding-top: 7px;
-            margin-bottom: 0;
-            text-align: right;
-        }
-
-    .minus  {
-        cursor: pointer;
-       margin-left: 0px !important;
-       color: red;
-       position: absolute;
-       top: 10px;
-       left: -85px;
-
-}
-    .plus{
-         cursor: pointer;
-        position: absolute;
-        top: 10px;
-        left: -85px;
-        color: blue
-    }
     .select-box{
           top:5px;
           height: 200px !important;
@@ -93,29 +71,29 @@
                     <div class="ibox-content">
                     <div class="row form-horizontal" style="position: relative;">
                     <div class="col-xs-12">
-                <div class="form-group">
-                    <label for="task_name" class="col-xs-2 control-label">任务名称：</label>
-                      <div class="col-xs-6">
+                    <div class="form-group">
+                    <label for="task_name" class="col-xs-2 control-label">任务名称</label>
+                      <div class="col-xs-10 col-lg-8">
                           <input name="title"  class="form-control"  id="task_name" placeholder="任务名称">
                         </input>
                       </div>
                 </div>
                         <div class="hr-line-dashed"></div>
                 <div class="form-group">
-                    <label for="content" class="control-label col-xs-2">任务描述：</label>
-                    <div class="col-xs-6">
-                        <textarea name="content" class="form-control"  style="height:100px;" id="content" placeholder="任务描述">
-                    </textarea>
+                    <label for="content" class="control-label col-xs-2">任务描述</label>
+                    <div class="col-xs-10 col-lg-8 ">
+                          <textarea name="content" id="content"  placeholder="任务描述" class="form-control"  cols="30" rows="5"></textarea>
+                                 <span class="help-block m-b-none"></span>
                     </div>
                 </div>
                         <div class="hr-line-dashed"></div>
                 <div class="form-group" style="padding: 0px">
-                    <label for="tag" class="control-label col-xs-2">任务标签：</label>
-                    <div class="col-xs-6" style="padding: 0px">
-                        <div class="col-xs-10">
+                    <label for="tag" class="control-label col-xs-2">任务标签</label>
+                    <div class="col-xs-10 col-lg-8" style="padding: 0px">
+                        <div class="col-xs-8">
                         <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
                         </div>
-                        <div class="col-xs-2" >
+                        <div class="col-xs-3" >
                             <button  class=" tag_btn btn btn-primary inline-block right" onclick="AddTag(this)">添加</button>
                         </div>
                         <div class="col-xs-12" id="tag_container" >
@@ -132,7 +110,6 @@
                                 <div class="alert alert-info alert-dismissible pull-left" role="alert" style=" margin-bottom: 0px;padding: 2px;margin-right: 25px;">
                                 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
                                     <input type="text" name="ttid" class="hidden" value="{{ obj.ttid }}">
-
                                     <strong style="margin-left:10px;">{{ obj.name }}</strong>
                                 </div>
                                 </div>
@@ -141,6 +118,15 @@
                         </div>
                     </div>
                     </div>
+                     <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                    <label for="task_type" class="control-label col-xs-2">归档分类</label>
+                    <div class="col-xs-10 col-lg-8">
+                        <select  name="task_type" class="form-control" id="task_type" >
+                            {% build_task_type_ele %}
+                        </select>
+                    </div>
+                </div>
                         <div class="hr-line-dashed"></div>
                 <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
@@ -148,8 +134,8 @@
                         {% for obj in task_attachment_data%}
                              <div class="attachment">
                             <div class="form-group ">
-                            <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
-                              <div class="col-xs-6">
+                            <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}</label>
+                              <div class="col-xs-10 col-lg-8">
                                   <input type="text" name="tamid" class="hidden" value="{{ obj.tamid }}">
                                   <div class="old_file">
                                   <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}" style="margin-top:6px;display: inline-block">{{ obj.name }}</a>
@@ -161,94 +147,31 @@
                               </div>
                             </div>
                             <div class="form-group">
-                                <label for="content" class="control-label col-xs-2">附件描述：</label>
-                                <div class="col-xs-6">
+                                <label for="content" class="control-label col-xs-2">附件描述</label>
+                                <div class="col-xs-8">
                                     <input name="content" class="form-control" value="{{ obj.description }}" placeholder="附件描述">
                                 </div>
                             </div>
                         </div>
                         {%endfor%}
                     {%endif  %}
-                  <div class="attachment">
-                        <div  class="form-group ">
-                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件：</label>
-                          <div class="col-xs-6">
-                              <input type="file" name="file"  onchange="UploadFile(this)">
-                              <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="content" class="control-label col-xs-2">附件描述：</label>
-                            <div class="col-xs-6">
-                                <input name="content" class="form-control" placeholder="附件描述">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-{#                 <div class="form-group">#}
-{#                    <label for="deadline" class="control-label col-xs-2">起始日期：</label>#}
-{#                    <div class="col-xs-6">#}
-{#                    <div class='input-group date' id='datetimepicker1'>#}
-{#                        <input type='text' class="form-control" />#}
-{#                        <span class="input-group-addon">#}
-{#                            <span class="glyphicon glyphicon-calendar"></span>#}
-{#                        </span>#}
-{#                    </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="form-group">#}
-{#                    <label for="deadline" class="control-label col-xs-2">终止日期：</label>#}
-{#                    <div class="col-xs-6">#}
-{#                    <div class='input-group date' id='datetimepicker2'>#}
-{#                        <input type='text' class="form-control" />#}
-{#                        <span class="input-group-addon">#}
-{#                            <span class="glyphicon glyphicon-calendar"></span>#}
-{#                        </span>#}
-{#                    </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="form-group">#}
-{#                    <label for="department" class="control-label col-xs-2">选择审核人：</label>#}
-{#                           <div  class="col-xs-4">#}
-{#                            <select name="department" id="department"  class="form-control  col-xs-8"  style="width: 65%" data-live-search="true" onchange="FetchStaff(this)">#}
-{#                            {% build_department_ele %}#}
-{#                            </select>#}
-{#                        <label for="follow" class="control-label " style="margin-left:10px">次序审核：</label>#}
-{#                        <!--查看审核人是否有序-->#}
-{#                        {%if tid %}#}
-{#                            {% if task_reviewer_info.first.follow %}#}
-{#                                 <input type="checkbox" name="follow" checked="checked" id ="follow">#}
-{#                                {%else %}#}
-{#                                 <input type="checkbox" name="follow"   id ="follow">#}
-{#                            {% endif %}#}
-{#                        {% else %}#}
-{#                             <input type="checkbox" name="follow"   id ="follow">#}
-{#                        {% endif %}#}
-{#                           </div>#}
-{#                </div>#}
-{#                <div class="form-group" >#}
-{#                    <label for="task_type" class="control-label col-xs-2"></label>#}
-{#                    <div class="col-xs-6 " style="padding:0px; ">#}
-{#                        <div class="col-xs-12 selector-filter" >#}
-{#                            <select  id="id_staff_from" multiple   name="staff_old"  size="10"   class=" select-box ">#}
-{#                            {%if tid %}#}
-{#                                 {% for obj in task_reviewer_info %}#}
-{#                                 <option value="{{ obj.sid_id }}"   selected="selected" tvid="{{ obj.tvid}}">{% change_to_staff obj.sid_id %}  </option>#}
-{##}
-{#                                 {% endfor %}#}
-{#                             {% endif %}#}
-{#                            </select>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-                <div class="hr-line-dashed"></div>
-                <div class="form-group">
-                    <label for="task_type" class="control-label col-xs-2">归档分类：</label>
-                    <div class="col-xs-6">
-                        <select  name="task_type" class="form-control" id="task_type" >
-                            {% build_task_type_ele %}
-                        </select>
-                    </div>
+                          <div class="attachment">
+                                        <div  class="form-group  form-inline" style="margin-left:0px ;margin-right: 0px">
+                                            <label for="file"  class="control-label col-xs-2">附件</label>
+                                              <div class="col-xs-8 col-lg-6 form-inline ">
+                                                  <input type="file" name="file"   class="form-control" onchange="UploadFile(this)">
+                                                  <button type="button"  class="btn btn-primary inline "  onclick="AddAttachment(this)"><i  style ="" class="glyphicon glyphicon-plus plus "></i></button>
+                    {#                              <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>#}
+                                              </div>
+                                            </div>
+                                        <div class="form-group" style="margin-left:0px ;margin-right: 0px">
+                                            <label  for="content" class="control-label col-xs-2">附件描述</label>
+                                            <div class="col-xs-8">
+                                                <input name="content" class="form-control"  placeholder="附件描述">
+                                            </div>
+                                        </div>
+                                         <div class="hr-line-dashed"></div>
+                                    </div>
                 </div>
                 <div class="hr-line-dashed"></div>
                     <div class="row" id="content_footer" >
@@ -294,13 +217,6 @@
             }
         });
 
-//字符串格式化
-String.prototype.format=function() {
-  if(arguments.length==0) return this;
-  for(var s=this, i=0; i<arguments.length; i++)
-    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
-  return s;
-};
     /*
     自执行函数
     */
@@ -334,7 +250,7 @@ function AddTag(ths){
              $(ths).parent().next().append(tag);
         }
         else{
-            alert("输入不能为空")
+            layer.msg("输入不能为空")
         }
     }
 //添加附件
@@ -346,32 +262,6 @@ var att_num=1
     att_num+={{ forloop.counter }}
 {% endfor %}
 {% endif %}
-
-function  AddAttachment (ths){
-    var tag = $(ths).parent().parent().parent().clone();
-    att_num+=1
-    $(tag).find("input").val("")
-    $(tag).find("label").first().text("附件"+att_num+":");
-    $(tag).find("span").remove()
-    $(tag).find("input").first().parent().append('<span class="glyphicon glyphicon-minus minus " onclick="RemoveAttachment(this)" style="margin-left: 200px;color: blue;color: red;"></span>');
-    $(ths).parent().parent().parent().parent().append(tag);
-}
-//删除附件
-function RemoveAttachment(ths){
-    $(ths).parent().parent().parent().remove();
-    att_num-=1
-    var i=1
-    $("#attachment-container").find('label[name="attach"]').each(function () {
-        $(this).text("附件"+i)
-        i+=1
-    })
-}
-
-//清除任务附件标签
-function clearAttachment(ths) {
-    $(ths).parent().parent().parent().parent().remove()
-    att_num-=1
-}
 
  //获取标签内容
 function  FetchTag() {
@@ -461,7 +351,7 @@ function UploadFile(ths){
     var  fileSize = file_obj.size;
     var size = fileSize / 1024;
     if(size>2000){
-         alert("附件不能大于2M");
+         layer.msg("附件不能大于2M");
          $(ths)[0].value="";
          return false;   //阻止上传
          }

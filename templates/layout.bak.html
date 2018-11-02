@@ -66,7 +66,33 @@
 <script type="text/javascript" src="/static/js/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="/static/plugins/bootstrap/js/bootstrap.js"></script>
 {% block js %}
+    <script>
 
+function  AddAttachment (ths){
+    var tag = $(ths).parent().parent().parent().clone();
+    att_num+=1
+    $(tag).find("input").val("")
+    $(tag).find("label").first().text("附件"+att_num+":");
+    $(tag).find("span").remove()
+    $(tag).find("input").first().parent().append('<span class="glyphicon glyphicon-minus minus " onclick="RemoveAttachment(this)" style="margin-left: 200px;color: blue;color: red;"></span>');
+    $(ths).parent().parent().parent().parent().append(tag);
+}
+//删除附件
+function RemoveAttachment(ths){
+    $(ths).parent().parent().parent().remove();
+    att_num-=1
+    var i=1
+    $("#attachment-container").find('label[name="attach"]').each(function () {
+        $(this).text("附件"+i)
+        i+=1
+    })
+}
+//清除任务附件标签
+function clearAttachment(ths) {
+    $(ths).parent().parent().parent().parent().remove()
+    att_num-=1
+}
+    </script>
 {% endblock %}
 </body>
 </html>
