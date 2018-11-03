@@ -5,8 +5,8 @@ create TABLE `supplier`(
 `category_id` smallint (6) COMMENT '供应商分类',
 `company` varchar (32) COMMENT '公司名称',
 `industry_id` varchar (32) NOT NULL  COMMENT '所属行业',
-`employees` int(11) NOT NUll COMMENT '人数',
-`product` varchar (64)  NOT NUll COMMENT '主营商品',
+`employees` int(11) NOT NUll default 0 COMMENT '人数',
+`product` varchar (64)  COMMENT '主营商品',
 `introduce` varchar (512) COMMENT '公司介紹',
 `website` varchar (64) COMMENT '公司网站',
 `phone` varchar (16) COMMENT '公司电话',
@@ -129,7 +129,7 @@ create TABLE `supplier_licence`(
 drop TABLE if exists `supplier_photo`;
 create TABLE `supplier_photo`(
 `nid` int(11) primary key auto_increment,
-`supplier_id` int(11) NOT NULL  COMMENT '员工编号',
+`supplier_id` int(11) NOT NULL  COMMENT '供应商',
 `photo` varchar(128) COMMENT '路径',
 `name` varchar(64) COMMENT '名称'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='供应商照片';

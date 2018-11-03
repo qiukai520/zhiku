@@ -6,34 +6,56 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/public/forms/base.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/forms/form.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/forms/validate_func.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/custom/common.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sfa/forms/base.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sfa/forms/form.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sfa/forms/validate_func.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/common.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/custom/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/custom/common.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/custom/form-validate.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/custom/form-validate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/custom/select-pcas.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/custom/select-pcas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory.sql" beforeDir="false" afterPath="$PROJECT_DIR$/inventory.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory/adminx.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/adminx.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory/forms/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/forms/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sfa.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sfa.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sfa/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/sfa/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sfa/templatetags/sfa_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/sfa/templatetags/sfa_tags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sfa/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/sfa/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/custom/form-validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/custom/form-validate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/plugins/markdown/to-markdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/plugins/markdown/to-markdown.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/kindeditor-all.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/kindeditor-all.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/kindeditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/kindeditor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/lang/ar.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/lang/ar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/lang/en.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/lang/en.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/lang/ko.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/lang/ko.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/lang/zh_CN.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/lang/zh_CN.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/lang/zh_TW.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/lang/zh_TW.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/anchor/anchor.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/anchor/anchor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/autoheight/autoheight.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/autoheight/autoheight.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/baidumap/baidumap.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/baidumap/baidumap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/clearhtml/clearhtml.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/clearhtml/clearhtml.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/code/code.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/code/code.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/emoticons/emoticons.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/emoticons/emoticons.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/filemanager/filemanager.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/filemanager/filemanager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/flash/flash.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/flash/flash.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/image/image.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/image/image.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/insertfile/insertfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/insertfile/insertfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/lineheight/lineheight.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/lineheight/lineheight.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/link/link.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/link/link.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/map/map.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/map/map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/media/media.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/media/media.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/multiimage/multiimage.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/multiimage/multiimage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/pagebreak/pagebreak.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/pagebreak/pagebreak.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/plainpaste/plainpaste.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/plainpaste/plainpaste.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/preview/preview.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/preview/preview.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/quickformat/quickformat.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/quickformat/quickformat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/table/table.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/table/table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/template/template.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/template/template.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/wordpaste/wordpaste.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/kindeditor/plugins/wordpaste/wordpaste.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/webuploader/css/webuploader-edit.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/webuploader/js/webuploader-edit.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/webuploader/js/webuploader-support.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/webuploader/js/webuploader-support.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/inventory/goods_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_price.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_price.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/inventory_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/inventory_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/inventory_list.bak.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/inventory_list.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/purchase_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/purchase_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_contact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_linkman.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_linkman.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_memo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_memo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/warehouse_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/warehouse_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/layout.bak.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.bak.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/staff_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/staff_edit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sfa/customer_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_edit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sfa/customer_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/complete_task.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/complete_task.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_edit.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -56,155 +78,109 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="inventory_edit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/inventory_edit.html">
+      <file leaf-file-name="customer_edit.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_edit.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="109" column="25" selection-start-line="109" selection-start-column="25" selection-end-line="109" selection-end-column="25" />
+            <state relative-caret-position="-8972">
+              <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
               <folding>
-                <element signature="n#div#1;n#div#11;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#11;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#11;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#div#22;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+                <element signature="n#style#0;n#p#0;n#div#0;n#div#21;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#11071#11083#0#DjangoTemplate" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#26;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="goods_edit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/goods_edit.html">
+      <file leaf-file-name="customer_list.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="52">
-              <caret line="19" column="53" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="53" />
+            <state relative-caret-position="270">
+              <caret line="145" column="27" selection-start-line="145" selection-start-column="27" selection-end-line="145" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sfa/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="262">
+              <caret line="22" column="39" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="form-validate.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/js/custom/form-validate.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="184" column="24" selection-start-line="184" selection-start-column="24" selection-end-line="184" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sfa/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="84">
+              <caret line="123" column="69" lean-forward="true" selection-start-line="123" selection-start-column="69" selection-end-line="123" selection-end-column="69" />
               <folding>
-                <element signature="n#div#1;n#div#20;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#20;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#20;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="task_edit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/task/task_edit.html">
+      <file leaf-file-name="sfa_tags.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sfa/templatetags/sfa_tags.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="173" column="42" selection-start-line="173" selection-start-column="42" selection-end-line="173" selection-end-column="42" />
+            <state relative-caret-position="366">
+              <caret line="38" column="29" lean-forward="true" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="form.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sfa/forms/form.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="243">
+              <caret line="9" column="40" lean-forward="true" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
               <folding>
-                <element signature="e#7802#9338#0#HTML" />
-                <element signature="e#7905#7947#0#HTML" expanded="true" />
-                <element signature="e#8789#8831#0#HTML" expanded="true" />
+                <element signature="e#0#28#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="complete_task.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/task/complete_task.html">
+      <file leaf-file-name="functions.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common/functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="89">
-              <caret line="384" column="11" selection-start-line="384" selection-start-column="11" selection-end-line="384" selection-end-column="11" />
+            <state relative-caret-position="-39">
+              <caret line="20" column="15" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sfa/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1227">
+              <caret line="70" column="60" selection-start-line="70" selection-start-column="60" selection-end-line="70" selection-end-column="60" />
               <folding>
-                <element signature="e#1904#1943#0#HTML" expanded="true" />
-                <element signature="e#3014#3046#0#HTML" expanded="true" />
-                <element signature="e#3097#3151#0#HTML" expanded="true" />
-                <element signature="e#3217#3258#0#HTML" expanded="true" />
-                <element signature="e#5334#5355#0#HTML" expanded="true" />
-                <element signature="e#6147#6173#0#HTML" expanded="true" />
-                <element signature="e#8914#8975#0#HTML" expanded="true" />
-                <element signature="e#9025#9083#0#HTML" expanded="true" />
-                <element signature="e#9236#9260#0#HTML" expanded="true" />
-                <element signature="e#9921#9941#0#HTML" expanded="true" />
-                <element signature="e#10129#10149#0#HTML" expanded="true" />
-                <element signature="e#11046#11105#0#HTML" expanded="true" />
-                <element signature="e#13274#13300#0#HTML" expanded="true" />
-                <element signature="e#13572#13614#0#HTML" expanded="true" />
-                <element signature="e#14465#14507#0#HTML" expanded="true" />
-                <element signature="e#18613#18652#0#HTML" expanded="true" />
-                <element signature="e#19054#19104#0#HTML" expanded="true" />
-                <element signature="e#19177#19219#0#HTML" expanded="true" />
-                <element signature="e#19459#19481#0#HTML" expanded="true" />
-                <element signature="e#19355#19407#0#HTML" expanded="true" />
-                <element signature="e#19472#19523#0#HTML" expanded="true" />
-                <element signature="e#21195#21245#0#HTML" expanded="true" />
+                <element signature="e#0#28#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="layout.bak.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/layout.bak.html">
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sfa/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="511">
-              <caret line="93" column="1" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
+            <state relative-caret-position="231">
+              <caret line="84" column="17" selection-start-line="84" selection-start-column="17" selection-end-line="84" selection-end-column="17" />
               <folding>
-                <element signature="e#2434#2884#0#HTML" />
-                <element signature="e#2922#3128#0#HTML" />
-                <element signature="e#3170#3244#0#HTML" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="goods_price_compare.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price_compare.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1350">
-              <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="goods_price.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
-              <caret line="202" column="11" selection-start-line="202" selection-start-column="11" selection-end-line="202" selection-end-column="11" />
-              <folding>
-                <element signature="e#7109#7121#0#DjangoTemplate" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#19;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#19;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="purchase_edit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/purchase_edit.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="138" column="24" selection-start-line="138" selection-start-column="24" selection-end-line="138" selection-end-column="24" />
-              <folding>
-                <element signature="n#div#1;n#div#15;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#15;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#15;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="supplier_contact.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_contact.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="146" column="24" selection-start-line="146" selection-start-column="24" selection-end-line="146" selection-end-column="24" />
-              <folding>
-                <element signature="n#div#1;n#div#21;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#21;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#21;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="supplier_edit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_edit.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="217" column="28" selection-start-line="217" selection-start-column="28" selection-end-line="217" selection-end-column="28" />
-              <folding>
-                <element signature="n#div#1;n#div#32;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#32;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#32;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#0#32#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -224,13 +200,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>submit</find>
-      <find>goods_edit</find>
-      <find>update</find>
-      <find />
-      <find>removed</find>
-      <find>modify_path_set</find>
-      <find>Supplier</find>
       <find>gender</find>
       <find>customer_edit</find>
       <find>change_to_industry</find>
@@ -240,13 +209,11 @@
       <find>供应商</find>
       <find>supplier_carte</find>
       <find>pc</find>
-      <find>supplier</find>
       <find>city</find>
       <find>Town</find>
       <find>City</find>
       <find>province</find>
       <find>wareh</find>
-      <find>town_id</find>
       <find>添加附件</find>
       <find>alert</find>
       <find>:</find>
@@ -254,14 +221,24 @@
       <find>name=&quot;file&quot;</find>
       <find>附件</find>
       <find>J_mainContent</find>
+      <find>Supplier</find>
+      <find>town_id</find>
+      <find>Fetch</find>
+      <find>水果</find>
+      <find>supplier</find>
+      <find>主营商品</find>
+      <find>`employees`</find>
+      <find>recorder_id</find>
+      <find>purpose</find>
     </findStrings>
     <replaceStrings>
       <replace>/static/js/</replace>
       <replace>dpid</replace>
       <replace>deleted</replace>
       <replace>customers</replace>
-      <replace>customer</replace>
       <replace>凭证</replace>
+      <replace>Customer</replace>
+      <replace>customer</replace>
     </replaceStrings>
     <dirStrings>
       <dir>H:\PythonWorkPlace\company\thinking_library\templates\task</dir>
@@ -274,21 +251,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/sfa/apps.py" />
-        <option value="$PROJECT_DIR$/sfa/adminx.py" />
-        <option value="$PROJECT_DIR$/sfa/server.py" />
-        <option value="$PROJECT_DIR$/sfa/urls.py" />
-        <option value="$PROJECT_DIR$/sfa/views.py" />
-        <option value="$PROJECT_DIR$/sfa/templatetags/sfa_tags.py" />
-        <option value="$PROJECT_DIR$/inventory/forms/form.py" />
-        <option value="$PROJECT_DIR$/public/apps.py" />
-        <option value="$PROJECT_DIR$/thinking_library/settings.py" />
-        <option value="$PROJECT_DIR$/inventory/views.py" />
         <option value="$PROJECT_DIR$/inventory/urls.py" />
         <option value="$PROJECT_DIR$/public/models.py" />
         <option value="$PROJECT_DIR$/thinking_library/urls.py" />
-        <option value="$PROJECT_DIR$/sfa/models.py" />
-        <option value="$PROJECT_DIR$/inventory/models.py" />
         <option value="$PROJECT_DIR$/inventory/adminx.py" />
         <option value="$PROJECT_DIR$/inventory/server.py" />
         <option value="$PROJECT_DIR$/public/server.py" />
@@ -304,17 +269,13 @@
         <option value="$PROJECT_DIR$/public/views.py" />
         <option value="$PROJECT_DIR$/static/js/custom/select-pcas.js" />
         <option value="$PROJECT_DIR$/static/js/custom/form-validate.min.js" />
-        <option value="$PROJECT_DIR$/static/js/custom/form-validate.js" />
         <option value="$PROJECT_DIR$/templates/inventory/warehouse_edit.html" />
-        <option value="$PROJECT_DIR$/templates/sfa/customer_list.html" />
         <option value="$PROJECT_DIR$/templates/layout.html" />
         <option value="$PROJECT_DIR$/static/js/common.js" />
         <option value="$PROJECT_DIR$/static/js/custom/common.js" />
         <option value="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" />
-        <option value="$PROJECT_DIR$/templates/sfa/customer_edit.html" />
         <option value="$PROJECT_DIR$/static/css/custom/common.css" />
         <option value="$PROJECT_DIR$/templates/inventory/supplier_linkman.html" />
-        <option value="$PROJECT_DIR$/templates/inventory/goods_edit.html" />
         <option value="$PROJECT_DIR$/templates/inventory/inventory_edit.html" />
         <option value="$PROJECT_DIR$/templates/personnel/staff_edit.html" />
         <option value="$PROJECT_DIR$/templates/inventory/purchase_edit.html" />
@@ -325,6 +286,22 @@
         <option value="$PROJECT_DIR$/templates/task/task_edit.html" />
         <option value="$PROJECT_DIR$/templates/task/complete_task.html" />
         <option value="$PROJECT_DIR$/templates/layout.bak.html" />
+        <option value="$PROJECT_DIR$/templates/inventory/goods_edit.html" />
+        <option value="$PROJECT_DIR$/static/plugins/webuploader/js/webuploader-support.js" />
+        <option value="$PROJECT_DIR$/inventory/models.py" />
+        <option value="$PROJECT_DIR$/inventory/forms/form.py" />
+        <option value="$PROJECT_DIR$/sfa/urls.py" />
+        <option value="$PROJECT_DIR$/sfa.sql" />
+        <option value="$PROJECT_DIR$/inventory.sql" />
+        <option value="$PROJECT_DIR$/static/js/custom/form-validate.js" />
+        <option value="$PROJECT_DIR$/sfa/forms/form.py" />
+        <option value="$PROJECT_DIR$/sfa/templatetags/sfa_tags.py" />
+        <option value="$PROJECT_DIR$/templates/sfa/customer_edit.html" />
+        <option value="$PROJECT_DIR$/sfa/views.py" />
+        <option value="$PROJECT_DIR$/common/functions.py" />
+        <option value="$PROJECT_DIR$/sfa/server.py" />
+        <option value="$PROJECT_DIR$/sfa/models.py" />
+        <option value="$PROJECT_DIR$/templates/sfa/customer_list.html" />
       </list>
     </option>
   </component>
@@ -337,7 +314,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="width" value="1543" />
     <option name="height" value="834" />
@@ -348,7 +325,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -359,12 +335,7 @@
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="inventory" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="personnel" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -374,32 +345,18 @@
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="sfa" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="sfa" type="462c0819:PsiDirectoryNode" />
               <item name="forms" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="templatetags" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-              <item name="custom" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -413,11 +370,23 @@
               <item name="static" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
               <item name="custom" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="sfa" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -432,6 +401,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -447,19 +417,19 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\workplace\thinking_library\sfa" />
+      <recent name="F:\workplace\thinking_library\public" />
+      <recent name="F:\workplace\thinking_library\inventory" />
+      <recent name="F:\workplace\thinking_library\templates\sfa" />
+      <recent name="F:\workplace\thinking_library\static\plugins\webuploader\css" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\workplace\thinking_library\static\plugins\webuploader\js" />
       <recent name="F:\workplace\thinking_library\static\plugins\webuploader\css" />
       <recent name="F:\workplace\thinking_library\static\js\plugins\bootstrap-table" />
       <recent name="F:\workplace\thinking_library\static\js\plugins\bootstrap-table\export" />
       <recent name="F:\workplace\thinking_library\inventory\templatetags" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\workplace\thinking_library\public" />
-      <recent name="F:\workplace\thinking_library\inventory" />
-      <recent name="F:\workplace\thinking_library\templates\sfa" />
-      <recent name="F:\workplace\thinking_library\sfa" />
-      <recent name="F:\workplace\thinking_library\static\plugins\webuploader\css" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -545,7 +515,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3287037" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5221675" side_tool="true" weight="0.43287036" />
@@ -553,10 +524,11 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3287037" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.41666666" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.47783253" visible="true" weight="0.2835648" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.22967981" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.47783253" visible="true" weight="0.32060185" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.2567734" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49938422" weight="0.3275463" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" sideWeight="0.092150174" side_tool="true" weight="0.18596059" />
       <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
@@ -569,32 +541,31 @@
       <window_info anchor="right" x="0" y="0" width="374" height="826" id="Documentation" order="6" side_tool="true" weight="0.3294335" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49938422" weight="0.3275463" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Data View" order="4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.11268473" />
       <window_info id="Structure" order="1" sideWeight="0.092150174" side_tool="true" weight="0.18596059" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32942554" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3298611" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.11268473" />
-      <window_info anchor="bottom" id="Python Console" order="8" weight="0.32937685" />
+      <window_info anchor="right" id="Data View" order="4" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49938422" weight="0.3275463" />
       <window_info anchor="right" x="0" y="0" width="374" height="826" id="Documentation" order="6" side_tool="true" weight="0.3294335" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4981527" weight="0.39930555" />
       <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.48029557" visible="true" weight="0.2673611" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.51970446" side_tool="true" weight="0.2673611" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3287037" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" id="Database" order="5" />
-      <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.32937685" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -616,198 +587,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/personnel/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-162">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-          <folding>
-            <element signature="e#640#653#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="32" column="33" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
-          <folding>
-            <element signature="e#640#653#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sfa/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="3" column="37" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-108">
-          <caret line="2" column="30" selection-start-line="2" selection-start-column="30" selection-end-line="2" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/adminx.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="171" lean-forward="true" selection-start-line="171" selection-end-line="171" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="860" column="29" selection-start-line="860" selection-start-column="29" selection-end-line="860" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-            <element signature="e#120#880#0" />
-            <element signature="e#921#1729#0" />
-            <element signature="e#1766#2741#0" />
-            <element signature="e#16702#17935#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4455">
-          <caret line="165" column="18" selection-start-line="165" selection-start-column="18" selection-end-line="165" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/templatetags/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="21" column="66" selection-start-line="21" selection-start-column="66" selection-end-line="21" selection-end-column="66" />
-          <folding>
-            <element signature="e#640#676#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/templatetags/public_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="157" selection-start-line="157" selection-end-line="157" />
-          <folding>
-            <element signature="e#4410#4536#0" />
-            <element signature="e#4587#4700#0" />
-            <element signature="e#4754#4876#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-13663">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/templatetags/inventory_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="323" selection-start-line="323" selection-end-line="323" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#2229#2836#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/warehouse_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="22" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="22" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/forms/base.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/forms/form.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="25" column="66" selection-start-line="25" selection-start-column="66" selection-end-line="25" selection-end-column="66" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2079">
-          <caret line="1" column="35" selection-start-line="1" selection-start-column="35" selection-end-line="1" selection-end-column="35" />
-          <folding>
-            <element signature="e#1997#2389#0" />
-            <element signature="e#2423#2550#0" />
-            <element signature="e#4362#4745#0" />
-            <element signature="e#6743#6867#0" />
-            <element signature="e#6900#8396#0" />
-            <element signature="e#8431#8561#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="57" column="24" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/custom/select-pcas.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="4" column="30" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/custom/form-validate.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-47">
-          <caret line="371" column="20" selection-start-line="371" selection-start-column="20" selection-end-line="371" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1107">
-          <caret line="43" column="174" selection-start-line="43" selection-start-column="174" selection-end-line="43" selection-end-column="174" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/warehouse_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6804">
-          <caret line="252" column="37" selection-start-line="252" selection-start-column="37" selection-end-line="252" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/css/custom.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-810" />
@@ -824,11 +603,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#!!top" expanded="true" />
-            <element signature="n#!!block;n#RemoveAttachment#0" />
-            <element signature="n#!!block;n#clearAttachment#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -860,27 +634,7 @@
     <entry file="file://$PROJECT_DIR$/templates/inventory/invent_list.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/inventory_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1755">
-          <caret line="1" column="22" lean-forward="true" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="38" column="31" lean-forward="true" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="324" column="4" selection-start-line="324" selection-start-column="4" selection-end-line="324" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/inventory_list.html" />
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/pycharm.jar!/resources/html5-schema/html5/common.rnc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
@@ -892,19 +646,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="81">
           <caret line="3" column="25" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="200" column="49" lean-forward="true" selection-start-line="200" selection-end-line="217" />
-          <folding>
-            <element signature="e#11071#11083#0#DjangoTemplate" />
-            <element signature="n#div#1;n#div#0;n#div#26;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#26;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#26;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -946,123 +687,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_edit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
+        <state relative-caret-position="5859">
           <caret line="217" column="28" selection-start-line="217" selection-start-column="28" selection-end-line="217" selection-end-column="28" />
-          <folding>
-            <element signature="n#div#1;n#div#32;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#32;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#32;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_contact.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
+        <state relative-caret-position="3942">
           <caret line="146" column="24" selection-start-line="146" selection-start-column="24" selection-end-line="146" selection-end-column="24" />
-          <folding>
-            <element signature="n#div#1;n#div#21;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#21;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#21;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/inventory/purchase_edit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
+        <state relative-caret-position="3726">
           <caret line="138" column="24" selection-start-line="138" selection-start-column="24" selection-end-line="138" selection-end-column="24" />
-          <folding>
-            <element signature="n#div#1;n#div#15;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#15;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#15;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/inventory/inventory_edit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
+        <state relative-caret-position="2943">
           <caret line="109" column="25" selection-start-line="109" selection-start-column="25" selection-end-line="109" selection-end-column="25" />
-          <folding>
-            <element signature="n#div#1;n#div#11;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#11;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#11;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price_compare.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1350">
-          <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="202" column="11" selection-start-line="202" selection-start-column="11" selection-end-line="202" selection-end-column="11" />
-          <folding>
-            <element signature="e#7109#7121#0#DjangoTemplate" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#19;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#19;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="19" column="53" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="53" />
-          <folding>
-            <element signature="n#div#1;n#div#20;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#20;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#20;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="173" column="42" selection-start-line="173" selection-start-column="42" selection-end-line="173" selection-end-column="42" />
-          <folding>
-            <element signature="e#7802#9338#0#HTML" />
-            <element signature="e#7905#7947#0#HTML" expanded="true" />
-            <element signature="e#8789#8831#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/complete_task.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="384" column="11" selection-start-line="384" selection-start-column="11" selection-end-line="384" selection-end-column="11" />
-          <folding>
-            <element signature="e#1904#1943#0#HTML" expanded="true" />
-            <element signature="e#3014#3046#0#HTML" expanded="true" />
-            <element signature="e#3097#3151#0#HTML" expanded="true" />
-            <element signature="e#3217#3258#0#HTML" expanded="true" />
-            <element signature="e#5334#5355#0#HTML" expanded="true" />
-            <element signature="e#6147#6173#0#HTML" expanded="true" />
-            <element signature="e#8914#8975#0#HTML" expanded="true" />
-            <element signature="e#9025#9083#0#HTML" expanded="true" />
-            <element signature="e#9236#9260#0#HTML" expanded="true" />
-            <element signature="e#9921#9941#0#HTML" expanded="true" />
-            <element signature="e#10129#10149#0#HTML" expanded="true" />
-            <element signature="e#11046#11105#0#HTML" expanded="true" />
-            <element signature="e#13274#13300#0#HTML" expanded="true" />
-            <element signature="e#13572#13614#0#HTML" expanded="true" />
-            <element signature="e#14465#14507#0#HTML" expanded="true" />
-            <element signature="e#18613#18652#0#HTML" expanded="true" />
-            <element signature="e#19054#19104#0#HTML" expanded="true" />
-            <element signature="e#19177#19219#0#HTML" expanded="true" />
-            <element signature="e#19459#19481#0#HTML" expanded="true" />
-            <element signature="e#19355#19407#0#HTML" expanded="true" />
-            <element signature="e#19472#19523#0#HTML" expanded="true" />
-            <element signature="e#21195#21245#0#HTML" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1070,11 +717,283 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="511">
           <caret line="93" column="1" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/webuploader/js/webuploader-edit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
           <folding>
-            <element signature="e#2434#2884#0#HTML" />
-            <element signature="e#2922#3128#0#HTML" />
-            <element signature="e#3170#3244#0#HTML" />
+            <element signature="n#!!doc" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/webuploader/css/webuploader-edit.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-324" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/webuploader/js/webuploader-support.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="756">
+          <caret line="741" column="1" lean-forward="true" selection-start-line="4" selection-end-line="741" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="218" column="13" lean-forward="true" selection-start-line="216" selection-start-column="5" selection-end-line="218" selection-end-column="13" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#div#4;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/webuploader/css/webuploader-support.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="21" column="24" lean-forward="true" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/task_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="173" column="42" selection-start-line="173" selection-start-column="42" selection-end-line="173" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/complete_task.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-108">
+          <caret line="439" column="36" selection-start-line="439" selection-start-column="27" selection-end-line="439" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price_compare.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/table_bootstrap.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2619">
+          <caret line="97" column="41" selection-start-line="97" selection-start-column="41" selection-end-line="97" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="35" column="30" lean-forward="true" selection-start-line="29" selection-start-column="27" selection-end-line="35" selection-end-column="30" />
+          <folding>
+            <element signature="n#div#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/models.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="254" selection-start-line="254" selection-end-line="287" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#158#2484#0" />
+            <element signature="e#2518#4251#0" />
+            <element signature="e#4295#6603#0" />
+            <element signature="e#6645#7312#0" />
+            <element signature="e#7348#9319#0" />
+            <element signature="e#10758#11419#0" />
+            <element signature="e#11459#12049#0" />
+            <element signature="e#12090#12681#0" />
+            <element signature="e#12725#13327#0" />
+            <element signature="e#13369#13969#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="415" column="30" selection-start-line="415" selection-start-column="30" selection-end-line="415" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+            <element signature="e#1766#2741#0" />
+            <element signature="e#2779#3566#0" />
+            <element signature="e#3600#4343#0" />
+            <element signature="e#4378#5525#0" />
+            <element signature="e#5562#6720#0" />
+            <element signature="e#6756#7678#0" />
+            <element signature="e#7717#8496#0" />
+            <element signature="e#8526#9655#0" />
+            <element signature="e#9690#10128#0" />
+            <element signature="e#10165#10605#0" />
+            <element signature="e#10641#11562#0" />
+            <element signature="e#11595#12828#0" />
+            <element signature="e#12866#13335#0" />
+            <element signature="e#13375#13858#0" />
+            <element signature="e#13897#14861#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="65" column="45" lean-forward="true" selection-start-line="65" selection-start-column="45" selection-end-line="65" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa/forms/base.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa/forms/validate_func.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="e#1#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/forms/form.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="30" selection-start-line="30" selection-end-line="34" selection-end-column="79" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#2860#3212#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="1" column="35" selection-start-line="1" selection-start-column="35" selection-end-line="1" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="33" />
+          <folding>
+            <element signature="e#71646#72776#0" />
+            <element signature="e#78542#79614#0" />
+            <element signature="e#79652#80726#0" />
+            <element signature="e#80763#81887#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="8" column="26" lean-forward="true" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/custom/form-validate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="184" column="24" selection-start-line="184" selection-start-column="24" selection-end-line="184" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa/forms/form.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="9" column="40" lean-forward="true" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa/templatetags/sfa_tags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="38" column="29" lean-forward="true" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-39">
+          <caret line="20" column="15" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="84" column="17" selection-start-line="84" selection-start-column="17" selection-end-line="84" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="22" column="39" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="123" column="69" lean-forward="true" selection-start-line="123" selection-start-column="69" selection-end-line="123" selection-end-column="69" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1227">
+          <caret line="70" column="60" selection-start-line="70" selection-start-column="60" selection-end-line="70" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8972">
+          <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
+          <folding>
+            <element signature="n#div#22;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+            <element signature="n#style#0;n#p#0;n#div#0;n#div#21;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#11071#11083#0#DjangoTemplate" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#26;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="145" column="27" selection-start-line="145" selection-start-column="27" selection-end-line="145" selection-end-column="27" />
         </state>
       </provider>
     </entry>

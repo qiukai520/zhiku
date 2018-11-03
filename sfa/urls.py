@@ -20,5 +20,8 @@ from . import views
 
 urlpatterns = [
     path("customer", views.customer_list, name="customer_list"),
-    path("customer/edit",views.customer_edit,name="customer_edit")
+    path("customer/edit",views.customer_edit,name="customer_edit"),
+    path("upload_customer_photo", views.customer_photo, name="customer_photo"),
+    path("upload_customer_licence", views.customer_licence, name="customer_licence"),
+    path("upload_attach", views.customer_attach, name="customer_attach"),
 ]

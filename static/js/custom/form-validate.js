@@ -180,14 +180,29 @@ $.validator.setDefaults({
             rules:{
                 company: {
                         required: true,
-                        maxlength: 16
+                        maxlength: 32
                       },
-                country_id:"required",
+                business: {
+                        required: true,
+                        maxlength: 32
+                      },
+               town_id:{
+                     required: true,
+                     min:1,
+                     digits: true,
+                },
             },
             messages: {
-                country_id:e+"请选择县（区）",
+                town_id:{
+                    required:"请选择街道",
+                    digits:"请选择街道",
+                    min:"请选择街道"
+                },
                 company: {
-                    required: e+"请输入商品名称",
+                    required: e+"请输入公司名称",
+                },
+                 business: {
+                    required: e+"主营业务不能为空",
                 },
                 // username:{required:e+"请输入您的用户名",minlength:e+"用户名必须两个字符以上"},
                 // password:{required:e+"请输入您的密码",minlength:e+"密码必须5个字符以上"},
@@ -372,6 +387,36 @@ $.validator.setDefaults({
                 lng:e+"请选择定位",
                 lat:e+"请选择定位",
 
+                // username:{required:e+"请输入您的用户名",minlength:e+"用户名必须两个字符以上"},
+                // password:{required:e+"请输入您的密码",minlength:e+"密码必须5个字符以上"},
+                // confirm_password:{required:e+"请再次输入密码",minlength:e+"密码必须5个字符以上",equalTo:e+"两次输入的密码不一致"},
+                // email:e+"请输入您的E-mail",
+                // agree:{required:e+"必须同意协议后才能注册",element:"#agree-error"}
+            },
+            invalidHandler: function(form, validator) {
+                var errors = validator.numberOfInvalids();
+                if (errors) {
+                    validator.errorList[0].element.focus();
+                }
+            }
+            });
+         $("#customer_fm").validate({
+            focusInvalid :true,//当验证无效时，焦点跳到第一个无效的表单元素,
+            //(但是只有当表单提交发生时它才有效。 如果用 valid 方法验证表单，则它不起作用)
+            // 解决办法，使用invalidHandler 方法
+            onfocusout: false,
+            rules:{
+                company: {
+                        required: true,
+                        maxlength: 32
+                      },
+                country_id:"required",
+            },
+            messages: {
+                country_id:e+"请选择县（区）",
+                company: {
+                    required: e+"请输入公司名称",
+                },
                 // username:{required:e+"请输入您的用户名",minlength:e+"用户名必须两个字符以上"},
                 // password:{required:e+"请输入您的密码",minlength:e+"密码必须5个字符以上"},
                 // confirm_password:{required:e+"请再次输入密码",minlength:e+"密码必须5个字符以上",equalTo:e+"两次输入的密码不一致"},

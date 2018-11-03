@@ -16,7 +16,7 @@ class CustomerDB(object):
         for k, v in modify_info.items():
             k_list.append(k)
             v_list.append("%%(%s)s" % k)
-            customer_sql = customer_sql % (",".join(k_list), ",".join(v_list))
+        customer_sql = customer_sql % (",".join(k_list), ",".join(v_list))
         cursor = connection.cursor()
         cursor.execute(customer_sql, modify_info)
         nid = cursor.lastrowid
@@ -60,5 +60,71 @@ class CustomerCategoryDB(object):
         CustomerCategory.objects.create(**modify_info)
 
 
+class CustomerPhotoDB(object):
+    """客户图片"""
+
+    def insert_photo(self, modify):
+        CustomerPhoto.objects.create(**modify)
+
+    def query_customer_photo(self,id):
+        result_db = CustomerPhoto.objects.filter(customer_id=id).first()
+        return result_db
+
+    def update_photo(self, modify):
+        CustomerPhoto.objects.filter(customer_id=modify["customer_id"]).update(**modify)
+
+    def delete_photo_by_customer_id(self, id):
+        CustomerPhoto.objects.filter(customer_id=id).delete()
+
+
+class CustomerLicenceDB(object):
+    """客户营业执照"""
+
+    def insert_photo(self, modify):
+        print("modirfy",modify)
+        CustomerLicence.objects.create(**modify)
+
+    def query_customer_licence(self,id):
+        result_db = CustomerLicence.objects.filter(customer_id=id).first()
+        return result_db
+
+    def update_licence(self, modify):
+        CustomerLicence.objects.filter(customer_id=modify["customer_id"]).update(**modify)
+
+    def delete_licence_by_customer_id(self,id):
+        CustomerLicence.objects.filter(customer_id=id).delete()
+
+
+class CustomerAttachDB(object):
+    """客户附件表"""
+    def query_customer_attachment_list(self):
+        result_db = CustomerAttach.objects.filter().all()
+        return result_db
+
+    def query_customer_attachment(self,id):
+        result_db = CustomerAttach.objects.filter(customer_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            CustomerAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            CustomerAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_customer_attachment(self, id_list):
+        CustomerAttach.objects.filter(nid__in=id_list).delete()
+
+    def multi_delete_attach_by_customer_id(self,id_list):
+        CustomerAttach.objects.filter(customer_id__in=id_list).filter().delete()
+
+    def delete_customer_attachment(self,nid):
+        CustomerAttach.objects.filter(nid=nid).delete()
+
+
 customer_db = CustomerDB()
 customer_category_db = CustomerCategoryDB()
+customer_attach_db = CustomerAttachDB()
+customer_licence_db = CustomerLicenceDB()
+customer_photo_db = CustomerPhotoDB()

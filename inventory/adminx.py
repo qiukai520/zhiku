@@ -120,7 +120,7 @@ class SupplierAttachAdmin(object):
 
 class SupplierLicenceAdmin(object):
     """供应商执照"""
-    list_display = ["supplier","licence","name"]
+    list_display = ["supplier","photo","name"]
     list_filter = ["supplier"]
     search_fields = ['supplier']
     model_icon = 'fa fa-cog'

@@ -2,6 +2,7 @@
 /**
  * @param options key：support 自定义拓展属性（可以重写对应的属性,删除文件的逻辑可以重新进行实现.）, 其他配置参考webuploader配置,优先级理论大于support的配置
  */
+
 function WebUploaderSupport(options) {
     var that = this;
     var fileStatus =  {

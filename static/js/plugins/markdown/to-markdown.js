@@ -2,7 +2,7 @@
  * to-markdown - an HTML to Markdown converter
  *
  * Copyright 2011, Dom Christie
- * Licenced under the MIT licence
+ * Licenced under the MIT photo
  *
  */
 

@@ -185,7 +185,7 @@ class GoodsAttach(models.Model):
 class SupplierAttach(models.Model):
     nid = models.AutoField(primary_key=True)
     supplier = models.ForeignKey('Supplier', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
-                            verbose_name='商品')
+                            verbose_name='供应商')
     attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
     name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
     description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')

@@ -4,7 +4,7 @@
 *
 * @author Composite <ukjinplant@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.lang({

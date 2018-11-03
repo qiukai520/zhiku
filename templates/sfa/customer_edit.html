@@ -26,7 +26,7 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal">
-                         <form action="{% url "supplier_edit" %}" method="post" id="supplier_fm" class="form-horizontal" enctype="multipart/form-data">
+                         <form action="{% url "customer_edit" %}" method="post" id="customer_fm" class="form-horizontal" enctype="multipart/form-data">
                              {% csrf_token %}
                              <input type="hidden" name="nid" id="nid" >
                            <div class="form-group">
@@ -64,7 +64,7 @@
                           <div class="form-group">
                             <label class="col-sm-2 control-label">主营业务</label>
                                 <div class="col-sm-8">
-                                <input type="text" class="form-control" name="products" id="products" placeholder="可写多个，如:苹果；梨子"> <span class="help-block m-b-none"></span>
+                                <input type="text" class="form-control" name="business" id="business" placeholder="可写多个，如:水果供应;营养早餐"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                          <div class="hr-line-dashed"></div>
@@ -129,7 +129,7 @@
                                      {%  if  nid %}
                                          {% build_town_ele country_id  %}
                                         {% endif %}
-                                     <option value="0">请选择街道</option>
+                                     <option value=0>请选择街道</option>
                                     </select>
                                 </div>
                             </div>
@@ -149,6 +149,23 @@
                                  <span class="help-block m-b-none"></span>
                             </div>
                         </div>
+                           <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">意向类别</label>
+                            <div class="col-sm-8">
+                                <select  name="purpose" class="form-control" id="purpose" >
+                                    {% build_customer_purpose_ele  %}
+                                </select>
+                            </div>
+                        </div>
+                          <div class="hr-line-dashed"></div>
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label">录入人</label>
+                            <div class="col-sm-8">
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_staff request.user.staff.sid %}</p>
+                                <input type="text" class="hidden" name="recorder_id" id="recorder_id" value={{request.user.staff.sid  }}>
+                            </div>
+                        </div>
                           <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">营业执照</label>
@@ -161,7 +178,7 @@
                             </div>
                              <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">公司照片</label>
+                                <label class="col-sm-2 control-label">公司/个人照片</label>
                                 <div class="col-sm-8">
                                     <a href="" class="hide"width="100"  height="100" id="pre_link" target="_blank">
                                     <p><img width="100"  id="photo" height="100"style=" border: 1px solid #dddddd;"  onclick="javascript:window.open(this.src)" ></p>
@@ -174,7 +191,7 @@
                                 <div id="attachment-container  " style="position: relative">
                                 <!--初始化附件-->
                                     {% if nid %}
-                                        {% for obj in supplier_attach%}
+                                        {% for obj in customer_attach%}
                                              <div class="attachment">
                                             <div class="form-group ">
                                             <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
@@ -226,7 +243,7 @@
                                  <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                  <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
                                  <button type="submit"  onclick="Submit(4)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并添加联系人.." name="_continue"><i class="fa fa-save"></i> 保存并添加联系人</button>
-                                 <a href="{% url "supplier_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                 <a href="{% url "customer_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
 
                                  <!--error_msg-->
                                  <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
@@ -264,7 +281,6 @@
                 }
             }
         });
-
  /*
     自执行函数
     */
@@ -296,11 +312,11 @@ function InitData() {
         $("#bank_account").val("{% if  query_set.bank_account %}{{ query_set.bank_account }} {% endif %}");
         $("#account_name").val("{% if  query_set.account_name %}{{ query_set.account_name }} {% endif %}");
         $("#address").val("{% if  query_set.address %}{{ query_set.address }} {% endif %}");
-        //初始化商品照
-         var photo= "{{ supplier_photo }}"
+        //初始照片
+         var photo= "{{ customer_photo }}"
         if (photo!=""){
-             var path="{{ supplier_photo.photo }}"
-             var name="{{ supplier_photo.name }}"
+             var path="{{ customer_photo.photo }}"
+             var name="{{ customer_photo.name }}"
              //添加新的file
             var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
             var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
@@ -310,15 +326,15 @@ function InitData() {
             $("#photo_input").parent().find("input[name=file_path]").val(path)
              $("#photo_input").parent().find("input[name=file_name]").val(name)
             //预览
-            $("#photo").attr("src","/"+"{{ supplier_photo.photo }}")
-            $("#pre_link").attr("src","/"+"{{ supplier_photo.photo }}")
+            $("#photo").attr("src","/"+"{{ customer_photo.photo }}")
+            $("#pre_link").attr("src","/"+"{{ customer_photo.photo }}")
             $("#pre_link").removeClass("hide")
         }
-         //初始化营业执照条码
-         var licence= "{{ supplier_licence }}"
+         //初始化营业执照
+         var licence= "{{ customer_licence }}"
         if (licence!=""){
-             var path="{{ supplier_licence.photo }}"
-             var name="{{ supplier_licence.name }}"
+             var path="{{ customer_licence.photo }}"
+             var name="{{ customer_licence.name }}"
              //添加新的file
             var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
             var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
@@ -328,8 +344,8 @@ function InitData() {
             $("#licence_input").parent().find("input[name=file_path]").val(path)
              $("#licence_input").parent().find("input[name=file_name]").val(name)
             //预览
-            $("#licence").attr("src","/"+"{{ supplier_licence.photo }}")
-            $("#licence_pre_link").attr("src","/"+"{{ supplier_licence.photo }}")
+            $("#licence").attr("src","/"+"{{ customer_licence.photo }}")
+            $("#licence_pre_link").attr("src","/"+"{{ customer_licence.photo }}")
             $("#licence_pre_link").removeClass("hide")
         }
     }
@@ -379,7 +395,7 @@ function FetchAttachment(){
     return attachment_list
 }
  /*
-    上传客户图片
+    上传公司图片
     */
     function UploadPhoto(ths){
         //去掉旧文件
@@ -399,7 +415,7 @@ function FetchAttachment(){
             var form = new FormData();
             form.append("file", file_obj);
             $.ajax({
-                url:"{% url 'supplier_photo' %}",
+                url:"{% url 'customer_photo' %}",
                 type:"POST",
                 data: form ,
                 dataType:"JSON",
@@ -425,7 +441,7 @@ function FetchAttachment(){
         }
     }
      /*
-    上传客户执照
+    上传公司执照
     */
     function UploadLicence(ths){
         //去掉旧文件
@@ -445,7 +461,7 @@ function FetchAttachment(){
             var form = new FormData();
             form.append("file", file_obj);
             $.ajax({
-                url:"{% url 'supplier_licence' %}",
+                url:"{% url 'customer_photo' %}",
                 type:"POST",
                 data: form ,
                 dataType:"JSON",
@@ -483,7 +499,7 @@ function UploadFile(ths){
     var form = new FormData();
     form.append("file", file_obj);
     $.ajax({
-        url:"{% url 'supplier_attach' %}",
+        url:"{% url 'customer_attach' %}",
         type:"POST",
         data: form ,
         dataType:"JSON",
@@ -505,7 +521,7 @@ function UploadFile(ths){
     })
 }
 //创建时获取客户照片
-    function  FetchSupplierPhoto() {
+    function  FetchCustomerPhoto() {
         var photo_path = $("#photo_input").next().val();
         var photo_name= $("#photo_input").next().next().val();
         if (photo_path){
@@ -517,8 +533,8 @@ function UploadFile(ths){
         life_photo = JSON.stringify(life_photo)
         return life_photo
     }
-        //创建时获取商品照片
-    function  FetchSupplierLicence() {
+        //创建时获取客户照片
+    function  FetchCustomerLicence() {
         var photo_path = $("#licence_input").next().val();
         var photo_name= $("#licence_input").next().next().val();
         if (photo_path){
@@ -534,17 +550,17 @@ function UploadFile(ths){
       function Submit(cons){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
-         var form =$("#supplier_fm");
+         var form =$("#customer_fm");
          console.log( form.valid())
         //验证表单
          if ( form.valid()){
               //把生活照添加到form中
-             var supplier_photo= FetchSupplierPhoto();
-             var supplier_photo_ele=$("<input type='text' class='hide' name='supplier_photo'  value={0} />".format(supplier_photo));
-             form.append(supplier_photo_ele)
-             var licence=FetchSupplierLicence();
+             var customer_photo= FetchCustomerPhoto();
+             var customer_photo_ele=$("<input type='text' class='hide' name='customer_photo'  value={0} />".format(customer_photo));
+             form.append(customer_photo_ele)
+             var licence=FetchCustomerLicence();
              console.log("licence",licence)
-             var licence_ele=$("<input type='text' class='hide' name='supplier_licence'  value={0} />".format(licence));
+             var licence_ele=$("<input type='text' class='hide' name='customer_licence'  value={0} />".format(licence));
              form.append(licence_ele)
             //把附件添加到form中
               var nid="{{ nid }}"
@@ -560,18 +576,18 @@ function UploadFile(ths){
              var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
              form.append(attachment_ele)
              $.ajax({
-                url: '{% url "supplier_edit" %}',
+                url: '{% url "customer_edit" %}',
                 type: 'POST',
                 data: form.serialize(),
                 dataType: 'JSON',
                 success: function (arg) {
                    if (arg.status) {
                         if (cons==1){
-                             window.location.href='{% url "supplier_list" %}';
+                             window.location.href='{% url "customer_list" %}';
                         }else if(cons==2){
-                             window.location.href='{% url "supplier_edit" %}';
+                             window.location.href='{% url "customer_edit" %}';
                         }else if (cons==3){
-                              window.location.href='{% url "supplier_edit" %}?id={0}'.format(arg.data);
+                              window.location.href='{% url "customer_edit" %}?id={0}'.format(arg.data);
                         }else if (cons==4){
                              window.location.href='{% url "supplier_linkman" %}?sid={0}'.format(arg.data);
                         }

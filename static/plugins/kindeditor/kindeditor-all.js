@@ -4,7 +4,7 @@
 *
 * @author Roddy <luolonghao@gmail.com>
 * @website http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 * @version 4.1.10 (2013-11-23)
 *******************************************************************************/
 (function (window, undefined) {
@@ -5964,7 +5964,7 @@ _plugin('core', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.lang({
@@ -6200,7 +6200,7 @@ KindEditor.lang({
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('anchor', function(K) {
@@ -6246,7 +6246,7 @@ KindEditor.plugin('anchor', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('autoheight', function(K) {
@@ -6300,7 +6300,7 @@ KindEditor.plugin('autoheight', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 // Baidu Maps: http://dev.baidu.com/wiki/map/index.php?title=%E9%A6%96%E9%A1%B5
@@ -6393,7 +6393,7 @@ KindEditor.plugin('baidumap', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('clearhtml', function(K) {
@@ -6422,7 +6422,7 @@ KindEditor.plugin('clearhtml', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 // google code prettify: http://google-code-prettify.googlecode.com/
@@ -6484,7 +6484,7 @@ KindEditor.plugin('code', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('emoticons', function(K) {
@@ -6613,7 +6613,7 @@ KindEditor.plugin('emoticons', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('filemanager', function(K) {
@@ -6802,7 +6802,7 @@ KindEditor.plugin('filemanager', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('flash', function(K) {
@@ -6963,7 +6963,7 @@ KindEditor.plugin('flash', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('image', function(K) {
@@ -7291,7 +7291,7 @@ KindEditor.plugin('image', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('insertfile', function(K) {
@@ -7429,7 +7429,7 @@ KindEditor.plugin('insertfile', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('lineheight', function(K) {
@@ -7467,7 +7467,7 @@ KindEditor.plugin('lineheight', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('link', function(K) {
@@ -7533,7 +7533,7 @@ KindEditor.plugin('link', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 // Google Maps: http://code.google.com/apis/maps/index.html
@@ -7670,7 +7670,7 @@ KindEditor.plugin('map', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('media', function(K) {
@@ -7840,7 +7840,7 @@ KindEditor.plugin('media', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 
@@ -9224,7 +9224,7 @@ if (typeof(SWFUpload) === "function") {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('pagebreak', function(K) {
@@ -9251,7 +9251,7 @@ KindEditor.plugin('pagebreak', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('plainpaste', function(K) {
@@ -9292,7 +9292,7 @@ KindEditor.plugin('plainpaste', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('preview', function(K) {
@@ -9323,7 +9323,7 @@ KindEditor.plugin('preview', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('quickformat', function(K) {
@@ -9403,7 +9403,7 @@ to
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('table', function(K) {
@@ -10115,7 +10115,7 @@ KindEditor.plugin('table', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('template', function(K) {
@@ -10173,7 +10173,7 @@ KindEditor.plugin('template', function(K) {
 *
 * @author Roddy <luolonghao@gmail.com>
 * @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
+* @photo http://www.kindsoft.net/license.php
 *******************************************************************************/
 
 KindEditor.plugin('wordpaste', function(K) {

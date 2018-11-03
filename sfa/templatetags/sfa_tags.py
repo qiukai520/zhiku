@@ -25,6 +25,25 @@ def build_customer_category_ele(selected=None):
     return mark_safe(eles)
 
 
+
+@register.simple_tag
+def build_customer_purpose_ele(selected=None):
+    """构建客户分类下拉框"""
+    purpose_list = customer_db.purpose_choice
+    eles = ""
+    if not selected:
+        selected = 3  # 默认d类客户
+    print("selected",selected)
+    if selected:
+        for item in purpose_list:
+            if item.get("id") == selected:
+                ele = """<option value={0} selected="selected" >{1}</option>""".format(item.get("id"),
+                                                                                       item.get("caption"))
+            else:
+                ele = """<option value={0}>{1}</option>""".format(item.get("id"), item.get("caption"))
+            eles += ele
+    return mark_safe(eles)
+
 @register.simple_tag
 def change_to_customer_purpose(id):
     purpose_choice = customer_db.purpose_choice
