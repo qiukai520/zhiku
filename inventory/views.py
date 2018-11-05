@@ -1560,7 +1560,6 @@ class WareLocationViewSet(View):
         else:
             id = 0
             obj = {}
-        print("obj",obj)
         return render(request, "inventory/ware_location_edit.html",{"obj":obj,"id": id})
 
     def post(self, request):
@@ -1570,7 +1569,6 @@ class WareLocationViewSet(View):
             id = request.POST.get("id", 0)
             data = request.POST
             data = data.dict()
-            print("data",data)
             # 有则为编辑 ,无则添加
             if id:
                 try:
@@ -1587,9 +1585,7 @@ class WareLocationViewSet(View):
                     ret['message'] = str(e)
             else:
                 try:
-                    print(data)
                     data_info = filter_fields(WareLocation._insert, data)
-                    print(data_info)
                     ware_location_db.insert_location(data_info)
                     ret['status'] = True
                     ret['data'] = id
@@ -1600,7 +1596,6 @@ class WareLocationViewSet(View):
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
-        print("ret",ret)
         return HttpResponse(json.dumps(ret))
 
 

@@ -5,7 +5,10 @@
 {% load sfa_tags %}
 {% block css %}
     <style>
-
+      .attachment .form-group{
+        margin-left:0px ;
+        margin-right: 0px;
+    }
     </style>
 {% endblock %}
 {% block content %}
@@ -14,7 +17,11 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>客户信息编辑 <small></small></h5>
+                        <h5> {% if nid %}
+                                客户编辑
+                           {% else %}
+                                客户录入
+                           {% endif %}</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -194,8 +201,8 @@
                                         {% for obj in customer_attach%}
                                              <div class="attachment">
                                             <div class="form-group ">
-                                            <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
-                                              <div class="col-xs-8">
+                                            <label for="attachment" name="attach" style="position:relative;" class=" col-sm-2 control-label">附件{{ forloop.counter }}</label>
+                                              <div class="col-sm-8">
                                                   <input type="text" name="attach_id" class="hidden" value="{{ obj.nid }}">
                                                   <div class="old_file">
                                                   <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}" style="margin-top:6px;display: inline-block">{{ obj.name }}</a>
@@ -207,8 +214,8 @@
                                               </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="content" class="control-label col-xs-2">附件描述：</label>
-                                                <div class="col-xs-8">
+                                                <label for="content" class="control-label col-sm-2">附件描述</label>
+                                                <div class="col-sm-8">
                                                     <input name="content" class="form-control" value="{{ obj.description }}"  placeholder="附件描述">
                                                 </div>
                                             </div>
@@ -299,18 +306,15 @@ function InitData() {
         //初始化form
         $("#nid").val({{ query_set.nid }});
         $("#company").val("{{ query_set.company }}");
-        $("#category_id").val({{ query_set.category_id }});
+        $("#category_id").val({{ query_sets.category_id }});
+         $("#purpose").val({{ query_set.purpose }});
         $("#industry_id").val({{ query_set.industry_id }});
-        $("#good_id").val({{ query_set.good_id }});
         $("#introduce").val("{% if  query_set.introduce %}{{ query_set.introduce }} {% endif %}");
-         $("#products").val("{% if  query_set.products %}{{ query_set.products }} {% endif %}");
+         $("#business").val("{% if  query_set.business %}{{ query_set.business }} {% endif %}");
          $("#website").val("{% if  query_set.website %}{{ query_set.website }} {% endif %}");
         $("#employees").val("{% if  query_set.employees %}{{ query_set.employees }} {% endif %}");
         $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
         $("#phone").val("{% if  query_set.phone %}{{ query_set.phone }} {% endif %}");
-        $("#bank").val("{% if  query_set.bank %}{{ query_set.bank }} {% endif %}");
-        $("#bank_account").val("{% if  query_set.bank_account %}{{ query_set.bank_account }} {% endif %}");
-        $("#account_name").val("{% if  query_set.account_name %}{{ query_set.account_name }} {% endif %}");
         $("#address").val("{% if  query_set.address %}{{ query_set.address }} {% endif %}");
         //初始照片
          var photo= "{{ customer_photo }}"
@@ -589,7 +593,7 @@ function UploadFile(ths){
                         }else if (cons==3){
                               window.location.href='{% url "customer_edit" %}?id={0}'.format(arg.data);
                         }else if (cons==4){
-                             window.location.href='{% url "supplier_linkman" %}?sid={0}'.format(arg.data);
+                             window.location.href='{% url "customer_linkman" %}?cid={0}'.format(arg.data);
                         }
                     } else {
                         $msg.parent().removeClass('hide');

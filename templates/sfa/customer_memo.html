@@ -1,24 +1,28 @@
 
 {% extends "layout.html" %}
 {% load inventory_tags %}
+{% load sfa_tags %}
 {% block css %}
     <style>
       #attachment-container .col-sm-8{
           padding: 5px;
     }
+
     </style>
 {% endblock %}
 {% block content %}
-        <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="wrapper wrapper-content container animated fadeInRight">
         <div class="row">
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>{% if nid %}
-                                报价编辑
+                        <h5><strong>
+                           {% if nid %}
+                                备忘编辑
                            {% else %}
-                                添加报价
-                        {% endif %}</h5>
+                                备忘添加
+                           {% endif %}
+                        </strong> </h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -30,97 +34,50 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal">
-                         <form action="{% url "supplier_contact" %}" method="post" id="price_fm" class="form-horizontal" enctype="multipart/form-data">
+                         <form action="{% url "customer_memo" %}" method="post" id="memo_fm" class="form-horizontal" enctype="multipart/form-data">
                              {% csrf_token %}
-                             <input type="hidden" name="nid" id="nid" value="{{ query_set.nid }}" >
-                          <input type="text" class="hidden" name="staff_id" id="staff_id" value={{ request.user.staff.sid }}>
+                             <input type="hidden" name="nid" id="nid"  >
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">商品</label>
+                            <label class="col-sm-2 control-label">客户类型</label>
                             <div class="col-sm-8">
-                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ goods_obj.name }}</p>
-                                <input type="text" class="hidden" name="goods_id" id="goods_id" value={{ goods_obj.nid }}>
-                            </div>
-                        </div>
-                           <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">供应商</label>
-                            <div class="col-sm-8">
-                                <select  name="supplier_id" class="form-control" id="supplier_id"  onchange="FetchLinkman(this)">
-                                    <option value=0>选择供应商</option>
-                                    {% build_supplier_ele  %}
-                                </select>
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_customer_category customer_obj.category_id %}</p>
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">供应商联系人</label>
+                            <label class="col-sm-2 control-label">客户</label>
                             <div class="col-sm-8">
-                                <select  name="linkman_id" class="form-control" id="linkman_id" >
-                                    {% if nid %}
-                                         {% build_supplier_linkman_ele query_set.supplier_id query_set.linkman_id %}
-                                        {% else %}
-                                    {% endif %}
-                                </select>
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ customer_obj.company }}</p>
+                                <input type="text" class="hidden"  name="customer_id" id="customer_id" value={{ customer_obj.nid }}>
                             </div>
                         </div>
-                              <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">单位</label>
+                             <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">标题</label>
                             <div class="col-sm-8">
-                                 <select  name="unit_id" class="form-control" id="unit_id" >
-                                    {% build_goods_unit_ele %}
-                                </select>
+                                <input type="text" id="title" class="form-control" name="title"  placeholder="必填选项">
                             </div>
                         </div>
                          <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">数量</label>
+                            <label class="col-sm-2 control-label">详细</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="amount" id="amount" value=1 placeholder="整数"> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
-                             <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">价格</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="price" id="price" placeholder="0.00"> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
-                              <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">物流费用</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="logistics" id="logistics" placeholder="0.00"> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
-                          <div class="form-group">
-                            <label class="col-sm-2 control-label">物流备注</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="logis_remark" id="logis_remark"  > <span class="help-block m-b-none"></span>
+                                <textarea  class="form-control" name="detail" id="detail" id="" cols="30" rows="5"></textarea>
                             </div>
                         </div>
                           <div class="hr-line-dashed"></div>
-                              <div class="form-group">
-                            <label class="col-sm-2 control-label">报价日期</label>
-                            <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker1">
-                                <input type='text'  name="date" id='date' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                           <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">备注</label>
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label">登记人</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="remark" id="remark"> <span class="help-block m-b-none"></span>
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_staff request.user.staff.sid %}</p>
+                                <input type="text" class="hidden" name="recorder_id" id="recorder_id" value={{request.user.staff.sid  }}>
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>
                         <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
                     {% if nid %}
-                        {% for obj in price_attach %}
+                        {% for obj in memo_attach %}
                              <div class="attachment">
                             <div class="form-group ">
                             <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
@@ -144,7 +101,7 @@
                         </div>
                         {%endfor%}
                     {%endif  %}
-                          <div class="attachment">
+                        <div class="attachment">
                                         <div  class="form-group  form-inline" style="margin-left:0px ;margin-right: 0px">
                                             <label for="file"  class="control-label col-sm-2">附件</label>
                                               <div class="col-sm-8 form-inline ">
@@ -161,8 +118,7 @@
                                         </div>
                                          <div class="hr-line-dashed"></div>
                                     </div>
-
-                </div>
+                        </div>
                          </form>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -171,7 +127,8 @@
                                  <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
                                  <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                  <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
-                                 <a href="{% url "goods_detail" %}?id={{ goods_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                 <a href="{% url "customer_detail" %}?id={{ customer_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+
                                  <!--error_msg-->
                                  <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
                                     <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
@@ -209,22 +166,6 @@
             }
         });
 
-   //设置日期时间控件
-$(function () {
-    $('#datepicker1').datepicker({
-        language: "zh-CN", //语言
-        todayHighlight: true, //是否今日高亮
-        format: 'yyyy-mm-dd', //点击月份后显示在input中的格式
-        autoclose: true, //是否开启自动关闭
-        startView: 'months', //开始视图层，为月视图层
-        maxViewMode:'years', //最大视图层，为年视图层
-        minViewMode:'days', //最小视图层，为月视图层
-        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
-        endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
-        {#setDate:new Date(),#}
-    });
-    $('#datepicker1').datepicker('setDate', new Date());
-});
  /*
     自执行函数
     */
@@ -241,17 +182,10 @@ $(function () {
      //初始化数据
 function InitData() {
         //初始化form
-        console.log( "{{ query_set.date }}")
         $("#nid").val({{ query_set.nid }})
-        $("#supplier_id").val({{ query_set.supplier_id}});
-        $("#linkman_id").val({{ query_set.linkman_id }});
-        $("#unit_id").val({{ query_set.unit_id }});
-        $("#amount").val("{{ query_set.amount }}");
-        $("#price").val("{% if  query_set.price %}{{ query_set.price }} {% endif %}");
-        $("#logistics").val("{% if  query_set.logistics %}{{ query_set.logistics }} {% endif %}");
-        $("#logis_remark").val("{% if  query_set.logis_remark %}{{ query_set.logis_remark }} {% endif %}");
-        $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
-        $("#date").val("{% if query_set.date  %}{{ query_set.date |date:'Y-m-d'}}{% endif %}");
+        $("#customer_id").val({{ customer_obj.nid}});
+        $("#title").val("{{ query_set.title }}");
+        $("#detail").val("{% if  query_set.detail %}{{ query_set.detail }} {% endif %}");
     }
 
 //修改时获取附件
@@ -313,7 +247,7 @@ function UploadFile(ths){
     var form = new FormData();
     form.append("file", file_obj);
     $.ajax({
-        url:"{% url 'linkman_attach' %}",
+        url:"{% url 'customer_attach' %}",
         type:"POST",
         data: form ,
         dataType:"JSON",
@@ -334,39 +268,12 @@ function UploadFile(ths){
         },
     })
 }
-
-
-  // 根据供应商选择相应联系人
-    function FetchLinkman(ths) {
-      var nid=$(ths).val();
-       $("#linkman_id").children().remove();
-      $.ajax({
-        url:"{% url "fetch_linkman" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['name'];
-		 $("#linkman_id").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
-
-
+        
 //添加or编辑
         function Submit(cons){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
-         var form =$("#price_fm");
+         var form =$("#memo_fm");
          console.log(form.valid())
         //验证表单
          if ( form.valid()){
@@ -374,27 +281,27 @@ function UploadFile(ths){
              if(nid!=""){
                   //编辑
                  var attachment=GetAttachment()
-                 var success_msg = "修改成功"
+                 var success_msg="修改成功"
              }else{
                   //创建
-                 var attachment = FetchAttachment()
+                 var attachment=FetchAttachment()
                  var success_msg="添加成功"
              }
              var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
              form.append(attachment_ele)
              $.ajax({
-                url: '{% url "goods_price"%}',
+                url: '{% url "customer_memo" %}',
                 type: 'POST',
                 data: form.serialize(),
                 dataType: 'JSON',
                 success: function (arg) {
                    if (arg.status) {
                         if (cons==1){
-                             window.location.href='{% url "goods_list" %}'
+                             window.location.href='{% url "customer_detail" %}?id= {0}'.format({{ customer_obj.nid }});
                         }else if(cons==2){
-                             window.location.href='{% url "goods_price" %}?gid={0}'.format({{ goods_obj.nid }});
+                             window.location.href='{% url "customer_memo" %}?cid={0}'.format({{ customer_obj.nid }});
                         }else{
-                              window.location.href='{% url "goods_price" %}?gid={0}&id={1}'.format({{ goods_obj.nid }},arg.data);
+                              window.location.href='{% url "customer_memo" %}?cid={0}&id={1}'.format({{ customer_obj.nid }},arg.data);
                         }
                     } else {
                         $msg.parent().removeClass('hide');

@@ -20,7 +20,11 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>商品分类</h5>
+                        <h5> {% if id %}
+                                商品类别编辑
+                           {% else %}
+                                商品类别添加
+                           {% endif %}</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>

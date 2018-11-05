@@ -20,7 +20,11 @@ from . import views
 
 urlpatterns = [
     path("customer", views.customer_list, name="customer_list"),
-    path("customer/edit",views.customer_edit,name="customer_edit"),
+    path("customer/edit", views.customer_edit,name="customer_edit"),
+    path("customer/linkman", views.customer_linkman, name='customer_linkman'),
+    path("customer/memo", views.customer_memo, name='customer_memo'),
+    path("customer/delete",views.customer_delete,name="customer_delete"),
+    path("customer/detail", views.customer_detail, name='customer_detail'),
     path("upload_customer_photo", views.customer_photo, name="customer_photo"),
     path("upload_customer_licence", views.customer_licence, name="customer_licence"),
     path("upload_attach", views.customer_attach, name="customer_attach"),

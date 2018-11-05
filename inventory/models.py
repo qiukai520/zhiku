@@ -252,6 +252,7 @@ class LinkmanPhoto(models.Model):
     _update = ["photo","name"]
 
 
+
 class SupplierLicence(models.Model):
     nid = models.AutoField(primary_key=True)
     supplier = models.ForeignKey('Supplier', to_field='nid', on_delete=models.CASCADE, db_constraint=False,

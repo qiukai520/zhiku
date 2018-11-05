@@ -4,6 +4,13 @@
 {% load inventory_tags %}
 {% block css %}
     <style>
+      .attachment .form-group{
+        margin-left:0px ;
+        margin-right: 0px;
+    }
+      #attachment-container .col-sm-8{
+          padding: 5px;
+    }
     </style>
 {% endblock %}
 {% block content %}
@@ -12,7 +19,11 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>供应商编辑 <small></small></h5>
+                        <h5> {% if nid %}
+                                供应商编辑
+                           {% else %}
+                                供应商添加
+                           {% endif %}</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -187,35 +198,34 @@
                                 </div>
                             </div>
                              <div class="hr-line-dashed"></div>
-                        <div id="attachment-container" style="position: relative">
-                    <!--初始化附件-->
-                    {% if nid %}
-                        {% for obj in supplier_attach%}
-                             <div class="attachment">
-                                <div class="form-group ">
-                                <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
-                                  <div class="col-xs-8">
-                                      <input type="text" name="attach_id" class="hidden" value="{{ obj.nid }}">
-                                      <div class="old_file">
-                                      <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}" style="margin-top:6px;display: inline-block">{{ obj.name }}</a>
-                                      <span onclick="clearAttachment(this)" style="margin-left: 50px;">点击清除</span>
-                                      <input type="text" name="file_path" class="hidden" value="{{ obj.attachment }}">
-                                      <input type="text" name="file_name" value="{{ obj.name }}" class="hidden">
-                                      </div>
-                                          <input type="file" style="margin-top:10px" name="file" value="" onchange="UploadFile(this)">
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="content" class="control-label col-xs-2">附件描述：</label>
-                                    <div class="col-xs-8">
-                                        <input name="content" class="form-control" value="{{ obj.description }}"  placeholder="附件描述">
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                            </div>
-                        {%endfor%}
-                    {%endif  %}
-                            <div class="attachment">
+                            <div id="attachment-container  " style="position: relative">
+                                <!--初始化附件-->
+                                    {% if nid %}
+                                        {% for obj in supplier_attach%}
+                                             <div class="attachment">
+                                            <div class="form-group ">
+                                            <label for="attachment" name="attach" style="position:relative;" class=" col-sm-2 control-label">附件{{ forloop.counter }}</label>
+                                              <div class="col-sm-8">
+                                                  <input type="text" name="attach_id" class="hidden" value="{{ obj.nid }}">
+                                                  <div class="old_file">
+                                                  <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}" style="margin-top:6px;display: inline-block">{{ obj.name }}</a>
+                                                  <span onclick="clearAttachment(this)" style="margin-left: 50px;">点击清除</span>
+                                                  <input type="text" name="file_path" class="hidden" value="{{ obj.attachment }}">
+                                                  <input type="text" name="file_name" value="{{ obj.name }}" class="hidden">
+                                                  </div>
+                                                      <input type="file" style="margin-top:10px" name="file" value="" onchange="UploadFile(this)">
+                                              </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="content" class="control-label col-sm-2">附件描述</label>
+                                                <div class="col-sm-8">
+                                                    <input name="content" class="form-control" value="{{ obj.description }}"  placeholder="附件描述">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {%endfor%}
+                                    {%endif  %}
+                                     <div class="attachment">
                                         <div  class="form-group  form-inline" style="margin-left:0px ;margin-right: 0px">
                                             <label for="file"  class="control-label col-sm-2">附件</label>
                                               <div class="col-sm-8 form-inline ">
@@ -232,8 +242,7 @@
                                         </div>
                                          <div class="hr-line-dashed"></div>
                                     </div>
-
-                        </div>
+                                </div>
                          </form>
                         </div>
                         <div class="hr-line-dashed"></div>

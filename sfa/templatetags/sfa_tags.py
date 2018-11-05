@@ -9,6 +9,7 @@ register = template.Library()
 @register.simple_tag
 def build_customer_category_ele(selected=None):
     """构建客户分类下拉框"""
+    print("category",selected)
     category_list = customer_category_db.query_category_list()
     eles = ""
     if selected:
@@ -59,3 +60,16 @@ def change_to_customer_category(id):
         obj = customer_category_db.query_category_by_id(id)
         if obj:
             return obj.caption
+
+@register.simple_tag
+def fetch_customer_linkman_list(id):
+    if id :
+        linkman_list = c_linkman_db.query_linkman_by_customer_id(id)
+        return linkman_list
+
+
+@register.simple_tag
+def fetch_customer_memo_list(id):
+    if id :
+        linkman_list = c_memo_db.query_memo_by_customer_id(id)
+        return linkman_list

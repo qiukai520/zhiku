@@ -23,7 +23,11 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>仓库编辑</h5>
+                        <h5> {% if id %}
+                                仓库编辑
+                           {% else %}
+                                仓库添加
+                           {% endif %}</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>

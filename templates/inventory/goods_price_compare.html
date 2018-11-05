@@ -11,7 +11,11 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>零售比价 <small></small></h5>
+                        <h5>{% if nid %}
+                                编辑零售比价
+                           {% else %}
+                                添加零售比价
+                           {% endif %}</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>

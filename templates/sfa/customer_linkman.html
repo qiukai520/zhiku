@@ -1,11 +1,15 @@
 
 {% extends "layout.html" %}
-{% load inventory_tags %}
+{% load sfa_tags %}
 {% block css %}
     <style>
       #attachment-container .col-sm-8{
           padding: 5px;
     }
+     #attachment-container label{
+         maigin-left:0px
+     }
+
     </style>
 {% endblock %}
 {% block content %}
@@ -14,11 +18,11 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5> {% if nid %}
-                                编辑联系人
-                           {% else %}
-                               添加联系人
-                           {% endif %}</h5>
+                        <h5> <strong>{% if nid %}
+                            编辑联系人
+                        {% else %}
+                             添加联系人
+                        {% endif %}</strong></h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -30,14 +34,21 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal">
-                         <form action="{% url "supplier_linkman" %}" method="post" id="linkman_fm" class="form-horizontal" enctype="multipart/form-data">
+                         <form action="{% url "customer_linkman" %}" method="post" id="linkman_fm" class="form-horizontal" enctype="multipart/form-data">
                              {% csrf_token %}
                              <input type="hidden" name="nid" id="nid" >
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">供应商</label>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">客户类型</label>
                             <div class="col-sm-8">
-                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ supplier_obj.company }}</p>
-                                <input type="text" class="hidden" name="supplier_id" id="supplier_id" value={{ supplier_obj.nid }}>
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_customer_category customer_obj.category_id %}</p>
+                            </div>
+                        </div>
+                             <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">客户</label>
+                            <div class="col-sm-8">
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ customer_obj.company }}</p>
+                                <input type="text" class="hidden" name="customer_id" id="customer_id" value={{ customer_obj.nid }}>
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>
@@ -148,7 +159,6 @@
                                 </div>
                             </div>
                              <div class="hr-line-dashed"></div>
-                             <div class="hr-line-dashed"></div>
                         <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
                     {% if nid %}
@@ -168,7 +178,7 @@
                               </div>
                             </div>
                             <div class="form-group">
-                                <label for="content" class="control-label col-xs-2">附件描述：</label>
+                                <label for="content" class="col-sm-2 control-label">附件描述：</label>
                                 <div class="col-xs-8">
                                     <input name="content" class="form-control" value="{{ obj.description }}"  placeholder="附件描述">
                                 </div>
@@ -176,23 +186,23 @@
                         </div>
                         {%endfor%}
                     {%endif  %}
-                             <div class="attachment">
-                                        <div  class="form-group  form-inline" style="margin-left:0px ;margin-right: 0px">
-                                            <label for="file"  class="control-label col-sm-2">附件</label>
-                                              <div class="col-sm-8 form-inline ">
-                                                  <input type="file" name="file"   class="form-control" onchange="UploadFile(this)">
-                                                  <button type="button"  class="btn btn-primary inline "  onclick="AddAttachment(this)"><i  style ="" class="glyphicon glyphicon-plus plus "></i></button>
-                    {#                              <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>#}
-                                              </div>
-                                            </div>
-                                        <div class="form-group" style="margin-left:0px ;margin-right: 0px">
-                                            <label  for="content" class="control-label col-sm-2">附件描述</label>
-                                            <div class="col-sm-8">
-                                                <input name="content" class="form-control"  placeholder="附件描述">
-                                            </div>
-                                        </div>
-                                         <div class="hr-line-dashed"></div>
-                                    </div>
+                         <div class="attachment">
+                            <div  class="form-group  form-inline" style="margin-left:0px ;margin-right: 0px">
+                                <label for="file"  class="col-sm-2 control-label">附件</label>
+                                  <div class="col-sm-8 form-inline ">
+                                      <input type="file" name="file"   class="form-control" onchange="UploadFile(this)">
+                                      <button type="button"  class="btn btn-primary inline "  onclick="AddAttachment(this)"><i  style ="" class="glyphicon glyphicon-plus plus "></i></button>
+        {#                              <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>#}
+                                  </div>
+                                </div>
+                            <div class="form-group" style="margin-left:0px ;margin-right: 0px">
+                                <label  for="content" class="col-sm-2 control-label">附件描述</label>
+                                <div class="col-sm-8">
+                                    <input name="content" class="form-control"  placeholder="附件描述">
+                                </div>
+                            </div>
+                             <div class="hr-line-dashed"></div>
+                        </div>
                         </div>
                          </form>
                         </div>
@@ -202,7 +212,7 @@
                                  <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
                                  <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                  <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
-                                 <a href="{% url "supplier_detail" %}?id={{ supplier_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                 <a href="{% url "customer_detail" %}?id={{ customer_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
 
                                  <!--error_msg-->
                                  <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
@@ -257,7 +267,7 @@
      //初始化数据
 function InitData() {
         //初始化form
-        $("#supplier_id").val({{ supplier_obj.nid}});
+        $("#customer_id").val({{ customer_obj.nid}});
         $("#nid").val({{ query_set.nid }});
         $("#name").val("{{ query_set.name }}");
         $("#age").val({{ query_set.age }});
@@ -290,7 +300,7 @@ function InitData() {
             $("#pre_link").attr("src","/"+"{{ linkman_photo.photo }}")
             $("#pre_link").removeClass("hide")
         }
-         //初始化商品条码
+         //初始化联系人名片
          var card= "{{ linkman_card }}"
         if (card!=""){
              var path="{{ linkman_card.photo }}"
@@ -377,7 +387,7 @@ function FetchAttachment(){
             var form = new FormData();
             form.append("file", file_obj);
             $.ajax({
-                url:"{% url 'linkman_photo' %}",
+                url:"{% url 'customer_photo' %}",
                 type:"POST",
                 data: form ,
                 dataType:"JSON",
@@ -403,7 +413,7 @@ function FetchAttachment(){
         }
     }
      /*
-    上传商品条码
+    上传名片
     */
     function UploadCard(ths){
         //去掉旧文件
@@ -423,7 +433,7 @@ function FetchAttachment(){
             var form = new FormData();
             form.append("file", file_obj);
             $.ajax({
-                url:"{% url 'linkman_card' %}",
+                url:"{% url 'customer_photo' %}",
                 type:"POST",
                 data: form ,
                 dataType:"JSON",
@@ -495,7 +505,7 @@ function UploadFile(ths){
         linkman_photo = JSON.stringify(linkman_photo)
         return linkman_photo
     }
-        //创建时获取商品照片
+        //创建时获取联系人照片
     function  FetchLinkmanCard() {
         var photo_path = $("#card_input").next().val();
         var photo_name= $("#card_input").next().next().val();
@@ -537,18 +547,18 @@ function UploadFile(ths){
              var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
              form.append(attachment_ele)
              $.ajax({
-                url: '{% url "supplier_linkman" %}',
+                url: '{% url "customer_linkman" %}',
                 type: 'POST',
                 data: form.serialize(),
                 dataType: 'JSON',
                 success: function (arg) {
                    if (arg.status) {
                         if (cons==1){
-                             window.location.href='{% url "supplier_detail" %}?id={0}'.format({{ supplier_obj.nid }});
+                             window.location.href='{% url "customer_detail" %}?id={0}'.format({{ customer_obj.nid }});
                         }else if(cons==2){
-                             window.location.href='{% url "supplier_linkman" %}?sid={0}'.format({{ supplier_obj.nid }});
+                             window.location.href='{% url "customer_linkman" %}?cid={0}'.format({{ customer_obj.nid }});
                         }else{
-                              window.location.href='{% url "supplier_linkman" %}?sid={0}&id={1}'.format({{ supplier_obj.nid }},arg.data);
+                              window.location.href='{% url "customer_linkman" %}?cid={0}&id={1}'.format({{ customer_obj.nid }},arg.data);
                         }
                     } else {
                         $msg.parent().removeClass('hide');
@@ -558,85 +568,6 @@ function UploadFile(ths){
          })
          }
     }
-   // 根据城市获取县区的身份
-    function SelectCity(ths) {
-      var nid=$(ths).val();
-       $("#country").children().remove();
-      $.ajax({
-        url:"{% url "city_country" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['country'];
-		 $("#country").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
- // 根据省份获取相应的城市
-    function SelectProvince(ths) {
-      var nid=$(ths).val();
-      $("#city").children().remove();
-      $("#country").children().remove();
-      $.ajax({
-        url:"{% url "province_city" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $("#city").append("<option value=0 >请选择城市</option>")
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['city'];
-		 $("#city").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
-      // 根据国家获取相应的身份
-    function SelectNation(ths) {
-      var nid=$(ths).val();
-      $("#province").children().remove();
-       $("#city").children().remove();
-       $("#country").children().remove();
-      $.ajax({
-        url:"{% url "nation_province" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $("#province").append("<option value=0 >请选择省份</option>")
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['province'];
-		 $("#province").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
-
-
  </script>
 {% endblock %}
 

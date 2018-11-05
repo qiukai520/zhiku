@@ -124,12 +124,10 @@ def customer_edit(request):
                         customer_info = filter_fields(CustomerInfo._insert, data)
 
                         nid = customer_db.insert_customer(customer_info)
-                        print("id",nid)
                         # 插入客户照片
                         if customer_photo:
                             customer_photo["customer_id"] = nid
                             customer_photo_db.insert_photo(customer_photo)
-                        print("customer_photo",customer_photo)
                         # 插入客户执照
                         if customer_licence:
                             customer_licence["customer_id"] = nid
@@ -138,7 +136,6 @@ def customer_edit(request):
                             # 插入客户附件
                             customer_attach = build_attachment_info({"customer_id": nid}, customer_attach)
                             customer_attach_db.mutil_insert_attachment(customer_attach)
-                        print("customer_attach", customer_attach)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -152,8 +149,274 @@ def customer_edit(request):
         return HttpResponse(json.dumps(ret))
 
 
+def customer_delete(request):
+    """删除客户信息"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        customer_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def customer_detail(request):
+    cid = request.GET.get("id",None)
+    if cid:
+        query_sets = customer_db.query_customer_by_id(cid)
+        if query_sets:
+            customer_photo = customer_photo_db.query_customer_photo(cid)
+            print('photo',customer_photo)
+            customer_licence = customer_licence_db.query_customer_licence(cid)
+            print('customer_licence',customer_licence)
+            customer_attach = customer_attach_db.query_customer_attachment(cid)
+            print("att",customer_attach)
+            if not customer_photo:
+                customer_photo = ''
+            if not customer_licence:
+                customer_licence = ''
+            if not customer_attach:
+                customer_attach = ''
+            print()
+            return render(request,"sfa/customer_detail.html",{"query_set": query_sets,
+                                                                 "customer_photo": customer_photo,
+                                                                 "customer_licence": customer_licence,
+                                                                 "customer_attach": customer_attach,
+                                                                })
+    return render(request,'404.html')
+
+
+def customer_linkman(request):
+    mothod = request.method
+    if mothod == "GET":
+        nid = request.GET.get("id", "")
+        cid = request.GET.get("cid",'')
+        print("cid",cid)
+        if cid:
+            customer_obj = customer_db.query_customer_by_id(cid)
+            if customer_obj:
+                if nid:
+                    # 更新
+                    query_sets = c_linkman_db.query_linkman_by_id(nid)
+                    linkman_photo = c_linkman_photo_db.query_linkman_photo(nid)
+                    linkman_card = c_linkman_card_db.query_linkman_card(nid)
+                    linkman_attach = c_linkman_attach_db.query_linkman_attachment(nid)
+                    if not linkman_photo:
+                        linkman_photo = ''
+                    if not linkman_card:
+                        linkman_card = ''
+                    if not linkman_attach:
+                        linkman_attach = ''
+                else:
+                    query_sets = {}
+                    linkman_photo = {}
+                    linkman_card = {}
+                    linkman_attach = {}
+                return render(request, "sfa/customer_linkman.html", {"query_set": query_sets,
+                                                                            "linkman_photo": linkman_photo,
+                                                                            "linkman_card": linkman_card,
+                                                                            "linkman_attach": linkman_attach,
+                                                                            "nid": nid,
+                                                                            "customer_obj":customer_obj
+                                                                           })
+        return render(request,"404.html")
+    else:
+        ret = {'status': False, "data": '', "message": ""}
+        form = LinkmanForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            linkman_photo = data.get("linkman_photo", None)
+            linkman_card = data.get("linkman_card", None)
+            linkman_attach = data.get("attach", None)
+            nid = data.get("nid", None)
+            linkman_photo = json.loads(linkman_photo)
+            linkman_card = json.loads(linkman_card)
+            linkman_attach = list(json.loads(linkman_attach))
+            if nid:
+                # 更新
+                try:
+                    with transaction.atomic():
+                        # 更新联系人信息
+                        record = c_linkman_db.query_linkman_by_id(nid)
+                        linkman_info = compare_fields(CustomerLinkman._update, record, data)
+                        if linkman_info:
+                            linkman_info["nid"] = nid
+                            c_linkman_db.update_linkman(linkman_info)
+                        # 插入联系人照片
+                        photo_record = c_linkman_photo_db.query_linkman_photo(nid)
+                        if linkman_photo:
+                            # 数据对比
+                            linkman_photo["linkman_id"] = nid
+                            if photo_record:
+                                final_photo = compare_fields(CustomerLinkmanPhoto._update, photo_record, linkman_photo)
+                                final_photo["linkman_id"] = nid
+                                if final_photo:
+                                    c_linkman_photo_db.update_photo(final_photo)
+                            else:
+                                c_linkman_photo_db.insert_photo(linkman_photo)
+                        else:
+                            # 删除旧数据
+                            if photo_record:
+                                c_linkman_photo_db.delete_photo_by_linkman_id(nid)
+                        # 插入联系人名片
+                        card_record = c_linkman_card_db.query_linkman_card(nid)
+                        if linkman_card:
+                            # 数据对比
+                            linkman_card["linkman_id"] = nid
+                            if card_record:
+                                final_photo = compare_fields(CustomerLinkmanCard._update, card_record, linkman_card)
+                                final_photo["linkman_id"] = nid
+                                if final_photo:
+                                    c_linkman_card_db.update_card(final_photo)
+                            else:
+                                c_linkman_card_db.insert_photo(linkman_card)
+                        else:
+                            # 删除旧数据
+                            if card_record:
+                                c_linkman_card_db.delete_card_by_card_id(nid)
+                        # 更新附件
+                        if linkman_attach:
+                            att_record = c_linkman_attach_db.query_linkman_attachment(nid)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, linkman_attach, "nid")
+                            if insert_att:
+                                insert_att = build_attachment_info({"linkman_id": nid}, insert_att)
+                                c_linkman_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                c_linkman_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                c_linkman_attach_db.mutil_delete_linkman_attachment(delete_id_att)
+                        else:
+                            c_linkman_attach_db.multi_delete_attach_by_linkman_id(nid)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "更新失败"
+            else:
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入供应商信息
+                        linkman_info = filter_fields(CustomerLinkman._insert, data)
+                        nid = c_linkman_db.insert_linkman(linkman_info)
+                        # 插入联系人照片
+                        if linkman_photo:
+                            linkman_photo["linkman_id"] = nid
+                            c_linkman_photo_db.insert_photo(linkman_photo)
+                        # 插入联系人名片
+                        if linkman_card:
+                            linkman_card["linkman_id"] = nid
+                            c_linkman_card_db.insert_photo(linkman_card)
+                        if linkman_attach:
+                            linkman_attach = build_attachment_info({"linkman_id": nid}, linkman_attach)
+                            c_linkman_attach_db.mutil_insert_attachment(linkman_attach)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
+def customer_memo(request):
+    mothod = request.method
+    if mothod == "GET":
+        nid = request.GET.get("id", "")
+        cid = request.GET.get("cid",'')
+        if cid:
+            customer_obj = customer_db.query_customer_by_id(cid)
+            if customer_obj:
+                if nid:
+                    # 更新
+                    query_sets = c_memo_db.query_memo_by_id(nid)
+                    memo_attach = c_memo_attach_db.query_memo_attachment(nid)
+                    if not memo_attach:
+                        memo_attach = ''
+                else:
+                    query_sets = {}
+                    memo_attach = {}
+                return render(request, "sfa/customer_memo.html", {"query_set": query_sets,
+                                                                            "memo_attach": memo_attach,
+                                                                            "nid": nid,
+                                                                            "customer_obj":customer_obj
+                                                                           })
+        return render(request,"404.html")
+    else:
+        ret = {'status': False, "data": '', "message": ""}
+        form = MemoForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            memo_attach = data.get("attach", None)
+            nid = data.get("nid", None)
+            memo_attach = list(json.loads(memo_attach))
+            if nid:
+                # 更新
+                try:
+                    with transaction.atomic():
+                        # 更新联系人信息
+                        record = c_memo_db.query_memo_by_id(nid)
+                        memo_info = compare_fields(CustomerMemo._update, record, data)
+                        if memo_info:
+                            memo_info["nid"] = nid
+                            c_memo_db.update_memo(memo_info)
+                        # 更新附件
+                        if memo_attach:
+                            att_record =c_memo_attach_db.query_memo_attachment(nid)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, memo_attach, "nid")
+                            if insert_att:
+                                insert_att = build_attachment_info({"memo_id": nid}, insert_att)
+                                c_memo_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                c_memo_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                c_memo_attach_db.mutil_delete_memo_attachment(delete_id_att)
+                        else:
+                            c_memo_attach_db.multi_delete_attach_by_linkman_id(nid)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "更新失败"
+            else:
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入备忘信息
+                        memo_info = filter_fields(CustomerMemo._insert, data)
+                        nid = c_memo_db.insert_memo(memo_info)
+                        if memo_attach:
+                            memo_attach = build_attachment_info({"memo_id": nid}, memo_attach)
+                            c_memo_attach_db.mutil_insert_attachment(memo_attach)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
+
+
 def customer_photo(request):
-    """供应商照片上传"""
+    """客户照片上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/customer/photo"
@@ -213,7 +476,7 @@ def customer_licence(request):
 
 
 def customer_attach(request):
-    """商品附件上传"""
+    """客户附件上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/customer/attach"

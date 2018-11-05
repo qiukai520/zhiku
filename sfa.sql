@@ -52,3 +52,74 @@ create TABLE `customer_photo`(
 `name` varchar(64) COMMENT '名称'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户照片';
 
+
+
+drop TABLE if exists `customer_linkman`;
+create TABLE `customer_linkman`(
+`nid` int(11) primary key auto_increment,
+`customer_id` int(11) NOT NULL  COMMENT '供应商',
+`name` varchar(16) NOT NUll COMMENT '姓名',
+`gender` tinyint(1) NOT NULL  DEFAULT 0 COMMENT '性别:0男，1女',
+`age`  tinyint(1) COMMENT '年龄',
+`marriage`  tinyint(1) NOT NULL  DEFAULT 0 COMMENT '婚姻:0未婚，1已婚',
+`birthday` datetime  DEFAULT NUll  COMMENT '生日',
+`is_lunar` tinyint(1)   DEFAULT 0 COMMENT '生日农历or公历:0公历，1农历',
+`mobile` varchar (11) COMMENT '手机号码',
+`phone` varchar (16) COMMENT '电话号码',
+`ext_phone` varchar (16) COMMENT '分机号码',
+`native_place` varchar (16) COMMENT '籍贯',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
+`remark` varchar (128) COMMENT '备注',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='联系人表';
+
+drop TABLE if exists `customer_linkman_attach`;
+create TABLE `customer_linkman_attach`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`linkman_id` int(11) NOT NULL COMMENT'联系人',
+`attachment` varchar(128) COMMENT '附件路径',
+`description` varchar(128) COMMENT '附件描述',
+`name` varchar(64) COMMENT '附件名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='联系人附件';
+
+
+drop TABLE if exists `customer_linkman_card`;
+create TABLE `customer_linkman_card`(
+`nid` int(11) primary key auto_increment,
+`linkman_id` int(11) NOT NULL  COMMENT '联系人',
+`photo` varchar(128) COMMENT '路径',
+`name` varchar(64) COMMENT '名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='联系人名片';
+
+
+drop TABLE if exists `customer_linkman_photo`;
+create TABLE `customer_linkman_photo`(
+`nid` int(11) primary key auto_increment,
+`linkman_id` int(11) NOT NULL  COMMENT '联系人',
+`photo` varchar(128) COMMENT '路径',
+`name` varchar(64) COMMENT '名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='联系人照片';
+
+
+drop TABLE if exists `customer_memo`;
+create table `customer_memo`(
+`nid` int(11) primary key auto_increment,
+`customer_id`int(11) NOT NULL  COMMENT '客户',
+`title` varchar (128) NOT NULL  COMMENT '标题',
+`detail` varchar (512) NOT NULL  COMMENT '详细',
+`recorder_id`int(11) NOT NULL  COMMENT '登记人',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户备忘';
+
+
+drop TABLE if exists `customer_memo_attach`;
+create TABLE `customer_memo_attach`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`memo_id` int(11) NOT NULL COMMENT'备忘',
+`attachment` varchar(128) COMMENT '附件路径',
+`description` varchar(128) COMMENT '附件描述',
+`name` varchar(64) COMMENT '附件名称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='备忘附件';

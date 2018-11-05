@@ -9,3 +9,11 @@
     .attachment  button{
         float: right;
     }
+    .attachment .form-group{
+        margin-left:0px ;
+        margin-right: 0px;
+    }
+     #attachment-container .col-sm-8{
+          padding: 5px;
+    }
+

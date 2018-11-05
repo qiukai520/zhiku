@@ -33,7 +33,7 @@ class SoftDeletableModel(models.Model):
             return super(SoftDeletableModel, self).delete(using=using, *args, **kwargs)
 
 
-class CustomerInfo(models.Model):
+class CustomerInfo(SoftDeletableModel):
     delete_choice = ((0, '保留'), (1, '删除'))
     purpose_choice = ((0, 'A类客户'), (1, 'B类客户'),(2, 'C类客户'), (3, 'D类客户'),(4, 'k类客户'), (5, 'k1类客户'),(6, 'k2类客户'))
     nid = models.AutoField(primary_key=True)
@@ -141,71 +141,132 @@ class CustomerPhoto(models.Model):
     _update = ["photo","name"]
 
 
-#
-# class CustomerContact(SoftDeletableModel):
-#     delete_status_choice = ((0, '删除'), (1, '保留'))
-#     category = ((0, "交易收入"), (1, "商务支出"))
-#     nid = models.AutoField(primary_key=True)
-#     dealer = models.ForeignKey('Dealer', to_field="nid", on_delete=models.CASCADE, db_constraint=False,
-#                              default=1, verbose_name='供应商')
-#     linkman = models.ForeignKey('Linkman', to_field="nid", on_delete=models.CASCADE, db_constraint=False,
-#                                  default=1, verbose_name='联系人')
-#     category = models.SmallIntegerField(choices=category, verbose_name="分类", default=0)
-#     project = models.CharField(max_length=64, verbose_name="项目名称", blank=True, null=True)
-#     description = models.CharField(max_length=128, verbose_name="项目详细", blank=True, null=True)
-#     date = models.DateField(verbose_name="交易日期", blank=True, null=True)
-#     delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
-#     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
-#     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
-#
-#     class Meta:
-#         db_table = 'customer_contact'
-#         verbose_name = '来往'
-#         verbose_name_plural = '供应商来往'
-#
-#     def __str__(self):
-#         return self.project
-#
-#     _insert = ["supplier_id", "linkman_id", "company", 'project',"description", "category", "received", "received_remark",
-#                "receivable", "receivable_remark","pending","pending_remark","date"]
-#
-#     _update = ["supplier_id", "linkman_id", "company",'project',"description", "category", "received", "received_remark",
-#                "receivable", "receivable_remark","pending","pending_remark","date"]
-#
-#
-#
-# class Dealer_Linkman(models.Model):
-#     gender_choice = ((0, "男"), (1, "女"))
-#     marriage_choice = ((0, "未婚"), (1, "已婚"))
-#     delete_status_choice = ((0, '删除'), (1, '保留'))
-#     is_lunar = ((0, "公历"), (1, "农历"))
-#
-#     nid = models.AutoField(primary_key=True)
-#     supplier = models.ForeignKey('Dealer', to_field="nid", on_delete=models.CASCADE, db_constraint=False,
-#                                    default=1, verbose_name='供应商')
-#     name = models.CharField(max_length=32, verbose_name='联系人')
-#     gender = models.SmallIntegerField(choices=gender_choice, verbose_name="性别", default=0)
-#     age = models.SmallIntegerField(verbose_name="年龄", blank=True, null=True)
-#     marriage = models.SmallIntegerField(choices=marriage_choice, verbose_name="婚姻", default=0)
-#     mobile = models.CharField(max_length=11, verbose_name="手机号码", blank=True, null=True)
-#     phone = models.CharField(max_length=16, verbose_name="电话", blank=True, null=True)
-#     ext_phone = models.CharField(max_length=16, verbose_name="分机", blank=True, null=True)
-#     birthday = models.DateField(verbose_name="生日", blank=True, null=True)
-#     is_lunar = models.SmallIntegerField(choices=is_lunar, verbose_name="生日农历or公历", default=0)
-#     native_place = models.CharField(max_length=64, verbose_name="籍贯", blank=True, null=True)
-#     delete_status = models.SmallIntegerField(choices=delete_status_choice, default=1, verbose_name='删除状态')
-#     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
-#     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
-#
-#     class Meta:
-#         db_table = 'linkman'
-#         verbose_name = '联系人'
-#         verbose_name_plural = '联系人'
-#
-#     def __str__(self):
-#             return self.name
-#
-#     _insert = ["supplier_id", "name", "gender", "age", "marriage", "mobile", "phone", "ext_phone",
-#                "birthday","is_lunar","native_place"]
-#     _update = ["supplier_id", "name", "gender", "age", "marriage", "mobile", "phone", "ext_phone",
-#                "birthday","is_lunar","native_place"]
+class CustomerLinkman(SoftDeletableModel):
+    gender_choice = ((0, "男"), (1, "女"))
+    marriage_choice = ((0, "未婚"), (1, "已婚"))
+    delete_status_choice = ((0, '删除'), (1, '保留'))
+    is_lunar = ((0, "公历"), (1, "农历"))
+
+    nid = models.AutoField(primary_key=True)
+    customer = models.ForeignKey('CustomerInfo', to_field="nid", on_delete=models.CASCADE, db_constraint=False,
+                                   default=1, verbose_name='客户')
+    name = models.CharField(max_length=32, verbose_name='联系人')
+    gender = models.SmallIntegerField(choices=gender_choice, verbose_name="性别", default=0)
+    age = models.SmallIntegerField(verbose_name="年龄", blank=True, null=True)
+    marriage = models.SmallIntegerField(choices=marriage_choice, verbose_name="婚姻", default=0)
+    mobile = models.CharField(max_length=11, verbose_name="手机号码", blank=True, null=True)
+    phone = models.CharField(max_length=16, verbose_name="电话", blank=True, null=True)
+    ext_phone = models.CharField(max_length=16, verbose_name="分机", blank=True, null=True)
+    birthday = models.DateField(verbose_name="生日", blank=True, null=True)
+    is_lunar = models.SmallIntegerField(choices=is_lunar, verbose_name="生日农历or公历", default=0)
+    native_place = models.CharField(max_length=64, verbose_name="籍贯", blank=True, null=True)
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'customer_linkman'
+        verbose_name = '联系人'
+        verbose_name_plural = '联系人'
+
+    def __str__(self):
+            return self.name
+
+    _insert = ["customer_id", "name", "gender", "age", "marriage", "mobile", "phone", "ext_phone",
+               "birthday","is_lunar","native_place"]
+    _update = ["customer_id", "name", "gender", "age", "marriage", "mobile", "phone", "ext_phone",
+               "birthday","is_lunar","native_place"]
+
+
+class CustomerLinkmanAttach(models.Model):
+    nid = models.AutoField(primary_key=True)
+    linkman = models.ForeignKey('CustomerLinkman', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                            verbose_name='联系人')
+    attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
+    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
+
+    class Meta:
+        db_table = 'customer_linkman_attach'
+        verbose_name = '联系人附件'
+        verbose_name_plural = '联系人附件'
+
+    def __str__(self):
+        return "联系人附件:{0}".format(self.name)
+
+
+class CustomerLinkmanCard(models.Model):
+    nid = models.AutoField(primary_key=True)
+    linkman = models.ForeignKey("CustomerLinkman", to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                              verbose_name='联系人')
+    photo = models.CharField(max_length=255, blank=True, null=True, verbose_name='路径')
+    name = models.CharField(max_length=128, blank=True, null=True, verbose_name='名称')
+
+    class Meta:
+        db_table = 'customer_linkman_card'
+        verbose_name = '联系人名片'
+        verbose_name_plural = '联系人名片'
+
+    def __str__(self):
+        return "联系人名片:{0}".format(self.name)
+
+    _update = ["photo","name"]
+
+
+class CustomerLinkmanPhoto(models.Model):
+    nid = models.AutoField(primary_key=True)
+    linkman = models.ForeignKey('CustomerLinkman', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                              verbose_name='联系人')
+    photo = models.CharField(max_length=255, blank=True, null=True, verbose_name='路径')
+    name = models.CharField(max_length=128, blank=True, null=True, verbose_name='名称')
+
+    class Meta:
+        db_table = 'customer_linkman_photo'
+        verbose_name = '联系人图片'
+        verbose_name_plural = '联系人图片'
+
+    def __str__(self):
+        return "联系人图片:{0}".format(self.name)
+
+    _update = ["photo","name"]
+
+
+class CustomerMemo(SoftDeletableModel):
+    nid = models.AutoField(primary_key=True)
+    customer = models.ForeignKey('CustomerInfo', to_field="nid", on_delete=models.CASCADE, db_constraint=False,
+                                 default=1, verbose_name='客户')
+    title = models.CharField(max_length=16,verbose_name="标题")
+    detail = models.CharField(max_length=16,verbose_name="详细")
+    recorder = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='登记人',
+                                 db_constraint=False)
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'customer_memo'
+        verbose_name = '客户备忘'
+        verbose_name_plural = '客户备忘'
+
+    def __str__(self):
+        return self.title
+
+    _insert = ["customer_id","title",'detail',"recorder_id"]
+    _update = ["customer_id","title",'detail',"recorder_id"]
+
+
+class CustomerMemoAttach(models.Model):
+    nid = models.AutoField(primary_key=True)
+    memo = models.ForeignKey('CustomerMemo', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                              verbose_name='客户备忘')
+    attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
+    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
+
+    class Meta:
+        db_table = 'customer_memo_attach'
+        verbose_name = '备忘附件'
+        verbose_name_plural = '备忘附件'
+
+    def __str__(self):
+        return "备忘附件:{0}".format(self.name)
