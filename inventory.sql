@@ -228,6 +228,7 @@ create TABLE `linkman`(
 `nid` int(11) primary key auto_increment,
 `supplier_id` int(11) NOT NULL  COMMENT '供应商',
 `name` varchar(16) NOT NUll COMMENT '姓名',
+`job_title_id` int(11) NOT NULL COMMENT '职位',
 `gender` tinyint(1) NOT NULL  DEFAULT 0 COMMENT '性别:0男，1女',
 `age`  tinyint(1) COMMENT '年龄',
 `marriage`  tinyint(1) NOT NULL  DEFAULT 0 COMMENT '婚姻:0未婚，1已婚',
@@ -382,7 +383,7 @@ create table `purchase`(
 `amount` int(11) COMMENT '数量',
 `price` decimal (10,2) COMMENT '单价',
 `total_price` decimal (10,2) COMMENT '总价',
-`date` datetime  DEFAULT NUll  COMMENT '入库日期',
+`date` datetime  DEFAULT NUll  COMMENT '采购日期',
 `delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除，1保留',
 `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT '创建时间',
 `last_edit`   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE  CURRENT_TIMESTAMP COMMENT'最后编辑时间'

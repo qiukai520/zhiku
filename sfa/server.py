@@ -283,6 +283,157 @@ class CustomerMemoAttachDB(object):
     def delete_memo_attachment(self,nid):
         CustomerMemoAttach.objects.filter(nid=nid).delete()
 
+
+class CustomerFollowDB(object):
+    """客户跟进记录"""
+
+    def insert_follow(self, modify_info):
+        follow_sql = """insert into customer_follow(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        follow_sql = follow_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(follow_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_list(self):
+        result_db = CustomerFollow.objects.filter().all()
+        return result_db
+
+    def query_follow_by_id(self, nid):
+        result_db = CustomerFollow.objects.filter(nid=nid).first()
+        return result_db
+
+    def query_follow_by_customer_id(self, sid):
+        result_db = CustomerFollow.objects.filter(customer_id=sid).all().order_by("-nid")
+        return result_db
+
+    def update_follow(self, modify):
+        CustomerFollow.objects.filter(nid=modify['nid']).update(**modify)
+
+    def multi_delete(self, id_list):
+        CustomerFollow.objects.filter(nid__in=id_list).delete()
+
+
+class FollowWayDB(object):
+    """客户跟进方式"""
+    def query_way_list(self):
+        result_db = FollowWay.objects.filter().all()
+        return result_db
+
+    def query_way_by_id(self, nid):
+        result_db = FollowWay.objects.filter(nid=nid).first()
+        return result_db
+
+    def update_way(self, modify_info):
+        is_exist = FollowWay.objects.filter(code=modify_info['code']).first()
+        if is_exist:
+            raise Exception("该算法编号已存在")
+        FollowWay.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_way(self, modify_info):
+        is_exist = FollowWay.objects.filter(code=modify_info['code']).first()
+        if is_exist:
+            raise Exception("该算法编号已存在")
+        FollowWay.objects.create(**modify_info)
+
+
+class FollowContactDB(object):
+    """联络方式"""
+    def query_contact_list(self):
+        result_db = FollowContact.objects.filter().all()
+        return result_db
+
+    def query_contact_by_id(self, nid):
+        result_db = FollowContact.objects.filter(nid=nid).first()
+        return result_db
+
+    def update_contact(self, modify_info):
+        is_exist = FollowContact.objects.filter(code=modify_info['code']).first()
+        if is_exist:
+            raise Exception("{0}算法编号已存在".format(modify_info['code']))
+        FollowContact.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_contact(self, modify_info):
+        is_exist = FollowContact.objects.filter(code=modify_info['code']).first()
+        if is_exist:
+            raise Exception("{0}该算法编号已存在".format(modify_info['code']))
+        FollowContact.objects.create(**modify_info)
+
+
+class FollowLinkmanDB(object):
+    """跟进联系人"""
+    def query_linkman_list(self):
+        result_db = FollowLinkman.objects.filter().all()
+        return result_db
+
+    def query_linkman_by_id(self, nid):
+        result_db = FollowLinkman.objects.filter(nid=nid).first()
+        return result_db
+
+    def update_linkman(self, modify_info):
+        is_exist = FollowLinkman.objects.filter(code=modify_info['code']).first()
+        if is_exist:
+            raise Exception("{0}算法编号已存在".format(modify_info['code']))
+        FollowLinkman.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_linkman(self, modify_info):
+        is_exist = FollowLinkman.objects.filter(code=modify_info['code']).first()
+        if is_exist:
+            raise Exception("{0}算法编号已存在".format(modify_info['code']))
+        FollowLinkman.objects.create(**modify_info)
+
+
+class CustomerPurposeDB(object):
+    """客户跟进方式"""
+    def query_purpose_list(self):
+        result_db = CustomerPurpose.objects.filter().all()
+        return result_db
+
+    def query_purpose_by_id(self, nid):
+        result_db = CustomerPurpose.objects.filter(nid=nid).first()
+        return result_db
+
+    def update_purpose(self, modify_info):
+        is_exist = CustomerPurpose.objects.filter(code=modify_info['code']).first()
+        if is_exist:
+            raise Exception("{0}算法编号已存在".format(modify_info['code']))
+        CustomerPurpose.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_purpose(self, modify_info):
+        is_exist = CustomerPurpose.objects.filter(code=modify_info['code']).first()
+        if is_exist:
+            raise Exception("{0}算法编号已存在".format(modify_info['code']))
+        CustomerPurpose.objects.create(**modify_info)
+
+
+class FollowResultDB(object):
+    """需求意向"""
+    def query_result_list(self):
+        result_db = FollowResult.objects.filter().all()
+        return result_db
+
+    def query_result_by_id(self, nid):
+        result_db = FollowResult.objects.filter(nid=nid).first()
+        return result_db
+
+    def update_result(self, modify_info):
+        is_exist = FollowResult.objects.filter(code=modify_info['code']).first()
+        if is_exist:
+            raise Exception("{0}算法编号已存在".format(modify_info['code']))
+        FollowResult.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_way(self, modify_info):
+        is_exist = FollowWay.objects.filter(code=modify_info['code']).first()
+        if is_exist:
+            raise Exception("{0}算法编号已存在".format(modify_info['code']))
+        FollowResult.objects.create(**modify_info)
+
+
 customer_db = CustomerDB()
 customer_category_db = CustomerCategoryDB()
 customer_attach_db = CustomerAttachDB()
@@ -294,3 +445,9 @@ c_linkman_card_db = CustomerLinkmanCardDB()
 c_linkman_attach_db = CustomerLinkmanAttachDB()
 c_memo_db = CustomerMemoDB()
 c_memo_attach_db = CustomerMemoAttachDB()
+c_follow_db = CustomerFollowDB()
+follow_way_db = FollowWayDB()
+follow_contact_db = FollowContactDB()
+follow_linkman_db = FollowLinkmanDB()
+follow_result_db = FollowResultDB()
+customer_purpose_db = CustomerPurposeDB()

@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load public_tags %}
+{% load personnel_tags %}
 {% load sfa_tags %}
 {% load  inventory_tags %}
 
@@ -71,7 +72,7 @@
                                       <dt>客户分类：</dt>
                                       <dd>{%  change_to_customer_category query_set.category_id  %}
                                       <dt>意向类别：</dt>
-                                      <dd>{%  change_to_customer_purpose query_set.purpose %}</dd>
+                                      <dd>{%  change_to_customer_purpose query_set.purpose_id %}</dd>
 
                                     <dt>录入时间：</dt>
                                     <dd>{{ query_set.create_time|date:"Y-m-d" }}</dd>
@@ -106,9 +107,12 @@
                                             <ul class="nav nav-tabs">
                                                 <li id="linkman_tab"><a href="task_detail.html#tab-1" data-toggle="tab">联系人</a>
                                                 </li>
+                                                   <li  id="memo_tab"><a href="#tab-2" data-toggle="tab">跟进记录</a>
                                                 </li>
-                                                 <li  id="memo_tab"><a href="#tab-2" data-toggle="tab">备忘提醒</a>
                                                 </li>
+                                                 <li  id="memo_tab"><a href="#tab-3" data-toggle="tab">备忘提醒</a>
+                                                </li>
+
                                             </ul>
                                         </div>
                                     </div>
@@ -123,6 +127,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>姓名</th>
+                                                            <th>职位</th>
                                                             <th>性别</th>
                                                             <th>手机</th>
                                                             <th>电话</th>
@@ -138,6 +143,7 @@
                                                             <td>
                                                                 <span class="label label-primary"> {{ obj.name}}</span>
                                                             </td>
+                                                             <td>{% change_to_job_title obj.job_title_id %}</td>
                                                             <td>{% change_to_gender obj.gender%}</td>
                                                               <td >
                                                                   {% if obj.mobile %}{{ obj.mobile }}
@@ -160,7 +166,8 @@
                                                             <td> {% if obj.native_place %}{{ obj.native_place }}
                                                                       {% else %}
                                                                       空
-                                                                  {% endif %}</td>
+                                                                  {% endif %}
+                                                            </td>
                                                              <td><a href="{% url 'customer_linkman' %}?cid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
                                                                  <a href="" data-toggle="modal" onclick="ShowLinkmanDetail({{ obj.nid }})" class="btn btn-info">详细</a>
                                                              </td>
@@ -170,6 +177,83 @@
                                                 </table>
                                             </div>
                                             <div class="tab-pane" id="tab-2">
+                                            <div class="btn-group hidden-xs" id="toolbar2" role="group">
+                                                    <a href="{% url "customer_follow" %}?cid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+{#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                                </div>
+                                                <table id="follow" class="table table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>跟进方式</th>
+                                                            <th>联络方式</th>
+                                                             <th>联系人</th>
+                                                            <th>需求意向</th>
+                                                             <th>客户意向</th>
+                                                             <th>下一步计划</th>
+                                                            <th>登记人</th>
+                                                            <th>跟进日期</th>
+                                                             <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% fetch_customer_follow_list query_set.nid as follow_list %}
+                                                        {% for obj in follow_list %}
+                                                             <tr>
+                                                              <td >
+                                                                  {% if obj.way_id %}{% change_to_follow_way obj.way_id %}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.way_id %}{% change_to_follow_contact obj.contact_id %}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.way_id %}{% change_to_follow_linkman obj.linkman_id %}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.way_id %}{% change_to_follow_result obj.result_id %}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.way_id %}{% change_to_customer_purpose obj.purpose_id %}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.next_step %}
+                                                                      {{ obj.next_step|slice:"20" }}
+{#                                                                      {{ obj.next_step }}#}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                               <td >
+                                                                  {% if obj.recorder_id %} {% change_to_staff obj.recorder_id %}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td> {{ obj.date |date:"Y-m-d"}}
+                                                                      </td>
+                                                              <td><a href="{% url 'customer_follow' %}?cid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <button  data-toggle="modal" onclick="ShowMemoDetail({{ obj.nid }})" class="btn btn-info">详细</button>
+                                                             </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="tab-3">
                                             <div class="btn-group hidden-xs" id="toolbar3" role="group">
                                                     <a href="{% url "customer_memo" %}?cid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
@@ -179,6 +263,7 @@
                                                         <tr>
                                                             <th>标题</th>
                                                             <th>详细</th>
+                                                             <th>登记人</th>
                                                             <th>创建时间</th>
                                                              <th>操作</th>
                                                         </tr>
@@ -194,7 +279,13 @@
                                                                   {% endif %}
                                                            </td>
                                                               <td >
-                                                                  {% if obj.detail %}{{ obj.detail|truncatewords:"50" }}
+                                                                  {% if obj.detail %}{{ obj.detail|slice:"20" }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                             <td >
+                                                                  {% if obj.recorder_id %} {% change_to_staff obj.recorder_id %}
                                                                       {% else %}
                                                                       空
                                                                   {% endif %}
@@ -268,6 +359,12 @@
                                           <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">姓名</div>
                                           <div class="col-xs-9 p_form" >
                                              <p class="form-control-static " id="name" ></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">职位</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="job_title" ></p>
                                           </div>
                                     </div>
                                     <div class=" form-group row value hidden" id="photo_block" >
@@ -475,6 +572,12 @@
                                              <p class="form-control-static " id="detail"></p>
                                           </div>
                                     </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">登记人</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="recorder"></p>
+                                          </div>
+                                    </div>
                                      <div class=" form-group row value hidden " id="memo_attach" >
                                           <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
                                           <div class="col-xs-9 p_form" id="memo_container">
@@ -505,7 +608,7 @@
     自执行函数
     */
     $(function () {
-        $("#contact").bootstrapTable({
+        $("#follow").bootstrapTable({
             toolbar: "#toolbar2",
             striped: true,
             sidePagination: "client",
@@ -525,7 +628,11 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+            columns: [{
+            field: 'state',
+            checkbox: true,
+        }]
         });
          $("#linkman").bootstrapTable({
             toolbar: "#toolbar1",
@@ -579,16 +686,15 @@
       $('#linkman_detail').modal('show');
       var id =cons
       $.ajax({
-          url:"{% url "linkman_detail" %}",
+          url:"{% url "c_linkman_detail" %}",
           type:"get",
           data:{'id':id},
           dataType:"json",
           success:function (arg) {
               if (arg.status){
-                  console.log(arg)
                   var data=arg.data;
-                  console.log(data.name)
                   $("#name").text(data.name);
+                  $("#job_title").text(data.job_title)
                   $("#gender").text(data.gender);
                   $("#age").text(data.age);
                   $("#marriage").text(data.marriage);
@@ -675,17 +781,16 @@
       $('#memo_detail').modal('show');
       var id =cons
       $.ajax({
-          url:"{% url "memo_detail" %}",
+          url:"{% url "c_memo_detail" %}",
           type:"get",
           data:{'id':id},
           dataType:"json",
           success:function (arg) {
               if (arg.status){
-                  console.log(arg)
                   var data=arg.data;
-                  console.log(data.name)
                   $("#title").text(data.title);
                   $("#detail").text(data.detail);
+                  $("#recorder").text(data.recorder);
                   //初始化附件
                   if (data.attach!=""){
                       var attachs = JSON.parse(data.attach);

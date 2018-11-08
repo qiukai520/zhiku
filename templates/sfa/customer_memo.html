@@ -69,8 +69,13 @@
                          <div class="form-group">
                             <label class="col-sm-2 control-label">登记人</label>
                             <div class="col-sm-8">
-                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_staff request.user.staff.sid %}</p>
-                                <input type="text" class="hidden" name="recorder_id" id="recorder_id" value={{request.user.staff.sid  }}>
+                                {% if nid %}
+                                     <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_staff query_set.recorder_id %}</p>
+                                {% else %}
+                                     <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_staff request.user.staff.sid %}</p>
+                                     <input type="text" class="hidden" name="recorder_id" id="recorder_id" value={{request.user.staff.sid  }}>
+                                {% endif %}
+
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>

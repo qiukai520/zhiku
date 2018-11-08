@@ -20,3 +20,16 @@ class MemoForm(django_forms.Form):
     customer_id = django_fields.IntegerField(error_messages={"required": "请选择客户"})
     title = django_fields.CharField(error_messages={"required": "标题不能为空"})
     detail = django_fields.CharField(error_messages={"required": "详细不能为空"})
+
+
+class FollowForm(django_forms.Form):
+    customer_id = django_fields.IntegerField(error_messages={"required": "请选择客户"})
+    way_id = django_fields.IntegerField(error_messages={"required": "请选择跟踪方式"})
+    contact_id = django_fields.IntegerField(error_messages={"required": "请选择联络方式"})
+    linkman_id = django_fields.IntegerField(error_messages={"required": "请选择客户联系人"})
+    result_id = django_fields.IntegerField(error_messages={"required": "请选择需求意向"})
+    purpose_id = django_fields.IntegerField(error_messages={"required": "请选择客户需求"})
+
+
+
+

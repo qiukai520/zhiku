@@ -9,6 +9,7 @@ from .forms.form import *
 from common.functions import *
 from .utils import *
 from .templatetags.inventory_tags import *
+from personnel.templatetags.personnel_tags import *
 # Create your views here.
 
 
@@ -1226,6 +1227,7 @@ def linkman_detail(request):
                 linkman_json.pop('_state')
                 linkman_json["gender"] = change_to_gender(linkman_json["gender"])
                 linkman_json['marriage'] = change_to_linkman_marriage(linkman_json['marriage'])
+                linkman_json["job_title"]= change_to_job_title(linkman_json["job_title_id"])
                 linkman_json['is_lunar'] = change_to_linkman_lunar(linkman_json['is_lunar'])
                 linkman_photo = linkman_photo_db.query_linkman_photo(id)
                 linkman_card = linkman_card_db.query_linkman_card(id)

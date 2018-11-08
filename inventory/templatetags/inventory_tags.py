@@ -292,7 +292,6 @@ def change_to_retailer(id):
 def change_to_staff(id):
     if id:
         staff_obj = staff_db.query_staff_by_id(id)
-        print("staff",staff_obj)
         if staff_obj:
             return staff_obj.name
 

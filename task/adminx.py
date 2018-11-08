@@ -23,8 +23,8 @@ class GlobalSettings(object):
 class TaskAdmin(object):
     """工作任务后台管理"""
     # 数据展示
-    list_display = ['tid','title', 'content', 'type','create_time','delete_status']
-    field = ['tid','title', 'content', 'type',]
+    list_display = ['title', 'content', 'type','create_time','delete_status']
+    field = ['title', 'content', 'type',]
     # 筛选(后台管理页面中的过滤器)
     list_filter = ['type']
     # 查询
@@ -45,11 +45,11 @@ class TaskMapAdmin(object):
     """工作任务后台管理"""
     # 数据展示
     show_detail_fields = ['tid']  # 在指定的字段后添加一个显示数据详情的一个按钮
-    list_display = ['tid','assigner', 'team', 'is_finish',"status",'cycle_id','start_time',"deadline",'create_time']
+    list_display = ['assigner', 'team', 'is_finish',"status",'cycle_id','start_time',"deadline",'create_time']
     # 筛选(后台管理页面中的过滤器)
-    list_filter = ['team','tid']
+    list_filter = ['team',]
     # 查询
-    search_fields =['tid', 'content']
+    search_fields =['content']
     # 后台自定义默认排序
     ordering = ['-create_time']
     # 后台直接在表上修改数据
@@ -64,7 +64,7 @@ class TaskMapAdmin(object):
 
 class TaskAttachmentAdmin(object):
     """任务附件后台管理"""
-    list_display = ['tamid','tid', 'attachment', 'name', 'description']
+    list_display = ['tid', 'attachment', 'name', 'description']
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'
@@ -72,7 +72,7 @@ class TaskAttachmentAdmin(object):
 
 class TaskTagAdmin(object):
     """任务标签后台管理"""
-    list_display = ['ttid', 'tid','name']
+    list_display = [ 'tid','name']
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'
@@ -88,7 +88,7 @@ class TaskTagAdmin(object):
 
 class TaskTypeAdmin(object):
     """任务类型后台管理"""
-    list_display = ["tpid", 'name', ]
+    list_display = [ 'name', ]
     list_filter = ["name"]
     search_fields = ['name']
     model_icon = 'fa fa-cog'

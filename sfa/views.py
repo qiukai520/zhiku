@@ -3,11 +3,14 @@ import os
 import sys
 import traceback
 import uuid
-from django.shortcuts import render,HttpResponse,Http404
+from django.shortcuts import render,HttpResponse
+from django.core import serializers
 from django.db import transaction
 from .forms.form import *
 from common.functions import *
 from .server import *
+from .templatetags.sfa_tags import *
+from personnel.templatetags.personnel_tags import *
 # Create your views here.
 
 
@@ -331,6 +334,44 @@ def customer_linkman(request):
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
 
+
+def c_linkman_detail(request):
+    id = request.GET.get("id",None)
+    ret={"status":False,"data":"","message":""}
+    if id:
+        try:
+            linkman_obj = c_linkman_db.query_linkman_by_id(id)
+            if linkman_obj:
+                # 格式化数据
+                linkman_json = linkman_obj.__dict__
+                linkman_json.pop('_state')
+                linkman_json["gender"] = change_to_gender(linkman_json["gender"])
+                linkman_json['marriage'] = change_to_linkman_marriage(linkman_json['marriage'])
+                linkman_json['job_title'] = change_to_job_title(linkman_json['job_title_id'])
+                linkman_json['is_lunar'] = change_to_linkman_lunar(linkman_json['is_lunar'])
+                linkman_photo = c_linkman_photo_db.query_linkman_photo(id)
+                linkman_card = c_linkman_card_db.query_linkman_card(id)
+                linkman_attach = c_linkman_attach_db.query_linkman_attachment(id)
+                if linkman_photo:
+                    linkman_json['photo'] = linkman_photo.photo
+                else:
+                    linkman_json['photo'] = ''
+                if linkman_card:
+                    linkman_json['card'] =linkman_card.photo
+                else:
+                    linkman_json['card'] = ''
+                if linkman_attach:
+                     linkman_json['attach'] = serializers.serialize("json",linkman_attach)
+                else:
+                    linkman_json['attach'] = ''
+                ret['status']=True
+                ret['data'] = linkman_json
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
+
+
 def customer_memo(request):
     mothod = request.method
     if mothod == "GET":
@@ -414,6 +455,92 @@ def customer_memo(request):
         return HttpResponse(json.dumps(ret))
 
 
+def c_memo_detail(request):
+    id = request.GET.get("id",None)
+    ret={"status":False,"data":"","message":""}
+    if id:
+        try:
+            memo_obj = c_memo_db.query_memo_by_id(id)
+            if memo_obj:
+                # 格式化数据
+                memo_json = memo_obj.__dict__
+                memo_json.pop('_state')
+                memo_json["recorder"]= change_to_staff(memo_json["recorder_id"])
+                memo_attach = c_memo_attach_db.query_memo_attachment(id)
+                if memo_attach:
+                    memo_json['attach'] = serializers.serialize("json",memo_attach)
+                else:
+                    memo_json['attach'] = ''
+                ret['status']=True
+                ret['data'] = memo_json
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
+
+
+def customer_follow(request):
+    mothod = request.method
+    if mothod == "GET":
+        nid = request.GET.get("id", "")
+        cid = request.GET.get("cid",'')
+        print("cid",cid)
+        if cid:
+            customer_obj = customer_db.query_customer_by_id(cid)
+            if customer_obj:
+                if nid:
+                    # 更新
+                    query_sets = c_follow_db.query_follow_by_id(nid)
+                else:
+                    query_sets = {}
+                return render(request, "sfa/customer_follow.html", {"query_set": query_sets,
+                                                                            "nid": nid,
+                                                                            "customer_obj":customer_obj
+                                                                           })
+        return render(request,"404.html")
+    else:
+        ret = {'status': False, "data": '', "message": ""}
+        form = FollowForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            print("data",data)
+            nid = data.get("nid", None)
+            if nid:
+                # 更新
+                try:
+                    with transaction.atomic():
+                        # 更新联系人信息
+                        record = c_follow_db.query_follow_by_id(nid)
+                        follow_info = compare_fields(CustomerFollow._update, record, data)
+                        if follow_info:
+                            follow_info["nid"] = nid
+                            c_follow_db.update_follow(follow_info)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "更新失败"
+            else:
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入跟踪记录信息
+                        follow_info = filter_fields(CustomerFollow._insert, data)
+                        print(follow_info,"follow_info")
+                        nid = c_follow_db.insert_follow(follow_info)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
+
 
 def customer_photo(request):
     """客户照片上传"""
@@ -446,7 +573,7 @@ def customer_photo(request):
 
 
 def customer_licence(request):
-    """供应商执照上传"""
+    """客户执照上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/customer/licence"

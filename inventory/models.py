@@ -1,6 +1,7 @@
 from django.db import models
 from personnel.models import Staff
 from public.models import Town
+from personnel.models import JobTitle
 # Create your models here.
 
 
@@ -139,6 +140,8 @@ class Linkman(models.Model):
                                    default=1, verbose_name='供应商')
     name = models.CharField(max_length=32, verbose_name='联系人')
     gender = models.SmallIntegerField(choices=gender_choice, verbose_name="性别", default=0)
+    job_title = models.ForeignKey(JobTitle, to_field="id", on_delete=models.CASCADE, db_constraint=False,
+                                  verbose_name='职称', blank=True, null=True)
     age = models.SmallIntegerField(verbose_name="年龄", blank=True, null=True)
     marriage = models.SmallIntegerField(choices=marriage_choice, verbose_name="婚姻", default=0)
     mobile = models.CharField(max_length=11, verbose_name="手机号码", blank=True, null=True)
@@ -159,9 +162,9 @@ class Linkman(models.Model):
     def __str__(self):
             return self.name
 
-    _insert = ["supplier_id", "name", "gender", "age", "marriage", "mobile", "phone", "ext_phone",
+    _insert = ["supplier_id", "name", "gender", "job_title_id","age", "marriage", "mobile", "phone", "ext_phone",
                "birthday","is_lunar","native_place"]
-    _update = ["supplier_id", "name", "gender", "age", "marriage", "mobile", "phone", "ext_phone",
+    _update = ["supplier_id", "name", "gender", "age", "job_title_id", "marriage", "mobile", "phone", "ext_phone",
                "birthday","is_lunar","native_place"]
 
 

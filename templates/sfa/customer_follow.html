@@ -1,0 +1,259 @@
+
+{% extends "layout.html" %}
+{% load personnel_tags %}
+{% load sfa_tags %}
+{% block css %}
+    <style>
+      #attachment-container .col-sm-8{
+          padding: 5px;
+    }
+     #attachment-container label{
+         maigin-left:0px
+     }
+
+    </style>
+{% endblock %}
+{% block content %}
+        <div class="wrapper wrapper-content container animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5> <strong>{% if nid %}
+                            编辑跟进记录
+                        {% else %}
+                             添加跟进记录
+                        {% endif %}</strong></h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-horizontal">
+                         <form action="{% url "customer_follow" %}" method="post" id="linkman_fm" class="form-horizontal" enctype="multipart/form-data">
+                             {% csrf_token %}
+                             <input type="hidden" name="nid" id="nid" >
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">客户类型</label>
+                            <div class="col-sm-8">
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_customer_category customer_obj.category_id %}</p>
+                            </div>
+                        </div>
+                             <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">客户</label>
+                            <div class="col-sm-8">
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ customer_obj.company }}</p>
+                                <input type="text" class="hidden" name="customer_id" id="customer_id" value={{ customer_obj.nid }}>
+                            </div>
+                        </div>
+                          <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">跟进方式</label>
+                            <div class="col-sm-8">
+                                <select  name="way_id" class="form-control" id="way_id" >
+                                    {% build_follow_way_ele %}
+                                </select>
+                            </div>
+                        </div>
+                               <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">联络方式</label>
+                            <div class="col-sm-8">
+                                <select  name="contact_id" class="form-control" id="contact_id" >
+                                    {% build_follow_contact_ele %}
+                                </select>
+
+                            </div>
+                        </div>
+                               <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">联系人</label>
+                            <div class="col-sm-8">
+                                <select  name="linkman_id" class="form-control" id="linkman_id" >
+                                    {% build_follow_linkman_ele %}
+                                </select>
+                            </div>
+                        </div>
+                               <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">需求意向</label>
+                            <div class="col-sm-8">
+                                <select  name="result_id" class="form-control" id="result_id" >
+                                    {% build_follow_result_ele %}
+                                </select>
+
+                            </div>
+                        </div>
+                               <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">客户意向</label>
+                            <div class="col-sm-8">
+                                {% if nid %}
+                                     <select  name="purpose_id" class="form-control" id="purpose_id" >
+                                    {% build_customer_purpose_ele %}
+                                </select>
+                                {%else%}
+                                     <select  name="purpose_id" class="form-control" id="purpose_id" >
+                                    {% build_customer_purpose_ele customer_obj.purpose_id %}
+                                </select>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                              <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">跟进详情及下一步跟进计划</label>
+                            <div class="col-sm-8">
+                                <textarea  class="form-control" name="next_step" id="next_step" id="" cols="30" rows="5"></textarea>
+                            </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
+                              <div class="form-group">
+                            <label class="col-sm-2 control-label">跟踪日期</label>
+                            <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker1">
+                                <input type='text'  name="date" id='date' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
+                             <div class="form-group">
+                            <label class="col-sm-2 control-label">登记人</label>
+                            <div class="col-sm-8">
+                                {% if nid %}
+                                     <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_staff query_set.recorder_id %}</p>
+                                {% else %}
+                                     <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_staff request.user.staff.sid %}</p>
+                                     <input type="text" class="hidden" name="recorder_id" id="recorder_id" value={{request.user.staff.sid  }}>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                         </form>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                         <div class="row" id="content_footer" >
+                             <div class="form-actions well well-sm clearfix">
+                                 <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                 <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                 <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+                                 <a href="{% url "customer_detail" %}?id={{ customer_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                 <!--error_msg-->
+                                 <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                    <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                    </span>
+                                    <span id="error_msg" style="font-size: 14px;"></span>
+                                </div>
+                             </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+     <script src="/static/js/jquery.cookie.js"></script>
+{#    <script src="/static/js/"></script>#}
+    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/js/custom/form-validate.js"></script>
+    <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+ /*
+    自执行函数
+    */
+    $(function () {
+        //如果tid不为0，则为创建
+        var nid="{{ nid }}"
+        if ( nid!=""){
+           InitData()//初始化数据
+        }
+        else {
+
+        }
+    });
+     //初始化数据
+function InitData() {
+        //初始化form
+        $("#customer_id").val({{ customer_obj.nid}});
+        $("#nid").val({{ query_set.nid }});
+        $("#way_id").val({{ query_set.way_id}});
+        $("#contact_id").val({{ query_set.contact_id}});
+        $("#linkman_id").val({{ query_set.linkman_id}});
+        $("#result_id").val({{ query_set.result_id}});
+        $("#purpose_id").val({{ query_set.purpose_id}});
+        $("#nest_step").val({{ query_set.nest_step }});
+    }
+           //设置日期时间控件
+$(function () {
+    $('#datepicker1').datepicker({
+        language: "zh-CN", //语言
+        todayHighlight: true, //是否今日高亮
+        format: 'yyyy-mm-dd', //点击月份后显示在input中的格式
+        autoclose: true, //是否开启自动关闭
+        startView: 'months', //开始视图层，为月视图层
+        maxViewMode:'years', //最大视图层，为年视图层
+        minViewMode:'days', //最小视图层，为月视图层
+        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
+        {#setDate:new Date(),#}
+    });
+    $('#datepicker1').datepicker('setDate', new Date());
+});
+
+//添加or编辑
+      function Submit(cons){
+         var $msg = $('#error_msg');
+         $msg.parent().addClass('hide');
+         var form =$("#linkman_fm");
+         console.log(form)
+        //验证表单
+         if ( form.valid()){
+             $.ajax({
+                url: '{% url "customer_follow" %}',
+                type: 'POST',
+                data: form.serialize(),
+                dataType: 'JSON',
+                success: function (arg) {
+                   if (arg.status) {
+                        if (cons==1){
+                             window.location.href='{% url "customer_detail" %}?id={0}'.format({{ customer_obj.nid }});
+                        }else if(cons==2){
+                             window.location.href='{% url "customer_follow" %}?cid={0}'.format({{ customer_obj.nid }});
+                        }else{
+                              window.location.href='{% url "customer_follow" %}?cid={0}&id={1}'.format({{ customer_obj.nid }},arg.data);
+                        }
+                    } else {
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
+                    }
+                }
+         })
+         }
+    }
+ </script>
+{% endblock %}
+

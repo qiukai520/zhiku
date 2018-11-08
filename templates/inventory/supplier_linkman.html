@@ -1,5 +1,6 @@
 
 {% extends "layout.html" %}
+{% load personnel_tags %}
 {% load inventory_tags %}
 {% block css %}
     <style>
@@ -45,6 +46,15 @@
                             <label class="col-sm-2 control-label">姓名</label>
                             <div class="col-sm-8">
                                 <input type="text" id="name" class="form-control" name="name"  placeholder="必填选项">
+                            </div>
+                        </div>
+                          <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">职位</label>
+                            <div class="col-sm-8">
+                                <select  name="job_title_id" class="form-control" id="job_title_id" >
+                                    {% build_job_title_ele %}
+                                </select>
                             </div>
                         </div>
                            <div class="hr-line-dashed"></div>
@@ -147,7 +157,6 @@
                                     <input type="file" id="card_input"  class="form-control"  onchange="UploadCard(this)" >
                                 </div>
                             </div>
-                             <div class="hr-line-dashed"></div>
                              <div class="hr-line-dashed"></div>
                         <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
@@ -270,6 +279,8 @@ function InitData() {
         $("input[name=is_lunar][value={{ query_set.is_lunar }}]").attr("checked",true);
          $("input[name=marriage][value={{ query_set.marriage }}]").attr("checked",true);
         $("#native_place").val("{% if  query_set.native_place %}{{ query_set.native_place }} {% endif %}");
+        $("#job_title_id").val({{ query_set.job_title_id }});
+
         //初始化商品照
          var photo= "{{ linkman_photo }}"
          console.log("linkman_photo",photo)
@@ -557,83 +568,6 @@ function UploadFile(ths){
                 }
          })
          }
-    }
-   // 根据城市获取县区的身份
-    function SelectCity(ths) {
-      var nid=$(ths).val();
-       $("#country").children().remove();
-      $.ajax({
-        url:"{% url "city_country" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['country'];
-		 $("#country").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
- // 根据省份获取相应的城市
-    function SelectProvince(ths) {
-      var nid=$(ths).val();
-      $("#city").children().remove();
-      $("#country").children().remove();
-      $.ajax({
-        url:"{% url "province_city" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $("#city").append("<option value=0 >请选择城市</option>")
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['city'];
-		 $("#city").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
-    }
-      // 根据国家获取相应的身份
-    function SelectNation(ths) {
-      var nid=$(ths).val();
-      $("#province").children().remove();
-       $("#city").children().remove();
-       $("#country").children().remove();
-      $.ajax({
-        url:"{% url "nation_province" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    $("#province").append("<option value=0 >请选择省份</option>")
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['province'];
-		 $("#province").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
     }
 
 
