@@ -332,7 +332,7 @@ def invent_list(request):
 class InventViewSet(View):
     """ 商品入库 """
     def get(self,request):
-        id = request.GET.get("id", "")
+        id = request.GET.get("id", 0)
         gid = request.GET.get("gid","")
         # 有则为编辑 ,无则添加
         if gid:
@@ -1028,7 +1028,6 @@ def supplier_contact(request):
             data = request.POST
             data = data.dict()
             contact_attach = data.get("attach", None)
-            print("attach",contact_attach)
             nid = data.get("nid", None)
             contact_attach = list(json.loads(contact_attach))
             if nid:
@@ -1054,7 +1053,6 @@ def supplier_contact(request):
                             if delete_id_att:
                                 contact_attach_db.mutil_delete_linkman_attachment(delete_id_att)
                         else:
-                            print("nid",nid)
                             contact_attach_db.multi_delete_attach_by_linkman_id(nid)
                         ret['status'] = True
                         ret['data'] = nid
@@ -1142,7 +1140,6 @@ def supplier_memo(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
                     ret["message"] = "更新失败"
             else:
                 # 创建
@@ -1157,7 +1154,6 @@ def supplier_memo(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -1197,7 +1193,6 @@ def contact_detail(request):
             if contact_obj:
                 # 格式化数据
                 contact_json = contact_obj.__dict__
-                print(contact_json)
                 contact_json.pop('_state')
                 contact_json["category"] = change_to_contact_category(contact_json["category"])
                 contact_json['linkman_id'] = change_to_linkman(contact_json['linkman_id'])
@@ -1213,6 +1208,7 @@ def contact_detail(request):
         except Exception as e:
             print(e)
     return render(request,'404.html')
+
 
 
 def linkman_detail(request):

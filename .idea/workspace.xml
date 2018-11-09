@@ -6,10 +6,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/sfa/customer_follow.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sfa/customer_contact.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory.sql" beforeDir="false" afterPath="$PROJECT_DIR$/inventory.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory/templatetags/inventory_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/templatetags/inventory_tags.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sfa.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sfa.sql" afterDir="false" />
@@ -20,14 +18,21 @@
       <change beforePath="$PROJECT_DIR$/sfa/templatetags/sfa_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/sfa/templatetags/sfa_tags.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sfa/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/sfa/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sfa/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/sfa/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/adminx.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/adminx.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_price.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_price.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory/invent_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/invent_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory/inventory_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/inventory_edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_contact.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_linkman.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_linkman.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_memo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_memo.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sfa/customer_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sfa/customer_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_linkman.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_linkman.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_follow.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_follow.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sfa/customer_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_memo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_memo.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -50,35 +55,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="customer_detail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_detail.html">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sfa/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-757">
-              <caret line="231" column="67" lean-forward="true" selection-start-line="231" selection-start-column="67" selection-end-line="231" selection-end-column="67" />
+            <state relative-caret-position="86">
+              <caret line="377" column="41" selection-start-line="377" selection-start-column="41" selection-end-line="377" selection-end-column="41" />
               <folding>
-                <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#0#28#0" expanded="true" />
+                <element signature="e#13524#15376#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="supplier_detail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_detail.html">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sfa/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="359">
-              <caret line="261" column="104" selection-start-line="261" selection-start-column="104" selection-end-line="261" selection-end-column="104" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="task_assign_center.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/task/task_assign_center.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="97" column="75" selection-start-line="97" selection-start-column="64" selection-end-line="97" selection-end-column="75" />
+            <state relative-caret-position="131">
+              <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -86,21 +80,34 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sfa/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="514" column="71" selection-start-line="514" selection-start-column="71" selection-end-line="514" selection-end-column="71" />
+            <state relative-caret-position="671">
+              <caret line="508" column="103" selection-start-line="508" selection-start-column="103" selection-end-line="508" selection-end-column="103" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#17998#21910#0" />
+                <element signature="e#16794#18328#0" />
+                <element signature="e#19553#23465#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sfa/models.py">
+      <file leaf-file-name="customer_contact.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_contact.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="26">
-              <caret line="346" column="11" selection-start-line="346" selection-start-column="4" selection-end-line="346" selection-end-column="11" />
+            <state relative-caret-position="32">
+              <caret line="81" column="149" selection-start-line="81" selection-start-column="149" selection-end-line="81" selection-end-column="149" />
+              <folding>
+                <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="form.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/inventory/forms/form.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="167">
+              <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="50" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -108,46 +115,40 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sfa_tags.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="sfa_tags.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sfa/templatetags/sfa_tags.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="116" column="16" selection-start-line="116" selection-start-column="16" selection-end-line="116" selection-end-column="16" />
+            <state relative-caret-position="393">
+              <caret line="104" selection-start-line="104" selection-end-line="104" />
               <folding>
                 <element signature="e#1#28#0" expanded="true" />
+                <element signature="e#2478#3291#0" />
+                <element signature="e#4777#4885#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="adminx.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sfa/adminx.py">
+      <file leaf-file-name="inventory_tags.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/inventory/templatetags/inventory_tags.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="657">
-              <caret line="37" column="35" selection-start-line="37" selection-start-column="28" selection-end-line="37" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="customer_memo.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_memo.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="72" column="123" selection-start-line="72" selection-start-column="123" selection-end-line="72" selection-end-column="123" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="customer_follow.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_follow.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="362">
-              <caret line="102" column="51" selection-start-line="102" selection-start-column="51" selection-end-line="102" selection-end-column="51" />
+            <state relative-caret-position="89">
+              <caret line="159" selection-start-line="159" selection-end-line="175" selection-end-column="26" />
               <folding>
-                <element signature="n#style#0;n#p#0;n#div#0;n#div#2;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#17;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#0;n#div#0;n#div#16;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#1;n#div#0;n#div#16;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#0#27#0" expanded="true" />
+                <element signature="e#5547#6156#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="form.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sfa/forms/form.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="322">
+              <caret line="33" selection-start-line="33" selection-end-line="33" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -156,11 +157,35 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sfa/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="401" column="28" selection-start-line="401" selection-start-column="28" selection-end-line="401" selection-end-column="28" />
+            <state relative-caret-position="104">
+              <caret line="287" column="9" selection-start-line="287" selection-start-column="9" selection-end-line="287" selection-end-column="9" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
                 <element signature="e#87#1320#0" />
+                <element signature="e#3267#4230#0" />
+                <element signature="e#4271#5653#0" />
+                <element signature="e#5698#6189#0" />
+                <element signature="e#6233#6713#0" />
+                <element signature="e#6759#7765#0" />
+                <element signature="e#7802#8794#0" />
+                <element signature="e#8837#9804#0" />
+                <element signature="e#9843#10945#0" />
+                <element signature="e#10979#11708#0" />
+                <element signature="e#11746#12574#0" />
+                <element signature="e#12614#13455#0" />
+                <element signature="e#13492#14303#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="customer_follow.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_follow.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="146">
+              <caret line="46" column="63" lean-forward="true" selection-start-line="40" selection-start-column="26" selection-end-line="46" selection-end-column="63" />
+              <folding>
+                <element signature="n#div#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
               </folding>
             </state>
           </provider>
@@ -180,36 +205,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>recorder</find>
-      <find>Memo</find>
-      <find>is_deleted</find>
-      <find>fetch_customer_linkman_list</find>
-      <find>详细</find>
-      <find>fetch_supplier_linkman_list</find>
-      <find>银行</find>
-      <find>supplier</find>
-      <find>去编辑</find>
-      <find>添加</find>
-      <find>memo_det</find>
-      <find>change_to_staff</find>
-      <find>Linkman</find>
-      <find>staff</find>
-      <find>nation</find>
-      <find>job_ti</find>
-      <find>init_</find>
-      <find>init</find>
-      <find>linkman</find>
       <find>ForeignKey</find>
       <find>customer</find>
       <find>create_time</find>
       <find>purp</find>
-      <find>purpose</find>
-      <find>date</find>
       <find>memo</find>
       <find>truncatewords</find>
       <find>Customer</find>
       <find>T</find>
       <find>code</find>
+      <find>init</find>
+      <find>submit</find>
+      <find>purpose</find>
+      <find>change_to_jo</find>
+      <find>跟进人</find>
+      <find>date</find>
+      <find />
+      <find />
+      <find>detail</find>
+      <find>登记人</find>
+      <find>content</find>
+      <find>supplier_co</find>
+      <find>id=&quot;content&quot;</find>
+      <find>ContactForm</find>
+      <find>收</find>
+      <find>const</find>
+      <find>contact</find>
+      <find>is_deleted</find>
+      <find>change_to_contact_category</find>
+      <find>build_contact_category_ele</find>
+      <find>build_customer_linkman_ele</find>
     </findStrings>
     <replaceStrings>
       <replace>/static/js/</replace>
@@ -218,8 +243,8 @@
       <replace>customers</replace>
       <replace>凭证</replace>
       <replace>Customer</replace>
-      <replace>customer</replace>
       <replace>content</replace>
+      <replace>customer</replace>
     </replaceStrings>
     <dirStrings>
       <dir>H:\PythonWorkPlace\company\thinking_library\templates\task</dir>
@@ -232,15 +257,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/static/js/common.js" />
-        <option value="$PROJECT_DIR$/static/js/custom/common.js" />
-        <option value="$PROJECT_DIR$/templates/inventory/supplier_contact.html" />
-        <option value="$PROJECT_DIR$/templates/task/complete_task.html" />
-        <option value="$PROJECT_DIR$/templates/layout.bak.html" />
-        <option value="$PROJECT_DIR$/static/plugins/webuploader/js/webuploader-support.js" />
         <option value="$PROJECT_DIR$/inventory/forms/form.py" />
         <option value="$PROJECT_DIR$/static/js/custom/form-validate.js" />
-        <option value="$PROJECT_DIR$/common/functions.py" />
         <option value="$PROJECT_DIR$/static/css/custom/common.css" />
         <option value="$PROJECT_DIR$/inventory/urls.py" />
         <option value="$PROJECT_DIR$/templates/inventory/purchase_edit.html" />
@@ -249,40 +267,47 @@
         <option value="$PROJECT_DIR$/templates/inventory/goods_edit.html" />
         <option value="$PROJECT_DIR$/templates/inventory/industry_edit.html" />
         <option value="$PROJECT_DIR$/templates/inventory/supplier_edit.html" />
-        <option value="$PROJECT_DIR$/templates/inventory/supplier_memo.html" />
         <option value="$PROJECT_DIR$/templates/inventory/town_edit.html" />
         <option value="$PROJECT_DIR$/templates/inventory/warehouse_edit.html" />
         <option value="$PROJECT_DIR$/templates/inventory/goods_category_edit.html" />
-        <option value="$PROJECT_DIR$/templates/inventory/goods_price.html" />
-        <option value="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" />
-        <option value="$PROJECT_DIR$/templates/inventory/inventory_edit.html" />
         <option value="$PROJECT_DIR$/inventory/server.py" />
-        <option value="$PROJECT_DIR$/inventory/templatetags/inventory_tags.py" />
         <option value="$PROJECT_DIR$/task/adminx.py" />
         <option value="$PROJECT_DIR$/inventory/adminx.py" />
         <option value="$PROJECT_DIR$/thinking_library/settings.py" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_linkman.html" />
         <option value="$PROJECT_DIR$/inventory/models.py" />
-        <option value="$PROJECT_DIR$/templates/inventory/supplier_linkman.html" />
-        <option value="$PROJECT_DIR$/inventory/views.py" />
-        <option value="$PROJECT_DIR$/templates/sfa/customer_edit.html" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/practice.py" />
         <option value="$PROJECT_DIR$/test1.py" />
-        <option value="$PROJECT_DIR$/sfa/urls.py" />
-        <option value="$PROJECT_DIR$/sfa/views.py" />
-        <option value="$PROJECT_DIR$/templates/sfa/customer_list.html" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_memo.html" />
-        <option value="$PROJECT_DIR$/sfa/server.py" />
-        <option value="$PROJECT_DIR$/sfa/forms/form.py" />
         <option value="$PROJECT_DIR$/inventory.sql" />
-        <option value="$PROJECT_DIR$/sfa.sql" />
-        <option value="$PROJECT_DIR$/sfa/models.py" />
+        <option value="$PROJECT_DIR$/sfa/adminx.py" />
+        <option value="$PROJECT_DIR$/templates/sfa/customer_edit.html" />
+        <option value="$PROJECT_DIR$/common/functions.py" />
+        <option value="$PROJECT_DIR$/templates/inventory/inventory_edit.html" />
+        <option value="$PROJECT_DIR$/templates/inventory/goods_price.html" />
+        <option value="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" />
+        <option value="$PROJECT_DIR$/templates/inventory/supplier_contact.html" />
+        <option value="$PROJECT_DIR$/templates/inventory/supplier_linkman.html" />
+        <option value="$PROJECT_DIR$/templates/inventory/supplier_memo.html" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_detail.html" />
         <option value="$PROJECT_DIR$/templates/inventory/supplier_detail.html" />
-        <option value="$PROJECT_DIR$/sfa/adminx.py" />
+        <option value="$PROJECT_DIR$/templates/inventory/goods_detail.html" />
+        <option value="$PROJECT_DIR$/templates/inventory/goods_list.html" />
+        <option value="$PROJECT_DIR$/templates/inventory/invent_detail.html" />
+        <option value="$PROJECT_DIR$/sfa.sql" />
+        <option value="$PROJECT_DIR$/sfa/forms/form.py" />
+        <option value="$PROJECT_DIR$/inventory/views.py" />
+        <option value="$PROJECT_DIR$/templates/inventory/supplier_list.html" />
+        <option value="$PROJECT_DIR$/templates/sfa/customer_list.html" />
+        <option value="$PROJECT_DIR$/sfa/models.py" />
+        <option value="$PROJECT_DIR$/sfa/urls.py" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_follow.html" />
+        <option value="$PROJECT_DIR$/inventory/templatetags/inventory_tags.py" />
+        <option value="$PROJECT_DIR$/sfa/server.py" />
         <option value="$PROJECT_DIR$/sfa/templatetags/sfa_tags.py" />
+        <option value="$PROJECT_DIR$/sfa/views.py" />
+        <option value="$PROJECT_DIR$/templates/sfa/customer_contact.html" />
       </list>
     </option>
   </component>
@@ -307,7 +332,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -328,18 +352,52 @@
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="inventory" type="462c0819:PsiDirectoryNode" />
+              <item name="forms" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="inventory" type="462c0819:PsiDirectoryNode" />
+              <item name="templatetags" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="personnel" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="personnel" type="462c0819:PsiDirectoryNode" />
+              <item name="templatetags" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="sfa" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="sfa" type="462c0819:PsiDirectoryNode" />
+              <item name="forms" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="sfa" type="462c0819:PsiDirectoryNode" />
+              <item name="templatetags" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="task" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="inventory" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -360,6 +418,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -375,19 +434,19 @@
     <property name="settings.editor.selected.configurable" value="fileTemplates" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\workplace\thinking_library\templates\sfa" />
-      <recent name="F:\workplace\thinking_library\sfa" />
-      <recent name="F:\workplace\thinking_library\public" />
-      <recent name="F:\workplace\thinking_library\inventory" />
-      <recent name="F:\workplace\thinking_library\static\plugins\webuploader\css" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\workplace\thinking_library\static\plugins\webuploader\js" />
       <recent name="F:\workplace\thinking_library\static\plugins\webuploader\css" />
       <recent name="F:\workplace\thinking_library\static\js\plugins\bootstrap-table" />
       <recent name="F:\workplace\thinking_library\static\js\plugins\bootstrap-table\export" />
       <recent name="F:\workplace\thinking_library\inventory\templatetags" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\workplace\thinking_library\templates\sfa" />
+      <recent name="F:\workplace\thinking_library\sfa" />
+      <recent name="F:\workplace\thinking_library\public" />
+      <recent name="F:\workplace\thinking_library\inventory" />
+      <recent name="F:\workplace\thinking_library\static\plugins\webuploader\css" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -482,8 +541,8 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3287037" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.41666666" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.47783253" visible="true" weight="0.33333334" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.19396552" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.47783253" visible="true" weight="0.4826389" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.3226601" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -504,26 +563,26 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.11268473" />
+      <window_info anchor="right" id="Data View" order="4" />
       <window_info id="Structure" order="1" sideWeight="0.092150174" side_tool="true" weight="0.18596059" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32942554" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3298611" />
-      <window_info anchor="right" id="Data View" order="4" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.11268473" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.32937685" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49938422" weight="0.3275463" />
       <window_info anchor="right" x="0" y="0" width="374" height="826" id="Documentation" order="6" side_tool="true" weight="0.3294335" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4981527" weight="0.39930555" />
       <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.48029557" visible="true" weight="0.2673611" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.51970446" side_tool="true" weight="0.2673611" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3287037" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" id="Database" order="5" />
-      <window_info anchor="bottom" id="Python Console" order="8" weight="0.32937685" />
+      <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -545,151 +604,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/js/custom/form-validate.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="265" column="22" selection-start-line="265" selection-start-column="12" selection-end-line="265" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/forms/form.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="51" selection-start-line="51" selection-end-line="54" selection-end-column="75" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-            <element signature="e#1395#1652#0" />
-            <element signature="e#2159#2389#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/industry_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="34" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_memo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/town_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="26" column="34" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/warehouse_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_category_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-54">
-          <caret line="49" column="89" selection-start-line="49" selection-start-column="89" selection-end-line="49" selection-end-column="89" />
-          <folding>
-            <element signature="e#1571#1614#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="36" column="38" lean-forward="true" selection-start-line="32" selection-start-column="29" selection-end-line="36" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/inventory_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price_compare.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-864">
-          <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="471" column="8" selection-start-line="471" selection-start-column="8" selection-end-line="471" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-            <element signature="e#1766#2741#0" />
-            <element signature="e#2779#3566#0" />
-            <element signature="e#3600#4343#0" />
-            <element signature="e#4378#5525#0" />
-            <element signature="e#5562#6720#0" />
-            <element signature="e#6756#7678#0" />
-            <element signature="e#7717#8496#0" />
-            <element signature="e#8526#9655#0" />
-            <element signature="e#9690#10128#0" />
-            <element signature="e#10165#10605#0" />
-            <element signature="e#10641#11562#0" />
-            <element signature="e#11595#12828#0" />
-            <element signature="e#12866#13335#0" />
-            <element signature="e#13375#13858#0" />
-            <element signature="e#13897#14861#0" />
-            <element signature="e#16311#17592#0" />
-            <element signature="e#17630#18580#0" />
-            <element signature="e#18615#19526#0" />
-            <element signature="e#19563#20022#0" />
-            <element signature="e#20058#20506#0" />
-            <element signature="e#20544#21494#0" />
-            <element signature="e#21528#22350#0" />
-            <element signature="e#22380#24687#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/templatetags/inventory_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="289" selection-start-line="289" selection-end-line="295" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/personnel/adminx.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="66" selection-start-line="66" selection-end-line="66" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/apps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/personnel/apps.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/task/adminx.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="457">
@@ -726,49 +640,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/personnel/templatetags/personnel_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="108" column="4" selection-start-line="108" selection-start-column="4" selection-end-line="108" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/personnel/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="70" column="6" selection-start-line="70" selection-start-column="6" selection-end-line="70" selection-end-column="6" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_linkman.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="3" column="20" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="33" column="43" selection-start-line="33" selection-start-column="43" selection-end-line="33" selection-end-column="43" />
-          <folding>
-            <element signature="e#640#653#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32886">
-          <caret line="1229" column="55" selection-start-line="1229" selection-start-column="55" selection-end-line="1229" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -810,63 +687,214 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_memo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1944">
+          <caret line="72" column="123" selection-start-line="72" selection-start-column="123" selection-end-line="72" selection-end-column="123" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/task_assign_center.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2619">
+          <caret line="97" column="75" selection-start-line="97" selection-start-column="64" selection-end-line="97" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa/adminx.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="94" selection-start-line="94" selection-end-line="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/country_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="133" column="11" selection-start-line="133" selection-start-column="11" selection-end-line="133" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/sfa/customer_edit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="163" column="52" lean-forward="true" selection-start-line="163" selection-start-column="52" selection-end-line="163" selection-end-column="52" />
+        <state relative-caret-position="296">
+          <caret line="566" column="36" selection-start-line="566" selection-start-column="36" selection-end-line="566" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sfa/urls.py">
+    <entry file="file://$PROJECT_DIR$/common/functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="29" column="43" selection-start-line="29" selection-start-column="43" selection-end-line="29" selection-end-column="43" />
+        <state relative-caret-position="34">
+          <caret line="29" column="21" lean-forward="true" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_list.html">
+    <entry file="file://$PROJECT_DIR$/personnel/templatetags/personnel_tags.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="79" column="90" selection-start-line="79" selection-start-column="90" selection-end-line="79" selection-end-column="90" />
+        <state relative-caret-position="373">
+          <caret line="56" column="23" selection-start-line="56" selection-start-column="4" selection-end-line="56" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/inventory.sql">
+    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_edit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="385" column="29" lean-forward="true" selection-start-line="385" selection-end-line="386" />
+        <state relative-caret-position="405">
+          <caret line="36" column="38" lean-forward="true" selection-start-line="32" selection-start-column="29" selection-end-line="36" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sfa.sql">
+    <entry file="file://$PROJECT_DIR$/inventory/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="181" column="5" selection-start-line="181" selection-start-column="1" selection-end-line="181" selection-end-column="5" />
+        <state relative-caret-position="169">
+          <caret line="39" column="38" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
+          <folding>
+            <element signature="e#640#653#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/inventory_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="203" column="15" lean-forward="true" selection-start-line="201" selection-start-column="11" selection-end-line="203" selection-end-column="15" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#10;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#10733#11199#0#HTML" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_contact.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3127">
+          <caret line="240" column="62" selection-start-line="240" selection-start-column="62" selection-end-line="240" selection-end-column="62" />
+          <folding>
+            <element signature="n#div#19;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+            <element signature="n#style#0;n#div#0;n#div#19;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_linkman.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="125" column="68" selection-start-line="125" selection-start-column="68" selection-end-line="125" selection-end-column="68" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#21;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_memo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4105">
+          <caret line="297" selection-start-line="297" selection-end-line="297" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/invent_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="109" column="72" selection-start-line="109" selection-end-line="110" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price_compare.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="74" column="48" lean-forward="true" selection-start-line="74" selection-start-column="48" selection-end-line="74" selection-end-column="48" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#10;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="211" selection-start-line="211" selection-end-line="226" selection-end-column="3" />
+        <state relative-caret-position="272">
+          <caret line="237" column="58" lean-forward="true" selection-start-line="236" selection-start-column="10" selection-end-line="237" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="107" column="83" selection-start-line="107" selection-start-column="69" selection-end-line="107" selection-end-column="83" />
           <folding>
-            <element signature="n#div#15;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="e#13180#13735#0#HTML" />
+            <element signature="n#td#7;n#tr#0;n#tbody#0;n#table#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="e#44190#46397#0#HTML" />
+            <element signature="e#46456#48452#0#HTML" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_memo.html">
+    <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="72" column="123" selection-start-line="72" selection-start-column="123" selection-end-line="72" selection-end-column="123" />
+        <state relative-caret-position="321">
+          <caret line="107" column="83" selection-start-line="107" selection-start-column="83" selection-end-line="107" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-162">
+          <caret line="93" column="83" selection-start-line="93" selection-start-column="83" selection-end-line="93" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="94" column="69" selection-start-line="94" selection-start-column="69" selection-end-line="94" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/invent_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2349">
+          <caret line="102" column="53" selection-start-line="102" selection-start-column="53" selection-end-line="102" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="975">
+          <caret line="246" lean-forward="true" selection-start-line="246" selection-end-line="275" selection-end-column="51" />
+          <folding>
+            <element signature="e#8684#9626#0" />
+            <element signature="e#9669#9965#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="559">
+          <caret line="212" column="51" lean-forward="true" selection-start-line="182" selection-end-line="212" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/forms/form.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="50" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sfa/forms/form.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="322">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -875,99 +903,147 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/inventory/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="437" column="31" lean-forward="true" selection-start-line="437" selection-end-line="438" />
+        <state relative-caret-position="140">
+          <caret line="77" column="36" lean-forward="true" selection-start-line="77" selection-start-column="36" selection-end-line="77" selection-end-column="36" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#6683#7350#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_detail.html">
+    <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-757">
-          <caret line="231" column="67" lean-forward="true" selection-start-line="231" selection-start-column="67" selection-end-line="231" selection-end-column="67" />
+        <state relative-caret-position="206">
+          <caret line="244" column="13" selection-start-line="244" selection-start-column="13" selection-end-line="244" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="1206" column="58" selection-start-line="1206" selection-start-column="58" selection-end-line="1206" selection-end-column="58" />
           <folding>
-            <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sfa/server.py">
+    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="401" column="28" selection-start-line="401" selection-start-column="28" selection-end-line="401" selection-end-column="28" />
+        <state relative-caret-position="520">
+          <caret line="288" column="18" lean-forward="true" selection-start-line="288" selection-start-column="18" selection-end-line="288" selection-end-column="18" />
+          <folding>
+            <element signature="e#10971#11574#0#HTML" />
+            <element signature="e#11617#12218#0#HTML" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="481" lean-forward="true" selection-start-line="481" selection-end-line="543" selection-end-column="54" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
-            <element signature="e#87#1320#0" />
+            <element signature="e#16311#17592#0" />
+            <element signature="e#17630#18580#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sfa/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="346" column="11" selection-start-line="346" selection-start-column="4" selection-end-line="346" selection-end-column="11" />
+        <state relative-caret-position="86">
+          <caret line="377" column="41" selection-start-line="377" selection-start-column="41" selection-end-line="377" selection-end-column="41" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#13524#15376#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sfa/views.py">
+    <entry file="file://$PROJECT_DIR$/sfa/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="514" column="71" selection-start-line="514" selection-start-column="71" selection-end-line="514" selection-end-column="71" />
+        <state relative-caret-position="104">
+          <caret line="287" column="9" selection-start-line="287" selection-start-column="9" selection-end-line="287" selection-end-column="9" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#17998#21910#0" />
+            <element signature="e#0#32#0" expanded="true" />
+            <element signature="e#87#1320#0" />
+            <element signature="e#3267#4230#0" />
+            <element signature="e#4271#5653#0" />
+            <element signature="e#5698#6189#0" />
+            <element signature="e#6233#6713#0" />
+            <element signature="e#6759#7765#0" />
+            <element signature="e#7802#8794#0" />
+            <element signature="e#8837#9804#0" />
+            <element signature="e#9843#10945#0" />
+            <element signature="e#10979#11708#0" />
+            <element signature="e#11746#12574#0" />
+            <element signature="e#12614#13455#0" />
+            <element signature="e#13492#14303#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_assign_center.html">
+    <entry file="file://$PROJECT_DIR$/inventory/templatetags/inventory_tags.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="97" column="75" selection-start-line="97" selection-start-column="64" selection-end-line="97" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sfa/adminx.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="657">
-          <caret line="37" column="35" selection-start-line="37" selection-start-column="28" selection-end-line="37" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/supplier_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="261" column="104" selection-start-line="261" selection-start-column="104" selection-end-line="261" selection-end-column="104" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_follow.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="102" column="51" selection-start-line="102" selection-start-column="51" selection-end-line="102" selection-end-column="51" />
+        <state relative-caret-position="89">
+          <caret line="159" selection-start-line="159" selection-end-line="175" selection-end-column="26" />
           <folding>
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#2;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#17;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#16;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#1;n#div#0;n#div#16;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#5547#6156#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sfa/templatetags/sfa_tags.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="116" column="16" selection-start-line="116" selection-start-column="16" selection-end-line="116" selection-end-column="16" />
+        <state relative-caret-position="393">
+          <caret line="104" selection-start-line="104" selection-end-line="104" />
           <folding>
             <element signature="e#1#28#0" expanded="true" />
+            <element signature="e#2478#3291#0" />
+            <element signature="e#4777#4885#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_follow.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="46" column="63" lean-forward="true" selection-start-line="40" selection-start-column="26" selection-end-line="46" selection-end-column="63" />
+          <folding>
+            <element signature="n#div#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="671">
+          <caret line="508" column="103" selection-start-line="508" selection-start-column="103" selection-end-line="508" selection-end-column="103" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#16794#18328#0" />
+            <element signature="e#19553#23465#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_contact.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="81" column="149" selection-start-line="81" selection-start-column="149" selection-end-line="81" selection-end-column="149" />
+          <folding>
+            <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1,12 +1,8 @@
 
 {% extends "layout.html" %}
-{% load inventory_tags %}
+{% load sfa_tags %}
 {% block css %}
     <style>
-      #attachment-container .col-sm-8{
-          padding: 5px;
-    }
-
     </style>
 {% endblock %}
 {% block content %}
@@ -15,11 +11,12 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5> {% if nid %}
-                                备忘编辑
-                           {% else %}
-                                备忘添加
-                           {% endif %}</h5>
+                        <h5>{% if nid %}
+                            添加客户收支
+                        {% else %}
+                            编辑客户收支
+                            {% endif %}
+                        </h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -31,35 +28,114 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal">
-                         <form action="{% url "supplier_memo" %}" method="post" id="memo_fm" class="form-horizontal" enctype="multipart/form-data">
+                         <form action="{% url "customer_contact" %}" method="post" id="contact_fm" class="form-horizontal" enctype="multipart/form-data">
                              {% csrf_token %}
                              <input type="hidden" name="nid" id="nid"  >
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">供应商</label>
+                            <label class="col-sm-2 control-label">客户类型</label>
                             <div class="col-sm-8">
-                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ supplier_obj.company }}</p>
-                                <input type="text" class="hidden"  name="supplier_id" id="supplier_id" value={{ supplier_obj.nid }}>
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_customer_category customer_obj.category_id %}</p>
+                            </div>
+                        </div>
+                             <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">客户</label>
+                            <div class="col-sm-8">
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ customer_obj.company }}</p>
+                                <input type="text" class="hidden" name="customer_id" id="customer_id" value={{ customer_obj.nid }}>
+                            </div>
+                        </div>
+                             <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">联系人</label>
+                            <div class="col-sm-8">
+                                <select  name="linkman_id" class="form-control" id="linkman_id" >
+                                    {% build_customer_linkman_ele  customer_obj.nid%}
+                                </select>
+                            </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">交易分类</label>
+                            <div class="col-sm-8">
+                                {% if nid %}
+                               <p   class="form-control" style="margin: 0px;">{% change_to_contact_category  query_set.category  %}</p>
+                                      <input type="text" class="hidden" name="category" id="category" value={{ query_set.category  }}>
+                                {% else %}
+                                     <select  name="category" class="form-control" id="category" onchange="ChangeCategory(this)">
+                                    {% build_contact_category_ele  customer_obj.nid%}
+                                </select>
+                                {% endif %}
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">标题</label>
+                            <label class="col-sm-2 control-label">项目名称</label>
                             <div class="col-sm-8">
-                                <input type="text" id="title" class="form-control" name="title"  placeholder="必填选项">
+                                <input type="text" id="project" class="form-control" name="project"  placeholder="必填选项" >
                             </div>
                         </div>
                          <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">详细</label>
+                            <label class="col-sm-2 control-label">项目详细</label>
                             <div class="col-sm-8">
-                                <textarea  class="form-control" name="detail" id="detail" id="" cols="30" rows="5"></textarea>
+                                <textarea class="form-control" name="description" id="description" cols="30" rows="3"  placeholder="必填选项"></textarea>
+                            </div>
+                        </div>
+                             <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">应收金额</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="receivable" id="receivable"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="receivable_remark" id="receivable_remark"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">已收金额</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="received" id="received"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="received_remark" id="received_remark"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">待收金额</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="pending" id="pending"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="pending_remark" id="pending_remark"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                          <div class="hr-line-dashed"></div>
+                              <div class="form-group">
+                            <label class="col-sm-2 control-label">跟踪日期</label>
+                            <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker1">
+                                <input type='text'  name="date" id='date' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
                             </div>
                         </div>
                              <div class="hr-line-dashed"></div>
                         <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
                     {% if nid %}
-                        {% for obj in memo_attach %}
+                        {% for obj in contact_attach %}
                              <div class="attachment">
                             <div class="form-group ">
                             <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}:</label>
@@ -101,7 +177,7 @@
                                          <div class="hr-line-dashed"></div>
                                     </div>
 
-                        </div>
+                         </div>
                          </form>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -110,7 +186,7 @@
                                  <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
                                  <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                  <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
-                                 <a href="{% url "supplier_detail" %}?id={{ supplier_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                 <a href="{% url "customer_detail" %}?id={{ customer_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
 
                                  <!--error_msg-->
                                  <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
@@ -149,6 +225,20 @@
             }
         });
 
+              //设置日期时间控件
+$(function () {
+    $('#datepicker1').datepicker({
+        language: "zh-CN", //语言
+        todayHighlight: true, //是否今日高亮
+        format: 'yyyy-mm-dd', //点击月份后显示在input中的格式
+        autoclose: true, //是否开启自动关闭
+        startView: 'months', //开始视图层，为月视图层
+        maxViewMode:'years', //最大视图层，为年视图层
+        minViewMode:'days', //最小视图层，为月视图层
+        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
+    });
+});
  /*
     自执行函数
     */
@@ -159,16 +249,27 @@
            InitData()//初始化数据
         }
         else {
-
+            // 初始化日期
+                 $('#date').datepicker('setDate', new Date());
         }
     });
      //初始化数据
 function InitData() {
         //初始化form
         $("#nid").val({{ query_set.nid }})
-        $("#supplier_id").val({{ supplier_obj.nid}});
-        $("#title").val("{{ query_set.title }}");
-        $("#detail").val("{% if  query_set.detail %}{{ query_set.detail }} {% endif %}");
+        $("#customer_id").val({{ customer_obj.nid}});
+        $("#linkman_id").val({{ query_set.linkman_id }});
+        $("#category").val({{ query_set.category }});
+        $("#project").val("{{ query_set.project }}");
+        $("#description").val("{% if  query_set.description %}{{ query_set.description }} {% endif %}");
+        $("#date").val("{% if query_set.date  %}{{ query_set.date |date:'Y-m-d'}}{% endif %}");
+        $("#receivable").val("{% if  query_set.receivable %}{{ query_set.receivable }} {% endif %}");
+        $("#receivable_remark").val("{% if  query_set.receivable_remark %}{{ query_set.receivable_remark }} {% endif %}");
+         $("#received").val("{% if  query_set.received %}{{ query_set.received }} {% endif %}");
+         $("#received_remark").val("{% if  query_set.received_remark %}{{ query_set.received_remark }} {% endif %}");
+         $("#pending").val("{% if  query_set.pending %}{{ query_set.pending }} {% endif %}");
+         $("#pending_remark").val("{% if  query_set.pending_remark %}{{ query_set.pending_remark }} {% endif %}");
+         ChangeCategory({{ query_set.category }})
     }
 
 //修改时获取附件
@@ -257,7 +358,7 @@ function UploadFile(ths){
         function Submit(cons){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
-         var form =$("#memo_fm");
+         var form =$("#contact_fm");
          console.log(form.valid())
         //验证表单
          if ( form.valid()){
@@ -274,18 +375,18 @@ function UploadFile(ths){
              var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
              form.append(attachment_ele)
              $.ajax({
-                url: '{% url "supplier_memo" %}',
+                url: '{% url "customer_contact" %}',
                 type: 'POST',
                 data: form.serialize(),
                 dataType: 'JSON',
                 success: function (arg) {
                    if (arg.status) {
                         if (cons==1){
-                             window.location.href='{% url "supplier_detail" %}?id= {0}'.format({{ supplier_obj.nid }});
+                             window.location.href='{% url "customer_detail" %}?id= {0}'.format({{ customer_obj.nid }});
                         }else if(cons==2){
-                             window.location.href='{% url "supplier_memo" %}?sid={0}'.format({{ supplier_obj.nid }});
+                             window.location.href='{% url "customer_contact" %}?sid={0}'.format({{ customer_obj.nid }});
                         }else{
-                              window.location.href='{% url "supplier_memo" %}?sid={0}&id={1}'.format({{ supplier_obj.nid }},arg.data);
+                              window.location.href='{% url "customer_contact" %}?sid={0}&id={1}'.format({{ customer_obj.nid }},arg.data);
                         }
                     } else {
                         $msg.parent().removeClass('hide');
@@ -295,6 +396,21 @@ function UploadFile(ths){
          })
          }
     }
+
+function ChangeCategory(ths) {
+    var cons=$(ths).val()
+    console.log("cons",cons)
+    if (cons==1){
+         $("#receivable").parent().parent().find("label").text("应付金额")
+         $("#received").parent().parent().find("label").text("已付金额")
+         $("#pending").parent().parent().find("label").text("待付金额")
+    } else{
+         $("#receivable").parent().parent().find("label").text("应收金额")
+         $("#received").parent().parent().find("label").text("已收金额")
+         $("#pending").parent().parent().find("label").text("待收金额")
+    }
+}
+
 
  </script>
 {% endblock %}

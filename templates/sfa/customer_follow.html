@@ -76,13 +76,13 @@
                             <label class="col-sm-2 control-label">联系人</label>
                             <div class="col-sm-8">
                                 <select  name="linkman_id" class="form-control" id="linkman_id" >
-                                    {% build_follow_linkman_ele %}
+                                    {% build_customer_linkman_ele %}
                                 </select>
                             </div>
                         </div>
                                <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">需求意向</label>
+                            <label class="col-sm-2 control-label">客户意向</label>
                             <div class="col-sm-8">
                                 <select  name="result_id" class="form-control" id="result_id" >
                                     {% build_follow_result_ele %}
@@ -92,7 +92,7 @@
                         </div>
                                <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">客户意向</label>
+                            <label class="col-sm-2 control-label">意向分类</label>
                             <div class="col-sm-8">
                                 {% if nid %}
                                      <select  name="purpose_id" class="form-control" id="purpose_id" >
@@ -108,9 +108,16 @@
                         </div>
                               <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">跟进详情及下一步跟进计划</label>
+                            <label class="col-sm-2 control-label">跟进详情</label>
                             <div class="col-sm-8">
-                                <textarea  class="form-control" name="next_step" id="next_step" id="" cols="30" rows="5"></textarea>
+                                <textarea  class="form-control" name="detail" id="detail"  cols="30" rows="5"></textarea>
+                            </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">下一步跟进计划</label>
+                            <div class="col-sm-8">
+                                <textarea  class="form-control" name="next_step" id="next_step" cols="30" rows="5"></textarea>
                             </div>
                         </div>
                            <div class="hr-line-dashed"></div>
@@ -125,12 +132,10 @@
                         </div>
                            <div class="hr-line-dashed"></div>
                              <div class="form-group">
-                            <label class="col-sm-2 control-label">登记人</label>
+                            <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-8">
                                 {% if nid %}
-                                     <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_staff query_set.recorder_id %}</p>
                                 {% else %}
-                                     <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_staff request.user.staff.sid %}</p>
                                      <input type="text" class="hidden" name="recorder_id" id="recorder_id" value={{request.user.staff.sid  }}>
                                 {% endif %}
 
@@ -181,33 +186,7 @@
                 }
             }
         });
-
- /*
-    自执行函数
-    */
-    $(function () {
-        //如果tid不为0，则为创建
-        var nid="{{ nid }}"
-        if ( nid!=""){
-           InitData()//初始化数据
-        }
-        else {
-
-        }
-    });
-     //初始化数据
-function InitData() {
-        //初始化form
-        $("#customer_id").val({{ customer_obj.nid}});
-        $("#nid").val({{ query_set.nid }});
-        $("#way_id").val({{ query_set.way_id}});
-        $("#contact_id").val({{ query_set.contact_id}});
-        $("#linkman_id").val({{ query_set.linkman_id}});
-        $("#result_id").val({{ query_set.result_id}});
-        $("#purpose_id").val({{ query_set.purpose_id}});
-        $("#nest_step").val({{ query_set.nest_step }});
-    }
-           //设置日期时间控件
+            //设置日期时间控件
 $(function () {
     $('#datepicker1').datepicker({
         language: "zh-CN", //语言
@@ -219,10 +198,37 @@ $(function () {
         minViewMode:'days', //最小视图层，为月视图层
         startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
         endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
-        {#setDate:new Date(),#}
     });
-    $('#datepicker1').datepicker('setDate', new Date());
 });
+ /*
+    自执行函数
+    */
+    $(function () {
+        //如果nid不为0，则为创建
+        var nid={{ nid }}
+        if ( nid!=0){
+           InitData()//初始化数据
+        }
+        else {
+            // 初始化日期
+                 $('#date').datepicker('setDate', new Date());
+        }
+    });
+     //初始化数据
+function InitData() {
+        //初始化form
+        console.log("init",11111)
+        $("#customer_id").val({{ customer_obj.nid}});
+        $("#nid").val({{ query_set.nid }});
+        $("#way_id").val({{ query_set.way_id}});
+        $("#contact_id").val({{ query_set.contact_id}});
+        $("#linkman_id").val({{ query_set.linkman_id}});
+        $("#result_id").val({{ query_set.result_id}});
+        $("#purpose_id").val({{ query_set.purpose_id}});
+        $("#next_step").val("{{ query_set.next_step }}");
+        $("#date").val("{{ query_set.date |date:"Y-m-d"}}")
+        $("#detail").val("{{ query_set.detail }}");
+    }
 
 //添加or编辑
       function Submit(cons){

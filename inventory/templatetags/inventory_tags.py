@@ -217,7 +217,6 @@ def change_to_warelocation(id):
 def change_to_contact_category(id):
     category_list = supplier_contact_db.category
     for item in category_list:
-        print("item",item)
         if item['id'] == int(id):
             return item["caption"]
 

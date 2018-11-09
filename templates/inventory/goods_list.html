@@ -92,7 +92,7 @@
                                       <tr>
                                           <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.nid }}"></td>
                                           <td>{% change_to_goods_category obj.category_id%} </td>
-                                          <td>{{ obj.name }}</td>
+                                          <td> <a  href="{%url "goods_detail" %}?id={{ obj.nid }}" >{{ obj.name }}</a></td>
                                           {% fetch_goods_photo obj.photo  as good_photo%}
                                           <td id="cover">
                                               {% if good_photo %}

@@ -156,26 +156,7 @@
                                  <span class="help-block m-b-none"></span>
                             </div>
                         </div>
-                           <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">意向类别</label>
-                            <div class="col-sm-8">
-                                <select  name="purpose" class="form-control" id="purpose" >
-                                    {% build_customer_purpose_ele  %}
-                                </select>
-                                 <i>备注(k类：已签合同,已到账；k1类：已签合同，部分未到账；k2类：已签合同，未到账；A类：面谈至少一次
-                                     ，最多三次GM级别，有需求有兴趣；B类：面谈最多三次kp或次kp级别，有需求有兴趣；
-                                     C类：电话沟通有兴趣，未见面/或有需求但兴趣不大；D 类：无需求无兴趣客户(初始默认为D类))</i>
-                            </div>
-                        </div>
-                          <div class="hr-line-dashed"></div>
-                         <div class="form-group">
-                            <label class="col-sm-2 control-label">录入人</label>
-                            <div class="col-sm-8">
-                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_staff request.user.staff.sid %}</p>
-                                <input type="text" class="hidden" name="recorder_id" id="recorder_id" value={{request.user.staff.sid  }}>
-                            </div>
-                        </div>
+                            <input type="text" class="hidden" name="recorder_id" id="recorder_id" value={{request.user.staff.sid  }}>
                           <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">营业执照</label>
@@ -310,7 +291,7 @@ function InitData() {
         $("#nid").val({{ query_set.nid }});
         $("#company").val("{{ query_set.company }}");
         $("#category_id").val({{ query_sets.category_id }});
-         $("#purpose").val({{ query_set.purpose }});
+         $("#purpose_id").val({{ query_set.purpose_id }});
         $("#industry_id").val({{ query_set.industry_id }});
         $("#introduce").val("{% if  query_set.introduce %}{{ query_set.introduce }} {% endif %}");
          $("#business").val("{% if  query_set.business %}{{ query_set.business }} {% endif %}");

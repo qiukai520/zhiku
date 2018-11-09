@@ -29,6 +29,17 @@ class FollowForm(django_forms.Form):
     linkman_id = django_fields.IntegerField(error_messages={"required": "请选择客户联系人"})
     result_id = django_fields.IntegerField(error_messages={"required": "请选择需求意向"})
     purpose_id = django_fields.IntegerField(error_messages={"required": "请选择客户需求"})
+    date = django_fields.DateField(error_messages={"required":"跟进日期不能为空"})
+
+
+class ContactForm(django_forms.Form):
+    customer_id = django_fields.IntegerField(error_messages={"required": "请选择供应商"})
+    category = django_fields.IntegerField(error_messages={"required": "请选择交易分类"})
+    linkman_id = django_fields.IntegerField(error_messages={"required": "请选择联系人"})
+    project = django_fields.CharField(error_messages={"required": "交易项目不能为空"})
+    date = django_fields.DateField(error_messages={"required": "交易日期不能为空", "invalid": "日期格式错误"})
+
+
 
 
 

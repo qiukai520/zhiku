@@ -223,7 +223,6 @@ $(function () {
         endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
         {#setDate:new Date(),#}
     });
-    $('#datepicker1').datepicker('setDate', new Date());
 });
  /*
     自执行函数
@@ -235,6 +234,8 @@ $(function () {
            InitData()//初始化数据
         }
         else {
+            //初始化日期
+             $('#date').datepicker('setDate', new Date());
 
         }
     });

@@ -62,13 +62,15 @@ def customer_edit(request):
                 # 更新
                 try:
                     with transaction.atomic():
-                        # 更新商品信息
+                        # 更新客户信息
                         record = customer_db.query_customer_by_id(nid)
                         customer_info = compare_fields(CustomerInfo._update, record, data)
+                        print(customer_info)
                         if customer_info:
                             customer_info["nid"] = nid
                             customer_db.update_customer(customer_info)
-                        # 插入供应商照片
+
+                        # 插入客户照片
                         photo_record = customer_photo_db.query_customer_photo(nid)
                         if customer_photo:
                             # 数据对比
@@ -118,6 +120,7 @@ def customer_edit(request):
                         ret['data'] = nid
                 except Exception as e:
                     print(e)
+                    traceback.print_exc()
                     ret["message"] = "出错了"
             else:
                 # 创建
@@ -125,7 +128,15 @@ def customer_edit(request):
                     with transaction.atomic():
                         # 插入供应商信息
                         customer_info = filter_fields(CustomerInfo._insert, data)
-
+                        # 默认D类客户
+                        purpose_list = customer_purpose_db.query_purpose_list()
+                        for item in purpose_list:
+                            print(item.content, item.content == "D类")
+                            if item.content == "D类": # 获取D类客户id
+                                purpose_id = item.nid  #
+                            else:
+                                purpose_id = 1
+                        customer_info["purpose_id"] = purpose_id
                         nid = customer_db.insert_customer(customer_info)
                         # 插入客户照片
                         if customer_photo:
@@ -177,18 +188,14 @@ def customer_detail(request):
         query_sets = customer_db.query_customer_by_id(cid)
         if query_sets:
             customer_photo = customer_photo_db.query_customer_photo(cid)
-            print('photo',customer_photo)
             customer_licence = customer_licence_db.query_customer_licence(cid)
-            print('customer_licence',customer_licence)
             customer_attach = customer_attach_db.query_customer_attachment(cid)
-            print("att",customer_attach)
             if not customer_photo:
                 customer_photo = ''
             if not customer_licence:
                 customer_licence = ''
             if not customer_attach:
                 customer_attach = ''
-            print()
             return render(request,"sfa/customer_detail.html",{"query_set": query_sets,
                                                                  "customer_photo": customer_photo,
                                                                  "customer_licence": customer_licence,
@@ -202,7 +209,6 @@ def customer_linkman(request):
     if mothod == "GET":
         nid = request.GET.get("id", "")
         cid = request.GET.get("cid",'')
-        print("cid",cid)
         if cid:
             customer_obj = customer_db.query_customer_by_id(cid)
             if customer_obj:
@@ -372,6 +378,31 @@ def c_linkman_detail(request):
     return render(request,'404.html')
 
 
+def c_folllow_detail(request):
+    id = request.GET.get("id", None)
+    ret = {"status": False, "data": "", "message": ""}
+    if id:
+        try:
+            follow_obj = c_follow_db.query_follow_by_id(id)
+            if follow_obj:
+                # 格式化数据
+                follow_json = follow_obj.__dict__
+                follow_json.pop('_state')
+                follow_json["way_id"] = change_to_follow_way(follow_json["way_id"])
+                follow_json["contact_id"] = change_to_follow_contact(follow_json["contact_id"])
+                follow_json['linkman_id'] = change_to_customer_linkman(follow_json['linkman_id'])
+                follow_json['result_id'] = change_to_follow_result(follow_json['result_id'])
+                follow_json['purpose_id'] = change_to_customer_purpose(follow_json['purpose_id'])
+                follow_json['recorder_id'] = change_to_staff(follow_json['recorder_id'])
+                ret['status'] = True
+                ret['data'] = follow_json
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request, '404.html')
+
+
+
 def customer_memo(request):
     mothod = request.method
     if mothod == "GET":
@@ -455,6 +486,91 @@ def customer_memo(request):
         return HttpResponse(json.dumps(ret))
 
 
+def customer_contact(request):
+    mothod = request.method
+    if mothod == "GET":
+        nid = request.GET.get("id", "")
+        sid = request.GET.get("sid",'')
+        if sid:
+            customer_obj = customer_db.query_customer_by_id(sid)
+            if customer_obj:
+                if nid:
+                    # 更新
+                    query_sets = c_contact_db.query_contact_by_id(nid)
+                    contact_attach = c_contact_attach_db.query_contact_attachment(nid)
+                    if not contact_attach:
+                        contact_attach = ''
+                else:
+                    query_sets = {}
+                    contact_attach = {}
+                return render(request, "sfa/customer_contact.html", {"query_set": query_sets,
+                                                                            "contact_attach": contact_attach,
+                                                                            "nid": nid,
+                                                                            "customer_obj":customer_obj
+                                                                           })
+        return render(request,"404.html")
+    else:
+        ret = {'status': False, "data": '', "message": ""}
+        form = ContactForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            contact_attach = data.get("attach", None)
+            print("attach",contact_attach)
+            nid = data.get("nid", None)
+            contact_attach = list(json.loads(contact_attach))
+            if nid:
+                # 更新
+                try:
+                    with transaction.atomic():
+                        # 更新联系人信息
+                        record = c_contact_db.query_contact_by_id(nid)
+                        contact_info = compare_fields(CustomerContact._update, record, data)
+                        if contact_info:
+                            contact_info["nid"] = nid
+                            c_contact_db.update_contact(contact_info)
+                        # 更新附件
+                        if contact_attach:
+                            att_record = c_contact_db.query_supplier_attachment(nid)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, contact_attach, "nid")
+                            if insert_att:
+                                insert_att = build_attachment_info({"contact_id": nid}, insert_att)
+                                c_contact_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                c_contact_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                c_contact_attach_db.mutil_delete_linkman_attachment(delete_id_att)
+                        else:
+                            print("nid",nid)
+                            c_contact_attach_db.multi_delete_attach_by_linkman_id(nid)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "更新失败"
+            else:
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入供应商信息
+                        contact_info = filter_fields(CustomerContact._insert, data)
+                        nid = c_contact_db.insert_contact(contact_info)
+                        if contact_attach:
+                            contact_attach = build_attachment_info({"contact_id": nid}, contact_attach)
+                            c_contact_attach_db.mutil_insert_attachment(contact_attach)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
+
 def c_memo_detail(request):
     id = request.GET.get("id",None)
     ret={"status":False,"data":"","message":""}
@@ -482,8 +598,8 @@ def c_memo_detail(request):
 def customer_follow(request):
     mothod = request.method
     if mothod == "GET":
-        nid = request.GET.get("id", "")
-        cid = request.GET.get("cid",'')
+        nid = request.GET.get("id", 0)
+        cid = request.GET.get("cid",0)
         print("cid",cid)
         if cid:
             customer_obj = customer_db.query_customer_by_id(cid)
@@ -493,6 +609,7 @@ def customer_follow(request):
                     query_sets = c_follow_db.query_follow_by_id(nid)
                 else:
                     query_sets = {}
+                print(query_sets,customer_obj)
                 return render(request, "sfa/customer_follow.html", {"query_set": query_sets,
                                                                             "nid": nid,
                                                                             "customer_obj":customer_obj

@@ -105,7 +105,7 @@
                                     <div class="panel-heading">
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
-                                                <li id="linkman_tab"><a href="task_detail.html#tab-1" data-toggle="tab">联系人</a>
+                                                <li id="linkman_tab" class="active"><a href="task_detail.html#tab-1"  data-toggle="tab">联系人</a>
                                                 </li>
                                                    <li  id="memo_tab"><a href="#tab-2" data-toggle="tab">跟进记录</a>
                                                 </li>
@@ -185,12 +185,13 @@
                                                     <thead>
                                                         <tr>
                                                             <th>跟进方式</th>
-                                                            <th>联络方式</th>
+                                                             <th>联络方式</th>
                                                              <th>联系人</th>
-                                                            <th>需求意向</th>
                                                              <th>客户意向</th>
+                                                             <th>意向分类</th>
+                                                             <th>跟进详情</th>
                                                              <th>下一步计划</th>
-                                                            <th>登记人</th>
+                                                              <th>跟进人</th>
                                                             <th>跟进日期</th>
                                                              <th>操作</th>
                                                         </tr>
@@ -206,25 +207,32 @@
                                                                   {% endif %}
                                                            </td>
                                                               <td >
-                                                                  {% if obj.way_id %}{% change_to_follow_contact obj.contact_id %}
+                                                                  {% if obj.contact_id %}{% change_to_follow_contact obj.contact_id %}
                                                                       {% else %}
                                                                       空
                                                                   {% endif %}
                                                            </td>
                                                               <td >
-                                                                  {% if obj.way_id %}{% change_to_follow_linkman obj.linkman_id %}
+                                                                  {% if obj.linkman_id %}{% change_to_customer_linkman obj.linkman_id %}
                                                                       {% else %}
                                                                       空
                                                                   {% endif %}
                                                            </td>
                                                               <td >
-                                                                  {% if obj.way_id %}{% change_to_follow_result obj.result_id %}
+                                                                  {% if obj.result_id %}{% change_to_follow_result obj.result_id %}
                                                                       {% else %}
                                                                       空
                                                                   {% endif %}
                                                            </td>
                                                               <td >
-                                                                  {% if obj.way_id %}{% change_to_customer_purpose obj.purpose_id %}
+                                                                  {% if obj.purpose_id %}{% change_to_customer_purpose obj.purpose_id %}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                               <td >
+                                                                  {% if obj.detail %}
+                                                                      {{ obj.detail|slice:"20" }}
                                                                       {% else %}
                                                                       空
                                                                   {% endif %}
@@ -232,7 +240,6 @@
                                                               <td >
                                                                   {% if obj.next_step %}
                                                                       {{ obj.next_step|slice:"20" }}
-{#                                                                      {{ obj.next_step }}#}
                                                                       {% else %}
                                                                       空
                                                                   {% endif %}
@@ -246,7 +253,7 @@
                                                               <td> {{ obj.date |date:"Y-m-d"}}
                                                                       </td>
                                                               <td><a href="{% url 'customer_follow' %}?cid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
-                                                                 <button  data-toggle="modal" onclick="ShowMemoDetail({{ obj.nid }})" class="btn btn-info">详细</button>
+                                                                 <button  data-toggle="modal" onclick="ShowFollowDetail({{ obj.nid }})" class="btn btn-info">详细</button>
                                                              </td>
                                                         </tr>
                                                         {% endfor %}
@@ -442,12 +449,12 @@
 </div>
 
       <!-- Modal contact_detail -->
-<div class="modal fade " id="contact_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade " id="follow_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" onclick="ClearContactData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="myModalLabel">收支来往</h3>
+        <h3 class="modal-title" id="myModalLabel">跟进记录</h3>
       </div>
       <div class="modal-body" style="height: 560px;">
          <div class="row form-horizontal" style="position: relative;">
@@ -458,9 +465,15 @@
 {#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
                                 <div class="panel-body "style="padding-top:0px;padding-bottom: 0px">
                                      <div class=" form-group row value" >
-                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">收支分类</div>
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">跟进方式</div>
                                           <div class="col-xs-9 p_form" >
-                                             <p class="form-control-static " id="category" ></p>
+                                             <p class="form-control-static " id="way_id" ></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">联络方式</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="contact_id" ></p>
                                           </div>
                                     </div>
                                      <div class=" form-group row value" >
@@ -470,65 +483,41 @@
                                           </div>
                                     </div>
                                     <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">项目名称</div>
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">客户意向</div>
                                           <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="project"></p>
+                                             <p class="form-control-static " id="result_id"></p>
                                           </div>
                                     </div>
                                     <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">项目描述</div>
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">意向分类</div>
                                           <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="description"></p>
+                                             <p class="form-control-static " id="purpose_id"></p>
                                           </div>
                                     </div>
                                     <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">应收/应付</div>
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">跟进详情</div>
                                           <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="receivable"></p>
-                                          </div>
-                                    </div>
-                                     <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">备注</div>
-                                          <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="receivable_remark"></p>
+                                             <p class="form-control-static " id="detail"></p>
                                           </div>
                                     </div>
                                       <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">已收/已付</div>
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">下一步计划</div>
                                           <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="received"></p>
-                                          </div>
-                                    </div>
-                                    <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">备注</div>
-                                          <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="received_remark"></p>
+                                             <p class="form-control-static " id="next_step"></p>
                                           </div>
                                     </div>
                                      <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">待收/待付</div>
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">跟进人</div>
                                           <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="pending"></p>
+                                             <p class="form-control-static " id="recorder_id"></p>
                                           </div>
                                     </div>
-                                       <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">备注</div>
-                                          <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="pending_remark"></p>
-                                          </div>
-                                    </div>
-                                    <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">交易时间</div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">跟进日期</div>
                                           <div class="col-xs-9 p_form">
                                              <p class="form-control-static " id="date"></p>
                                           </div>
                                     </div>
-                                     <div class=" form-group row value hidden " id="contact_attach" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
-                                          <div class="col-xs-9 p_form" id="contact_container">
-                                          </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -538,7 +527,7 @@
          </div>
       <div class="modal-footer">
         <button class="btn btn-default" onclick="ClearContactData()" data-dismiss="modal" aria-hidden="true">关闭</button>
-          <a class="btn btn-submit btn-primary edit-btn" id="contact_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+          <a class="btn btn-submit btn-primary edit-btn" id="follow_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
       </div>
     </div>
     </div>
@@ -569,7 +558,7 @@
                                     <div class=" form-group row value" >
                                           <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">详细</div>
                                           <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="detail"></p>
+                                             <p class="form-control-static " id="content"></p>
                                           </div>
                                     </div>
                                      <div class=" form-group row value" >
@@ -617,7 +606,7 @@
             sortOrder: "desc",
             pageNumber:1,
             pageSize: 6,
-            pageList: [10,15,20],
+            pageList: [6,15,20],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -629,10 +618,7 @@
             cardView: false,
             detailView: false,
             cache: false,
-            columns: [{
-            field: 'state',
-            checkbox: true,
-        }]
+
         });
          $("#linkman").bootstrapTable({
             toolbar: "#toolbar1",
@@ -642,8 +628,8 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 10,
-            pageList: [5, 10,15],
+            pageSize: 6,
+            pageList: [6, 10,15],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -664,8 +650,8 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 10,
-            pageList: [5, 10,15],
+            pageSize: 6,
+            pageList: [6, 10,15],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -724,19 +710,19 @@
                           $("#attach_block").removeClass("hidden")
                       }
                   }
-                  $("#edit").attr("href","customer_linkman?cid={0}&id={1}".format({{ query_set.nid }},data.nid))
+                  $("#edit").attr("href","linkman?cid={0}&id={1}".format({{ query_set.nid }},data.nid))
               }
           }
       });
     }
 
         //展示联系人详细内容
-    function ShowContactDetail(cons) {
+    function ShowFollowDetail(cons) {
 
-      $('#contact_detail').modal('show');
+      $('#follow_detail').modal('show');
       var id =cons
       $.ajax({
-          url:"{% url "contact_detail" %}",
+          url:"{% url "c_follow_detail" %}",
           type:"get",
           data:{'id':id},
           dataType:"json",
@@ -744,33 +730,18 @@
               if (arg.status){
                   console.log(arg)
                   var data=arg.data;
-                  console.log(data.name)
-                  $("#category").text(data.category);
+                   $("#way_id").text(data.way_id);
+                  $("#contact_id").text(data.contact_id);
                   $("#linkman_id").text(data.linkman_id);
-                  $("#project").text(data.project);
-                  $("#description").text(data.description);
-                  $("#receivable").text(data.receivable);
-                  $("#receivable_remark").text(data.receivable_remark);
-                  $("#received").text(data.received);
-                  $("#received_remark").text(data.received_remark);
-                   $("#pending").text(data.pending);
-                  $("#pending_remark").text(data.pending_remark);
+                  $("#result_id").text(data.result_id);
+                  $("#purpose_id").text(data.purpose_id);
+                  $("#detail").text(data.detail);
+                  $("#next_step").text(data.next_step);
+                  $("#recorder_id").text(data.recorder_id);
                   if (data.date!=""){
                        $("#date").text(data.date );
                   }
-                  //初始化附件
-                  if (data.attach!=""){
-                      var attachs = JSON.parse(data.attach);
-                      for (var i=0;i<attachs.length;i++){
-                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
-                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
-                      var eles=a_ele+l_ele+"<br>"
-                      $("#contact_container").append(eles)
-                      }
-                      $("#contact_attach").removeClass("hidden")
-
-                  }
-                  $("#contact_edit").attr("href","supplier_contact?sid={0}&id={1}".format({{ query_set.nid }},data.nid))
+                  $("#follow_edit").attr("href","follow?cid={0}&id={1}".format({{ query_set.nid }},data.nid))
               }
           }
       });
@@ -789,7 +760,7 @@
               if (arg.status){
                   var data=arg.data;
                   $("#title").text(data.title);
-                  $("#detail").text(data.detail);
+                  $("#content").text(data.detail);
                   $("#recorder").text(data.recorder);
                   //初始化附件
                   if (data.attach!=""){

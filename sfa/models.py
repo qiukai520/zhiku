@@ -34,16 +34,8 @@ class SoftDeletableModel(models.Model):
 
 
 class CustomerInfo(SoftDeletableModel):
-    """k类：已签合同,已到账；
-       k1类：已签合同，部分未到账；
-       k2类：已签合同，未到账；
-       A类：面谈至少一次,最多三次GM级别，有需求有兴趣；
-       B类：面谈最多三次kp或次kp级别，有需求有兴趣；
-       C类：电话沟通有兴趣，未见面/或有需求但兴趣不大；
-       D 类：无需求无兴趣客户(初始默认为D类)
-   """
+
     delete_choice = ((0, '保留'), (1, '删除'))
-    purpose_choice = ((0, 'A类客户'), (1, 'B类客户'),(2, 'C类客户'), (3, 'D类客户'),(4, 'k类客户'), (5, 'k1类客户'),(6, 'k2类客户'))
     nid = models.AutoField(primary_key=True)
     category = models.ForeignKey("CustomerCategory", to_field="nid", on_delete=models.CASCADE, verbose_name='客户分类',
                                  db_constraint=False)
@@ -74,9 +66,9 @@ class CustomerInfo(SoftDeletableModel):
     def __str__(self):
         return self.company
 
-    _insert = ["category","purpose","company" ,"category_id","recorder_id","industry_id", "business""employees","introduce",'website',"remark","address",
+    _insert = ["purpose_id","company" ,"category_id","recorder_id","industry_id", "business""employees","introduce",'website',"remark","address",
                 "town_id", "phone"]
-    _update = ["category","purpose","company","category_id", "industry_id", "business","employees","introduce",'website',"remark","address",
+    _update = ["purpose_id","company","category_id", "industry_id", "business","employees","introduce",'website',"remark","address",
                 "town_id","phone"]
 
 
@@ -286,6 +278,8 @@ class FollowWay(SoftDeletableModel):
     nid = models.AutoField(primary_key=True)
     code = models.CharField(max_length=16, verbose_name='算法编号')
     content = models.TextField(max_length=128, verbose_name='跟进方式')
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+
 
     class Meta:
         db_table = 'follow_way'
@@ -303,6 +297,8 @@ class FollowContact(SoftDeletableModel):
     nid = models.AutoField(primary_key=True)
     code = models.CharField(max_length=16, verbose_name='算法编号')
     content = models.TextField(max_length=128, verbose_name='联络方式')
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+
 
     class Meta:
         db_table = 'follow_contact'
@@ -313,46 +309,36 @@ class FollowContact(SoftDeletableModel):
         return "联络方式:{0}".format(self.code)
 
 
-class FollowLinkman(SoftDeletableModel):
-    nid = models.AutoField(primary_key=True)
-    code = models.CharField(max_length=16, verbose_name='算法编号')
-    content = models.CharField(max_length=128, verbose_name='跟进联系人')
-
-    class Meta:
-        db_table = 'follow_linkman'
-        verbose_name = '跟进联系人'
-        verbose_name_plural = '跟进联系人'
-
-    def __str__(self):
-        return "跟进联系人:{0}".format(self.code)
-
-
 class FollowResult(SoftDeletableModel):
     nid = models.AutoField(primary_key=True)
     code = models.CharField(max_length=16, verbose_name='算法编号')
     content = models.TextField(max_length=128, verbose_name='需求意向')
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+
 
     class Meta:
         db_table = 'follow_result'
-        verbose_name = '需求意向'
-        verbose_name_plural = '需求意向'
+        verbose_name = '客户意向'
+        verbose_name_plural = '客户意向'
 
     def __str__(self):
-        return "需求意向:{0}".format(self.code)
+        return "客户意向:{0}".format(self.code)
 
 
 class CustomerPurpose(SoftDeletableModel):
     nid = models.AutoField(primary_key=True)
     code = models.CharField(max_length=16, verbose_name='算法编号')
     content = models.TextField(max_length=128, verbose_name='客户意向')
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+
 
     class Meta:
         db_table = 'customer_purpose'
-        verbose_name = '客户意向'
-        verbose_name_plural = '客户意向'
+        verbose_name = '意向分类'
+        verbose_name_plural = '意向分类'
 
     def __str__(self):
-        return "客户意向:{0}".format(self.code)
+        return "意向分类:{0}".format(self.code)
 
 
 class CustomerFollow(SoftDeletableModel):
@@ -361,9 +347,10 @@ class CustomerFollow(SoftDeletableModel):
                                  default=1, verbose_name='客户')
     way = models.ForeignKey("FollowWay", to_field='nid', on_delete=models.CASCADE, db_constraint=False,verbose_name="跟进方式")
     contact = models.ForeignKey("FollowContact", to_field='nid', on_delete=models.CASCADE, db_constraint=False, verbose_name="联络方式")
-    linkman = models.ForeignKey("FollowLinkman", to_field='nid', on_delete=models.CASCADE, db_constraint=False, verbose_name="联系人")
+    linkman = models.ForeignKey("CustomerLinkman", to_field='nid', on_delete=models.CASCADE, db_constraint=False, verbose_name="联系人")
     result = models.ForeignKey("FollowResult", to_field='nid', on_delete=models.CASCADE, db_constraint=False, verbose_name="需求意向")
     purpose = models.ForeignKey("CustomerPurpose", to_field='nid', on_delete=models.CASCADE, db_constraint=False, verbose_name="客户意向")
+    detail = models.TextField(max_length=512, blank=True, null=True, verbose_name="跟进详情")
     next_step = models.TextField(max_length=512, blank=True,null=True,verbose_name="下一步跟进计划")
     recorder = models.ForeignKey(Staff, to_field='sid', on_delete=models.CASCADE, db_constraint=False, verbose_name="登记人")
     date = models.DateField(verbose_name="跟进日期")
@@ -378,8 +365,63 @@ class CustomerFollow(SoftDeletableModel):
     def __str__(self):
         return "客户跟进记录:{0}".format(self.customer)
 
-    _insert = ["recorder_id","date", "way_id", "customer_id", "contact_id", "linkman_id","result_id","purpose_id","next_step"]
-    _update = ["recorder_id","date","way_id","customer_id", "contact_id", "linkman_id","result_id","purpose_id","next_step"]
+    _insert = ["recorder_id","date", "way_id", "customer_id", "contact_id", "linkman_id","result_id","purpose_id","next_step","detail"]
+    _update = ["recorder_id","date","way_id","customer_id", "contact_id", "linkman_id","result_id","purpose_id","next_step","detail"]
+
+
+class CustomerContact(SoftDeletableModel):
+    delete_status_choice = ((0, '删除'), (1, '保留'))
+    category = ((0, "交易收入"), (1, "商务支出"))
+    nid = models.AutoField(primary_key=True)
+    customer = models.ForeignKey('CustomerInfo', to_field="nid", on_delete=models.CASCADE, db_constraint=False,
+                             default=1, verbose_name='客户')
+    linkman = models.ForeignKey('CustomerLinkman', to_field="nid", on_delete=models.CASCADE, db_constraint=False,
+                                 default=1, verbose_name='联系人')
+    category = models.SmallIntegerField(choices=category, verbose_name="分类", default=0)
+    project = models.CharField(max_length=64, verbose_name="项目名称", blank=True, null=True)
+    description = models.CharField(max_length=128, verbose_name="项目详细", blank=True, null=True)
+    received = models.DecimalField(max_digits=8, decimal_places=2,verbose_name="已收/已付金额",blank=True,null=True)
+    received_remark = models.CharField(max_length=64, verbose_name="已收/已付备注", blank=True, null=True)
+    receivable = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="应收/应付金额", blank=True, null=True)
+    receivable_remark = models.CharField(max_length=64,verbose_name="应收/应付备注", blank=True, null=True)
+    pending = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="待收/待付金额", blank=True, null=True)
+    pending_remark = models.CharField(max_length=64, verbose_name="待收/待付备注",blank=True,null=True)
+    date = models.DateField(verbose_name="交易日期", blank=True, null=True)
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'customer_contact'
+        verbose_name = '客户来往'
+        verbose_name_plural = '客户来往'
+
+    def __str__(self):
+        return self.project
+
+    _insert = ["customer_id", "linkman_id", "company", 'project',"description", "category", "received", "received_remark",
+               "receivable", "receivable_remark","pending","pending_remark","date"]
+
+    _update = ["customer_id", "linkman_id", "company",'project',"description", "category", "received", "received_remark",
+               "receivable", "receivable_remark","pending","pending_remark","date"]
+
+
+class ContactAttach(models.Model):
+    nid = models.AutoField(primary_key=True)
+    contact = models.ForeignKey('CustomerContact', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                            verbose_name='客户来往')
+    attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
+    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+
+    class Meta:
+        db_table = 'c_contact_attach'
+        verbose_name = '来往附件'
+        verbose_name_plural = '来往附件'
+
+    def __str__(self):
+        return "来往附件:{0}".format(self.name)
 
 
 

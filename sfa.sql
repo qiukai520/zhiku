@@ -5,7 +5,7 @@ create TABLE `customer_info`(
 `category_id` smallint (6) COMMENT '客户分类',
 `company` varchar (32) COMMENT '公司名称',
 `industry_id` varchar (32) NOT NULL  COMMENT '所属行业',
-`employees` int(11) NOT NUll default 0 COMMENT '人数',
+`employees` int(11)  default 0 COMMENT '人数',
 `business` varchar (64)   COMMENT '主营业务',
 `introduce` varchar (512) COMMENT '公司介紹',
 `website` varchar (64) COMMENT '公司网站',
@@ -143,29 +143,22 @@ create TABLE `follow_contact`(
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='联系方式';
 
-drop TABLE if exists `follow_linkman`;
-create TABLE `follow_linkman`(
-`nid`int(11) NOT NULL primary key auto_increment,
-`code` varchar(16) COMMENT '算法编号',
-`content` varchar(128) COMMENT '跟进联系人',
-`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除'
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='跟进联系人';
 
 drop TABLE if exists `follow_result`;
 create TABLE `follow_result`(
 `nid`int(11) NOT NULL primary key auto_increment,
 `code` varchar(16) COMMENT '算法编号',
-`content` varchar(128) COMMENT '需求意向',
+`content` varchar(128) COMMENT '客户意向',
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除'
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='需求意向';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户意向';
 
 drop TABLE if exists `customer_purpose`;
 create TABLE `customer_purpose`(
 `nid`int(11) NOT NULL primary key auto_increment,
 `code` varchar(16) COMMENT '算法编号',
-`content` varchar(128) COMMENT '客户意向',
+`content` varchar(128) COMMENT '意向分类',
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除'
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户意向';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='意向分类';
 
 
 drop TABLE if exists `customer_follow`;
@@ -175,12 +168,46 @@ create TABLE `customer_follow`(
 `way_id` int(11) NOT NULL COMMENT'跟进方式',
 `contact_id` int(11) NOT NULL COMMENT'联络方式',
 `linkman_id` int(11) NOT NULL COMMENT'跟进联系人',
-`result_id` int(11) NOT NULL COMMENT'需求意向',
-`purpose_id` int(11) NOT NULL COMMENT'客户意向',
+`result_id` int(11) NOT NULL COMMENT'客户意向',
+`purpose_id` int(11) NOT NULL COMMENT'意向分类',
 `next_step` varchar (512) COMMENT '下一步计划',
+`detail` varchar (512) COMMENT '跟进详情',
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
 `date` datetime  DEFAULT NUll  COMMENT '跟进日期',
-`recorder_id`int(11) NOT NULL COMMENT '登记人',
+`recorder_id`int(11) NOT NULL COMMENT '跟进人',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户跟进记录';
+
+
+
+drop TABLE  if  exists `customer_contact`;
+create table `customer_contact`(
+`nid` int(11) primary key auto_increment,
+`customer_id` int(11) NOT NULL COMMENT '客户',
+`linkman_id` int (11) NOT NULL COMMENT '联系人',
+`category` tinyint(1) NOT NULL COMMENT '交易分类',
+`project` varchar (64) NOT NULL COMMENT '项目名称',
+`description` varchar (128)   COMMENT '项目详细',
+`received`  DECIMAL (8,2) COMMENT'已收/已付金额',
+`received_remark` varchar (128) COMMENT'已收/已付备注' ,
+`receivable`  DECIMAL (8,2) COMMENT'应收/应付金额',
+`receivable_remark` varchar (128) COMMENT'应收/应付备注' ,
+`pending`  DECIMAL (8,2) COMMENT'待收/待付金额',
+`pending_remark` varchar (128) COMMENT'待收/待付备注' ,
+`date`  datetime  DEFAULT NUll  COMMENT '交易日期',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0否，1是',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='供应商来往表';
+
+
+drop TABLE if exists `c_contact_attach`;
+create TABLE `c_contact_attach`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`contact_id` int(11) NOT NULL COMMENT'客户来往',
+`attachment` varchar(128) COMMENT '附件路径',
+`description` varchar(128) COMMENT '附件描述',
+`name` varchar(64) COMMENT '附件名称',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0否，1是'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='来往附件';

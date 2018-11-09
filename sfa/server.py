@@ -284,6 +284,70 @@ class CustomerMemoAttachDB(object):
         CustomerMemoAttach.objects.filter(nid=nid).delete()
 
 
+class CustomerContactDB(object):
+    """客户来往"""
+    category= ({"id": 0, "caption": "交易收入"}, {"id": 1, "caption": "商务支出"})
+
+    def insert_contact(self, modify_info):
+        contact_sql = """insert into customer_contact(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        contact_sql = contact_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(contact_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_contact_list(self):
+        result_db = CustomerContact.objects.all()
+        return result_db
+
+    def query_contact_by_id(self, nid):
+        result_db = CustomerContact.objects.filter(nid=nid).first()
+        return result_db
+
+    def query_contact_by_supplier(self,supplier_id):
+        result_db = CustomerContact.objects.filter(customer_id=supplier_id).all()
+        return result_db
+
+    def update_contact(self, modify):
+        CustomerContact.objects.filter(nid=modify['nid']).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        CustomerContact.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class ContactAttachDB(object):
+    """来往附件表"""
+    def query_contact_attachment_list(self):
+        result_db = ContactAttach.objects.filter().all()
+        return result_db
+
+    def query_contact_attachment(self, id):
+        result_db = ContactAttach.objects.filter(contact_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            ContactAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            ContactAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_linkman_attachment(self, id_list):
+        ContactAttach.objects.filter(nid__in=id_list).delete()
+
+    def multi_delete_attach_by_linkman_id(self,id_list):
+        ContactAttach.objects.filter(contact_id__in=id_list).filter().delete()
+
+    def delete_contact_attachment(self,nid):
+        ContactAttach.objects.filter(nid=nid).delete()
+
+
 class CustomerFollowDB(object):
     """客户跟进记录"""
 
@@ -365,29 +429,6 @@ class FollowContactDB(object):
         FollowContact.objects.create(**modify_info)
 
 
-class FollowLinkmanDB(object):
-    """跟进联系人"""
-    def query_linkman_list(self):
-        result_db = FollowLinkman.objects.filter().all()
-        return result_db
-
-    def query_linkman_by_id(self, nid):
-        result_db = FollowLinkman.objects.filter(nid=nid).first()
-        return result_db
-
-    def update_linkman(self, modify_info):
-        is_exist = FollowLinkman.objects.filter(code=modify_info['code']).first()
-        if is_exist:
-            raise Exception("{0}算法编号已存在".format(modify_info['code']))
-        FollowLinkman.objects.filter(nid=modify_info['nid']).update(**modify_info)
-
-    def insert_linkman(self, modify_info):
-        is_exist = FollowLinkman.objects.filter(code=modify_info['code']).first()
-        if is_exist:
-            raise Exception("{0}算法编号已存在".format(modify_info['code']))
-        FollowLinkman.objects.create(**modify_info)
-
-
 class CustomerPurposeDB(object):
     """客户跟进方式"""
     def query_purpose_list(self):
@@ -434,6 +475,8 @@ class FollowResultDB(object):
         FollowResult.objects.create(**modify_info)
 
 
+
+
 customer_db = CustomerDB()
 customer_category_db = CustomerCategoryDB()
 customer_attach_db = CustomerAttachDB()
@@ -445,9 +488,10 @@ c_linkman_card_db = CustomerLinkmanCardDB()
 c_linkman_attach_db = CustomerLinkmanAttachDB()
 c_memo_db = CustomerMemoDB()
 c_memo_attach_db = CustomerMemoAttachDB()
+c_contact_db=CustomerContactDB()
+c_contact_attach_db = ContactAttachDB()
 c_follow_db = CustomerFollowDB()
 follow_way_db = FollowWayDB()
 follow_contact_db = FollowContactDB()
-follow_linkman_db = FollowLinkmanDB()
 follow_result_db = FollowResultDB()
 customer_purpose_db = CustomerPurposeDB()

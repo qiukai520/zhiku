@@ -174,8 +174,7 @@
                 }
             }
         });
-
-   //设置日期时间控件
+ //设置日期时间控件
 $(function () {
     $('#datepicker1').datepicker({
         language: "zh-CN", //语言
@@ -187,9 +186,7 @@ $(function () {
         minViewMode:'days', //最小视图层，为月视图层
         startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
         endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
-        {#setDate:new Date(),#}
     });
-    $('#datepicker1').datepicker('setDate', new Date());
 });
 
  /*
@@ -198,11 +195,13 @@ $(function () {
     $(function () {
         //如果id不为0，则为创建
         var nid="{{ id }}"
-        if ( nid!=""){
+        if ( nid!=0){
            InitData()//初始化数据
         }
         else {
-
+             $(function () {
+                 $('#date').datepicker('setDate', new Date());
+             })
         }
     });
      //初始化数据
@@ -217,6 +216,7 @@ function InitData() {
         $("#unit_id").val({% if obj.unit_id  %}{{ obj.unit_id }}{% endif %});
 
     }
+
 
 //修改时获取凭证
 function GetAttachment(){
@@ -311,7 +311,7 @@ function UploadFile(ths){
          if ( form.valid()){
             //把凭证添加到form中
               var nid="{{ id }}"
-             if(nid!=""){
+             if(nid!=0){
                   //编辑
                  var attachment=GetAttachment()
                  var success_msg="修改成功"
