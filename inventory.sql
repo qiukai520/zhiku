@@ -397,3 +397,9 @@ create TABLE `purchase_attach`(
 `description` varchar(128) COMMENT '凭证名称',
 `name` varchar(64) COMMENT '凭证名称'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='采购凭证';
+
+drop TABLE if exists `repertory`;
+create TABLE `repertory`(
+`nid`int(11) primary key auto_increment,
+`goods_id` int(11) NOT NULL COMMENT'商品'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库库存';

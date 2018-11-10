@@ -1,6 +1,5 @@
 (function($){
 	var barcode = {
-
 		listenerObj: null,
 		letter : false,
 		number : true,
@@ -9,14 +8,15 @@
 		oneKeyTime : '', /* 一次按键时间间隔 */
 		twoKeyTime : '', /* 两次按键时间间隔 */
 		keyDownTime: '', /* 键按下的时间    */
-		barcodeLen : 8 , /* 条形码长度      */
+		barcodeLen : 13 , /* 条形码长度      */
 		spanTime   : 70, /* 一次按键按下到释放的时间间隔 */
 		zerokeyVal : 48, /* 零的key值      */
 		ninekeyVal : 57, /* 数字9的key值   */
 		akeyVal    : 65, /* a的key值      */
 		zkeyVal    : 90, /* z的key值      */
 		
-		show : function(){},
+		show : function(){
+		},
 
 		checkHandInput : function(){
 					console.log(this.oneKeyTime);
@@ -69,10 +69,11 @@
 		},
 		check_barcode : function(){
 			var code = $(this.listenerObj).val();
-
+            console.log("code",code)
+			console.log("Length",code.length,this.barcodeLen,code.length !== this.barcodeLen)
 			if(code.length !== this.barcodeLen){
 				$(this.listenerObj).val("").focus();
-				// layer.msg('条形码不合法',{time : 800});
+				layer.msg('条形码不合法',{time : 800});
 			}else{
 				return true;
 			}
@@ -112,7 +113,7 @@
 		createListEl : function(){
 			if(typeof this.show == 'function'){
 				this.show(this.listenerObj.val());
-				// layer.msg('扫描成功',{time:1000});
+				layer.msg('扫描成功',{time:1000});
 			}else{
 				layer.msg('no callback function');
 			}
@@ -137,7 +138,7 @@
 			this.on_key_down();
 			this.on_key_up();
 			this.on_key_press();
-			this.keepFocusInput();
+			// this.keepFocusInput();
 			this.listenerObj.focus().select();
 		}
 
@@ -145,11 +146,10 @@
 	$.fn.startListen = function(options){
 		console.log("options",options)
 		var settings = $.extend({
-			barcodeLen : 8,
+			barcodeLen : 13,
 			letter : false,//条码不包含字母
 			number : true, //条码为数字
 		},options);
 		barcode.startListen(this,settings);
 	}
-
 })(jQuery);

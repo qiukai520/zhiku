@@ -668,3 +668,17 @@ class PurchaseAttach(models.Model):
 
     def __str__(self):
         return "采购凭证:{0}".format(self.name)
+
+
+class Repertory(models.Model):
+    nid = models.AutoField(primary_key=True)
+    goods = models.ForeignKey("Goods", to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                                 verbose_name='仓库库存')
+    class Meta:
+        db_table = 'repertory'
+        verbose_name = '仓库库存'
+        verbose_name_plural = '仓库库存'
+
+    def __str__(self):
+        return "仓库库存:{0}".format(self.goods)
+

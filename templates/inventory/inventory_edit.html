@@ -11,7 +11,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>{% if nid %}
+                        <h5>{% if id %}
                                 库存编辑
                            {% else %}
                                 库存添加
@@ -27,7 +27,7 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal">
-                         <form action="{% url "invent_edit" %}" method="post" id="good_fm" class="form-horizontal" enctype="multipart/form-data">
+                         <form action="{% url "invent_edit" %}" method="post" id="invent_fm" class="form-horizontal" enctype="multipart/form-data">
                              {% csrf_token %}
                              <input type="hidden" name="nid" id="nid" >
                            <div class="form-group">
@@ -39,8 +39,8 @@
                         </div>
                              <div class="hr-line-dashed"></div>
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">仓库</label>
-                            <div class="col-sm-8">
+                            <label class="col-sm-2 control-label layui-form-label">仓库</label>
+                            <div class="col-sm-8 layui-input-block" >
                                 <select  name="warehouse_id" class="form-control" id="warehouse_id"  onchange="SelectWarehouse(this)">
                                     <option value="0">请选择仓库</option>
                                     {% build_warehouse_ele %}
@@ -51,10 +51,11 @@
                             <div class="form-group">
                             <label class="col-sm-2 control-label">库位</label>
                             <div class="col-sm-8">
-                                 <select  name="location_id" class="form-control" id="location" >
+                                 <select  name="location_id" class="form-control" onclick="CheckVoid()" id="location" >
                                      {% if id  %}
                                          {% build_warelocation_ele  obj.warehouse_id %}
                                      {%endif  %}
+                                  <option value="0">请选择库位</option>
                                 </select>
                             </div>
                             </div>
@@ -63,7 +64,11 @@
                             <label class="col-sm-2 control-label">商品单位</label>
                             <div class="col-sm-8">
                                  <select  name="unit_id" class="form-control" id="unit_id" >
-                                    {% build_goods_unit_ele %}
+                                     {% if id %}
+                                          {% build_goods_unit_ele  %}
+                                     {% else %}
+                                         {% build_goods_unit_ele  goods_obj.unit_id %}
+                                     {% endif %}
                                 </select>
                             </div>
                         </div>
@@ -200,6 +205,7 @@ $(function () {
         }
         else {
              $(function () {
+                 //初始化为当前日期
                  $('#date').datepicker('setDate', new Date());
              })
         }
@@ -207,16 +213,13 @@ $(function () {
      //初始化数据
 function InitData() {
         //初始化form
-        console.log("{{ obj.date }}")
         $("#nid").val({{ obj.nid }});
         $("#amount").val("{{ obj.amount}}");
         $("#warehouse_id").val({{ obj.warehouse_id }});
         $("#location").val({{ obj.location_id }});
+        $("#unit_id").val({{ obj.unit_id }});
         $("#date").val("{% if obj.date  %}{{ obj.date |date:'Y-m-d'}}{% endif %}");
-        $("#unit_id").val({% if obj.unit_id  %}{{ obj.unit_id }}{% endif %});
-
     }
-
 
 //修改时获取凭证
 function GetAttachment(){
@@ -243,6 +246,8 @@ function GetAttachment(){
       attachment_list=JSON.stringify(attachment_list)//对象转化成json
     return attachment_list
 }
+
+
 //创建时获取凭证
 function FetchAttachment(){
     var attachment_list=new Array()
@@ -305,7 +310,7 @@ function UploadFile(ths){
       function Submit(cons){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
-         var form =$("#good_fm");
+         var form =$("#invent_fm");
          console.log(form)
         //验证表单
          if ( form.valid()){
@@ -345,6 +350,13 @@ function UploadFile(ths){
          }
     }
 
+function CheckVoid() {
+    var warehouse_id=$("#warehouse_id").val()
+    console.log("warehouse_id",warehouse_id)
+    if(warehouse_id=="0"){
+     layer.msg("请先选择仓库");
+    }
+}
 
       // 根据仓库获取相应的库位
     function SelectWarehouse(ths) {

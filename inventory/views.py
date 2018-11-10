@@ -19,6 +19,21 @@ def goods_list(request):
     return render(request, 'inventory/goods_list.html',{"query_sets":query_sets})
 
 
+def search_goods(request):
+    ret = {'status': False, "data": '', "code": 200}
+    code = request.GET.get("code",0)
+    data = {}
+    if code:
+        goods_obj = goods_db.query_goods_by_code(code)
+        if goods_obj:
+            data["goods_id"] = goods_obj.nid
+            data["goods_name"] = goods_obj.name
+            data["goods_unit"]= goods_obj.unit_id
+            ret["status"] = True
+    ret["data"] = data
+    return HttpResponse(json.dumps(ret))
+
+
 def goods_edit(request):
     mothod = request.method
     if mothod == "GET":
@@ -88,7 +103,6 @@ def goods_edit(request):
                                     final_photo["goods_id"]=nid
                                     goods_code_db.update_bar(final_photo)
                                     # 删除服务端上的文件
-
                                     code_path = code_record.photo
                                     delete_server_file(code_path)
                             else:
@@ -129,10 +143,6 @@ def goods_edit(request):
                         # 插入商品信息
                         goods_info = filter_fields(Goods._insert, data)
                         nid = goods_db.insert_goods(goods_info)
-                        # 插入商品照片
-                        if goods_photo:
-                            goods_photo["goods_id"] = nid
-                            goods_photo_db.insert_photo(goods_photo)
                         # 插入商品条码照
                         if goods_code:
                             goods_code["goods_id"] = nid
@@ -325,7 +335,7 @@ def industry_edit(request):
 
 def invent_list(request):
     """库存列表"""
-    query_sets = goods_db.query_goods_list()
+    query_sets = goods_db.query_repertory_goods_list()
     return render(request,"inventory/invent_list.html",{"query_sets":query_sets})
 
 
@@ -343,7 +353,7 @@ class InventViewSet(View):
                     obj = invent_db.query_invent_by_id(id)
                     invent_attach = invent_attach_db.query_invent_attachment(id)
                     if obj:
-                        obj = {"nid": obj.nid, "amount": obj.amount, "unit": obj.unit_id, "batch": obj.batch,"warehouse_id":obj.warehouse_id,
+                        obj = {"nid": obj.nid, "amount": obj.amount, "unit_id": obj.unit_id, "batch": obj.batch,"warehouse_id":obj.warehouse_id,
                                "location_id":obj.location_id,"date": obj.date,"recorder_id":obj.recorder_id}
                 else:
                     id = 0
@@ -1278,6 +1288,7 @@ def price_detail(request):
 
 
 def memo_detail(request):
+    """备忘详细"""
     id = request.GET.get("id",None)
     ret={"status":False,"data":"","message":""}
     if id:
@@ -1317,6 +1328,44 @@ def goods_delete(request):
     except Exception as e:
         print(e)
         ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def add_repertory(request):
+    """商品移入库存"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    print("ids",ids)
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        repertory_db.multi_insert(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = False
+    return HttpResponse(json.dumps(ret))
+
+def remove_repertory(request):
+    """商品移出库存"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    print("ids",ids)
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        repertory_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        ret['status'] = False
     return HttpResponse(json.dumps(ret))
 
 

@@ -335,6 +335,16 @@ def fetch_goods_photo(photo_str):
         path = ""
     return path
 
+@register.simple_tag
+def fetch_repertory(id):
+    """ 检查是否在库存中"""
+    goods_obj = repertory_db.query_goods_by_id(id)
+    status = "否"
+    if goods_obj:
+        status = "是"
+    return status
+
+
 
 @register.simple_tag
 def fetch_goods_total_amount(gid):

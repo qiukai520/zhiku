@@ -33,7 +33,7 @@
         <!-- Panel Other -->
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>商品列表</h5>
+                <h5>商品管理</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -59,9 +59,10 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group " id="toolbar" role="group">
-                                     <a href="{% url "goods_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                     <a href="{% url "goods_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;录入商品</a>
                                     <button  onclick="AddPrice()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加报价</button>
                                      <button  onclick="ComparePrice()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加零售比价</button>
+                                        <button  onclick="AddRepertory()" class="btn btn-primary "><i class="glyphicon glyphicon-plus"></i>&nbsp;移入仓库</button>
                                     <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
                                 <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
@@ -84,6 +85,7 @@
                                              <th>商品规格</th>
                                              <th>产地</th>
                                              <th>产期</th>
+                                             <th>是否入仓库</th>
                                              <th>操作</th>
                                           </tr>
                                     </thead>
@@ -106,6 +108,7 @@
                                                {{ obj.area }}
                                           </td>
                                           <td>{{ obj.start_month }}月-{{ obj.end_month }}月</td>
+                                            <td>{% fetch_repertory obj.nid  %}</td>
                                             <td>
                                               <a  href="{%url "goods_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
 {#                                                <button  data-toggle="modal" onclick="ShowGoodsDetail({{ obj.nid }})" class="btn btn-info">详细</button>#}
@@ -240,6 +243,43 @@
             }
         })
         });
+    }
+    //移入库存
+     function AddRepertory() {
+        var ids="";
+        $("tbody input:checkbox:checked").each(function () {
+            id = $(this).next().val();
+            if (id){
+                id+="|";
+                ids+=id;
+            }
+        });
+        //是否选中
+        if (ids==""){
+             layer.alert('至少选择一个对象', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $.ajax({
+            url:"{% url "add_repertory" %}",
+            data:{"ids":ids},
+            type:"get",
+            dataType:"JSON",
+            success:function (arg) {
+                if (arg.status){
+                    window.location.reload()
+                }else{
+                   layer.alert('移入失败', {icon: 2 ,
+                                  time: 2000, //2s后自动关闭
+                                    btn: [ '知道了']}
+                                    );
+
+                }
+            }
+        })
+        ;
     }
 
   //添加报价

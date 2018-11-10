@@ -266,8 +266,16 @@ class GoodsDB(object):
         result_db = Goods.objects.filter(delete_status=1).all()
         return result_db
 
+    def query_repertory_goods_list(self):
+        result_db = Goods.objects.raw('select * from goods right join repertory on goods.nid=repertory.goods_id')
+        return result_db
+
     def query_goods_by_id(self, nid):
         result_db = Goods.objects.filter(nid=nid,delete_status=1).first()
+        return result_db
+
+    def query_goods_by_code(self,code):
+        result_db = Goods.objects.filter(code=code, delete_status=1).first()
         return result_db
 
     def query_goods_by_category(self, category_id):
@@ -279,6 +287,7 @@ class GoodsDB(object):
 
     def multi_delete(self, id_list, delete_status):
         Goods.objects.filter(nid__in=id_list).update(**delete_status)
+
 
 
 class GoodsPhotoDB(object):
@@ -343,8 +352,31 @@ class GoodsAttachDB(object):
         GoodsAttach.objects.filter(nid=nid).delete()
 
 
+class RepertoryDB(object):
+    """仓库库存"""
+
+    def query_goods_by_id(self,id):
+        result_db = Repertory.objects.filter(nid=id).first()
+        return result_db
+
+
+    def multi_insert(self, id_list):
+        for item in id_list:
+            if self.is_exist(item):
+                print("item",item)
+                continue
+            Repertory.objects.create(**{"goods_id":item})
+
+    def multi_delete(self,id_list):
+        Repertory.objects.filter(nid__in=id_list).delete()
+
+    def is_exist(self,id):
+        is_exist = Repertory.objects.filter(nid=id).first()
+        return is_exist
+
+
 class SupplierDB(object):
-    """供应商表"""
+    """供应商管理"""
     gender_choice = ({"id": 0, "caption": "男"}, {"id": 1, "caption": "女"})
 
     def insert_supplier(self, modify_info):
@@ -877,4 +909,5 @@ invent_db = InventDB()
 invent_attach_db = InventoryAttachDB()
 purchase_db = PurchaseDB()
 purchase_attach_db = PurchaseAttachDB()
+repertory_db = RepertoryDB()
 
