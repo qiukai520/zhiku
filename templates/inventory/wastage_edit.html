@@ -1,0 +1,430 @@
+
+{% extends "layout.html" %}
+{% load inventory_tags %}
+{% block css %}
+    <link href="/static/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet">
+    <link href="/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css" rel="stylesheet">
+    <link href="/static/plugins/select2/select2.css" rel="stylesheet">
+    <link href="/static/plugins/selectize/selectize.css" rel="stylesheet">
+    <link href="/static/plugins/selectize/selectize.bootstrap3.css" rel="stylesheet">
+    <style>
+      #attachment-container .col-sm-8{
+          padding: 5px;
+    }
+    </style>
+{% endblock %}
+{% block content %}
+        <div class="wrapper wrapper-content container animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>损耗登记 <small></small></h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-horizontal">
+                         <form action="{% url "wastage_edit" %}" method="post" id="wastage_fm" class="form-horizontal" enctype="multipart/form-data">
+                             {% csrf_token %}
+                             <input type="hidden" name="nid" id="nid" >
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">商品</label>
+                            <div class="col-sm-8">
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ goods_obj.name }}</p>
+                                <input type="text" class="hidden" name="goods_id" id="goods_id" value={{ goods_obj.nid }}>
+                            </div>
+                        </div>
+                             <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">商品单位</label>
+                            <div class="col-sm-8">
+                                 <select  name="unit_id" class="form-control" id="unit_id" >
+                                    {% build_goods_unit_ele %}
+                                </select>
+                            </div>
+                        </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">数量</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="amount" id="amount"> <span class="help-block m-b-none"></span>
+                            </div>
+                            </div>
+                          <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">原因</label>
+                            <div class="col-sm-8">
+                                <textarea name="reason"  class="form-control" id="reason"  cols="30" rows="3"></textarea>
+                            </div>
+                            </div>
+                           <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">处置方式</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="way" id="way"> <span class="help-block m-b-none"></span>
+                            </div>
+                            </div>
+                           <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">改进方案</label>
+                            <div class="col-sm-8">
+                                <textarea  name="proposal" class="form-control" id="proposal" id="" cols="30" rows="3"></textarea>
+                            </div>
+                            </div>
+                          <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">处理人</label>
+                            <div class="col-sm-8 ">
+                               <div class="selector select-transfer">
+                                    <div class="selector-available">
+                                        <p class="title"> 选择</p>
+                                        <div class="input-group input-group-sm selector-filter">
+                                          <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                          <input class="form-control" type="text" id="_input">
+                                        </div>
+                                        <select multiple="multiple" id="_form">
+                                            {% build_staff_ele %}
+                                        </select>
+                                        <a class="btn btn-default selector-chooseall" title= "Click to choose all at once." > "Choose all" </a>
+                                    </div>
+                                        <ul class="selector-chooser">
+                                            <li>
+                                            <a class="btn btn-default btn-sm selector-add" title="Choose"><i class="fa fa-plus"></i></a>
+                                            </li>
+                                             <li>
+                                            <a class="btn btn-default btn-sm selector-remove" title="Remove" ><i class="fa fa-minus"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="selector-chosen">
+                                        <p class="title">"Chosen"</p>
+                                        <select multiple="multiple" >
+{#                                            {{chosen_options|safe}}#}
+                                        </select>
+                                        <a class="btn btn-default selector-clearall" title= "Click to remove all chosen at once." > "Remove all"</a>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
+                             <div class="form-group">
+                            <label class="col-sm-2 control-label">日期</label>
+                            <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker1">
+                                <input type='text'  name="date" id='date' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div id="attachment-container" style="position: relative">
+                    <!--初始化凭证-->
+                    {% if id %}
+                        {% for obj in invent_attach%}
+                             <div class="attachment">
+                            <div class="form-group ">
+                            <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">凭证{{ forloop.counter }}:</label>
+                              <div class="col-xs-8">
+                                  <input type="text" name="attach_id" class="hidden" value="{{ obj.nid }}">
+                                  <div class="old_file">
+                                  <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}" style="margin-top:6px;display: inline-block">{{ obj.name }}</a>
+                                  <span onclick="clearAttachment(this)" style="margin-left: 50px;">点击清除</span>
+                                  <input type="text" name="file_path" class="hidden" value="{{ obj.attachment }}">
+                                  <input type="text" name="file_name" value="{{ obj.name }}" class="hidden">
+                                  </div>
+                                      <input type="file" style="margin-top:10px" name="file" value="" onchange="UploadFile(this)">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="content" class="control-label col-xs-2">凭证描述：</label>
+                                <div class="col-xs-8">
+                                    <input name="content" class="form-control" value="{{ obj.description }}"  placeholder="凭证描述">
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    {%endif  %}
+                        <div class="attachment">
+                                        <div  class="form-group  form-inline" style="margin-left:0px ;margin-right: 0px">
+                                            <label for="file"  class="control-label col-sm-2">附件</label>
+                                              <div class="col-sm-8 form-inline ">
+                                                  <input type="file" name="file"   class="form-control" onchange="UploadFile(this)">
+                                                  <button type="button"  class="btn btn-primary inline "  onclick="AddAttachment(this)"><i  style ="" class="glyphicon glyphicon-plus plus "></i></button>
+                    {#                              <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>#}
+                                              </div>
+                                            </div>
+                                        <div class="form-group" style="margin-left:0px ;margin-right: 0px">
+                                            <label  for="content" class="control-label col-sm-2">附件描述</label>
+                                            <div class="col-sm-8">
+                                                <input name="content" class="form-control"  placeholder="附件描述">
+                                            </div>
+                                        </div>
+                                         <div class="hr-line-dashed"></div>
+                                    </div>
+
+                </div>
+                         </form>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                         <div class="row" id="content_footer" >
+                             <div class="form-actions well well-sm clearfix">
+                                 <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                 <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+                                 <a href="{% url "invent_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                 <!--error_msg-->
+                                 <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                    <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                    </span>
+                                    <span id="error_msg" style="font-size: 14px;"></span>
+                                </div>
+                             </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+     <script src="/static/js/jquery.cookie.js"></script>
+{#    <script src="/static/js/"></script>#}
+    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/js/custom/form-validate.js"></script>
+    <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
+
+    <script src="/static/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js" ></script>
+    <script src="/static/plugins/bootstrap-multiselect/js/xadmin.widget.select-transfer.js" ></script>
+     <script src="/static/plugins/select2/select2.js" ></script>
+     <script src="/static/plugins/select2/select2_locale_zh-hans.js" ></script>
+     <script src="/static/plugins/selectize/selectize.js" ></script>
+
+    <script>
+        var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+   //设置日期时间控件
+$(function () {
+    $('#datepicker1').datepicker({
+        language: "zh-CN", //语言
+        todayHighlight: true, //是否今日高亮
+        format: 'yyyy-mm-dd', //点击月份后显示在input中的格式
+        autoclose: true, //是否开启自动关闭
+        startView: 'months', //开始视图层，为月视图层
+        maxViewMode:'years', //最大视图层，为年视图层
+        minViewMode:'days', //最小视图层，为月视图层
+        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
+        {#setDate:new Date(),#}
+    });
+    $('#datepicker1').datepicker('setDate', new Date());
+});
+
+ /*
+    自执行函数
+    */
+    $(function () {
+        //如果id不为0，则为创建
+        var nid="{{ id }}"
+        if ( nid!=""){
+           InitData()//初始化数据
+        }
+        else {
+
+        }
+    });
+     //初始化数据
+function InitData() {
+        //初始化form
+        console.log("{{ obj.date }}")
+        $("#nid").val({{ obj.nid }});
+        $("#amount").val("{{ obj.amount}}");
+        $("#supplier_id").val({{ obj.supplier_id }});
+        $("#linkman_id").val({{ obj.linkman_id }});
+        $("#price").val({{ obj.price }});
+        $("#total_price").val({{ obj.total_price }});
+        $("#date").val("{% if obj.date  %}{{ obj.date |date:'Y-m-d'}}{% endif %}");
+        $("#unit_id").val({% if obj.unit_id  %}{{ obj.unit_id }}{% endif %});
+
+    }
+
+
+//修改时获取凭证
+function GetAttachment(){
+     var attachment_list=new Array()
+     $(".attachment").each(function () {
+        var attachment = {"attachment":'',"description":'',"name":'',};
+        var attach_id= $(this).find("input[name=attach_id]").val();
+        var file_path= $(this).find("input[name=file_path]").val();
+        if (file_path==null){
+            //空凭证处理
+            return true;
+        }
+        var content=$(this).find("input[name=content]").val();
+        var name=$(this).find("input[name=file_name]").val();
+        console.log(file_path,content,name)
+        attachment.attachment=file_path;
+        attachment.description=content;
+        attachment.name=name;
+        if (attach_id){
+            attachment['nid']=attach_id;
+        }
+        attachment_list.push(attachment)
+        });
+      attachment_list=JSON.stringify(attachment_list)//对象转化成json
+    return attachment_list
+}
+//创建时获取凭证
+function FetchAttachment(){
+    var attachment_list=new Array()
+    $(".attachment").each(function () {
+    var attachment = {"attachment":'',"description":'',"name":''};
+    var file_path= $(this).find("input[name=file_path]").val();
+        //空文件不上传
+    if(file_path==null){
+        return true;
+    }
+    var content=$(this).find("input[name=content]").val().trim();
+    var name=$(this).find("input[name=file_name]").val();
+    attachment.attachment=file_path;
+    attachment.description=content;
+    attachment.name=name;
+    attachment_list.push(attachment)
+});
+    attachment_list=JSON.stringify(attachment_list)//对象转化成json
+    return attachment_list
+}
+
+//上传凭证
+function UploadFile(ths){
+    var file_obj = $(ths)[0].files[0];
+    var fileSize = file_obj.size;
+    var size = fileSize / 1024;
+    if(size>10000){
+         alert("凭证不能大于10M");
+         $(ths)[0].value="";
+         return false;   //阻止上传
+         }
+    console.log("upload")
+    var form = new FormData();
+    form.append("file", file_obj);
+    $.ajax({
+        url:"{% url 'goods_attach' %}",
+        type:"POST",
+        data: form ,
+        dataType:"JSON",
+        // 告诉jQuery不要去处理发送的数据
+        processData : false,
+        // 告诉jQuery不要去设置Content-Type请求头
+        contentType : false,
+        success:function (arg) {
+            //去掉旧文件
+            $(ths).parent().find(".old_file").remove()
+            //添加新的file
+            var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
+            var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
+            $(ths).parent().append(path_input);
+            $(ths).parent().append(name_input);
+            console.log(arg.data.path);
+            console.log(arg.data.name);
+            $(ths).parent().find("input[name=file_path]").val(arg.data.path)
+            $(ths).parent().find("input[name=file_name]").val(arg.data.name)
+        },
+    })
+}
+
+//添加or编辑
+      function Submit(cons){
+         var $msg = $('#error_msg');
+         $msg.parent().addClass('hide');
+         var form =$("#wastage_fm");
+         console.log(form)
+        //验证表单
+         if ( form.valid()){
+            //把凭证添加到form中
+              var nid="{{ id }}"
+             if(nid!=""){
+                  //编辑
+                 var attachment=GetAttachment()
+                 var success_msg="修改成功"
+             }else{
+                  //创建
+                 var attachment=FetchAttachment()
+                 var success_msg="添加成功"
+             }
+             var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
+             form.append(attachment_ele)
+             $.ajax({
+                url: '{% url "wastage_edit" %}',
+                type: 'POST',
+                data: form.serialize(),
+                dataType: 'JSON',
+                success: function (arg) {
+                   if (arg.status) {
+                        if (cons==1){
+                             window.location.href='{% url "invent_list" %}';
+                        }else if(cons==2){
+                             window.location.href='{% url "wastage_edit" %}';
+                        }else{
+                              window.location.href='{% url "wastage_edit" %}?gid={0}&id={1}'.format({{ goods_obj.nid }},arg.data);
+                        }
+                    } else {
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
+                    }
+                }
+         })
+         }
+    }
+
+
+      // 根据供应商获取相应的联系人
+    function SelectLinkman(ths) {
+      var nid=$(ths).val();
+      $("#linkman_id").children().remove();
+      $.ajax({
+        url:"{% url "fetch_linkman" %}",
+        type:'get',
+        data:{"id":nid},
+        dataType:'json',
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    console.log("link",arg.data)
+	    $("#linkman_id").append("<option value=0 >请选择联系人</option>")
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
+		o.text = this['fields']['name'];
+		 $("#linkman_id").append(o);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
+    }
+
+ </script>
+{% endblock %}
+

@@ -394,6 +394,11 @@ def c_folllow_detail(request):
                 follow_json['result_id'] = change_to_follow_result(follow_json['result_id'])
                 follow_json['purpose_id'] = change_to_customer_purpose(follow_json['purpose_id'])
                 follow_json['recorder_id'] = change_to_staff(follow_json['recorder_id'])
+                follow_attach = c_follow_attach_db.query_follow_attachment(id)
+                if follow_attach:
+                    follow_json['attach'] = serializers.serialize("json", follow_attach)
+                else:
+                    follow_json['attach'] = ''
                 ret['status'] = True
                 ret['data'] = follow_json
                 return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
@@ -402,6 +407,31 @@ def c_folllow_detail(request):
     return render(request, '404.html')
 
 
+def c_contact_detail(request):
+    """客户收支"""
+    id = request.GET.get("id",None)
+    ret={"status":False,"data":"","message":""}
+    if id:
+        try:
+            contact_obj = c_contact_db.query_contact_by_id(id)
+            if contact_obj:
+                # 格式化数据
+                contact_json = contact_obj.__dict__
+                contact_json.pop('_state')
+                contact_json["category"] = change_to_contact_category(contact_json["category"])
+                contact_json['linkman_id'] = change_to_linkman(contact_json['linkman_id'])
+                contact_attach = c_contact_attach_db.query_contact_attachment(id)
+                if contact_attach:
+                    contact_json['attach'] = serializers.serialize("json",contact_attach)
+                else:
+                    contact_json['attach'] = ''
+                ret['status'] = True
+                ret['data'] = contact_json
+                print(ret)
+                return HttpResponse(json.dumps(ret,cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
 
 def customer_memo(request):
     mothod = request.method
@@ -531,7 +561,7 @@ def customer_contact(request):
                             c_contact_db.update_contact(contact_info)
                         # 更新附件
                         if contact_attach:
-                            att_record = c_contact_db.query_supplier_attachment(nid)
+                            att_record = c_contact_attach_db.query_contact_attachment(nid)
                             # 数据对比
                             insert_att, update_att, delete_id_att = compare_json(att_record, contact_attach, "nid")
                             if insert_att:
@@ -553,7 +583,7 @@ def customer_contact(request):
                 # 创建
                 try:
                     with transaction.atomic():
-                        # 插入供应商信息
+                        # 插入收支信息
                         contact_info = filter_fields(CustomerContact._insert, data)
                         nid = c_contact_db.insert_contact(contact_info)
                         if contact_attach:
@@ -600,19 +630,24 @@ def customer_follow(request):
     if mothod == "GET":
         nid = request.GET.get("id", 0)
         cid = request.GET.get("cid",0)
-        print("cid",cid)
         if cid:
             customer_obj = customer_db.query_customer_by_id(cid)
             if customer_obj:
                 if nid:
                     # 更新
                     query_sets = c_follow_db.query_follow_by_id(nid)
+                    follow_attach = c_follow_attach_db.query_follow_attachment(nid)
+                    if not follow_attach:
+                        follow_attach = ''
+
                 else:
                     query_sets = {}
+                    follow_attach = {}
                 print(query_sets,customer_obj)
                 return render(request, "sfa/customer_follow.html", {"query_set": query_sets,
-                                                                            "nid": nid,
-                                                                            "customer_obj":customer_obj
+                                                                    "nid": nid,
+                                                                     "attach": follow_attach,
+                                                                     "customer_obj":customer_obj
                                                                            })
         return render(request,"404.html")
     else:
@@ -623,6 +658,8 @@ def customer_follow(request):
             data = data.dict()
             print("data",data)
             nid = data.get("nid", None)
+            memo_attach = data.get("attach", None)
+            follow_attach = list(json.loads(memo_attach))
             if nid:
                 # 更新
                 try:
@@ -633,6 +670,20 @@ def customer_follow(request):
                         if follow_info:
                             follow_info["nid"] = nid
                             c_follow_db.update_follow(follow_info)
+                            # 更新附件
+                            if follow_attach:
+                                att_record =c_follow_attach_db.query_follow_attachment(nid)
+                                # 数据对比
+                                insert_att, update_att, delete_id_att = compare_json(att_record, follow_attach, "nid")
+                                if insert_att:
+                                    insert_att = build_attachment_info({"follow_id": nid}, insert_att)
+                                    c_follow_attach_db.mutil_insert_attachment(insert_att)
+                                if update_att:
+                                    c_follow_attach_db.mutil_update_attachment(update_att)
+                                if delete_id_att:
+                                    c_follow_attach_db.mutil_delete_follow_attachment(delete_id_att)
+                            else:
+                                c_follow_attach_db.multi_delete_attach_by_follow_id(nid)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -646,6 +697,11 @@ def customer_follow(request):
                         follow_info = filter_fields(CustomerFollow._insert, data)
                         print(follow_info,"follow_info")
                         nid = c_follow_db.insert_follow(follow_info)
+                        if follow_attach:
+                            follow_attach = build_attachment_info({"follow_id": nid}, follow_attach)
+                            print("follow",follow_attach)
+
+                            c_follow_attach_db.mutil_insert_attachment(follow_attach)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -656,7 +712,6 @@ def customer_follow(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
-
 
 
 def customer_photo(request):

@@ -20,7 +20,6 @@ from task import views as task_view
 from personnel import views as p_view
 from django.conf import settings
 from django.conf.urls.static import static
-
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
@@ -34,5 +33,4 @@ urlpatterns = [
     path("public/", include('public.urls')),
     path('attachment_upload.html', task_view.attachment_upload, name='attachment_upload'),
     path("attachment_download.html", task_view.attachment_download, name="attachment_download"),
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # 配置media

@@ -72,6 +72,7 @@
                                         <div class="btn-group " id="toolbar" role="group">
                                             <button onclick="Entry()" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;商品入库</button>
                                             <button onclick="Purchase()" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;采购录入</button>
+                                            <button onclick="Wastage()" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;损耗登记</button>
                                             <button  onclick="RemoveRepertory()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;移出仓库</button>
                                         </div>
                                         <input id="barCode" class="-align-center search" value=""style="margin-bottom:10px;" type="text" placeholder="扫码入库"  name="barCode">
@@ -279,7 +280,6 @@
                                         </div>
                                          <div class="hr-line-dashed"></div>
                                     </div>
-
                 </div>
                          </form>
               </div>
@@ -297,7 +297,6 @@
 {% block js%}
     <script type="text/javascript" src="/static/js/custom/jquery.barcode.js"></script>
     <script>
-
            /*
     自执行函数
     */
@@ -323,7 +322,7 @@
             cardView: false,
             detailView: false,
             cache: false,
-              showExport: true, //是否显示导出
+            showExport: true, //是否显示导出
             exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
             exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
             exportOptions: {
@@ -340,7 +339,6 @@
             exportDataType: $(this).val()
         });
     });
-
     //设置日期时间控件
 $(function () {
     $('#datepicker1').datepicker({
@@ -355,7 +353,6 @@ $(function () {
         endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
     });
 });
-
   $('#date').datepicker('setDate', new Date());
       function  SelectAll(ths) {
         //判断是否选中
@@ -409,8 +406,29 @@ $(function () {
        //是否有选中商品
      var is_checked=$("tbody input:checkbox:checked").length
         if (is_checked==1){
-            var sid=$("tbody input:checkbox:checked").eq(0).next().val()
-            window.location.href="{% url 'invent_edit' %}?gid={0}".format(sid)
+            var nid=$("tbody input:checkbox:checked").eq(0).next().val()
+            {#window.location.href="{% url 'invent_edit' %}?gid={0}".format(nid)#}
+             $.ajax({
+                        url:"{% url "search_goods" %}",
+                        type:'get',
+                        data:{"id":nid},
+                        dataType:'json',
+                        async: true,//是否异步
+                        success: function (arg) {
+                            console.log(arg.status)
+                            var data=arg.data
+                            if(arg.status){
+                                MemberAssignShow(data)
+                            }
+                            else{
+                                 layer.msg("找不到该商品信息，请先把商品添加到库存中",{time:2000});
+                            }
+                    },
+                        error: function () {
+                          layer.msg("出错了",{time:1000});
+                        },
+                });
+
         } else if(is_checked > 1){
            layer.alert('只能选择一个商品', {icon: 6 ,
               time: 1500, //1.5s后自动关闭
@@ -446,6 +464,26 @@ $(function () {
         }
     }
 
+  //损耗登记
+    function Wastage() {
+       //是否有选中商品
+     var is_checked=$("tbody input:checkbox:checked").length
+        if (is_checked==1){
+            var sid=$("tbody input:checkbox:checked").eq(0).next().val()
+            window.location.href="{% url 'wastage_edit' %}?gid={0}".format(sid)
+        } else if(is_checked > 1){
+           layer.alert('只能选择一个商品', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
+        else{
+           layer.alert('请选择商品', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
+    }
   //移出库存
      function RemoveRepertory() {
         var ids="";
@@ -477,13 +515,11 @@ $(function () {
                                   time: 2000, //2s后自动关闭
                                     btn: [ '知道了']}
                                     );
-
                 }
             }
         })
         ;
     }
-
     $("#barCode").startListen({
 				barcodeLen : 13,
 				letter : true,
@@ -499,7 +535,6 @@ $(function () {
                         dataType:'json',
                         async: true,//是否异步
                         success: function (arg) {
-                            console.log(arg.status)
                             var data=arg.data
                             if(arg.status){
                                 MemberAssignShow(data)
@@ -514,8 +549,6 @@ $(function () {
                 });
 				}
 			});
-
-
 //清空指派模态框的数据
     function ClearData(){
             window.location.href="{% url 'invent_list' %}";
@@ -527,17 +560,20 @@ function clearAttachment(ths) {
     $(ths).parent().remove()
 }
 
-
-//指派任务内容
+//商品入库
 function MemberAssignShow(data) {
       $('#code_invent').modal('show');
       var goods_name=data.goods_name;
       var goods_nid = data.goods_id;
       var unit_id = data.goods_unit;
-      console.log("goods",goods_name,goods_nid)
+      var warehouse_id = data.warehouse_id;
+      var location_id = data.location_id;
+      console.log("location_id",location_id)
       $("#goods_name").text(goods_name);
       $("#goods_id").val(goods_nid);
-      $("unit_id").val(unit_id);
+      $("#unit_id").val(unit_id);
+      $("#warehouse_id").val(warehouse_id);
+      SelectWarehouse($("#warehouse_id"));
      //入库内容
       $("#store").click(function () {
       var form =$("#invent_fm");
@@ -557,7 +593,7 @@ function MemberAssignShow(data) {
                 success: function (arg) {
                    if (arg.status) {
                         window.location.href='{% url "invent_list" %}';
-                         layer.msg("入库成功")
+                         layer.msg("入库成功",{time:1500})
                     } else {
                          layer.msg(arg.message)
                     }
@@ -569,13 +605,13 @@ function MemberAssignShow(data) {
     }
 function CheckVoid() {
     var warehouse_id=$("#warehouse_id").val()
-    console.log("warehouse_id",warehouse_id)
     if(warehouse_id=="0"){
      layer.msg("请先选择仓库");
     }
 }
       // 根据仓库获取相应的库位
     function SelectWarehouse(ths) {
+    　var dfd = $.Deferred();
       var nid=$(ths).val();
       $("#location").children().remove();
       $.ajax({
@@ -586,13 +622,14 @@ function CheckVoid() {
         async: true,//是否异步
         success: function (arg) {
 	    var objs = JSON.parse(arg.data);
-	    $("#location").append("<option value=0 >请选择库位</option>")
+	    {#$("#location").append("<option value=0 >请选择库位</option>")#}
 	    $(objs).each(function () {
 		var o = document.createElement("option");
 		o.value = this['pk'];
 		o.text = this['fields']['location'];
 		 $("#location").append(o);
 	  });
+    　
 	},
         error: function (arg) {
           alert(arg.message);
@@ -658,8 +695,5 @@ function UploadFile(ths){
         },
     })
 }
-
-
-
     </script>
 {% endblock %}

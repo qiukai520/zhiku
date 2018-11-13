@@ -6,6 +6,20 @@ from personnel.server import staff_db
 register = template.Library()
 
 @register.simple_tag
+def build_staff_ele(dpid=0):
+    """构建员工下拉框"""
+    if dpid != ''and 0:
+         # 根据部门获取员工
+        dp_list = staff_db.query_staff_by_department_id(dpid)
+    else:
+        dp_list = staff_db.query_staff_list()
+    eles = ""
+    for item in dp_list:
+        ele = """<option value={0} >{1}</option>""".format(item.sid, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
 def build_goods_category_ele(selected=None):
     """构建商品分类下拉框"""
     category_list = goods_category_db.query_category_list()
@@ -178,7 +192,6 @@ def build_contact_category_ele(selected=None):
 
 @register.simple_tag
 def build_supplier_linkman_ele(supplier_id,selected=None):
-    print("supplier_id",supplier_id)
     linkman_list = linkman_db.query_linkman_by_supplier_id(supplier_id)
     eles = ""
     if selected:
@@ -338,7 +351,7 @@ def fetch_goods_photo(photo_str):
 @register.simple_tag
 def fetch_repertory(id):
     """ 检查是否在库存中"""
-    goods_obj = repertory_db.query_goods_by_id(id)
+    goods_obj = repertory_db.query_goods_by_gid(id)
     status = "否"
     if goods_obj:
         status = "是"

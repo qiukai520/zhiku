@@ -682,3 +682,63 @@ class Repertory(models.Model):
     def __str__(self):
         return "仓库库存:{0}".format(self.goods)
 
+
+class GoodsWastage(models.Model):
+    nid = models.AutoField(primary_key=True)
+    goods = models.ForeignKey("Goods", verbose_name="损耗商品", on_delete=models.CASCADE,
+                              db_constraint=False, )
+    unit = models.ForeignKey("GoodsUnit", to_field="nid", on_delete=models.CASCADE, verbose_name='商品单位',
+                             db_constraint=False)
+    amount = models.IntegerField(verbose_name="损耗数量")
+    reason = models.TextField(verbose_name="损耗原因")
+    way = models.CharField(max_length=64,verbose_name="处置方式")
+    proposal = models.TextField(verbose_name="改进措施")
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
+    solver = models.ManyToManyField(to=Staff,through="WastageSolver",through_fields=("wid", "sid"), verbose_name="处理人")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'goods_wastage'
+        verbose_name = '商品损耗'
+        verbose_name_plural = '商品损耗'
+
+    def __str__(self):
+        return "商品损耗:{0}".format(self.goods)
+
+
+class WastageAttach(models.Model):
+    nid = models.AutoField(primary_key=True)
+    wastage = models.ForeignKey("GoodsWastage", to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                                 verbose_name='损耗记录')
+    attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
+    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
+
+    class Meta:
+        db_table = 'wastage_attach'
+        verbose_name = '损耗附件'
+        verbose_name_plural = '损耗附件'
+
+    def __str__(self):
+        return "损耗附件:{0}".format(self.name)
+
+
+class WastageSolver(models.Model):
+    nid = models.AutoField(primary_key=True)
+    wid = models.ForeignKey('GoodsWastage', to_field='nid', on_delete=models.CASCADE, db_constraint=False, verbose_name='损耗')
+    sid = models.ForeignKey(Staff, to_field='sid', on_delete=models.CASCADE, db_constraint=False,
+                            verbose_name='处理人')
+
+    class Meta:
+        db_table = 'wastage_solver'
+        unique_together = (('wid', 'sid'),)
+        verbose_name = '损耗处理人'
+        verbose_name_plural = '损耗处理人'
+
+    def __str__(self):
+        return '损耗处理人{0}'.format(self.sid)
+
+
+
+

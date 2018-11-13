@@ -369,6 +369,23 @@ class CustomerFollow(SoftDeletableModel):
     _update = ["recorder_id","date","way_id","customer_id", "contact_id", "linkman_id","result_id","purpose_id","next_step","detail"]
 
 
+class CustomerFollowAttach(SoftDeletableModel):
+    nid = models.AutoField(primary_key=True)
+    follow = models.ForeignKey('CustomerFollow', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                              verbose_name='客户跟踪')
+    attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
+    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
+
+    class Meta:
+        db_table = 'c_follow_attach'
+        verbose_name = '客户跟踪附件'
+        verbose_name_plural = '客户跟踪附件'
+
+    def __str__(self):
+        return "客户跟踪附件:{0}".format(self.name)
+
+
 class CustomerContact(SoftDeletableModel):
     delete_status_choice = ((0, '删除'), (1, '保留'))
     category = ((0, "交易收入"), (1, "商务支出"))
@@ -406,7 +423,7 @@ class CustomerContact(SoftDeletableModel):
                "receivable", "receivable_remark","pending","pending_remark","date"]
 
 
-class ContactAttach(models.Model):
+class ContactAttach(SoftDeletableModel):
     nid = models.AutoField(primary_key=True)
     contact = models.ForeignKey('CustomerContact', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='客户来往')
@@ -422,6 +439,7 @@ class ContactAttach(models.Model):
 
     def __str__(self):
         return "来往附件:{0}".format(self.name)
+
 
 
 

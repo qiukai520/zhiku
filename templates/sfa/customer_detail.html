@@ -105,13 +105,10 @@
                                     <div class="panel-heading">
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
-                                                <li id="linkman_tab" class="active"><a href="task_detail.html#tab-1"  data-toggle="tab">联系人</a>
-                                                </li>
-                                                   <li  id="memo_tab"><a href="#tab-2" data-toggle="tab">跟进记录</a>
-                                                </li>
-                                                </li>
-                                                 <li  id="memo_tab"><a href="#tab-3" data-toggle="tab">备忘提醒</a>
-                                                </li>
+                                                <li id="linkman_tab" class="active"><a href="task_detail.html#tab-1"  data-toggle="tab">联系人</a></li>
+                                                   <li  id="follow_tab"><a href="#tab-2" data-toggle="tab">跟进记录</a></li>
+                                                 <li  id="contact_tab"><a href="#tab-3" data-toggle="tab">收支记录</a></li>
+                                                 <li  id="memo_tab"><a href="#tab-4" data-toggle="tab">备忘提醒</a></li>
 
                                             </ul>
                                         </div>
@@ -123,6 +120,16 @@
                                                     <a href="{% url "customer_linkman" %}?cid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
+                                                 <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
                                                 <table id="linkman"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
@@ -175,12 +182,23 @@
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>
+                                             </div>
                                             </div>
                                             <div class="tab-pane" id="tab-2">
                                             <div class="btn-group hidden-xs" id="toolbar2" role="group">
                                                     <a href="{% url "customer_follow" %}?cid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
+                                                 <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
                                                 <table id="follow" class="table table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
@@ -259,12 +277,95 @@
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>
+                                             </div>
                                             </div>
                                             <div class="tab-pane" id="tab-3">
-                                            <div class="btn-group hidden-xs" id="toolbar3" role="group">
+                                                <div class="btn-group hidden-xs" id="toolbar3" role="group">
+                                                    <a href="{% url "customer_contact" %}?sid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+{#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                                </div>
+                                             <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
+                                                <table id="contact"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>收支分类</th>
+                                                            <th>项目名称</th>
+                                                            <th>联系人</th>
+                                                            <th>应收/应付</th>
+                                                            <th>已收/已付</th>
+                                                            <th>待收/待付</th>
+                                                            <th>交易日期</th>
+                                                             <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% fetch_customer_contact_list query_set.nid as contact_list %}
+                                                        {% for obj in contact_list %}
+                                                             <tr>
+                                                            <td>
+                                                                <span class="label label-primary"> {% change_to_contact_category obj.category%}</span>
+                                                            </td>
+                                                              <td >
+                                                                  {% if obj.project %}{{ obj.project }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                               <td> {% if obj.linkman_id %}{% change_to_customer_linkman obj.linkman_id %}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}</td>
+                                                              <td >
+                                                                  {% if obj.receivable %}{{ obj.receivable }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.received %}{{ obj.received }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                            <td> {% if obj.pending %}{{ obj.pending }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}</td>
+                                                               <td> {{ obj.date |date:"Y-m-d"}}
+                                                                      </td>
+                                                              <td><a href="{% url 'customer_contact' %}?sid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <button  data-toggle="modal" onclick="ShowContactDetail({{ obj.nid }})" class="btn btn-info">详细</button>
+                                                             </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                             </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-4">
+                                            <div class="btn-group hidden-xs" id="toolbar4" role="group">
                                                     <a href="{% url "customer_memo" %}?cid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
+                                                 <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
                                                 <table id="memo"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
@@ -306,6 +407,7 @@
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>
+                                             </div>
                                             </div>
                                         </div>
                                     </div>
@@ -409,7 +511,7 @@
                                           </div>
                                     </div>
                                       <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">电话</div>
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">分机</div>
                                           <div class="col-xs-9 p_form">
                                              <p class="form-control-static " id="ext_phone"></p>
                                           </div>
@@ -432,7 +534,6 @@
 
                                           </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -448,12 +549,12 @@
     </div>
 </div>
 
-      <!-- Modal contact_detail -->
+      <!-- Modal follow_detail -->
 <div class="modal fade " id="follow_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" onclick="ClearContactData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearFollowData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h3 class="modal-title" id="myModalLabel">跟进记录</h3>
       </div>
       <div class="modal-body" style="height: 560px;">
@@ -518,6 +619,12 @@
                                              <p class="form-control-static " id="date"></p>
                                           </div>
                                     </div>
+                                      <div class=" form-group row value hidden " id="follow_attach" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="follow_container">
+
+                                          </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -526,14 +633,14 @@
             </div>
          </div>
       <div class="modal-footer">
-        <button class="btn btn-default" onclick="ClearContactData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+        <button class="btn btn-default" onclick="ClearFollowData()" data-dismiss="modal" aria-hidden="true">关闭</button>
           <a class="btn btn-submit btn-primary edit-btn" id="follow_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
       </div>
     </div>
     </div>
 </div>
 
-          <!-- Modal contact_detail -->
+          <!-- Modal memo_detail -->
 <div class="modal fade " id="memo_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="">
@@ -588,6 +695,109 @@
     </div>
 </div>
 
+      <!-- Modal contact_detail -->
+<div class="modal fade " id="contact_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearContactData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">收支详细</h3>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;">
+            <div class="col-xs-12">
+                <div class="form-container row clearfix">
+                        <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
+                            <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
+{#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
+                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px">
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">收支分类</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="category" ></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">联系人</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="linkman_id"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">项目名称</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="project"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">项目描述</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="description"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">应收/应付</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="receivable"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">备注</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="receivable_remark"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">已收/已付</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="received"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">备注</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="received_remark"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">待收/待付</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="pending"></p>
+                                          </div>
+                                    </div>
+                                       <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">备注</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="pending_remark"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">交易时间</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="date"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value hidden " id="contact_attach" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="contact_container">
+                                          </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+         </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="ClearContactData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <a class="btn btn-submit btn-primary edit-btn" id="contact_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+      </div>
+    </div>
+    </div>
+</div>
+
 {% endblock%}
 
 {% block js %}
@@ -618,6 +828,13 @@
             cardView: false,
             detailView: false,
             cache: false,
+             showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1], //忽略某一列的索引
+                fileName: '客户跟踪记录报表'//导出文件的名称
+            }
 
         });
          $("#linkman").bootstrapTable({
@@ -640,9 +857,16 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+            showExport : true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1], //忽略某一列的索引
+                fileName: '客户联系人报表'//导出文件的名称
+            }
         });
-          $("#memo").bootstrapTable({
+          $("#contact").bootstrapTable({
             toolbar: "#toolbar3",
             striped: true,
             sidePagination: "client",
@@ -662,10 +886,45 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+            showExport : true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1], //忽略某一列的索引
+                fileName: '客户收支报表'//导出文件的名称
+            }
+        });
+          $("#memo").bootstrapTable({
+            toolbar: "#toolbar4",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 6,
+            pageList: [6, 10,15],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false,
+            showExport : true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1], //忽略某一列的索引
+                fileName: '客户备忘报表'//导出文件的名称
+            }
         });
     });
-
     //展示联系人详细内容
     function ShowLinkmanDetail(cons) {
 
@@ -715,8 +974,7 @@
           }
       });
     }
-
-        //展示联系人详细内容
+        //展示跟踪详细内容
     function ShowFollowDetail(cons) {
 
       $('#follow_detail').modal('show');
@@ -740,6 +998,18 @@
                   $("#recorder_id").text(data.recorder_id);
                   if (data.date!=""){
                        $("#date").text(data.date );
+                  }
+                   //初始化附件
+                  if (data.attach!=""){
+                      var attachs = JSON.parse(data.attach);
+                      for (var i=0;i<attachs.length;i++){
+                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles=a_ele+l_ele+"<br>"
+                      $("#follow_container").append(eles)
+                      }
+                      $("#follow_attach").removeClass("hidden")
+
                   }
                   $("#follow_edit").attr("href","follow?cid={0}&id={1}".format({{ query_set.nid }},data.nid))
               }
@@ -779,6 +1049,52 @@
           }
       });
     }
+
+    //展示收支详细内容
+    function ShowContactDetail(cons) {
+
+      $('#contact_detail').modal('show');
+      var id =cons
+      $.ajax({
+          url:"{% url "c_contact_detail" %}",
+          type:"get",
+          data:{'id':id},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  console.log(arg)
+                  var data=arg.data;
+                  console.log(data.name)
+                  $("#category").text(data.category);
+                  $("#linkman_id").text(data.linkman_id);
+                  $("#project").text(data.project);
+                  $("#description").text(data.description);
+                  $("#receivable").text(data.receivable);
+                  $("#receivable_remark").text(data.receivable_remark);
+                  $("#received").text(data.received);
+                  $("#received_remark").text(data.received_remark);
+                   $("#pending").text(data.pending);
+                  $("#pending_remark").text(data.pending_remark);
+                  if (data.date!=""){
+                       $("#date").text(data.date );
+                  }
+                  //初始化附件
+                  if (data.attach!=""){
+                      var attachs = JSON.parse(data.attach);
+                      for (var i=0;i<attachs.length;i++){
+                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles=a_ele+l_ele+"<br>"
+                      $("#contact_container").append(eles)
+                      }
+                      $("#contact_attach").removeClass("hidden")
+
+                  }
+                  $("#contact_edit").attr("href","customer_contact?sid={0}&id={1}".format({{ query_set.nid }},data.nid))
+              }
+          }
+      });
+    }
     //清空指派模态框的数据
     function ClearData(){
             window.location.reload();
@@ -800,13 +1116,21 @@
            $("#memo_container").empty()
           $("#memo_attach").addClass("hidden")
     }
-      //清空指派模态框的数据
+      //清空联系人模态框的数据
     function ClearLinkmanData(){
             $("#linkman_detail >p").each(function () {
                 $(this).text()
             })
            $("#attach_container").empty()
           $("#linkman_attach").addClass("hidden")
+    }
+     //清空跟进记录框的数据
+    function ClearFollowData(){
+            $("#follow_detail >p").each(function () {
+                $(this).text()
+            })
+           $("#follow_container").empty()
+          $("#follow_attach").addClass("hidden")
     }
 
     </script>

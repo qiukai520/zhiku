@@ -149,7 +149,7 @@ class CustomerLinkmanDB(object):
         return result_db
 
     def query_linkman_by_id(self, nid):
-        result_db = CustomerLinkman.objects.filter(nid=nid,).first()
+        result_db = CustomerLinkman.objects.filter(nid=nid).first()
         return result_db
 
     def query_linkman_by_customer_id(self,id):
@@ -277,7 +277,7 @@ class CustomerMemoAttachDB(object):
     def mutil_delete_memo_attachment(self, id_list):
         CustomerMemoAttach.objects.filter(nid__in=id_list).delete()
 
-    def multi_delete_attach_by_linkman_id(self,id_list):
+    def multi_delete_attach_by_memo_id(self,id_list):
         CustomerMemoAttach.objects.filter(memo_id__in=id_list).filter().delete()
 
     def delete_memo_attachment(self,nid):
@@ -286,7 +286,7 @@ class CustomerMemoAttachDB(object):
 
 class CustomerContactDB(object):
     """客户来往"""
-    category= ({"id": 0, "caption": "交易收入"}, {"id": 1, "caption": "商务支出"})
+    category= ({"id": 0, "caption": "收入"}, {"id": 1, "caption": "支出"})
 
     def insert_contact(self, modify_info):
         contact_sql = """insert into customer_contact(%s) value(%s);"""
@@ -309,8 +309,8 @@ class CustomerContactDB(object):
         result_db = CustomerContact.objects.filter(nid=nid).first()
         return result_db
 
-    def query_contact_by_supplier(self,supplier_id):
-        result_db = CustomerContact.objects.filter(customer_id=supplier_id).all()
+    def query_contact_by_customer(self,customer_id):
+        result_db = CustomerContact.objects.filter(customer_id=customer_id).all()
         return result_db
 
     def update_contact(self, modify):
@@ -381,6 +381,34 @@ class CustomerFollowDB(object):
 
     def multi_delete(self, id_list):
         CustomerFollow.objects.filter(nid__in=id_list).delete()
+
+
+class FollowAttachDB(object):
+    """跟踪附件表"""
+    def query_follow_attachment_list(self):
+        result_db = CustomerFollowAttach.objects.filter().all()
+        return result_db
+
+    def query_follow_attachment(self, id):
+        result_db = CustomerFollowAttach.objects.filter(follow_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            CustomerFollowAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            CustomerFollowAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_follow_attachment(self, id_list):
+        CustomerFollowAttach.objects.filter(nid__in=id_list).delete()
+
+    def multi_delete_attach_by_follow_id(self,id_list):
+        CustomerFollowAttach.objects.filter(follow_id__in=id_list).filter().delete()
+
+    def delete_attachment(self,nid):
+        CustomerFollowAttach.objects.filter(nid=nid).delete()
 
 
 class FollowWayDB(object):
@@ -494,4 +522,5 @@ c_follow_db = CustomerFollowDB()
 follow_way_db = FollowWayDB()
 follow_contact_db = FollowContactDB()
 follow_result_db = FollowResultDB()
+c_follow_attach_db=FollowAttachDB()
 customer_purpose_db = CustomerPurposeDB()

@@ -99,7 +99,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">工作任务管理</span><span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">工单管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
     {#                            {% fetch_task_permission  requset.user  as task_permission%}#}
                                 <li>
@@ -147,81 +147,79 @@
                                 <li>
                                      <a  href="{% url "invent_list" %}">库存管理</a>
                                 </li>
-{#                                <li>#}
-{#                                     <a  href="{% url "nation_list" %}">国家</a>#}
-{#                                </li>#}
-{#                                <li>#}
-{#                                     <a  href="{% url "province_list" %}">省份</a>#}
-{#                                </li>#}
-{#                                 <li>#}
-{#                                     <a  href="{% url "city_list" %}">城市</a>#}
-{#                                </li>#}
-{#                                 <li>#}
-{#                                     <a  href="{% url "country_list" %}">县（区）</a>#}
-{#                                </li>#}
-{#                                 <li>#}
-{#                                     <a  href="{% url "town_list" %}">街道</a>#}
-{#                                </li>#}
-
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">人事档案管理</span><span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">人事管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
                                  <li>
-                                     <a  href="{% url "staff_list" %}">人事档案</a>
+                                     <a   href="{% url "staff_list" %}">人事档案</a>
                                 </li>
-
                             </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">基础设置</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
                                  <li>
-                                    <a  href="{% url "task_period" %} ">周期任务管理</a>
-                                </li>
-                                 <li>
-                                     <a  href="{% url "performence_list" %}">绩效分类管理</a>
-                                </li>
-                                 <li>
-                                     <a  href="{% url "task_sort_list" %}">任务分类管理</a>
-                                </li>
+                                    <a href="#"><i class=" glyphicon glyphicon-wrench"></i> 人事设置 <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level " aria-expanded="true" style="">
                                   <li>
-                                     <a  href="{% url "company_list" %}">公司管理</a>
+                                     <a   href="{% url "company_list" %}">公司管理</a>
                                 </li>
                                   <li>
                                      <a  href="{% url "department_list" %}">部门管理</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "project_list" %}">项目管理</a>
+                                     <a   href="{% url "project_list" %}">项目管理</a>
                                 </li>
                                   <li>
                                      <a  href="{% url "job_rank_list" %}">职级管理</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "job_title_list" %}">职称管理</a>
+                                     <a   href="{% url "job_title_list" %}">职称管理</a>
+                                </li>
+                                </ul>
                                 </li>
                                  <li>
+                                    <a href="#"><i class=" glyphicon glyphicon-wrench"></i>进销存设置 <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level " aria-expanded="true" style="">
+                                          <li>
                                      <a  href="{% url "retail_supplier_list" %}">零售比价对象管理</a>
-                                </li>
-                                 <li>
-                                     <a  href="{% url "industry_list" %}">行业分类管理</a>
-                                </li>
-                                 <li>
-                                     <a  href="{% url "supplier_category_list" %}">供应商分类</a>
+                                     </li>
+                                         <li>
+                                             <a  href="{% url "industry_list" %}">行业分类管理</a>
+                                        </li>
+                                         <li>
+                                             <a  href="{% url "supplier_category_list" %}">供应商分类</a>
+                                        </li>
+                                          <li>
+                                             <a  href="{% url "goods_category_list" %}">商品分类管理</a>
+                                        </li>
+                                          <li>
+                                             <a  href="{% url "goods_unit_list" %}">商品单位管理</a>
+                                        </li>
+                                          <li>
+                                             <a  href="{% url "warelocation" %}">库位管理</a>
+                                        </li>
+                                         <li>
+                                             <a  href="{% url "warehouse_list" %}">仓库管理</a>
+                                        </li>
+                                    </ul>
                                 </li>
                                   <li>
-                                     <a  href="{% url "goods_category_list" %}">商品分类管理</a>
-                                </li>
-                                  <li>
-                                     <a  href="{% url "goods_unit_list" %}">商品单位管理</a>
-                                </li>
-                                  <li>
-                                     <a  href="{% url "warelocation" %}">库位管理</a>
-                                </li>
+                                    <a href="#"><i class=" glyphicon glyphicon-wrench"></i> 任务设置 <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level " aria-expanded="true" style="">
+                                          <li>
+                                            <a  href="{% url "task_period" %} ">周期任务管理</a>
+                                        </li>
+                                         <li>
+                                             <a  href="{% url "performence_list" %}">绩效分类管理</a>
+                                        </li>
+                                         <li>
+                                             <a  href="{% url "task_sort_list" %}">任务分类管理</a>
+                                        </li>
 
-                                 <li>
-                                     <a  href="{% url "warehouse_list" %}">仓库管理</a>
+                                </ul>
                                 </li>
                             </ul>
                         </li>
@@ -233,7 +231,7 @@
         <!--右侧部分开始-->
         <div id="page-wrapper" class="gray-bg dashbard-1">
             <div class="row border-bottom">
-                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <nav class="navbar fixed-nav" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                         <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
                             <div class="form-group">
@@ -354,9 +352,11 @@
                 <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main" style=" overflow: auto;">
+{#            <iframe class="J_iframe" name="content" width="100%" height="100%"  frameborder="0" data-id="teams_board.html" seamless="" style="display: none;">#}
                 {% block content %}
 
                 {% endblock %}
+{#            </iframe>#}
             </div>
             <div class="footer">
                 <div class="pull-right">&copy; 2007-2018 <a href="http://www.zhiku086.com/" target="_blank">智库</a>
@@ -551,16 +551,25 @@
         // 当前菜单保持选中
          window.onload=function () {
         var As=$('#side-menu >li').find('a');
+
         var Obj=As.eq(0);
-        for( i = 1;i<As.length;i++){
+        for( var i = 1;i<As.length;i++){
+             console.log("test",i,As[i])
             if(window.location.href.indexOf(As[i].href)>=0) {
+                console.log("window.location.href",window.location.href)
+                console.log("As[i].href",i,As[i].href)
                 Obj=As.eq(i);
                 break
             }
         }
-             Obj.parent().parent().attr("aria-expanded",true);
-            Obj.parent().parent().addClass("in");
-            Obj.parent().parent().parent().addClass("active");
+        Obj.parent().addClass("active")
+        Obj.parent().parent().attr("aria-expanded",true);
+        Obj.parent().parent().addClass("in");
+        Obj.parent().parent().parent().addClass("active");
+
+        Obj.parent().parent().parent().find(".nav-third-level").parent().parent().attr("aria-expanded",true);
+        Obj.parent().parent().parent().find(".nav-third-level").parent().parent().addClass("in");
+        Obj.parent().parent().parent().find(".nav-third-level").parent().parent().parent().addClass("active");
     }
 
     </script>

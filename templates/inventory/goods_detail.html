@@ -72,6 +72,8 @@
                                     </dd>
                                      <dt>录入时间：</dt>
                                     <dd>{{ query_set.create_time|date:"Y-m-d" }}</dd>
+                                      <dt>库存数量：</dt>
+                                    <dd> {% fetch_goods_total_amount obj.nid %}</dd>
                                 </dl>
                             </div>
                         </div>

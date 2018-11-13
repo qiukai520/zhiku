@@ -196,6 +196,7 @@ def change_to_customer_category(id):
 
 @register.simple_tag
 def change_to_linkman(id):
+    print("id",id)
     if id:
         obj = c_linkman_db.query_linkman_by_id(id)
         if obj:
@@ -250,5 +251,10 @@ def fetch_customer_memo_list(id):
 def fetch_customer_follow_list(id):
     if id:
         follow_list = c_follow_db.query_follow_by_customer_id(id)
-        print("follow_list",follow_list)
         return follow_list
+
+@register.simple_tag
+def fetch_customer_contact_list(id):
+    if id:
+        contact_list = c_contact_db.query_contact_by_customer(id)
+        return contact_list

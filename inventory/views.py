@@ -18,23 +18,36 @@ def goods_list(request):
     query_sets = goods_db.query_goods_list()
     return render(request, 'inventory/goods_list.html',{"query_sets":query_sets})
 
-
 def search_goods(request):
+    """商品查找"""
     ret = {'status': False, "data": '', "code": 200}
     code = request.GET.get("code",0)
+    id = request.GET.get("id",0)
     data = {}
     if code:
         goods_obj = goods_db.query_goods_by_code(code)
-        if goods_obj:
-            data["goods_id"] = goods_obj.nid
-            data["goods_name"] = goods_obj.name
-            data["goods_unit"]= goods_obj.unit_id
-            ret["status"] = True
+    elif id:
+        goods_obj = goods_db.query_goods_by_id(id)
+    if goods_obj:
+        data["goods_id"] = goods_obj.nid
+        data["goods_name"] = goods_obj.name
+        data["goods_unit"] = goods_obj.unit_id
+
+        # 查询上一次的库存信息
+        last_invent = invent_db.query_invent_by_goods(goods_obj.nid)
+        if last_invent:
+            data["warehouse_id"] = last_invent.warehouse_id
+            data["location_id"] = last_invent.location_id
+        else:
+            data["warehouse_id"] = 0
+            data["location_id"] = 0
+        ret["status"] = True
     ret["data"] = data
     return HttpResponse(json.dumps(ret))
 
 
 def goods_edit(request):
+    """商品编辑"""
     mothod = request.method
     if mothod == "GET":
         nid = request.GET.get("id", "")
@@ -502,7 +515,6 @@ class PurchaseViewSet(View):
 
     def post(self, request):
         form = PurchaseForm(data=request.POST)
-        print("采购编辑")
         ret = {'status': False, "data": '', "message": ""}
         if form.is_valid():
             id = request.POST.get("nid", 0)
@@ -510,7 +522,6 @@ class PurchaseViewSet(View):
             data = data.dict()
             purchase_attach = data.get("attach", None)
             purchase_attach = json.loads(purchase_attach)
-            print("purchase_attach",purchase_attach)
             # 有则为编辑 ,无则添加
             if id:
                 try:
@@ -567,6 +578,94 @@ class PurchaseViewSet(View):
         return HttpResponse(json.dumps(ret))
 
 
+class WastageViewSet(View):
+    """损耗记录"""
+    def get(self,request):
+        id = request.GET.get("id", "")
+        gid = request.GET.get("gid","")
+        # 有则为编辑 ,无则添加
+        if gid:
+            goods_obj = goods_db.query_goods_by_id(gid)
+            if goods_obj:
+                goods_obj={"nid":goods_obj.nid,"name":goods_obj.name}
+                if id:
+                    obj = purchase_db.query_purchase_by_id(id)
+                    invent_attach = purchase_attach_db.query_purchase_attachment(id)
+                    if obj:
+                        obj = {"nid": obj.nid, "amount": obj.amount, "unit": obj.unit_id, "batch": obj.batch,
+                               "supplier_id":obj.supplier_id, "linkman_id":obj.linkman_id,"date": obj.date,
+                               "recorder_id":obj.recorder_id,"price":obj.price,"total_price":obj.total_price}
+                else:
+                    id = 0
+                    obj = {}
+                    invent_attach = {}
+                return render(request, "inventory/wastage_edit.html", {"obj": obj,"goods_obj":goods_obj,"invent_attach":invent_attach, "id": id})
+        return render(request,"404.html")
+
+    def post(self, request):
+        form = PurchaseForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("nid", 0)
+            data = request.POST
+            data = data.dict()
+            purchase_attach = data.get("attach", None)
+            purchase_attach = json.loads(purchase_attach)
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    with transaction.atomic():
+                        record = purchase_db.query_purchase_by_id(id)
+                        final_info = compare_fields(Purchase._update, record, data)
+                        final_info["nid"] = id
+                        if final_info:
+                            purchase_db.purchase_update(final_info)
+                            # 更新附件
+                        if purchase_attach:
+                            att_record = purchase_attach_db.query_purchase_attachment(id)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, purchase_attach, "nid")
+                            if insert_att:
+                                insert_att = build_attachment_info({"purchase_id": id}, insert_att)
+                                purchase_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                purchase_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                purchase_attach_db.mutil_delete_purchase_attachment(delete_id_att)
+                        else:
+                            print("delete",purchase_attach)
+                            purchase_attach_db.delete_purchase_attachment(id)
+                        ret['status'] = True
+                        ret['data'] = id
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+            else:
+                try:
+                    with transaction.atomic():
+                        data_info = filter_fields(Purchase._insert, data)
+                        last_record = purchase_db.query_purchase_by_goods(data.get("goods_id",0))
+                        if last_record:
+                            batch = last_record.batch + 1
+                        else:
+                            batch = 1
+                        data_info["recorder_id"] = request.user.staff.sid
+                        data_info["batch"] = batch
+                        id = purchase_db.insert_purchase(data_info)
+                        if purchase_attach:
+                            purchase_attach = build_attachment_info({"purchase_id": id}, purchase_attach)
+                            purchase_attach_db.mutil_insert_attachment(purchase_attach)
+                        ret['status'] = True
+                        ret['data'] = id
+                except Exception as e:
+                    print(e)
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
 def purchase_record(request):
     """入库记录详细"""
     id = request.GET.get("id",None)
@@ -595,8 +694,6 @@ def purchase_record(request):
             print(e)
     return render(request,'404.html')
 
-
-
 def purchase_bind(request):
     pid = request.GET.get("pid",0)
     ids = request.GET.get("ids",'')
@@ -616,11 +713,6 @@ def purchase_bind(request):
         return HttpResponse(json.dumps(ret))
     return render(request,"404.html")
 
-
-
-
-
-
 def fetch_linkman(request):
     """根据供应商获取联系人"""
     ret = {"status":False,"data":"","message":""}
@@ -639,11 +731,13 @@ def fetch_linkman(request):
 
 
 def supplier_list(request):
+    """供应商列表"""
     query_sets = supplier_db.query_supplier_list()
     return render(request, 'inventory/supplier_list.html', {"query_sets": query_sets})
 
 
 def supplier_edit(request):
+    """供应商编辑"""
     mothod = request.method
     if mothod == "GET":
         nid = request.GET.get("id", "")
@@ -774,12 +868,13 @@ def supplier_edit(request):
 
 
 def supplier_category_list(request):
+    """供应商"""
     query_sets = supplier_category_db.query_category_list()
     return render(request,"inventory/supplier_category_list.html",{"query_sets":query_sets})
 
 
 def supplier_category_edit(request):
-    """"供应商分类添加或编辑"""
+    """"供应商分类"""
     method = request.method
     if method == "GET":
         id = request.GET.get("id", "")
@@ -822,13 +917,14 @@ def supplier_category_edit(request):
     return HttpResponse(json.dumps(ret))
 
 
-def retail_supplier_list(request):
+def retailers_list(request):
+    """零售供应商"""
     query_sets = retailer_db.query_retail_list()
     return render(request,"inventory/retail_supplier_list.html",{"query_sets":query_sets})
 
 
-def retail_supplier_edit(request):
-    """"零售供应商添加或编辑"""
+def retailers_edit(request):
+    """"零售供应商"""
     method = request.method
     if method == "GET":
         id = request.GET.get("id", "")
@@ -872,6 +968,7 @@ def retail_supplier_edit(request):
 
 
 def supplier_linkman(request):
+    """供应商联系人"""
     mothod = request.method
     if mothod == "GET":
         nid = request.GET.get("id", "")
@@ -1009,6 +1106,7 @@ def supplier_linkman(request):
 
 
 def supplier_contact(request):
+    """供应商来往"""
     mothod = request.method
     if mothod == "GET":
         nid = request.GET.get("id", "")
@@ -1092,6 +1190,7 @@ def supplier_contact(request):
 
 
 def supplier_memo(request):
+    """供应商备忘"""
     mothod = request.method
     if mothod == "GET":
         nid = request.GET.get("id", "")
@@ -1173,6 +1272,7 @@ def supplier_memo(request):
 
 
 def supplier_detail(request):
+    """供应商详细"""
     sid = request.GET.get("id",None)
     if sid:
         query_sets = supplier_db.query_supplier_by_id(sid)
@@ -1195,6 +1295,7 @@ def supplier_detail(request):
 
 
 def contact_detail(request):
+    """供应商联系人"""
     id = request.GET.get("id",None)
     ret={"status":False,"data":"","message":""}
     if id:

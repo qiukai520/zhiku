@@ -76,6 +76,8 @@
                                     </dd>
                                      <dt>创建时间：</dt>
                                     <dd>{{ query_set.create_time|date:"Y-m-d" }}</dd>
+                                      <dt>库存数量：</dt>
+                                    <dd> {% fetch_goods_total_amount query_set.nid %}</dd>
                                 </dl>
                             </div>
                         </div>
@@ -627,7 +629,6 @@
             search: true,
             strictSearch: false,
             showColumns: true,
-             showExport: true,
             showRefresh: true,
             minimumCountColumns: 2,
             clickToSelect: true,

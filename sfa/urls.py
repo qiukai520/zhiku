@@ -26,6 +26,7 @@ urlpatterns = [
     path("customer/linkman", views.customer_linkman, name='customer_linkman'),
     path("customer/linkman/detail", views.c_linkman_detail, name='c_linkman_detail'),
     path("customer/follow/detail", views.c_folllow_detail, name='c_follow_detail'),
+    path("customer/contact/detail",views.c_contact_detail,name="c_contact_detail"),
     path("customer/memo/detail", views.c_memo_detail, name='c_memo_detail'),
     path("customer/memo", views.customer_memo, name='customer_memo'),
     path("customer/contact",views.customer_contact,name="customer_contact"),

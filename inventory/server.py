@@ -355,23 +355,22 @@ class GoodsAttachDB(object):
 class RepertoryDB(object):
     """仓库库存"""
 
-    def query_goods_by_id(self,id):
-        result_db = Repertory.objects.filter(nid=id).first()
+    def query_goods_by_gid(self,id):
+        result_db = Repertory.objects.filter(goods_id=id).first()
         return result_db
 
 
     def multi_insert(self, id_list):
         for item in id_list:
             if self.is_exist(item):
-                print("item",item)
                 continue
             Repertory.objects.create(**{"goods_id":item})
 
     def multi_delete(self,id_list):
-        Repertory.objects.filter(nid__in=id_list).delete()
+        Repertory.objects.filter(goods_id__in=id_list).delete()
 
-    def is_exist(self,id):
-        is_exist = Repertory.objects.filter(nid=id).first()
+    def is_exist(self,goods_id):
+        is_exist = Repertory.objects.filter(goods_id=goods_id).first()
         return is_exist
 
 

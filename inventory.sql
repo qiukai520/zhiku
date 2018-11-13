@@ -401,5 +401,5 @@ create TABLE `purchase_attach`(
 drop TABLE if exists `repertory`;
 create TABLE `repertory`(
 `nid`int(11) primary key auto_increment,
-`goods_id` int(11) NOT NULL COMMENT'商品'
+`goods_id` int(11) NOT NULL  unique COMMENT'商品'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库库存';
