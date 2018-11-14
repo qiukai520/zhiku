@@ -90,10 +90,16 @@ $.validator.setDefaults({
                 logistics: {
                         required: true,
                       },
-                supplier_id: {
-                        required: true,
-                        // range:[1:]
-                      },
+                supplier_id:{
+                 required: true,
+                 min:1,
+                 digits: true,
+                     },
+               linkman_id:{
+                 required: true,
+                 min:1,
+                 digits: true,
+              },
                 // username:{required:!0,minlength:2},
                 // password:{required:!0,minlength:5},
                 // confirm_password:{required:!0,minlength:5,equalTo:"#password"},
@@ -107,8 +113,14 @@ $.validator.setDefaults({
                     digits: e+"请输入有效的整数"
                 },
                 supplier_id:{
-                    required: e+"请选择供应商",
-                    // range: e+"请选择供应商"
+                    required:"请选择供应商",
+                    digits:"请选择供应商",
+                    min:"请选择供应商"
+                },
+                linkman_id:{
+                    required:"请选择联系人",
+                    digits:"请选择联系人",
+                    min:"请选择联系人"
                 },
                  logistics:{
                     required: e+"物流价格不能为空",

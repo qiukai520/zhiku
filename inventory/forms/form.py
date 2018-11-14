@@ -128,3 +128,10 @@ class PurchaseForm(django_forms.Form):
                                                                                        "invalid": "请输入合法的价格"})
     total_price = django_fields.DecimalField(max_digits=8, decimal_places=2, error_messages={"required": "总价不能为空",
                                                                                        "invalid": "请输入合法的价格"})
+
+
+class WastageForm(django_forms.Form):
+    goods_id = django_fields.IntegerField(error_messages={"required": "所选商品不能为空"})
+    amount = django_fields.IntegerField(error_messages={"required": "数量不能为空"})
+    date = django_fields.DateField(error_messages={"required": "采购日期不能为空", "invalid": "日期格式错误"})
+    unit_id = django_fields.IntegerField(error_messages={"required": "单位不能为空  "})

@@ -2,11 +2,12 @@
 {% extends "layout.html" %}
 {% load inventory_tags %}
 {% block css %}
-    <link href="/static/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet">
-    <link href="/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css" rel="stylesheet">
-    <link href="/static/plugins/select2/select2.css" rel="stylesheet">
-    <link href="/static/plugins/selectize/selectize.css" rel="stylesheet">
-    <link href="/static/plugins/selectize/selectize.bootstrap3.css" rel="stylesheet">
+{#    <link href="/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css" rel="stylesheet">#}
+{#    <link href="/static/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet">#}
+
+{#    <link href="/static/plugins/select2/select2.css" rel="stylesheet">#}
+{#    <link href="/static/plugins/selectize/selectize.css" rel="stylesheet">#}
+{#    <link href="/static/plugins/selectize/selectize.bootstrap3.css" rel="stylesheet">#}
     <style>
       #attachment-container .col-sm-8{
           padding: 5px;
@@ -46,7 +47,7 @@
                             <label class="col-sm-2 control-label">商品单位</label>
                             <div class="col-sm-8">
                                  <select  name="unit_id" class="form-control" id="unit_id" >
-                                    {% build_goods_unit_ele %}
+                                    {% build_goods_unit_ele goods_obj.unit_id %}
                                 </select>
                             </div>
                         </div>
@@ -78,43 +79,24 @@
                                 <textarea  name="proposal" class="form-control" id="proposal" id="" cols="30" rows="3"></textarea>
                             </div>
                             </div>
-                          <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">处理人</label>
-                            <div class="col-sm-8 ">
-                               <div class="selector select-transfer">
-                                    <div class="selector-available">
-                                        <p class="title"> 选择</p>
-                                        <div class="input-group input-group-sm selector-filter">
-                                          <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                          <input class="form-control" type="text" id="_input">
-                                        </div>
-                                        <select multiple="multiple" id="_form">
-                                            {% build_staff_ele %}
-                                        </select>
-                                        <a class="btn btn-default selector-chooseall" title= "Click to choose all at once." > "Choose all" </a>
-                                    </div>
-                                        <ul class="selector-chooser">
-                                            <li>
-                                            <a class="btn btn-default btn-sm selector-add" title="Choose"><i class="fa fa-plus"></i></a>
-                                            </li>
-                                             <li>
-                                            <a class="btn btn-default btn-sm selector-remove" title="Remove" ><i class="fa fa-minus"></i></a>
-                                        </li>
-                                    </ul>
-                                    <div class="selector-chosen">
-                                        <p class="title">"Chosen"</p>
-                                        <select multiple="multiple" >
-{#                                            {{chosen_options|safe}}#}
-                                        </select>
-                                        <a class="btn btn-default selector-clearall" title= "Click to remove all chosen at once." > "Remove all"</a>
-                                    </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label for="department" class="control-label col-xs-2">处理人：</label>
+                            <div class="col-xs-8 " style="padding:0px; ">
+                                <div class="col-xs-12 selector-filter" >
+                                    <select  id="assigned" multiple   size="10"   class=" select-box ">
+{#                                    {% if id %}#}
+{#                                         {% for obj in solvers_list %}#}
+{#                                         <option value="{{ obj.sid_id }}"   selected="selected" nid="{{ obj.nid}}">{% change_to_staff obj.sid_id %}  </option>#}
+{#                                         {% endfor %}#}
+{#                                     {% endif %}#}
+{#                                    {% build_staff_ele %}#}
+                                    </select>
                                 </div>
-                                <div class="clearfix"></div>
                             </div>
                         </div>
                            <div class="hr-line-dashed"></div>
-                             <div class="form-group">
+                              <div class="form-group">
                             <label class="col-sm-2 control-label">日期</label>
                             <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker1">
                                 <input type='text'  name="date" id='date' class="form-control" />
@@ -123,11 +105,21 @@
                                 </span>
                             </div>
                         </div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                {% if nid %}
+                                {% else %}
+                                     <input type="text" class="hidden" name="recorder_id" id="recorder_id" value={{request.user.staff.sid  }}>
+                                {% endif %}
+
+                            </div>
+                        </div>
                         <div class="hr-line-dashed"></div>
                         <div id="attachment-container" style="position: relative">
                     <!--初始化凭证-->
                     {% if id %}
-                        {% for obj in invent_attach%}
+                        {% for obj in wastage_attach%}
                              <div class="attachment">
                             <div class="form-group ">
                             <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">凭证{{ forloop.counter }}:</label>
@@ -168,8 +160,7 @@
                                         </div>
                                          <div class="hr-line-dashed"></div>
                                     </div>
-
-                </div>
+                             </div>
                          </form>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -202,11 +193,14 @@
     <script src="/static/js/custom/form-validate.js"></script>
     <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
 
-    <script src="/static/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js" ></script>
-    <script src="/static/plugins/bootstrap-multiselect/js/xadmin.widget.select-transfer.js" ></script>
-     <script src="/static/plugins/select2/select2.js" ></script>
-     <script src="/static/plugins/select2/select2_locale_zh-hans.js" ></script>
-     <script src="/static/plugins/selectize/selectize.js" ></script>
+    <script src="/static/plugins/duallistbox/js/duallistbox.js" ></script>
+{#    <script src="/static/plugins/bootstrap-multiselect/js/xadmin.main.js" ></script>#}
+{#    <script src="/static/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js" ></script>#}
+{#    <script src="/static/plugins/bootstrap-multiselect/js/xadmin.widget.select-transfer.js" ></script>#}
+
+{#     <script src="/static/plugins/select2/select2.js" ></script>#}
+{#     <script src="/static/plugins/select2/select2_locale_zh-hans.js" ></script>#}
+{#     <script src="/static/plugins/selectize/selectize.js" ></script>#}
 
     <script>
         var csrftoken = $.cookie('csrftoken');
@@ -222,8 +216,7 @@
             }
         });
 
-
-   //设置日期时间控件
+//设置日期时间控件
 $(function () {
     $('#datepicker1').datepicker({
         language: "zh-CN", //语言
@@ -235,38 +228,48 @@ $(function () {
         minViewMode:'days', //最小视图层，为月视图层
         startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
         endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
-        {#setDate:new Date(),#}
     });
-    $('#datepicker1').datepicker('setDate', new Date());
 });
-
  /*
     自执行函数
     */
     $(function () {
+          //初始化日期
+             $('#date').datepicker('setDate', new Date());
         //如果id不为0，则为创建
         var nid="{{ id }}"
-        if ( nid!=""){
+        if ( nid!=0){
            InitData()//初始化数据
         }
         else {
+             //初始化日期
+             $('#date').datepicker('setDate', new Date());
 
         }
     });
      //初始化数据
 function InitData() {
         //初始化form
-        console.log("{{ obj.date }}")
         $("#nid").val({{ obj.nid }});
         $("#amount").val("{{ obj.amount}}");
-        $("#supplier_id").val({{ obj.supplier_id }});
-        $("#linkman_id").val({{ obj.linkman_id }});
-        $("#price").val({{ obj.price }});
-        $("#total_price").val({{ obj.total_price }});
+        $("#goods_id").val({{ obj.goods_id }});
         $("#date").val("{% if obj.date  %}{{ obj.date |date:'Y-m-d'}}{% endif %}");
         $("#unit_id").val({% if obj.unit_id  %}{{ obj.unit_id }}{% endif %});
-
+        $("#reason").val("{% if obj.reason  %}{{ obj.reason }}{% endif %}");
+        $("#way").val("{% if obj.way  %}{{ obj.way }}{% endif %}");
+        $("#proposal").val("{% if obj.proposal  %}{{ obj.proposal }}{% endif %}");
     }
+
+$(function() {
+  var requestUrl = "{% url "staff_select" %}";
+  var reqeustParams = "";//有参数用json格式
+  var selectElement = "#assigned";
+  var selectedDataStr = "{{ solver_str }}"
+    console.log("selectedDataStr",selectedDataStr);
+    {#var selectedDataStr = "1,2,12";;//选中的option（用过英文逗号隔开；新增时，无选中option）#}
+  //初始化duallistbox
+  initListBox(requestUrl, reqeustParams, selectElement, 'roleId', 'roleName', selectedDataStr);
+});
 
 
 //修改时获取凭证
@@ -314,7 +317,6 @@ function FetchAttachment(){
     attachment_list=JSON.stringify(attachment_list)//对象转化成json
     return attachment_list
 }
-
 //上传凭证
 function UploadFile(ths){
     var file_obj = $(ths)[0].files[0];
@@ -353,6 +355,23 @@ function UploadFile(ths){
     })
 }
 
+//获取处理对象
+function SelectAssigner(){
+        Assigner=new Array();
+        DualListboxObj.children("option:selected").each(function () {
+            var reviewer=$(this).val()
+            var reviewer={"sid_id":reviewer};
+            Assigner.push(reviewer)
+        });
+        if (Assigner.length>0){
+             Assigner =JSON.stringify(Assigner)//对象转化成json
+        } else{
+            Assigner=''
+        }
+        return Assigner
+    }
+
+
 //添加or编辑
       function Submit(cons){
          var $msg = $('#error_msg');
@@ -363,17 +382,22 @@ function UploadFile(ths){
          if ( form.valid()){
             //把凭证添加到form中
               var nid="{{ id }}"
-             if(nid!=""){
+             if(nid!=0){
                   //编辑
                  var attachment=GetAttachment()
                  var success_msg="修改成功"
              }else{
                   //创建
+
                  var attachment=FetchAttachment()
+
                  var success_msg="添加成功"
              }
+              var solvers = SelectAssigner()
              var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
+             var solvers_ele=$("<input type='text' class='hide' name='solvers' value={0} />".format(solvers))
              form.append(attachment_ele)
+             form.append(solvers_ele)
              $.ajax({
                 url: '{% url "wastage_edit" %}',
                 type: 'POST',
@@ -395,34 +419,6 @@ function UploadFile(ths){
                 }
          })
          }
-    }
-
-
-      // 根据供应商获取相应的联系人
-    function SelectLinkman(ths) {
-      var nid=$(ths).val();
-      $("#linkman_id").children().remove();
-      $.ajax({
-        url:"{% url "fetch_linkman" %}",
-        type:'get',
-        data:{"id":nid},
-        dataType:'json',
-        async: true,//是否异步
-        success: function (arg) {
-	    var objs = JSON.parse(arg.data);
-	    console.log("link",arg.data)
-	    $("#linkman_id").append("<option value=0 >请选择联系人</option>")
-	    $(objs).each(function () {
-		var o = document.createElement("option");
-		o.value = this['pk'];
-		o.text = this['fields']['name'];
-		 $("#linkman_id").append(o);
-	  });
-	},
-        error: function (arg) {
-          alert(arg.message);
-        },
-    });
     }
 
  </script>

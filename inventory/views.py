@@ -587,54 +587,71 @@ class WastageViewSet(View):
         if gid:
             goods_obj = goods_db.query_goods_by_id(gid)
             if goods_obj:
-                goods_obj={"nid":goods_obj.nid,"name":goods_obj.name}
+                goods_obj = {"nid":goods_obj.nid,"name":goods_obj.name,"unit_id":goods_obj.unit_id}
                 if id:
-                    obj = purchase_db.query_purchase_by_id(id)
-                    invent_attach = purchase_attach_db.query_purchase_attachment(id)
+                    obj = wastage_db.query_wastage_by_id(id)
+                    wastage_attach = wastage_attach_db.query_wastage_attachment(id)
+                    solver_objs =solver_db.query_wastage_solver(id)
+                    solver_str=""
+                    for item in solver_objs:
+                       solver_str += str(item.sid_id)+","
                     if obj:
-                        obj = {"nid": obj.nid, "amount": obj.amount, "unit": obj.unit_id, "batch": obj.batch,
-                               "supplier_id":obj.supplier_id, "linkman_id":obj.linkman_id,"date": obj.date,
-                               "recorder_id":obj.recorder_id,"price":obj.price,"total_price":obj.total_price}
+                        obj = {"nid": obj.nid, "amount": obj.amount, "unit": obj.unit_id,
+                               "reason":obj.reason,"way":obj.way,"proposal": obj.proposal,
+                               "goods_id":obj.goods_id,"date": obj.date,"recorder_id":obj.recorder_id}
                 else:
                     id = 0
                     obj = {}
-                    invent_attach = {}
-                return render(request, "inventory/wastage_edit.html", {"obj": obj,"goods_obj":goods_obj,"invent_attach":invent_attach, "id": id})
+                    wastage_attach = {}
+                    solver_str = ''
+                return render(request, "inventory/wastage_edit.html", {"obj": obj,"goods_obj":goods_obj
+                    ,"wastage_attach":wastage_attach,"solver_str":solver_str, "id": id})
         return render(request,"404.html")
 
     def post(self, request):
-        form = PurchaseForm(data=request.POST)
+        form = WastageForm(data=request.POST)
         ret = {'status': False, "data": '', "message": ""}
         if form.is_valid():
             id = request.POST.get("nid", 0)
             data = request.POST
             data = data.dict()
-            purchase_attach = data.get("attach", None)
-            purchase_attach = json.loads(purchase_attach)
+            wastage_attach = data.get("attach", None)
+            wastage_attach = json.loads(wastage_attach)
+            # 获处理人
+            solvers = data.get("solvers", None)
+            solvers = list(json.loads(solvers))
             # 有则为编辑 ,无则添加
+            print("id",id)
             if id:
                 try:
+                    print("edit",id)
                     with transaction.atomic():
-                        record = purchase_db.query_purchase_by_id(id)
-                        final_info = compare_fields(Purchase._update, record, data)
+                        record = wastage_db.query_wastage_by_id(id)
+                        final_info = compare_fields(WastageGoods._update, record, data)
                         final_info["nid"] = id
+                        print("final_info",final_info)
                         if final_info:
-                            purchase_db.purchase_update(final_info)
+                            wastage_db.wastage_update(final_info)
                             # 更新附件
-                        if purchase_attach:
-                            att_record = purchase_attach_db.query_purchase_attachment(id)
+                        if wastage_attach:
+                            att_record = wastage_attach_db.query_wastage_attachment(id)
                             # 数据对比
-                            insert_att, update_att, delete_id_att = compare_json(att_record, purchase_attach, "nid")
+                            insert_att, update_att, delete_id_att = compare_json(att_record, wastage_attach, "nid")
                             if insert_att:
-                                insert_att = build_attachment_info({"purchase_id": id}, insert_att)
-                                purchase_attach_db.mutil_insert_attachment(insert_att)
+                                insert_att = build_attachment_info({"wastage_id": id}, insert_att)
+                                wastage_attach_db.mutil_insert_attachment(insert_att)
                             if update_att:
-                                purchase_attach_db.mutil_update_attachment(update_att)
+                                wastage_attach_db.mutil_update_attachment(update_att)
                             if delete_id_att:
-                                purchase_attach_db.mutil_delete_purchase_attachment(delete_id_att)
+                                wastage_attach_db.mutil_delete_wastage_attachment(delete_id_att)
                         else:
-                            print("delete",purchase_attach)
-                            purchase_attach_db.delete_purchase_attachment(id)
+                            wastage_attach_db.delete_wastage_attachment(id)
+                        if solvers:
+                            s_record = solver_db.query_wastage_solver(id)
+                            # 待续
+                        else:
+                            solver_db.delete_wastage_solver(id)
+
                         ret['status'] = True
                         ret['data'] = id
                 except Exception as e:
@@ -643,18 +660,20 @@ class WastageViewSet(View):
             else:
                 try:
                     with transaction.atomic():
-                        data_info = filter_fields(Purchase._insert, data)
-                        last_record = purchase_db.query_purchase_by_goods(data.get("goods_id",0))
-                        if last_record:
-                            batch = last_record.batch + 1
-                        else:
-                            batch = 1
-                        data_info["recorder_id"] = request.user.staff.sid
-                        data_info["batch"] = batch
-                        id = purchase_db.insert_purchase(data_info)
-                        if purchase_attach:
-                            purchase_attach = build_attachment_info({"purchase_id": id}, purchase_attach)
-                            purchase_attach_db.mutil_insert_attachment(purchase_attach)
+                        data_info = filter_fields(WastageGoods._insert, data)
+                        print("final_info",data_info)
+                        id = wastage_db.insert_wastage(data_info)
+                        if wastage_attach:
+                            wastage_attach = build_attachment_info({"wastage_id": id}, wastage_attach)
+                            wastage_attach_db.mutil_insert_attachment(wastage_attach)
+                        if solvers:
+                            solver_list = []
+                            for item in solvers:
+                                item["wid_id"] = id
+                                solver_list.append(item)
+                            print("solver_list",solver_list)
+                            solver_db.mutil_insert(solver_list)
+
                         ret['status'] = True
                         ret['data'] = id
                 except Exception as e:
@@ -665,6 +684,7 @@ class WastageViewSet(View):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
+
 
 def purchase_record(request):
     """入库记录详细"""

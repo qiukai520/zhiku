@@ -223,17 +223,18 @@ create TABLE `c_follow_attach`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='跟踪附件';
 
 
-
-drop TABLE  if  exists `goods_wastage`;
-create table `goods_wastage`(
+drop TABLE  if  exists `wastage_goods`;
+create table `wastage_goods`(
 `nid` int(11) primary key auto_increment,
 `goods_id` int(11) NOT NULL COMMENT '商品',
 `unit_id` int (11) NOT NULL COMMENT '商品单位',
 `amount` tinyint(1) NOT NULL COMMENT '数量',
-`reason` varchar (128) NOT NULL COMMENT '原因',
+`reason` varchar (128)  COMMENT '原因',
 `way` varchar (64)   COMMENT '处置方式',
 `proposal` varchar (128) COMMENT'改进' ,
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0否，1是',
+`recorder_id`int(11) NOT NULL COMMENT '记录人',
+`date`  datetime  DEFAULT NUll  COMMENT '记录日期',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品损耗';
@@ -253,7 +254,7 @@ create TABLE `wastage_attach`(
 drop TABLE if exists `wastage_solver`;
 create TABLE `wastage_solver`(
 `nid`int(11) NOT NULL primary key auto_increment,
-`wid` int(11) NOT NULL COMMENT'损耗记录',
-`sid` int(11) NOT NULL COMMENT'处理人',
+`wid_id` int(11) NOT NULL COMMENT'损耗记录',
+`sid_id` int(11) NOT NULL COMMENT'处理人',
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0否，1是'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='损耗处理人';

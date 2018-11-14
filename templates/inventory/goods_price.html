@@ -56,6 +56,7 @@
                             <label class="col-sm-2 control-label">供应商联系人</label>
                             <div class="col-sm-8">
                                 <select  name="linkman_id" class="form-control" id="linkman_id" >
+                                    <option value=0>选择联系人</option>
                                     {% if nid %}
                                          {% build_supplier_linkman_ele query_set.supplier_id query_set.linkman_id %}
                                         {% else %}
@@ -349,6 +350,7 @@ function UploadFile(ths){
         async: true,//是否异步
         success: function (arg) {
 	    var objs = JSON.parse(arg.data);
+	    $("#linkman_id").append("<option value=0>选择联系人</option>")
 	    $(objs).each(function () {
 		var o = document.createElement("option");
 		o.value = this['pk'];

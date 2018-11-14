@@ -878,6 +878,83 @@ class PurchaseAttachDB(object):
         PurchaseAttach.objects.filter(purchase_id=purchase_id).delete()
 
 
+class WastageGoodsDB(object):
+    "损耗记录"
+    def insert_wastage(self, modify_info):
+        wastage_sql = """insert into wastage_goods(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        wastage_sql = wastage_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(wastage_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_wastage_list(self):
+        result_db = WastageGoods.objects.filter().all()
+        return result_db
+
+    def query_wastage_by_id(self, nid):
+        result_db = WastageGoods.objects.filter(nid=nid ).first()
+        return result_db
+
+    def query_wastage_by_goods(self,goods_id):
+        result_db = WastageGoods.objects.filter(goods_id=goods_id).last()
+        return result_db
+
+    def query_wastage_by_goods_list(self,goods_id):
+        result_db = WastageGoods.objects.filter(goods_id=goods_id).order_by("-date").all()
+        return result_db
+
+    def wastage_update(self, modify):
+        WastageGoods.objects.filter(nid=modify['nid']).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        WastageGoods.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class WastageAttachDB(object):
+    """损耗凭证"""
+    def query_wastage_attachment_list(self):
+        result_db = WastageAttach.objects.filter().all()
+        return result_db
+
+    def query_wastage_attachment(self,id):
+        result_db = WastageAttach.objects.filter(wastage_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            WastageAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            WastageAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_wastage_attachment(self, id_list):
+        WastageAttach.objects.filter(nid__in=id_list).delete()
+
+    def delete_wastage_attachment(self, wastage_id):
+        WastageAttach.objects.filter(wastage_id=wastage_id).delete()
+
+
+class WastageSolverDB(object):
+    """损耗处理人"""
+    def mutil_insert(self,solver_list):
+        for item in solver_list:
+            WastageSolver.objects.get_or_create(**item)
+
+    def query_wastage_solver(self,wid):
+        result_db = WastageSolver.objects.filter(wid_id=wid).all()
+        return result_db
+
+    def delete_wastage_solver(self,wid):
+        WastageSolver.objects.filter(wid_id= wid).delete()
+
+
 supplier_db = SupplierDB()
 supplier_photo_db = SupplierPhotoDB()
 supplier_licence_db = SupplierLicenceDB()
@@ -909,4 +986,8 @@ invent_attach_db = InventoryAttachDB()
 purchase_db = PurchaseDB()
 purchase_attach_db = PurchaseAttachDB()
 repertory_db = RepertoryDB()
+wastage_db = WastageGoodsDB()
+wastage_attach_db = WastageAttachDB()
+solver_db = WastageSolverDB()
+
 

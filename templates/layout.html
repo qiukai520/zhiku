@@ -27,7 +27,9 @@
     <!-- bootstarp choseselect -->
      <link rel="stylesheet" href="/static/css/plugins/chosen/chosen.css">
     <!-- bootstarp multiselect -->
-    <link rel="stylesheet" href="/static/css/plugins/duallistbox/bootstrap-duallistbox.css">
+    <link rel="stylesheet" href="/static/plugins/duallistbox/css/bootstrap-duallistbox.css">
+    <link rel="stylesheet" href="/static/plugins/duallistbox/css/custom.css">
+
     <!-- bootstarp star -->
     <link rel="stylesheet" href="/static/plugins/bootstrap/css/star-rating.min.css">
      <!-- bootstarp datepicker -->
@@ -524,7 +526,7 @@
     <!-- bootstarp choseselect -->
         <script type="text/javascript" src="/static/js/plugins/chosen/chosen.jquery.js"></script>
     <!-- bootstarp duallistbox-->
-    <script type="text/javascript" src="/static/js/plugins/duallistbox/jquery.bootstrap-duallistbox.js"></script>
+    <script type="text/javascript" src="/static/plugins/duallistbox/js/jquery.bootstrap-duallistbox.js"></script>
     <!-- bootstarp star-->
     <script type="text/javascript" src="/static/plugins/bootstrap/js/star/star-rating.min.js"></script>
     <script type="text/javascript" src="/static/plugins/bootstrap/js/star/locales/zh.js"></script>
@@ -551,13 +553,9 @@
         // 当前菜单保持选中
          window.onload=function () {
         var As=$('#side-menu >li').find('a');
-
         var Obj=As.eq(0);
         for( var i = 1;i<As.length;i++){
-             console.log("test",i,As[i])
             if(window.location.href.indexOf(As[i].href)>=0) {
-                console.log("window.location.href",window.location.href)
-                console.log("As[i].href",i,As[i].href)
                 Obj=As.eq(i);
                 break
             }

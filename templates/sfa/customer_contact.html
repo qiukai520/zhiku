@@ -396,7 +396,6 @@ function UploadFile(ths){
          })
          }
     }
-
 function ChangeCategory(ths) {
     var cons=$(ths).val()
     console.log("cons",cons)
@@ -412,6 +411,27 @@ function ChangeCategory(ths) {
 }
 
 
+  //修改数据时获取处理对象
+function GetAssigner(){
+        var Assigner_list=new Array();
+            {%if edit %}
+                var tmid ={{query_sets.tmid }}
+            {% else %}
+                var tmid=1
+            {% endif %}
+          DualListboxAssign.children("option:selected").each(function () {
+
+            var Assigner=$(this).val()
+            var tasid=$(this).attr("tasid")
+            var Assign= {"sid":Assigner,'wid':tmid}
+            if (tasid){
+                var Assign=$.extend(Assign,{"tasid":tasid})
+            }
+              Assigner_list.push(Assign)
+        });
+        Assigner_list =JSON.stringify(Assigner_list)//对象转化成json
+        return Assigner_list
+    }
  </script>
 {% endblock %}
 

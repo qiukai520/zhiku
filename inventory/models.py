@@ -683,7 +683,7 @@ class Repertory(models.Model):
         return "仓库库存:{0}".format(self.goods)
 
 
-class GoodsWastage(models.Model):
+class WastageGoods(models.Model):
     nid = models.AutoField(primary_key=True)
     goods = models.ForeignKey("Goods", verbose_name="损耗商品", on_delete=models.CASCADE,
                               db_constraint=False, )
@@ -694,22 +694,27 @@ class GoodsWastage(models.Model):
     way = models.CharField(max_length=64,verbose_name="处置方式")
     proposal = models.TextField(verbose_name="改进措施")
     is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
+    date = models.DateField(verbose_name="日期", blank=True, null=True)
+    recorder = models.ForeignKey(Staff,related_name="w_r", verbose_name="记录人", on_delete=models.CASCADE, db_constraint=False)
     solver = models.ManyToManyField(to=Staff,through="WastageSolver",through_fields=("wid", "sid"), verbose_name="处理人")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
     class Meta:
-        db_table = 'goods_wastage'
-        verbose_name = '商品损耗'
-        verbose_name_plural = '商品损耗'
+        db_table = 'wastage_goods'
+        verbose_name = '损耗商品'
+        verbose_name_plural = '损耗商品'
 
     def __str__(self):
-        return "商品损耗:{0}".format(self.goods)
+        return "损耗商品:{0}".format(self.goods)
+
+    _insert = ["goods_id", 'reason', "unit_id","recorder_id" ,"way", "amount","proposal", 'date']
+    _update = ["goods_id", 'reason', "unit_id", "way","recorder_id" , "amount","proposal", 'date']
 
 
 class WastageAttach(models.Model):
     nid = models.AutoField(primary_key=True)
-    wastage = models.ForeignKey("GoodsWastage", to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+    wastage = models.ForeignKey("WastageGoods", to_field='nid', on_delete=models.CASCADE, db_constraint=False,
                                  verbose_name='损耗记录')
     attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
     name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
@@ -726,7 +731,7 @@ class WastageAttach(models.Model):
 
 class WastageSolver(models.Model):
     nid = models.AutoField(primary_key=True)
-    wid = models.ForeignKey('GoodsWastage', to_field='nid', on_delete=models.CASCADE, db_constraint=False, verbose_name='损耗')
+    wid = models.ForeignKey('WastageGoods', to_field='nid', on_delete=models.CASCADE, db_constraint=False, verbose_name='损耗')
     sid = models.ForeignKey(Staff, to_field='sid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='处理人')
 

@@ -307,7 +307,7 @@
     init: function () {
       // Add the custom HTML template
       this.container = $('' +
-        '<div class="bootstrap-duallistbox-container">' +
+        '<div class="bootstrap-css-container">' +
         ' <div class="box1">' +
         '   <label></label>' +
         '   <span class="info-container">' +
@@ -323,7 +323,13 @@
         '       <i></i>' +
         '     </button>' +
         '   </div>' +
+        '<div class="input-group input-group-sm selector-filter">'+
+        '<span class="input-group-addon">'+
+         '<i class="fa fa-search">'+
+        '</i>'+
+        '</span>'+
         '   <input class="filter" type="text">' +
+        '</div>'+
         '   <select multiple="multiple"></select>' +
         ' </div>' +
         ' <div class="box2">' +
@@ -341,7 +347,13 @@
         '       <i></i>' +
         '     </button>' +
         '   </div>' +
+        '<div class="input-group input-group-sm selector-filter">'+
+        '<span class="input-group-addon">'+
+         '<i class="fa fa-search">'+
+        '</i>'+
+        '</span>'+
         '   <input class="filter" type="text">' +
+        '</div>'+
         '   <select multiple="multiple"></select>' +
         ' </div>' +
         '</div>')
@@ -371,8 +383,8 @@
 
       // Set select IDs
       this.originalSelectName = this.element.attr('name') || '';
-      var select1Id = 'bootstrap-duallistbox-nonselected-list_' + this.originalSelectName,
-        select2Id = 'bootstrap-duallistbox-selected-list_' + this.originalSelectName;
+      var select1Id = 'bootstrap-css-nonselected-list_' + this.originalSelectName,
+        select2Id = 'bootstrap-css-selected-list_' + this.originalSelectName;
       this.elements.select1.attr('id', select1Id);
       this.elements.select2.attr('id', select2Id);
       this.elements.label1.attr('for', select1Id);

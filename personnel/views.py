@@ -420,6 +420,19 @@ def staff_delete(request):
     return HttpResponse(json.dumps(ret))
 
 
+def staff_select(request):
+    """获取人事数据"""
+    staffs = staff_db.query_staff_list()
+    staff_list = []
+    for item in staffs:
+        staff = dict()
+        staff["roleId"] = item.sid
+        staff["roleName"] = item.name
+        staff_list.append(staff)
+    print(staff_list)
+    return HttpResponse(json.dumps(staff_list))
+
+
 def life_photo(request):
     """生活照片上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
