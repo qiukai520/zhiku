@@ -553,13 +553,16 @@
         // 当前菜单保持选中
          window.onload=function () {
         var As=$('#side-menu >li').find('a');
+        console.log("before",i)
         var Obj=As.eq(0);
         for( var i = 1;i<As.length;i++){
             if(window.location.href.indexOf(As[i].href)>=0) {
+                console.log("href",As[i].href)
                 Obj=As.eq(i);
                 break
             }
         }
+        console.log("i",Obj.first())
         Obj.parent().addClass("active")
         Obj.parent().parent().attr("aria-expanded",true);
         Obj.parent().parent().addClass("in");

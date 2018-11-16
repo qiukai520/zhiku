@@ -474,6 +474,21 @@ def fetch_warehouse(house_id):
         if obj:
             return obj
 
+@register.simple_tag
+def fetch_wastage_by_goods(gid):
+    if gid:
+        wastage_list = wastage_db.query_wastage_by_goods_list(gid)
+        return wastage_list
+
+
+@register.simple_tag
+def fetch_wastage_solvers(wid):
+    if wid:
+        solver_list = solver_db.query_wastage_solver(wid)
+        solvers = ""
+        for item in solver_list:
+            solvers += change_to_staff(item.sid_id)+","
+        return solvers
 
 
 @register.simple_tag

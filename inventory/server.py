@@ -901,10 +901,6 @@ class WastageGoodsDB(object):
         result_db = WastageGoods.objects.filter(nid=nid ).first()
         return result_db
 
-    def query_wastage_by_goods(self,goods_id):
-        result_db = WastageGoods.objects.filter(goods_id=goods_id).last()
-        return result_db
-
     def query_wastage_by_goods_list(self,goods_id):
         result_db = WastageGoods.objects.filter(goods_id=goods_id).order_by("-date").all()
         return result_db
@@ -953,6 +949,9 @@ class WastageSolverDB(object):
 
     def delete_wastage_solver(self,wid):
         WastageSolver.objects.filter(wid_id= wid).delete()
+
+    def mutil_delete(self,id_list):
+        WastageSolver.objects.filter(sid_id__in=id_list).delete()
 
 
 supplier_db = SupplierDB()

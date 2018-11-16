@@ -1,7 +1,7 @@
 import uuid
 import os
 from django.db import transaction
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render, HttpResponse
 from django.views.generic.base import View
 from django.core import serializers
 from .server import *
@@ -621,7 +621,6 @@ class WastageViewSet(View):
             solvers = data.get("solvers", None)
             solvers = list(json.loads(solvers))
             # 有则为编辑 ,无则添加
-            print("id",id)
             if id:
                 try:
                     print("edit",id)
@@ -629,7 +628,6 @@ class WastageViewSet(View):
                         record = wastage_db.query_wastage_by_id(id)
                         final_info = compare_fields(WastageGoods._update, record, data)
                         final_info["nid"] = id
-                        print("final_info",final_info)
                         if final_info:
                             wastage_db.wastage_update(final_info)
                             # 更新附件
@@ -646,12 +644,22 @@ class WastageViewSet(View):
                                 wastage_attach_db.mutil_delete_wastage_attachment(delete_id_att)
                         else:
                             wastage_attach_db.delete_wastage_attachment(id)
+                        # 更新处理人
                         if solvers:
                             s_record = solver_db.query_wastage_solver(id)
+                            modify_list = []
+                            for item in solvers:
+                                item["wid_id"] = id
+                                modify_list.append(int(item.get("sid_id", 0)))
+                            delete_list = []
+                            for item in s_record:
+                                if item.sid_id not in modify_list:
+                                    delete_list.append(item.sid_id)
+                            solver_db.mutil_delete(delete_list)
+                            solver_db.mutil_insert(solvers)
                             # 待续
                         else:
                             solver_db.delete_wastage_solver(id)
-
                         ret['status'] = True
                         ret['data'] = id
                 except Exception as e:
@@ -687,7 +695,7 @@ class WastageViewSet(View):
 
 
 def purchase_record(request):
-    """入库记录详细"""
+    """采购记录详细"""
     id = request.GET.get("id",None)
     ret = {"status":False,"data":"","message":""}
     if id:
@@ -708,11 +716,39 @@ def purchase_record(request):
                     purchase_json['attach'] = ''
                 ret['status'] = True
                 ret['data'] = purchase_json
-                print("invent_json",purchase_json)
                 return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
         except Exception as e:
             print(e)
     return render(request,'404.html')
+
+
+def wastage_detail(request):
+    """入库记录详细"""
+    id = request.GET.get("id",None)
+    ret = {"status":False,"data":"","message":""}
+    if id:
+        try:
+            wastage_obj = wastage_db.query_wastage_by_id(id)
+            if wastage_obj:
+                # 格式化数据
+                wastage_json = wastage_obj.__dict__
+                wastage_json.pop('_state')
+                wastage_json['unit_id'] = change_to_goods_unit(wastage_json['unit_id'])
+                wastage_json['recorder_id'] = change_to_staff(wastage_json['recorder_id'])
+                wstage_attach = wastage_attach_db.query_wastage_attachment(id)
+                solvers = fetch_wastage_solvers(id)
+                wastage_json['solvers'] = solvers
+                if wstage_attach:
+                    wastage_json['attach'] = serializers.serialize("json",wstage_attach)
+                else:
+                    wastage_json['attach'] = ''
+                ret['status'] = True
+                ret['data'] = wastage_json
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
+
 
 def purchase_bind(request):
     pid = request.GET.get("pid",0)

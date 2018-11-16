@@ -5,11 +5,11 @@
     overflow: hidden;
     width: 100%;
 }
-.box1, .box2 {
+.selector-available, .selector-chosen {
     float: left;
     width: 45%;
 }
-.selector.stacked .box1, .selector.stacked .box2 {
+.selector.stacked .selector-available, .selector.stacked .selector-chosen {
     width: 756px;
 }
 .selector p.title {
@@ -22,9 +22,9 @@
 .selector .selector-filter {
     width: 100%;
 }
-.selector .box1 .selector-filter {
+.selector .selector-available .selector-filter {
 }
-.selector .box2 .selector-filter {
+.selector .selector-chosen .selector-filter {
 }
 .selector.stacked .selector-filter input[type=text] {
     width: 716px !important;
@@ -38,7 +38,7 @@
     display: block;
     max-width: none !important;
 }
-.selector .box2 select[multiple=multiple] {
+.selector .selector-chosen select[multiple=multiple] {
     height: 230px;
 }
 .selector.stacked select[multiple=multiple] {
@@ -70,13 +70,13 @@ a.selector-chooseall, a.selector-clearall {
     line-height: 20px;
     font-weight: bold;
 }
-.box1, .box2 {
+.selector-available, .selector-chosen {
     border: 1px solid #ddd;
     border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
     background: #eee;
 }
-.selector h3, .inline-group .selector h3,
-.inline-related fieldset .box1 h3, .inline-related fieldset .box2 h3 {
+.selector h3, .inline-group .selector h3, 
+.inline-related fieldset .selector-available h3, .inline-related fieldset .selector-chosen h3 {
     border: 0;
     border-bottom: 1px solid #d0d0d0;
     background: transparent;
@@ -99,11 +99,3 @@ a.selector-chooseall, a.selector-clearall {
 a.selector-chooseall, a.selector-clearall {
     border-top: 1px solid #e4e4e4;
 }
-
-/*.input-group-addon{*/
-    /*overflow: hidden;*/
-    /*clear: both;*/
-/*}*/
-/*.bootstrap-duallistbox-container .filter{*/
-    /*width: 95%;!important;*/
-/*}*/

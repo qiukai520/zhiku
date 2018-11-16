@@ -1,6 +1,7 @@
 import xadmin
 from xadmin import views
 from .models import *
+from django.utils.safestring import mark_safe
 
 # settings
 
@@ -22,8 +23,20 @@ class GlobalSettings(object):
 
 class TaskAdmin(object):
     """工作任务后台管理"""
+
+    def display_tags(self, obj=None, is_header=False):
+        if is_header:
+            return ""
+        s = []
+        for item in obj.tasktag_set.all():  # 必须使用all(),得到所有的标签
+            s.append(item.name)  # 取出每个标签的name属性
+        val = " | ".join(s)
+        return mark_safe(val)
+
+    display_tags.short_description = '标签'
+
     # 数据展示
-    list_display = ['title', 'content', 'type','create_time','delete_status']
+    list_display = ['title', 'content', 'type','display_tags','create_time','delete_status']
     field = ['title', 'content', 'type',]
     # 筛选(后台管理页面中的过滤器)
     list_filter = ['type']

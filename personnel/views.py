@@ -429,7 +429,6 @@ def staff_select(request):
         staff["roleId"] = item.sid
         staff["roleName"] = item.name
         staff_list.append(staff)
-    print(staff_list)
     return HttpResponse(json.dumps(staff_list))
 
 

@@ -5,6 +5,15 @@
  * optionValue
  * optionText
  * selectedDataStr：选中数据，值以,隔开
+ * demo
+ * $(function() {
+  var requestUrl = "/students.html";
+  var reqeustParams = "";//有参数用json格式
+  var selectElement = "#assigned";
+  var selectedDataStr = "1,2,12";;//选中的option（用过英文逗号隔开；新增时，无选中option）#}
+  //初始化duallistbox
+  initListBox(requestUrl, reqeustParams, selectElement, 'roleId', 'roleName', selectedDataStr);
+});
  */
 function initListBox(url,reqeustParams,selectElement,optionValue,optionText, selectedDataStr) {
   $.ajax({

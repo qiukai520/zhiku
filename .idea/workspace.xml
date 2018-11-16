@@ -6,29 +6,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/static/plugins/bootstrap-multiselect/js/xadmin.main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/plugins/duallistbox/js/duallistbox.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/forms/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/forms/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory/adminx.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/adminx.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory/templatetags/inventory_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/templatetags/inventory_tags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/inventory/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/personnel/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/personnel/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/personnel/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sfa.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/plugins/duallistbox/bootstrap-duallistbox.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/duallistbox/css/bootstrap-duallistbox.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/custom/form-validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/custom/form-validate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/plugins/duallistbox/jquery.bootstrap-duallistbox.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/duallistbox/js/jquery.bootstrap-duallistbox.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/plugins/bootstrap/js/jquery.bootstrap-duallistbox.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/bootstrap/js/jquery.bootstrap-duallistbox.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/upload/task/4fcd5dbd-7ddd-40fd-aba9-d20f59d2192b.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/upload/task/6813fbaa-2b47-4132-bc9e-bad3ed53d576.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_price.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_price.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/duallistbox/js/duallistbox.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/duallistbox/js/duallistbox.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/task/adminx.py" beforeDir="false" afterPath="$PROJECT_DIR$/task/adminx.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory/invent_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/invent_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/inventory/wastage_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/wastage_edit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_contact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_assign.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_assign.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -54,112 +46,95 @@
       <file leaf-file-name="wastage_edit.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/inventory/wastage_edit.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="32">
-              <caret line="265" column="34" selection-start-line="265" selection-start-column="34" selection-end-line="265" selection-end-column="34" />
+            <state relative-caret-position="351">
+              <caret line="262" selection-start-line="262" selection-end-line="271" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="layout.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/layout.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="454">
+              <caret line="564" column="35" selection-start-line="564" selection-start-column="35" selection-end-line="564" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="customer_detail.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_detail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="11799">
+              <caret line="437" column="160" selection-start-line="437" selection-start-column="156" selection-end-line="437" selection-end-column="160" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="inventory_tags.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/inventory/templatetags/inventory_tags.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="27">
+              <caret line="1" column="30" selection-start-line="1" selection-end-line="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adminx.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/inventory/adminx.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6696">
+              <caret line="252" selection-start-line="252" selection-end-line="252" />
               <folding>
-                <element signature="n#style#0;n#div#0;n#div#14;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#div#16;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#div#15;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#style#0;n#div#18;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#0#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inventory/urls.py">
+      <file leaf-file-name="xadmin.widget.select-transfer.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap-multiselect/js/xadmin.widget.select-transfer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="47" column="39" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
+            <state relative-caret-position="999">
+              <caret line="37" column="33" selection-start-line="37" selection-start-column="33" selection-end-line="37" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bootstrap-duallistbox.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/css/bootstrap-duallistbox.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="27">
+              <caret line="1" column="12" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="custom.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="864">
+              <caret line="32" column="1" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jquery.bootstrap-duallistbox.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/js/jquery.bootstrap-duallistbox.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="8775">
+              <caret line="325" column="48" selection-start-line="325" selection-start-column="48" selection-end-line="325" selection-end-column="63" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adminx.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/task/adminx.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="729">
+              <caret line="30" selection-start-line="30" selection-end-line="30" />
               <folding>
-                <element signature="e#640#653#0" expanded="true" />
+                <element signature="e#0#13#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/personnel/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="duallistbox.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/js/duallistbox.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="36" column="23" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="task_assign.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/task/task_assign.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="288" column="29" selection-start-line="288" selection-start-column="12" selection-end-line="288" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/inventory/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="651" column="29" lean-forward="true" selection-start-line="651" selection-start-column="29" selection-end-line="651" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#20641#25030#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="functions.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/common/functions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="44" column="18" selection-start-line="44" selection-start-column="18" selection-end-line="44" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inventory/server.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="954" column="45" selection-start-line="954" selection-start-column="45" selection-end-line="954" selection-end-column="45" />
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-                <element signature="e#27735#29082#0" />
-                <element signature="e#29121#29969#0" />
-                <element signature="e#31388#32236#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inventory/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="412">
-              <caret line="671" lean-forward="true" selection-start-line="671" selection-end-line="671" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-                <element signature="e#6683#7350#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="customer_contact.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_contact.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3086">
-              <caret line="333" column="28" selection-start-line="333" selection-start-column="28" selection-end-line="333" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -178,17 +153,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>goods_id</find>
-      <find>审核人</find>
-      <find>goods</find>
-      <find>Staff</find>
-      <find>Check</find>
-      <find>Voi</find>
-      <find>Void</find>
-      <find>staff</find>
-      <find>select</find>
-      <find>日期</find>
-      <find>move</find>
       <find>.box1</find>
       <find>filter</find>
       <find>selector-chooser</find>
@@ -208,6 +172,17 @@
       <find>id</find>
       <find>invent_attach</find>
       <find>GoodsWastage</find>
+      <find>wastage_record</find>
+      <find>p_edit</find>
+      <find>detail_container</find>
+      <find>Task</find>
+      <find>Tag</find>
+      <find>a</find>
+      <find>&lt;a</find>
+      <find>&lt;br&gt;</find>
+      <find>selector-filter</find>
+      <find>Goods</find>
+      <find>产品名称</find>
     </findStrings>
     <replaceStrings>
       <replace>/static/js/</replace>
@@ -232,8 +207,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/common/functions.py" />
-        <option value="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" />
         <option value="$PROJECT_DIR$/templates/inventory/supplier_contact.html" />
         <option value="$PROJECT_DIR$/templates/inventory/supplier_linkman.html" />
         <option value="$PROJECT_DIR$/templates/inventory/supplier_memo.html" />
@@ -257,32 +230,34 @@
         <option value="$PROJECT_DIR$/sfa/urls.py" />
         <option value="$PROJECT_DIR$/sfa/templatetags/sfa_tags.py" />
         <option value="$PROJECT_DIR$/sfa/server.py" />
-        <option value="$PROJECT_DIR$/templates/inventory/invent_detail.html" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_detail.html" />
         <option value="$PROJECT_DIR$/sfa/models.py" />
-        <option value="$PROJECT_DIR$/inventory/urls.py" />
         <option value="$PROJECT_DIR$/templates/inventory/invent_list.html" />
-        <option value="$PROJECT_DIR$/inventory/templatetags/inventory_tags.py" />
         <option value="$PROJECT_DIR$/static/plugins/bootstrap-multiselect/js/xadmin.widget.select-transfer.js" />
         <option value="$PROJECT_DIR$/static/js/plugins/duallistbox/jquery.bootstrap-duallistbox.js" />
         <option value="$PROJECT_DIR$/static/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" />
         <option value="$PROJECT_DIR$/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css" />
-        <option value="$PROJECT_DIR$/templates/layout.html" />
         <option value="$PROJECT_DIR$/static/plugins/duallistbox/js/jquery.bootstrap-duallistbox.js" />
-        <option value="$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css" />
         <option value="$PROJECT_DIR$/templates/inventory/goods_price.html" />
         <option value="$PROJECT_DIR$/static/js/custom/form-validate.js" />
         <option value="$PROJECT_DIR$/inventory/forms/form.py" />
         <option value="$PROJECT_DIR$/templates/task/task_assign.html" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_contact.html" />
         <option value="$PROJECT_DIR$/sfa.sql" />
-        <option value="$PROJECT_DIR$/inventory/models.py" />
         <option value="$PROJECT_DIR$/personnel/urls.py" />
         <option value="$PROJECT_DIR$/personnel/views.py" />
-        <option value="$PROJECT_DIR$/static/plugins/duallistbox/js/duallistbox.js" />
-        <option value="$PROJECT_DIR$/templates/inventory/wastage_edit.html" />
         <option value="$PROJECT_DIR$/inventory/server.py" />
+        <option value="$PROJECT_DIR$/inventory/urls.py" />
+        <option value="$PROJECT_DIR$/inventory/templatetags/inventory_tags.py" />
+        <option value="$PROJECT_DIR$/inventory/models.py" />
         <option value="$PROJECT_DIR$/inventory/views.py" />
+        <option value="$PROJECT_DIR$/task/adminx.py" />
+        <option value="$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css" />
+        <option value="$PROJECT_DIR$/templates/inventory/wastage_edit.html" />
+        <option value="$PROJECT_DIR$/static/plugins/duallistbox/js/duallistbox.js" />
+        <option value="$PROJECT_DIR$/inventory/adminx.py" />
+        <option value="$PROJECT_DIR$/templates/inventory/invent_detail.html" />
+        <option value="$PROJECT_DIR$/templates/layout.html" />
       </list>
     </option>
   </component>
@@ -317,49 +292,12 @@
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="personnel" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="plugins" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="plugins" type="462c0819:PsiDirectoryNode" />
-              <item name="duallistbox" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="plugins" type="462c0819:PsiDirectoryNode" />
-              <item name="duallistbox" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="task" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="task" type="462c0819:PsiDirectoryNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -384,19 +322,19 @@
     <property name="settings.editor.selected.configurable" value="fileTemplates" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\workplace\thinking_library\static\plugins\bootstrap-multiselect\js" />
-      <recent name="F:\workplace\thinking_library\static\plugins\bootstrap-multiselect\css" />
-      <recent name="F:\workplace\thinking_library\templates\inventory" />
-      <recent name="F:\workplace\thinking_library\static\plugins" />
-      <recent name="F:\workplace\thinking_library\templates\sfa" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\workplace\thinking_library\static\plugins\duallistbox" />
       <recent name="F:\workplace\thinking_library\static\plugins\webuploader\js" />
       <recent name="F:\workplace\thinking_library\static\plugins\webuploader\css" />
       <recent name="F:\workplace\thinking_library\static\js\plugins\bootstrap-table" />
       <recent name="F:\workplace\thinking_library\static\js\plugins\bootstrap-table\export" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\workplace\thinking_library\static\plugins\bootstrap-multiselect\css" />
+      <recent name="F:\workplace\thinking_library\static\plugins\bootstrap-multiselect\js" />
+      <recent name="F:\workplace\thinking_library\templates\inventory" />
+      <recent name="F:\workplace\thinking_library\static\plugins" />
+      <recent name="F:\workplace\thinking_library\templates\sfa" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -483,18 +421,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3287037" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5221675" side_tool="true" weight="0.43287036" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.51785713" side_tool="true" weight="0.38194445" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3287037" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4883005" weight="0.3287037" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.41666666" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.47783253" visible="true" weight="0.3877315" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.27647784" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.48214287" visible="true" weight="0.22453703" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.18719211" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49938422" weight="0.3275463" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" sideWeight="0.092150174" side_tool="true" weight="0.18596059" />
       <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
@@ -507,6 +445,7 @@
       <window_info anchor="right" x="0" y="0" width="374" height="826" id="Documentation" order="6" side_tool="true" weight="0.3294335" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49938422" weight="0.3275463" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -549,66 +488,10 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="82" />
+      <option name="time" value="83" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/task/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="186" selection-start-line="186" selection-end-line="202" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/personnel/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="119" column="23" selection-start-line="119" selection-end-line="120" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/plugins/selectize/selectize.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-810">
-          <folding>
-            <element signature="e#41#49#1" expanded="true" />
-            <element signature="e#88#95#1" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sfa/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9349">
-          <caret line="54" column="38" selection-start-line="54" selection-start-column="33" selection-end-line="54" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/warehouse_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="170" column="42" selection-start-line="170" selection-start-column="42" selection-end-line="170" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/ware_location_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="11" selection-start-line="1" selection-start-column="11" selection-end-line="1" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/ware_location_list.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/sfa/customer_list.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="151">
@@ -633,10 +516,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
           <caret line="20" selection-start-line="20" selection-end-line="32" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#630#971#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -653,9 +532,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
           <caret line="168" column="26" lean-forward="true" selection-start-line="168" selection-start-column="26" selection-end-line="168" selection-end-column="26" />
-          <folding>
-            <element signature="e#1#28#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -667,19 +543,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#li#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#a#0;n#li#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#label#0;n#a#0;n#li#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ul#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#li#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap-multiselect/js/xadmin.main.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -697,55 +561,10 @@
         <state relative-caret-position="-891" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap-multiselect/js/xadmin.widget.select-transfer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="999">
-          <caret line="37" column="33" lean-forward="true" selection-start-line="37" selection-start-column="33" selection-end-line="37" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="106" selection-start-line="106" selection-start-column="2" selection-end-line="108" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/js/jquery.bootstrap-duallistbox.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="349" column="8" selection-start-line="349" selection-start-column="8" selection-end-line="349" selection-end-column="8" />
-          <folding>
-            <element signature="e#44#50#1" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/custom/form-validate.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-499">
           <caret line="106" column="19" lean-forward="true" selection-start-line="106" selection-start-column="19" selection-end-line="106" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/css/bootstrap-duallistbox.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="12" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -766,19 +585,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/upload/task/4fcd5dbd-7ddd-40fd-aba9-d20f59d2192b.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/templatetags/inventory_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="60" column="4" selection-start-line="60" selection-start-column="4" selection-end-line="60" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/static/upload/task/4fcd5dbd-7ddd-40fd-aba9-d20f59d2192b.jpg" />
     <entry file="file://$PROJECT_DIR$/inventory/forms/form.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
@@ -817,16 +624,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/task/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="542" column="49" selection-start-line="542" selection-start-column="24" selection-end-line="542" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://F:/workenv/thinking_library/Lib/site-packages/django/db/models/query.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-619">
@@ -841,9 +638,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/task/tasks.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/sfa/customer_follow.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4621">
@@ -854,103 +648,215 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_contact.html">
+    <entry file="file://$PROJECT_DIR$/templates/task/task_assign.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3086">
-          <caret line="333" column="28" selection-start-line="333" selection-start-column="28" selection-end-line="333" selection-end-column="28" />
+        <state relative-caret-position="27">
+          <caret line="288" column="29" selection-start-line="288" selection-start-column="12" selection-end-line="288" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/models.py">
+    <entry file="file://$PROJECT_DIR$/common/functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="671" lean-forward="true" selection-start-line="671" selection-end-line="671" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-            <element signature="e#6683#7350#0" />
-          </folding>
+        <state relative-caret-position="243">
+          <caret line="42" column="14" selection-start-line="42" selection-start-column="14" selection-end-line="42" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_contact.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="333" column="28" selection-start-line="333" selection-start-column="28" selection-end-line="333" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/personnel/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="431" column="20" selection-start-line="431" selection-start-column="10" selection-end-line="431" selection-end-column="20" />
+        <state relative-caret-position="580">
+          <caret line="428" column="16" selection-start-line="428" selection-start-column="16" selection-end-line="428" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/personnel/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
+        <state relative-caret-position="234">
+          <caret line="35" column="35" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_assign.html">
+    <entry file="file://$PROJECT_DIR$/inventory/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="288" column="29" selection-start-line="288" selection-start-column="12" selection-end-line="288" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/js/duallistbox.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="36" column="23" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="23" />
+        <state relative-caret-position="312">
+          <caret line="903" column="35" selection-start-line="903" selection-start-column="8" selection-end-line="903" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+            <element signature="e#27735#29082#0" />
+            <element signature="e#29121#29969#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/inventory/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="47" column="39" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
+        <state relative-caret-position="177">
+          <caret line="46" column="41" selection-start-line="46" selection-start-column="41" selection-end-line="46" selection-end-column="41" />
           <folding>
             <element signature="e#640#653#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/wastage_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="265" column="34" selection-start-line="265" selection-start-column="34" selection-end-line="265" selection-end-column="34" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#14;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#div#16;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#div#15;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#style#0;n#div#18;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventory/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="954" column="45" selection-start-line="954" selection-start-column="45" selection-end-line="954" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-            <element signature="e#27735#29082#0" />
-            <element signature="e#29121#29969#0" />
-            <element signature="e#31388#32236#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="44" column="18" selection-start-line="44" selection-start-column="18" selection-end-line="44" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/inventory/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="651" column="29" lean-forward="true" selection-start-line="651" selection-start-column="29" selection-end-line="651" selection-end-column="29" />
+        <state relative-caret-position="81">
+          <caret line="3" column="34" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#18377#19374#0" />
+            <element signature="e#19409#20605#0" />
             <element signature="e#20641#25030#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/tasks.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1547">
+          <caret line="542" column="49" selection-start-line="542" selection-start-column="24" selection-end-line="542" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="433" column="13" selection-start-line="433" selection-start-column="6" selection-end-line="433" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/personnel/adminx.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="59" column="26" selection-start-line="59" selection-start-column="21" selection-end-line="59" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="34" column="10" lean-forward="true" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="714" column="19" selection-start-line="714" selection-start-column="6" selection-end-line="714" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#6683#7350#0" />
+            <element signature="e#11711#12301#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/templatetags/inventory_tags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="1" column="30" selection-start-line="1" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11799">
+          <caret line="437" column="160" selection-start-line="437" selection-start-column="156" selection-end-line="437" selection-end-column="160" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task/adminx.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="729">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1890">
+          <caret line="101" selection-start-line="101" selection-end-line="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/js/jquery.bootstrap-duallistbox.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8775">
+          <caret line="325" column="48" selection-start-line="325" selection-start-column="48" selection-end-line="325" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/css/bootstrap-duallistbox.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="1" column="12" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="864">
+          <caret line="32" column="1" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap-multiselect/js/xadmin.widget.select-transfer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="999">
+          <caret line="37" column="33" selection-start-line="37" selection-start-column="33" selection-end-line="37" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/js/duallistbox.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="1" column="17" lean-forward="true" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventory/adminx.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6696">
+          <caret line="252" selection-start-line="252" selection-end-line="252" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/invent_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8856">
+          <caret line="328" column="77" selection-start-line="328" selection-start-column="77" selection-end-line="328" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/wastage_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="262" selection-start-line="262" selection-end-line="271" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="564" column="35" selection-start-line="564" selection-start-column="35" selection-end-line="564" selection-end-column="35" />
         </state>
       </provider>
     </entry>

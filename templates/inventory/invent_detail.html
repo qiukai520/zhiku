@@ -45,7 +45,6 @@
                                 <div class="m-b-md">
                                     <h3 style="margin-left:15px"> {{ query_set.name }}</h3>
                                     <a href="{%url "goods_detail" %}?id={{ query_set.nid }}" class="btn btn-white btn-xs pull-right">商品详细</a>
-
                                 </div>
                                     <dl class="dl-horizontal">
                                     <dt>商品分类：</dt>
@@ -97,11 +96,14 @@
                                     <div class="panel-heading">
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
-                                                  <li id="linkman_tab" class="active"><a href="task_detail.html#tab-1" data-toggle="tab">入库记录</a>
+                                                  <li  class="active"><a href="task_detail.html#tab-1" data-toggle="tab">入库记录</a>
                                                 </li>
-                                                 <li id="linkman_tab"><a href="task_detail.html#tab-2" data-toggle="tab">采购记录</a>
+                                                 <li ><a href="task_detail.html#tab-2" data-toggle="tab">采购记录</a>
                                                 </li>
-                                                <li id="linkman_tab"><a href="task_detail.html#tab-3" data-toggle="tab">所在仓库</a>
+                                                <li ><a href="task_detail.html#tab-3" data-toggle="tab">所在仓库</a>
+                                                </li>
+                                                 </li>
+                                                 <li ><a href="task_detail.html#tab-4" data-toggle="tab">损耗登记</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -255,7 +257,7 @@
                                                 </table>
                                              </div>
                                           </div>
-                                            <div class="tab-pane " id="tab-3">
+                                        <div class="tab-pane " id="tab-3">
                                                 <div class="btn-group " id="toolbar3" role="group">
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
@@ -293,7 +295,76 @@
                                                 </table>
                                             </div>
                                              </div>
-
+                                         <div class="tab-pane " id="tab-4">
+                                                <div class="btn-group" id="toolbar4" role="group">
+                                                    <a href="{% url "wastage_edit" %}?gid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+{#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                                </div>
+                                          <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
+                                                <table id="wastage"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hidden" >产品名称</th>
+                                                            <th>单位</th>
+                                                            <th>数量</th>
+                                                            <th>原因</th>
+                                                             <th>处置方式</th>
+                                                            <th>改进方案</th>
+                                                            <th>日期</th>
+                                                            <th>处理人</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% fetch_wastage_by_goods query_set.nid as wastage_list %}
+                                                        {% for obj in wastage_list %}
+                                                             <tr>
+                                                             <td class="hidden" > {%change_to_goods obj.goods_id  %}</td>
+                                                              <td>{% change_to_goods_unit obj.unit_id %}</td>
+                                                              <td >
+                                                                  {% if obj.amount %}{{ obj.amount }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                             <td >
+                                                                  {% if obj.reason %}{{ obj.reason }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                             <td >
+                                                                  {% if obj.way %}{{ obj.way }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.proposal %}{{ obj.proposal }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                           <td>{{ obj.date |date:"Y-m-d" }}</td>
+                                                             <td>{% fetch_wastage_solvers obj.nid %}</td>
+                                                             <td><a href="{% url 'wastage_edit' %}?gid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <a href="" data-toggle="modal" onclick="ShowWastageDetail({{ obj.nid }})" class="btn btn-info">详细</a>
+                                                             </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                             </div>
+                                          </div>
                                         </div>
                                     </div>
                                 </div>
@@ -508,6 +579,7 @@
     </div>
     </div>
 </div>
+
             <!-- Modal bind_purchase -->
 <div class="modal fade " id="bind_purchase"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -587,6 +659,7 @@
     </div>
     </div>
 </div>
+
     <!-- ensure-->
 <div class="modal fade float-center" id="ensure_modal" tabindex="-1" role="dialog"  aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -606,6 +679,89 @@
   </div>
 </div>
 
+        <!-- Modal wastage_detail -->
+<div class="modal fade " id="wastage_record"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearPurchaseData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">损耗详情</h3>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;">
+            <div class="col-xs-12">
+                <div class="form-container row clearfix">
+                        <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
+                            <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
+{#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
+                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px" id="detail_container">
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">单位</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="w_unit_id" ></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">数量</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="w_amount"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">原因</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="w_reason"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">处置方式</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="w_way"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">改进方案</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="w_proposal"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">处理人</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="w_solvers"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">登记人</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="w_recorder"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">日期</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="w_date"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value hidden " id="w_attach_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="w_attach_container">
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+         </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="ClearWastageData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <a class="btn btn-submit btn-primary edit-btn" id="w_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+      </div>
+    </div>
+    </div>
+</div>
 
 {% endblock%}
 
@@ -616,7 +772,7 @@
     自执行函数
     */
     $(function () {
-         $("#invent").bootstrapTable({
+        $("#invent").bootstrapTable({
             toolbar: "#toolbar1",
             striped: true,
             sidePagination: "client",
@@ -675,7 +831,7 @@
                 fileName: '采购记录报表',//导出文件的名称
             }
         });
-         $("#goods_warehouse").bootstrapTable({
+        $("#goods_warehouse").bootstrapTable({
             toolbar: "#toolbar3",
             striped: true,
             sidePagination: "client",
@@ -705,7 +861,7 @@
                 fileName: '商品-仓库报表',//导出文件的名称
             }
         });
-         $("#purchase_table").bootstrapTable({
+        $("#purchase_table").bootstrapTable({
             {#toolbar: "#toolbar2",#}
             striped: true,
             sidePagination: "client",
@@ -728,6 +884,37 @@
             detailView: false,
             cache: false,
 
+        });
+        $("#wastage").bootstrapTable({
+            toolbar: "#toolbar4",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 10,
+            pageList: [5, 10,15,20],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false,
+            hideColumn: [0,],
+            getHiddenColumns:true,
+            showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1], //忽略某一列的索引
+                fileName: '损耗登记报表'//导出文件的名称
+            }
         });
     });
 
@@ -752,7 +939,6 @@
             exportDataType: $(this).val()
         });
     });
-
 
     //显示入库记录详细内容
     function ShowRecordDetail(cons) {
@@ -825,6 +1011,44 @@
                       }
                   }
                   $("#p_edit").attr("href","invent_edit?gid={0}&id={1}".format({{ query_set.nid }},data.nid))
+              }
+          }
+      });
+    }
+
+        //显示损耗登记详细内容
+    function ShowWastageDetail(cons) {
+        $('#wastage_record').modal('show');
+        var id =cons
+        $.ajax({
+          url:"{% url "wastage_detail" %}",
+          type:"get",
+          data:{'id':id},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  var data=arg.data;
+                  $("#w_reason").text(data.reason);
+                  $("#w_amount").text(data.amount);
+                  $("#w_recorder").text(data.recorder_id);
+                  $("#w_unit_id").text(data.unit_id);
+                  $("#w_proposal").text(data.proposal);
+                  $("#w_way").text(data.way);
+                  $("#w_solvers").text(data.solvers);
+                  $("#w_date").text(data.date);
+                  //初始化附件
+                  if (data.attach!=""){
+                      var attachs = JSON.parse(data.attach);
+                      for (var i=0;i<attachs.length;i++){
+                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles=a_ele+l_ele+"<br>"
+                          console.log(eles)
+                      $("#w_attach_container").append(eles)
+                      $("#w_attach_block").removeClass("hidden")
+                      }
+                  }
+                  $("#w_edit").attr("href","wastage_edit?gid={0}&id={1}".format({{ query_set.nid }},data.nid))
               }
           }
       });
@@ -907,6 +1131,13 @@
             })
            $("#p_attach_container").empty()
 }
+
+    function ClearWastageData(){
+           $("#detail_container >p").each(function () {
+                $(this).text()
+            })
+           $("#w_attach_container").empty()
+    }
   function  SelectAll(ths) {
         //判断是否选中
         ischecked=$(ths).is(":checked");
