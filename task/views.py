@@ -857,7 +857,6 @@ def task_review(request):
                 task_review = task_review_db.query_task_reviewer_by_tid_sid(task_assign_info.tmid_id, user_id)
                 # 获取我的审核记录
                 task_review_record = task_review_record_db.query_task_review_record_list_by_tvid_and_tasid(task_review.tvid,tasid)
-
                 return render(request, 'task/task_review.html', {
                                                                  "member_info": member_info,
                                                                  "task_review": task_review,
