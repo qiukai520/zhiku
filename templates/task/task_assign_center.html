@@ -44,7 +44,7 @@
         <!-- Panel Other -->
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>任务指派中心</h5>
+                <h5>工单指派中心</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -72,7 +72,7 @@
                             <div class="example">
                                 <div class="btn-group" id="toolbar" role="group">
                                     <a href="{% url "task_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
-                                    <button  onclick="TaskAssign(0)"  class="btn btn-info" >任务指派</button>
+                                    <button  onclick="TaskAssign(0)"  class="btn btn-info" >工单指派</button>
                                     <button  onclick="TaskAssign(1)" class="btn btn-primary" >组队指派</button>
                                     <button  onclick="MultiDelete()" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;删除</button>
                                 </div>
@@ -81,9 +81,9 @@
                                         <tr >
                                              <th ><input type="checkbox" onclick="SelectAll(this)"></th>
                                               <th>ID</th>
-                                              <th>任务名称</th>
-                                              <th>任务描述</th>
-                                              <th>任务类别</th>
+                                              <th>工单名称</th>
+                                              <th>工单描述</th>
+                                              <th>工单类别</th>
                                               <th>发布人</th>
                                               <th>创建时间</th>
                                               <th>操作</th>
@@ -124,7 +124,7 @@
 {#    <div class="modal-content">#}
 {#      <div class="modal-header">#}
 {#        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
-{#        <h4 class="modal-title" id="myModalLabel">任务指派</h4>#}
+{#        <h4 class="modal-title" id="myModalLabel">工单指派</h4>#}
 {#      </div>#}
 {#      <div class="modal-body" style="height: 500px; width: 500px;">#}
 {#         <div class="row form-horizontal" style="position: relative;margin-top: 30px">#}
@@ -258,7 +258,7 @@ String.prototype.format=function()
         });
         //是否选中
         if (ids==""){
-             layer.alert('至少选择一个任务', {icon: 6 ,
+             layer.alert('至少选择一个工单', {icon: 6 ,
               time: 2000, //2s后自动关闭
                 btn: [ '知道了']}
                 );
@@ -286,7 +286,7 @@ String.prototype.format=function()
         })
         });
     }
-    // 选择任务
+    // 选择工单
         function SelectTask() {
          var tids=new Array();
          $("tbody input:checkbox:checked").each(function () {
@@ -297,15 +297,15 @@ String.prototype.format=function()
             console.log(tids)
         return tids
     }
-    //任务指派
+    //工单指派
     function TaskAssign(team) {
-       //是否有选中任务
+       //是否有选中工单
      var is_checked=$("tbody input:checkbox:checked").length
         if (is_checked){
             var tids=SelectTask()
             window.location.href="{% url 'task_assign' %}?tids={0}&team={1}".format(tids,team)
         } else{
-          layer.alert('至少选择一个任务', {icon: 6 ,
+          layer.alert('至少选择一个工单', {icon: 6 ,
               time: 2000, //20s后自动关闭
                 btn: [ '知道了']}
                 );
@@ -314,13 +314,13 @@ String.prototype.format=function()
 
         //触发指派模态框
 function ShowAssign() {
-        //是否有选中任务
+        //是否有选中工单
      var is_checked=$("tbody input:checkbox:checked").length
      console.log("is_checked",is_checked)
      if (is_checked){
          $('#task_assign').modal('show')
         }else{
-         layer.alert('至少选择一个任务', {icon: 6 ,
+         layer.alert('至少选择一个工单', {icon: 6 ,
               time: 1000, //20s后自动关闭
                 btn: [ '知道了']}
                 );
@@ -334,12 +334,12 @@ function TeamAssignShow() {
               $('#task_assign').modal('show')
                $("#submit").attr("onclick","TeamAssingSubmit()")
          }else{
-              layer.alert('组队任务不能选择多个任务', {icon: 6 ,
+              layer.alert('组队工单不能选择多个工单', {icon: 6 ,
               time: 2000, //20s后自动关闭
                 btn: [ '知道了']});
          }
     }else{
-         layer.alert('请选择一个任务', {icon: 6 ,
+         layer.alert('请选择一个工单', {icon: 6 ,
               time: 2000, //20s后自动关闭
                 btn: [ '知道了']});
     }
@@ -348,13 +348,13 @@ function TeamAssignShow() {
 
 
     function SelectMember(){
-        //构造任务指派dict
+        //构造工单指派dict
         var reviewers=new Array();
         //遍历员工
         DualListbox.children("option:selected").each(function () {
             var member = $(this).val()
             var review = {"member_id_id": member};
-            //遍历任务,添加任务ID
+            //遍历工单,添加工单ID
             $("tbody input:checkbox:checked").each(function () {
             id = $(this).parent().next().text();
             review.tid_id=id;

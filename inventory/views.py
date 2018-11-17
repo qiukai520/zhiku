@@ -465,17 +465,23 @@ def invent_record(request):
     """入库记录详细"""
     id = request.GET.get("id",None)
     ret = {"status":False,"data":"","message":""}
+    print(13)
     if id:
         try:
             invent_obj = invent_db.query_invent_by_id(id)
+            print("invent_obj",invent_obj)
             if invent_obj:
                 # 格式化数据
                 invent_json = invent_obj.__dict__
                 invent_json.pop('_state')
                 invent_json["warehouse_id"] = change_to_warehouse(invent_json["warehouse_id"])
                 invent_json['location_id'] = change_to_warelocation(invent_json['location_id'])
-                invent_json['unit_id'] =change_to_goods_unit(invent_json['unit_id'])
+                invent_json['unit_id'] = change_to_goods_unit(invent_json['unit_id'])
                 invent_json['recorder_id'] = change_to_staff(invent_json['recorder_id'])
+                if invent_json["purchase_id"]:
+                    purchase_obj = fetch_purchase(invent_json["purchase_id"])
+                    if purchase_obj:
+                        invent_json["purchase_id"] = purchase_obj.price
                 invent_attach = invent_attach_db.query_invent_attachment(id)
                 if invent_attach:
                     invent_json['attach'] = serializers.serialize("json",invent_attach)
@@ -483,6 +489,7 @@ def invent_record(request):
                     invent_json['attach'] = ''
                 ret['status'] = True
                 ret['data'] = invent_json
+                print(ret)
                 return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
         except Exception as e:
             print(e)

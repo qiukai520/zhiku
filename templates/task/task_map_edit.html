@@ -94,23 +94,23 @@
                     <div class="row form-horizontal" style="position: relative;">
                     <div class="col-xs-12">
                 <div class="form-group">
-                    <label for="task_name" class="col-xs-2 control-label">任务名称：</label>
+                    <label for="task_name" class="col-xs-2 control-label">工单名称：</label>
                       <div class="col-xs-6">
-                          <input name="title"  class="form-control"  id="task_name" placeholder="任务名称">
+                          <input name="title"  class="form-control"  id="task_name" placeholder="工单名称">
                         </input>
                       </div>
                 </div>
                         <div class="hr-line-dashed"></div>
                 <div class="form-group">
-                    <label for="content" class="control-label col-xs-2">任务描述：</label>
+                    <label for="content" class="control-label col-xs-2">工单描述：</label>
                     <div class="col-xs-6">
-                        <textarea name="content" class="form-control"  style="height:100px;" id="content" placeholder="任务描述">
+                        <textarea name="content" class="form-control"  style="height:100px;" id="content" placeholder="工单描述">
                     </textarea>
                     </div>
                 </div>
                         <div class="hr-line-dashed"></div>
                 <div class="form-group" style="padding: 0px">
-                    <label for="tag" class="control-label col-xs-2">任务标签：</label>
+                    <label for="tag" class="control-label col-xs-2">工单标签：</label>
                     <div class="col-xs-6" style="padding: 0px">
                         <div class="col-xs-10">
                         <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
@@ -305,7 +305,7 @@ function RemoveAttachment(ths){
     })
 }
 
-//清除任务附件标签
+//清除工单附件标签
 function clearAttachment(ths) {
     $(ths).parent().parent().parent().parent().remove()
     att_num-=1

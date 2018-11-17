@@ -74,7 +74,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>继续任务 </h5>
+                        <h5>继续工单 </h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -97,7 +97,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                         <div class="container"   style="border-bottom: 2px double #9F9F9F ;">
                             <div class="form-group  " id="top"  style=" font-size:14px;font-weight:bold;">
                                 {% query_task_map_by_tmid  task_obj.tmid_id  as total_task_obj %}
-                                <label class="form-label" for="attribute"  >任务分类:</label>
+                                <label class="form-label" for="attribute"  >工单分类:</label>
                                 <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>
                                <label class="form-label" for="publisher"  >指派人:</label>
                                 <span id="publisher"  >{% change_to_staff total_task_obj.assigner_id %}</span>
@@ -118,17 +118,17 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                         <div class="container-fluid">
                             <div class="row">
                                     <div class="col-xs-4 col-md-4 col-lg-4" style="position: relative" ><span  style="color:#9F9F9F;font-size: 18px; float: right" class="right" ><span class="glyphicon glyphicon-ok" style="margin-right:-50px;z-index:10;top:0px; background-color: red; "></span><br></span>
-                                       <h4 style="color:#1ab394">主任务：</h4>
-                                       <label class="form-label" for="task_title"  >任务标题:</label>
+                                       <h4 style="color:#1ab394">主工单：</h4>
+                                       <label class="form-label" for="task_title"  >工单标题:</label>
                                        <span id="task_title" >{{ total_task_obj.title }}</span>
                                          {% query_task_attachment_by_tid total_task_obj.tid_id as t_attachment_list %}
                                          <div class="form-group  " style="margin-bottom: 0px" id="top" >
-                                           <label class="form-label"  >任务描述:</label>
+                                           <label class="form-label"  >工单描述:</label>
                                             <span  >{{ total_task_obj.content }}</span>
                                         </div>
                                         {% for t_obj in t_attachment_list %}
                                          <div class="form-group  "style="margin-bottom: 0px"   >
-                                            <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                                            <label class="form-label"   >工单附件{{ forloop.counter }}:</label>
                                             <a  href="{% url "attachment_download" %}?url={{ t_obj.attachment }}& name={{ t_obj.name }}">{{ t_obj.name }}</a><br>
                                              <label class="form-label"  >附件描述:</label>
                                             <span  >{{ t_obj.description }}</span>
@@ -139,17 +139,17 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                             <span  >{{ total_task_obj.remark }}</span>
                                         </div>
                                         {% if task_obj.title %}
-                                            <h4 style="color:#1ab394">个人任务：</h4>
-                                            <label class="form-label" for="task_title"  >任务标题:</label>
+                                            <h4 style="color:#1ab394">个人工单：</h4>
+                                            <label class="form-label" for="task_title"  >工单标题:</label>
                                             <span id="task_title" >{{ task_obj.title }}</span>
                                             {% query_task_attachment_by_tasid task_obj.tasid as p_attachment_list %}
                                                  <div class="form-group  " style="margin-bottom: 0px" >
-                                                    <label class="form-label" >任务描述:</label>
+                                                    <label class="form-label" >工单描述:</label>
                                                     <span id="task_title" >{{ task_obj.content }}</span>
                                                 </div>
                                                 {% for obj in p_attachment_list %}
                                                  <div class="form-group "  >
-                                                    <label class="form-label"    >任务附件{{ forloop.counter }}:</label>
+                                                    <label class="form-label"    >工单附件{{ forloop.counter }}:</label>
                                                     <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
                                                     <label class="form-label" for="task_title"  >附件描述:</label>
                                                     <span id="task_title" >{{ obj.description }}</span>
@@ -164,7 +164,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                                 <div class="form-group" style="margin-top: 25px">
                                                     <label for="title" class="col-xs-4  col-md-2 control-label">标题</label>
                                                       <div class="col-xs-12 col-sm-12 col-md-9 ">
-                                                          <input name="title"  class="form-control"  id="title" placeholder="任务名称">
+                                                          <input name="title"  class="form-control"  id="title" placeholder="工单名称">
                                                         </input>
                                                       </div>
                                                 </div>
@@ -490,7 +490,7 @@ function UploadFile(ths){
 }
 
 
-//任务提交
+//工单提交
 function Submit(cons) {
         var $msg = $('#error_msg');
         $msg.parent().addClass('hide');

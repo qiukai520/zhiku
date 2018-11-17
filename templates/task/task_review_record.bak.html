@@ -69,7 +69,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>任务审核</h5>
+                        <h5>工单审核</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -94,15 +94,15 @@
                                     {% query_task_map_by_tmid  task_assign_info.tmid_id  as task_obj %}
                                     {% query_task_by_tid  task_obj.tid_id  as base_task %}
                                    {% if task_assign_info.title %}
-                                        <label class="form-label" for="task_title"  >任务标题:</label>
+                                        <label class="form-label" for="task_title"  >工单标题:</label>
                                         <span id="task_title" >{{ task_assign_info.title }}</span>
                                     {% else %}
-                                       <label class="form-label" for="task_title"  >任务标题:</label>
+                                       <label class="form-label" for="task_title"  >工单标题:</label>
                                        <span id="task_title" >{{ base_task.title }}</span>
                                     {% endif %}
                                    <label class="form-label" for="publisher"  >指派人:</label>
                                     <span id="publisher"  >{% change_to_staff task_obj.assigner_id %}</span>
-                                   <label class="form-label" for="attribute"  >任务分类:</label>
+                                   <label class="form-label" for="attribute"  >工单分类:</label>
                                     <span id="attribute" >{% change_to_task_type  base_task.type_id  %}</span>
                                    <label class="form-label" for="deadline" >截止时间:</label>
                                    {% if task_assign_info.deadline %}
@@ -117,12 +117,12 @@
                                 {% if task_assign_info.title %}
                                     {% query_task_attachment_by_tasid task_assign_info.tasid as p_attachment_list %}
                                      <div class="form-group " >
-                                    <label class="form-label" >任务描述:</label>
+                                    <label class="form-label" >工单描述:</label>
                                         <span id="task_title" >{{ task_assign_info.content }}</span>
                                     </div>
                                     {% for obj in p_attachment_list %}
                                      <div class="form-group "  >
-                                        <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                                        <label class="form-label"   >工单附件{{ forloop.counter }}:</label>
                                         <a  href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}">{{ obj.name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                         <label class="form-label" for="task_title"  >附件描述:</label>
                                         <span id="task_title" >{{ obj.description }}</span>
@@ -131,12 +131,12 @@
                                 {% else %}
                                     {% query_task_attachment_by_tid base_task.tid as t_attachment_list %}
                                      <div class="form-group"  >
-                                       <label class="form-label">任务描述:</label>
+                                       <label class="form-label">工单描述:</label>
                                         <span  >{{ base_task.content }}</span>
                                     </div>
                                     {% for t_obj in t_attachment_list %}
                                      <div class="form-group  "  >
-                                        <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                                        <label class="form-label"   >工单附件{{ forloop.counter }}:</label>
                                         <a  href="{% url "attachment_download" %}?url={{ t_obj.attachment }}&name= {{ t_obj.name }}">{{ t_obj.name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                          <label class="form-label"  >附件描述:</label>
                                         <span  >{{ t_obj.description }}</span>

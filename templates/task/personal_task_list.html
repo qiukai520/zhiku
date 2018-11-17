@@ -21,7 +21,7 @@
         <!-- Panel Other -->
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>我的任务</h5>
+                <h5>我的工单</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -61,9 +61,9 @@
                                     <thead>
                                          <tr >
                                               <th><input type="checkbox" onclick="SelectAll(this)"></th>
-                                              <th>任务名称</th>
-                                              <th>任务方式</th>
-                                              <th>任务类别</th>
+                                              <th>工单名称</th>
+                                              <th>工单方式</th>
+                                              <th>工单类别</th>
                                               <th>当前进度</th>
                                               <th>完成状态</th>
                                               <th>创建时间</th>
@@ -104,13 +104,13 @@
                                                     {% if obj.is_finish %}
                                                         <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-default" >查看</a>
                                                     {% else %}
-                                                        <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}"  class="btn btn-default" >继续任务</a>
+                                                        <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}"  class="btn btn-default" >继续工单</a>
                                                     {% endif %} &nbsp &nbsp
                                                     {% else %}
                                                     {% if obj.is_finish %}
                                                         <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-primary" >查看</a>
                                                     {% else %}
-                                                        <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}"  class="btn btn-primary" >继续任务</a>
+                                                        <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}"  class="btn btn-primary" >继续工单</a>
                                                     {% endif %} &nbsp &nbsp
                                                 {% endif %}
                                               </td>
@@ -145,7 +145,7 @@
                                                     {% if obj.is_finish %}
                                                         <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}" class="btn btn-info" >查看</a>
                                                     {% else %}
-                                                        <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}"  class="btn btn-primary" >继续任务</a>
+                                                        <a  href="{%url "complete_task" %}?tasid={{ obj.tasid }}"  class="btn btn-primary" >继续工单</a>
                                                     {% endif %} &nbsp &nbsp
                                                 {% endif %}
                                               </td>

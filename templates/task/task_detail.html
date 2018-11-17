@@ -26,10 +26,10 @@
                             <div class="col-sm-12">
                                 <div class="m-b-md">
                                     <a href="{%url "task_map_edit" %}?tmid={{ task_obj.tmid }}" class="btn btn-white btn-xs pull-right">编辑指派内容</a>
-                                    <h3>任务名称：{{ task_obj.title }}</h3>
+                                    <h3>工单名称：{{ task_obj.title }}</h3>
                                 </div>
                                 <dl class="dl-horizontal">
-                                    <dt>任务状态：</dt>
+                                    <dt>工单状态：</dt>
                                         <dd><span class="label label-primary">{% change_to_task_status task_obj.status %}</span>
                                     </dd>
                                 </dl>
@@ -45,10 +45,10 @@
                                     <dt>次序审核：</dt>
                                     <dd><span><i class="fa fa-circle text-warning"></i>{% fetch_review_follow task_obj.tmid %} </span>
                                     </dd>
-                                    <dt>任务分类：</dt>
+                                    <dt>工单分类：</dt>
                                     <dd>{% change_to_task_type  task_obj.type_id  %}
                                     </dd>
-                                    <dt>任务周期：</dt>
+                                    <dt>工单周期：</dt>
                                     <dd>{% change_to_task_cycle task_obj.cycle_id %}</dd>
                                     <dt>绩效分类：</dt>
                                     <dd>{% change_to_task_perfomance task_obj.perfor_id%}</dd>
@@ -179,7 +179,7 @@
         </div>
         <div class="col-sm-3">
             <div class="wrapper wrapper-content project-manager">
-                <h4>任务描述</h4>
+                <h4>工单描述</h4>
                 <p class="small" style="text-indent:2em">{{ task_obj.content }}
                 </p>
                 <h5>项目标签</h5>
@@ -193,7 +193,7 @@
                     {% query_task_map_attachment_by_tmid task_obj.tmid as t_attachement %}
                     {% for obj in t_attachement %}
                          <li>
-                             <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                             <label class="form-label"   >工单附件{{ forloop.counter }}:</label>
                              <a class="download_file" href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
                             <label class="form-label" for="task_title"  >附件描述:</label>
                             <span  >{{ obj.description }}</span>

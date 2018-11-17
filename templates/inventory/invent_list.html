@@ -563,6 +563,12 @@ function clearAttachment(ths) {
 //商品入库
 function MemberAssignShow(data) {
       $('#code_invent').modal('show');
+      //监听enter按下事件
+      $(document).keyup(function(event){
+  if(event.keyCode ==13){
+    $("#store").trigger("click");
+  }
+});
       var goods_name=data.goods_name;
       var goods_nid = data.goods_id;
       var unit_id = data.goods_unit;

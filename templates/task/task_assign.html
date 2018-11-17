@@ -71,7 +71,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>任务指派 </h5>
+                        <h5>工单指派 </h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -94,7 +94,7 @@
                     <div class="row form-horizontal" style="position: relative;margin-top: 30px">
                     <div class="col-xs-12">
                         <div class="form-group">
-                            <label for="task_name" class="col-xs-2 control-label">任务名称：</label>
+                            <label for="task_name" class="col-xs-2 control-label">工单名称：</label>
                               <div class="col-xs-6">
                                   {% if edit == 0 %}
                                        {% for obj in query_sets %}
@@ -108,18 +108,18 @@
                               </div>
                         </div>
                         <div class="form-group">
-                            <label for="task_name" class="col-xs-2 control-label">任务方式：</label>
+                            <label for="task_name" class="col-xs-2 control-label">工单方式：</label>
                               <div class="col-xs-6">
                               {% if edit  %}
                                   <select name="team" class="form-control "  style="width: 54%" id="team" data-live-search="true" >
-                                      <option value="0">个人任务</option>
-                                      <option value="1">组队任务</option>
+                                      <option value="0">个人工单</option>
+                                      <option value="1">组队工单</option>
                                   </select>
                               {% else %}
                                    {% if team == "1" %}
-                                        <p style="padding-top:7px">组队任务</p>
+                                        <p style="padding-top:7px">组队工单</p>
                                    {% else %}
-                                          <p style="padding-top:7px">个人任务</p>
+                                          <p style="padding-top:7px">个人工单</p>
                                    {% endif %}
                               {% endif %}
                               </div>
@@ -157,7 +157,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="task_cycle" class="control-label col-xs-2">任务周期：</label>
+                            <label for="task_cycle" class="control-label col-xs-2">工单周期：</label>
                             <div class="col-xs-6">
                                 <select  name="tcid" class="form-control" id="task_cycle" >
                                     {% build_task_cycle_ele %}

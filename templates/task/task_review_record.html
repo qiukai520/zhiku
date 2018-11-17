@@ -111,11 +111,11 @@
                      <h3 style="text-align: center">工单</h3>
                           {% query_task_map_by_tmid  task_assign_info.tmid_id  as total_task_obj %}
                            {% query_task_attachment_by_tid total_task_obj.tid_id as t_attachment_list %}
-                               <h4 style="color:#1ab394">主任务：</h4>
-                                <h4>任务标题</h4>
+                               <h4 style="color:#1ab394">主工单：</h4>
+                                <h4>工单标题</h4>
                                 <p class="small" style="text-indent:2em">{{ total_task_obj.title }}
                                 </p>
-                                 <h4>任务描述</h4>
+                                 <h4>工单描述</h4>
                                 <p class="small" style="text-indent:2em">{{ total_task_obj.content }}
                                 </p>
                                   <h5>项目标签</h5>
@@ -128,7 +128,7 @@
                                 <ul class="list-unstyled project-files">
                                     {% for obj in t_attachment_list %}
                                          <li>
-                                             <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                                             <label class="form-label"   >工单附件{{ forloop.counter }}:</label>
                                              <a class="download_file" style=" color: #23c6c8" href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
                                             <label class="form-label" for="task_title"  >附件描述:</label>
                                             <span  >{{ obj.description }}</span>
@@ -139,12 +139,12 @@
                                 <span class="small" style="text-indent:2em">{{ total_task_obj.remark }}
                                 </span>
                                 {% if task_assign_info.title %}
-                                    <h4 style="color:#1ab394">个人任务：</h4>
+                                    <h4 style="color:#1ab394">个人工单：</h4>
                                     {% query_task_attachment_by_tasid task_assign_info.tasid as p_attachment_list %}
-                                   <h4>任务标题</h4>
+                                   <h4>工单标题</h4>
                                 <p class="small" style="text-indent:2em">{{ task_assign_info.title }}
                                 </p>
-                                 <h4>任务描述</h4>
+                                 <h4>工单描述</h4>
                                 <p class="small" style="text-indent:2em">{{ task_assign_info.content }}
                                 </p>
                                   <h5>项目标签</h5>
@@ -157,7 +157,7 @@
                                 <ul class="list-unstyled project-files">
                                     {% for obj in p_attachment_list %}
                                          <li>
-                                             <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                                             <label class="form-label"   >工单附件{{ forloop.counter }}:</label>
                                               <a class="download_file" style=" color: #23c6c8" href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
                                             <label class="form-label" for="task_title"  >附件描述:</label>
                                             <span  >{{ obj.description }}</span>

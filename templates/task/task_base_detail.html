@@ -25,7 +25,7 @@
                             <div class="col-sm-12">
                                 <div class="m-b-md">
                                     <a href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-white btn-xs pull-right">编辑项目</a>
-                                    <h3>任务名称：{{ task_obj.title }}</h3>
+                                    <h3>工单名称：{{ task_obj.title }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                                 <dl class="dl-horizontal">
                                     <dt>发布人：</dt>
                                     <dd>{% change_to_staff task_obj.issuer_id %}</dd>
-                                    <dt>任务分类：</dt>
+                                    <dt>工单分类：</dt>
                                     <dd>{% change_to_task_type  task_obj.type_id  %}
                                     </dd>
                                 </dl>
@@ -93,7 +93,7 @@
         </div>
         <div class="col-sm-3">
             <div class="wrapper wrapper-content project-manager">
-                <h4>任务描述</h4>
+                <h4>工单描述</h4>
                 <p class="small" style="text-indent:2em">{{ task_obj.content }}
                 </p>
                 <h5>项目标签</h5>
@@ -107,7 +107,7 @@
                     {% query_task_attachment_by_tid task_obj.tid as t_attachement %}
                     {% for obj in t_attachement %}
                          <li>
-                             <label class="form-label"   >任务附件{{ forloop.counter }}:</label>
+                             <label class="form-label"   >工单附件{{ forloop.counter }}:</label>
                              <a class="download_file" href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
                             <label class="form-label" for="task_title"  >附件描述:</label>
                             <span  >{{ obj.description }}</span>

@@ -49,7 +49,7 @@
         <!-- Panel Other -->
         <div class="ibox float-e-margins" >
             <div class="ibox-title">
-                <h5>已指派任务</h5>
+                <h5>已指派工单</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -82,10 +82,10 @@
                                     <thead>
                                         <tr >
                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
-                                            <th>任务状态</th>
-                                            <th>任务名称</th>
-                                            <th>任务方式</th>
-                                            <th>任务类别</th>
+                                            <th>工单状态</th>
+                                            <th>工单名称</th>
+                                            <th>工单方式</th>
+                                            <th>工单类别</th>
                                             <th>指派人</th>
                                             <th>开始时间</th>
                                             <th>截止时间</th>
@@ -138,14 +138,14 @@
               <div class="form-group">
                     <label for="title" class="col-xs-3 control-label">标题：</label>
                       <div class="col-xs-8">
-                          <textarea name="title" style="height:40px;" class="form-control"  id="title" placeholder="任务标题">
+                          <textarea name="title" style="height:40px;" class="form-control"  id="title" placeholder="工单标题">
                         </textarea>
                       </div>
                 </div>
                 <div class="form-group">
                     <label for="content" class="control-label col-xs-3">内容：</label>
                     <div class="col-xs-8">
-                        <textarea name="content" class="form-control"  style="height:60px;" id="content" placeholder="任务描述">
+                        <textarea name="content" class="form-control"  style="height:60px;" id="content" placeholder="工单描述">
                     </textarea>
                     </div>
                 </div>
@@ -197,7 +197,7 @@
                         </div>
                     </div>
                 <div class="form-group">
-                    <label for="deadline" class="control-label col-xs-3">任务截止时间：</label>
+                    <label for="deadline" class="control-label col-xs-3">工单截止时间：</label>
                     <div class="col-xs-8">
                     <div class='input-group date' id='datetimepicker1'>
                         <input type='text' class="form-control" format="YYYY-MM-DD hh:mm" />
@@ -321,7 +321,7 @@ String.prototype.format=function()
         });
         //是否选中
         if (ids==""){
-             layer.alert('至少选择一个任务', {icon: 6 ,
+             layer.alert('至少选择一个工单', {icon: 6 ,
               time: 2000, //2s后自动关闭
                 btn: [ '知道了']}
                 );
@@ -360,14 +360,14 @@ String.prototype.format=function()
         });
          //是否选中
         if (ids==""){
-             layer.alert('至少选择一个任务', {icon: 6 ,
+             layer.alert('至少选择一个工单', {icon: 6 ,
               time: 2000, //2s后自动关闭
                 btn: [ '知道了']}
                 );
              return false
         }
         $("#delete_modal").modal("show");//显示模态框
-        $("#modal-body").text("你确定要取消该任务吗？")
+        $("#modal-body").text("你确定要取消该工单吗？")
         console.log("ids",ids)
         $("#ensure").click(function () {
             $("#delete_modal").hide();
@@ -380,7 +380,7 @@ String.prototype.format=function()
                 if (arg.status){
                         window.location.reload()
                     }else{
-                       layer.alert('任务已取消', {icon: 2 ,
+                       layer.alert('工单已取消', {icon: 2 ,
                                       time: 2000, //2s后自动关闭
                                         btn: [ '知道了']}
                                         );
@@ -477,14 +477,14 @@ function UploadFile(ths){
             {#$(".attachment2").find("input[name=file]").siblings().remove()#}
             {#$(".attachment2").find("input[name=content]").val("")#}
         }
-        //清除任务附件标签
+        //清除工单附件标签
 function clearAttachment(ths) {
     $(ths).parent().parent().parent().next().find("input[name=content]").val("")
     $(ths).parent().remove()
 }
 
 
-//指派任务内容
+//指派工单内容
 function MemberAssignShow(ths) {
       $('#assign_member').modal('show');
       var member_name=$(ths).children().first().text();
@@ -492,7 +492,7 @@ function MemberAssignShow(ths) {
       var deadline=$(ths).next().next().next().val();
       console.log(deadline);
 
-      $("#myModalLabel").text(member_name+"的任务内容");
+      $("#myModalLabel").text(member_name+"的工单内容");
       $("#myModalLabel").parent().find("input[name=tasid]").val(tasid);
       console.log(tasid)
       $.ajax({

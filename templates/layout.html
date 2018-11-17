@@ -79,7 +79,7 @@
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="J_menuItem" href="form_avatar.html">修改头像</a>
+                                <li><a class="" href="form_avatar.html">修改头像</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li><a href="{% url "logout" %}">安全退出</a>
@@ -106,25 +106,25 @@
                             <ul id="left_menu" class="nav nav-second-level">
     {#                            {% fetch_task_permission  requset.user  as task_permission%}#}
                                 <li>
-                                    <a  href="{% url "personal_task_list" %}">我的任务</a>
+                                    <a  href="{% url "personal_task_list" %}">我的工单</a>
                                 </li>
                                 <li>
-                                    <a  href="{% url "task_edit" %}">创建任务</a>
+                                    <a  href="{% url "task_edit" %}">创建工单</a>
                                 </li>
                                 <li>
-                                    <a  href="{% url "task_assign_center" %}">任务指派中心</a>
+                                    <a  href="{% url "task_assign_center" %}">工单指派中心</a>
                                 </li>
                                 <li>
-                                    <a  href="{% url "task_assign_list" %} ">已指派任务</a>
+                                    <a  href="{% url "task_assign_list" %} ">已指派工单</a>
                                 </li>
                                  <li>
-                                    <a  href="{% url 'task_wait_review' %}">任务审核中心</a>
+                                    <a  href="{% url 'task_wait_review' %}">工单审核中心</a>
                                 </li>
                                  <li>
-                                    <a  href="{% url 'personal_task_review' %} ">我的审核任务</a>
+                                    <a  href="{% url 'personal_task_review' %} ">我的审核工单</a>
                                 </li>
                                  <li>
-                                     <a  href="{% url "performence_statistic" %}">任务绩效统计</a>
+                                     <a  href="{% url "performence_statistic" %}">绩效统计中心</a>
                                 </li>
                             </ul>
                         </li>
@@ -210,16 +210,16 @@
                                     </ul>
                                 </li>
                                   <li>
-                                    <a href="#"><i class=" glyphicon glyphicon-wrench"></i> 任务设置 <span class="fa arrow"></span></a>
+                                    <a href="#"><i class=" glyphicon glyphicon-wrench"></i> 工单设置 <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level " aria-expanded="true" style="">
                                           <li>
-                                            <a  href="{% url "task_period" %} ">周期任务管理</a>
+                                            <a  href="{% url "task_period" %} ">周期工单管理</a>
                                         </li>
                                          <li>
                                              <a  href="{% url "performence_list" %}">绩效分类管理</a>
                                         </li>
                                          <li>
-                                             <a  href="{% url "task_sort_list" %}">任务分类管理</a>
+                                             <a  href="{% url "task_sort_list" %}">工单分类管理</a>
                                         </li>
 
                                 </ul>
@@ -277,7 +277,7 @@
                                 <li class="divider"></li>
                                 <li>
                                     <div class="text-center link-block">
-                                        <a class="J_menuItem" href="mailbox.html">
+                                        <a class="" href="mailbox.html">
                                             <i class="fa fa-envelope"></i> <strong> 查看所有消息</strong>
                                         </a>
                                     </div>
@@ -309,7 +309,7 @@
                                 <li class="divider"></li>
                                 <li>
                                     <div class="text-center link-block">
-                                        <a class="J_menuItem" href="notifications.html">
+                                        <a class="" href="notifications.html">
                                             <strong>查看所有 </strong>
                                             <i class="fa fa-angle-right"></i>
                                         </a>
@@ -461,15 +461,11 @@
                         </div>
                     </div>
                     <div id="tab-2" class="tab-pane">
-
                         <div class="sidebar-title">
                             <h3> <i class="fa fa-comments-o"></i> 最新通知</h3>
                             <small><i class="fa fa-tim"></i> 您当前有10条未读信息</small>
                         </div>
-
                         <div>
-
-
                             <div class="sidebar-message">
                                 <a href="#">
                                     <div class="pull-left text-center">
@@ -487,7 +483,6 @@
                     </div>
             </div>
         </div>
-
     </div>
     </div>
     <!-- 全局js -->

@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{#{% extends "layout.html" %}#}
 {% load personnel_tags %}
 {% block css %}
     <style>
@@ -22,7 +22,7 @@
     }
     </style>
 {%endblock %}
-{% block content %}
+{#{% block content %}#}
 
     <div class="wrapper wrapper-content animated fadeInRight">
         <!-- Panel Other -->
@@ -63,6 +63,7 @@
                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
                                              <th>所在公司</th>
                                              <th>工号</th>
+                                             <th>职级</th>
                                              <th>姓名</th>
                                              <th>性别</th>
                                              <th>籍贯</th>
@@ -82,6 +83,7 @@
                                           <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.sid }}"></td>
                                           <td>{% change_to_company obj.company_id %}</td>
                                           <td>{{ obj.job_number }}</td>
+                                          <td>{% change_to_job_rank obj.job_rank_id %}</td>
                                           <td>{{ obj.name }}</td>
                                           <td>{% change_to_sex obj.gender %} </td>
                                           <td>{% if obj.native_place  %}{{ obj.native_place }}{% else  %}空{% endif %}</td>
@@ -333,7 +335,7 @@
     </div>
 </div>
 
-{% endblock %}
+{#{% endblock %}#}
 {% block js%}
     <script>
 
