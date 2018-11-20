@@ -1,4 +1,4 @@
-{#{% extends "layout.html" %}#}
+{% extends "layout.html" %}
 {% load personnel_tags %}
 {% block css %}
     <style>
@@ -22,7 +22,7 @@
     }
     </style>
 {%endblock %}
-{#{% block content %}#}
+{% block content %}
 
     <div class="wrapper wrapper-content animated fadeInRight">
         <!-- Panel Other -->
@@ -335,7 +335,7 @@
     </div>
 </div>
 
-{#{% endblock %}#}
+{% endblock %}
 {% block js%}
     <script>
 

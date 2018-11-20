@@ -12,10 +12,13 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 from __future__ import absolute_import
 import os
 import redis
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# 文件目录导入到搜索路径中
+sys.path.insert(0, os.path.join(BASE_DIR, "apps"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -38,12 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'task.apps.TaskConfig',
-    'rbac.apps.RbacConfig',
-    'personnel.apps.PersonnelConfig',
-    'inventory.apps.InventoryConfig',
-    'sfa.apps.SfaConfig',
-    'public.apps.PublicConfig',
+    'apps.task.apps.TaskConfig',
+    'apps.rbac.apps.RbacConfig',
+    'apps.personnel.apps.PersonnelConfig',
+    'apps.inventory.apps.InventoryConfig',
+    'apps.sfa.apps.SfaConfig',
+    'apps.public.apps.PublicConfig',
+    'apps.notice.apps.NoticeConfig',
     'xadmin',
     'crispy_forms',
     'reversion',
