@@ -3,7 +3,7 @@
 drop TABLE if exists `task`;
 create TABLE `task`(
 `tid` int(11) primary key auto_increment,
-`title` varchar(512) NOT NUll  COMMENT '任务名称',
+`title` varchar(128) NOT NUll  COMMENT '任务名称',
 `content` text NOT NULL COMMENT '任务描述',
 `type_id` smallint NOT NULL COMMENT ' 任务类型',
 `issuer_id` int(11) NOT NULL  COMMENT '发布人',

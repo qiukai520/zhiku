@@ -193,3 +193,5 @@ def fetch_country_nid(town_id):
         obj = town_db.query_town_by_id(town_id)
         if obj:
             return obj.country_id
+
+

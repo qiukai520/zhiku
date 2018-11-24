@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import login_required,permission_required
 # Create your views here.
 from django.conf import settings
 from .tasks import weekly_task,task_auot_review
+from notice.views import notice_add
 
 
 def index(request):
@@ -552,12 +553,31 @@ def task_assign(request):
                                 result_dict["result"] = 0
                                 review_result.append(result_dict)
                             task_review_result_db.mutil_insert(review_result)
+                        # 指派通知
+                        data_manage = {
+                            'notice_title': '您有一个新的工单！',
+                            'notice_body': modify.get("title"),
+                            'notice_url': '/task/personal',
+                            'notice_type': 'notice',
+                        }
+                        for item in assigner_list:
+                            notice_add(item.get("member_id_id", 0), data_manage)
                         # 插入审核人
                         reviewers_list = []
                         for item in reviewers:
                             item['tmid_id'] = tmid
                             reviewers_list.append(item)
                         task_review_db.mutil_insert_reviewer(reviewers_list)
+                        # 审核通知
+                        data_manage = {
+                            'notice_title': '您有一个新的审核工单！',
+                            'notice_body': modify.get("title"),
+                            'notice_url': '/task/personal/review',
+                            'notice_type': 'notice',
+                        }
+                        for item in reviewers_list:
+                            print("review",item)
+                            notice_add(item.get("sid_id",0), data_manage)
                     ret['status'] = True
                     ret['data'] = tmid
             except Exception as e:
@@ -922,12 +942,10 @@ def task_review(request):
                             task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)
                             task_assign_obj = task_assign_obj.first()
                             tmid = task_assign_obj.tmid_id
-                            print("tmid",tmid)
                             task_map_obj = task_map_db.query_task_by_tmid(tmid)
                             performence_obj = performence_db.query_performence_by_pid(task_map_obj.perfor_id)
                             score = performence_obj.personal_score
                             perf_data = {"tmid_id": tmid, "sid_id": user_id, "personal_score": score}
-                            print("per_data",perf_data)
                             performance_record_db.insert_performence_record(perf_data)
                             # 检查任务是否是团队任务
                             if task_map_obj.team == 1:

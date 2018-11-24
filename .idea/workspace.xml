@@ -6,120 +6,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/notice/noticelist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/thinking_library.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/thinking_library.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/notice/adminx.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/notice/templatetags/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/notice/templatetags/notice_tags.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notice.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/plugins/duallistbox/css/custom.bak.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/adminx.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/forms/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/forms/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/forms/form.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/forms/validate_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/forms/validate_func.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/migrations/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/server.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/templatetags/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/templatetags/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/templatetags/inventory_tags.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/utils.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/adminx.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/forms/base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/forms/form.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/forms/validate_func.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0002_auto_20180810_1532.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0003_auto_20180810_1536.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0004_auto_20180810_1632.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0005_staff_account_name.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0006_auto_20180811_1722.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0007_jobtitle_department.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0008_auto_20180811_1730.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0009_auto_20180811_1751.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0010_staff_job_title.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0011_stafflifephoto.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0012_auto_20180813_1506.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/0013_auto_20180814_1141.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/server.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/templatetags/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/templatetags/personnel_tags.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/notice/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/forms/base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/forms/form.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/forms/validate_func.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/server.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/templatetags/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/templatetags/public_tags.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/adminx.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/middlewares/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/middlewares/rbac.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/service/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/service/init_permission.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/templatetags/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/templatetags/rbac.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rbac/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/adminx.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/adminx.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/forms/base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/forms/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/forms/form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/forms/validate_func.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/managers.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/managers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/templatetags/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/templatetags/sfa_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/templatetags/sfa_tags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/contabs.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/contabs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/adminx.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/forms/base.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/forms/form.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/migrations/0002_auto_20180811_1724.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/server.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/tasks.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/templatetags/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/templatetags/admin_tags.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/utils.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/task/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/staff_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/staff_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/thinking_library/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/thinking_library/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/inventory/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/inventory/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/notice/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/notice/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/notice/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/notice/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/notice/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/notice/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/public/templatetags/public_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/public/templatetags/public_tags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/task/forms/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/task/forms/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/task/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/task/tasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/task/templatetags/admin_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/task/templatetags/admin_tags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/task/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/task/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/task/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/task/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/task.sql" beforeDir="false" afterPath="$PROJECT_DIR$/task.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/notice/noticelist.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/notice/noticelist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/thinking_library/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/thinking_library/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -142,106 +50,103 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/task/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="47" column="30" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
+            <state relative-caret-position="94">
+              <caret line="856" column="48" selection-start-line="856" selection-start-column="47" selection-end-line="856" selection-end-column="48" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#20952#21268#0" />
+                <element signature="e#21612#21790#0" />
+                <element signature="e#21542#22185#0" />
+                <element signature="e#22846#27372#0" />
+                <element signature="e#27410#29201#0" />
+                <element signature="e#29234#31024#0" />
+                <element signature="e#31061#33304#0" />
+              </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="personal_task_review.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/task/personal_task_review.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="106" column="60" lean-forward="true" selection-start-line="106" selection-start-column="60" selection-end-line="106" selection-end-column="60" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="task_detail.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/task/task_detail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="69" column="55" selection-start-line="69" selection-start-column="55" selection-end-line="69" selection-end-column="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="task_wait_review.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/task/task_wait_review.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="119" column="54" selection-start-line="119" selection-start-column="54" selection-end-line="119" selection-end-column="54" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin_tags.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/apps/task/templatetags/admin_tags.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="202">
+              <caret line="371" column="20" selection-start-line="371" selection-start-column="20" selection-end-line="371" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tasks.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/task/tasks.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="229">
+              <caret line="309" column="14" lean-forward="true" selection-start-line="309" selection-start-column="14" selection-end-line="309" selection-end-column="14" />
+              <folding>
+                <element signature="e#25#66#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="task_review_record.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/task/task_review_record.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2592" />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/notice/models.py">
+        <entry file="file://$PROJECT_DIR$/apps/task/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="234">
+              <caret line="208" column="13" selection-start-line="208" selection-start-column="4" selection-end-line="208" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/personnel/views.py">
+      <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/apps/personnel/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="425">
+              <caret line="303" selection-start-line="303" selection-end-line="303" />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/notice/urls.py">
+        <entry file="file://$PROJECT_DIR$/apps/task/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
-              <folding>
-                <element signature="e#640#653#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="noticelist.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/notice/noticelist.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/notice/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="109" column="49" selection-start-line="109" selection-start-column="49" selection-end-line="109" selection-end-column="49" />
-              <folding>
-                <element signature="e#0#76#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="staff_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/personnel/staff_list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="338" column="8" selection-start-line="338" selection-start-column="8" selection-end-line="338" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="企业驱动•智库.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/企业驱动•智库.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="628" selection-start-line="628" selection-end-line="628" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="H+ 后台主题UI框架 - 主页.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/H+ 后台主题UI框架 - 主页.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="503" column="51" selection-start-line="503" selection-start-column="43" selection-end-line="503" selection-end-column="51" />
+            <state relative-caret-position="94">
+              <caret line="43" column="10" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -260,36 +165,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_setIcon</find>
-      <find>evaluate</find>
-      <find>task_review</find>
-      <find>..</find>
-      <find>工单</find>
-      <find>暂无审核记录</find>
-      <find>task_submit_record</find>
-      <find>task_review.html</find>
-      <find>绩效统计</find>
-      <find>DualListboxAssign</find>
-      <find>invent_record</find>
-      <find>任务</find>
-      <find>before</find>
-      <find>#invent_record</find>
-      <find>loading-example-btn</find>
-      <find>table_manifestation</find>
-      <find>fram</find>
-      <find>block</find>
-      <find>dataUrl</find>
-      <find>J_</find>
-      <find>dataIndex</find>
-      <find>seamless</find>
-      <find>人事管理</find>
-      <find>frame</find>
-      <find>iframe</find>
-      <find>J</find>
-      <find>item</find>
-      <find>人事</find>
       <find>User</find>
       <find>html</find>
+      <find>sid</find>
+      <find>for</find>
+      <find>forei</find>
+      <find>go</find>
+      <find>查看所有</find>
+      <find>filter</find>
+      <find>selector-chosen</find>
+      <find>selector-filter</find>
+      <find>716px !important;</find>
+      <find>8</find>
+      <find>count</find>
+      <find>fet</find>
+      <find>readall</find>
+      <find>通知</find>
+      <find>task_assign</find>
+      <find>notice_add</find>
+      <find>task_map</find>
+      <find>notice</find>
+      <find>sid_id_id</find>
+      <find>add</find>
+      <find>def task_assign</find>
+      <find>print</find>
+      <find>detail</find>
+      <find>review/record</find>
+      <find>review/center</find>
+      <find>for item in assigners</find>
+      <find>path</find>
+      <find>personal/reviews</find>
     </findStrings>
     <replaceStrings>
       <replace>/static/js/</replace>
@@ -300,9 +205,9 @@
       <replace>Customer</replace>
       <replace>content</replace>
       <replace>customer</replace>
-      <replace>box2</replace>
       <replace>buttons</replace>
       <replace>工单</replace>
+      <replace>box2</replace>
     </replaceStrings>
     <dirStrings>
       <dir>H:\PythonWorkPlace\company\thinking_library\templates\task</dir>
@@ -315,22 +220,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/sfa/customer_contact.html" />
-        <option value="$PROJECT_DIR$/sfa.sql" />
-        <option value="$PROJECT_DIR$/personnel/urls.py" />
-        <option value="$PROJECT_DIR$/personnel/views.py" />
-        <option value="$PROJECT_DIR$/inventory/server.py" />
-        <option value="$PROJECT_DIR$/inventory/templatetags/inventory_tags.py" />
-        <option value="$PROJECT_DIR$/inventory/models.py" />
-        <option value="$PROJECT_DIR$/task/adminx.py" />
-        <option value="$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css" />
-        <option value="$PROJECT_DIR$/templates/inventory/wastage_edit.html" />
-        <option value="$PROJECT_DIR$/static/plugins/duallistbox/js/duallistbox.js" />
-        <option value="$PROJECT_DIR$/inventory/adminx.py" />
-        <option value="$PROJECT_DIR$/task/views.py" />
-        <option value="$PROJECT_DIR$/static/plugins/bootstrap/js/star/star-rating.min.js" />
-        <option value="$PROJECT_DIR$/static/plugins/raty/jquery.raty.js" />
-        <option value="$PROJECT_DIR$/templates/inventory/invent_list.html" />
         <option value="$PROJECT_DIR$/templates/task/perfor_statistic.html" />
         <option value="$PROJECT_DIR$/templates/task/complete_task.html" />
         <option value="$PROJECT_DIR$/templates/task/perfor_statistic_detail.html" />
@@ -358,14 +247,30 @@
         <option value="$PROJECT_DIR$/inventory/views.py" />
         <option value="$PROJECT_DIR$/inventory/urls.py" />
         <option value="$PROJECT_DIR$/企业驱动•智库.html" />
-        <option value="$PROJECT_DIR$/templates/layout.html" />
         <option value="$PROJECT_DIR$/templates/personnel/staff_list.html" />
         <option value="$PROJECT_DIR$/static/js/contabs.js" />
         <option value="$PROJECT_DIR$/thinking_library/settings.py" />
         <option value="$PROJECT_DIR$/apps/personnel/models.py" />
-        <option value="$PROJECT_DIR$/apps/notice/models.py" />
         <option value="$PROJECT_DIR$/apps/notice/urls.py" />
+        <option value="$PROJECT_DIR$/apps/notice/apps.py" />
+        <option value="$PROJECT_DIR$/notice.sql" />
+        <option value="$PROJECT_DIR$/thinking_library/urls.py" />
+        <option value="$PROJECT_DIR$/templates/notice/noticelist.html" />
+        <option value="$PROJECT_DIR$/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css" />
+        <option value="$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css" />
+        <option value="$PROJECT_DIR$/apps/notice/models.py" />
+        <option value="$PROJECT_DIR$/apps/notice/adminx.py" />
+        <option value="$PROJECT_DIR$/apps/public/templatetags/public_tags.py" />
         <option value="$PROJECT_DIR$/apps/notice/views.py" />
+        <option value="$PROJECT_DIR$/task.sql" />
+        <option value="$PROJECT_DIR$/apps/task/forms/form.py" />
+        <option value="$PROJECT_DIR$/apps/notice/templatetags/notice_tags.py" />
+        <option value="$PROJECT_DIR$/templates/layout.html" />
+        <option value="$PROJECT_DIR$/apps/task/views.py" />
+        <option value="$PROJECT_DIR$/apps/task/tasks.py" />
+        <option value="$PROJECT_DIR$/apps/inventory/urls.py" />
+        <option value="$PROJECT_DIR$/apps/task/urls.py" />
+        <option value="$PROJECT_DIR$/apps/task/templatetags/admin_tags.py" />
       </list>
     </option>
   </component>
@@ -378,8 +283,8 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="251" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="308" />
     <option name="y" value="71" />
     <option name="width" value="1297" />
     <option name="height" value="865" />
@@ -390,6 +295,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -406,31 +312,12 @@
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="apps" type="462c0819:PsiDirectoryNode" />
-              <item name="notice" type="462c0819:PsiDirectoryNode" />
+              <item name="task" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="apps" type="462c0819:PsiDirectoryNode" />
-              <item name="personnel" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="apps" type="462c0819:PsiDirectoryNode" />
-              <item name="personnel" type="462c0819:PsiDirectoryNode" />
-              <item name="templatetags" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="notice" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -440,7 +327,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -457,18 +343,18 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\workplace\thinking_library\static\plugins\duallistbox\css" />
       <recent name="F:\workplace\thinking_library\apps" />
       <recent name="F:\workplace\thinking_library" />
       <recent name="F:\workplace\thinking_library\static\plugins\raty" />
       <recent name="F:\workplace\thinking_library\static\plugins\raty\css" />
-      <recent name="F:\workplace\thinking_library\static\plugins\duallistbox" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\workplace\thinking_library\templates\notice" />
       <recent name="F:\workplace\thinking_library\apps\notice" />
+      <recent name="F:\workplace\thinking_library\static\plugins\duallistbox" />
+      <recent name="F:\workplace\thinking_library\templates\notice" />
       <recent name="F:\workplace\thinking_library\templates\task" />
       <recent name="F:\workplace\thinking_library\static\img\star" />
-      <recent name="F:\workplace\thinking_library\static\plugins\raty" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -554,7 +440,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="7" />
+    <frame x="308" y="71" width="1297" height="865" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3287037" />
@@ -563,8 +449,8 @@
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4883005" weight="0.3287037" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.41666666" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.48214287" weight="0.25925925" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.21305418" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.48214287" visible="true" weight="0.23897582" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.22693877" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -622,234 +508,14 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="83" />
+      <option name="time" value="86" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/apps/task/tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1229">
-          <caret line="216" column="71" selection-start-line="216" selection-start-column="60" selection-end-line="216" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/plugins/raty/jquery.raty.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19980">
-          <caret line="749" column="23" selection-start-line="749" selection-start-column="23" selection-end-line="749" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/task/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25866">
-          <caret line="978" column="38" selection-start-line="978" selection-start-column="36" selection-end-line="978" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/invent_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="568" column="13" selection-start-line="568" selection-start-column="13" selection-end-line="568" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/perfor_statistic.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="87" column="53" selection-start-line="87" selection-start-column="53" selection-end-line="87" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/complete_task.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9657">
-          <caret line="492" column="4" selection-start-line="492" selection-start-column="4" selection-end-line="492" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/perfor_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-76" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/perfor_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-76" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/perfor_statistic_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1193">
-          <caret line="71" column="51" selection-start-line="71" selection-start-column="51" selection-end-line="71" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/personal_task_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6431">
-          <caret line="241" column="59" selection-start-line="241" selection-start-column="59" selection-end-line="241" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/personal_task_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3893">
-          <caret line="147" column="144" selection-start-line="147" selection-start-column="144" selection-end-line="147" selection-end-column="144" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/personal_task_review.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2300">
-          <caret line="88" column="48" selection-start-line="88" selection-start-column="48" selection-end-line="88" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_assign.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2502">
-          <caret line="159" column="85" selection-start-line="159" selection-start-column="85" selection-end-line="159" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_assign_center.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9536">
-          <caret line="356" column="23" selection-start-line="356" selection-start-column="23" selection-end-line="356" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_assigned_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13262">
-          <caret line="494" column="46" selection-start-line="494" selection-start-column="46" selection-end-line="494" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_base_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2867">
-          <caret line="109" column="60" selection-start-line="109" selection-start-column="60" selection-end-line="109" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="195" column="60" selection-start-line="195" selection-start-column="60" selection-end-line="195" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1760">
-          <caret line="92" column="70" selection-start-line="92" selection-start-column="70" selection-end-line="92" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_map_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8213">
-          <caret line="307" column="6" selection-start-line="307" selection-start-column="6" selection-end-line="307" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_period_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2543">
-          <caret line="97" column="60" selection-start-line="97" selection-start-column="60" selection-end-line="97" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_period_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7754">
-          <caret line="290" column="38" selection-start-line="290" selection-start-column="38" selection-end-line="290" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_review.bak.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1970">
-          <caret line="261" column="68" selection-start-line="261" selection-start-column="68" selection-end-line="261" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_review.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2792">
-          <caret line="175" column="76" selection-start-line="78" selection-start-column="5" selection-end-line="283" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_review_record.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1411">
-          <caret line="159" column="76" selection-start-line="159" selection-start-column="76" selection-end-line="159" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_sort_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_sort_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="16" column="22" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_wait_review.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2435">
-          <caret line="93" column="50" selection-start-line="93" selection-start-column="50" selection-end-line="93" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_review_record.bak.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1135">
-          <caret line="138" column="71" selection-start-line="138" selection-start-column="71" selection-end-line="138" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="30" column="44" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/inventory/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="499" column="26" selection-start-line="499" selection-start-column="26" selection-end-line="499" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/inventory/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="138" column="12" selection-start-line="138" selection-start-column="4" selection-end-line="138" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/inventory/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="1397" column="51" selection-start-line="1397" selection-start-column="51" selection-end-line="1397" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/inventory/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="54" column="18" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -880,13 +546,6 @@
     <entry file="file://$PROJECT_DIR$/static/js/custom/select-pcas.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4185">
-          <caret line="155" column="93" selection-start-line="155" selection-start-column="91" selection-end-line="155" selection-end-column="93" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/rbac/apps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -903,85 +562,333 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/H+ 后台主题UI框架 - 主页.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
+        <state relative-caret-position="13581">
           <caret line="503" column="51" selection-start-line="503" selection-start-column="43" selection-end-line="503" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/企业驱动•智库.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
+        <state relative-caret-position="16956">
           <caret line="628" selection-start-line="628" selection-end-line="628" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/personnel/staff_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
+        <state relative-caret-position="9126">
           <caret line="338" column="8" selection-start-line="338" selection-start-column="8" selection-end-line="338" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
+    <entry file="file://$PROJECT_DIR$/apps/personnel/views.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/personnel/adminx.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="47" column="30" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
+        <state relative-caret-position="378">
+          <caret line="62" selection-start-line="62" selection-end-line="66" selection-end-column="43" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/notice/models.py">
+    <entry file="file://$PROJECT_DIR$/apps/personnel/apps.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="135">
+          <caret line="5" column="13" selection-start-line="5" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/notice/apps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sfa.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="224" lean-forward="true" selection-start-line="224" selection-end-line="239" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/personnel/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="166" column="29" selection-start-line="166" selection-start-column="26" selection-end-line="166" selection-end-column="29" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/personnel/views.py">
+    <entry file="file://$PROJECT_DIR$/apps/rbac/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="702">
+          <caret line="26" column="51" selection-start-line="26" selection-start-column="49" selection-end-line="26" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/sfa/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="39" column="52" selection-start-line="39" selection-start-column="52" selection-end-line="39" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/css/custom.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap-multiselect/css/xadmin.widget.select-transfer.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="92" column="1" selection-end-line="104" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/plugins/duallistbox/css/custom.bak.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1188">
+          <caret line="47" column="30" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/notice/adminx.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-25">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#72#85#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/notice/templatetags/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/public/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/public/templatetags/public_tags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="29" />
+          <folding>
+            <element signature="e#1#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/notice/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
+        <state relative-caret-position="407">
+          <caret line="24" column="29" lean-forward="true" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
           <folding>
             <element signature="e#640#653#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/notice/noticelist.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="125" column="19" lean-forward="true" selection-start-line="123" selection-start-column="12" selection-end-line="125" selection-end-column="19" />
+          <folding>
+            <element signature="e#4317#4559#0#HTML" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/task_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="364" column="20" lean-forward="true" selection-start-line="364" selection-start-column="7" selection-end-line="364" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/sfa/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="67" column="36" selection-start-line="67" selection-start-column="30" selection-end-line="67" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/notice/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="109" column="49" selection-start-line="109" selection-start-column="49" selection-end-line="109" selection-end-column="49" />
+        <state relative-caret-position="222">
+          <caret line="125" column="15" selection-start-line="125" selection-start-column="15" selection-end-line="125" selection-end-column="15" />
           <folding>
             <element signature="e#0#76#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/notice/noticelist.html">
+    <entry file="file://$PROJECT_DIR$/apps/notice/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/personnel/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        <state relative-caret-position="153">
+          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notice.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="14" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/task/forms/form.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-405">
+          <caret line="6" column="89" selection-start-line="6" selection-start-column="89" selection-end-line="6" selection-end-column="89" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/notice/templatetags/notice_tags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="28" column="45" selection-start-line="28" selection-start-column="45" selection-end-line="28" selection-end-column="45" />
+          <folding>
+            <element signature="e#71#98#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/task/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="513" column="36" selection-start-line="513" selection-start-column="36" selection-end-line="513" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/task/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="208" column="13" selection-start-line="208" selection-start-column="4" selection-end-line="208" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="303" selection-start-line="303" selection-end-line="303" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/inventory/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="47" column="17" selection-start-line="47" selection-start-column="17" selection-end-line="47" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/task/tasks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="309" column="14" lean-forward="true" selection-start-line="309" selection-start-column="14" selection-end-line="309" selection-end-column="14" />
+          <folding>
+            <element signature="e#25#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/task_review_record.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2592" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/task_wait_review.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="119" column="54" selection-start-line="119" selection-start-column="54" selection-end-line="119" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/task_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="69" column="55" selection-start-line="69" selection-start-column="55" selection-end-line="69" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/task/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="94">
+          <caret line="856" column="48" selection-start-line="856" selection-start-column="47" selection-end-line="856" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#20952#21268#0" />
+            <element signature="e#21612#21790#0" />
+            <element signature="e#21542#22185#0" />
+            <element signature="e#22846#27372#0" />
+            <element signature="e#27410#29201#0" />
+            <element signature="e#29234#31024#0" />
+            <element signature="e#31061#33304#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/task/personal_task_review.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="106" column="60" lean-forward="true" selection-start-line="106" selection-start-column="60" selection-end-line="106" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/task/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="94">
+          <caret line="43" column="10" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/task/templatetags/admin_tags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="371" column="20" selection-start-line="371" selection-start-column="20" selection-end-line="371" selection-end-column="20" />
         </state>
       </provider>
     </entry>

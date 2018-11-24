@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.http import JsonResponse
 import json
+from .models import Notice
 
 
 # Create your views here.
@@ -32,7 +33,7 @@ def notice_readall(request):
     error = '操作成功'
     action = request.POST.get('action')
     if action == 'readall':
-        notice_list = user.notice_for_user.filter(notice_status=False)
+        notice_list = user.staff.notice_for_user.filter(notice_status=False)
         for notice_get in notice_list:
             notice_get.notice_status = True
             notice_get.save()
@@ -120,20 +121,9 @@ def notice_add(user, data):
         'notice_type':'***'
     }
     '''
-    notice_title = data.get('notice_title')
-    notice_body = data.get('notice_body')
-    notice_type = data.get('notice_type')
-    notice_url = data.get('notice_url')
-
-    notice_body = notice_body
-
-    res = models.Notice.objects.get_or_create(
-        notice_title=notice_title,
-        notice_body=notice_body,
-        notice_type=notice_type,
-        notice_url=notice_url,
-        notice_user=user,
-    )
+    # user_instance=Staff.filter(sid_id=user).first()
+    data["user_id"] = user
+    res = Notice.objects.get_or_create(**data)
     if res[1]:
         return False
     else:

@@ -1,6 +1,6 @@
+{% load notice_tags %}
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -243,6 +243,7 @@
                         </form>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
+                        <!--
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                                 <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
@@ -284,32 +285,32 @@
                                 </li>
                             </ul>
                         </li>
+                        -->
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
+                                <i class="fa fa-bell"></i> <span class="label label-primary">{% fetch_notice_count request.user %}</span>
                             </a>
                             <ul class="dropdown-menu dropdown-alerts">
+                                {% fetch_notice request.user as notices%}
                                 <li>
-                                    <a href="mailbox.html">
-                                        <div>
-                                            <i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
-                                            <span class="pull-right text-muted small">4分钟前</span>
-                                        </div>
+                                     <h4> <i class="fa fa-comments-o"></i> 最新通知</h4>
+                                    <small><i class="fa fa-tim"></i> 您当前有{{ notices.count }}条未读信息</small>
+                                    <a style="color:#1ab394" onclick="ReadAll()" class=" btn pull-right text-muted small"><i class="layui-icon layui-icon-auz"></i>全部已读</a>
+                                </li>
+                                <li class="divider"></li>
+                                {% for item in notices.data %}
+                                <li>
+                                    <a href="{{ item.notice_url }}">
+                                            <i class=" glyphicon glyphicon-volume-up"></i> {{ item.notice_title }}
+                                                   <p>{{ item.notice_body}}</p>
+                                            <span class="pull-right text-muted small">{{ item.notice_time }}</span>
                                     </a>
                                 </li>
                                 <li class="divider"></li>
-                                <li>
-                                    <a href="profile.html">
-                                        <div>
-                                            <i class="fa fa-qq fa-fw"></i> 3条新回复
-                                            <span class="pull-right text-muted small">12分钟钱</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
+                                {% endfor %}
                                 <li>
                                     <div class="text-center link-block">
-                                        <a class="" href="notifications.html">
+                                        <a class="" href="/notice">
                                             <strong>查看所有 </strong>
                                             <i class="fa fa-angle-right"></i>
                                         </a>
@@ -362,7 +363,7 @@
 {#            </iframe>#}
             </div>
             <div class="footer">
-                <div class="pull-right">&copy; 2007-2018 <a href="http://www.zhiku086.com/" target="_blank">智库</a>
+                <div class="pull-right">&copy; 2007-2018 <a href="#" target="_blank">智库</a>
                 </div>
             </div>
         </div>
@@ -373,21 +374,12 @@
 
                 <ul class="nav nav-tabs navs-3">
 
-                    <li class="active">
+                    <li >
                         <a data-toggle="tab" href="#tab-1">
                             <i class="fa fa-gear"></i> 主题
                         </a>
                     </li>
-                    <li class=""><a data-toggle="tab" href="#tab-2">
-                        通知
-                    </a>
-                    </li>
-                    <li><a data-toggle="tab" href="#tab-3">
-                        项目进度
-                    </a>
-                    </li>
                 </ul>
-
                 <div class="tab-content">
                     <div id="tab-1" class="tab-pane active">
                         <div class="sidebar-title">
@@ -410,7 +402,6 @@
                             </div>
                             <div class="setings-item">
                                 <span>固定顶部</span>
-
                                 <div class="switch">
                                     <div class="onoffswitch">
                                         <input type="checkbox" name="fixednavbar" class="onoffswitch-checkbox" id="fixednavbar">
@@ -425,7 +416,6 @@
                                 <span>
                         固定宽度
                     </span>
-
                                 <div class="switch">
                                     <div class="onoffswitch">
                                         <input type="checkbox" name="boxedlayout" class="onoffswitch-checkbox" id="boxedlayout">
@@ -458,27 +448,6 @@
                         </a>
                     </span>
                             </div>
-                        </div>
-                    </div>
-                    <div id="tab-2" class="tab-pane">
-                        <div class="sidebar-title">
-                            <h3> <i class="fa fa-comments-o"></i> 最新通知</h3>
-                            <small><i class="fa fa-tim"></i> 您当前有10条未读信息</small>
-                        </div>
-                        <div>
-                            <div class="sidebar-message">
-                                <a href="#">
-                                    <div class="pull-left text-center">
-{#                                        <img alt="image" class="img-circle message-avatar" src="/static/img/a2.jpg">#}
-                                    </div>
-                                    <div class="media-body">
-                                        过来办公室一趟
-                                        <br>
-                                        <small class="text-muted">昨天 2:45</small>
-                                    </div>
-                                </a>
-                            </div>
-        
                         </div>
                     </div>
             </div>
@@ -551,16 +520,13 @@
         // 当前菜单保持选中
          window.onload=function () {
         var As=$('#side-menu >li').find('a');
-        console.log("before",i)
         var Obj=As.eq(0);
         for( var i = 1;i<As.length;i++){
             if(window.location.href.indexOf(As[i].href)>=0) {
-                console.log("href",As[i].href)
                 Obj=As.eq(i);
                 break
             }
         }
-        console.log("i",Obj.first())
         Obj.parent().addClass("active")
         Obj.parent().parent().attr("aria-expanded",true);
         Obj.parent().parent().addClass("in");
@@ -570,6 +536,22 @@
         Obj.parent().parent().parent().find(".nav-third-level").parent().parent().addClass("in");
         Obj.parent().parent().parent().find(".nav-third-level").parent().parent().parent().addClass("active");
     }
+       function ReadAll(){
+             //通知全部标记为已读
+           $.ajax( {
+               url:"{% url 'noticereadall' %}",
+               type:"POST",
+               data:{'action':'readall'},
+               dataType:"JSON",
+               success:function(arg){
+                   layer.msg(arg.error);
+                   setTimeout(function(){
+                       location.replace(location.href);
+                       },1000)
+               }
+           })
+	 }
+
 
     </script>
 

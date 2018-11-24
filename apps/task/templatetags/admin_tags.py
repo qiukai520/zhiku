@@ -341,7 +341,7 @@ def bulid_assign_member_list(tmid,deadline):
 @register.simple_tag
 def bulid_review_list(tmid):
     """构建任务审核对象"""
-    path = "record"
+    path = "center/record"
     task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     # task_review_list = task_review_db.query_task_reviewer_by_tid(tid)
     eles = """<ul>"""
@@ -369,7 +369,7 @@ def bulid_review_list(tmid):
 @register.simple_tag
 def bulid_person_review_list(user_id,tmid):
     """构建个人任务审核对象"""
-    path = "/task/review"
+    path = "reviews/review"
     task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     eles = """<ul>"""
     for item in task_assign_list:
@@ -580,7 +580,7 @@ def fetch_task_assign_member(tmid):
     task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
     eles = ''
     if task_assign_list:
-        path = "/task/review/record"
+        path = "/task/review/center/record"
         for item in task_assign_list:
             member = staff_db.query_staff_by_id(item.member_id_id)
             if member:

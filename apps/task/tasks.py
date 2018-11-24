@@ -6,6 +6,7 @@ from .server import *
 from thinking_library.celery import app
 from common.functions import filter_fields
 from .utils import calculate_deadline,calculate_expire_date
+from notice.views import notice_add
 
 
 @app.task
@@ -61,6 +62,16 @@ def daily_task():
                         att_json["follow"] = item.follow
                         reviewers_list.append(att_json)
                     task_review_db.mutil_insert_reviewer(reviewers_list)
+                    # 审核通知
+                    data_manage = {
+                        'notice_title': '您有一个新的审核工单！',
+                        'notice_body': modify_info.get("title"),
+                        'notice_url': '/task/personal/review',
+                        'notice_type': 'notice',
+                    }
+                    for item in reviewers_list:
+                        print("review", item)
+                        notice_add(item.get("sid_id", 0), data_manage)
                     # 插入指派对象
                     assigners = task_period_assigner_db.query_task_assigner_by_tpid(tpid)
                     assigner_list = []
@@ -72,9 +83,8 @@ def daily_task():
                         ass_json["start_time"] = start_time
                         ass_json["deadline"] = deadline
                         assigner_list.append(ass_json)
-                    # task_assign_db.mutil_insert_task_assign(assigner_list)
                         # 指派任务
-                        for obj in assigner_list:
+                    for obj in assigner_list:
                             tasid = task_assign_db.insert_task_assign(obj)
                             # 插入任务审核结果记录信息
                             review_result = []
@@ -86,6 +96,15 @@ def daily_task():
                                 result_dict["result"] = 0
                                 review_result.append(result_dict)
                             task_review_result_db.mutil_insert(review_result)
+                    # 指派通知
+                    data_manage = {
+                        'notice_title': '您有一个新的工单！',
+                        'notice_body': modify_info.get("title"),
+                        'notice_url': '/task/personal',
+                        'notice_type': 'notice',
+                    }
+                    for item in assigner_list:
+                        notice_add(item.get("member_id_id", 0), data_manage)
         except Exception as e:
             print(e)
 
@@ -142,6 +161,15 @@ def weekly_task():
                         att_json["follow"] = item.follow
                         reviewers_list.append(att_json)
                     task_review_db.mutil_insert_reviewer(reviewers_list)
+                    # 审核通知
+                    data_manage = {
+                        'notice_title': '您有一个新的审核工单！',
+                        'notice_body': modify_info.get("title"),
+                        'notice_url': '/task/personal/review',
+                        'notice_type': 'notice',
+                    }
+                    for item in reviewers_list:
+                        notice_add(item.get("sid_id", 0), data_manage)
                     # 插入指派对象
                     assigners = task_period_assigner_db.query_task_assigner_by_tpid(tpid)
                     assigner_list = []
@@ -167,6 +195,15 @@ def weekly_task():
                             result_dict["result"] = 0
                             review_result.append(result_dict)
                         task_review_result_db.mutil_insert(review_result)
+                    # 指派通知
+                    data_manage = {
+                        'notice_title': '您有一个新的工单！',
+                        'notice_body': modify_info.get("title"),
+                        'notice_url': '/task/personal',
+                        'notice_type': 'notice',
+                    }
+                    for item in assigner_list:
+                        notice_add(item.get("member_id_id", 0), data_manage)
         except Exception as e:
             print(e)
 
@@ -223,6 +260,15 @@ def monthly_task():
                         att_json["follow"] = item.follow
                         reviewers_list.append(att_json)
                     task_review_db.mutil_insert_reviewer(reviewers_list)
+                    # 审核通知
+                    data_manage = {
+                        'notice_title': '您有一个新的审核工单！',
+                        'notice_body': modify_info.get("title"),
+                        'notice_url': '/task/personal/review',
+                        'notice_type': 'notice',
+                    }
+                    for item in reviewers_list:
+                        notice_add(item.get("sid_id", 0), data_manage)
                     # 插入指派对象
                     assigners = task_period_assigner_db.query_task_assigner_by_tpid(tpid)
                     assigner_list = []
@@ -248,6 +294,15 @@ def monthly_task():
                             result_dict["result"] = 0
                             review_result.append(result_dict)
                         task_review_result_db.mutil_insert(review_result)
+                    # 指派通知
+                    data_manage = {
+                        'notice_title': '您有一个新的工单！',
+                        'notice_body': modify_info.get("title"),
+                        'notice_url': '/task/personal',
+                        'notice_type': 'notice',
+                    }
+                    for item in assigner_list:
+                        notice_add(item.get("member_id_id", 0), data_manage)
         except Exception as e:
             print(e)
 

@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 
 
 class TaskForm(django_forms.Form):
-    title = django_fields.CharField(error_messages={"required": "任务名称不能为空"})
+    title = django_fields.CharField(max_length=128,error_messages={"required": "任务名称不能为空"})
     content = django_fields.CharField(error_messages={"required": "任务描述不能为空"})
     type_id = django_fields.IntegerField(error_messages={"required": "归档分类不能为空"})
     issuer_id = django_fields.IntegerField(required=False)

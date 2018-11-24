@@ -1,7 +1,7 @@
-{% extends "index.html" %} 
+{% extends "layout.html" %}
 <meta charset="UTF-8">
 
-{% block index %}
+{% block content %}
 {% csrf_token %}
 <div class="x-nav">
 	<span class="layui-breadcrumb">
@@ -92,7 +92,6 @@ layui.use('table', function(){
 	        });
 	    }
 	  });
-  
   var $ = layui.$, active = {
 	deletechoice: function(){ //获取选中数据
     	//var csrf = $('input[name="csrfmiddlewaretoken"]').val();

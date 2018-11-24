@@ -99,3 +99,7 @@ a.selector-chooseall, a.selector-clearall {
 a.selector-chooseall, a.selector-clearall {
     border-top: 1px solid #e4e4e4;
 }
+
+.selector-filter input[type=text]{
+    width:100% !important;
+}
