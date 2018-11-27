@@ -1,20 +1,26 @@
 {% extends "layout.html" %}
 <meta charset="UTF-8">
 
+{% block css %}
+    <link rel="stylesheet" href="/static/plugins/layui/css/layui.css">
+{%endblock %}
+
 {% block content %}
 {% csrf_token %}
-<div class="x-nav">
+ <div class="wrapper wrapper-content   animated fadeInRight" >
+    <div class="x-nav ">
 	<span class="layui-breadcrumb">
-        <a href="">用户管理</a>
+        <a href="">消息管理</a>
       </span>
       <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
       </a>
 </div>
-<div class="x-body">
+    <div class="x-body">
 	<div class="layui-row  ">
 		<div class='layui-col-md3'>
 	       <form class="layui-form layui-col-md12 x-so">
+               <!--
 		        <div class="layui-input-inline">
 			        <select name="contrller" id='id_notice_type'>
 		              <option value="">消息类型</option>
@@ -22,6 +28,7 @@
 		              <option value="inform">任务通知</option>
 		            </select>
 		        </div>
+		        -->
 		        <div class="layui-input-inline">
 			        <select name="contrller" id='id_notice_status'>
 		              <option value="">消息状态</option>
@@ -46,9 +53,24 @@
 	<table class="layui-hide" id="notice_table" lay-filter="notice"></table> 
 	
 </div>
-<script>
-var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+ </div>
+{% endblock %}
 
+{% block js %}
+    <script src="/static/plugins/layui/layui.js"> </script>
+
+    <script type="text/html" id="statusTpl">
+    {% verbatim %}
+     {{#  if(d.notice_status === '未读'){ }}
+    <span style="color: #009688;">{{ d.notice_status }}</span>
+  {{#  } else { }}
+    {{ d.notice_status }}
+  {{#  } }}
+    {% endverbatim %}
+</script>
+
+    <script>
+var csrf = $('input[name="csrfmiddlewaretoken"]').val();
 layui.use('table', function(){
   var table = layui.table;
   //方法级渲染
@@ -59,10 +81,10 @@ layui.use('table', function(){
     ,where: {'csrfmiddlewaretoken':csrf}
     ,cols: [[
       {checkbox: true, fixed: true}
-      ,{field:'notice_title', title: '标题',width:150, fixed: true}
-      ,{field:'notice_body', title: '通知内容', event:'read'}
-      ,{field:'notice_status', title: '阅读状态',width:100}
-      ,{field:'notice_time', title: '通知日期',width:200, sort: true}
+      ,{field:'notice_title', title: '标题', fixed: true}
+      ,{field:'notice_body', title: '通知内容', /*event:'read'*/}
+      ,{field:'notice_status', title: '阅读状态',templet: '#statusTpl'}
+      ,{field:'notice_time', title: '通知日期', sort: true}
     ]]
     ,id: 'testReload'
     ,page: true
@@ -106,7 +128,7 @@ layui.use('table', function(){
 		    	layer.msg(res.error);
 		    	setTimeout(function(){
 		    		location.replace(location.href);
-		    	},2000)
+		    	},1000)
 	    	});
     	})
     }
@@ -123,7 +145,7 @@ layui.use('table', function(){
     		layer.msg(res.error);
     		setTimeout(function(){
 	    		location.replace(location.href);
-	    	},2000)
+	    	},1000)
 	 	})
 	 }
 	,readall: function(){ //获取选中数据
@@ -131,7 +153,7 @@ layui.use('table', function(){
 	    	layer.msg(res.error);
 	    	setTimeout(function(){
 	    		location.replace(location.href);
-	    	},2000)
+	    	},1000)
     		
 	 	})
 	 }
@@ -152,7 +174,9 @@ layui.use('table', function(){
     var type = $(this).data('type');
     active[type] ? active[type].call(this) : '';
   });
+
 });
 
 </script>
+
 {% endblock %}

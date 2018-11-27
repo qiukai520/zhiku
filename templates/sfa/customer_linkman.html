@@ -61,6 +61,13 @@
                         </div>
                           <div class="hr-line-dashed"></div>
                             <div class="form-group">
+                            <label class="col-sm-2 control-label">微信名</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="wx_name" class="form-control" name="wx_name"  >
+                            </div>
+                        </div>
+                          <div class="hr-line-dashed"></div>
+                            <div class="form-group">
                             <label class="col-sm-2 control-label">职位</label>
                             <div class="col-sm-8">
                                 <select  name="job_title_id" class="form-control" id="job_title_id" >
@@ -280,6 +287,7 @@ function InitData() {
         $("#customer_id").val({{ customer_obj.nid}});
         $("#nid").val({{ query_set.nid }});
         $("#name").val("{{ query_set.name }}");
+        $("#wx_name").val("{% if  query_set.wx_name %}{{ query_set.wx_name }} {% endif %}");
         $("#age").val({{ query_set.age }});
         $("#phone").val("{% if  query_set.phone %}{{ query_set.phone }} {% endif %}");
         $("#mobile").val("{% if  query_set.mobile %}{{ query_set.mobile }} {% endif %}");
@@ -292,7 +300,7 @@ function InitData() {
         $("#native_place").val("{% if  query_set.native_place %}{{ query_set.native_place }} {% endif %}");
         $("#job_title_id").val({{ query_set.job_title_id }});
 
-        //初始化商品照
+        //初始化照片
          var photo= "{{ linkman_photo }}"
          console.log("linkman_photo",photo)
         if (photo!=""){

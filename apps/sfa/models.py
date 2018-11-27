@@ -49,11 +49,15 @@ class CustomerInfo(SoftDeletableModel):
     website = models.CharField(max_length=64, verbose_name="网站", blank=True, null=True)
     phone = models.CharField(max_length=16, verbose_name="联系电话", blank=True, null=True)
     town = models.ForeignKey(Town, to_field="nid", on_delete=models.CASCADE, verbose_name='街道',
-                               db_constraint = False)
+                               db_constraint=False)
     address = models.CharField(max_length=64, verbose_name="地址", blank=True, null=True)
     remark = models.TextField(max_length=512, verbose_name="备注", blank=True, null=True)
-    recorder = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='录入人',
+    follower = models.ForeignKey(Staff,blank=True, null=True, to_field="sid", related_name="customer_follower", on_delete=models.CASCADE, verbose_name='跟进人',
                                  db_constraint=False)
+    ftime = models.DateTimeField(auto_now_add=True, verbose_name='开始跟进时间')
+    recorder = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='记录人',
+                                 db_constraint=False)
+    is_sign = models.BooleanField(default=False,verbose_name="是否签约")
     is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
@@ -66,9 +70,9 @@ class CustomerInfo(SoftDeletableModel):
     def __str__(self):
         return self.company
 
-    _insert = ["purpose_id","company" ,"category_id","recorder_id","industry_id", "business""employees","introduce",'website',"remark","address",
+    _insert = ["purpose_id","company" ,"category_id","follower_id","recorder_id","industry_id", "business""employees","introduce",'website',"remark","address",
                 "town_id", "phone"]
-    _update = ["purpose_id","company","category_id", "industry_id", "business","employees","introduce",'website',"remark","address",
+    _update = ["purpose_id","company","category_id","follower_id", "industry_id", "business","employees","introduce",'website',"remark","address",
                 "town_id","phone"]
 
 
@@ -150,7 +154,8 @@ class CustomerLinkman(SoftDeletableModel):
     nid = models.AutoField(primary_key=True)
     customer = models.ForeignKey('CustomerInfo', to_field="nid", on_delete=models.CASCADE, db_constraint=False,
                                    default=1, verbose_name='客户')
-    name = models.CharField(max_length=32, verbose_name='联系人')
+    name = models.CharField(max_length=32, verbose_name='姓名')
+    wx_name = models.CharField(max_length=32, verbose_name='微信名')
     gender = models.SmallIntegerField(choices=gender_choice, verbose_name="性别", default=0)
     age = models.SmallIntegerField(verbose_name="年龄", blank=True, null=True)
     job_title = models.ForeignKey(JobTitle, to_field="id", on_delete=models.CASCADE, db_constraint=False,
@@ -175,9 +180,9 @@ class CustomerLinkman(SoftDeletableModel):
             return self.name
 
     _insert = ["customer_id", "name", "gender","job_title_id" ,"age", "marriage", "mobile", "phone", "ext_phone",
-               "birthday","is_lunar","native_place"]
+               "birthday","is_lunar","native_place","wx_name"]
     _update = ["customer_id", "name", "gender", "age","job_title_id", "marriage", "mobile", "phone", "ext_phone",
-               "birthday","is_lunar","native_place"]
+               "birthday","is_lunar","native_place","wx_name"]
 
 
 class CustomerLinkmanAttach(models.Model):

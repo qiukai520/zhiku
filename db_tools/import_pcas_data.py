@@ -6,16 +6,14 @@ import sys
 import os
 
 pwd = os.path.dirname(os.path.realpath(__file__))
-print("pwd",pwd)
 sys.path.append(pwd+"../")
-print("sys.path",sys.path)
 # 加载配置文件
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "thinking_library.settings")
 
 import django
 django.setup()
 
-from inventory.models import Province,City,Country,Town
+from public.models import Province,City,Country,Town
 
 from db_tools.data.pcas_data import region_data
 

@@ -19,6 +19,18 @@ def customer_list(request):
     return render(request, 'sfa/customer_list.html', {"query_sets": query_sets})
 
 
+def customer_personal(request):
+    follower=request.user.staff.sid
+    query_sets = customer_db.query_customer_by_follower(follower)
+    return render(request, 'sfa/customer_personal.html', {"query_sets": query_sets})
+
+
+def customer_public(request):
+    follower=0
+    query_sets = customer_db.query_customer_by_follower(follower)
+    return render(request, 'sfa/customer_public.html', {"query_sets": query_sets})
+
+
 def customer_edit(request):
     mothod = request.method
     if mothod == "GET":

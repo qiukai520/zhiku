@@ -13,7 +13,7 @@ from .models import Notice
 def notice_read(request, notice_id):
     user = request.user
 
-    notice = get_object_or_404(models.Notice, notice_user=user, id=notice_id)
+    notice = get_object_or_404(models.Notice,user=user.staff, nid=notice_id)
     notice.notice_status = True
     notice.save()
     return HttpResponseRedirect(notice.notice_url)
@@ -52,7 +52,7 @@ def notice_action(request):
     action = request.POST.get('action')
     # notice_id_list = ast.literal_eval(notice_id_list)
     for notice_id in notice_id_list:
-        notice_get = get_object_or_404(models.Notice, notice_user=user, id=notice_id)
+        notice_get = get_object_or_404(models.Notice, user=user.staff, nid=notice_id)
         if action == 'delete':
             notice_get.delete()
         elif action == 'read':
@@ -82,22 +82,22 @@ def notice_table_list(request):
         notice_status = ['True', 'False']
     else:
         notice_status = [notice_status]
-
-    notice_list = models.Notice.objects.filter(notice_user=user, notice_status__in=notice_status,
+    notice_list = models.Notice.objects.filter(user=user.staff, notice_status__in=notice_status,
                                                notice_type__icontains=notice_type).order_by('-notice_time')
     total = notice_list.count()
     # notice_list = paging(notice_list, rows, page)
     data = []
     for notice in notice_list:
         dic = {}
-        dic['id'] = notice.id
+        dic['id'] = notice.nid
         dic['notice_title'] = notice.notice_title
         dic['notice_body'] = notice.notice_body
         if notice.notice_status:
             dic['notice_status'] = '已读'
         else:
             dic['notice_status'] = '未读'
-        dic['notice_time'] = notice.notice_time
+        dic['notice_time'] = notice.notice_time.strftime("%Y-%m-%d %H:%M:%S")
+
         data.append(dic)
     resultdict['code'] = 0
     resultdict['msg'] = "用户申请列表"

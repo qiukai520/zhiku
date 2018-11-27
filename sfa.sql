@@ -13,7 +13,10 @@ create TABLE `customer_info`(
 `town_id`int(11)  NOT NUll COMMENT '街道',
 `address` varchar (128) COMMENT '详细地址',
 `remark` varchar (128) COMMENT '备注',
+`follower_id`int(11)  DEFAULT 0  COMMENT '跟进人',
+`ftime` datetime   DEFAULT NUll   COMMENT '开始跟进时间',
 `recorder_id`int(11) NOT NULL COMMENT '录入人',
+`is_sign` tinyint(1) NOT NULL DEFAULT 0 COMMENT '签约状态:0未签约，1已签约',
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
@@ -59,6 +62,7 @@ create TABLE `customer_linkman`(
 `nid` int(11) primary key auto_increment,
 `customer_id` int(11) NOT NULL  COMMENT '客户',
 `name` varchar(16) NOT NUll COMMENT '姓名',
+`wx_name` varchar(16)  COMMENT '微信名',
 `gender` tinyint(1) NOT NULL  DEFAULT 0 COMMENT '性别:0男，1女',
 `age`  tinyint(1) COMMENT '年龄',
 `marriage`  tinyint(1) NOT NULL  DEFAULT 0 COMMENT '婚姻:0未婚，1已婚',

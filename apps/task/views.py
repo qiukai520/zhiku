@@ -568,16 +568,6 @@ def task_assign(request):
                             item['tmid_id'] = tmid
                             reviewers_list.append(item)
                         task_review_db.mutil_insert_reviewer(reviewers_list)
-                        # 审核通知
-                        data_manage = {
-                            'notice_title': '您有一个新的审核工单！',
-                            'notice_body': modify.get("title"),
-                            'notice_url': '/task/personal/review',
-                            'notice_type': 'notice',
-                        }
-                        for item in reviewers_list:
-                            print("review",item)
-                            notice_add(item.get("sid_id",0), data_manage)
                     ret['status'] = True
                     ret['data'] = tmid
             except Exception as e:
@@ -1296,6 +1286,7 @@ def complete_task(request):
                 # 获取完成进度
                 task_assign_obj = task_assign_db.query_task_assign_by_tasid(data["tasid_id"])
                 task_assign_obj = task_assign_obj.first()
+                task_map_obj = task_map_db.query_task_by_tmid(task_assign_obj.tmid_id)
                 try:
                     with transaction.atomic():
                         if task_assign_obj.progress > int(data["completion"]):
@@ -1325,13 +1316,27 @@ def complete_task(request):
                             k2 = data["tasid_id"]
                             if not res.hexists(k1,k2):
                                 res.hset(k1,k2,expire_date)
-
+                            # print(str(res.hget(k1,k2),encoding ="utf-8"))
                             # keys = "task&{0}".format(data["tasid_id"])
                             # print(cache.get())
                             # print(cache.has_key(keys))
                             # if not cache.has_key(keys):
                             #     cache.set(keys,keys, expire_date)
-                            print(str(res.hget(k1,k2),encoding ="utf-8"))
+                            # 审核通知
+                            task_review_list=task_review_db.query_task_reviewer_by_tmid(task_assign_obj.tmid)
+                            data_manage = {
+                                'notice_title': '您有一个新的审核工单等待审核！',
+                                'notice_body': task_map_obj.title,
+                                'notice_url': '/task/personal/reviews/review',
+                                'notice_type': 'notice',
+                            }
+                            for item in task_review_list:
+                                sid_id = item.sid_id
+                                task_assign_obj = task_assign_db.query_task_assign_by_member_id_and_tmid(sid_id,task_assign_obj.tmid)
+                                if task_assign_obj:
+                                    data_manage["notice_url"] += "?tasid={0}".format(task_assign_obj.tasid)
+                                print("data_manage",data_manage)
+                                notice_add(sid_id, data_manage)
                         ret["status"] = True
                 except Exception as e:
                     print(e)

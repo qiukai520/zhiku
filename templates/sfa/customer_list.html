@@ -66,9 +66,11 @@
                                              <th>公司名称</th>
                                              <th>行业</th>
                                              <th>主营业务</th>
-                                             <th>简介</th>
+{#                                             <th>简介</th>#}
                                              <th>公司网站</th>
                                               <th>电话</th>
+                                              <th>是否签约</th>
+                                              <th>跟进人</th>
                                              <th>所在区域</th>
                                              <th>操作</th>
                                           </tr>
@@ -82,9 +84,11 @@
                                           <td><a href=" {% url 'customer_detail' %}?id={{ obj.nid }}">{{ obj.company }}</a></td>
                                           <td>{% change_to_industry obj.industry_id%}</td>
                                            <td>{{ obj.business }}</td>
-                                          <td>{% if obj.introduce  %}{{ obj.introduce }}{% else  %}空{% endif %}</td>
+{#                                          <td>{% if obj.introduce  %}{{ obj.introduce }}{% else  %}空{% endif %}</td>#}
                                           <td>{% if obj.website  %} <a href=" https://{{ obj.website }}">{{ obj.website }}</a>{% else  %}空{% endif %}</td>
                                           <td>{% if obj.phone  %}{{ obj.phone }}{% else  %}空{% endif %}</td>
+                                         <td>{% if obj.is_sign  %}是 {% else  %}否{% endif %}</td>
+                                          <td>{% if obj.follower_id  %}{% change_to_staff obj.follower_id %} {% else  %}无{% endif %}</td>
                                            {% fetch_country_nid  obj.town_id  as country_id %}
                                           {% fetch_city_nid  country_id  as city_id %}
                                           {% fetch_province_nid  city_id  as province_id %}
@@ -146,7 +150,7 @@
             pagination: true,
             sortable: true,
             sortOrder: "asc",
-            pageSize: 2,
+            pageSize: 10,
             pageList: [10,15,20, 25],
             search: true,
             sortable: true,

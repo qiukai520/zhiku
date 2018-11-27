@@ -12,7 +12,6 @@ from notice.views import notice_add
 @app.task
 def daily_task():
     """指派日常任务"""
-    print("日常任务")
     cycle = 2
     today = datetime.datetime.today()
     # 获取周期任务
@@ -62,16 +61,6 @@ def daily_task():
                         att_json["follow"] = item.follow
                         reviewers_list.append(att_json)
                     task_review_db.mutil_insert_reviewer(reviewers_list)
-                    # 审核通知
-                    data_manage = {
-                        'notice_title': '您有一个新的审核工单！',
-                        'notice_body': modify_info.get("title"),
-                        'notice_url': '/task/personal/review',
-                        'notice_type': 'notice',
-                    }
-                    for item in reviewers_list:
-                        print("review", item)
-                        notice_add(item.get("sid_id", 0), data_manage)
                     # 插入指派对象
                     assigners = task_period_assigner_db.query_task_assigner_by_tpid(tpid)
                     assigner_list = []
@@ -111,7 +100,6 @@ def daily_task():
 @app.task
 def weekly_task():
     """指派周期任务"""
-    print("指派周期任务")
     cycle = 3
     today = datetime.datetime.today()
     # 获取周期任务
@@ -161,15 +149,6 @@ def weekly_task():
                         att_json["follow"] = item.follow
                         reviewers_list.append(att_json)
                     task_review_db.mutil_insert_reviewer(reviewers_list)
-                    # 审核通知
-                    data_manage = {
-                        'notice_title': '您有一个新的审核工单！',
-                        'notice_body': modify_info.get("title"),
-                        'notice_url': '/task/personal/review',
-                        'notice_type': 'notice',
-                    }
-                    for item in reviewers_list:
-                        notice_add(item.get("sid_id", 0), data_manage)
                     # 插入指派对象
                     assigners = task_period_assigner_db.query_task_assigner_by_tpid(tpid)
                     assigner_list = []
@@ -260,15 +239,6 @@ def monthly_task():
                         att_json["follow"] = item.follow
                         reviewers_list.append(att_json)
                     task_review_db.mutil_insert_reviewer(reviewers_list)
-                    # 审核通知
-                    data_manage = {
-                        'notice_title': '您有一个新的审核工单！',
-                        'notice_body': modify_info.get("title"),
-                        'notice_url': '/task/personal/review',
-                        'notice_type': 'notice',
-                    }
-                    for item in reviewers_list:
-                        notice_add(item.get("sid_id", 0), data_manage)
                     # 插入指派对象
                     assigners = task_period_assigner_db.query_task_assigner_by_tpid(tpid)
                     assigner_list = []
@@ -307,6 +277,7 @@ def monthly_task():
             print(e)
 
 
+@app.task
 def task_auot_review():
     """自动审核到期任务"""
     # 获取所有等待审核人任务

@@ -26,8 +26,16 @@ class CustomerDB(object):
         result_db = CustomerInfo.objects.filter().all()
         return result_db
 
+    def query_customer_by_follower(self,follower):
+        result_db = CustomerInfo.objects.filter(follower_id=follower).all()
+        return result_db
+
     def query_customer_by_id(self, nid):
         result_db = CustomerInfo.objects.filter(nid=nid).first()
+        return result_db
+
+    def query_customer_by_is_sign(self, is_sign,expire_time):
+        result_db = CustomerInfo.objects.filter(is_sign=is_sign, ftime__lt=expire_time).all()
         return result_db
 
     def update_customer(self, modify):

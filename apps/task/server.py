@@ -683,6 +683,10 @@ class TaskAssignDB(object):
         result_db = TaskAssign.objects.filter(member_id=member_id).all()
         return result_db
 
+    def query_task_assign_by_member_id_and_tmid(self,member_id,tmid):
+        result_db = TaskAssign.objects.filter(member_id=member_id,tmid=tmid).first()
+        return result_db
+
     def mutil_delete_assign_by_tasid(self,id_list):
         TaskAssign.objects.filter(tasid__in=id_list).delete()
 
@@ -704,7 +708,6 @@ class TaskAssignDB(object):
 
     def update_status_by_tmid(self, tmid, status):
         TaskAssign.objects.filter(tmid_id=tmid).update(**status)
-
 
 
 class TaskSubmitRecordDB(object):

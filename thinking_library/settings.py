@@ -41,13 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.task.apps.TaskConfig',
-    'apps.rbac.apps.RbacConfig',
-    'apps.personnel.apps.PersonnelConfig',
-    'apps.inventory.apps.InventoryConfig',
-    'apps.sfa.apps.SfaConfig',
-    'apps.public.apps.PublicConfig',
-    'apps.notice.apps.NoticeConfig',
+    'task.apps.TaskConfig',
+    'rbac.apps.RbacConfig',
+    'personnel.apps.PersonnelConfig',
+    'inventory.apps.InventoryConfig',
+    'sfa.apps.SfaConfig',
+    'public.apps.PublicConfig',
+    'notice.apps.NoticeConfig',
     'xadmin',
     'crispy_forms',
     'reversion',
@@ -226,5 +226,13 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(minute=30),
         # "schedule":timedelta(seconds=3),
         "args": ()
+    },
+
+    # 定时任务5：　每天凌晨检查客户列表()
+    u'检查客户列表未成交客户': {
+        "task": "notice.tasks.check_customer",
+        "schedule": crontab(hour=0, minute=0),
+        # "schedule":timedelta(seconds=5),
+        "args": (),
     },
 }
