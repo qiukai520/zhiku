@@ -84,12 +84,15 @@ def build_project_ele():
 
 
 @register.simple_tag
-def build_department_ele():
+def build_department_ele(selected=0):
     """构建部门下拉框"""
     department_list = department_db.query_department_list()
     eles = ""
     for item in department_list:
-        ele = """<option value={0}>{1}</option>""".format(item.id, item.department)
+        if item.id == selected:
+            ele = """<option  selected="selected" value={0}>{1}</option>""".format(item.id, item.department)
+        else:
+            ele = """<option value={0}>{1}</option>""".format(item.id, item.department)
         eles += ele
     return mark_safe(eles)
 

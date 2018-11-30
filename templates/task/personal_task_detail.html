@@ -125,10 +125,15 @@
                                                         {% for obj in review_result %}
                                                              <tr>
                                                                  <td>
-                                                                <span class="label label-primary"> {% change_to_review_result  obj.result %}</span>
+                                                                <span class="label label-primary"> {% if  obj.is_complete %}通过{% else %}驳回{% endif %}</span>
                                                             </td>
-                                                                 <td> {% change_to_staff obj.sid_id %}</td>
-                                                                 <td></td>
+                                                              {% fetch_task_review obj.tvid_id  as review_obj %}
+                                                                 <td> {% change_to_staff review_obj.sid_id %}</td>
+                                                                 <td>{%if obj.is_complete  %}{{ obj.comment }}
+                                                                     {% else %}
+                                                                     {{ obj.reason }}
+                                                                     {%endif %}
+                                                                     </td>
                                                             <td>{{ obj.create_time }}</td>
                                                         </tr>
                                                         {% endfor %}

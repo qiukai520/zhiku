@@ -8,6 +8,8 @@ from personnel.templatetags.personnel_tags import *
 register = template.Library()
 
 
+
+
 @register.simple_tag
 def build_customer_category_ele(selected=None):
     """构建客户分类下拉框"""
@@ -126,7 +128,6 @@ def build_follow_result_ele(selected=None):
 def build_customer_purpose_ele(selected=None):
     """构建意向分类下拉框"""
     purpose_list = customer_purpose_db.query_purpose_list()
-    print("purpose_list",purpose_list)
     eles = ""
     if not selected:
         for item in purpose_list:
@@ -141,6 +142,18 @@ def build_customer_purpose_ele(selected=None):
     return mark_safe(eles)
 
 
+@register.simple_tag
+def build_customer_purpose_simple_ele(selected=0):
+    """构建客户意向简易分类下拉框"""
+    purpose_list = customer_purpose_db.query_purpose_list()
+    eles = ""
+    for item in purpose_list:
+        if item.nid == selected:
+            ele = """<option value={0} selected="selected" >{1}客户</option>""".format(item.nid,item.code,)
+        else:
+            ele = """<option value={0}>{1}客户</option>""".format(item.nid,item.code,)
+        eles += ele
+    return mark_safe(eles)
 
 @register.simple_tag
 def change_to_customer_purpose(id):

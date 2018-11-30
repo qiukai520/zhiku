@@ -66,6 +66,7 @@
                                               <th>工单类别</th>
                                               <th>当前进度</th>
                                               <th>完成状态</th>
+                                              <th>审核状态</th>
                                               <th>创建时间</th>
                                               <th>截止时间</th>
                                               <th>操作</th>
@@ -94,6 +95,10 @@
                                                </td>
                                             <td class="task-status">
                                                 <span class="label label-primary">{% change_to_task_assign_finish obj.is_finish %}
+                                                </span>
+                                              </td>
+                                            <td class="task-status">
+                                                <span class="label label-primary">{% fetch_task_review_status obj.tasid request.user.staff.sid%}
                                                 </span>
                                               </td>
                                               <td>{{ obj.start_time|date:"Y-m-d H:i" }}</td>
@@ -134,6 +139,10 @@
                                                </td>
                                              <td class="project-status">
                                                 <span class="label label-primary">{% change_to_task_assign_finish obj.is_finish %}
+                                                </span>
+                                              </td>
+                                             <td class="task-status">
+                                                <span class="label label-primary">{% fetch_task_review_status obj.tasid request.user.staff.sid%}
                                                 </span>
                                               </td>
                                                 <td>{{ task_obj.start_time|date:"Y-m-d " }}</td>

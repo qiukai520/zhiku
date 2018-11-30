@@ -267,16 +267,16 @@ class TaskPeriodDB(object):
     def multi_delete(self, id_list, delete_status):
         TaskPeriod.objects.filter(tpid__in=id_list).update(**delete_status)
 
-
-class TaskCycleDB(object):
-    """任务周期表"""
-    def query_task_cycle_list(self):
-        result_db = TaskCycle.objects .filter().all()
-        return result_db
-
-    def query_task_cycled_by_tcid(self, tcid):
-        result_db = TaskCycle.objects.filter(tcid=tcid).first()
-        return result_db
+#
+# class TaskCycleDB(object):
+#     """任务周期表"""
+#     def query_task_cycle_list(self):
+#         result_db = TaskCycle.objects .filter().all()
+#         return result_db
+#
+#     def query_task_cycled_by_tcid(self, tcid):
+#         result_db = TaskCycle.objects.filter(tcid=tcid).first()
+#         return result_db
 
 
 class TaskTypeDB(object):
@@ -599,7 +599,7 @@ class TaskReviewResultDB(object):
     result_choice = (
         {"id": 0, "caption": "未审核"},
         {"id": 1, "caption": "驳回"},
-        {"id": 2, "caption": "痛过"},
+        {"id": 2, "caption": "通过"},
         {"id": 3, "caption": "自动痛过"},
     )
 
@@ -615,6 +615,10 @@ class TaskReviewResultDB(object):
 
     def query_task_review_by_follow(self, tasid):
         result_db = TaskReviewResult.objects.filter(tasid_id=tasid, follow__gt=1, result=0)
+        return result_db
+
+    def query_task_review_by_tasid_sid(self, tasid, sid):
+        result_db = TaskReviewResult.objects.filter(tasid_id=tasid, sid_id=sid).first()
         return result_db
 
     def query_task_review_by_tasid(self,tasid):
@@ -846,6 +850,10 @@ class TaskReviewRecordDB(object):
         result_db = TaskReviewRecord.objects.filter(tvid_id=tvid, tasid_id=tasid).all().order_by("-trrid")
         return result_db
 
+    def query_task_review_record_list_by_tasid(self,tasid):
+        result_db = TaskReviewRecord.objects.filter(tasid_id=tasid).all().order_by("-trrid")
+        return result_db
+
     def insert_review_record(self, modify_info):
         TaskReviewRecord.objects.create(**modify_info)
 
@@ -859,7 +867,7 @@ task_map_tag_db = TaskMapTagDB()
 task_period_tag_db = TaskPeriodTagDB()
 task_period_review_db = TaskPeriodReviewDB()
 task_period_assigner_db = TaskPeriodAssignerDB()
-task_cycle_db = TaskCycleDB()
+# task_cycle_db = TaskCycleDB()
 task_type_db = TaskTypeDB()
 task_attachment_db = TaskAttachmentDB()
 task_tag_db = TaskTagDB()

@@ -17,11 +17,14 @@ import xadmin
 from django.contrib import admin
 from django.urls import path
 from . import views
+from . import tasks
 
 urlpatterns = [
-    path("customer", views.customer_list, name="customer_list"),
-    path("personal", views.customer_personal, name="customer_personal"),
+    path("customer", views.customer, name="customer_list"),
+    path("center", views.customer_center, name="customer_center"),
     path("public", views.customer_public, name="customer_public"),
+    path("sea_rule", views.sea_rule_list, name="sea_rule_list"),
+    path("sea_rule/edit",views.sea_rule_edit,name="sea_rule_edit"),
     path("customer/edit", views.customer_edit,name="customer_edit"),
     path("customer/delete",views.customer_delete,name="customer_delete"),
     path("customer/detail", views.customer_detail, name='customer_detail'),
@@ -33,6 +36,9 @@ urlpatterns = [
     path("customer/memo", views.customer_memo, name='customer_memo'),
     path("customer/contact",views.customer_contact,name="customer_contact"),
     path("customer/follow", views.customer_follow, name='customer_follow'),
+    path("customer/assign", views.customer_assign, name='customer_assign'),
+    path("follow_customer",views.follow_customer, name="follow_customer"),
+    path("abandon_customer", views.abandon_customer, name="abandon_customer"),
     path("upload_customer_photo", views.customer_photo, name="customer_photo"),
     path("upload_customer_licence", views.customer_licence, name="customer_licence"),
     path("upload_attach", views.customer_attach, name="customer_attach"),

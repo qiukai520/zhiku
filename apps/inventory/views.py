@@ -13,10 +13,13 @@ from personnel.templatetags.personnel_tags import *
 # Create your views here.
 
 
-
 def goods_list(request):
+    cid = int(request.GET.get("category",0))
     query_sets = goods_db.query_goods_list()
-    return render(request, 'inventory/goods_list.html',{"query_sets":query_sets})
+    if cid > 0:
+        query_sets=query_sets.filter(category_id=cid).all()
+    return render(request, 'inventory/goods_list.html',{"query_sets":query_sets,"category":cid})
+
 
 def search_goods(request):
     """商品查找"""
@@ -32,7 +35,6 @@ def search_goods(request):
         data["goods_id"] = goods_obj.nid
         data["goods_name"] = goods_obj.name
         data["goods_unit"] = goods_obj.unit_id
-
         # 查询上一次的库存信息
         last_invent = invent_db.query_invent_by_goods(goods_obj.nid)
         if last_invent:
@@ -196,6 +198,7 @@ def goods_detail(request):
                                                                 })
     return render(request,'404.html')
 
+
 def goods_category_list(request):
     query_sets = goods_category_db.query_category_list()
     return render(request,"inventory/goods_category_list.html",{"query_sets":query_sets})
@@ -243,9 +246,6 @@ def goods_category_edit(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
     return HttpResponse(json.dumps(ret))
-
-
-
 
 
 def goods_unit_list(request):
@@ -348,8 +348,12 @@ def industry_edit(request):
 
 def invent_list(request):
     """库存列表"""
-    query_sets = goods_db.query_repertory_goods_list()
-    return render(request,"inventory/invent_list.html",{"query_sets":query_sets})
+    cid = int(request.GET.get("category", 0))
+    if cid > 0:
+        query_sets = goods_db.query_repertory_goods_list(cid)
+    else:
+        query_sets = goods_db.query_repertory_goods_list()
+    return render(request,"inventory/invent_list.html",{"query_sets":query_sets,'category':cid})
 
 
 class InventViewSet(View):
@@ -791,12 +795,16 @@ def fetch_linkman(request):
     return HttpResponse(json.dumps(ret))
 
 
-
-
 def supplier_list(request):
     """供应商列表"""
+    cid = int(request.GET.get("category", 0))
+    industry = int(request.GET.get("industry", 0))
     query_sets = supplier_db.query_supplier_list()
-    return render(request, 'inventory/supplier_list.html', {"query_sets": query_sets})
+    if cid > 0:
+        query_sets = query_sets.filter(category_id=cid).all()
+    if industry > 0:
+        query_sets = query_sets.filter(industry_id=industry).all()
+    return render(request, 'inventory/supplier_list.html', {"query_sets": query_sets, "category":cid,"industry":industry})
 
 
 def supplier_edit(request):
@@ -846,9 +854,12 @@ def supplier_edit(request):
                         # 更新商品信息
                         record = supplier_db.query_supplier_by_id(nid)
                         supplier_info = compare_fields(Supplier._update, record, data)
+                        print(supplier_info)
                         if supplier_info:
                             supplier_info["nid"] = nid
-                            supplier_db.update_supplier(supplier_info)
+                        if not supplier_info["employees"]:
+                            supplier_info["employees"] = 0
+                        supplier_db.update_supplier(supplier_info)
                         # 插入供应商照片
                         photo_record = supplier_photo_db.query_supplier_photo(nid)
                         if supplier_photo:

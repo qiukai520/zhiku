@@ -892,10 +892,19 @@ def task_review(request):
                     # 如果通过 更新相应任务的完成状态
                     is_finish = True
                     is_reviewed = True
+                    task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid).first()
                     if is_complete > 0:
                         # 更新该任务审核状态
                         result = {"result": 2}
                         task_review_result_db.update_result(tasid,user_id,result)
+                        # 审核通过通知
+                        data_manage = {
+                            'notice_title': '工单审核通过！',
+                            'notice_body': data["comment"],
+                            'notice_url': '/task/personal',
+                            'notice_type': 'notice',
+                        }
+                        notice_add(task_assign_obj.member_id_id, data_manage)
                         # check 是否所有审核人都确认通过
                         review_result = task_review_result_db.query_task_review_by_tasid(tasid)
                         for item in review_result:
@@ -950,12 +959,19 @@ def task_review(request):
                                     # 添加团队绩效
                                     for item in task_assign_list:
                                         performance_obj ={"sid_id":item.sid_id,"tmid_id":item.tmid_id,"team_score": performence_obj.team_score}
-                                        print("perform_obj",performance_obj)
                                         performance_record_db.update_performence_record(performance_obj)
                     else:
                         # 更新该任务审核状态
                         result = {"result": 1}
                         task_review_result_db.update_result(tasid, user_id, result)
+                        # 审核驳回通知
+                        data_manage = {
+                            'notice_title': '工单被驳回！',
+                            'notice_body': data["reason"],
+                            'notice_url': '/task/personal',
+                            'notice_type': 'notice',
+                        }
+                        notice_add(task_assign_obj.member_id_id, data_manage)
                     ret['status'] = True
             except Exception as e:
                 print(e)
@@ -1134,8 +1150,8 @@ def performence_statistic(request):
     year_month = today.strftime("%Y-%m")
     dpid = request.GET.get('dpid', 0)
     sid = request.GET.get("sid", 0)
-    startMonth = request.GET.get("startMonth", year_month)
-    endMonth = request.GET.get("endMonth", startMonth)
+    startMonth = is_valid_date(request.GET.get("startMonth", ''))
+    endMonth = is_valid_date(request.GET.get("endMonth", ''))
     if not startMonth:
         startMonth = year_month
     if not endMonth:
@@ -1316,12 +1332,6 @@ def complete_task(request):
                             k2 = data["tasid_id"]
                             if not res.hexists(k1,k2):
                                 res.hset(k1,k2,expire_date)
-                            # print(str(res.hget(k1,k2),encoding ="utf-8"))
-                            # keys = "task&{0}".format(data["tasid_id"])
-                            # print(cache.get())
-                            # print(cache.has_key(keys))
-                            # if not cache.has_key(keys):
-                            #     cache.set(keys,keys, expire_date)
                             # 审核通知
                             task_review_list=task_review_db.query_task_reviewer_by_tmid(task_assign_obj.tmid)
                             data_manage = {
@@ -1335,7 +1345,6 @@ def complete_task(request):
                                 task_assign_obj = task_assign_db.query_task_assign_by_member_id_and_tmid(sid_id,task_assign_obj.tmid)
                                 if task_assign_obj:
                                     data_manage["notice_url"] += "?tasid={0}".format(task_assign_obj.tasid)
-                                print("data_manage",data_manage)
                                 notice_add(sid_id, data_manage)
                         ret["status"] = True
                 except Exception as e:

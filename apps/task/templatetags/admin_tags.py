@@ -528,6 +528,15 @@ def fetch_completion_by_tasid(tasid):
 
 
 @register.simple_tag
+def fetch_task_review_status(tasid,sid):
+    result_db = task_review_result_db.query_task_review_by_tasid_sid(tasid,sid)
+    if result_db:
+        choice_list = task_review_result_db.result_choice
+        for item in choice_list:
+            if item["id"] == result_db.result:
+                return item['caption']
+
+@register.simple_tag
 def build_task_tags_list(tid):
     """构建任务标签列表"""
     ele_list = ''
@@ -704,7 +713,7 @@ def fetch_task_submit_record(tmid):
 
 @register.simple_tag
 def fetch_task_assign_member_by_tasid(tasid,show=1):
-    path="review/record"
+    path="/task/review/center/record"
     task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)
     task_assign_obj = task_assign_obj.first()
     staff_obj = staff_db.query_staff_by_id(task_assign_obj.member_id_id)
@@ -760,12 +769,16 @@ def fetch_task_assing_list(tmid):
 
 @register.simple_tag
 def fetch_task_review_result(tasid):
-    """获取任务审核结果"""
-    print("tasid",tasid)
+    """获取任务审核记录"""
     if tasid:
-        task_review_result = task_review_result_db.query_task_review_by_tasid(tasid)
+        task_review_result = task_review_record_db.query_task_review_record_list_by_tasid(tasid)
         return task_review_result
 
+@register.simple_tag
+def fetch_task_review(tvid):
+    if tvid:
+        task_review = task_review_db.query_task_reviewer_by_tvid(tvid)
+        return task_review
 
 @register.simple_tag
 def fetch_assign_finish_status(status):

@@ -2,6 +2,7 @@
 {% load public_tags %}
 {% load inventory_tags %}
 {% load sfa_tags %}
+{% load personnel_tags %}
 {% block css %}
     <style>
      #toolbar >.btn{
@@ -41,12 +42,34 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group" id="toolbar" role="group">
+                                     <form class="form-inline" action="{% url "customer_center" %}" method="get" style="margin-bottom: 5px">
+                                         <div class="form-group">
+                                            <label class="sr-only" for="product_line">客户意向</label>
+                                            <div class="input-group">      <div class="input-group-addon">客户意向</div>
+                                                <select class="form-control" name="sort" id="sort" >
+                                                    <option value="0">所有</option>
+                                                    {% build_customer_purpose_simple_ele  sort%}
+                                                </select>
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                            <label class="sr-only" for="msg_type">是否成交</label>
+                                            <div class="input-group">      <div class="input-group-addon">成交</div>
+                                                <select class="form-control" name="sign" id="sign" >
+                                                    <option value="2">所有</option>
+                                                    <option value="1">已成交</option>
+                                                    <option value="0">未成交</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <button type="submit" style="margin:0" onclick="" class="btn btn-primary queryButton">查询</button>
+                                    </form >
                                      <a href="{% url "customer_edit" %}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;录入客户</a>
                                     <button  onclick="AddFollow()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp添加跟进记录</button>
                                     <button  onclick="AddLinkman()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加联系人</button>
                                     <button  onclick="AddMemo()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp添加备忘</button>
                                     <button  onclick="AddContact()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp添加收支</button>
-                                    <button  onclick="MultiDelete()" class="btn btn-danger "  ><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
+                                    <button  onclick="Abandon()"  class="btn btn-danger" ><i class="glyphicon glyphicon-remove"></i>&nbsp放入公海</button>
                                 </div>
                             <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
                                  <span id="exportToolbar" style="display: inline-block" class="btn-group">
@@ -69,8 +92,7 @@
 {#                                             <th>简介</th>#}
                                              <th>公司网站</th>
                                               <th>电话</th>
-                                              <th>是否签约</th>
-                                              <th>跟进人</th>
+                                              <th>是否成交</th>
                                              <th>所在区域</th>
                                              <th>操作</th>
                                           </tr>
@@ -88,7 +110,6 @@
                                           <td>{% if obj.website  %} <a href=" https://{{ obj.website }}">{{ obj.website }}</a>{% else  %}空{% endif %}</td>
                                           <td>{% if obj.phone  %}{{ obj.phone }}{% else  %}空{% endif %}</td>
                                          <td>{% if obj.is_sign  %}是 {% else  %}否{% endif %}</td>
-                                          <td>{% if obj.follower_id  %}{% change_to_staff obj.follower_id %} {% else  %}无{% endif %}</td>
                                            {% fetch_country_nid  obj.town_id  as country_id %}
                                           {% fetch_city_nid  country_id  as city_id %}
                                           {% fetch_province_nid  city_id  as province_id %}
@@ -142,6 +163,11 @@
            /*
     自执行函数
     */
+     $(function () {
+      //初始化化下拉框
+      $("#sign").val({{ sign }})
+
+  })
     $(function () {
         $("#customers").bootstrapTable({
             toolbar: "#toolbar",
@@ -186,6 +212,47 @@
         ischecked=$(ths).is(":checked");
         //如果选中则全选中,否则取消选中
         $(ths).parent().parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
+    }
+
+            //放弃跟进
+    function Abandon() {
+       //是否有选中客户
+      var ids="";
+        $("tbody input:checkbox:checked").each(function () {
+            id = $(this).next().val();
+            if (id){
+                id+="|";
+                ids+=id;
+            }
+        });
+        //是否选中
+        if (ids==""){
+             layer.alert('至少选择一个对象', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $.ajax({
+            url:"{% url "abandon_customer" %}",
+            data:{"ids":ids,},
+            type:"get",
+            dataType:"JSON",
+            success:function (arg) {
+                if (arg.status){
+                     layer.msg("操作成功");
+                   setTimeout(function(){
+                       location.replace(location.href);
+                       },1000)
+                }else{
+                   layer.msg('操作失败', {icon: 2 ,
+                                  time: 2000, //2s后自动关闭
+                                    btn: [ '知道了']}
+                                    );
+
+                }
+            }
+        })
     }
 
 //批量删除

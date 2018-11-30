@@ -26,6 +26,46 @@ class CustomerDB(object):
         result_db = CustomerInfo.objects.filter().all()
         return result_db
 
+    def query_customer_by_filter(self, condition):
+        sql = """select * from customer_info 
+                 left join staff  on customer_info.follower_id=staff.sid
+                 left join department on staff.department_id = department.id {0} """
+        query = "where 1=1 "
+        print("condition",condition)
+        filter = ''
+        if condition.get("sid", None):
+            filter += " and staff.sid={0}".format(condition["sid"])
+        if condition.get("dpid", None):
+            print("dpid", condition.get("dpid", None))
+            filter += " and department.id={0}".format(condition["dpid"])
+        if condition.get("sort",None):
+            filter += " and customer_info.purpose_id={0}".format(condition["sort"])
+        if condition.get("sign", None):
+            filter += " and customer_info.is_sign={0}".format(condition["sign"])
+        print("filter")
+
+        time_filter = ''
+        if condition.get("stime", None) and condition.get("etime", None):
+            time_filter = "customer_info.create_time Between '{0}' AND '{1}' ".format(condition['stime'],
+                                                                                  condition['etime'])
+        elif condition.get("stime",None):
+            time_filter = "customer_info.create_time > {0} ".format(condition['stime'])
+        elif condition.get("etime",None):
+            time_filter = "customer_info.create_time <{0} ".format(condition['etime'])
+
+        print("time_filter",time_filter)
+        if filter:
+            query += filter
+        if time_filter:
+            query += " AND "
+            query += time_filter
+        print("query",query)
+        if not filter and not time_filter:
+            query = ''
+        sql = sql.format(query)
+        result_db = CustomerInfo.objects.raw(sql)
+        return result_db
+
     def query_customer_by_follower(self,follower):
         result_db = CustomerInfo.objects.filter(follower_id=follower).all()
         return result_db
@@ -43,6 +83,9 @@ class CustomerDB(object):
 
     def multi_delete(self, id_list):
         CustomerInfo.objects.filter(nid__in=id_list).delete()
+
+    def multi_follow(self, id_list, modify):
+        CustomerInfo.objects.filter(nid__in=id_list).update(**modify)
 
 
 
@@ -511,6 +554,38 @@ class FollowResultDB(object):
         FollowResult.objects.create(**modify_info)
 
 
+class SeaRuleDB(object):
+    """公海"""
+    def query_rule(self):
+        result_db = SeaRule.objects.all().first()
+        return result_db
+
+    def insert_rule(self, rule):
+        is_exist = SeaRule.objects.all().first()
+        if is_exist:
+            SeaRule.objects.filter(nid=is_exist.nid).update(rule=rule)
+        else:
+            SeaRule.objects.create(rule=rule)
+
+
+class SeaRuleDB(object):
+    """规则表"""
+    def query_rule_last(self):
+        result_db = SeaRule.objects.filter().last()
+        return result_db
+
+    def insert_rule(self, rule):
+        is_exist = SeaRule.objects.filter().last()
+        if is_exist:
+            print("rule",rule)
+            SeaRule.objects.filter(nid=is_exist.nid).update(rule=rule)
+        else:
+            SeaRule.objects.create(rule=rule)
+
+
+
+
+
 
 
 customer_db = CustomerDB()
@@ -532,3 +607,4 @@ follow_contact_db = FollowContactDB()
 follow_result_db = FollowResultDB()
 c_follow_attach_db=FollowAttachDB()
 customer_purpose_db = CustomerPurposeDB()
+sea_rule_db=SeaRuleDB()

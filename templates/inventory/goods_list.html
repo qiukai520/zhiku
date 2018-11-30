@@ -59,6 +59,18 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group " id="toolbar" role="group">
+                                 <form class="form-inline" action="{% url "goods_list" %}" method="get" style="margin-bottom: 5px">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="product_line">商品分类</label>
+                                            <div class="input-group">      <div class="input-group-addon">商品分类</div>
+                                                <select class="form-control" name="category" id="category" >
+                                                    <option value="0">所有</option>
+                                                    {% build_goods_category_ele category%}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <button type="submit" style="margin:0" onclick="" class="btn btn-primary queryButton">查询</button>
+                                    </form >
                                      <a href="{% url "goods_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;录入商品</a>
                                     <button  onclick="AddPrice()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加报价</button>
                                      <button  onclick="ComparePrice()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加零售比价</button>

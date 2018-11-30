@@ -40,7 +40,5 @@ class ContactForm(django_forms.Form):
     date = django_fields.DateField(error_messages={"required": "交易日期不能为空", "invalid": "日期格式错误"})
 
 
-
-
-
-
+class RuleForm(django_forms.Form):
+    rule = django_fields.IntegerField(error_messages={"required": "天数不能为空"})

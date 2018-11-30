@@ -446,5 +446,22 @@ class ContactAttach(SoftDeletableModel):
         return "来往附件:{0}".format(self.name)
 
 
+class SeaRule(SoftDeletableModel):
+    nid = models.AutoField(primary_key=True)
+    rule = models.SmallIntegerField(verbose_name="公海规则", default=15)
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+
+    class Meta:
+        db_table = 'sea_rule'
+        verbose_name = '公海规则'
+        verbose_name_plural = '公海规则'
+
+    def __str__(self):
+        return "公海规则:{0}".format(self.rule)
+
+    _update = ["rule"]
+    _insert = ["rule"]
+
+
 
 

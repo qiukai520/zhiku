@@ -16,7 +16,7 @@ from personnel.templatetags.personnel_tags import *
 
 def customer_list(request):
     query_sets = customer_db.query_list()
-    return render(request, 'sfa/customer_list.html', {"query_sets": query_sets})
+    return render(request, 'sfa/customer_center.html', {"query_sets": query_sets})
 
 
 def customer_edit(request):

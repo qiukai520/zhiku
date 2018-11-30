@@ -93,9 +93,9 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                             </a>
                         </div>
                     </div>
-                    <div class="ibox-content" style="background-color:#F9F9F9">
-                        <div class="container"   style="border-bottom: 2px double #9F9F9F ;">
-                            <div class="form-group  " id="top"  style=" font-size:14px;font-weight:bold;">
+                    <div class="ibox-content" style="background-color:#F9F9F9 ;overflow: hidden" >
+                        <div class=""   style="box-shadow: 0 1px 1px 1px #9F9F9F;background: transparent;">
+                            <div class="form-group  " id="top"  style=" font-size:14px;font-weight:bold;text-align: center;padding:10px">
                                 {% query_task_map_by_tmid  task_obj.tmid_id  as total_task_obj %}
                                 <label class="form-label" for="attribute"  >工单分类:</label>
                                 <span id="attribute" >{% change_to_task_type  total_task_obj.type_id  %}</span>

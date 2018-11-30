@@ -77,6 +77,19 @@
                                         </div>
                                         <input id="barCode" class="-align-center search" value=""style="margin-bottom:10px;" type="text" placeholder="扫码入库"  name="barCode">
                                        </div>
+                                       <form class="form-inline" action="{% url "invent_list" %}" method="get" style="margin-bottom: 5px">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="product_line">商品分类</label>
+                                            <div class="input-group">      <div class="input-group-addon">商品分类</div>
+                                                <select class="form-control" name="category" id="category" >
+                                                    <option value="0">所有</option>
+                                                    {% build_goods_category_ele category%}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <button type="submit" style="margin:0" onclick="" class="btn btn-primary queryButton">查询</button>
+                                    </form >
+
                                </div>
                                <div class="fixed-table-container">
                                    <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">

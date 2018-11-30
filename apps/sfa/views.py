@@ -12,23 +12,46 @@ from .server import *
 from .templatetags.sfa_tags import *
 from personnel.templatetags.personnel_tags import *
 # Create your views here.
+from .utils import build_customer_filter,is_valid_date
 
 
-def customer_list(request):
-    query_sets = customer_db.query_list()
-    return render(request, 'sfa/customer_list.html', {"query_sets": query_sets})
+def customer_center(request):
+    sort = int(request.GET.get("sort",0))
+    sign = int(request.GET.get("sign",2))
+    dpid = int(request.GET.get("dpid", 0))
+    sid = int(request.GET.get("sid", 0))
+    stime = is_valid_date(request.GET.get("stime", ''))
+    etime = is_valid_date(request.GET.get("etime", ''))
+    filter = build_customer_filter(sign, **{"sort":sort,"dpid":dpid,"sid":sid,"stime":stime,"etime":etime})
+    print("filter",filter)
+    query_sets = customer_db.query_customer_by_filter(filter)
+
+    return render(request, 'sfa/customer_center.html', {"query_sets": query_sets,"sort":sort,"sign":sign,
+                                                        "sid":sid,"dpid":dpid,"stime":stime,"etime":etime})
 
 
-def customer_personal(request):
-    follower=request.user.staff.sid
+def customer(request):
+    sort = int(request.GET.get("sort", 0))
+    sign = int(request.GET.get("sign", 2))
+    follower = request.user.staff.sid
     query_sets = customer_db.query_customer_by_follower(follower)
-    return render(request, 'sfa/customer_personal.html', {"query_sets": query_sets})
+    if sort > 0:
+        query_sets = query_sets.filter(purpose_id=sort).all()
+    if sign < 2:
+        query_sets = query_sets.filter(is_sign=sign).all()
+    return render(request, 'sfa/customer.html', {"query_sets": query_sets,"sort":sort,"sign":sign})
 
 
 def customer_public(request):
-    follower=0
+    sort = int(request.GET.get("sort", 0))
+    sign = int(request.GET.get("sign", 2))
+    follower = 0
     query_sets = customer_db.query_customer_by_follower(follower)
-    return render(request, 'sfa/customer_public.html', {"query_sets": query_sets})
+    if sort > 0:
+        query_sets = query_sets.filter(category_id=sort).all()
+    if sign < 2:
+        query_sets = query_sets.filter(is_sign=sign).all()
+    return render(request, 'sfa/customer_public.html', {"query_sets": query_sets,"sort":sort,"sign":sign})
 
 
 def customer_edit(request):
@@ -80,8 +103,9 @@ def customer_edit(request):
                         print(customer_info)
                         if customer_info:
                             customer_info["nid"] = nid
+                        if not customer_info["employees"]:
+                            customer_info["employees"] = 0
                             customer_db.update_customer(customer_info)
-
                         # 插入客户照片
                         photo_record = customer_photo_db.query_customer_photo(nid)
                         if customer_photo:
@@ -190,7 +214,7 @@ def customer_delete(request):
         ret['status'] = True
     except Exception as e:
         print(e)
-        ret['status'] = "删除失败"
+        ret['message'] = "删除失败"
     return HttpResponse(json.dumps(ret))
 
 
@@ -638,6 +662,7 @@ def c_memo_detail(request):
 
 
 def customer_follow(request):
+    """添加客户跟进记录"""
     mothod = request.method
     if mothod == "GET":
         nid = request.GET.get("id", 0)
@@ -724,6 +749,96 @@ def customer_follow(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
+
+
+def follow_customer(request):
+    """跟进客户"""
+    ret = {'status': False, "data": "", "message": ""}
+    user = request.user.staff.sid
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        modify_info = {"follower_id":user}
+        customer_db.multi_follow(id_list,modify_info)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "跟进失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def customer_assign(request):
+    """分配客户"""
+    ret = {'status': False, "data": "", "message": ""}
+    sid = request.GET.get("sid", 0)
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    if sid:
+        for item in ids:
+            if item:
+                id_list.append(int(item))
+        try:
+            modify_info = {"follower_id":sid}
+            customer_db.multi_follow(id_list,modify_info)
+            ret['status'] = True
+        except Exception as e:
+            print(e)
+            ret['status'] = "分配失败"
+    return HttpResponse(json.dumps(ret))
+
+def abandon_customer(request):
+    """放弃客户"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    id_list = tuple(id_list)
+    try:
+        from django.db import connection, connections
+        cursor = connection.cursor()  # cursor = connections['default'].cursor()
+        cursor.execute("""update customer_info SET follower_id = 0 where nid in %s""",[id_list,])
+        cursor.close()
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['message'] = "操作失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def sea_rule_list(request):
+    query_sets = sea_rule_db.query_rule_last()
+    return render(request,"sfa/sea_rul_list.html",{"query_sets":query_sets})
+
+
+def sea_rule_edit(request):
+    """"公海设置"""
+    form = RuleForm(data=request.GET)
+    ret = {'status': False, "data": '', "message": ""}
+    if form.is_valid():
+        rule = request.GET.get("rule", 15)
+        if rule:
+            try:
+                sea_rule_db.insert_rule(rule)
+                ret['status'] = True
+            except Exception as e:
+                ret['message'] = str(e)
+    else:
+        errors = form.errors.as_data().values()
+        firsterror = str(list(errors)[0][0])
+        ret['message'] = firsterror
+    print("ret",ret)
+    return HttpResponse(json.dumps(ret))
 
 
 def customer_photo(request):

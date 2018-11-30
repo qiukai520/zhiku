@@ -266,8 +266,11 @@ class GoodsDB(object):
         result_db = Goods.objects.filter(delete_status=1).all()
         return result_db
 
-    def query_repertory_goods_list(self):
-        result_db = Goods.objects.raw('select * from goods right join repertory on goods.nid=repertory.goods_id')
+    def query_repertory_goods_list(self,cid=0):
+        sql = 'select * from goods right join repertory on goods.nid=repertory.goods_id'
+        if cid > 0:
+            sql += ' where goods.category_id={0}'.format(cid)
+        result_db = Goods.objects.raw(sql)
         return result_db
 
     def query_goods_by_id(self, nid):

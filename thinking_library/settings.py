@@ -230,7 +230,7 @@ CELERYBEAT_SCHEDULE = {
 
     # 定时任务5：　每天凌晨检查客户列表()
     u'检查客户列表未成交客户': {
-        "task": "notice.tasks.check_customer",
+        "task": "sfa.tasks.check_customer",
         "schedule": crontab(hour=0, minute=0),
         # "schedule":timedelta(seconds=5),
         "args": (),

@@ -46,8 +46,16 @@ def build_reviewer_info(tmid, reviewers):
         re_list.append(item)
     return re_list
 
+import time
 
 
+def is_valid_date(str):
+    '''判断是否是一个有效的日期字符串'''
+    try:
+        time.strptime(str,"%Y-%m")
+        return str
+    except:
+        return ''
 
 def build_statistic_filter(dpid,sid,first_day,last_day):
     filter={}

@@ -262,3 +262,12 @@ create TABLE `wastage_solver`(
 `sid_id` int(11) NOT NULL COMMENT'处理人',
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0否，1是'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='损耗处理人';
+
+
+
+drop TABLE if exists `sea_rule`;
+create TABLE `sea_rule`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`rule` int(11) NOT NULL default 15 COMMENT'天数',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0否，1是'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公海法则';

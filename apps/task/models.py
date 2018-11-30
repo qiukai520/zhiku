@@ -352,7 +352,9 @@ class TaskReviewRecord(models.Model):
 
 
 class TaskReviewResult(models.Model):
+
     result_choice = ((0, '未审核'),(1,'驳回'), (2, "通过"), (3, '自动通过'))
+
     trrid = models.AutoField(primary_key=True)
     tasid = models.ForeignKey('TaskAssign', to_field='tasid', on_delete=models.CASCADE, db_constraint=False,
                               verbose_name='指派任务')
