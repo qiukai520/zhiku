@@ -23,7 +23,6 @@ def customer_center(request):
     stime = is_valid_date(request.GET.get("stime", ''))
     etime = is_valid_date(request.GET.get("etime", ''))
     filter = build_customer_filter(sign, **{"sort":sort,"dpid":dpid,"sid":sid,"stime":stime,"etime":etime})
-    print("filter",filter)
     query_sets = customer_db.query_customer_by_filter(filter)
 
     return render(request, 'sfa/customer_center.html', {"query_sets": query_sets,"sort":sort,"sign":sign,
@@ -100,7 +99,6 @@ def customer_edit(request):
                         # 更新客户信息
                         record = customer_db.query_customer_by_id(nid)
                         customer_info = compare_fields(CustomerInfo._update, record, data)
-                        print(customer_info)
                         if customer_info:
                             customer_info["nid"] = nid
                         if not customer_info["employees"]:
@@ -167,7 +165,6 @@ def customer_edit(request):
                         # 默认D类客户
                         purpose_list = customer_purpose_db.query_purpose_list()
                         for item in purpose_list:
-                            print(item.content, item.content == "D类")
                             if item.content == "D类": # 获取D类客户id
                                 purpose_id = item.nid  #
                             else:
@@ -213,7 +210,6 @@ def customer_delete(request):
         customer_db.multi_delete(id_list)
         ret['status'] = True
     except Exception as e:
-        print(e)
         ret['message'] = "删除失败"
     return HttpResponse(json.dumps(ret))
 
@@ -345,7 +341,6 @@ def customer_linkman(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
                     ret["message"] = "更新失败"
             else:
                 # 创建
@@ -368,7 +363,6 @@ def customer_linkman(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -410,7 +404,7 @@ def c_linkman_detail(request):
                 ret['data'] = linkman_json
                 return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
         except Exception as e:
-            print(e)
+            pass
     return render(request,'404.html')
 
 
@@ -463,11 +457,11 @@ def c_contact_detail(request):
                     contact_json['attach'] = ''
                 ret['status'] = True
                 ret['data'] = contact_json
-                print(ret)
                 return HttpResponse(json.dumps(ret,cls=CJSONEncoder))
         except Exception as e:
-            print(e)
+            pass
     return render(request,'404.html')
+
 
 def customer_memo(request):
     mothod = request.method
@@ -528,7 +522,7 @@ def customer_memo(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+                    pass
                     ret["message"] = "更新失败"
             else:
                 # 创建
@@ -543,7 +537,7 @@ def customer_memo(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+                    pass
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -582,7 +576,6 @@ def customer_contact(request):
             data = request.POST
             data = data.dict()
             contact_attach = data.get("attach", None)
-            print("attach",contact_attach)
             nid = data.get("nid", None)
             contact_attach = list(json.loads(contact_attach))
             if nid:
@@ -608,12 +601,11 @@ def customer_contact(request):
                             if delete_id_att:
                                 c_contact_attach_db.mutil_delete_linkman_attachment(delete_id_att)
                         else:
-                            print("nid",nid)
                             c_contact_attach_db.multi_delete_attach_by_linkman_id(nid)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+                    pass
                     ret["message"] = "更新失败"
             else:
                 # 创建
@@ -628,7 +620,7 @@ def customer_contact(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+                    pass
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -657,7 +649,7 @@ def c_memo_detail(request):
                 ret['data'] = memo_json
                 return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
         except Exception as e:
-            print(e)
+            pass
     return render(request,'404.html')
 
 
@@ -680,7 +672,6 @@ def customer_follow(request):
                 else:
                     query_sets = {}
                     follow_attach = {}
-                print(query_sets,customer_obj)
                 return render(request, "sfa/customer_follow.html", {"query_set": query_sets,
                                                                     "nid": nid,
                                                                      "attach": follow_attach,
@@ -693,7 +684,6 @@ def customer_follow(request):
         if form.is_valid():
             data = request.POST
             data = data.dict()
-            print("data",data)
             nid = data.get("nid", None)
             memo_attach = data.get("attach", None)
             follow_attach = list(json.loads(memo_attach))
@@ -724,7 +714,7 @@ def customer_follow(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+                    pass
                     ret["message"] = "更新失败"
             else:
                 # 创建
@@ -732,17 +722,14 @@ def customer_follow(request):
                     with transaction.atomic():
                         # 插入跟踪记录信息
                         follow_info = filter_fields(CustomerFollow._insert, data)
-                        print(follow_info,"follow_info")
                         nid = c_follow_db.insert_follow(follow_info)
                         if follow_attach:
                             follow_attach = build_attachment_info({"follow_id": nid}, follow_attach)
-                            print("follow",follow_attach)
-
                             c_follow_attach_db.mutil_insert_attachment(follow_attach)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+                    pass
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -767,7 +754,7 @@ def follow_customer(request):
         customer_db.multi_follow(id_list,modify_info)
         ret['status'] = True
     except Exception as e:
-        print(e)
+        pass
         ret['status'] = "跟进失败"
     return HttpResponse(json.dumps(ret))
 
@@ -789,7 +776,7 @@ def customer_assign(request):
             customer_db.multi_follow(id_list,modify_info)
             ret['status'] = True
         except Exception as e:
-            print(e)
+            pass
             ret['status'] = "分配失败"
     return HttpResponse(json.dumps(ret))
 
@@ -811,7 +798,7 @@ def abandon_customer(request):
         cursor.close()
         ret['status'] = True
     except Exception as e:
-        print(e)
+        pass
         ret['message'] = "操作失败"
     return HttpResponse(json.dumps(ret))
 
@@ -837,7 +824,6 @@ def sea_rule_edit(request):
         errors = form.errors.as_data().values()
         firsterror = str(list(errors)[0][0])
         ret['message'] = firsterror
-    print("ret",ret)
     return HttpResponse(json.dumps(ret))
 
 
@@ -866,7 +852,7 @@ def customer_photo(request):
             ret["data"]['path'] = file_path
             ret["data"]['name'] = raw_name
     except Exception as e:
-        print(e)
+        pass
         ret["summary"] = str(e)
     return HttpResponse(json.dumps(ret))
 
@@ -896,7 +882,7 @@ def customer_licence(request):
             ret["data"]['path'] = file_path
             ret["data"]['name'] = raw_name
     except Exception as e:
-        print(e)
+        pass
         ret["summary"] = str(e)
     return HttpResponse(json.dumps(ret))
 

@@ -16,22 +16,29 @@ Including another URLconf
 import xadmin
 from django.contrib import admin
 from django.urls import path,include
-from task import views as task_view
-from personnel import views as p_view
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve
+from task import views as task_view
+from rbac.views import LoginView,logout
+from personnel import views as p_view
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
     path('index/', task_view.index, name='index'),
-    path('login/', task_view.login, name='login'),
-    path('logout/', task_view.logout, name='logout'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', logout, name='logout'),
     path("task/", include('task.urls')),
     path("personnel/", include('personnel.urls')),
     path("inventory/", include('inventory.urls')),
     path("notice/", include('notice.urls')),
     path("sfa/", include('sfa.urls')),
     path("public/", include('public.urls')),
+    path('article/', include('article.urls')),    #首页文章
+    # path('404/', TemplateView.as_view(template_name='404.html'), name='404'),
+    path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),  # 用户上传文件路径，配置上传文件的访问处理函数
+
     path('attachment_upload.html', task_view.attachment_upload, name='attachment_upload'),
     path("attachment_download.html", task_view.attachment_download, name="attachment_download"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # 配置media

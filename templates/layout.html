@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-    <title>企业驱动·智库</title>
+    <title>企业AI·智库</title>
 
     <meta name="keywords" content="">
     <meta name="description" content="">
@@ -190,7 +190,7 @@
                                 </ul>
                                 </li>
                                   <li>
-                                    <a href="#"><i class=" glyphicon glyphicon-wrench"></i> sfa设置 <span class="fa arrow"></span></a>
+                                    <a href="#"><i class=" glyphicon glyphicon-wrench"></i> SFA设置 <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level " aria-expanded="true" style="">
                                   <li>
                                      <a   href="{% url "sea_rule_list" %}">公海规则</a>
@@ -367,7 +367,7 @@
                         </li>
                     </ul>
                 </div>
-                <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+                <a href="login.bak.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main" style=" overflow: auto;">
 {#            <iframe class="J_iframe" name="content" width="100%" height="100%"  frameborder="0" data-id="teams_board.html" seamless="" style="display: none;">#}
@@ -376,8 +376,9 @@
                 {% endblock %}
 {#            </iframe>#}
             </div>
-            <div class="footer">
-                <div class="pull-right">&copy; 2007-2018 <a href="#" target="_blank">智库</a>
+            <div class="footer" >
+                <div class="center" style="text-align: center">
+                    <span class="timer">&copy; 2017-</span><a href="#" target="_blank">企业AI·智库</a>
                 </div>
             </div>
         </div>
@@ -530,6 +531,14 @@
             }
         }
         });
+        function show() {
+				var mydate = new Date();
+				var str = "" + mydate.getFullYear() + "";
+				return str;
+			}
+        $(function () {
+             $(".timer").html(" © 2017-" + show());
+        })
 
         // 当前菜单保持选中
          window.onload=function () {
@@ -565,7 +574,6 @@
                }
            })
 	 }
-
 
     </script>
 

@@ -48,10 +48,13 @@ INSTALLED_APPS = [
     'sfa.apps.SfaConfig',
     'public.apps.PublicConfig',
     'notice.apps.NoticeConfig',
+    'article.apps.ArticleConfig',
     'xadmin',
     'crispy_forms',
     'reversion',
     'djcelery',
+    'rest_framework',
+    'guardian',
 ]
 
 MIDDLEWARE = [
@@ -100,7 +103,6 @@ DATABASES = {
         'PASSWORD': 'a741258963',
         'HOST': '',
         'PORT': '',
-
     }
 }
 
@@ -156,7 +158,13 @@ STATICFILES_DIRS = (
 # LOGIN_URL = '/login/'
 
 
-# ################## Rbac配置 ###################
+
+AUTHENTICATION_BACKENDS = (
+'django.contrib.auth.backends.ModelBackend',
+'guardian.backends.ObjectPermissionBackend',
+)
+
+################## Rbac配置 ###################
 
 PERMISSION_URL_DICT_KEY = "permission_url_dict"
 PERMISSION_MENU_KEY = "afsdfasdfadfsdfsdf"
@@ -164,8 +172,10 @@ PERMISSION_MENU_KEY = "afsdfasdfadfsdfsdf"
 VALID_URL = [
     "/login/",
     "/xadmin/",
-    "/logout/"
+    "/logout/",
+    "/article/",
 ]
+
 
 # 缓存配置
 CACHES = {

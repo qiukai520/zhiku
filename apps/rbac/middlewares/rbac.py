@@ -21,7 +21,12 @@ class MiddlewareMixin(object):
 
 class LoginMiddleware(MiddlewareMixin):
     def process_request(self, request):
+        print("process_request",re.match("/media/article*",request.path_info))
         if request.path_info == '/login/':
+            return None
+        if re.match("/media/article*",request.path_info):
+            return None
+        if re.match("/article*", request.path_info):
             return None
         if request.session.get('user_info'):
             return None

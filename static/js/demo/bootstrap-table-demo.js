@@ -191,7 +191,7 @@ function buildTable($el, cells, rows) {
 
     var $result = $('#examplebtTableEventsResult');
 
-    $('#exampleTableEvents').on('all.bs.table', function(e, name, args) {
+    $('#exampleTableEvent').on('all.bs.table', function(e, name, args) {
         console.log('Event:', name, ', data:', args);
       })
       .on('click-row.bs.table', function(e, row, $element) {
