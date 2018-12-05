@@ -47,7 +47,7 @@ def customer_public(request):
     follower = 0
     query_sets = customer_db.query_customer_by_follower(follower)
     if sort > 0:
-        query_sets = query_sets.filter(category_id=sort).all()
+        query_sets = query_sets.filter(purpose_id=sort).all()
     if sign < 2:
         query_sets = query_sets.filter(is_sign=sign).all()
     return render(request, 'sfa/customer_public.html', {"query_sets": query_sets,"sort":sort,"sign":sign})
@@ -98,12 +98,14 @@ def customer_edit(request):
                     with transaction.atomic():
                         # 更新客户信息
                         record = customer_db.query_customer_by_id(nid)
+                        print("data",data)
                         customer_info = compare_fields(CustomerInfo._update, record, data)
+                        print("customer_info", customer_info)
                         if customer_info:
                             customer_info["nid"] = nid
                         if not customer_info["employees"]:
                             customer_info["employees"] = 0
-                            customer_db.update_customer(customer_info)
+                        customer_db.update_customer(customer_info)
                         # 插入客户照片
                         photo_record = customer_photo_db.query_customer_photo(nid)
                         if customer_photo:
@@ -668,7 +670,6 @@ def customer_follow(request):
                     follow_attach = c_follow_attach_db.query_follow_attachment(nid)
                     if not follow_attach:
                         follow_attach = ''
-
                 else:
                     query_sets = {}
                     follow_attach = {}
@@ -697,6 +698,10 @@ def customer_follow(request):
                         if follow_info:
                             follow_info["nid"] = nid
                             c_follow_db.update_follow(follow_info)
+                            # 更新客户意向
+                            if follow_info.get("purpose_id", None):
+                                modify = {"purpose_id":follow_info["purpose_id"],"nid": record.customer_id}
+                                customer_db.update_customer(modify)
                             # 更新附件
                             if follow_attach:
                                 att_record =c_follow_attach_db.query_follow_attachment(nid)
@@ -714,7 +719,7 @@ def customer_follow(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    pass
+                    print(e)
                     ret["message"] = "更新失败"
             else:
                 # 创建

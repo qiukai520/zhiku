@@ -42,8 +42,6 @@ class CustomerDB(object):
             filter += " and customer_info.purpose_id={0}".format(condition["sort"])
         if condition.get("sign", None):
             filter += " and customer_info.is_sign={0}".format(condition["sign"])
-        print("filter")
-
         time_filter = ''
         if condition.get("stime", None) and condition.get("etime", None):
             time_filter = "customer_info.create_time Between '{0}' AND '{1}' ".format(condition['stime'],
@@ -52,14 +50,11 @@ class CustomerDB(object):
             time_filter = "customer_info.create_time > {0} ".format(condition['stime'])
         elif condition.get("etime",None):
             time_filter = "customer_info.create_time <{0} ".format(condition['etime'])
-
-        print("time_filter",time_filter)
         if filter:
             query += filter
         if time_filter:
             query += " AND "
             query += time_filter
-        print("query",query)
         if not filter and not time_filter:
             query = ''
         sql = sql.format(query)

@@ -78,7 +78,7 @@
                             <div class="form-group">
                             <label class="col-sm-2 control-label">公司简介</label>
                             <div class="col-sm-8">
-                                <textarea class="form-control" name="introduce" id="introduce" cols="30" rows="5"></textarea> <span class="help-block m-b-none"></span>
+                                <textarea class="form-control" name="introduce" id="introduce" cols="30" rows="3"></textarea> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
                          <div class="hr-line-dashed"></div>
@@ -152,7 +152,7 @@
                            <div class="form-group">
                             <label class="col-sm-2 control-label">备注</label>
                             <div class="col-sm-8">
-                                <textarea class="form-control" name="remark" id="remark" cols="30" rows="5"></textarea>
+                                <textarea class="form-control" name="remark" id="remark" cols="30" rows="3"></textarea>
                                  <span class="help-block m-b-none"></span>
                             </div>
                         </div>
@@ -548,7 +548,6 @@ function UploadFile(ths){
              var customer_photo_ele=$("<input type='text' class='hide' name='customer_photo'  value={0} />".format(customer_photo));
              form.append(customer_photo_ele)
              var licence=FetchCustomerLicence();
-             console.log("licence",licence)
              var licence_ele=$("<input type='text' class='hide' name='customer_licence'  value={0} />".format(licence));
              form.append(licence_ele)
             //把附件添加到form中

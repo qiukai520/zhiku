@@ -130,17 +130,10 @@
                                 </span>
                             </div>
                         </div>
-                           <div class="hr-line-dashed"></div>
-                             <div class="form-group">
-                            <label class="col-sm-2 control-label"></label>
-                            <div class="col-sm-8">
-                                {% if nid %}
-                                {% else %}
-                                     <input type="text" class="hidden" name="recorder_id" id="recorder_id" value={{request.user.staff.sid  }}>
-                                {% endif %}
-
-                            </div>
-                        </div>
+                            {% if nid %}
+                            {% else %}
+                                 <input type="text" class="hidden" name="recorder_id" id="recorder_id" value={{request.user.staff.sid  }}>
+                            {% endif %}
                             <div class="hr-line-dashed"></div>
                            <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
@@ -263,7 +256,6 @@ $(function () {
      //初始化数据
 function InitData() {
         //初始化form
-        console.log("init",11111)
         $("#customer_id").val({{ customer_obj.nid}});
         $("#nid").val({{ query_set.nid }});
         $("#way_id").val({{ query_set.way_id}});
