@@ -13,7 +13,7 @@ from django.urls import reverse
 
 def logout(request):
     auth.logout(request)
-    return render(request, 'login.bak.html')
+    return render(request, 'login.html')
 
 
 def login(request):
@@ -28,7 +28,7 @@ def login(request):
         return render(request, 'login.bak.html')
     elif request.method == 'POST':
         if not next_url:
-            next_url = "/index/"
+            next_url = ""
         result = {'status': False, 'message': None, 'data': None, 'next_url': next_url}
         form = LoginForm(data=request.POST)
         if form.is_valid():
@@ -62,7 +62,7 @@ class LoginView(View):
         from rbac.service.init_permission import init_permission
         next_url = request.GET.get("next", None)
         if not next_url:
-            next_url = "/index/"
+            next_url = ''
         result = {'status': False, 'message': None, 'data': None, 'next_url': next_url}
         form = LoginForm(data=request.POST)
         if form.is_valid():
@@ -78,7 +78,7 @@ class LoginView(View):
                     request.session["user_info"] = {"user_id": user_obj.sid,
                                                     "user_name": user_obj.name}
                     init_permission(user_obj, request)
-                    return HttpResponsePermanentRedirect("/index/")
+                    return HttpResponsePermanentRedirect("")
         else:
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])

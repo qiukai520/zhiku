@@ -414,12 +414,12 @@ def bulid_person_review_list(user_id,tmid):
                         status = "进行中"
                         last_edit = ''
                     # 构建任务审核对象列表
-                ele = """<li > <a  style="color:blue" href="{0}?tasid={1}">{2} &nbsp
+                ele = """<li > <a  style="color: #1ab394" href="{0}?tasid={1}">{2} &nbsp
                           <span >{3}</span> &nbsp<span style="color:red"> [ </span><span>{4}</span><span style="color:red"> ] 
                           </span></a> &nbsp<span style="color:#9F9F9F">{5}</span></li>
                           """.format(path,item.tasid,member.name, is_review, status,last_edit)
             else:
-                ele = """<li ><span style="color:blue" >{0}</span> &nbsp<span style="color:red"> [ </span><span>上一审核人还未审核</span><span style="color:red"> ] 
+                ele = """<li ><span style="color: #1ab394" >{0}</span> &nbsp<span style="color:red"> [ </span><span>上一审核人还未审核</span><span style="color:red"> ] 
                                  </span></li>
                                  """.format(member.name)
             eles += ele
