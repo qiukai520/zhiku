@@ -26,7 +26,7 @@ from personnel import views as p_view
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
-    path('', task_view.index, name='index'),
+    path('index/', task_view.index, name='index'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', logout, name='logout'),
     path("task/", include('task.urls')),

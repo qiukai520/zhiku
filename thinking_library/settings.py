@@ -101,8 +101,8 @@ DATABASES = {
         'NAME': 'zhiku-v1',
         'USER': 'zhiku',
         'PASSWORD': 'Aa@zhiku886',
-        'HOST': '120.79.146.100',
-        'PORT': '3306',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
