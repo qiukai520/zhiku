@@ -333,7 +333,7 @@
                             </ul>
                         </li>
                         <li class="hidden-xs">
-                            <a href="http://127.0.0.1:8000/xadmin/"  data-index="0"><i class="fa fa-cart-arrow-down"></i> 管理后台</a>
+                            <a href="/xadmin/"  data-index="0"><i class="fa fa-cart-arrow-down"></i> 管理后台</a>
                         </li>
                         <li class="dropdown hidden-xs">
                             <a class="right-sidebar-toggle" aria-expanded="false">
@@ -548,6 +548,8 @@
             if(window.location.href.indexOf(As[i].href)>=0) {
                 Obj=As.eq(i);
                 break
+            }else {
+                 Obj=As.eq(0);
             }
         }
         Obj.parent().addClass("active")

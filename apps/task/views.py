@@ -1042,8 +1042,11 @@ def show_assign_content(request):
 def task_assign_center(request):
     """任务指派中心获取所有未指派的任务"""
     is_assign = 0
+    type = request.GET.get("type",0)
     query_sets = task_db.query_task_lists()
-    return render(request, 'task/task_assign_center.html',  {"query_sets": query_sets})
+    if type:
+        query_sets = query_sets.filter(type_id=type).all()
+    return render(request, 'task/task_assign_center.html',  {"query_sets": query_sets,"type":type})
 
 
 def department_staff(request):

@@ -170,12 +170,17 @@ def build_task_period_review_ele(tpid):
 
 
 @register.simple_tag
-def build_task_type_ele():
+def build_task_type_ele(selected=None):
     """构建任务类型选择框"""
+    if selected:
+        selected = int(selected)
     task_type_list = task_type_db.query_task_type_list()
     eles = ""
     for item in task_type_list:
-        ele = """<option value={0}>{1}</option>""".format(item.tpid, item.name)
+        if item.tpid == selected:
+            ele = """<option selected=selected value={0}>{1}</option>""".format(item.tpid, item.name)
+        else:
+            ele = """<option value={0}>{1}</option>""".format(item.tpid, item.name)
         eles += ele
     return mark_safe(eles)
 
