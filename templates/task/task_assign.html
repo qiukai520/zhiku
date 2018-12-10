@@ -168,7 +168,7 @@
                             <label for="deadline" class="control-label col-xs-2">起始日期：</label>
                             <div class="col-xs-6">
                             <div class='input-group date' id='datetimepicker1'>
-                                <input type='text' class="form-control" />
+                                <input type='text' id="start_time" class="form-control" />
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -179,7 +179,7 @@
                             <label for="deadline" class="control-label col-xs-2">截止日期：</label>
                             <div class="col-xs-6">
                             <div class='input-group date' id='datetimepicker2'>
-                                <input type='text' class="form-control" />
+                                <input type='text' id="end_time"  class="form-control" />
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -273,14 +273,6 @@
                 }
             }
         });
-    //字符串格式化
-    String.prototype.format=function()
-    {
-      if(arguments.length==0) return this;
-      for(var s=this, i=0; i<arguments.length; i++)
-        s = s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
-      return s;
-    };
     /*
     自执行函数
     */
@@ -316,7 +308,10 @@
            InitData()//初始化数据
         }
         else {
-
+              var dd=new Date();
+              $('#start_time').datepicker('setDate', dd);
+              dd.setDate(dd.getDate() + 3)
+              $('#end_time').datepicker('setDate', dd);
         }
     });
      //初始化数据

@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'reversion',
     'djcelery',
     'rest_framework',
-    'guardian',
+    #'guardian',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'rbac.middlewares.rbac.LoginMiddleware',
     # 'rbac.middlewares.rbac.RbacMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'thinking_library.urls'
@@ -141,6 +144,9 @@ USE_L10N = True
 
 USE_TZ = False
 
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
