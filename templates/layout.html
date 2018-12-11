@@ -34,7 +34,7 @@
     <link rel="stylesheet" href="/static/plugins/raty/jquery.raty.css">
 {#    <link rel="stylesheet" href="/static/plugins/bootstrap/css/star-rating.min.css">#}
      <!-- bootstarp datepicker -->
-    <link rel="stylesheet" href="/static/css/plugins/datapicker/datepicker3.css">
+    <link rel="stylesheet" href="/static/css/plugins/datepicker/datepicker3.css">
     <style>
         .old_file,.old_file>a{
             color:#1ab394
@@ -100,7 +100,7 @@
                             </a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a  href="{% url 'index' %}">主页</a>
+                                    <a   class="J_menuItem"    data-index="0" href="{% url 'home' %}">主页</a>
                                 </li>
                             </ul>
                         </li>
@@ -109,25 +109,25 @@
                             <ul id="left_menu" class="nav nav-second-level">
     {#                            {% fetch_task_permission  requset.user  as task_permission%}#}
                                 <li>
-                                    <a  href="{% url "personal_task_list" %}">我的工单</a>
+                                    <a   class="J_menuItem"  data-index='11' href="{% url "personal_task_list" %}">我的工单</a>
                                 </li>
                                 <li>
-                                    <a  href="{% url "task_edit" %}">创建工单</a>
+                                    <a   class="J_menuItem"  data-index='12' href="{% url "task_edit" %}">创建工单</a>
                                 </li>
                                 <li>
-                                    <a  href="{% url "task_assign_center" %}">工单指派中心</a>
+                                    <a   class="J_menuItem"  data-index='113' href="{% url "task_assign_center" %}">工单指派中心</a>
                                 </li>
                                 <li>
-                                    <a  href="{% url "task_assign_list" %} ">已指派工单</a>
+                                    <a   class="J_menuItem"  data-index='14' href="{% url "task_assign_list" %} ">已指派工单</a>
                                 </li>
                                  <li>
-                                    <a  href="{% url 'task_wait_review' %}">工单审核中心</a>
+                                    <a  class="J_menuItem"  data-index='15'  href="{% url 'task_wait_review' %}">工单审核中心</a>
                                 </li>
                                  <li>
-                                    <a  href="{% url 'personal_task_review' %} ">我的审核工单</a>
+                                    <a  class="J_menuItem"  data-index='16'  href="{% url 'personal_task_review' %} ">我的审核工单</a>
                                 </li>
                                  <li>
-                                     <a  href="{% url "performence_statistic" %}">绩效统计中心</a>
+                                     <a  class="J_menuItem"  data-index='17'  href="{% url "performence_statistic" %}">绩效统计中心</a>
                                 </li>
                             </ul>
                         </li>
@@ -135,13 +135,13 @@
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">SFA管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
                                  <li>
-                                     <a  href="{% url "customer_list" %}">我的客户</a>
+                                     <a  class="J_menuItem"  data-index='21' href="{% url "customer_list" %}">我的客户</a>
                                 </li>
                                  <li>
-                                     <a  href="{% url "customer_center" %}">全部客户</a>
+                                     <a  class="J_menuItem"  data-index='22' href="{% url "customer_center" %}">全部客户</a>
                                 </li>
                                  <li>
-                                     <a  href="{% url "customer_public" %}">客户公海</a>
+                                     <a   class="J_menuItem"  data-index='23' href="{% url "customer_public" %}">客户公海</a>
                                 </li>
 
                             </ul>
@@ -150,14 +150,14 @@
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">进销存管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
                                  <li>
-                                     <a  href="{% url "supplier_list" %}">供应商管理</a>
+                                     <a   class="J_menuItem"  data-index='31' href="{% url "supplier_list" %}">供应商管理</a>
                                 </li>
                                  <li>
-                                     <a  href="{% url "goods_list" %}">商品管理</a>
+                                     <a  class="J_menuItem"  data-index='32'  href="{% url "goods_list" %}">商品管理</a>
                                 </li>
 
                                 <li>
-                                     <a  href="{% url "invent_list" %}">库存管理</a>
+                                     <a  class="J_menuItem"  data-index='32' href="{% url "invent_list" %}">库存管理</a>
                                 </li>
                             </ul>
                         </li>
@@ -165,7 +165,7 @@
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">人事管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
                                  <li>
-                                     <a   href="{% url "staff_list" %}">人事档案</a>
+                                     <a  class="J_menuItem"   href="{% url "staff_list" %}"  data-index="41">人事档案</a>
                                 </li>
                             </ul>
                         </li>
@@ -176,19 +176,19 @@
                                     <a href="#"><i class=" glyphicon glyphicon-wrench"></i> 人事设置 <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level " aria-expanded="true" style="">
                                   <li>
-                                     <a   href="{% url "company_list" %}">公司管理</a>
+                                     <a   class="J_menuItem"  data-index="42"  href="{% url "company_list" %}">公司管理</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "department_list" %}">部门管理</a>
+                                     <a  class="J_menuItem"  data-index="43"  href="{% url "department_list" %}">部门管理</a>
                                 </li>
                                   <li>
-                                     <a   href="{% url "project_list" %}">项目管理</a>
+                                     <a  class="J_menuItem"  data-index="44"  href="{% url "project_list" %}">项目管理</a>
                                 </li>
                                   <li>
-                                     <a  href="{% url "job_rank_list" %}">职级管理</a>
+                                     <a   class="J_menuItem"  data-index="45"  href="{% url "job_rank_list" %}">职级管理</a>
                                 </li>
                                   <li>
-                                     <a   href="{% url "job_title_list" %}">职称管理</a>
+                                     <a  class="J_menuItem"  data-index="46"  href="{% url "job_title_list" %}">职称管理</a>
                                 </li>
                                 </ul>
                                 </li>
@@ -329,13 +329,17 @@
                 </div>
                 <a href="login.bak.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
-            <div class="row J_mainContent" id="content-main" style=" overflow: auto;">
-{#            <iframe class="J_iframe" name="content" width="100%" height="100%"  frameborder="0" data-id="teams_board.html" seamless="" style="display: none;">#}
-                {% block content %}
-
-                {% endblock %}
-{#            </iframe>#}
+            <div class="row J_mainContent" id="content-main">
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="{% url "home" %}" frameborder="0" data-id="{% url "home" %}" seamless></iframe>
             </div>
+
+
+            <!--<div class="row J_mainContent" id="content-main" style=" overflow: auto;">
+{#                {% block content %}#}
+
+{#                {% endblock %}#}
+            </div>
+            -->
             <div class="footer" >
                 <div class="center" style="text-align: center">
                     <span class="timer">&copy; 2017-</span><a href="#" target="_blank">企业AI·智库</a>
@@ -442,7 +446,6 @@
     <script type="text/javascript" src="/static/js/common.js"></script>
       <script src="/static/js/custom/select-pcas.js"></script>
 
-
     <!-- 第三方插件 -->
     <script type="text/javascript" src="/static/js/plugins/pace/pace.min.js"></script>
 
@@ -499,27 +502,6 @@
              $(".timer").html(" © 2017-" + show());
         })
 
-        // 当前菜单保持选中
-         window.onload=function () {
-        var As=$('#side-menu >li').find('a');
-        var Obj=As.eq(0);
-        for( var i = 1;i<As.length;i++){
-            if(window.location.href.indexOf(As[i].href)>=0) {
-                Obj=As.eq(i);
-                break
-            }else {
-                 Obj=As.eq(0);
-            }
-        }
-        Obj.parent().addClass("active")
-        Obj.parent().parent().attr("aria-expanded",true);
-        Obj.parent().parent().addClass("in");
-        Obj.parent().parent().parent().addClass("active");
-
-        Obj.parent().parent().parent().find(".nav-third-level").parent().parent().attr("aria-expanded",true);
-        Obj.parent().parent().parent().find(".nav-third-level").parent().parent().addClass("in");
-        Obj.parent().parent().parent().find(".nav-third-level").parent().parent().parent().addClass("active");
-    }
        function ReadAll(){
              //通知全部标记为已读
            $.ajax( {

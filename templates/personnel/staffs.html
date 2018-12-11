@@ -1,0 +1,497 @@
+
+{% extends 'content_table_layout.html'%}
+{% load personnel_tags %}
+{% block css %}
+   <style>
+     #toolbar >button{
+          margin: 0 2px;
+      }
+      .value{
+        margin:0px;
+        background-color: #F8F8F8;
+        border-color: #dddddd;
+    }
+    .label_form{
+        padding: 22px 10px 7px 0px;
+        border:1px #dddddd;
+    }
+    .p_form{
+        background-color:white ;padding: 15px 10px 15px 10px
+    }
+    #attach_container>label{
+        font-weight: normal;
+    }
+    </style>
+{% endblock %}
+
+{% block content%}
+
+
+     <div class="wrapper wrapper-content animated fadeInRight">
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>人事档案管理</h5>
+                <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <!-- Example Events -->
+                        <div class="example-wrap">
+                            <div class="example">
+                                <div class="btn-group " id="toolbar" role="group">
+                                     <a  href="{% url "staff_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
+                                </div>
+                                <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                     <select id="sel_exportoption" class="form-control">
+                                         <option value="basic">导出当前页数据</option>
+                                         <option value="all">导出全部数据</option>
+{#                                         <option value="selected">导出选中数据</option>#}
+                                     </select>
+                                 </span>
+                             </div>
+                                <table id="staff"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                    <thead>
+                                         <tr >
+                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                             <th>所在公司</th>
+                                             <th>工号</th>
+                                             <th>职级</th>
+                                             <th>姓名</th>
+                                             <th>性别</th>
+                                             <th>籍贯</th>
+                                             <th>民族</th>
+                                             <th>学历</th>
+                                             <th>所在项目</th>
+                                             <th>所在部门</th>
+                                              <th>电话</th>
+                                             <th>邮箱</th>
+                                             <th>生日</th>
+                                             <th>操作</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                     {% for obj in query_sets %}
+                                      <tr>
+                                          <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.sid }}"></td>
+                                          <td>{% change_to_company obj.company_id %}</td>
+                                          <td>{{ obj.job_number }}</td>
+                                          <td>{% change_to_job_rank obj.job_rank_id %}</td>
+                                          <td>{{ obj.name }}</td>
+                                          <td>{% change_to_sex obj.gender %} </td>
+                                          <td>{% if obj.native_place  %}{{ obj.native_place }}{% else  %}空{% endif %}</td>
+                                          <td>{% if obj.nationality  %}{{ obj.nationality }}{% else  %}空{% endif %}</td>
+                                          <td>{% if obj.education  %}{{ obj.education }}{% else  %}空{% endif %}</td>
+                                          <td>{% change_to_project  obj.project_id%}</td>
+                                          <td>{% change_to_department obj.department_id%} </td>
+                                           <td>{% if obj.phone  %}{{ obj.phone }}{% else  %}空{% endif %}</td>
+                                          <td>{% if obj.email  %}{{ obj.email }}{% else  %}空{% endif %}</td>
+                                          <td>{% if obj.birthday  %}{{ obj.birthday |date:"Y-m-d"}}{% else  %}空{% endif %}</td>
+                                            <td>
+                                              <a  href="{%url "staff_edit" %}?sid={{ obj.sid }}" class="btn btn-info" >编辑</a>
+                                                <button  data-toggle="modal" onclick="ShowStaffDetail({{ obj.sid }})" class="btn btn-info">详细</button>
+                                          </td>
+                                      </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End Example Events -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+
+    <!-- Modal -->
+    <!-- delete-->
+    <div class="modal fade float-center" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">警告！</h3>
+      </div>
+      <div class="modal-body" style="text-align: center;font-size: 20px;">
+        您确定要删除吗？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" id="ensure" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+              <!-- Modal staff_detail -->
+    <div class="modal fade " id="staff_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">人事信息</h3>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;">
+            <div class="col-xs-12">
+                <div class="form-container row clearfix">
+                        <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
+                            <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
+{#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
+                                <div class="panel-body "   id="detail_container" style="padding-top:0px;padding-bottom: 0px">
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">工号</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="job_number" ></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">姓名</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="name"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value hidden" id="photo_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">照片</div>
+                                          <div class="col-xs-9 p_form">
+                                            <p><img width="100"  id="staff_photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">性别</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="gender"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">电话</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="phone"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">邮箱</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="email"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">所在公司</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="company_id"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">所在项目</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="project_id"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">所在部门</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="department_id"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">职级</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="job_rank_id"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">职称</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="job_title_id"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">生日</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="birthday"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">身份证号码</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="id_card"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">籍贯</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="native_place"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">民族</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="nationality"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">学历</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="education"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">入职日期</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="hire_day"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">招聘渠道</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="recruit_channel"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">引荐员工</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="referrer"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">紧急联系人电话</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="contact_phone"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">紧急联系人姓名</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="contact_man"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">紧急联系人关系</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="contact_relation"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">家庭住址</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="family_address"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">现住址</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="current_address"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">银行账号</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="bank_account"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">开户名</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="account_name"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">开户银行</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="bank"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">备注</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="remark"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value hidden " id="attach_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="attach_container">
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+         </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="ClearData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <a class="btn btn-submit btn-primary edit-btn" id="staff_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+      </div>
+    </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js%}
+    <script>
+           /*
+    自执行函数
+    */
+    $(function () {
+        $("#staff").bootstrapTable({
+            toolbar: "#toolbar",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 15,
+            pageList: [10, 25],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false,
+            showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [], //忽略某一列的索引
+                fileName: '人事信息',//导出文件的名称
+                },
+        });
+    });
+           //table数据导出
+    $("#sel_exportoption").change(function () {
+        //刷新参数设置
+        $('#staff').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
+        });
+    });
+
+      function  SelectAll(ths) {
+        //判断是否选中
+        ischecked=$(ths).is(":checked");
+        //如果选中则全选中,否则取消选中
+        $(ths).parent().parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
+    }
+//批量删除
+        function MultiDelete() {
+        var ids="";
+        $("tbody input:checkbox:checked").each(function () {
+            console.log($(this).next().val())
+            id = $(this).next().val();
+            if (id){
+                id+="|";
+                ids+=id;
+            }
+        });
+        //是否选中
+        if (ids==""){
+             layer.alert('至少选择一个对象', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $("#delete_modal").modal("show");//显示模态框
+        $("#ensure").click(function () {
+            $("#delete_modal").hide();
+              $.ajax({
+            url:"{% url "staff_delete" %}",
+            data:{"ids":ids},
+            type:"get",
+            dataType:"JSON",
+            success:function (arg) {
+                if (arg.status){
+                    window.location.reload()
+                }else{
+                   layer.alert('删除失败', {icon: 2 ,
+                                  time: 2000, //2s后自动关闭
+                                    btn: [ '知道了']}
+                                    );
+
+                }
+            }
+        })
+        });
+    }
+    function ShowStaffDetail(cons) {
+
+      $('#staff_detail').modal('show');
+      var id =cons
+      $.ajax({
+          url:"{% url "staff_detail" %}",
+          type:"get",
+          data:{'id':id},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  console.log(arg)
+                  var data=arg.data;
+                  console.log(data.name)
+                    $("#job_number").text(data.job_number);
+                    $("#name").text(data.name);
+                    $("#phone").text(data.phone);
+                     $("#gender").text(data.gender);
+                    $("#email").text(data.email);
+                    $("#company_id").text(data.company_id);
+                    $("#project_id").text(data.project_id);
+                    $("#department_id").text(data.department_id);
+                    $("#job_rank_id").text(data.job_rank_id);
+                    $("#job_title_id").text(data.job_title_id);
+                    $("#id_card").text(data.id_card);
+                    $("#birthday").text(data.birthday+"("+data.is_lunar+")");
+                    $("#nationality").text(data.nationality);
+                    $("#native_place").text(data.native_place);
+                    $("#education").text(data.education);
+                    $("#recruit_channel").text(data.recruit_channel);
+                     $("#referrer").text(data.referrer);
+                    $("#hire_day").text(data.hire_day);
+                    $("#contact_phone").text(data.contact_phone);
+                    $("#contact_man").text(data.contact_man);
+                     $("#contact_relation").text(data.contact_relation);
+                    $("#bank").text(data.bank);
+                    $("#bank_account").text(data.bank_account);
+                    $("#account_name").text(data.account_name);
+                    $("#family_address").text(data.family_address);
+                    $("#current_address").text(data.current_address);
+                    $("#remark").text(data.remark);
+                  if (data.photo != ""){
+                       $("#staff_photo").attr("src","/"+data.photo )
+                       $("#photo_block").removeClass("hidden")
+                  }
+                  //初始化附件
+                  console.log(data.nid)
+                  if (data.attach!=""){
+                      var attachs = JSON.parse(data.attach);
+                      for (var i=0;i<attachs.length;i++){
+                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles=a_ele+l_ele+"<br>"
+                      $("#attach_container").append(eles)
+                          $("#attach_block").removeClass("hidden")
+                      }
+                  }
+                  $("#staff_edit").attr("href","staff_edit?sid={0}".format(data.sid))
+              }
+          }
+      });
+    }
+        //清空指派模态框的数据
+    function ClearData(){
+            $("#detail_container >p").each(function () {
+                $(this).text()
+            })
+           $("#attach_container").empty()
+}
+    </script>
+
+{% endblock %}

@@ -262,7 +262,7 @@ def department_edit(request):
 
 def staff_list(request):
     query_sets = staff_db.query_staff_list()
-    return render(request,"personnel/staff_list.html",{"query_sets":query_sets})
+    return render(request,"personnel/staffs.html",{"query_sets":query_sets})
 
 
 def staff_edit(request):

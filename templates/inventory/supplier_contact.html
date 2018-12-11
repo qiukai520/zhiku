@@ -1,5 +1,5 @@
 
-{% extends "layout.html" %}
+{% extends "content_edit_layout.html" %}
 {% load inventory_tags %}
 {% block css %}
     <style>
@@ -11,16 +11,14 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>供应商往来 <small></small></h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
+                        <h5>{% if id %}
+                                往来编辑
+                           {% else %}
+                                添加往来
+                           {% endif %}</h5>
                     </div>
+                        <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+
                     <div class="ibox-content">
                         <div class="row form-horizontal">
                          <form action="{% url "supplier_contact" %}" method="post" id="contact_fm" class="form-horizontal" enctype="multipart/form-data">
@@ -388,7 +386,6 @@ function UploadFile(ths){
 
 function ChangeCategory(ths) {
     var cons=$(ths).val()
-    console.log("cons",cons)
     if (cons==1){
          $("#receivable").parent().parent().find("label").text("应付金额")
          $("#received").parent().parent().find("label").text("已付金额")

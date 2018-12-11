@@ -1,9 +1,21 @@
-{% extends "layout.html" %}
+
 {% load admin_tags %}
-
-{% block css %}
-
-     <!-- Morris -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+     <!--自定义-->
+        <link rel="icon" href="data:image/ico;base64,aWNv">
+         <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <link href="/static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+        <link href="/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+        <link href="/static/css/animate.css" rel="stylesheet">
+        <link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
+        <link rel="stylesheet" href="/static/css/custom/common.css">
+        <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <!-- Morris -->
     <link href="/static/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
 
     <!-- Gritter -->
@@ -15,10 +27,11 @@
      }
     </style>
 
-{% endblock %}
 
-{% block content %}
-      <div class="wrapper wrapper-content">
+</head>
+
+<body>
+ <div class="wrapper wrapper-content">
         <div class="row">
             <div class="col-sm-3">
                 <div class="ibox float-e-margins">
@@ -425,14 +438,22 @@
         </div>
     </div>
 
-{% endblock %}
-{% block js %}
+    <!-- 全局js -->
+    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/static/js/plugins/layer/layer.min.js"></script>
+    <!-- 自定义js -->
+    <script src="/static/js/hplus.js?v=4.1.0"></script>
+    <script type="text/javascript" src="/static/js/contabs.js"></script>
+    <script type="text/javascript" src="/static/js/common.js"></script>
 
-    <!-- Flot -->
+ <!-- Flot -->
     <script src="/static/js/plugins/flot/jquery.flot.js"></script>
     <script src="/static/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
     <script src="/static/js/plugins/flot/jquery.flot.spline.js"></script>
-    <script src="/static/js/plugins/flot/jquery.flot.resize.js"></script>
+{#    <script src="/static/js/plugins/flot/jquery.flot.resize.js"></script>#}
     <script src="/static/js/plugins/flot/jquery.flot.pie.js"></script>
     <script src="/static/js/plugins/flot/jquery.flot.symbol.js"></script>
 
@@ -459,6 +480,7 @@
 
     <!-- Sparkline demo data  -->
     <script src="/static/js/demo/sparkline-demo.js"></script>
+
 
     <script>
         $(document).ready(function () {
@@ -628,4 +650,15 @@
 
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
     <!--统计代码，可删除-->
-{% endblock %}
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+

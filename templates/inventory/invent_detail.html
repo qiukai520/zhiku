@@ -1,10 +1,7 @@
-{% extends "layout.html" %}
+{% extends "content_table_layout.html" %}
 {% load  inventory_tags %}
 
 {% block css %}
-    <link href="css/animate.min.css" rel="stylesheet">
-    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
-
     <style>
     .download_file{
         color:#337ab7 !important
@@ -43,13 +40,17 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="m-b-md">
+                                    <a href="{%url "goods_detail" %}?id={{ query_set.nid }}" class="btn btn-info pull-right">商品详细</a>
                                     <h3 style="margin-left:15px"> {{ query_set.name }}</h3>
-                                    <a href="{%url "goods_detail" %}?id={{ query_set.nid }}" class="btn btn-white btn-xs pull-right">商品详细</a>
                                 </div>
                                     <dl class="dl-horizontal">
                                     <dt>商品分类：</dt>
                                     <dd><span class="label label-primary">{% change_to_goods_category query_set.category_id %}</span>
                                     </dd>
+                                       <dt> </dt>
+                                        <dd>
+                                          <a  style="float: right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+                                     </dd>
                                 </dl>
                             </div>
                         </div>
@@ -781,7 +782,7 @@
             sortOrder: "desc",
             pageNumber:1,
             pageSize: 10,
-            pageList: [5, 10,15],
+            pageList: [5,10,15,20,30],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -794,7 +795,7 @@
             detailView: false,
             cache: false,
             showExport: true, //是否显示导出
-            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportTypes:[ 'excel','csv', 'xml','txt','json' ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
             exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
             exportOptions: {
                 ignoreColumn: [0,-1], //忽略某一列的索引
@@ -810,7 +811,7 @@
             sortOrder: "desc",
             pageNumber:1,
             pageSize: 6,
-            pageList: [10,15,20],
+            pageList: [5,10,15,20,30],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -823,7 +824,7 @@
             cardView: false,
             detailView: false,
             cache: false,
-              showExport: true, //是否显示导出
+            showExport: true, //是否显示导出
             exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
             exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
             exportOptions: {
@@ -839,8 +840,8 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 6,
-            pageList: [10,15,20],
+            pageSize: 5,
+            pageList: [5,10,15,20,30],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -869,8 +870,8 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 6,
-            pageList: [5,10],
+            pageSize: 5,
+            pageList: [5,10,15,20,30],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -893,8 +894,8 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 10,
-            pageList: [5, 10,15,20],
+            pageSize: 5,
+            pageList: [5,10,15,20,30],
             search: true,
             strictSearch: false,
             showColumns: true,

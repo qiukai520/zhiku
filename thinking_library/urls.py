@@ -27,6 +27,7 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
     path('index/', task_view.index, name='index'),
+    path('home/', task_view.home, name='home'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', logout, name='logout'),
     path("task/", include('task.urls')),

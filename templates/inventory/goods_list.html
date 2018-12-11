@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "content_table_layout.html" %}
 {% load inventory_tags %}
 {% block css %}
     <style>
@@ -191,7 +191,7 @@
             detailView: false,
             cache: false,
             showExport: true, //是否显示导出
-            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportTypes:[ 'excel','csv', 'xml','txt','json' ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
             exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
             exportOptions: {
                 ignoreColumn: [0,-1], //忽略某一列的索引

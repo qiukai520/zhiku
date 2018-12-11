@@ -1,9 +1,7 @@
-{% extends "layout.html" %}
+{% extends "content_table_layout.html" %}
 {% load  admin_tags %}
 
 {% block css %}
-    <link href="css/animate.min.css" rel="stylesheet">
-    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
 
     <style>
     .download_file{
@@ -25,8 +23,9 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="m-b-md">
-                                    <a href="{%url "task_map_edit" %}?tmid={{ task_obj.tmid }}" class="btn btn-white btn-xs pull-right">编辑指派内容</a>
-                                    <h3>工单名称：{{ task_obj.title }}</h3>
+                                    <a href="{%url "task_map_edit" %}?tmid={{ task_obj.tmid }}" class="btn btn-info pull-right">编辑指派内容</a>
+                                      <h4 style="color:#1ab394">工单名称</h4>
+                                    <p   style="text-indent:2em">{{ task_obj.title }}</p>
                                 </div>
                                 <dl class="dl-horizontal">
                                     <dt>工单状态：</dt>
@@ -81,7 +80,7 @@
                                         <div class="progress progress-striped active m-b-sm">
                                             <div style="width: {{ progerss }}%;" class="progress-bar"></div>
                                         </div>
-                                        <small>当前已完成项目总进度的 <strong>{{ progerss }}%</strong></small>
+                                        <small>当前已完成工单总进度的 <strong>{{ progerss }}%</strong></small>
                                     </dd>
                                 </dl>
                             </div>
@@ -92,7 +91,7 @@
                                     <div class="panel-heading">
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
-                                                <li><a href="task_detail.html#tab-1" data-toggle="tab">团队消息</a>
+                                                <li class="active"><a href="task_detail.html#tab-1" data-toggle="tab">团队消息</a>
                                                 </li>
                                                 <li class=""><a href="task_detail.html#tab-2" data-toggle="tab">审核更新</a>
                                                 </li>
@@ -180,15 +179,16 @@
         <div class="col-sm-3">
             <div class="wrapper wrapper-content project-manager">
                 <h4>工单描述</h4>
-                <p class="small" style="text-indent:2em">{{ task_obj.content }}
+                <p  style="text-indent:2em">{{ task_obj.content }}
                 </p>
-                <h5>项目标签</h5>
+              <br>
+                <h4>工单标签</h4>
                 <ul class="tag-list" style="padding: 0">
-                    {% build_task_map_tags_list  task_obj.tmid%}
+                   {% build_task_map_tags_list  task_obj.tmid%}
                 </ul>
+                 <br>
                 <br>
-                <br>
-                <h5>项目附件</h5>
+                <h4 style="display: block">工单附件</h4>
                 <ul class="list-unstyled project-files">
                     {% query_task_map_attachment_by_tmid task_obj.tmid as t_attachement %}
                     {% for obj in t_attachement %}
@@ -205,7 +205,7 @@
                 <span class="small" style="text-indent:2em">{{ task_obj.remark }}
                 </span>
                 <div class="m-t-md">
-                    <a href="{%url "map_content" %}?tmid={{task_obj.tmid }}" class="btn btn-xs btn-primary">编辑项目内容</a>
+                    <a href="{%url "map_content" %}?tmid={{task_obj.tmid }}" class="btn btn-xs btn-primary">编辑工单内容</a>
 
                 </div>
             </div>
@@ -217,6 +217,5 @@
     <script>
         $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
     </script>
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 {% endblock %}
 

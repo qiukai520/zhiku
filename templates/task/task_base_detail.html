@@ -1,9 +1,7 @@
-{% extends "layout.html" %}
+{% extends "content_table_layout.html" %}
 {% load  admin_tags %}
 
 {% block css %}
-    <link href="css/animate.min.css" rel="stylesheet">
-    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
 
     <style>
     .download_file{
@@ -24,8 +22,9 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="m-b-md">
-                                    <a href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-white btn-xs pull-right">编辑项目</a>
-                                    <h3>工单名称：{{ task_obj.title }}</h3>
+                                    <a href="{%url "task_edit" %}?tid={{ task_obj.tid }}" class="btn btn-info pull-right">编辑工单</a>
+                                    <h4 style="color:#1ab394">工单名称</h4>
+                                    <p  class="large"  style="text-indent:2em">{{ task_obj.title }}</p>
                                 </div>
                             </div>
                         </div>
@@ -38,6 +37,7 @@
                                     <dd>{% change_to_task_type  task_obj.type_id  %}
                                     </dd>
                                 </dl>
+
                             </div>
                             <div class="col-sm-7" id="cluster_info">
                                 <dl class="dl-horizontal">
@@ -54,7 +54,7 @@
                                     <div class="panel-heading">
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
-                                                <li><a href="task_detail.html#tab-1" data-toggle="tab">指派记录</a>
+                                                <li class="active"><a href="task_detail.html#tab-1" data-toggle="tab">指派记录</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -94,15 +94,15 @@
         <div class="col-sm-3">
             <div class="wrapper wrapper-content project-manager">
                 <h4>工单描述</h4>
-                <p class="small" style="text-indent:2em">{{ task_obj.content }}
+                <p  style="text-indent:2em">{{ task_obj.content }}
                 </p>
-                <h5>项目标签</h5>
+                <h4>工单标签</h4>
                 <ul class="tag-list" style="padding: 0">
                     {% build_task_tags_list  task_obj.tid%}
                 </ul>
                 <br>
                 <br>
-                <h5>项目附件</h5>
+                <h4>工单附件</h4>
                 <ul class="list-unstyled project-files">
                     {% query_task_attachment_by_tid task_obj.tid as t_attachement %}
                     {% for obj in t_attachement %}
@@ -128,6 +128,5 @@
     <script>
         $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
     </script>
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 {% endblock %}
 

@@ -249,7 +249,6 @@ def change_to_linkman(id):
 def change_to_gender(id):
     gender_choice = linkman_db.gender_choice
     for item in gender_choice:
-        print("item", item)
         if item['id'] == int(id):
             return item["caption"]
 
@@ -257,7 +256,6 @@ def change_to_gender(id):
 def change_to_linkman_marriage(id):
     marriage_choice = linkman_db.marriage_choice
     for item in marriage_choice:
-        print("item", item)
         if item['id'] == int(id):
             return item["caption"]
 
@@ -366,18 +364,19 @@ def fetch_repertory(id):
 @register.simple_tag
 def fetch_goods_total_amount(gid):
     """获取商品库存总数"""
+    total_amount = 0
     if gid:
         total_obj = invent_db.query_goods_total_amount(gid)
-        total_amount = total_obj[0]
-        if not total_amount:
-            total_amount = 0
-        return total_amount
+        if total_obj[0]:
+            total_amount = total_obj[0]
+    return total_amount
 
 
 @register.simple_tag
 def fetch_warehouse_list():
     ware_list = warehouse_db.query_warehouse_list()
     return ware_list
+
 
 @register.simple_tag
 def fetch_goods_total_amount_by_warehouse(gid,wid):

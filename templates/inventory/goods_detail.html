@@ -1,9 +1,7 @@
-{% extends "layout.html" %}
+{% extends "content_table_layout.html" %}
 {% load  inventory_tags %}
 
 {% block css %}
-    <link href="css/animate.min.css" rel="stylesheet">
-    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
 
     <style>
     .download_file{
@@ -40,13 +38,19 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="m-b-md">
-                                    <a href="{%url "goods_edit" %}?id={{ query_set.nid }}" class="btn btn-white btn-xs pull-right">去编辑</a>
+                                    <a href="{%url "goods_edit" %}?id={{ query_set.nid }}" class="btn btn-info pull-right">去编辑</a>
+
                                     <h3 style="margin-left:15px"> {{ query_set.name }}</h3>
+
                                 </div>
                                     <dl class="dl-horizontal">
                                     <dt>商品分类：</dt>
                                     <dd><span class="label label-primary">{% change_to_goods_category query_set.category_id %}</span>
                                     </dd>
+                                        <dt> </dt>
+                                        <dd>
+                                          <a  style="float: right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+                                     </dd>
                                 </dl>
                             </div>
                         </div>
@@ -73,7 +77,7 @@
                                      <dt>录入时间：</dt>
                                     <dd>{{ query_set.create_time|date:"Y-m-d" }}</dd>
                                       <dt>库存数量：</dt>
-                                    <dd> {% fetch_goods_total_amount obj.nid %}</dd>
+                                    <dd> {% fetch_goods_total_amount query_set.nid %}</dd>
                                 </dl>
                             </div>
                         </div>
@@ -107,6 +111,16 @@
                                                     <a href="{% url "goods_price" %}?gid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
+                                            <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption1" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
                                                 <table id="goods_price"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
@@ -154,12 +168,23 @@
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>
+                                             </div>
                                             </div>
                                           <div class="tab-pane " id="tab-2">
                                                 <div class="btn-group hidden-xs" id="toolbar2" role="group">
                                                     <a href="{% url "price_compare" %}?gid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
+                                           <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
                                                 <table id="compare_price"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
@@ -197,6 +222,7 @@
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>
+                                             </div>
                                             </div>
                                         </div>
                                     </div>
@@ -243,7 +269,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" onclick="ClearData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearPriceData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h3 class="modal-title" id="myModalLabel">供应商报价</h3>
       </div>
       <div class="modal-body" style="height: 560px;">
@@ -253,7 +279,7 @@
                         <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
                             <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
 {#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
-                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px">
+                                <div class="panel-body " id="price_detail" style="padding-top:0px;padding-bottom: 0px">
                                      <div class=" form-group row value" >
                                           <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">供应商</div>
                                           <div class="col-xs-9 p_form" >
@@ -304,7 +330,7 @@
                                     </div>
                                      <div class=" form-group row value hidden " id="attach_block" >
                                           <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
-                                          <div class="col-xs-9 p_form" id="attach_container">
+                                          <div class="col-xs-9 p_form" id="pirce_container">
 
                                           </div>
                                     </div>
@@ -317,7 +343,7 @@
             </div>
          </div>
       <div class="modal-footer">
-        <button class="btn btn-default" onclick="ClearData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+        <button class="btn btn-default" onclick="ClearPriceData()" data-dismiss="modal" aria-hidden="true">关闭</button>
           <a class="btn btn-submit btn-primary edit-btn" id="edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
       </div>
     </div>
@@ -342,8 +368,8 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 10,
-            pageList: [5, 10,15],
+            pageSize: 5,
+            pageList: [5,10,15],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -354,7 +380,14 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+            showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json' ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1], //忽略某一列的索引
+                fileName: '供应商报价表'//导出文件的名称
+            }
         });
         $("#compare_price").bootstrapTable({
             toolbar: "#toolbar2",
@@ -364,8 +397,8 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 6,
-            pageList: [10,15,20],
+            pageSize: 5,
+            pageList: [5,10,15],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -376,7 +409,29 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+            showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json' ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1], //忽略某一列的索引
+                fileName: '零售比价表'//导出文件的名称
+            }
+        });
+    });
+
+       //table数据导出
+    $("#sel_exportoption1").change(function () {
+        //刷新参数设置
+        $('#goods_price').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
+        });
+    });
+      //table数据导出
+    $("#sel_exportoption2").change(function () {
+        //刷新参数设置
+        $('#compare_price').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
         });
     });
 
@@ -422,11 +477,17 @@
     }
 
 
-    //清空指派模态框的数据
-    function ClearData(){
-            window.location.reload();
-}
+     //清空指派模态框的数据
+    function ClearPriceData(){
+            $("#price_detail >p").each(function () {
+                $(this).text()
+            })
+           $("#pirce_container").empty()
+           $("#attach_block").addClass("hidden")
+    }
+    //清空备忘模态框的数据
+
     </script>
-    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+{#    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>#}
 {% endblock %}
 

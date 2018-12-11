@@ -101,10 +101,13 @@ WSGI_APPLICATION = 'thinking_library.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'zhiku-v1',
-        'USER': 'zhiku',
-        'PASSWORD': 'Aa@zhiku886',
-        'HOST': '120.79.146.100',
+        # 'NAME': 'zhiku-v1',
+        # 'USER': 'zhiku',
+        # 'PASSWORD': 'Aa@zhiku886',
+        'NAME': 'thinking_library',
+        'USER': 'root',
+        'PASSWORD': 'a741258963',
+        'HOST': '',
         'PORT': '',
     }
 }

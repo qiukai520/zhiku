@@ -1,5 +1,5 @@
 
-{% extends "layout.html" %}
+{% extends "content_edit_layout.html" %}
 {% load personnel_tags %}
 {% load sfa_tags %}
 {% block css %}
@@ -24,14 +24,8 @@
                         {% else %}
                              添加联系人
                         {% endif %}</strong></h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
+                   <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal">

@@ -1,6 +1,8 @@
-{% extends "layout.html" %}
+{% extends "content_edit_layout.html" %}
 {% load  admin_tags %}
 {% block css%}
+      <!-- bootstarp star -->
+    <link rel="stylesheet" href="/static/plugins/raty/jquery.raty.css">
     <style>
     #top > span{
         margin-right: 60px;
@@ -81,7 +83,7 @@
             <div class="ibox " >
                 <div class="col-sm-5" style="border-right: 2px double #9F9F9F" >
                  <div class="wrapper wrapper-content animated fadeInUp" >
-                      <h3 style="text-align: center">审核内容</h3>
+                      <h3 style="text-align: center">工作内容</h3>
                         <div class="ibox">
                         <div class="" id="ibox-content">
                             <div id="vertical-timeline" class="vertical-container light-timeline center-orientation">
@@ -188,21 +190,21 @@
                      </div>
                 </div>
                 <div class="col-sm-7" >
-                  <div class="wrapper wrapper-content animated fadeInUp">
+                  <div class="wrapper wrapper-content animated fadeInUp"  style="padding:0px">
                        <h3 style="text-align: center">审核</h3>
                     <div class="ibox">
                         <div class="" id="ibox-content">
-                           <div id="vertical-timeline" class="vertical-container light-timeline center-orientation">
-                           <div class="vertical-timeline-block">
+                           <div id="vertical-timeline" style="padding:0px" class="vertical-container light-timeline center-orientation">
+                           <div class="vertical-timeline-block" >
                                         <div class="vertical-timeline-icon navy-bg">
                                             <i class="fa fa-briefcase"></i>
                                         </div>
-                                        <div class="vertical-timeline-content">
+                                        <div class="vertical-timeline-content" style="padding:0">
                                          <div class="row form-horizontal" style="position: relative;margin:5px;background-color: white ">
                                         <div class="col-xs-12"   >
                                              <div class="form-group" style="margin-top: 15px">
-                                                <label  class="col-xs-8 col-sm-6 col-md-4   control-label" for="is_complete">状态：</label>
-                                                <div class=" col-xs-12 col-sm-8 col-md-8 radio " id="is_complete" >
+                                                <label  class="col-xs-6 col-sm-4 col-md-4   control-label" for="is_complete">状态</label>
+                                                <div class=" col-xs-12 col-sm-8 col-md-8 radio "  id="is_complete" >
                                                      <label ><input type="radio" onchange="ChangeComplete()" name="is_complete"
                                      value="1" checked>通过</label>
                                                     <label ><input type="radio"  onchange="ChangeReject()" name="is_complete"
@@ -210,21 +212,21 @@
                                                 </div>
                                             </div>
                                              <div class="form-group hidden" id="reject_group">
-                                            <label for="reason" class="col-xs-8 col-sm-6 col-md-4  control-label">原因：</label>
+                                            <label for="reason" class="col-xs-6 col-sm-4  control-label">原因</label>
                                               <div class="col-xs-12  col-sm-12 col-md-8">
                                                   <textarea name="title"   class="form-control " id="reason" cols="30" rows="5" placeholder="驳回原因"></textarea>
                                               </div>
                                         </div>
                                              <div id="complete_group">
                                              <div class="form-group">
-                                            <label for="comment" class="col-xs-8 col-sm-6 col-md-4  control-label">评语：</label>
+                                            <label for="comment" class="col-xs-6 col-sm-4 col-md-4  control-label">评语</label>
                                               <div class=" col-xs-12  col-sm-12 col-md-8">
                                                   <textarea name="title" cols="30" rows="5"  class="form-control"  id="comment" placeholder="评价">
                                                 </textarea>
                                               </div>
                                         </div>
                                             <div class="form-group " >
-                                            <label for="evaluate" style="margin-top: 10px;" class="col-xs-8 col-sm-6 col-md-4 control-label">评分：</label>
+                                            <label for="evaluate" style="margin-top: 10px;" class="col-xs-6 col-sm-4 col-md-4 control-label">评分</label>
                                               <div id="star"  style="display: inline-block; margin-top:15px" class="col-xs-8  col-sm-16 col-md-8">
                                                   <input type="text" class="hidden"  name="evaluate"   id="evaluate">
     {#                                              <input id="evaluate"  style="max-width: 200px "  name="evaluate" class="rating"  min="0" max="5" step="1" data-size="sm" value="0" >#}
@@ -239,10 +241,6 @@
                                            </div>
                                         </div>
                                       </div>
-                                            <span class="vertical-date">
-                                        今天 <br>
-                                        <small></small>
-                                    </span>
                                     </div>
                                     </div>
                                 {% for item in  task_review_record %}
@@ -284,31 +282,11 @@
     </div>
 {% endblock %}
 {% block js %}
-    <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/static/js/jquery.cookie.js"></script>
+      <!-- bootstarp star-->
+      <script type="text/javascript" src="/static/plugins/raty/jquery.raty.js"></script>
+
     <script>
-   {#    预防csrf#}
-    var csrftoken = $.cookie('csrftoken');
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
-    //字符串格式化
-    String.prototype.format=function()
-    {
-      if(arguments.length==0) return this;
-      for(var s=this, i=0; i<arguments.length; i++)
-        s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
-      return s;
-    };
+
 
 //自执行函数
    $(function () {

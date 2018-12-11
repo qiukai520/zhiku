@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "content_edit_layout.html" %}
 {% load inventory_tags %}
 
 {% block css %}
@@ -21,24 +21,13 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>库位编辑</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                                <li><a href="#">选项1</a>
-                                </li>
-                                <li><a href="#">选项2</a>
-                                </li>
-                            </ul>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
+                        <h5>{% if id %}
+                                库位编辑
+                           {% else %}
+                                添加库位
+                           {% endif %}</h5>
+                        <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal" style="position: relative;margin-top: 30px">
@@ -91,14 +80,6 @@
 {% endblock %}
 {% block js%}
      <script>
-        //字符串格式化
-String.prototype.format=function()
-{
-  if(arguments.length==0) return this;
-  for(var s=this, i=0; i<arguments.length; i++)
-    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
-  return s;
-};
        //自执行函数
   $(function () {
         //
@@ -131,7 +112,6 @@ String.prototype.format=function()
         }else {
             var data={"location":name,"warehouse_id":warehouse_id}
         }
-        console.log("data",data)
         $.ajax({
                 url: '{% url 'warelocation_edit'%}',
                 type: "post",
@@ -153,7 +133,6 @@ String.prototype.format=function()
             }
         })
     }
-
 
      </script>
 {% endblock %}

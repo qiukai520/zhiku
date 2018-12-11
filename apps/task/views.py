@@ -30,6 +30,10 @@ def index(request):
     print(request.session['user_info'])
     print(request.path_info)
     staff = request.user.staff
+    return render(request,'layout.html')
+
+
+def home(request):
     return render(request,'index_v3.html')
 
 

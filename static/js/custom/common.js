@@ -1,4 +1,3 @@
-//防止跨站请求伪造
 
 function Hidden(ths) {
       //隐藏当前标签
@@ -13,8 +12,6 @@ String.prototype.format=function()
     s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
   return s;
 };
-
-
 
 
 //添加附件

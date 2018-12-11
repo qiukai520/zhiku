@@ -1,11 +1,9 @@
-{% extends "layout.html" %}
+{% extends "content_table_layout.html" %}
 {% load public_tags %}
 {% load personnel_tags %}
 {% load  inventory_tags %}
 
 {% block css %}
-    <link href="css/animate.min.css" rel="stylesheet">
-    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
 
     <style>
     .download_file{
@@ -42,13 +40,18 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="m-b-md">
-                                    <a href="{%url "supplier_edit" %}?id={{ query_set.nid }}" class="btn btn-white btn-xs pull-right">去编辑</a>
+                                    <a href="{%url "supplier_edit" %}?id={{ query_set.nid }}" class="btn btn-info pull-right">去编辑</a>
                                     <h3 style="margin-left:15px"> {{ query_set.company }}</h3>
                                 </div>
                                     <dl class="dl-horizontal">
                                     <dt>主营商品：</dt>
                                     <dd><span class="label label-primary">{{ query_set.products }}</span>
                                     </dd>
+                                         <dt> </dt>
+                                        <dd>
+                                          <a  style="float: right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+                                     </dd>
+
                                 </dl>
                             </div>
                         </div>
@@ -121,6 +124,16 @@
                                                     <a href="{% url "supplier_linkman" %}?sid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
+                                            <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
                                                 <table id="linkman"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
@@ -129,7 +142,6 @@
                                                             <th>性别</th>
                                                             <th>手机</th>
                                                             <th>电话</th>
-                                                            <th>分机</th>
                                                             <th>籍贯</th>
                                                             <th>操作</th>
                                                         </tr>
@@ -157,12 +169,6 @@
                                                                       空
                                                                   {% endif %}
                                                            </td>
-                                                              <td >
-                                                                  {% if obj.ext_phone %}{{ obj.ext_phone }}
-                                                                      {% else %}
-                                                                      空
-                                                                  {% endif %}
-                                                           </td>
                                                             <td> {% if obj.native_place %}{{ obj.native_place }}
                                                                       {% else %}
                                                                       空
@@ -175,12 +181,23 @@
 
                                                     </tbody>
                                                 </table>
+                                             </div>
                                             </div>
                                             <div class="tab-pane" id="tab-2">
                                                 <div class="btn-group hidden-xs" id="toolbar2" role="group">
                                                     <a href="{% url "supplier_contact" %}?sid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
+                                             <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption1" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
                                                 <table id="contact"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
@@ -233,12 +250,23 @@
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>
+                                             </div>
                                             </div>
                                             <div class="tab-pane" id="tab-3">
                                             <div class="btn-group hidden-xs" id="toolbar3" role="group">
                                                     <a href="{% url "supplier_memo" %}?sid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
 {#                                                    <button  onclick="MultiDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
+                                             <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption3" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
                                                 <table id="memo"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                                     <thead>
                                                         <tr>
@@ -273,6 +301,8 @@
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>
+                                             </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -584,8 +614,8 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 6,
-            pageList: [10,15,20],
+            pageSize: 5,
+            pageList: [5,10,15,20,30],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -596,7 +626,14 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+           showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json' ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1,], //忽略某一列的索引
+                fileName: '供应商收支往来报表'//导出文件的名称
+            }
         });
          $("#linkman").bootstrapTable({
             toolbar: "#toolbar1",
@@ -606,8 +643,8 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 10,
-            pageList: [5, 10,15],
+            pageSize: 5,
+            pageList: [5,10,15,20,30],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -618,7 +655,14 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+            showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json' ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1], //忽略某一列的索引
+                fileName: '供应联系人报表'//导出文件的名称
+            }
         });
           $("#memo").bootstrapTable({
             toolbar: "#toolbar3",
@@ -628,8 +672,8 @@
             sortable: true,
             sortOrder: "desc",
             pageNumber:1,
-            pageSize: 10,
-            pageList: [5, 10,15],
+            pageSize: 5,
+            pageList: [5,10,15,20,30],
             search: true,
             strictSearch: false,
             showColumns: true,
@@ -640,10 +684,38 @@
             showToggle:true,
             cardView: false,
             detailView: false,
-            cache: false
+            cache: false,
+            showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json' ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1], //忽略某一列的索引
+                fileName: '供应商备忘报表'//导出文件的名称
+            }
         });
     });
 
+         //table数据导出
+    $("#sel_exportoption1").change(function () {
+        //刷新参数设置
+        $('#contact').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
+        });
+    });
+      //table数据导出
+    $("#sel_exportoption2").change(function () {
+        //刷新参数设置
+        $('#linkman').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
+        });
+    });
+      //table数据导出
+    $("#sel_exportoption3").change(function () {
+        //刷新参数设置
+        $('#memo').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
+        });
+    });
     //展示联系人详细内容
     function ShowLinkmanDetail(cons) {
 
@@ -775,10 +847,7 @@
           }
       });
     }
-    //清空指派模态框的数据
-    function ClearData(){
-            window.location.reload();
-}
+
 
  //清空指派模态框的数据
     function ClearContactData(){
@@ -788,7 +857,7 @@
            $("#contact_container").empty()
            $("#attach_block").addClass("hidden")
     }
-    //清空指派模态框的数据
+    //清空备忘模态框的数据
     function ClearMemoData(){
             $("#memo_detail >p").each(function () {
                 $(this).text()
