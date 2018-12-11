@@ -122,21 +122,21 @@
          <div class="row form-horizontal" style="position: relative;">
             <div class="col-xs-12">
               <div class="form-group">
-                    <label for="title" class="col-xs-3 control-label">标题：</label>
+                    <label for="title" class="col-xs-3 control-label">标题</label>
                       <div class="col-xs-8">
                           <textarea name="title" style="height:40px;" class="form-control"  id="title" placeholder="工单标题">
                         </textarea>
                       </div>
                 </div>
                 <div class="form-group">
-                    <label for="content" class="control-label col-xs-3">内容：</label>
+                    <label for="content" class="control-label col-xs-3">内容</label>
                     <div class="col-xs-8">
                         <textarea name="content" class="form-control"  style="height:60px;" id="content" placeholder="工单描述">
                     </textarea>
                     </div>
                 </div>
                 <div class="form-group" style="padding: 0px">
-                    <label for="tag" class="control-label col-xs-3">标签：</label>
+                    <label for="tag" class="control-label col-xs-3">标签</label>
                     <div class="col-xs-8" style="padding: 0px">
                         <div class="col-xs-10">
                         <input type="text" name="tag" class="form-control" id="tag" placeholder="请输入要添加的标签">
@@ -156,13 +156,13 @@
                     </div>
                 <div class="attachment1 attachment">
                         <div  class="form-group ">
-                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-3 control-label">附件1：</label>
+                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-3 control-label">附件1</label>
                           <div class="col-xs-4" id="file1">
                               <input type="file" name="file"  onchange="UploadFile(this)">
                           </div>
                         </div>
                         <div class="form-group">
-                            <label for="content" class="control-label col-xs-3">附件描述：</label>
+                            <label for="content" class="control-label col-xs-3">附件描述</label>
                             <div class="col-xs-8">
                                 <input name="content" class="form-control" style="height:40px"  placeholder="附件描述">
                             </div>
@@ -170,23 +170,23 @@
                     </div>
                 <div class="attachment2 attachment">
                         <div  class="form-group ">
-                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-3 control-label">附件2：</label>
+                        <label for="attachment" name="attach" style="position:relative;" class="col-xs-3 control-label">附件2</label>
                           <div class="col-xs-4" id="file2">
                               <input type="file" name="file"  onchange="UploadFile(this)">
                           </div>
                         </div>
                         <div class="form-group">
-                            <label for="content" class="control-label col-xs-3">附件描述：</label>
+                            <label for="content" class="control-label col-xs-3">附件描述</label>
                             <div class="col-xs-8">
                                 <input name="content" class="form-control" style="height:40px"  placeholder="附件描述">
                             </div>
                         </div>
                     </div>
                 <div class="form-group">
-                    <label for="deadline" class="control-label col-xs-3">工单截止时间：</label>
+                    <label for="deadline" class="control-label col-xs-3">截止时间</label>
                     <div class="col-xs-8">
-                    <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' class="form-control" format="YYYY-MM-DD hh:mm" />
+                    <div class='input-group date'  id="datepicker1">
+                        <input type='text' class="form-control" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -234,19 +234,24 @@
     <script src="/static/js/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="/static/js/plugins/moment/moment.min.js"></script>
         <script>
-        //预防csrf
-            var csrftoken = $.cookie('csrftoken');
-        function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
+        
+        
+          //设置日期时间控件
+$(function () {
+    $('#datepicker1').datepicker({
+        language: "zh-CN", //语言
+        todayHighlight: true, //是否今日高亮
+        format: 'yyyy-mm-dd HH:mm', //点击月份后显示在input中的格式
+        autoclose: true, //是否开启自动关闭
+        startView: 'months', //开始视图层，为月视图层
+        maxViewMode:'years', //最大视图层，为年视图层
+        minViewMode:'days', //最小视图层，为月视图层
+        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
+        {#setDate:new Date(),#}
+    });
+    console.log("date")
+});
 
 $(function () {
         $("#task_assign").bootstrapTable({
@@ -276,13 +281,6 @@ $(function () {
       /*
     自执行函数
     */
-    $(function () {
-         //设置日期时间控件
-        $('#datetimepicker1').datepicker({
-        format: 'YYYY-MM-DD HH:mm',
-        locale: moment.locale('zh-cn')
-            });
-    });
 
 
     function  SelectAll(ths) {
@@ -452,7 +450,7 @@ function UploadFile(ths){
             {#$("#assign").show();#}
             {#$("#title").val('');#}
             {#$("#content").val('');#}
-            {#$("#datetimepicker1").find("input").val('');#}
+            {#$("#datepicker1").find("input").val('');#}
             {#$(".tag").nextAll().remove()#}
             {#$(".attachment1").find("input[name=file]").siblings().remove()#}
             {#$(".attachment1").find("input[name=content]").val("")#}
@@ -496,14 +494,11 @@ function MemberAssignShow(ths) {
                   //如果没指定deadline，则为总的deadline
                   console.log(data[0].fields.deadline)
                   if (data[0].fields.deadline){
-                      $("#datetimepicker1").find("input").val(data[0].fields.deadline);
+                      $("#datepicker1").find("input").val(data[0].fields.deadline);
                   }else{
-                       $("#datetimepicker1").find("input").val(deadline)
+                       $("#datepicker1").find("input").val(deadline)
                   }
-                   $('#datetimepicker1').datetimepicker({
-                    format: 'YYYY-MM-DD HH:mm',
-                    locale: moment.locale('zh-cn')
-                        });
+
 
                   //初始化标签
                   var tags=JSON.parse(arg.tags);
@@ -532,7 +527,7 @@ function MemberAssignShow(ths) {
 {#            var member_id=$(ths).parent().find("input[name=member_id]").val();#}
             var title = $("#title").val().trim();
             var content = $("#content").val().trim();
-            var deadline = $("#datetimepicker1").find("input").val();
+            var deadline = $("#datepicker1").find("input").val();
             $.ajax({
                     url: "{% url "task_assign_list" %}",
                     type: "POST",
@@ -564,7 +559,7 @@ function MemberAssignShow(ths) {
         var tasid= $("#myModalLabel").parent().find("input[name=tasid]").val();
         var title = $("#title").val().trim();
         var content = $("#content").val().trim();
-        var deadline = $("#datetimepicker1").find("input").val();
+        var deadline = $("#datepicker1").find("input").val();
          $.ajax({
                 url: "{% url "task_assign_edit" %}",
                 type: "POST",

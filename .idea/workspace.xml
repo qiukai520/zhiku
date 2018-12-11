@@ -7,120 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/practice.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/custom/ajax.csrf.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/content_edit_layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/content_table_layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/demo.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/edit_demo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/inventory/templatetags/inventory_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/inventory/templatetags/inventory_tags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/personnel/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/personnel/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/task/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/task/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/custom/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/custom/common.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/plugins/datapicker/datepicker3.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/plugins/datepicker/datepicker3.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/contabs.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/contabs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/custom/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/custom/common.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/article/more.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/article/more.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/article/read_article.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/article/read_article.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/form_basic.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/form_webuploader.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index_v3.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index_v3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/city_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/public/city_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/city_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/public/city_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/country_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/public/country_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/country_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/public/country_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_category_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_category_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_category_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_category_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_price.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_price.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/content_edit_layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/content_edit_layout.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_unit_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_unit_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/goods_unit_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/goods_unit_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/industry_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/industry_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/industry_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/industry_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/invent_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/invent_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/invent_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/invent_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/inventory_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/inventory_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/nation_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/public/nation_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/nation_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/public/nation_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/practice.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/province_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/public/province_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/province_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/public/province_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/purchase_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/purchase_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/retail_supplier_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/retail_supplier_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/retail_supplier_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/retail_supplier_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_category_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_category_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_category_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_category_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_contact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_linkman.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_linkman.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/supplier_memo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/supplier_memo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/town_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/public/town_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/town_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/public/town_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/ware_location_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/ware_location_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/ware_location_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/ware_location_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/warehouse_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/warehouse_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/warehouse_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/warehouse_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory/wastage_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory/wastage_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/notice/noticelist.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/notice/noticelist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/company_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/company_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/company_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/company_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/department_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/department_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/department_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/department_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/job_rank_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/job_rank_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/job_rank_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/job_rank_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/job_title_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/job_title_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/job_title_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/job_title_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/project_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/project_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/project_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/project_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/saved_resource.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/staff_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/staff_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/staff_list.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/practice.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/practice/practice2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_center.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_center.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_contact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_follow.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_follow.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_linkman.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_linkman.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_memo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_memo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_public.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_public.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/sea_rul_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/sea_rul_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/sea_rul_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/sea_rul_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/table_bootstrap.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/complete_task.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/complete_task.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/perfor_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/perfor_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/perfor_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/perfor_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/perfor_statistic.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/perfor_statistic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/perfor_statistic_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/perfor_statistic_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/personal_task_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/personal_task_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/personal_task_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/personal_task_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/personal_task_review.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/personal_task_review.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_assign.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_assign.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_assign_center.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_assign_center.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/task/task_assigned_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_assigned_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_base_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_base_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_map_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_map_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_period_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_period_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_period_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_period_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_review.bak.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_review.bak.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_review.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_review.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_review_record.bak.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_review_record.bak.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_review_record.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_review_record.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_sort_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_sort_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_sort_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_sort_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_wait_review.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_wait_review.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/thinking_library/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/thinking_library/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/thinking_library/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/thinking_library/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -147,8 +36,17 @@
       <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="475" column="88" lean-forward="true" selection-start-line="474" selection-start-column="2" selection-end-line="475" selection-end-column="88" />
+            <state relative-caret-position="168">
+              <caret line="27" selection-start-line="27" selection-end-line="30" selection-end-column="77" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="content_edit_layout.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/content_edit_layout.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="432">
+              <caret line="16" column="3" lean-forward="true" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -156,8 +54,8 @@
       <file leaf-file-name="goods_price_compare.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price_compare.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-881">
-              <caret line="75" column="34" lean-forward="true" selection-start-line="70" selection-start-column="27" selection-end-line="75" selection-end-column="34" />
+            <state relative-caret-position="37">
+              <caret line="103" column="14" selection-start-line="103" selection-start-column="14" selection-end-line="103" selection-end-column="14" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#10;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -168,8 +66,11 @@
       <file leaf-file-name="goods_price.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="107" column="30" lean-forward="true" selection-start-line="99" selection-start-column="27" selection-end-line="107" selection-end-column="30" />
+            <state relative-caret-position="276">
+              <caret line="105" column="39" lean-forward="true" selection-start-line="102" selection-start-column="31" selection-end-line="105" selection-end-column="39" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#15;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -192,11 +93,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="task_assigned_list.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="task_assigned_list.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/task/task_assigned_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-777">
-              <caret line="186" column="42" lean-forward="true" selection-start-line="186" selection-start-column="42" selection-end-line="186" selection-end-column="42" />
+            <state relative-caret-position="452">
+              <caret line="496" column="72" selection-start-line="496" selection-start-column="66" selection-end-line="496" selection-end-column="72" />
+              <folding>
+                <element signature="e#7740#7766#0#HTML" expanded="true" />
+                <element signature="e#8593#8619#0#HTML" expanded="true" />
+                <element signature="e#9146#9165#0#HTML" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -215,8 +121,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>task_sort</find>
-      <find>detail_container</find>
       <find>attach_container</find>
       <find>bootstrap.min.css.map</find>
       <find>id=&quot;staff&quot;</find>
@@ -236,15 +140,17 @@
       <find>工单变迁</find>
       <find>项目附件</find>
       <find>项目</find>
-      <find>datetimepicker1</find>
       <find>$('#datepicker1').datetimepicker({</find>
       <find>datepicker</find>
-      <find>rat</find>
       <find>radio</find>
       <find>vertical-timeline</find>
-      <find>评分</find>
       <find>工单</find>
+      <find>datetimepicker1</find>
       <find>datepicker1</find>
+      <find>评分</find>
+      <find>$('#datepicker1').datepicker</find>
+      <find>rat</find>
+      <find>duallistbox</find>
     </findStrings>
     <replaceStrings>
       <replace>/static/js/</replace>
@@ -277,7 +183,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/inventory/purchase_edit.html" />
         <option value="$PROJECT_DIR$/templates/inventory/supplier_category_edit.html" />
         <option value="$PROJECT_DIR$/templates/inventory/supplier_contact.html" />
         <option value="$PROJECT_DIR$/templates/inventory/supplier_category_list.html" />
@@ -320,14 +225,15 @@
         <option value="$PROJECT_DIR$/templates/task/task_detail.html" />
         <option value="$PROJECT_DIR$/templates/task/task_assign.html" />
         <option value="$PROJECT_DIR$/templates/edit_demo.html" />
-        <option value="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" />
-        <option value="$PROJECT_DIR$/templates/content_edit_layout.html" />
         <option value="$PROJECT_DIR$/templates/content_table_layout.html" />
         <option value="$PROJECT_DIR$/templates/task/task_review_record.html" />
         <option value="$PROJECT_DIR$/templates/task/task_wait_review.html" />
         <option value="$PROJECT_DIR$/templates/task/personal_task_review.html" />
         <option value="$PROJECT_DIR$/templates/task/task_review.html" />
+        <option value="$PROJECT_DIR$/templates/inventory/goods_price_compare.html" />
         <option value="$PROJECT_DIR$/templates/task/task_assigned_list.html" />
+        <option value="$PROJECT_DIR$/templates/layout.html" />
+        <option value="$PROJECT_DIR$/templates/content_edit_layout.html" />
       </list>
     </option>
   </component>
@@ -547,6 +453,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3287037" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.501634" side_tool="true" weight="0.5286396" />
@@ -555,7 +462,7 @@
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.41666666" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.47875816" weight="0.30429596" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.2761438" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.27450982" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.498366" weight="0.32696897" />
@@ -886,23 +793,6 @@
     <entry file="file://$PROJECT_DIR$/static/js/plugins/moment/moment.min.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price_compare.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-881">
-          <caret line="75" column="34" lean-forward="true" selection-start-line="70" selection-start-column="27" selection-end-line="75" selection-end-column="34" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#10;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content_edit_layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="36" selection-start-line="36" selection-end-line="38" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/task/task_review_record.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -971,10 +861,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/layout.html">
+    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="475" column="88" lean-forward="true" selection-start-line="474" selection-start-column="2" selection-end-line="475" selection-end-column="88" />
+        <state relative-caret-position="276">
+          <caret line="105" column="39" lean-forward="true" selection-start-line="102" selection-start-column="31" selection-end-line="105" selection-end-column="39" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#15;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price_compare.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="37">
+          <caret line="103" column="14" selection-start-line="103" selection-start-column="14" selection-end-line="103" selection-end-column="14" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#10;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -994,17 +897,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inventory/goods_price.html">
+    <entry file="file://$PROJECT_DIR$/templates/task/task_assigned_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="107" column="30" lean-forward="true" selection-start-line="99" selection-start-column="27" selection-end-line="107" selection-end-column="30" />
+        <state relative-caret-position="452">
+          <caret line="496" column="72" selection-start-line="496" selection-start-column="66" selection-end-line="496" selection-end-column="72" />
+          <folding>
+            <element signature="e#7740#7766#0#HTML" expanded="true" />
+            <element signature="e#8593#8619#0#HTML" expanded="true" />
+            <element signature="e#9146#9165#0#HTML" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/task/task_assigned_list.html">
+    <entry file="file://$PROJECT_DIR$/templates/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-777">
-          <caret line="186" column="42" lean-forward="true" selection-start-line="186" selection-start-column="42" selection-end-line="186" selection-end-column="42" />
+        <state relative-caret-position="168">
+          <caret line="27" selection-start-line="27" selection-end-line="30" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content_edit_layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="16" column="3" lean-forward="true" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
         </state>
       </provider>
     </entry>
