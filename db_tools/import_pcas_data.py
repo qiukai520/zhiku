@@ -6,6 +6,7 @@ import sys
 import os
 
 pwd = os.path.dirname(os.path.realpath(__file__))
+
 sys.path.append(pwd+"../")
 # 加载配置文件
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "thinking_library.settings")
@@ -37,13 +38,10 @@ for province in region_data:
             cy_intance = Country()
             cy_intance.code = country["code"]
             cy_intance.country = country["name"]
-            print("country",country["name"])
             cy_intance.city_id = city_id
             cy_intance.save()
             country_id = cy_intance.nid
-
             for town in country["children"]:
-                print("town",town)
                 town_intance = Town()
                 town_intance.code = town["code"]
                 town_intance.town = town["name"]

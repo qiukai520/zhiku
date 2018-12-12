@@ -1018,7 +1018,7 @@ def task_review_record(request):
 
         return render(request, "404.html")
 
-
+from django.forms.models import model_to_dict
 def show_assign_content(request):
     """查看任务成员的任务内容"""
     ret = {"status": False, "message":"","member_assign":'',"tags":"","attachs":""}
@@ -1028,7 +1028,8 @@ def show_assign_content(request):
         try:
             # 根据任务分配ID获取内容
             member_assign = task_assign_db.query_task_assign_by_tasid(tasid)
-            ret["member_assign"] =serializers.serialize("json", member_assign)
+
+            ret["member_assign"] = serializers.serialize("json", member_assign)
             # 获取标签
             tags = task_assign_tag_db.query_task_assign_tag_by_tasid(tasid)
 
@@ -1039,9 +1040,10 @@ def show_assign_content(request):
             ret['attachs'] = serializers.serialize('json', attachs)
             ret['status'] = True
         except Exception as e:
+            print(e)
             ret['message'] = "查询不到相关信息"
+        print("ret",ret)
     return HttpResponse(json.dumps(ret))
-
 
 def task_assign_center(request):
     """任务指派中心获取所有未指派的任务"""

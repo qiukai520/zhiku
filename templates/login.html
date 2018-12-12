@@ -1,3 +1,4 @@
+{% load public_tags %}
 <!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
@@ -151,6 +152,12 @@
 				text-align: center;
 				overflow: hidden;
 			}
+            .content{
+                background: white;
+                width: 100%;
+				text-align: center;
+				overflow: hidden;
+            }
 			
 			.middle>h3 {
 				color: black;
@@ -281,78 +288,77 @@
 		</div>
 		</div>
 
-		<div class="middle">
-			<h3>企业AI•智库</h3>
-			<p>你的企业经营需要一位有智慧的全能秘书</p>
-		</div>
-		<div class="classify">
-			<ul class="row classify_ul">
-				<li class="col-sm-4 effect">
-					<div><p>全球顶级企业成功经验知识库，智能识别岗位工作和岗位任务，实时共享全球顶尖企业相同岗位的优秀经验，你已不是一个人在战斗，顶尖企业相同岗位的优秀人才和你一起共事，给你工作指引</p></div>
-					<p style="text-align: center;"><img src="{% static 'img/scheme.png' %}" alt="" /></p> 渊博知识
-				</li>
-				<li class="col-sm-4 effect">
-					<div><p>优秀人才是企业的最大财富，建立企业完美的招聘流程和招聘绩效体系，对保障企业招聘的有效性和效率性至关重要</p></div>
-					<p style="text-align: center;"><img src="{% static 'img/gold.png' %}" alt="" /></p> 人事高手
-				</li>
-				<li class="col-sm-4 effect">
-					<div><p>销售的过程管理是企业销售团队的重中之重，从新客户的开发、客户分类、客户跟进、销售目标的设定、绩效考核、业绩管理、客户管理等多维度为打造一流的销售团队提供智慧运营方案</p></div>
-					<p style="text-align: center;"><img src="{% static 'img/self.png' %}" alt="" /></p> 销售大师
-				</li>
-				<li class="col-sm-4 effect">
-					<div><p>所有的智慧都来源于管理者，企业AI.智库是一门管理学，值得所有企业主去实践、学习和分享，从而让企业主真正解放出来，更专注于战略和梦想</p></div>
-					<p style="text-align: center;"><img src="{% static 'img/administration.png' %}" alt="" /></p> 管理大师
-				</li>
-				<li class="col-sm-4 effect">
-					<div><p>从不同的维度展示管理过程中的数据，让管理更趋向于可控性、预警性、可追溯性、决策性、务实性，用数据来多维度展示和预测，为每一步的决策提供可靠和及时的支持，这是一种智慧</p></div>
-					<p style="text-align: center;"><img src="{% static 'img/data.png' %}" alt="" /></p> 数据专家
-				</li>
-				<li class="col-sm-4 effect">
-					<div><p>企业健康需要及时、周期性诊断、对企业运营过程中的数据拥有智慧的算法，通过多维度的数据综合统计和评估，可以给企业主企业运营过程中的风险作出及时的预警，并提供修复和应对方案</p></div>
-					<p style="text-align: center;"><img src="{% static 'img/control.png' %}" alt="" /></p> 风控高手
-				</li>
-				<li class="col-sm-4 effect">
-					<div><p>企业主应该及时了解并清楚企业运营过程中的财报，并且这些财报是由原始的数据综合呈现，而没有过多的人为统计因素导致数据的可作弊性提高，涵盖企业的日常成本支出、收入等，直观反映企业收支，并能对未来的财报作出预判</p></div>
-					<p style="text-align: center;"><img src="{% static 'img/money_matters.png' %}" alt="" /></p> 理财专家
-				</li>
-				<li class="col-sm-4 effect">
-					<div><p>拥有售后服务团队的企业通过智慧的流程，让每个客服岗位都能按量、按质、按时、按周期来完成可量化的服务工作，体现企业公平公正的绩效体系，建立流程化和效率化的客服团队</p></div>
-					<p style="text-align: center;"><img src="{% static 'img/serve.png' %}" alt="" /></p> 金牌客服
-				</li>
-				<li class="col-sm-4 effect">
-					<div><p>拥有智慧是企业AI.智库区别于任何企业管理工具的根本，拥有她，企业主将得到解放、企业运作成本将大大减低、他是企业运作过程中的全能秘书，精通、贡献、共享各个岗位知识，为企业主掌管企业并执行任务、承担运营风险和预判风险、如实汇报企业健康状况并致力于诊断和修复企业健康</p></div>
-					<p style="text-align: center;"><img src="{% static 'img/wisdom.png' %}" alt="" /></p> 智慧女神
-				</li>
-			</ul>
-		</div>
+<div class="middle">
+    <h3>企业AI•智库</h3>
+    <p>你的企业经营需要一位有智慧的全能秘书</p>
+</div>
+<div class="classify">
+    <ul class="row classify_ul">
+        <li class="col-sm-4 effect">
+            <div><p>全球顶级企业成功经验知识库，智能识别岗位工作和岗位任务，实时共享全球顶尖企业相同岗位的优秀经验，你已不是一个人在战斗，顶尖企业相同岗位的优秀人才和你一起共事，给你工作指引</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/scheme.png' %}" alt="" /></p> 渊博知识
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>优秀人才是企业的最大财富，建立企业完美的招聘流程和招聘绩效体系，对保障企业招聘的有效性和效率性至关重要</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/gold.png' %}" alt="" /></p> 人事高手
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>销售的过程管理是企业销售团队的重中之重，从新客户的开发、客户分类、客户跟进、销售目标的设定、绩效考核、业绩管理、客户管理等多维度为打造一流的销售团队提供智慧运营方案</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/self.png' %}" alt="" /></p> 销售大师
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>所有的智慧都来源于管理者，企业AI.智库是一门管理学，值得所有企业主去实践、学习和分享，从而让企业主真正解放出来，更专注于战略和梦想</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/administration.png' %}" alt="" /></p> 管理大师
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>从不同的维度展示管理过程中的数据，让管理更趋向于可控性、预警性、可追溯性、决策性、务实性，用数据来多维度展示和预测，为每一步的决策提供可靠和及时的支持，这是一种智慧</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/data.png' %}" alt="" /></p> 数据专家
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>企业健康需要及时、周期性诊断、对企业运营过程中的数据拥有智慧的算法，通过多维度的数据综合统计和评估，可以给企业主企业运营过程中的风险作出及时的预警，并提供修复和应对方案</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/control.png' %}" alt="" /></p> 风控高手
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>企业主应该及时了解并清楚企业运营过程中的财报，并且这些财报是由原始的数据综合呈现，而没有过多的人为统计因素导致数据的可作弊性提高，涵盖企业的日常成本支出、收入等，直观反映企业收支，并能对未来的财报作出预判</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/money_matters.png' %}" alt="" /></p> 理财专家
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>拥有售后服务团队的企业通过智慧的流程，让每个客服岗位都能按量、按质、按时、按周期来完成可量化的服务工作，体现企业公平公正的绩效体系，建立流程化和效率化的客服团队</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/serve.png' %}" alt="" /></p> 金牌客服
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>拥有智慧是企业AI.智库区别于任何企业管理工具的根本，拥有她，企业主将得到解放、企业运作成本将大大减低、他是企业运作过程中的全能秘书，精通、贡献、共享各个岗位知识，为企业主掌管企业并执行任务、承担运营风险和预判风险、如实汇报企业健康状况并致力于诊断和修复企业健康</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/wisdom.png' %}" alt="" /></p> 智慧女神
+        </li>
+    </ul>
+</div>
 
 
 <body class="container">
 <div class="middle" style="background:#f5f5f5;height: 90px; ">
 			<h3 style="margin-top:20px;">最新动态</h3>
 			<p>最新运营管理文章、最新案列、企业最新动态</p>
-		</div>
 
-
-
-
-
-
-<div class="container" style="margin-top:20px;">
+</div>
+ <div class="content" style="margin-top:20px;">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
 			<div class="row">
-                 {% for post in post %}
-				<div class="col-md-4">
 
-					<div class="thumbnail">
+                                      <div class="col-md-4" style="padding-left: 0px;padding-right: 2px">
+                                            {% for post  in post %}
+                                            {% custom_mod forloop.counter 3 as mod  %}
+                                            {% if mod == 0 %}
+					                            <div class="thumbnail" style="width: 98%">
+
+
 						<a href="{% url 'posts' %}?id={{ post.id}}">
                             <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
                         </a>
 						<div class="caption">
-							<h3>
-                                {{ post.title }}
-							</h3>
+							<h4>
+                                {{ post.title |truncatechars:15}}
+							</h4>
 							<p>
 								{{ post.content|truncatechars:40 }}
 							</p>
@@ -361,22 +367,98 @@
 							</p>
 						</div>
 					</div>
+                                            {% endif %}
+                                            {% endfor %}
+				                    </div>
+                                      <div class="col-md-4" style="padding-left: 0px;padding-right: 2px">
+					                    {% for post  in post %}
+                                            {% custom_mod forloop.counter 3 as mod  %}
+                                            {% if mod == 1 %}
+					                            <div class="thumbnail" style="width: 98%">
 
-				</div>
-                {% endfor %}
+
+						<a href="{% url 'posts' %}?id={{ post.id}}">
+                            <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
+                        </a>
+						<div class="caption">
+							<h4>
+                                {{ post.title |truncatechars:15}}
+							</h4>
+							<p>
+								{{ post.content|truncatechars:40 }}
+							</p>
+							<p>
+								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>
+							</p>
+						</div>
+					</div>
+                                            {% endif %}
+                                            {% endfor %}
+
+				                        </div>
+
+                                      <div class="col-md-4" style="padding-left: 0px;padding-right: 2px">
+					                    {% for post  in post %}
+                                            {% custom_mod forloop.counter 3 as mod  %}
+                                            {% if mod == 1 %}
+					                            <div class="thumbnail" style="width: 98%">
+
+
+						<a href="{% url 'posts' %}?id={{ post.id}}">
+                            <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
+                        </a>
+						<div class="caption">
+							<h4>
+                                {{ post.title |truncatechars:15}}
+							</h4>
+							<p>
+								{{ post.content|truncatechars:40 }}
+							</p>
+							<p>
+								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>
+							</p>
+						</div>
+					</div>
+                                            {% endif %}
+                                            {% endfor %}
+
+				                        </div>
+                                    </div>
+
+{#                 {% for post in post %}#}
+{#				<div class="col-md-4" style="padding-left: 0px;padding-right: 2px">#}
+{##}
+{#					<div class="thumbnail" style="width: 98%">#}
+{#						<a href="{% url 'posts' %}?id={{ post.id}}">#}
+{#                            <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>#}
+{#                        </a>#}
+{#						<div class="caption">#}
+{#							<h3>#}
+{#                                {{ post.title |truncatechars:15}}#}
+{#							</h3>#}
+{#							<p>#}
+{#								{{ post.content|truncatechars:40 }}#}
+{#							</p>#}
+{#							<p>#}
+{#								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>#}
+{#							</p>#}
+{#						</div>#}
+{#					</div>#}
+{##}
+{#				</div>#}
+{#                {% endfor %}#}
 		</div>
 	</div>
 </div>
 </div>
 
-
-		<div class="bottom">
-			<p class="company_info" style="font-size:12px;margin-top: 12px ;display: block;color: white;width: 100%;text-align: center;">广州创拓信息科技有限公司&nbsp;|&nbsp;联系电话：020-29052906</p>
-			<p class="timer" style="text-align: center;color: white;">Copyright ©:2017-</p>
-			<a href="http://www.miitbeian.gov.cn">
-				<p style="text-align: center;color: white;margin-bottom: 12px;">粤ICP备13018197号-2</p>
-			</a>
-		</div>
+<div class="bottom">
+    <p class="company_info" style="font-size:12px;margin-top: 12px ;display: block;color: white;width: 100%;text-align: center;">广州创拓信息科技有限公司&nbsp;|&nbsp;联系电话：020-29052906</p>
+    <p class="timer" style="text-align: center;color: white;">Copyright ©:2017-</p>
+    <a href="http://www.miitbeian.gov.cn">
+        <p style="text-align: center;color: white;margin-bottom: 12px;">粤ICP备13018197号-2</p>
+    </a>
+</div>
 
 
 

@@ -469,10 +469,10 @@ function MemberAssignShow(ths) {
       $('#assign_member').modal('show');
       var member_name=$(ths).children().first().text();
       var tasid=$(ths).next().val();
-      var deadline=$(ths).next().next().next().val();
+      var deadline = $(ths).next().next().next().val();
       console.log(deadline);
 
-      $("#myModalLabel").text(member_name+"的工单内容");
+      $("#myModalLabel").text(member_name+"的个人内容");
       $("#myModalLabel").parent().find("input[name=tasid]").val(tasid);
       console.log(tasid)
       $.ajax({
@@ -482,7 +482,6 @@ function MemberAssignShow(ths) {
           dataType:"json",
           success:function (arg) {
               if (arg.status){
-                  console.log(arg.status)
                   var data=JSON.parse(arg.member_assign);
                   if(data[0].fields.title!=null){
                       $("#edit").removeClass("hidden");
@@ -492,14 +491,14 @@ function MemberAssignShow(ths) {
                   $("#title").val(data[0].fields.title);
                   $("#content").val(data[0].fields.content);
                   //如果没指定deadline，则为总的deadline
-                  console.log(data[0].fields.deadline)
+                  console.log("dead",data[0].fields.deadline)
                   if (data[0].fields.deadline){
-                      $("#datepicker1").find("input").val(data[0].fields.deadline);
+                     var  deadline = data[0].fields.deadline
+                      console.log("before",deadline)
+                      $("#datepicker1").find("input").val(deadline);
                   }else{
                        $("#datepicker1").find("input").val(deadline)
                   }
-
-
                   //初始化标签
                   var tags=JSON.parse(arg.tags);
                   for(var i=0 ;i<tags.length;i++){

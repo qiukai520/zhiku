@@ -195,3 +195,8 @@ def fetch_country_nid(town_id):
             return obj.country_id
 
 
+@register.simple_tag
+def custom_mod(dividend,divisor):
+    """取余"""
+    mod = int(dividend) % int(divisor)
+    return mod
