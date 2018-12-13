@@ -45,9 +45,9 @@
                                     <thead>
                                          <tr >
                                               <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                              <th>工单分类</th>
                                               <th>工单名称</th>
                                               <th>工单方式</th>
-                                              <th>工单类别</th>
                                               <th>当前进度</th>
                                               <th>完成状态</th>
                                               <th>审核状态</th>
@@ -63,10 +63,9 @@
                                            <tr>
                                               <td><input type="checkbox"></td>
 {#                                              <td>{{ obj.tid_id }}</td>#}
-
+                                             <td>{% change_to_task_type  task_obj.type_id  %}</td>
                                               <td><a  href="{%url "personal_task_detail" %}?tasid={{ obj.tasid }}">{{ obj.title }}</a></td>
                                                <td>{%  change_to_task_way task_obj.team %} </td>
-                                              <td>{% change_to_task_type  task_obj.type_id  %}</td>
                                     {#          <td>{% change_to_staff obj.issuer_id %}</td>#}
                                     {#          <td>{% change_to_task_assign_status  obj.is_assign%}</td>#}
                                     {#          <td>{% change_to_task_status obj.status %} </td>#}
@@ -107,10 +106,10 @@
                                       {% else %}
                                             <tr>
                                               <td><input type="checkbox"></td>
+                                              <td>{% change_to_task_type  task_obj.type_id  %}</td>
 {#                                              <td>{{ obj.tid_id }}</td>#}
                                             <td><a  href="{%url "personal_task_detail" %}?tasid={{ obj.tasid }}">{{ task_obj.title }}</a></td>
                                               <td>{%  change_to_task_way task_obj.team %}</td>
-                                              <td>{% change_to_task_type  task_obj.type_id  %}</td>
                                     {#          <td>{% change_to_staff obj.issuer_id %}</td>#}
                                     {#          <td>{% change_to_task_assign_status  obj.is_assign%}</td>#}
                                     {#          <td>{% change_to_task_status obj.status %} </td>#}

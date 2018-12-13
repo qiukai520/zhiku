@@ -356,13 +356,13 @@
                             <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
                         </a>
 						<div class="caption">
-							<h4>
+							<h3 style="text-align:left;">
                                 {{ post.title |truncatechars:15}}
-							</h4>
-							<p>
+							</h3>
+							<p style="text-align:left;">
 								{{ post.content|truncatechars:40 }}
 							</p>
-							<p>
+							<p style="text-align:left;">
 								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>
 							</p>
 						</div>
@@ -381,13 +381,13 @@
                             <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
                         </a>
 						<div class="caption">
-							<h4>
+							<h3 style="text-align:left;">
                                 {{ post.title |truncatechars:15}}
-							</h4>
-							<p>
+							</h3>
+							<p style="text-align:left;">
 								{{ post.content|truncatechars:40 }}
 							</p>
-							<p>
+							<p style="text-align:left;">
 								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>
 							</p>
 						</div>
@@ -408,13 +408,13 @@
                             <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
                         </a>
 						<div class="caption">
-							<h4>
+							<h3 style="text-align:left;">
                                 {{ post.title |truncatechars:15}}
-							</h4>
-							<p>
+							</h3>
+							<p style="text-align:left;">
 								{{ post.content|truncatechars:40 }}
 							</p>
-							<p>
+							<p style="text-align:left;">
 								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>
 							</p>
 						</div>

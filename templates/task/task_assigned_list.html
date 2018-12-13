@@ -68,10 +68,10 @@
                                     <thead>
                                         <tr >
                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                            <th>工单分类</th>
                                             <th>工单状态</th>
                                             <th>工单名称</th>
                                             <th>工单方式</th>
-                                            <th>工单类别</th>
                                             <th>指派人</th>
                                             <th>开始时间</th>
                                             <th>截止时间</th>
@@ -83,13 +83,13 @@
                                        {% for obj in  query_sets%}
                                           <tr>
                                               <td><input type="checkbox"><input class="hide" type="text" value="{{ obj.tmid }}"></td>
+                                            <td>{% change_to_task_type  obj.type_id  %}</td>
                                               <td class="project-status">
                                                 <span class="label label-primary">{% change_to_task_status obj.status %}
                                                 </span>
                                               </td>
                                               <td><a  href="{%url "task_detail" %}?tmid={{ obj.tmid }}">{{ obj.title }}</a></td>
                                               <td>{%  change_to_task_way obj.team %} </td>
-                                              <td>{% change_to_task_type  obj.type_id  %}</td>
                                               <td>{% change_to_staff obj.assigner_id %}</td>
                                               <td>{{ obj.create_time|date:"Y-m-d " }}</td>
                                               <td name="deadline">{{ obj.deadline |date:"Y-m-d H:i"}}</td>
