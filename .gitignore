@@ -1,8 +1,10 @@
+
 .idea/workspace.xml
 /media/upload/*
 *.xml
 *.pyc
 .idea/*
+ .idea/*
 *workspace.xml
 *__pycache__/
 

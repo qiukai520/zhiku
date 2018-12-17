@@ -75,5 +75,5 @@ urlpatterns = [
     path("upload_linkman_attach", views.linkman_attach, name="linkman_attach"),
     path("upload_contact_attach", views.contact_attach, name="contact_attach"),
     path("goods/webuploader_photo.html",views.webuploader_photo,name="webuploader_photo"),
-    path("webuploader_photo_delete.html", views.webuploader_photo_detele, name="webuploader_photo_detele")
+    path("goods/webuploader_photo_delete.html", views.webuploader_photo_detele, name="webuploader_photo_detele")
 ]

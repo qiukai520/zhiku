@@ -71,7 +71,7 @@
                                     {#          <td>{% change_to_task_status obj.status %} </td>#}
                                               <td class="project-completion">
                                             {% fetch_completion_by_tasid obj.tasid  as progerss%}
-                                                <small>当前进度： {{ progerss }}%</small>
+                                                <small>当前进度：{{ progerss }}%</small>
                                                 <div class="progress progress-mini">
                                                     <div style="width: {{ progerss }}%;" class="progress-bar"></div>
                                                 </div>
@@ -86,7 +86,6 @@
                                               </td>
                                               <td>{{ obj.start_time|date:"Y-m-d H:i" }}</td>
                                               <td>{{ obj.deadline |date:"Y-m-d "}}</td>
-
                                                 <td>
                                                 {% if task_obj.status != 1  %}
                                                     {% if obj.is_finish %}

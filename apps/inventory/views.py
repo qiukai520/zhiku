@@ -1897,7 +1897,9 @@ def webuploader_photo(request):
 
 
 def webuploader_photo_detele(request):
+    print("true")
     ret = {"status": True, "data": {"path": "", "name": ""}, "summary": ""}
+
     return HttpResponse(json.dumps(ret))
 
 

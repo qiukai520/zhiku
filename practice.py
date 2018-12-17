@@ -12,10 +12,8 @@ import sys
 import os
 
 pwd = os.path.dirname(os.path.abspath(__file__))
-print("pwd",pwd,pwd+"../")
 
 sys.path.append(pwd+"../")
-print("path",sys.path)
 # 加载配置文件
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "thinking_library.settings")
 

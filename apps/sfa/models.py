@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.query import QuerySet
-from .managers import SoftDeletableManager
+from public.managers import SoftDeletableManager
 from inventory.models import Industry
 from public.models import Town
 from personnel.models import Staff,JobTitle
