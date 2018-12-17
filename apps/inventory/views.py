@@ -1907,7 +1907,7 @@ def goods_code(request):
     """商品照片上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
-    target_path = "media/upload/inventory/goods/code"
+    target_path = "media/upload/inventory/goods"
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")

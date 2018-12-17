@@ -370,11 +370,13 @@ function FetchAttachment(){
     */
     function UploadBarCode(ths){
         //去掉旧文件
+        console.log("bar_code")
         $("#code_pre_link").addClass("hide")
         $(ths).parent().find("input[name=file_path]").remove();
         $(ths).parent().find("input[name=file_name]").remove();
         //上传新文件
         var file_obj = $(ths)[0].files[0];
+        console.log("file",file_obj)
         if(file_obj){
             var fileSize = file_obj.size;
             var size = fileSize / 1024;
@@ -385,6 +387,7 @@ function FetchAttachment(){
                  }
             var form = new FormData();
             form.append("file", file_obj);
+            console.log("form",form)
             $.ajax({
                 url:"{% url 'goods_code' %}",
                 type:"POST",
