@@ -32,6 +32,7 @@ urlpatterns = [
     path('logout/', logout, name='logout'),
     path("task/", include('task.urls')),
     path("personnel/", include('personnel.urls')),
+    path("contract/", include('contract.urls')),
     path("inventory/", include('inventory.urls')),
     path("notice/", include('notice.urls')),
     path("sfa/", include('sfa.urls')),

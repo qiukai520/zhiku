@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from .managers import SoftDeletableManager
 from inventory.models import Industry
 from public.models import Town
-from personnel.models import Staff,JobTitle
+from personnel.models import Staff
 # Create your models here.
 
 # 自定义软删除抽象基类
@@ -34,7 +34,6 @@ class SoftDeletableModel(models.Model):
 
 
 class CustomerInfo(SoftDeletableModel):
-
     delete_choice = ((0, '保留'), (1, '删除'))
     nid = models.AutoField(primary_key=True)
     category = models.ForeignKey("CustomerCategory", to_field="nid", on_delete=models.CASCADE, verbose_name='客户分类',
@@ -153,7 +152,7 @@ class CustomerLinkman(SoftDeletableModel):
     name = models.CharField(max_length=32, verbose_name='联系人')
     gender = models.SmallIntegerField(choices=gender_choice, verbose_name="性别", default=0)
     age = models.SmallIntegerField(verbose_name="年龄", blank=True, null=True)
-    job_title = models.ForeignKey(JobTitle, to_field="id", on_delete=models.CASCADE, db_constraint=False,
+    job_title = models.ForeignKey(LinkmanTitle, to_field="id", on_delete=models.CASCADE, db_constraint=False,
                                 verbose_name='职称', blank=True, null=True)
     marriage = models.SmallIntegerField(choices=marriage_choice, verbose_name="婚姻", default=0)
     mobile = models.CharField(max_length=11, verbose_name="手机号码", blank=True, null=True)
@@ -441,5 +440,17 @@ class ContactAttach(SoftDeletableModel):
         return "来往附件:{0}".format(self.name)
 
 
+class LinkmanTitle(models.Model):
+    id = models.AutoField(primary_key=True)
+    job_title = models.CharField(max_length=32, blank=True, null=True, verbose_name='职称')
 
+    class Meta:
+        db_table = 'linkman_title'
+        verbose_name = '联系人职称'
+        verbose_name_plural = '联系人职称'
 
+    def __str__(self):
+        return self.job_title
+
+    _insert = ["job_title"]
+    _update = ["job_title"]

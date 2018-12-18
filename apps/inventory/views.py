@@ -324,8 +324,10 @@ def industry_edit(request):
             # 有则为编辑 ,无则添加
             if id:
                 try:
-                    record = industry_db.query_company_by_id(id)
+                    record = industry_db.query_industry_by_id(id)
+                    print("data")
                     final_info = compare_fields(Industry._update,record,data)
+                    print("final_info",final_info)
                     if final_info:
                         final_info["nid"] = id
                         industry_db.update_industry(final_info)
@@ -336,6 +338,56 @@ def industry_edit(request):
             else:
                 try:
                     industry_db.insert_industry(data)
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
+
+
+def linkman_title_list(request):
+
+    query_sets = linkman_title_db.query_job_title_list()
+    return render(request,"inventory/linkman_title_list.html",{"query_sets":query_sets})
+
+
+def linkman_title_edit(request):
+    """"职称添加或编辑"""
+    method = request.method
+    if method == "GET":
+        id = request.GET.get("id", "")
+        # 有则为编辑 ,无则添加
+        if id:
+            job_title_obj = linkman_title_db.query_job_title_by_id(id)
+        else:
+            id = 0
+            job_title_obj = []
+        return render(request, 'inventory/linkman_title_edit.html', {"job_title_obj": job_title_obj, "id": id})
+    else:
+        form = JobTitlekForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("id", "")
+            data = request.POST
+            data = data.dict()
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    record = linkman_title_db.query_job_title_by_id(id)
+                    final_info = compare_fields(LinkmanTitle._update, record, data)
+                    if final_info:
+                        final_info["id"] = id
+                        linkman_title_db.update_job_title(final_info)
+                    ret['status'] = True
+                    ret["data"] = id
+                except Exception as e:
+                    ret['message'] = str(e)
+            else:
+                try:
+                    linkman_title_db.insert_job_title(data)
                     ret['status'] = True
                 except Exception as e:
                     ret['message'] = str(e)

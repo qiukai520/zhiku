@@ -503,6 +503,27 @@ class FollowResultDB(object):
         FollowResult.objects.create(**modify_info)
 
 
+class LinkmanTitleDB(object):
+    """职级表"""
+    def query_job_title_list(self):
+        result_db =  LinkmanTitle.objects.filter().all()
+        return result_db
+
+    def query_job_title_by_id(self, id):
+        result_db =  LinkmanTitle.objects.filter(id=id).first()
+        return result_db
+
+    def update_job_title(self, modify_info):
+        is_exist =  LinkmanTitle.objects.filter(job_title=modify_info['job_title']).first()
+        if is_exist:
+            raise Exception("该职位名称已存在")
+        LinkmanTitle.objects.filter(id=modify_info['id']).update(**modify_info)
+
+    def insert_job_title(self, modify_info):
+        is_exist = LinkmanTitle.objects.filter(job_title=modify_info['job_title']).first()
+        if is_exist:
+            raise Exception("该职位名称已存在")
+        LinkmanTitle.objects.create(**modify_info)
 
 
 customer_db = CustomerDB()
@@ -522,5 +543,7 @@ c_follow_db = CustomerFollowDB()
 follow_way_db = FollowWayDB()
 follow_contact_db = FollowContactDB()
 follow_result_db = FollowResultDB()
-c_follow_attach_db=FollowAttachDB()
+c_follow_attach_db = FollowAttachDB()
 customer_purpose_db = CustomerPurposeDB()
+
+linkman_title_db = LinkmanTitleDB()

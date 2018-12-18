@@ -18,23 +18,9 @@
 
     <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="/static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
-    <link href="/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
     <link href="/static/css/animate.css" rel="stylesheet">
     <link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/custom.css">
-    <!--自定义-->
-        <link rel="stylesheet" href="/static/css/custom/common.css">
-    <!-- bootstarp choseselect -->
-     <link rel="stylesheet" href="/static/css/plugins/chosen/chosen.css">
-    <!-- bootstarp multiselect -->
-    <link rel="stylesheet" href="/static/plugins/duallistbox/css/bootstrap-duallistbox.css">
-    <link rel="stylesheet" href="/static/plugins/duallistbox/css/custom.css">
-
-    <!-- bootstarp star -->
-    <link rel="stylesheet" href="/static/plugins/raty/jquery.raty.css">
-{#    <link rel="stylesheet" href="/static/plugins/bootstrap/css/star-rating.min.css">#}
-     <!-- bootstarp datepicker -->
-    <link rel="stylesheet" href="/static/css/plugins/datepicker/datepicker3.css">
     <style>
         .old_file,.old_file>a{
             color:#1ab394
@@ -200,6 +186,15 @@
                                 </li>
                                 </ul>
                                 </li>
+                                  <li>
+                                    <a href="#"><i class=" glyphicon glyphicon-wrench"></i> 合同设置 <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level " aria-expanded="true" style="">
+                                  <li>
+                                     <a   class="J_menuItem"  data-index="51"  href="{% url "products" %}">产品管理</a>
+                                     <a   class="J_menuItem"  data-index="52"  href="{% url "meals" %}">产品套餐管理</a>
+                                </li>
+                                </ul>
+                                </li>
                                  <li>
                                     <a href="#"><i class=" glyphicon glyphicon-wrench"></i>进销存设置 <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level " aria-expanded="true" style="">
@@ -223,6 +218,9 @@
                                         </li>
                                          <li>
                                              <a class="J_menuItem"  data-index="316"  href="{% url "warehouse_list" %}">仓库管理</a>
+                                        </li>
+                                         <li>
+                                             <a class="J_menuItem"  data-index="317"  href="{% url "linkman_title_list" %}">联系人职称</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -284,8 +282,8 @@
                                 {% endfor %}
                                 <li>
                                     <div class="text-center link-block">
-                                        <a class="" href="/notice">
-                                            <strong>查看所有 </strong>
+                                        <a   class="J_menuItem"  data-index="1000" href="/notice">
+                                            <strong>查看所有</strong>
                                             <i class="fa fa-angle-right"></i>
                                         </a>
                                     </div>
@@ -439,60 +437,15 @@
     <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/static/js/plugins/layer/layer.min.js"></script>
-
     <!-- 自定义js -->
     <script src="/static/js/hplus.js?v=4.1.0"></script>
     <script type="text/javascript" src="/static/js/contabs.js"></script>
     <script type="text/javascript" src="/static/js/common.js"></script>
       <script src="/static/js/custom/select-pcas.js"></script>
-
-    <!-- 第三方插件 -->
-    <script type="text/javascript" src="/static/js/plugins/pace/pace.min.js"></script>
-
      <!-- 自定义js -->
     <script type="text/javascript" src="/static/js/content.js?v=1.0.0"></script>
-       <!-- jquery 取Cookie当中的csrftoken并在请求中添加X-CSRFToken请求头-->
-    <script src="/static/js/jquery.cookie.js"></script>
-     <script type="text/javascript"  src="/static/js/custom/common.js"></script>
 
-    <!-- Bootstrap table -->
-    <script type="text/javascript" src="/static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
-    <script src="/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
-     <!--Bootstarp table 导出-->
-    <script type="text/javascript" src="/static/js/plugins/bootstrap-table/export/bootstrap-table-export.min.js"></script>
-    <script type="text/javascript" src="/static/js/plugins/bootstrap-table/export/tableExport.min.js"></script>
-
-     <!-- bootstarp datepicker -->
-    <script src="/static/js/plugins/datepicker/bootstrap-datepicker.js"></script>
-    <script src="/static/js/plugins/moment/moment.min.js"></script>
-{#    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>#}
-
-    <!-- bootstarp choseselect -->
-        <script type="text/javascript" src="/static/js/plugins/chosen/chosen.jquery.js"></script>
-    <!-- bootstarp duallistbox-->
-    <script type="text/javascript" src="/static/plugins/duallistbox/js/jquery.bootstrap-duallistbox.js"></script>
-
-    <!-- bootstarp star-->
-      <script type="text/javascript" src="/static/plugins/raty/jquery.raty.js"></script>
-{#    <script type="text/javascript" src="/static/plugins/bootstrap/js/star/star-rating.min.js"></script>#}
-{#    <script type="text/javascript" src="/static/plugins/bootstrap/js/star/locales/zh.js"></script>#}
-
-        <!-- jquery validate  -->
-    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="/static/js/custom/form-validate.js"></script>
     <script>
-        var csrftoken = $.cookie('csrftoken');
-        function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-        $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-        });
         function show() {
 				var mydate = new Date();
 				var str = "" + mydate.getFullYear() + "";

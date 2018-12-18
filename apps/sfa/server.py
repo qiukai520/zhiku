@@ -578,11 +578,6 @@ class SeaRuleDB(object):
             SeaRule.objects.create(rule=rule)
 
 
-
-
-
-
-
 customer_db = CustomerDB()
 customer_category_db = CustomerCategoryDB()
 customer_attach_db = CustomerAttachDB()

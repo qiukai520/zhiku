@@ -23,6 +23,9 @@ class GoodsUnitForm(django_forms.Form):
     caption = django_fields.CharField(error_messages={"required": "商品单位名称不能为空"})
 
 
+class JobTitlekForm(django_forms.Form):
+    job_title = django_fields.CharField(error_messages={"required": "职称不能为空"})
+
 
 class GoodsForm(django_forms.Form):
     category_id = django_fields.IntegerField(error_messages={"required": "请选择商品分类",})

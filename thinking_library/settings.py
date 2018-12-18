@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'public.apps.PublicConfig',
     'notice.apps.NoticeConfig',
     'article.apps.ArticleConfig',
+    'contract.apps.ContractConfig',
     'xadmin',
     'crispy_forms',
     'reversion',

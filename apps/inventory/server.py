@@ -17,7 +17,7 @@ class IndustryDB(object):
         is_exist = Industry.objects.filter(industry=modify_info['industry']).first()
         if is_exist:
             raise Exception("该行业名称已存在")
-            Industry.objects.filter(nid=modify_info['nid']).update(**modify_info)
+        Industry.objects.filter(nid=modify_info['nid']).update(**modify_info)
 
     def insert_industry(self, modify_info):
         is_exist = Industry.objects.filter(industry=modify_info['industry']).first()
@@ -957,6 +957,29 @@ class WastageSolverDB(object):
         WastageSolver.objects.filter(sid_id__in=id_list).delete()
 
 
+class LinkmanTitleDB(object):
+    """职级表"""
+    def query_job_title_list(self):
+        result_db = LinkmanTitle.objects.filter().all()
+        return result_db
+
+    def query_job_title_by_id(self, id):
+        result_db = LinkmanTitle.objects.filter(id=id).first()
+        return result_db
+
+    def update_job_title(self, modify_info):
+        is_exist = LinkmanTitle.objects.filter(job_title=modify_info['job_title']).first()
+        if is_exist:
+            raise Exception("该职位名称已存在")
+        LinkmanTitle.objects.filter(id=modify_info['id']).update(**modify_info)
+
+    def insert_job_title(self, modify_info):
+        is_exist = LinkmanTitle.objects.filter(job_title=modify_info['job_title']).first()
+        if is_exist:
+            raise Exception("该职位名称已存在")
+        LinkmanTitle.objects.create(**modify_info)
+
+
 supplier_db = SupplierDB()
 supplier_photo_db = SupplierPhotoDB()
 supplier_licence_db = SupplierLicenceDB()
@@ -991,5 +1014,6 @@ repertory_db = RepertoryDB()
 wastage_db = WastageGoodsDB()
 wastage_attach_db = WastageAttachDB()
 solver_db = WastageSolverDB()
+linkman_title_db = LinkmanTitleDB()
 
 

@@ -546,7 +546,6 @@ def customer_contact(request):
             data = request.POST
             data = data.dict()
             contact_attach = data.get("attach", None)
-            print("attach",contact_attach)
             nid = data.get("nid", None)
             contact_attach = list(json.loads(contact_attach))
             if nid:

@@ -53,6 +53,7 @@
                                     <button  onclick="AddLinkman()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加联系人</button>
                                     <button  onclick="AddMemo()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp添加备忘</button>
                                     <button  onclick="AddContact()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp添加收支</button>
+                                    <button  onclick="AddContract()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp添加合同</button>
                                     <button  onclick="Abandon()"  class="btn btn-danger" ><i class="glyphicon glyphicon-remove"></i>&nbsp放入公海</button>
                                 </div>
                             <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
@@ -343,11 +344,32 @@
 
             //添加来往
     function AddContact() {
-       //是否有选中供应商
+       //是否有选中客户
      var is_checked=$("tbody input:checkbox:checked").length
         if (is_checked==1){
             var sid=$("tbody input:checkbox:checked").eq(0).next().val()
             window.location.href="{% url 'customer_contact' %}?sid={0}".format(sid)
+        } else if(is_checked > 1){
+           layer.alert('只能选择一个客户', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
+        else{
+           layer.alert('请选择客户', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
+    }
+
+              //添加合同
+    function AddContract() {
+       //是否有选中客户
+     var is_checked=$("tbody input:checkbox:checked").length
+        if (is_checked==1){
+            var sid=$("tbody input:checkbox:checked").eq(0).next().val()
+            window.location.href="{% url 'customer_contract' %}?sid={0}".format(sid)
         } else if(is_checked > 1){
            layer.alert('只能选择一个客户', {icon: 6 ,
               time: 1500, //1.5s后自动关闭

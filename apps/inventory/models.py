@@ -745,5 +745,17 @@ class WastageSolver(models.Model):
         return '损耗处理人{0}'.format(self.sid)
 
 
+class LinkmanTitle(models.Model):
+    id = models.AutoField(primary_key=True)
+    job_title = models.CharField(max_length=32, blank=True, null=True, verbose_name='职称')
 
+    class Meta:
+        db_table = 'linkman_title'
+        verbose_name = '联系人职称'
+        verbose_name_plural = '联系人职称'
 
+    def __str__(self):
+        return self.job_title
+
+    _insert = ["job_title"]
+    _update = ["job_title"]

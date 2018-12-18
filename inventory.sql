@@ -403,3 +403,10 @@ create TABLE `repertory`(
 `nid`int(11) primary key auto_increment,
 `goods_id` int(11) NOT NULL  unique COMMENT'商品'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库库存';
+
+
+drop TABLE if exists `linkman_title`;
+create table `linkman_title`(
+`id` int(11) primary key auto_increment,
+`job_title` varchar (16) NOT NULL  COMMENT '联系人职称'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='联系人职称';

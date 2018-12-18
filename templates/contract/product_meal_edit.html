@@ -1,0 +1,164 @@
+
+{% extends "content_edit_layout.html" %}
+{% load contract_tags %}
+{% block css %}
+
+    <style>
+    </style>
+{% endblock %}
+{% block content %}
+        <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>{% if nid %}
+                               套餐编辑
+                           {% else %}
+                                添加套餐
+                        {% endif %}</h5>
+                     <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-horizontal">
+                         <form action="{% url "meal_edit" %}" method="post" id="meal_fm" class="form-horizontal" enctype="multipart/form-data">
+                             {% csrf_token %}
+                             <input type="hidden" name="nid" id="nid" value="{{ query_set.nid }}" >
+                              <div class="form-group">
+                                <label class="col-xs-2 control-label">产品</label>
+                                <div class="col-xs-10 col-sm-8">
+                                   <p class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ product_obj.name }}</p>
+                                    <input type="text" class="hidden" name="product_id" id="product_id" value={{ product_obj.nid }}>
+                                </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                                    <label for="name" class="col-xs-2 control-label">套餐名称</label>
+                                      <div class="col-xs-10 col-sm-8">
+                                          <input name="name"  class="form-control"  id="name" >
+                                        </input>
+                                      </div>
+                                </div>
+{#                             <div class="hr-line-dashed"></div>#}
+{#                             <div class="form-group">#}
+{#                                    <label for="name" class="col-xs-2 control-label">所属产品</label>#}
+{#                                       <div class="col-xs-10 col-sm-8 layui-input-block" >#}
+{#                                        <select  name="product_id" class="form-control" id="product_id" >#}
+{#                                            <option value="0">请选择产品</option>#}
+{#                                            {% build_product_ele %}#}
+{#                                        </select>#}
+{#                            </div>#}
+{#                                </div>#}
+                             <div class="hr-line-dashed"></div>
+                             <div class="form-group">
+                                    <label for="name" class="col-xs-2 control-label">规格</label>
+                                      <div class="col-xs-10 col-sm-8">
+                                          <input name="standard"  class="form-control" placeholder="普通版"  id="standard">
+                                        </input>
+                                      </div>
+                                </div>
+                             <div class="hr-line-dashed"></div>
+                             <div class="form-group">
+                                    <label for="name" class="col-xs-2 control-label">年限</label>
+                                      <div class="col-xs-10 col-sm-8">
+                                          <input name="year_limit"  class="form-control" placeholder="3" id="year_limit" >
+                                        </input>
+                                      </div>
+                                </div>
+                             <div class="hr-line-dashed"></div>
+                             <div class="form-group">
+                                    <label for="name" class="col-xs-2 control-label">价格</label>
+                                      <div class="col-xs-10 col-sm-8">
+                                          <input  class="form-control"   name="price" id="price" placeholder="0.00" >
+                                        </input>
+                                      </div>
+                                </div>
+                         </form>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                         <div class="row" id="content_footer" >
+                             <div class="form-actions well well-sm clearfix">
+                                 <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                 <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                 <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+                                 <a href="{% url "meals" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                 <!--error_msg-->
+                                 <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                    <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                    </span>
+                                    <span id="error_msg" style="font-size: 14px;"></span>
+                                </div>
+                             </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+ /*
+    自执行函数
+    */
+    $(function () {
+        //如果nid不为0，则为创建
+        var nid="{{ nid }}"
+        console.log("nid",nid)
+        if ( nid!=""){
+           InitData()//初始化数据
+        }
+        else {
+        }
+    });
+     //初始化数据
+function InitData() {
+        //初始化form
+        $("#nid").val({{ query_set.nid }})
+        $("#product_id").val({{ query_set.product_id}});
+        $("#name").val("{{ query_set.name }}");
+        $("#standard").val("{{ query_set.standard }}");
+        $("#year_limit").val("{{ query_set.year_limit }}");
+        $("#price").val("{% if  query_set.price %}{{ query_set.price }} {% endif %}");
+    }
+
+//添加or编辑
+        function Submit(cons){
+         var $msg = $('#error_msg');
+         $msg.parent().addClass('hide');
+         var form =$("#meal_fm");
+         console.log(form.valid())
+        //验证表单
+         if ( form.valid()){
+             $.ajax({
+                url: '{% url "meal_edit"%}',
+                type: 'POST',
+                data: form.serialize(),
+                dataType: 'JSON',
+                success: function (arg) {
+                   if (arg.status) {
+                        if (cons==1){
+                             window.location.href='{% url "products" %}'
+                        }else if(cons==2){
+                             window.location.href='{% url "meal_edit" %}?pid={0}'.format({{ product_obj.nid }});
+                        }else{
+                              window.location.href='{% url "meal_edit" %}?pid={0}&id={1}'.format({{ product_obj.nid }},arg.data);
+                        }
+                    } else {
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
+                    }
+                }
+         })
+         }
+    }
+
+
+
+ </script>
+{% endblock %}
+

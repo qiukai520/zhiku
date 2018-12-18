@@ -9,6 +9,8 @@ from public.managers import SoftDeletableManager
 # Create your models here.
 
 # 自定义软删除抽象基类
+
+
 class SoftDeletableModel(models.Model):
     """
     An abstract base class model with a ``is_deleted`` field that
@@ -35,124 +37,92 @@ class SoftDeletableModel(models.Model):
             return super(SoftDeletableModel, self).delete(using=using, *args, **kwargs)
 
 
+class ContractInfo(SoftDeletableModel):
+    nid = models.AutoField(primary_key=True)
+    number = models.CharField(max_length=50, verbose_name='合同编号')
+    customer = models.ForeignKey(CustomerInfo, verbose_name=u"客户", on_delete=models.CASCADE)
+    product = models.ForeignKey("Product", verbose_name=u"产品", on_delete=models.CASCADE)
+    product_meal = models.ForeignKey("ProductMeal", verbose_name=u"套餐", on_delete=models.CASCADE)
+    remark = models.TextField(verbose_name=u"备注", blank=True)
+    received = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="应收金额", blank=True, null=True)
+    receivable = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="应收金额", blank=True, null=True)
+    pending = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="待收金额", blank=True, null=True)
+    sign = models.DateField(verbose_name='签订时间')
+    start_date = models.DateTimeField(verbose_name=u"生效时间", default=datetime.now)
+    end_date = models.DateTimeField(verbose_name=u"到期时间", default=datetime.now)
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'contract_info'
+        verbose_name = u"合同信息"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return str(self.number)
+
+    _insert = ["number","customer_id","product_id","product_meal_id","remark","received","receivable","pending","sign",
+               "end_date","start_date"]
+    _update = ["number","customer_id","product_id","product_meal_id","remark","received","receivable","pending","sign",
+               "end_date","start_date"]
 
 
-# Create your models here.
+class ProductMeal(SoftDeletableModel):
+    nid = models.AutoField(primary_key=True)
+    product = models.ForeignKey("Product", verbose_name=u"产品", on_delete=models.CASCADE)
+    name = models.CharField(max_length=64, verbose_name='套餐名称')
+    standard = models.CharField(max_length=32,verbose_name="规格")
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="价格")
+    year_limit = models.SmallIntegerField(verbose_name="年限")
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
-# class Contract(models.Model):
-#     number = models.CharField(max_length=50, verbose_name='合同编号')
-#     name = models.CharField(max_length=50, verbose_name='合同名称', db_index=True)
-#     supplier = models.CharField(max_length=50, verbose_name='供应商名称', db_index=True)
-#     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='contracts', verbose_name='公司',
-#                                 default=1)
-#     subject = models.ForeignKey(Subject, related_name='contracts', on_delete=models.CASCADE, verbose_name='合同类别')
-#     sign = models.DateField(verbose_name='签订时间')
-#     amount = models.DecimalField(max_digits=16, decimal_places=2, verbose_name='初始金额')
-#     definite = models.DecimalField(max_digits=16, decimal_places=2, verbose_name='决算金额', blank=True, null=True)
-#     active = models.BooleanField(default=True, verbose_name='有效')
-#     is_cost = models.BooleanField(default=True,verbose_name='是否进成本')
-#     jgc = models.BooleanField(default=False, verbose_name='甲供材')
-#     text = models.TextField(blank=True, null=True, verbose_name='合同条款摘要')
-#     master = models.PositiveIntegerField(null=True, blank=True, verbose_name='补充合同')
-#     stamp = models.ForeignKey(Stamp, on_delete=models.CASCADE, related_name='contracts', verbose_name='印花税类型',
-#                               default=12)
-#     created = models.DateTimeField(auto_now_add=True, verbose_name='创建时间', db_index=True)
-#     updated = models.DateTimeField(auto_now=True, verbose_name='更新时间')
-#
-#     def __str__(self):
-#         return self.name
-#
-#     def get_absolute_url(self):
-#         return reverse('contracts:contract_detail', args=[self.id])
-#
-#     def hassupple(self):
-#         supple = Contract.objects.filter(master=self.id).count()
-#         return supple != 0
-#
-#     def is_supple(self):
-#         return True if self.master else False
-#
-#     def master_contract(self):
-#         if self.is_supple():
-#             return get_object_or_404(Contract, id=int(self.master))
-#         else:
-#             return None
-#
-#     def supple_contracts(self):
-#         if self.hassupple():
-#             return Contract.objects.filter(master=self.id)
-#         return None
-#
-#     def total_requisition(self):
-#         if self.requisitions.all().count():
-#             reqs = self.requisitions.all().aggregate(Sum('amount'))['amount__sum']
-#             return reqs
-#         else:
-#             return None
-#
-#     def requisition_rate(self):
-#         if self.definite and self.total_requisition():
-#             return self.total_requisition() / self.definite
-#         elif self.amount and self.total_requisition():
-#             return self.total_requisition() / self.amount
-#         else:
-#             return None
-#
-#     def total_payment(self):
-#         if self.payments.all().count():
-#             return self.payments.all().aggregate(Sum('amount'))['amount__sum']
-#         else:
-#             return None
-#
-#     def payment_rate(self):
-#         if self.total_payment() and self.definite:
-#             return self.total_payment()/self.definite
-#         elif self.total_payment() and self.amount:
-#             return self.total_payment() / self.amount
-#         else:
-#             return None
-#
-#
-#     class Meta:
-#         ordering = ('subject','index', 'created')
-#         verbose_name = '合同'
-#         verbose_name_plural = '合同'
-#
-#
+    class Meta:
+        db_table = 'product_meal'
+        verbose_name = u"产品套餐"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return str(self.name)
+    _insert = ["name","product_id","standard","price","year_limit"]
+    _update = ["name","product_id","standard","price","year_limit"]
 
 
-# 客户合同
-# class Contract (SoftDeletableModel):
-#     nid = models.AutoField(primary_key=True)
-#     number = models.CharField(max_length=50, verbose_name='合同编号')
-#     customer = models.ForeignKey(CustomerInfo, verbose_name=u"客户",on_delete=models.CASCADE)
-#     product = models.ForeignKey("Product", verbose_name=u"产品", on_delete=models.CASCADE)
-#     # subject = models.ForeignKey(Subject, related_name='contracts', on_delete=models.CASCADE, verbose_name='合同类别')
-#     sign = models.DateField(verbose_name='签订时间')
-#     amount = models.DecimalField(max_digits=16, decimal_places=2, verbose_name='初始金额')
-#     definite = models.DecimalField(max_digits=16, decimal_places=2, verbose_name='决算金额', blank=True, null=True)
-#     start_date = models.DateTimeField(verbose_name=u"生效时间", default=datetime.now)
-#     end_date = models.DateTimeField(verbose_name=u"到期时间", default=datetime.now)
-#     content = models.TextField(verbose_name=u"备注", blank=True)
-#     is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
-#     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
-#     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
-#
-#     class Meta:
-#        verbose_name = u"客户合同"
-#        verbose_name_plural = verbose_name
-#
-#     def __str__(self):
-#         return str(self.number)
-#
-#
-# class Product(SoftDeletableModel):
-#     nid = models.AutoField(primary_key=True)
-#     name = models.CharField(max_length=64, verbose_name='产品名称')
-#
-#     class Meta:
-#         verbose_name = u"产品"
-#         verbose_name_plural = verbose_name
-#
-#     def __str__(self):
-#         return str(self.name)
+class Product(SoftDeletableModel):
+    nid = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=64, verbose_name='产品名称')
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'product'
+        verbose_name = u"产品"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return str(self.name)
+
+    _insert = ["name"]
+    _update = ["name"]
+
+
+class ContractAttach(SoftDeletableModel):
+    nid = models.AutoField(primary_key=True)
+    Contract = models.ForeignKey('ContractInfo', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                            verbose_name='合同')
+    attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
+    name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
+
+    class Meta:
+        db_table = 'contract_attach'
+        verbose_name = '合同附件'
+        verbose_name_plural = '合同附件'
+
+    def __str__(self):
+        return "合同附件:{0}".format(self.name)
+
