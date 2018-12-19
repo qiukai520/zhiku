@@ -205,8 +205,8 @@ class CustomerLinkmanDB(object):
     def update_linkman(self, modify):
         CustomerLinkman.objects.filter(nid=modify['nid'],).update(**modify)
 
-    def multi_delete(self, id_list, delete_status):
-        CustomerLinkman.objects.filter(nid__in=id_list).update(**delete_status)
+    def multi_delete(self, id_list):
+        CustomerLinkman.objects.filter(nid__in=id_list).delete()
 
 
 class CustomerLinkmanPhotoDB(object):
@@ -301,6 +301,9 @@ class CustomerMemoDB(object):
     def update_memo(self, modify_info):
         CustomerMemo.objects.filter(nid=modify_info['nid']).update(**modify_info)
 
+    def multi_delete(self,id_list):
+        CustomerMemo.objects.filter(nid__in=id_list).delete()
+
 
 class CustomerMemoAttachDB(object):
     """备忘附件表"""
@@ -362,8 +365,8 @@ class CustomerContactDB(object):
     def update_contact(self, modify):
         CustomerContact.objects.filter(nid=modify['nid']).update(**modify)
 
-    def multi_delete(self, id_list, delete_status):
-        CustomerContact.objects.filter(nid__in=id_list).update(**delete_status)
+    def multi_delete(self, id_list):
+        CustomerContact.objects.filter(nid__in=id_list).delete()
 
 
 class ContactAttachDB(object):

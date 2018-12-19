@@ -111,9 +111,6 @@ $(function () {
             dataIndex = $(this).data('index'),
             menuName = $.trim($(this).text()),
             flag = true;
-        console.log("dataUrl",dataUrl)
-        console.log("dataIndex",dataIndex)
-        console.log("menuName",menuName)
 
         if (dataUrl == undefined || $.trim(dataUrl).length == 0)return false;
 

@@ -79,6 +79,9 @@ class SupplierMemoDB(object):
     def update_memo(self, modify_info):
         SupplierMemo.objects.filter(nid=modify_info['nid']).update(**modify_info)
 
+    def multi_delete(self,id_list):
+        SupplierMemo.objects.filter(nid__in=id_list).delete()
+
 
 class GoodsCategoryDB(object):
     """商品分类"""

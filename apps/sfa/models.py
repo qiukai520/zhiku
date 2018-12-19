@@ -359,6 +359,7 @@ class CustomerFollow(SoftDeletableModel):
     next_step = models.TextField(max_length=512, blank=True,null=True,verbose_name="下一步跟进计划")
     recorder = models.ForeignKey(Staff, to_field='sid', on_delete=models.CASCADE, db_constraint=False, verbose_name="登记人")
     date = models.DateField(verbose_name="跟进日期")
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 

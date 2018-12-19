@@ -1727,7 +1727,6 @@ def price_compare(request):
                     with transaction.atomic():
                         # 插入报价信息
                         price_info = filter_fields(PriceCompare._insert, data)
-                        print(price_info)
                         nid = price_compare_db.insert_price(price_info)
                         ret['status'] = True
                         ret['data'] = nid
@@ -1754,6 +1753,105 @@ def supplier_delete(request):
     status = {"delete_status": 0}
     try:
         supplier_db.multi_delete(id_list, status)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def linkman_delete(request):
+    """供应商联系人删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    status = {"delete_status": 0}
+    try:
+        linkman_db.multi_delete(id_list, status)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def contact_delete(request):
+    """供应商收支删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    status = {"delete_status": 0}
+    try:
+        supplier_contact_db.multi_delete(id_list, status)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def memo_delete(request):
+    """供应商备忘删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        supplier_memo_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def price_delete(request):
+    """商品报价删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    status = {"delete_status": 0}
+    try:
+        goods_price_db.multi_delete(id_list,status)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def compare_delete(request):
+    """零售比价删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    status = {"delete_status": 0}
+    try:
+        price_compare_db.multi_delete(id_list,status)
         ret['status'] = True
     except Exception as e:
         print(e)

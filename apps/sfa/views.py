@@ -216,6 +216,78 @@ def customer_delete(request):
     return HttpResponse(json.dumps(ret))
 
 
+def linkman_delete(request):
+    """删除客户联系人信息"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        c_linkman_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        ret['message'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def follow_delete(request):
+    """删除客户信息"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        c_follow_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        ret['message'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def memo_delete(request):
+    """删除客户信息"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        c_memo_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        ret['message'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def contact_delete(request):
+    """删除客户信息"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        c_contact_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        ret['message'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
 def customer_detail(request):
     cid = request.GET.get("id",None)
     if cid:
