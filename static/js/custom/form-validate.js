@@ -356,7 +356,7 @@ $.validator.setDefaults({
                 }
             }
             });
-         $("#warehouse_fm").validate({
+        $("#warehouse_fm").validate({
             focusInvalid :true,//当验证无效时，焦点跳到第一个无效的表单元素,
             //(但是只有当表单提交发生时它才有效。 如果用 valid 方法验证表单，则它不起作用)
             // 解决办法，使用invalidHandler 方法
@@ -412,7 +412,7 @@ $.validator.setDefaults({
                 }
             }
             });
-         $("#customer_fm").validate({
+        $("#customer_fm").validate({
             focusInvalid :true,//当验证无效时，焦点跳到第一个无效的表单元素,
             //(但是只有当表单提交发生时它才有效。 如果用 valid 方法验证表单，则它不起作用)
             // 解决办法，使用invalidHandler 方法
@@ -442,7 +442,7 @@ $.validator.setDefaults({
                 }
             }
             });
-          $("#invent_fm").validate({
+        $("#invent_fm").validate({
             focusInvalid :true,//当验证无效时，焦点跳到第一个无效的表单元素,
             //(但是只有当表单提交发生时它才有效。 如果用 valid 方法验证表单，则它不起作用)
             // 解决办法，使用invalidHandler 方法
@@ -489,4 +489,62 @@ $.validator.setDefaults({
                 }
             }
             });
+        $("#contract_fm").validate({
+            focusInvalid :true,//当验证无效时，焦点跳到第一个无效的表单元素,
+            //(但是只有当表单提交发生时它才有效。 如果用 valid 方法验证表单，则它不起作用)
+            // 解决办法，使用invalidHandler 方法
+            onfocusout: false,
+            rules:{
+                sign: {
+                        required: true,
+                        },
+                start_date: {
+                        required: true,
+                        },
+                end_date: {
+                        required: true,
+                        },
+                number:{
+                      required: true,
+                },
+                customer_id:"required",
+                product_id:"required",
+                product_meal_id:"required",
+            },
+            messages: {
+                customer_id:e+"请选择客户",
+                product_id:e+"请选择签约产品",
+                product_meal_id:e+"请选择产品套餐",
+                number: {
+                    required: e+"请输入合同编号",
+                },
+                 receivable: {
+                    required: e+"请输入应收金额",
+                },
+              sign: {
+                        required: "请输入日期",
+                        date: "请输入正确的日期格式"
+                    },
+                 start_date: {
+                        required: "请输入日期",
+                        date: "请输入正确的日期格式"
+                    },
+                 end_date: {
+                        required: "请输入日期",
+                        date: "请输入正确的日期格式"
+                    },
+                // username:{required:e+"请输入您的用户名",minlength:e+"用户名必须两个字符以上"},
+                // password:{required:e+"请输入您的密码",minlength:e+"密码必须5个字符以上"},
+                // confirm_password:{required:e+"请再次输入密码",minlength:e+"密码必须5个字符以上",equalTo:e+"两次输入的密码不一致"},
+                // email:e+"请输入您的E-mail",
+                // agree:{required:e+"必须同意协议后才能注册",element:"#agree-error"}
+            },
+            invalidHandler: function(form, validator) {
+                var errors = validator.numberOfInvalids();
+                if (errors) {
+                    validator.errorList[0].element.focus();
+                }
+            }
+            });
+
     });

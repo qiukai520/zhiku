@@ -24,8 +24,12 @@ urlpatterns = [
     path("meals", views.meals, name="meals"),
     path("meal/edit", views.meal_edit, name='meal_edit'),
     path("meals/delete", views.meals_delete, name="meals_delete"),
-    path("customer", views.customer_contract, name="customer_contract"),
+    path("fetch_meal", views.fetch_meal ,name="fetch_meal"),
+    path("contract_edit", views.customer_contract, name="customer_contract"),
+    path("contracts",views.contracts_list,name="contract_list"),
     path("product_meal",views.product_meal,name="product_meal"),
+    path("contract/detail",views.contract_detail,name="contract_detail"),
     path("upload_attach", views.contract_attach, name="contract_attach"),
+
 
 ]

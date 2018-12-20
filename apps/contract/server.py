@@ -63,7 +63,7 @@ class CustomerContractDB(object):
     """客户合同"""
 
     def insert_contract(self, modify_info):
-        contract_sql = """insert into customer_contract(%s) value(%s);"""
+        contract_sql = """insert into contract_info(%s) value(%s);"""
         k_list = []
         v_list = []
         for k, v in modify_info.items():
@@ -85,6 +85,10 @@ class CustomerContractDB(object):
 
     def query_contract_by_product(self,product_id):
         result_db = ContractInfo.objects.filter(product_id=product_id).all()
+        return result_db
+
+    def query_contract_by_customer(self,customer_id):
+        result_db = ContractInfo.objects.filter(customer_id=customer_id,is_approved=1).all()
         return result_db
 
     def update_contract(self, modify):
@@ -125,4 +129,4 @@ class ContractAttachDB(object):
 product_db = ProductDB()
 product_meal_db = ProductMealDB()
 contract_db = CustomerContractDB()
-c_contract_attach_db = ContractAttachDB()
+contract_attach_db = ContractAttachDB()

@@ -3,6 +3,7 @@
 {% load personnel_tags %}
 {% load sfa_tags %}
 {% load  inventory_tags %}
+{% load contract_tags %}
 
 {% block css %}
 
@@ -116,6 +117,7 @@
                                                    <li  id="follow_tab"><a href="#tab-2" data-toggle="tab">跟进记录</a></li>
                                                  <li  id="contact_tab"><a href="#tab-3" data-toggle="tab">收支记录</a></li>
                                                  <li  id="memo_tab"><a href="#tab-4" data-toggle="tab">备忘提醒</a></li>
+                                                  <li  id="memo_tab"><a href="#tab-5" data-toggle="tab">合同记录</a></li>
 
                                             </ul>
                                         </div>
@@ -429,6 +431,70 @@
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>
+                                             </div>
+                                            </div>
+                                         <div class="tab-pane" id="tab-5">
+                                            <div class="btn-group hidden-xs" id="toolbar4" role="group">
+{#                                                    <a href="{% url "customer_memo" %}?cid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>#}
+{#                                                    <button  onclick="MemoDel()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                                </div>
+                                                 <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
+                                                <table id="contract"  class="table export-table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                    <thead>
+                                         <tr >
+                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                             <th>合同编号</th>
+                                             <th>客户</th>
+                                             <th>产品</th>
+                                             <th>套餐</th>
+                                             <th>已收</th>
+                                             <th>待收</th>
+                                             <th>年限</th>
+                                             <th>签订时间</th>
+                                             <th>生效时间</th>
+                                             <th>到期时间</th>
+                                             <th>审批状态</th>
+                                             <th>操作</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% fetch_customer_contract  query_set.nid as contract_list %}
+                                     {% for obj in contract_list %}
+                                      <tr>
+                                          <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>
+                                            <td>   <a  href="{%url "contract_detail" %}?id={{ obj.nid }}"  >{{obj.identifier  }}</a> </td>
+                                          <td> {%change_to_customer obj.customer_id  %}</td>
+                                          <td> {%change_to_product obj.product_id  %}</td>
+                                          <td>{% change_to_product_meal obj.product_meal_id%} </td>
+                                           <td>{{ obj.received }}</td>
+                                           <td>{{ obj.pending }}</td>
+                                           <td>{{ obj.year_limit }}</td>
+                                           <td>{{ obj.sign |date:"Y-m-d" }}</td>
+                                            <td>{{ obj.start_date|date:"Y-m-d" }}</td>
+                                            <td>{{ obj.end_date |date:"Y-m-d" }}</td>
+                                           <td>{% if obj.is_approved == 1  %}<span style="color:green">通过</span>
+                                           {% elif obj.is_approved == 2  %}
+                                               未通过
+                                               {% else %}
+                                               未审核
+                                           {% endif %}</td>
+                                            <td>
+{#                                              <a  href="{%url "customer_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>#}
+                                                <a  href="{%url "contract_detail" %}?id={{ obj.nid }}" class="btn btn-primary" >详细</a>
+                                          </td>
+                                      </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                </table>
                                              </div>
                                             </div>
                                         </div>

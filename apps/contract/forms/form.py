@@ -17,10 +17,14 @@ class MealForm(django_forms.Form):
 
 
 class ContractForm(django_forms.Form):
-    number = django_fields.CharField(error_messages={"required": "合同编号"})
+    identifier = django_fields.CharField(error_messages={"required": "请填写合同编号"})
+    receivable = django_fields.DecimalField(error_messages={"required": "请填写应收金额", "min_value" :"请填写合法的金额"})
+    customer_id = django_fields.IntegerField(min_value=1, error_messages={"required": "签约客户不能为空", "min_value":"请选择产品"})
     product_id = django_fields.IntegerField(min_value=1, error_messages={"required": "请选择产品", "min_value":"请选择产品"})
     product_meal_id = django_fields.IntegerField(min_value=1, error_messages={"required": "请选择套餐","min_value":"请选择套餐"})
-    end_date = django_fields.DateField(error_messages={"required": "签约时间不能为空", "invalid": "日期格式错误"})
-    end_date = django_fields.DateField(error_messages={"required": "生效时间不能为空", "invalid": "日期格式错误"})
-    start_date = django_fields.DateField(error_messages={"required": "到期时间不能为空", "invalid": "日期格式错误"})
+    sign = django_fields.DateField(error_messages={"required": "签约时间不能为空", "invalid": "签约日期格式错误"})
+    end_date = django_fields.DateField(error_messages={"required": "生效时间不能为空", "invalid": "生效时间格式错误"})
+    start_date = django_fields.DateField(error_messages={"required": "到期时间不能为空", "invalid": "到期时间格式错误"})
+    # received = django_fields.DecimalField(error_messages={"invalid": "已收金额不合法"})
+    # pending = django_fields.DecimalField(error_messages={"invalid": "待收金额不合法"})
 

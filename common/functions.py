@@ -17,6 +17,13 @@ class CJSONEncoder(json.JSONEncoder):
 # dl= json.dumps(datalist, cls=JsonCustomEncoder)
 
 
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, decimal.Decimal):
+            return float(obj)
+        super(DecimalEncoder, self).default(obj)
+
+
 def filter_fields(white_fields, modify_info):
     # 过滤参数 （非空）
 

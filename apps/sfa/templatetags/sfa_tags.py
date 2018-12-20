@@ -3,6 +3,7 @@ from django import template
 from django.utils.safestring import mark_safe
 from ..server import *
 from personnel.server import *
+from contract.server import contract_db
 from personnel.templatetags.personnel_tags import *
 
 register = template.Library()
@@ -258,6 +259,16 @@ def fetch_customer_memo_list(id):
     if id :
         memo_list = c_memo_db.query_memo_by_customer_id(id)
         return memo_list
+
+
+@register.simple_tag
+def fetch_customer_contract(id):
+    print("is", id)
+    if id:
+        print("is", id)
+        contract_list = contract_db.query_contract_by_customer(id)
+        print(contract_list)
+        return contract_list
 
 
 @register.simple_tag

@@ -1,6 +1,7 @@
 
 {% extends "content_edit_layout.html" %}
 {% load contract_tags %}
+{% load personnel_tags %}
 {% block css %}
     <style>
     </style>
@@ -16,14 +17,20 @@
                            {% else %}
                                 添加合同
                            {% endif %}</h5>
+                        <a style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
                     </div>
-                        <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
-
                     <div class="ibox-content">
                         <div class="row form-horizontal">
-                         <form action="{% url "customer_contact" %}" method="post" id="contact_fm" class="form-horizontal" enctype="multipart/form-data">
+                         <form action="{% url "customer_contract" %}" method="post" id="contract_fm" class="form-horizontal" enctype="multipart/form-data">
                              {% csrf_token %}
                              <input type="hidden" name="nid" id="nid"  >
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">合同编号</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="identifier" id="identifier"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
                            <div class="form-group">
                             <label class="col-sm-2 control-label">客户</label>
                             <div class="col-sm-8">
@@ -45,8 +52,8 @@
                            <div class="form-group">
                             <label class="col-sm-2 control-label">套餐</label>
                             <div class="col-sm-8">
-                                  <select  name="product_meal_id" class="form-control" id="product_meal_id" onclick="SelectMeal()"  >
-                                      <option value="0">选择套餐</option>
+                                  <select  name="product_meal_id" class="form-control" id="product_meal_id" onclick="CheckVoid()" onchange="SelectMeal()"  >
+                                      <option value=0>选择套餐</option>
                                 </select>
                             </div>
                         </div>
@@ -59,6 +66,13 @@
                         </div>
                            <div class="hr-line-dashed"></div>
                            <div class="form-group">
+                            <label class="col-sm-2 control-label">年限</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="year_limit" id="year_limit"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+                           <div class="hr-line-dashed"></div>
+                           <div class="form-group">
                             <label class="col-sm-2 control-label">已收金额</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="received" id="received"> <span class="help-block m-b-none"></span>
@@ -67,13 +81,6 @@
                            <div class="hr-line-dashed"></div>
                            <div class="form-group">
                             <label class="col-sm-2 control-label">待收金额</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="pending" id="pending"> <span class="help-block m-b-none"></span>
-                            </div>
-                        </div>
-                         <div class="hr-line-dashed"></div>
-                           <div class="form-group">
-                            <label class="col-sm-2 control-label">备注</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="pending" id="pending"> <span class="help-block m-b-none"></span>
                             </div>
@@ -108,7 +115,28 @@
                                 </span>
                             </div>
                         </div>
-                             <div class="hr-line-dashed"></div>
+                           <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">辅助人</label>
+                          <div class="col-sm-8">
+                                <select  name="helper" class="form-control" id="helper" onclick="SelectProduct(this)" >
+                                    <option value=0>—无—</option>
+                                    {% build_staff_ele  %}
+                                </select>
+                            </div>
+                        </div>
+                          <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-8">
+                                <textarea  class="form-control" name="remark" id="remark" cols="30" rows="3"></textarea>
+                            </div>
+                        </div>
+                         <div class="hr-line-dashed"></div>
+                          {% if nid %}
+                            {% else %}
+                                 <input type="text" class="hidden" name="belonger_id" id="belonger_id" value={{request.user.staff.sid  }}>
+                            {% endif %}
                         <div id="attachment-container" style="position: relative">
                     <!--初始化合同-->
                     {% if nid %}
@@ -153,7 +181,6 @@
                             </div>
                              <div class="hr-line-dashed"></div>
                         </div>
-
                          </div>
                          </form>
                         </div>
@@ -163,7 +190,7 @@
                                  <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
                                  <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                  <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
-                                 <a href="{% url "supplier_detail" %}?id={{ customer_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+{#                                 <a href="{% url "supplier_detail" %}?id={{ customer_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>#}
 
                                  <!--error_msg-->
                                  <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
@@ -183,7 +210,6 @@
 {% endblock %}
 
 {% block js %}
-     <script src="/static/js/jquery.cookie.js"></script>
 {#    <script src="/static/js/"></script>#}
     <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/static/js/custom/form-validate.js"></script>
@@ -246,18 +272,12 @@ function InitData() {
         //初始化form
         $("#nid").val({{ query_set.nid }})
         $("#customer_id").val({{ customer_obj.nid}});
-        $("#linkman_id").val({{ query_set.linkman_id }});
-        $("#category").val({{ query_set.category }});
-        $("#project").val("{{ query_set.project }}");
-        $("#description").val("{% if  query_set.description %}{{ query_set.description }} {% endif %}");
-        $("#date").val("{% if query_set.date  %}{{ query_set.date |date:'Y-m-d'}}{% endif %}");
-        $("#receivable").val("{% if  query_set.receivable %}{{ query_set.receivable }} {% endif %}");
-        $("#receivable_remark").val("{% if  query_set.receivable_remark %}{{ query_set.receivable_remark }} {% endif %}");
-         $("#received").val("{% if  query_set.received %}{{ query_set.received }} {% endif %}");
-         $("#received_remark").val("{% if  query_set.received_remark %}{{ query_set.received_remark }} {% endif %}");
-         $("#pending").val("{% if  query_set.pending %}{{ query_set.pending }} {% endif %}");
-         $("#pending_remark").val("{% if  query_set.pending_remark %}{{ query_set.pending_remark }} {% endif %}");
-         ChangeCategory({{ query_set.category }})
+        $("#product_id").val({{ query_set.product_id }});
+        $("#product_meal_id").val({{ query_set.product_meal_id }});
+        $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
+        $("#sign").val("{% if query_set.sign  %}{{ query_set.sign |date:'Y-m-d'}}{% endif %}");     $("#receivable").val("{% if  query_set.receivable %}{{ query_set.receivable }} {% endif %}");
+        $("#received").val("{% if  query_set.received %}{{ query_set.received }} {% endif %}");
+        $("#pending").val("{% if  query_set.pending %}{{ query_set.pending }} {% endif %}");
     }
 
 //修改时获取合同
@@ -344,7 +364,7 @@ function UploadFile(ths){
         function Submit(cons){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
-         var form =$("#contact_fm");
+         var form =$("#contract_fm");
          console.log(form.valid())
         //验证表单
          if ( form.valid()){
@@ -361,7 +381,7 @@ function UploadFile(ths){
              var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
              form.append(attachment_ele)
              $.ajax({
-                url: '{% url "customer_contact" %}',
+                url: '{% url "customer_contract" %}',
                 type: 'POST',
                 data: form.serialize(),
                 dataType: 'JSON',
@@ -370,9 +390,9 @@ function UploadFile(ths){
                         if (cons==1){
                              window.location.href='{% url "supplier_detail" %}?id= {0}'.format({{ customer_obj.nid }});
                         }else if(cons==2){
-                             window.location.href='{% url "supplier_contact" %}?sid={0}'.format({{ customer_obj.nid }});
+                             window.location.href='{% url "customer_contract" %}?sid={0}'.format({{ customer_obj.nid }});
                         }else{
-                              window.location.href='{% url "supplier_contact" %}?sid={0}&id={1}'.format({{ customer_obj.nid }},arg.data);
+                              window.location.href='{% url "customer_contract" %}?sid={0}&id={1}'.format({{ customer_obj.nid }},arg.data);
                         }
                     } else {
                         $msg.parent().removeClass('hide');
@@ -382,32 +402,38 @@ function UploadFile(ths){
          })
          }
     }
-
-function ChangeCategory(ths) {
-    var cons=$(ths).val()
-    if (cons==1){
-         $("#receivable").parent().parent().find("label").text("应付金额")
-         $("#received").parent().parent().find("label").text("已付金额")
-         $("#pending").parent().parent().find("label").text("待付金额")
-    } else{
-         $("#receivable").parent().parent().find("label").text("应收金额")
-         $("#received").parent().parent().find("label").text("已收金额")
-         $("#pending").parent().parent().find("label").text("待收金额")
-    }
-}
 function CheckVoid() {
     var product_id=$("#product_id").val()
     if(product_id=="0"){
      layer.msg("请先选择产品");
+     return false
     }else{
-
+      return true
     }
 }
 function SelectMeal(ths) {
-
+        var meal = $("#product_meal_id").val()
+        if (meal>0){
+          $.ajax({
+            url:"{% url "fetch_meal" %}",
+            type:'get',
+            data:{"id":meal},
+            dataType:'json',
+            async: true,//是否异步
+            success: function (arg) {
+            if (arg.status){
+                 $("#receivable").val(arg.data.price).attr("readonly", "readonly")
+                 $("#year_limit").val(arg.data.year_limit).attr("readonly","readonly")
+                 var yy=new Date();
+                  yy.setFullYear(yy.getFullYear() +arg.data.year_limit)
+                 $('#end_date').datepicker('setDate', yy);
+                }},
+            error: function (arg) {
+              alert(arg.message);
+            },
+    });
+        }
 }
-
-
       // 根据产品获取套餐
     function SelectProduct(ths) {
     {#　var dfd = $.Deferred();#}

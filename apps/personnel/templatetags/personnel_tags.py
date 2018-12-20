@@ -98,6 +98,20 @@ def build_department_ele(selected=0):
 
 
 @register.simple_tag
+def build_staff_ele(selected=0):
+    """构建员工拉框"""
+    staff_list = staff_db.query_staff_list()
+    eles = ""
+    for item in staff_list:
+        if item.sid == selected:
+            ele = """<option  selected="selected" value={0}>{1}</option>""".format(item.sid, item.name)
+        else:
+            ele = """<option value={0}>{1}</option>""".format(item.sid, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+
+@register.simple_tag
 def build_job_rank_ele():
     """构建职级下拉框"""
     job_rank_list =job_rank_db.query_job_rank_list()

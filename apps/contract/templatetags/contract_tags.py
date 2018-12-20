@@ -1,7 +1,9 @@
 from django import template
 from django.utils.safestring import mark_safe
 from ..server import *
+from sfa.server import customer_db
 register = template.Library()
+
 
 
 @register.simple_tag
@@ -30,4 +32,23 @@ def change_to_product(product_id):
         product_obj = product_db.query_product_by_id(product_id)
         if product_obj:
             return product_obj.name
+        return "空"
+
+@register.simple_tag
+def change_to_product_meal(meal_id):
+    """产品"""
+    if meal_id:
+        meal_obj = product_meal_db.query_meal_by_id(meal_id)
+        if meal_obj:
+            return meal_obj.name + "(" + str(meal_obj.price) + ")"
+        return "空"
+
+
+@register.simple_tag
+def change_to_customer(customer_id):
+    """客户"""
+    if customer_id:
+        customer_obj = customer_db.query_customer_by_id(customer_id)
+        if customer_obj:
+            return customer_obj.company
         return "空"

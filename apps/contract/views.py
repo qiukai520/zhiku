@@ -144,26 +144,48 @@ def meals_delete(request):
     return HttpResponse(json.dumps(ret))
 
 
+def fetch_meal(request):
+    """根据产品获取相应的套餐"""
+    ret = {"status":False,"data":"","message":""}
+    id = request.GET.get("id")
+    if id:
+        data = {}
+        meal_list = product_meal_db.query_meal_by_id(id)
+        data["price"] = meal_list.price
+        data["year_limit"] = meal_list.year_limit
+        ret['status'] = True
+        ret["data"] = data
+    else:
+        ret['message'] = "请选择相应的产品"
+    from common.functions import DecimalEncoder
+    return HttpResponse(json.dumps(ret,cls=DecimalEncoder))
+
+
+def contracts_list(request):
+    is_approved = int(request.GET.get("is_approved",2))
+    query_sets = contract_db.query_contract_list()
+    if is_approved < 3:
+        query_sets = query_sets.filter(is_approved=is_approved)
+    return render(request, "contract/contract_list.html", {"query_sets": query_sets})
+
+
 def customer_contract(request):
     mothod = request.method
-    print("contract")
     if mothod == "GET":
         nid = request.GET.get("id", "")
         sid = request.GET.get("sid",'')
         if sid:
             customer_obj = customer_db.query_customer_by_id(sid)
-            print("customer_obj",customer_obj)
             if customer_obj:
                 if nid:
                     # 更新
                     query_sets = contract_db.query_contract_by_id(nid)
-                    contract_attach = c_contract_attach_db.query_contract_attachment(nid)
+                    contract_attach = contract_attach_db.query_contract_attachment(nid)
                     if not contract_attach:
                         contract_attach = ''
                 else:
                     query_sets = {}
                     contract_attach = {}
-                print(query_sets,contract_attach)
                 return render(request, "contract/contract_edit.html", {"query_set": query_sets,
                                                                             "contract_attach": contract_attach,
                                                                             "nid": nid,
@@ -191,18 +213,18 @@ def customer_contract(request):
                             contract_db.update_contract(contract_info)
                         # 更新附件
                         if contract_attach:
-                            att_record = c_contract_attach_db.query_contract_attachment(nid)
+                            att_record = contract_attach_db.query_contract_attachment(nid)
                             # 数据对比
                             insert_att, update_att, delete_id_att = compare_json(att_record, contract_attach, "nid")
                             if insert_att:
                                 insert_att = build_attachment_info({"contract_id": nid}, insert_att)
-                                c_contract_attach_db.mutil_insert_attachment(insert_att)
+                                contract_attach_db.mutil_insert_attachment(insert_att)
                             if update_att:
-                                c_contract_attach_db.mutil_update_attachment(update_att)
+                                contract_attach_db.mutil_update_attachment(update_att)
                             if delete_id_att:
-                                c_contract_attach_db.mutil_delete_linkman_attachment(delete_id_att)
+                                contract_attach_db.mutil_delete_linkman_attachment(delete_id_att)
                         else:
-                            c_contract_attach_db.multi_delete_attach_by_linkman_id(nid)
+                            contract_attach_db.multi_delete_attach_by_linkman_id(nid)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -217,11 +239,10 @@ def customer_contract(request):
                         nid = contract_db.insert_contract(contract_info)
                         if contract_attach:
                             contract_attach = build_attachment_info({"contract_id": nid}, contract_attach)
-                            c_contract_attach_db.mutil_insert_attachment(contract_attach)
+                            contract_attach_db.mutil_insert_attachment(contract_attach)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    pass
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -230,27 +251,30 @@ def customer_contract(request):
         return HttpResponse(json.dumps(ret))
 
 
+def contract_detail(request):
+    nid = request.GET.get("id",None)
+    if nid:
+        query_sets = contract_db.query_contract_by_id(nid)
+        if query_sets:
+            contract_attach = contract_attach_db.query_contract_attachment(nid)
+            if not contract_attach:
+                contract_attach = ''
+            return render(request,"contract/contract_detail.html",{"query_set": query_sets,
+                                                                 "contract_attach": contract_attach,
+                                                                })
+    return render(request,'404.html')
+
 def product_meal(request):
     """根据产品获取相应的套餐"""
     ret = {"status":False,"data":"","message":""}
     id = request.GET.get("id")
     if id:
         meal_list = product_meal_db.query_meal_by_product(id)
-        # 序列化queryset对象
-        # data = []
-        # for item in meal_list:
-        #     ele={}
-        #     ele["name"] = item.name
-        #     ele["price"]= item.price
-        #     ele["years"] = item.year_limit
-        #     data.append(ele)
-        # print(data)
         data = serializers.serialize("json", meal_list)
         ret['status'] = True
         ret["data"]= data
     else:
         ret['message'] = "请选择相应的产品"
-    print(ret)
     return HttpResponse(json.dumps(ret))
 
 

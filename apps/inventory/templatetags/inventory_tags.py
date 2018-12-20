@@ -6,7 +6,7 @@ from personnel.server import staff_db
 register = template.Library()
 
 @register.simple_tag
-def build_staff_ele(dpid=0, sid=0):
+def build_staff_search_ele(dpid=0, sid=0):
     """构建员工下拉框"""
     if dpid != ''and 0:
          #根据部门获取员工

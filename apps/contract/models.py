@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 from sfa.models import CustomerInfo
-
+from personnel.models import Staff
 from django.db import models
 from django.db.models.query import QuerySet
 from public.managers import SoftDeletableManager
@@ -38,19 +38,27 @@ class SoftDeletableModel(models.Model):
 
 
 class ContractInfo(SoftDeletableModel):
+    approved_choice = ((0, '未审批'),(1, '通过'), (2, '未通过'))
+
     nid = models.AutoField(primary_key=True)
-    number = models.CharField(max_length=50, verbose_name='合同编号')
+    identifier = models.CharField(max_length=50, verbose_name='合同编号')
     customer = models.ForeignKey(CustomerInfo, verbose_name=u"客户", on_delete=models.CASCADE)
     product = models.ForeignKey("Product", verbose_name=u"产品", on_delete=models.CASCADE)
     product_meal = models.ForeignKey("ProductMeal", verbose_name=u"套餐", on_delete=models.CASCADE)
     remark = models.TextField(verbose_name=u"备注", blank=True)
+    year_limit = models.SmallIntegerField(verbose_name="年限")
     received = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="应收金额", blank=True, null=True)
     receivable = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="应收金额", blank=True, null=True)
     pending = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="待收金额", blank=True, null=True)
     sign = models.DateField(verbose_name='签订时间')
+    belonger = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='签订人',
+                                 db_constraint=False)
+    helper = models.ForeignKey(Staff, to_field="sid", related_name='helper', blank=True, null=True, on_delete=models.CASCADE, verbose_name='辅助人',
+                                 db_constraint=False)
     start_date = models.DateTimeField(verbose_name=u"生效时间", default=datetime.now)
     end_date = models.DateTimeField(verbose_name=u"到期时间", default=datetime.now)
     is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
+    is_approved = models.SmallIntegerField(choices=approved_choice, default=0, verbose_name="审批状态")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 
@@ -60,11 +68,11 @@ class ContractInfo(SoftDeletableModel):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return str(self.number)
+        return str(self.identifier)
 
-    _insert = ["number","customer_id","product_id","product_meal_id","remark","received","receivable","pending","sign",
+    _insert = ["identifier","customer_id","product_id","year_limit", "belonger_id","helper_id","product_meal_id","remark","received","receivable","pending","sign",
                "end_date","start_date"]
-    _update = ["number","customer_id","product_id","product_meal_id","remark","received","receivable","pending","sign",
+    _update = ["identifier","customer_id","product_id","year_limit","product_meal_id","belonger_id","helper_id","remark","received","receivable","pending","sign",
                "end_date","start_date"]
 
 
@@ -111,7 +119,7 @@ class Product(SoftDeletableModel):
 
 class ContractAttach(SoftDeletableModel):
     nid = models.AutoField(primary_key=True)
-    Contract = models.ForeignKey('ContractInfo', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+    contract = models.ForeignKey('ContractInfo', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='合同')
     attachment = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件路径')
     name = models.CharField(max_length=64, blank=True, null=True, verbose_name='附件名称')
@@ -126,3 +134,14 @@ class ContractAttach(SoftDeletableModel):
     def __str__(self):
         return "合同附件:{0}".format(self.name)
 
+
+class Approver(models.Model):
+    approver = models.ForeignKey(Staff, max_length=30, to_field="sid", on_delete=models.CASCADE, verbose_name=u"审批人")
+
+    class Meta:
+        db_table = "approver"
+        verbose_name = u"合同审批人"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.approver
