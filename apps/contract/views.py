@@ -162,7 +162,7 @@ def fetch_meal(request):
 
 
 def contracts_list(request):
-    is_approved = int(request.GET.get("is_approved",2))
+    is_approved = int(request.GET.get("is_approved",3))
     query_sets = contract_db.query_contract_list()
     if is_approved < 3:
         query_sets = query_sets.filter(is_approved=is_approved)
@@ -263,6 +263,7 @@ def contract_detail(request):
                                                                  "contract_attach": contract_attach,
                                                                 })
     return render(request,'404.html')
+
 
 def product_meal(request):
     """根据产品获取相应的套餐"""
