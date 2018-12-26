@@ -161,9 +161,12 @@
                                  <li>
                                      <a   class="J_menuItem"  data-index='51' href="{% url "contract_list" %}">我的合同</a>
                                 </li>
-{#                                 <li>#}
-{#                                     <a  class="J_menuItem"  data-index='52'  href="{% url "goods_list" %}">合同中心</a>#}
-{#                                </li>#}
+                                 <li>
+                                     <a  class="J_menuItem"  data-index='52'  href="{% url "contracts_center" %}">合同中心</a>
+                                </li>
+                                 <li>
+                                     <a   class="J_menuItem"  data-index='51' href="{% url "contract_approve" %}">合同审批</a>
+                                </li>
                             </ul>
                         </li>
                         <li>
@@ -203,6 +206,7 @@
                                   <li>
                                      <a   class="J_menuItem"  data-index="51"  href="{% url "products" %}">产品管理</a>
                                      <a   class="J_menuItem"  data-index="52"  href="{% url "meals" %}">产品套餐管理</a>
+                                     <a   class="J_menuItem"  data-index="53"  href="{% url "approvers" %}">合同审核人</a>
                                 </li>
                                 </ul>
                                 </li>

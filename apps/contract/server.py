@@ -1,5 +1,5 @@
 from django.db import connection
-from contract.models import Product,ProductMeal,ContractInfo,ContractAttach
+from contract.models import *
 
 
 class ProductDB(object):
@@ -76,7 +76,15 @@ class CustomerContractDB(object):
         return nid
 
     def query_contract_list(self):
-        result_db = ContractInfo.objects.all()
+        result_db = ContractInfo.objects.all().order_by("-nid")
+        return result_db
+
+    def query_approved_contract(self):
+        result_db = ContractInfo.objects.filter(is_approved=1).all()
+        return result_db
+
+    def query_contract_by_belonger(self,belonger):
+        result_db = ContractInfo.objects.filter(belonger_id=belonger).all().order_by("-nid")
         return result_db
 
     def query_contract_by_id(self, nid):
@@ -84,11 +92,11 @@ class CustomerContractDB(object):
         return result_db
 
     def query_contract_by_product(self,product_id):
-        result_db = ContractInfo.objects.filter(product_id=product_id).all()
+        result_db = ContractInfo.objects.filter(product_id=product_id).all().order_by("-nid")
         return result_db
 
     def query_contract_by_customer(self,customer_id):
-        result_db = ContractInfo.objects.filter(customer_id=customer_id,is_approved=1).all()
+        result_db = ContractInfo.objects.filter(customer_id=customer_id,is_approved=1).all().order_by("-nid")
         return result_db
 
     def update_contract(self, modify):
@@ -126,7 +134,53 @@ class ContractAttachDB(object):
         ContractAttach.objects.filter(nid=nid).delete()
 
 
+class ApproverDB(object):
+    """合同审核人"""
+    def query_approver_list(self):
+        result_db = Approver.objects.all()
+        return result_db
+
+    def mutil_update(self, modify_list):
+        # 更新或新增
+        for item in modify_list:
+            is_exist = Approver.objects.filter(approver_id=item["approver_id"])
+            if is_exist:
+                Approver.objects.filter(approver_id=item["approver_id"]).update(**item)
+            else:
+                Approver.objects.create(**item)
+
+    def mutil_delete(self,id_list):
+        Approver.objects.filter(nid__in=id_list).delete()
+
+
+class ApproverResultDB(object):
+    """合同审核结果"""
+    def mutil_insert(self, modify_list):
+        for item in modify_list:
+            ApproverResult.objects.create(**item)
+
+    def query_record_by_contract(self, contract_id):
+        result_db = ApproverResult.objects.filter(contract_id=contract_id).all()
+        return result_db
+
+    def query_my_approved_result(self, cid, sid):
+        result_db = ApproverResult.objects.filter(contract_id=cid, approver_id=sid).first()
+        return result_db
+
+
+class ApproverRecordDB(object):
+    """合同审核记录"""
+    def insert_record(self,modify):
+        ApproverRecord.objects.create(**modify)
+
+    def query_my_record(self,result_id):
+        result_db = ApproverRecord.objects.filter(result_id=result_id).all()
+        return result_db
+
 product_db = ProductDB()
 product_meal_db = ProductMealDB()
 contract_db = CustomerContractDB()
 contract_attach_db = ContractAttachDB()
+approver_db = ApproverDB()
+approver_result_db = ApproverResultDB()
+app_record_db=ApproverRecordDB()

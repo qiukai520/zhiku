@@ -12,6 +12,7 @@ create TABLE `contract_info`(
 `year_limit` tinyint(1) COMMENT '年限',
 `pending`  DECIMAL (8,2) default 0 COMMENT'待收金额',
 `remark` varchar (128) COMMENT '备注',
+`location` varchar (64) COMMENT '备注',
 `customer_id`int(11) NOT NULL COMMENT '客户',
 `belonger_id` int (11) COMMENT '签订人',
 `helper_id` int (11) COMMENT '辅助人',
@@ -55,8 +56,31 @@ create TABLE `contract_attach`(
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='合同附件';
 
-
+drop TABLE if exists `approver`;
 create table `approver`(
 `nid` int(11) primary key auto_increment,
-`approver` varchar (16) NOT NULL  COMMENT '合同审批人'
+`approver_id` varchar (16) NOT NULL  COMMENT '合同审批人',
+`follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核顺序'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='合同审批人';
+-- alter table approver  ADD UNIQUE KEY `apr_saf_id`(`approver_id`,) USING BTREE;
+
+
+drop TABLE if exists `approver_result`;
+create table `approver_result`(
+`nid` int(11) primary key auto_increment,
+`contract_id` varchar (16) NOT NULL  COMMENT '合同',
+`approver_id` varchar (16) NOT NULL  COMMENT '合同审批人',
+`follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核顺序',
+`result` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核结果 0未审核,1通过,2不通过'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='合同审核结果';
+
+
+drop TABLE if exists `approver_record`;
+create table `approver_record`(
+`nid` int(11) primary key auto_increment,
+`result2` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核结果 0未审核,1通过,2不通过',
+`content` varchar (1)   COMMENT '审核审核内容',
+`result_id` int(1)  COMMENT'审核记录',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='审核记录';

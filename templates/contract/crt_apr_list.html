@@ -14,7 +14,7 @@
         <!-- Panel Other -->
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>我的合同</h5>
+                <h5>合同审批</h5>
                 <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
             </div>
             <div class="ibox-content">
@@ -24,14 +24,14 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group" id="toolbar" role="group">
-                                 <form class="form-inline" action="{% url "contract_list" %}" method="get" style="margin-bottom: 5px">
+                                 <form class="form-inline" action="{% url "contract_approve" %}" method="get" style="margin-bottom: 5px">
                                          <div class="form-group">
                                             <label class="sr-only" for="msg_type">审批状态</label>
                                             <div class="input-group">      <div class="input-group-addon">审批状态</div>
                                                 <select class="form-control" name="is_approved" id="is_approved" >
                                                     <option value="3">所有</option>
                                                       <option value="1">通过</option>
-                                                     <option value="0">审批中</option>
+                                                     <option value="0">未审批</option>
                                                      <option value="2">未通过</option>
                                                 </select>
                                             </div>
@@ -60,6 +60,7 @@
                                              <th>已收</th>
                                              <th>待收</th>
                                              <th>年限</th>
+                                             <th>提交时间</th>
                                              <th>签订时间</th>
                                              <th>生效时间</th>
                                              <th>到期时间</th>
@@ -72,23 +73,33 @@
                                       <tr>
                                           <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>
                                             <td>   <a  href="{%url "contract_detail" %}?id={{ obj.nid }}"  >{{obj.identifier  }}</a> </td>
-                                          <td> {%change_to_customer obj.customer_id  %}</td>
+                                          <td> {% change_to_customer obj.customer_id  %}</td>
                                           <td> {%change_to_product obj.product_id  %}</td>
                                           <td>{% change_to_product_meal obj.product_meal_id%} </td>
                                            <td>{{ obj.received }}</td>
                                            <td>{{ obj.pending }}</td>
                                            <td>{{ obj.year_limit }}</td>
+                                           <td>{{ obj.create_time |date:"Y-m-d" }}</td>
                                            <td>{{ obj.sign |date:"Y-m-d" }}</td>
                                             <td>{{ obj.start_date|date:"Y-m-d" }}</td>
                                             <td>{{ obj.end_date |date:"Y-m-d" }}</td>
-                                           <td>{% if obj.is_approved == 1  %}<span style="color:green">通过</span>
-                                           {% elif obj.is_approved == 2  %}
+                                           {% fetch_my_approved_follow obj.nid request.user.staff.sid as flag %}
+                                          {% fetch_my_approved_result obj.nid request.user.staff.sid as result %}
+                                          {%  if flag %}
+                                              <td>{% if result == 1  %}<span style="color:green"> <a  href="{%url "approve" %}?id={{ obj.nid }}"  >通过</a></span>
+                                           {% elif result == 2  %}
                                                未通过
+                                                 <a  href="{%url "approve" %}?id={{ obj.nid }}" class="btn btn-xs btn-info" >继续审核</a>
                                                {% else %}
-                                               审核中
-                                           {% endif %}</td>
+                                                待审中
+                                                 <a  href="{%url "approve" %}?id={{ obj.nid }}" class="btn btn-xs btn-info" >审核</a>
+                                           {% endif %}
+                                           </td>
+                                          {% else %}
+                                              等待上一人审核中
+                                         {% endif  %}
+
                                             <td>
-                                              <a  href="{%url "customer_contract" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
                                                 <a  href="{%url "contract_detail" %}?id={{ obj.nid }}" class="btn btn-primary" >详细</a>
                                           </td>
                                       </tr>
@@ -133,9 +144,8 @@
     */
      $(function () {
       //初始化化下拉框
-      $("#sign").val({{ sign }})
-      $("#is_approved").val({{ is_approved }})
-
+         $("#sign").val({{ sign }})
+         $("#is_approved").val({{ is_approved }})
 
   })
     $(function () {

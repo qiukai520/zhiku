@@ -1,0 +1,240 @@
+{% extends "content_edit_layout.html" %}
+{% load  admin_tags %}
+
+{% block css  %}
+
+    <style>
+     .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+
+    .minus  {
+        cursor: pointer;
+       margin-left: 0px !important;
+       color: red;
+       position: absolute;
+       top: 10px;
+       left: -85px;
+
+}
+    .plus{
+         cursor: pointer;
+        position: absolute;
+        top: 10px;
+        left: -85px;
+        color: blue
+    }
+    .select-box{
+          top:5px;
+          height: 200px !important;
+          width: 100%;
+        border-radius: 3px;
+      }
+    span.glyphicon.glyphicon-arrow-left, span.glyphicon.glyphicon-arrow-right {
+        position: absolute;
+        right: -28px;
+        text-align: center;
+        margin-top: 50px;
+        color: blue;
+        padding:20px;
+    }
+    span.glyphicon.glyphicon-arrow-left {
+        margin-top:120px;
+    }
+     .buttons{
+        overflow:hidden
+    }
+    .btn-outline-secondary{
+        padding: 0px;
+        width: 48%;
+        border:0px;
+    ;
+    }
+    input[type=checkbox]{
+         cursor: pointer;
+
+    }
+    .select2-selection--multiple{
+        visibility: hidden;
+    }
+     #content-main{
+      overflow :auto
+     }
+
+    </style>
+
+{% endblock %}
+{% block content %}
+        <div class="wrapper wrapper-content container animated fadeInRight" >
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>编辑合同审核人 </h5>
+                       <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+                    </div>
+                    <div class="ibox-content">
+                    <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="department" class="control-label col-xs-2">选择审核人：</label>
+                                   <div  class="col-xs-5">
+                                    <select name="department" id="department"  class="form-control  col-xs-8"  style="width: 65%" data-live-search="true" onchange="FetchStaff2Review(this)">
+                                        <option value=0 >------</option>
+                                        {% build_department_ele %}
+                                    </select>
+                                <label for="follow" class="control-label " style="margin-left:10px">次序审核：</label>
+                                <!--查看审核人是否有序-->
+                                {% if approver_list.first.follow %}
+                                         <input type="checkbox" name="follow" checked="checked" id ="follow">
+                                        {%else %}
+                                         <input type="checkbox" name="follow"   id ="follow">
+                                    {% endif %}
+                                   </div>
+                        </div>
+                        <div class="form-group" >
+                            <label for="" class="control-label col-xs-2"></label>
+                            <div class="col-xs-8 " style="padding:0px; ">
+                                <div class="col-xs-10 selector-filter" >
+                                    <select  id="reviewer" multiple   name="staff_old"  size="10"   class=" select-box ">
+                                         {% for obj in approver_list %}
+                                         <option value="{{ obj.approver_id }}"   selected="selected"  nid="{{ obj.nid}}">{% change_to_staff obj.approver_id %}  </option>
+                                         {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="row" id="content_footer" >
+                        <div class="form-actions well well-sm clearfix ">
+                             <button type="submit" onclick="Submit(1)"  class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                            <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+                            <a href="{% url "approvers" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                            <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </span>
+                                <span id="error_msg" style="font-size: 14px;"></span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+    /*
+    自执行函数
+    */
+    $(function () {
+             //初始化审核双列表框
+            DualListboxReview = $('#reviewer').bootstrapDualListbox({
+            nonSelectedListLabel: '未选择',
+            selectedListLabel: '已选择',
+            preserveSelectionOnMove: 'moved',
+            moveOnSelect: false,
+            infoTextEmpty: "",
+            nonSelectedFilter: '',
+                infoText:"总人数:{0}"
+        });
+    });
+    //select保留它添加时相应的排序
+    $("select").on("select2:unselect", function (evt) {
+        var element = evt.params.data.element;
+        var $element = $(element);
+        $element.remove();
+    });
+
+     //初始化数据
+
+//获取审核人
+function SelectReviewer(){
+        reviewers=new Array();
+        var i=0
+        DualListboxReview.children("option:selected").each(function () {
+            i +=1
+            var reviewer=$(this).val()
+            var isfollow=$('#follow').prop("checked")
+            var review={"approver_id":reviewer,"follow":''};
+            if (isfollow){
+                review.follow=i
+                reviewers.push(review)
+            }else{
+               review.follow=0
+                reviewers.push(review)
+            }
+        });
+        // 检查是否选择审核人
+        if (reviewers.length>0){
+            reviewers =JSON.stringify(reviewers)//对象转化成json
+        }else {
+            reviewers=''
+        }
+
+        return reviewers
+    }
+
+
+//根据部门获取相应的员工
+function FetchStaff2Review(ths) {
+    var dpid=$(ths).val();
+    //清空select的内容
+     DualListboxReview.children("option:not(:selected)").remove();
+     DualListboxReview.bootstrapDualListbox('refresh', true);
+    {#var opt_eles="{% build_reviewer_ele dpid %}"#}
+    {#$("#id_staff_from").append(opt_eles)#}
+    $.ajax({
+        url:"{% url "department_staff" %}",
+        type:'get',
+        data:{"dpid":dpid},
+        dataType:'json',
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
+		o.text = this['fields']['name'];
+		 DualListboxReview.append(o);
+		 DualListboxReview.bootstrapDualListbox('refresh', true);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
+}
+//创建
+function Submit(cons) {
+     var $msg = $('#error_msg');
+     $msg.parent().addClass('hide');
+    $.ajax({
+            url: "{%url "approver_edit" %} ",
+            type: "POST",
+            data:  {
+                 "reviewers":SelectReviewer(),
+        },
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    if (cons==1){
+                             window.location.href='{% url "approvers" %}';
+                        }else{
+                              window.location.href='{% url "approver_edit" %}';
+                        }
+                } else {
+                    $msg.parent().removeClass('hide');
+                    $msg.text(arg.message);
+                }
+            }
+        })
+    }
+
+ </script>
+{% endblock %}

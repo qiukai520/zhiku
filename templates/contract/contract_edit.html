@@ -12,7 +12,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>{% if id %}
+                        <h5>{% if nid %}
                                 合同编辑
                            {% else %}
                                 添加合同
@@ -54,6 +54,9 @@
                             <div class="col-sm-8">
                                   <select  name="product_meal_id" class="form-control" id="product_meal_id" onclick="CheckVoid()" onchange="SelectMeal()"  >
                                       <option value=0>选择套餐</option>
+                                      {% if nid %}
+                                           {% build_product_meal_ele  %}
+                                      {% endif %}
                                 </select>
                             </div>
                         </div>
@@ -99,7 +102,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">生效时间</label>
                             <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker2">
-                                <input type='text'  name="start_date" id='start_date' class="form-control" />
+                                <input type='text'  name="start_date" id='start_date' onchange="ChangeDate()" class="form-control" />
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -132,6 +135,13 @@
                                 <textarea  class="form-control" name="remark" id="remark" cols="30" rows="3"></textarea>
                             </div>
                         </div>
+                           <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">存档坐标</label>
+                            <div class="col-sm-8">
+                                <input  class="form-control" name="location" id="location"></input>
+                            </div>
+                        </div>
                          <div class="hr-line-dashed"></div>
                           {% if nid %}
                             {% else %}
@@ -140,10 +150,10 @@
                         <div id="attachment-container" style="position: relative">
                     <!--初始化合同-->
                     {% if nid %}
-                        {% for obj in contact_attach %}
+                        {% for obj in contract_attach %}
                              <div class="attachment">
                             <div class="form-group ">
-                            <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">合同{{ forloop.counter }}:</label>
+                            <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">合同{{ forloop.counter }}</label>
                               <div class="col-xs-8">
                                   <input type="text" name="attach_id" class="hidden" value="{{ obj.nid }}">
                                   <div class="old_file">
@@ -156,7 +166,7 @@
                               </div>
                             </div>
                             <div class="form-group">
-                                <label for="content" class="control-label col-xs-2">合同描述：</label>
+                                <label for="content" class="control-label col-xs-2">合同描述</label>
                                 <div class="col-xs-8">
                                     <input name="content" class="form-control" value="{{ obj.description }}"  placeholder="合同描述">
                                 </div>
@@ -190,7 +200,7 @@
                                  <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
                                  <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                  <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
-{#                                 <a href="{% url "supplier_detail" %}?id={{ customer_obj.nid }}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>#}
+                                 <a href="{% url "customer_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
 
                                  <!--error_msg-->
                                  <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
@@ -271,13 +281,19 @@ $(function () {
 function InitData() {
         //初始化form
         $("#nid").val({{ query_set.nid }})
+        $("#identifier").val({{ query_set.identifier }})
         $("#customer_id").val({{ customer_obj.nid}});
         $("#product_id").val({{ query_set.product_id }});
         $("#product_meal_id").val({{ query_set.product_meal_id }});
         $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
-        $("#sign").val("{% if query_set.sign  %}{{ query_set.sign |date:'Y-m-d'}}{% endif %}");     $("#receivable").val("{% if  query_set.receivable %}{{ query_set.receivable }} {% endif %}");
+        $("#year_limit").val("{% if  query_set.year_limit %}{{ query_set.year_limit }} {% endif %}");
+        $("#location").val("{% if  query_set.location %}{{ query_set.location }} {% endif %}");
+        $("#sign").val("{% if query_set.sign  %}{{ query_set.sign |date:'Y-m-d'}}{% endif %}");
+        $("#receivable").val("{% if  query_set.receivable %}{{ query_set.receivable }} {% endif %}");
         $("#received").val("{% if  query_set.received %}{{ query_set.received }} {% endif %}");
         $("#pending").val("{% if  query_set.pending %}{{ query_set.pending }} {% endif %}");
+        $("#start_date").val("{% if  query_set.start_date %}{{ query_set.start_date |date:'Y-m-d'}} {% endif %}");
+        $("#end_date").val("{% if  query_set.end_date %}{{ query_set.end_date |date:'Y-m-d'}} {% endif %}");
     }
 
 //修改时获取合同
@@ -325,7 +341,6 @@ function FetchAttachment(){
     attachment_list=JSON.stringify(attachment_list)//对象转化成json
     return attachment_list
 }
-
 //合同上传
 function UploadFile(ths){
     var file_obj = $(ths)[0].files[0];
@@ -365,7 +380,6 @@ function UploadFile(ths){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
          var form =$("#contract_fm");
-         console.log(form.valid())
         //验证表单
          if ( form.valid()){
               var nid="{{ nid }}"
@@ -388,7 +402,7 @@ function UploadFile(ths){
                 success: function (arg) {
                    if (arg.status) {
                         if (cons==1){
-                             window.location.href='{% url "supplier_detail" %}?id= {0}'.format({{ customer_obj.nid }});
+                             window.location.href='{% url "customer_list" %}';
                         }else if(cons==2){
                              window.location.href='{% url "customer_contract" %}?sid={0}'.format({{ customer_obj.nid }});
                         }else{
@@ -460,7 +474,35 @@ function SelectMeal(ths) {
         },
     });
     }
-
+       //输入已收金额时，计算代收金额
+    $("#received").bind('input propertychange',function () {
+        var receivable = parseFloat($("#receivable").val())
+        var received = parseFloat($(this).val())
+        if (isNaN(receivable)){
+            layer.msg("请先填写应收金额");
+        }else{
+             if(isNaN(received)){
+                {#layer.msg("输入不合法");#}
+            }else{
+                var pending = receivable-received
+                if(pending<0){
+                    layer.msg("已收金额不能高于应收");
+                }else{
+                   $("#pending").val(pending)
+                }
+            }
+        }
+    });
+function ChangeDate() {
+        var date = $("#start_date").val()
+        var limit=parseInt($("#year_limit").val())
+        var myDate=new Date(date)
+        if (isNaN(limit)){
+        }else{
+            myDate.setFullYear(myDate.getFullYear() +limit)
+            $('#end_date').datepicker('setDate', myDate);
+        }
+}
 
  </script>
 {% endblock %}

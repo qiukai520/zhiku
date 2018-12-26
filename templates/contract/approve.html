@@ -1,0 +1,190 @@
+{% extends "content_edit_layout.html" %}
+{% load  admin_tags %}
+{% block css%}
+      <!-- bootstarp star -->
+    <link rel="stylesheet" href="/static/plugins/raty/jquery.raty.css">
+    <style>
+    #top > span{
+        margin-right: 60px;
+    }
+    #top > .form-group{
+        margin: 0px;
+    }
+     #footer > .form-group{
+        margin: 20px;
+    }
+
+      .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+    .minus {
+       margin-left: 0px !important;
+       color: red;
+       position: absolute;
+       top: 10px;
+       left: -85px;
+
+}
+    .plus{
+        position: absolute;
+        top: 10px;
+        left: -85px;
+        color: blue
+    }
+    label{
+        font-weight: bold;
+    }
+    .glyphicon-ok{
+        border: 1px solid;
+        padding: 1px;
+        background-color: #9F9F9F;
+        border-radius: 50%;
+        color:white;
+        position: absolute;
+        top:22px;
+        right: 38px
+
+    }
+    h4{padding-top:10px}
+
+    .row > [class*="col-"] {
+    margin-bottom: 0px;
+}
+    .flat-blue a {
+    color: #075dec;
+}
+    a{
+        color:green;
+    }
+
+    .attach >label{
+        {#font-weight: normal;#}
+    }
+     #content-main{
+      overflow :auto
+     }
+
+    </style>
+{% endblock %}
+{% block content%}
+     <div class="wrapper wrapper-content   animated fadeInRight" style="background-color: #f5f5f5 ;height: 100%" >
+      <div class="row " style="width: 100%" >
+            <div class="ibox " >
+                <div class="col-sm-12" >
+                  <div class="wrapper wrapper-content animated fadeInUp"  style="padding:0px; ">
+                       <h3 style="text-align: center">合同审批</h3>
+                          <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+                       <h3 style="margin-left:15px"> 合同编号：{{ query_sets.identifier }}</h3>
+                      <div class="ibox">
+                        <div class="" id="ibox-content">
+                           <div id="vertical-timeline" style="padding:0px" class="vertical-container light-timeline center-orientation">
+                           <div class="vertical-timeline-block" >
+                                        <div class="vertical-timeline-icon navy-bg">
+                                            <i class="fa fa-briefcase"></i>
+                                        </div>
+                                        <div class="vertical-timeline-content" style="padding:0">
+                                         <div class="row form-horizontal" style="position: relative;margin:5px;background-color: white ">
+                                        <form class="col-xs-12"  id="approve_fm"   >
+                                            {% csrf_token %}
+                                            <input type="text" class="hidden" name="contract_id" value={{ query_sets.nid }}>
+                                             <div class="form-group" style="margin-top: 15px">
+                                                <label  class="col-xs-3 col-sm-2 col-md-2   control-label" for="is_complete">状态</label>
+                                                <div class=" col-xs-9 col-sm-8 col-md-8 radio "  id="is_complete" >
+                                                     <label ><input type="radio"  name="result2"
+                                                            value="1" checked>通过</label>
+                                                    <label ><input type="radio"  name="result2"
+                                                            value="2" >驳回</label>
+                                                </div>
+                                            </div>
+                                             <div class="form-group">
+                                            <label for="content" class="col-xs-3 col-sm-2 col-md-2  control-label">评价</label>
+                                              <div class=" col-xs-9  col-sm-8 col-md-8">
+                                                  <textarea name="content" id="content" class="form-control" cols="30" rows="5" placeholder="评价"></textarea>
+                                              </div>
+                                        </div>
+                                            </form>
+                                        </div>
+                                            <div class="row" id="content_footer" style=" margin:auto; width:95%">
+                                                 <div class="form-actions well well-sm clearfix">
+                                                    <button   class="btn btn-primary left" onclick="Submit()" style="margin:2px;">提交</button>
+                                                  <a href="{% url "contract_approve" %}" class="btn btn-danger "  style="margin:2px;"  >返回</a>                                        <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                                <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                                     <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span id="error_msg" style="font-size: 14px;"></span>
+                                                </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                      </div>
+                                    </div>
+                                {% for item in  record_list %}
+                                  <div class="vertical-timeline-block">
+                                        <div class="vertical-timeline-icon navy-bg">
+                                            <i class="fa fa-briefcase"></i>
+                                        </div>
+                                        <div class="vertical-timeline-content">
+                                            <label class="form-label" style="margin: 3px 0"  >审核记录{{ forloop.revcounter }}</label><br>
+                                     {%if item.result2 == 1%}
+                                         <label class="form-label"  >审核结果:</label>
+                                         <span  >通过</span><br>
+                                         <label class="form-label" >评语:</label>
+                                         <span  >{{ item.content }}</span><br>
+                                     {% else %}
+                                          <label class="form-label"  >审核结果:</label>
+                                         <span  >驳回</span><br>
+                                         <label class="form-label" >原因:</label>
+                                         <span  >{{ item.content }}</span><br>
+                                     {% endif%}
+                                            <span class="vertical-date">
+                                         {{ item.create_time|date:"Y-m-d " }} <br>
+                                        <small>{{ item.create_time|date:"H:i:s "}}</small>
+                                    </span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+       </div>
+    </div>
+
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+
+
+//自执行函数
+    //添加or编辑
+      function Submit(){
+         var $msg = $('#error_msg');
+         $msg.parent().addClass('hide');
+         var form =$("#approve_fm");
+        //验证表单
+         if ( form.valid()){
+             $.ajax({
+                url: '{% url "approve" %}',
+                type: 'POST',
+                data: form.serialize(),
+                dataType: 'JSON',
+                success: function (arg) {
+                   if (arg.status) {
+                     window.location.href='{% url "contract_approve" %}';
+                    } else {
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
+                    }
+                }
+         })
+         }
+    }
+    </script>
+{% endblock %}

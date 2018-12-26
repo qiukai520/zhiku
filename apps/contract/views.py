@@ -166,32 +166,58 @@ def contracts_list(request):
     query_sets = contract_db.query_contract_list()
     if is_approved < 3:
         query_sets = query_sets.filter(is_approved=is_approved)
-    return render(request, "contract/contract_list.html", {"query_sets": query_sets})
+    return render(request, "contract/contract_list.html", {"query_sets": query_sets,"is_approved":is_approved})
+
+
+def contracts_center(request):
+    product_id = int(request.GET.get("product_id", 0))
+    is_approved = int(request.GET.get("is_approved",3))
+    query_sets = contract_db.query_contract_list()
+    if product_id:
+        query_sets = query_sets.filter(product_id=product_id)
+    if is_approved < 3:
+        query_sets = query_sets.filter(is_approved=is_approved)
+    return render(request, "contract/contract_center.html", {"query_sets": query_sets,
+                                                             "product_id": product_id,
+                                                             "is_approved": is_approved})
+
+def contract_approve(request):
+    is_approved = int(request.GET.get("is_approved", 3))
+    query_sets = contract_db.query_contract_list()
+    if is_approved < 3:
+        query_sets = query_sets.filter(is_approved=is_approved)
+    return render(request, "contract/crt_apr_list.html", {"query_sets": query_sets,
+                                                          "is_approved": is_approved})
 
 
 def customer_contract(request):
     mothod = request.method
     if mothod == "GET":
         nid = request.GET.get("id", "")
-        sid = request.GET.get("sid",'')
-        if sid:
-            customer_obj = customer_db.query_customer_by_id(sid)
-            if customer_obj:
-                if nid:
-                    # 更新
-                    query_sets = contract_db.query_contract_by_id(nid)
-                    contract_attach = contract_attach_db.query_contract_attachment(nid)
-                    if not contract_attach:
-                        contract_attach = ''
-                else:
-                    query_sets = {}
-                    contract_attach = {}
-                return render(request, "contract/contract_edit.html", {"query_set": query_sets,
+        cid = request.GET.get("sid",'')
+        if nid:
+            # 更新
+            query_sets = contract_db.query_contract_by_id(nid)
+            if query_sets:
+                customer_obj = customer_db.query_customer_by_id(query_sets.customer_id)
+                contract_attach = contract_attach_db.query_contract_attachment(nid)
+                if not contract_attach:
+                    contract_attach = ''
+
+            else:
+                return render(request, "404.html")
+        else:
+            if cid:
+                customer_obj = customer_db.query_customer_by_id(cid)
+            else:
+                return render(request, "404.html")
+            query_sets = {}
+            contract_attach = {}
+        return render(request, "contract/contract_edit.html", {"query_set": query_sets,
                                                                             "contract_attach": contract_attach,
                                                                             "nid": nid,
                                                                             "customer_obj":customer_obj
                                                                            })
-        return render(request,"404.html")
     else:
         ret = {'status': False, "data": '', "message": ""}
         form = ContractForm(data=request.POST)
@@ -228,7 +254,6 @@ def customer_contract(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    pass
                     ret["message"] = "更新失败"
             else:
                 # 创建
@@ -240,9 +265,25 @@ def customer_contract(request):
                         if contract_attach:
                             contract_attach = build_attachment_info({"contract_id": nid}, contract_attach)
                             contract_attach_db.mutil_insert_attachment(contract_attach)
+                        # 构造合同审核记录
+                        approver_list=approver_db.query_approver_list()
+                        if approver_list:
+                            app_record = []
+                            for item in approver_list:
+                                obj = {}
+                                obj["contract_id"] = nid
+                                obj["approver_id"] = item.approver_id
+                                obj["follow"] = item.follow
+                                obj["result"] = 0
+                                app_record.append(obj)
+                            approver_result_db.mutil_insert(app_record)
+                        else:
+                            # 如果没有审核人，则自动通过审核
+                            ContractInfo.objects.filter(nid=nid).update({"is_approved":1})
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
+                    print(e)
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -277,6 +318,88 @@ def product_meal(request):
     else:
         ret['message'] = "请选择相应的产品"
     return HttpResponse(json.dumps(ret))
+
+
+def approver_list(request):
+    query_sets = approver_db.query_approver_list()
+    return render(request,"contract/approver_list.html",{"query_sets":query_sets})
+
+
+def approve(request):
+    """合同审核"""
+    method = request.method
+    if method == "GET":
+        nid = request.GET.get("id",0)
+        user = request.user.staff.sid
+
+        if nid and user:
+            result_obj = approver_result_db.query_my_approved_result(nid, user)
+            query_sets = contract_db.query_contract_by_id(nid)
+            record_list = app_record_db.query_my_record(result_obj.nid)
+            if not record_list:
+                record_list = ''
+            return render(request,"contract/approve.html",{"query_sets":query_sets,"record_list":record_list})
+    else:
+        ret = {"status":False,"data":"","message":""}
+        user = request.user.staff.sid
+        data = request.POST
+        result2 = int(data.get("result2",0))
+        cid = int(data.get("contract_id",0))
+        if user and cid:
+            try:
+                with transaction.atomic():
+                    final_info = filter_fields(ApproverRecord._insert,data)
+                    result_obj = approver_result_db.query_my_approved_result(cid,user)
+                    final_info["result_id"] = result_obj.nid
+                    if result2 == 1:
+                        # 通过审核
+                        ApproverResult.objects.filter(contract_id=cid, approver_id=user).update(**{"result":1})
+                        app_record_db.insert_record(final_info)
+                        # 查询是否所有都通过审核
+                        result_list = approver_result_db.query_record_by_contract(cid)
+                        flag = True
+                        for obj in result_list:
+                            if obj.result != 1:
+                                flag = False
+                        if flag:
+                            # 合同通过审核
+                            contract_db.update_contract({"is_approved": 1})
+                        ret["status"] = True
+                    elif result2 == 2:
+                        # 驳回
+                        ApproverResult.objects.filter(contract_id=cid, approver_id=user).update(**{"result":2})
+                        app_record_db.insert_record(final_info)
+                        contract_db.update_contract({"is_approved": 2})
+                        ret["status"] = True
+            except Exception as e:
+                print(e)
+        return HttpResponse(json.dumps(ret))
+
+
+def approver_edit(request):
+    """审核人编辑"""
+    method = request.method
+    if method == "GET":
+        approver_list = approver_db.query_approver_list()
+        return render(request, "contract/approver_edit.html", {"approver_list": approver_list})
+    else:
+        ret = {'status':False,"data":"","message":""}
+        reviewers = request.POST.get("reviewers",None)
+        if reviewers:
+            try:
+                with transaction.atomic():
+                    reviewers = list(json.loads(reviewers))
+                    record = approver_db.query_approver_list()
+                    _, update_create_list, delete_id_list = compare_json(record,reviewers,"approver_id")
+                    approver_db.mutil_update(reviewers)
+                    approver_db.mutil_delete(delete_id_list)
+                    ret["status"]= True
+            except Exception as e:
+                print(e)
+                ret["message"] = "更新失败"
+        else:
+            ret["message"] = "审核人不能为空"
+        return HttpResponse(json.dumps(ret))
 
 
 def contract_attach(request):

@@ -14,7 +14,7 @@
         <!-- Panel Other -->
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>我的合同</h5>
+                <h5>合同中心</h5>
                 <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
             </div>
             <div class="ibox-content">
@@ -24,14 +24,23 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group" id="toolbar" role="group">
-                                 <form class="form-inline" action="{% url "contract_list" %}" method="get" style="margin-bottom: 5px">
+                                 <form class="form-inline" action="{% url "contracts_center" %}" method="get" style="margin-bottom: 5px">
+                                         <div class="form-group">
+                                            <label class="sr-only" for="msg_type">产品</label>
+                                            <div class="input-group">      <div class="input-group-addon">产品</div>
+                                                <select class="form-control" name="product_id" id="product_id" >
+                                                    <option value=0>所有</option>
+                                                   {% build_product_ele %}
+                                                </select>
+                                            </div>
+                                        </div>
                                          <div class="form-group">
                                             <label class="sr-only" for="msg_type">审批状态</label>
                                             <div class="input-group">      <div class="input-group-addon">审批状态</div>
                                                 <select class="form-control" name="is_approved" id="is_approved" >
                                                     <option value="3">所有</option>
                                                       <option value="1">通过</option>
-                                                     <option value="0">审批中</option>
+                                                     <option value="0">未审批</option>
                                                      <option value="2">未通过</option>
                                                 </select>
                                             </div>
@@ -40,7 +49,7 @@
                                     </form >
 
                                 </div>
-                            <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
                                  <span id="exportToolbar" style="display: inline-block" class="btn-group">
                                      <select id="sel_exportoption" class="form-control">
                                          <option value="basic">导出当前页数据</option>
@@ -60,10 +69,10 @@
                                              <th>已收</th>
                                              <th>待收</th>
                                              <th>年限</th>
+                                              <th>提交时间</th>
                                              <th>签订时间</th>
                                              <th>生效时间</th>
                                              <th>到期时间</th>
-                                             <th>审批状态</th>
                                              <th>操作</th>
                                           </tr>
                                     </thead>
@@ -78,17 +87,11 @@
                                            <td>{{ obj.received }}</td>
                                            <td>{{ obj.pending }}</td>
                                            <td>{{ obj.year_limit }}</td>
+                                           <td>{{ obj.create_time |date:"Y-m-d" }}</td>
                                            <td>{{ obj.sign |date:"Y-m-d" }}</td>
                                             <td>{{ obj.start_date|date:"Y-m-d" }}</td>
                                             <td>{{ obj.end_date |date:"Y-m-d" }}</td>
-                                           <td>{% if obj.is_approved == 1  %}<span style="color:green">通过</span>
-                                           {% elif obj.is_approved == 2  %}
-                                               未通过
-                                               {% else %}
-                                               审核中
-                                           {% endif %}</td>
                                             <td>
-                                              <a  href="{%url "customer_contract" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
                                                 <a  href="{%url "contract_detail" %}?id={{ obj.nid }}" class="btn btn-primary" >详细</a>
                                           </td>
                                       </tr>
@@ -134,9 +137,8 @@
      $(function () {
       //初始化化下拉框
       $("#sign").val({{ sign }})
+      $("#product_id").val({{ product_id }})
       $("#is_approved").val({{ is_approved }})
-
-
   })
     $(function () {
         $("#contract").bootstrapTable({

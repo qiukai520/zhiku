@@ -58,6 +58,7 @@ class ContractInfo(SoftDeletableModel):
     start_date = models.DateTimeField(verbose_name=u"生效时间", default=datetime.now)
     end_date = models.DateTimeField(verbose_name=u"到期时间", default=datetime.now)
     is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
+    location = models.CharField(max_length=50, verbose_name='合同编号')
     is_approved = models.SmallIntegerField(choices=approved_choice, default=0, verbose_name="审批状态")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
@@ -70,9 +71,9 @@ class ContractInfo(SoftDeletableModel):
     def __str__(self):
         return str(self.identifier)
 
-    _insert = ["identifier","customer_id","product_id","year_limit", "belonger_id","helper_id","product_meal_id","remark","received","receivable","pending","sign",
+    _insert = ["identifier","customer_id", "location", "product_id","year_limit", "belonger_id","helper_id","product_meal_id","remark","received","receivable","pending","sign",
                "end_date","start_date"]
-    _update = ["identifier","customer_id","product_id","year_limit","product_meal_id","belonger_id","helper_id","remark","received","receivable","pending","sign",
+    _update = ["identifier","customer_id", "location","product_id","year_limit","product_meal_id","belonger_id","helper_id","remark","received","receivable","pending","sign",
                "end_date","start_date"]
 
 
@@ -136,12 +137,41 @@ class ContractAttach(SoftDeletableModel):
 
 
 class Approver(models.Model):
-    approver = models.ForeignKey(Staff, max_length=30, to_field="sid", on_delete=models.CASCADE, verbose_name=u"审批人")
+    nid = models.AutoField(primary_key=True)
+    approver = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name=u"审批人")
+    follow = models.SmallIntegerField(verbose_name=u"审批顺序")  # 0代表无顺序
 
     class Meta:
         db_table = "approver"
         verbose_name = u"合同审批人"
         verbose_name_plural = verbose_name
 
-    def __str__(self):
-        return self.approver
+
+class ApproverResult(models.Model):
+    nid = models.AutoField(primary_key=True)
+    contract = models.ForeignKey('ContractInfo', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                                 verbose_name='合同')
+    approver = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name=u"审批人")
+    follow = models.SmallIntegerField(verbose_name=u"审批顺序")  # 0代表无顺序
+    result = models.SmallIntegerField(verbose_name=u"审批结果")  # 0未审核，1通过，2不通过
+    class Meta:
+        db_table = "approver_result"
+        verbose_name = "合同审核结果"
+        verbose_name_plural = verbose_name
+
+
+class ApproverRecord(models.Model):
+    nid = models.AutoField(primary_key=True)
+    result = models.ForeignKey('ApproverResult', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                                 verbose_name='审核结果')
+    content = models.CharField(max_length=128, verbose_name="内容")
+    result2 = models.SmallIntegerField(verbose_name=u"当前审批结果")  # 0未审核，1通过，2不通过
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+    class Meta:
+        db_table = "approver_record"
+        verbose_name = "合同审核记录"
+        verbose_name_plural = verbose_name
+
+    _insert = ["content", "result2"]
+    _update = ["content", "result2"]

@@ -31,12 +31,10 @@ class CustomerDB(object):
                  left join staff  on customer_info.follower_id=staff.sid
                  left join department on staff.department_id = department.id {0} """
         query = "where 1=1 "
-        print("condition",condition)
         filter = ''
         if condition.get("sid", None):
             filter += " and staff.sid={0}".format(condition["sid"])
         if condition.get("dpid", None):
-            print("dpid", condition.get("dpid", None))
             filter += " and department.id={0}".format(condition["dpid"])
         if condition.get("sort",None):
             filter += " and customer_info.purpose_id={0}".format(condition["sort"])

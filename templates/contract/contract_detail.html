@@ -80,10 +80,10 @@
                             <div class="col-sm-7" id="cluster_info">
                                 <dl class="dl-horizontal">
                                     <dt>应收：</dt>
-                                    <dd>{{ query_set.received}}</dd>
+                                    <dd>{{ query_set.receivable}}</dd>
                                     <br>
                                     <dt>已收：</dt>
-                                     <dd>{{ query_set.receivable }}</dd>
+                                     <dd>{{ query_set.received }}</dd>
                                       <br>
                                     <dt>待收：</dt>
                                      <dd>{{ query_set.pending }}</dd>
@@ -93,6 +93,9 @@
                                       <br>
                                     <dt>到期时间：</dt>
                                     <dd>{{ query_set.end_date|date:"Y-m-d" }}</dd>
+                                      <br>
+                                     <dt>存档坐标：</dt>
+                                    <dd>{{ query_set.location }}</dd>
                                       <br>
                                 </dl>
                             </div>
@@ -201,9 +204,9 @@
                         </li>
                     {% endfor %}
                 </ul>
-                 <lable>备注：</lable>
-                <span class="small" style="text-indent:2em">{{ query_set.remark }}
-                </span>
+{#                 <lable>备注：</lable>#}
+{#                <span class="small" style="text-indent:2em">{{ query_set.remark }}#}
+{#                </span>#}
             </div>
         </div>
     </div>
