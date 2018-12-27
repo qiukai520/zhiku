@@ -181,7 +181,8 @@ def contracts_center(request):
                                                              "product_id": product_id,
                                                              "is_approved": is_approved})
 
-def contract_approve(request):
+
+def contract_unapproved(request):
     is_approved = int(request.GET.get("is_approved", 3))
     query_sets = contract_db.query_contract_list()
     if is_approved < 3:

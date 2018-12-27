@@ -39,9 +39,7 @@
                             <div class="col-sm-12">
                                 <div class="m-b-md">
 {#                                    <a href="{%url "goods_edit" %}?id={{ query_set.nid }}" class="btn btn-info pull-right">去编辑</a>#}
-
-                                    <h3 style="margin-left:15px"> 合同编号：{{ query_set.identifier }}</h3>
-
+                                      <h3 style="margin-left:15px"> 合同编号：{{ query_set.identifier }}</h3>
                                 </div>
                                     <dl class="dl-horizontal">
                                     <dt>签约客户:</dt>
@@ -116,8 +114,9 @@
                                     <div class="panel-heading">
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
-                                                <li id="linkman_tab" class="active"><a href="task_detail.html#tab-1" data-toggle="tab">尾款收付记录</a>
+                                                <li id="linkman_tab" class="active"><a href="#tab-1" data-toggle="tab">尾款收付记录</a>
                                                 </li>
+                                               <li  id="follow_tab"><a href="#tab-2" data-toggle="tab">审核记录</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -180,6 +179,53 @@
 {#                                                </table>#}
 {#                                             </div>#}
 {#                                            </div>#}
+                                             <div class="tab-pane" id="tab-2">
+                                            <div class="btn-group hidden-xs" id="toolbar4" role="group">
+{#                                                    <a href="{% url "customer_memo" %}?cid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>#}
+{#                                                    <button  onclick="MemoDel()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                                </div>
+                                                 <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
+                                                <table id="record"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                                    <thead>
+                                                        <tr>
+                                                        <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                                            <th>审核结果</th>
+                                                            <th>审核意见</th>
+                                                            <th>审核时间</th>
+                                                             <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+{#                                                        {% fetch_customer_memo_list query_set.nid as memo_list %}#}
+{#                                                        {% for obj in memo_list %}#}
+{#                                                             <tr>#}
+{#                                                           <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>#}
+{#                                                              <td >#}
+{#                                                                  {% if obj.title %}{{ obj.title }}#}
+{#                                                                      {% else %}#}
+{#                                                                      空#}
+{#                                                                  {% endif %}#}
+{#                                                           </td>#}
+{#                                                               <td> {{ obj.create_time |date:"Y-m-d"}}#}
+{#                                                                      </td>#}
+{#                                                              <td><a href="{% url 'customer_memo' %}?cid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>#}
+{#                                                                 <button  data-toggle="modal" onclick="ShowMemoDetail({{ obj.nid }})" class="btn btn-info">详细</button>#}
+{#                                                             </td>#}
+{#                                                        </tr>#}
+{#                                                        {% endfor %}#}
+                                                    </tbody>
+                                                </table>
+                                             </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -355,7 +401,7 @@
                 fileName: '供应商报价表'//导出文件的名称
             }
         });
-        $("#compare_price").bootstrapTable({
+         $("#record").bootstrapTable({
             toolbar: "#toolbar2",
             striped: true,
             sidePagination: "client",
@@ -381,7 +427,7 @@
             exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
             exportOptions: {
                 ignoreColumn: [-1,0], //忽略某一列的索引
-                fileName: '零售比价表'//导出文件的名称
+                fileName: '审核记录表'//导出文件的名称
             }
         });
     });
