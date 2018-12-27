@@ -7,10 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/contract/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/contract/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/contract/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/contract/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/contract/contract_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contract/contract_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_detail.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -38,8 +36,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/contract/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="184" column="4" lean-forward="true" selection-start-line="184" selection-start-column="4" selection-end-line="184" selection-end-column="11" />
+            <state relative-caret-position="190">
+              <caret line="185" column="16" selection-start-line="185" selection-start-column="16" selection-end-line="185" selection-end-column="16" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
                 <element signature="e#4740#5158#0" />
@@ -51,8 +49,8 @@
       <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6012">
-              <caret line="167" column="108" selection-start-line="167" selection-start-column="92" selection-end-line="167" selection-end-column="108" />
+            <state relative-caret-position="252">
+              <caret line="167" column="97" selection-start-line="167" selection-start-column="92" selection-end-line="167" selection-end-column="102" />
             </state>
           </provider>
         </entry>
@@ -87,8 +85,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/contract/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+            <state relative-caret-position="167">
+              <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -156,14 +154,11 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>输入整数</find>
-      <find>contract_id</find>
       <find>product_id</find>
       <find>change_to_customer</find>
       <find>年限</find>
       <find>goods_attach</find>
       <find>fetch_</find>
-      <find>is_approved</find>
       <find>合同</find>
       <find>附件</find>
       <find>start_date</find>
@@ -186,6 +181,9 @@
       <find>right</find>
       <find>review</find>
       <find>select</find>
+      <find>contract_approve</find>
+      <find>is_approved</find>
+      <find>unapproved</find>
     </findStrings>
     <replaceStrings>
       <replace>/static/js/</replace>
@@ -256,12 +254,10 @@
         <option value="$PROJECT_DIR$/templates/sfa/customer.html" />
         <option value="$PROJECT_DIR$/apps/sfa/templatetags/sfa_tags.py" />
         <option value="$PROJECT_DIR$/templates/contract/approver_list.html" />
-        <option value="$PROJECT_DIR$/templates/layout.html" />
         <option value="$PROJECT_DIR$/static/js/custom/form-validate.js" />
         <option value="$PROJECT_DIR$/apps/sfa/server.py" />
         <option value="$PROJECT_DIR$/templates/contract/contract_edit.html" />
         <option value="$PROJECT_DIR$/templates/contract/contract_center.html" />
-        <option value="$PROJECT_DIR$/apps/contract/urls.py" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_edit.html" />
         <option value="$PROJECT_DIR$/templates/task/task_review.html" />
         <option value="$PROJECT_DIR$/apps/contract/models.py" />
@@ -274,6 +270,8 @@
         <option value="$PROJECT_DIR$/templates/contract/approver_edit.html" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_detail.html" />
         <option value="$PROJECT_DIR$/templates/contract/contract_detail.html" />
+        <option value="$PROJECT_DIR$/templates/layout.html" />
+        <option value="$PROJECT_DIR$/apps/contract/urls.py" />
         <option value="$PROJECT_DIR$/apps/contract/views.py" />
       </list>
     </option>
@@ -541,7 +539,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3287037" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5122549" side_tool="true" weight="0.20979021" />
@@ -549,8 +546,8 @@
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4883005" weight="0.32816228" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.375" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.4877451" visible="true" weight="0.22596154" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.18954249" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.4877451" visible="true" weight="0.28846154" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.90784985" visible="true" weight="0.22222222" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -763,6 +760,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret lean-forward="true" />
+          <folding>
+            <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -805,6 +805,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="472">
           <caret line="31" column="41" selection-start-line="31" selection-start-column="41" selection-end-line="31" selection-end-column="41" />
+          <folding>
+            <element signature="e#3307#3373#0#HTML" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -868,13 +871,6 @@
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6012">
-          <caret line="167" column="108" selection-start-line="167" selection-start-column="92" selection-end-line="167" selection-end-column="108" />
         </state>
       </provider>
     </entry>
@@ -947,17 +943,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="167" column="97" selection-start-line="167" selection-start-column="92" selection-end-line="167" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/contract/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+        <state relative-caret-position="167">
+          <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/contract/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="184" column="4" lean-forward="true" selection-start-line="184" selection-start-column="4" selection-end-line="184" selection-end-column="11" />
+        <state relative-caret-position="190">
+          <caret line="185" column="16" selection-start-line="185" selection-start-column="16" selection-end-line="185" selection-end-column="16" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
             <element signature="e#4740#5158#0" />
