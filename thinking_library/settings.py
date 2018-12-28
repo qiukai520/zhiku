@@ -212,6 +212,8 @@ BROKER_URL = 'redis://127.0.0.1:6379/9'
 CELERY_IMPORTS = ('task.tasks')
 CELERY_TIMEZONE = 'Asia/Shanghai'
 
+########################celery#######################
+
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
 
@@ -256,3 +258,5 @@ CELERYBEAT_SCHEDULE = {
         "args": (),
     },
 }
+
+#########################log#######################
