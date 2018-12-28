@@ -71,7 +71,9 @@ create table `approver_result`(
 `contract_id` varchar (16) NOT NULL  COMMENT '合同',
 `approver_id` varchar (16) NOT NULL  COMMENT '合同审批人',
 `follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核顺序',
-`result` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核结果 0未审核,1通过,2不通过'
+`result` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核结果 0未审核,1通过,2不通过',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='合同审核结果';
 
 
@@ -79,7 +81,7 @@ drop TABLE if exists `approver_record`;
 create table `approver_record`(
 `nid` int(11) primary key auto_increment,
 `result2` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核结果 0未审核,1通过,2不通过',
-`content` varchar (1)   COMMENT '审核审核内容',
+`content` varchar (32)   COMMENT '审核评价',
 `result_id` int(1)  COMMENT'审核记录',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'

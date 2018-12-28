@@ -88,7 +88,7 @@
                                           {%  if flag %}
                                               <td>{% if result == 1  %}<span style="color:green"> <a  href="{%url "approve" %}?id={{ obj.nid }}"  >通过</a></span>
                                            {% elif result == 2  %}
-                                               未通过
+                                               驳回
                                                  <a  href="{%url "approve" %}?id={{ obj.nid }}" class="btn btn-xs btn-info" >继续审核</a>
                                                {% else %}
                                                 待审中

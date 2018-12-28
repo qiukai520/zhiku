@@ -260,3 +260,6 @@ CELERYBEAT_SCHEDULE = {
 }
 
 #########################log#######################
+
+from .logger import LOGGING
+

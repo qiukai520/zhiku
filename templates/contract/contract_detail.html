@@ -102,7 +102,11 @@
                             <div class="col-sm-12">
                                 <dl class="dl-horizontal">
                                     <dt>备注：</dt>
-                                    <dd> {{ query_set.remark }}
+                                    <dd>{% if query_set.remark  %}
+                                        {{ query_set.remark }}
+                                        {% else %}
+                                          空
+                                        {% endif %}
                                     </dd>
 
                                 </dl>
@@ -198,30 +202,45 @@
                                                     <thead>
                                                         <tr>
                                                         <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                                            <th>审核人</th>
+                                                            <th>审核顺序</th>
                                                             <th>审核结果</th>
-                                                            <th>审核意见</th>
                                                             <th>审核时间</th>
                                                              <th>操作</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-{#                                                        {% fetch_customer_memo_list query_set.nid as memo_list %}#}
-{#                                                        {% for obj in memo_list %}#}
-{#                                                             <tr>#}
-{#                                                           <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>#}
-{#                                                              <td >#}
-{#                                                                  {% if obj.title %}{{ obj.title }}#}
-{#                                                                      {% else %}#}
-{#                                                                      空#}
-{#                                                                  {% endif %}#}
-{#                                                           </td>#}
-{#                                                               <td> {{ obj.create_time |date:"Y-m-d"}}#}
-{#                                                                      </td>#}
-{#                                                              <td><a href="{% url 'customer_memo' %}?cid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>#}
-{#                                                                 <button  data-toggle="modal" onclick="ShowMemoDetail({{ obj.nid }})" class="btn btn-info">详细</button>#}
-{#                                                             </td>#}
-{#                                                        </tr>#}
-{#                                                        {% endfor %}#}
+                                                        {% fetch_approved_record_list query_set.nid as approved_list %}
+                                                        {% for obj in approved_list %}
+                                                             <tr>
+                                                           <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>
+                                                              <td >
+                                                                  {% if obj.approver_id %}{% change_to_staff obj.approver_id %}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                               <td >
+                                                                  {% if obj.follow %}{{ obj.follow }}
+                                                                      {% else %}
+                                                                      无顺序
+                                                                  {% endif %}
+                                                           </td>
+                                                             <td >
+                                                                  {% if obj.result == 0%}未审核
+                                                                      {% elif obj.result == 1 %}
+                                                                      通过
+                                                                      {% else %}
+                                                                      驳回
+                                                                  {% endif %}
+                                                           </td>
+                                                               <td> {{ obj.create_time |date:"Y-m-d"}}
+                                                                      </td>
+                                                              <td><a href="{% url 'customer_memo' %}?cid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <button  data-toggle="modal" onclick="ShowMemoDetail({{ obj.nid }})" class="btn btn-info">详细</button>
+                                                             </td>
+                                                        </tr>
+                                                        {% endfor %}
                                                     </tbody>
                                                 </table>
                                              </div>

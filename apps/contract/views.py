@@ -181,9 +181,12 @@ def contracts_center(request):
                                                              "product_id": product_id,
                                                              "is_approved": is_approved})
 
+import logging
+
 
 def contract_approve(request):
-    print("appr")
+    log = logging.getLogger()
+    log.info("approve")
     is_approved = int(request.GET.get("is_approved", 3))
     query_sets = contract_db.query_contract_list()
     if is_approved < 3:
@@ -333,7 +336,6 @@ def approve(request):
     if method == "GET":
         nid = request.GET.get("id",0)
         user = request.user.staff.sid
-
         if nid and user:
             result_obj = approver_result_db.query_my_approved_result(nid, user)
             query_sets = contract_db.query_contract_by_id(nid)
@@ -365,13 +367,16 @@ def approve(request):
                                 flag = False
                         if flag:
                             # 合同通过审核
-                            contract_db.update_contract({"is_approved": 1})
+                            contract_obj = contract_db.query_contract_by_id(cid)
+                            contract_obj.is_approved = 1
+                            contract_obj.save()
+                            # 客户更改为签约状态
+                            customer_db.update_customer({"nid":contract_obj.customer_id,"is_sign":1})
                         ret["status"] = True
                     elif result2 == 2:
                         # 驳回
                         ApproverResult.objects.filter(contract_id=cid, approver_id=user).update(**{"result":2})
                         app_record_db.insert_record(final_info)
-                        contract_db.update_contract({"is_approved": 2})
                         ret["status"] = True
             except Exception as e:
                 print(e)

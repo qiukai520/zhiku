@@ -98,19 +98,30 @@ def fetch_my_approved_follow(cid,sid):
     """查看是否可以审核"""
     # 获取所有审核人
     flag = True
-    appr_list=approver_result_db.query_record_by_contract(cid)
-    if appr_list.first().follow>0:
+    print("cid",cid)
+    appr_list = approver_result_db.query_record_by_contract(cid)
+    if appr_list:
+        if appr_list.first().follow > 0:
         # 有序审核
-        for item in appr_list:
-            if item.approver_id == sid:
-                my_follow = item.follow
-            else:
-                my_follow=0
-        for item in appr_list:
-            if item.follow < my_follow:
-                if item.result != 1:
-                    flag = False
+            for item in appr_list:
+                if item.approver_id == sid:
+                    my_follow = item.follow
+                else:
+                    my_follow=0
+            for item in appr_list:
+                if item.follow < my_follow:
+                    if item.result != 1:
+                        flag = False
     return flag
+
+@register.simple_tag
+def fetch_approved_record_list(cid):
+    if cid:
+        appr_list = approver_result_db.query_record_by_contract(cid)
+        return appr_list
+
+
+
 
 
 

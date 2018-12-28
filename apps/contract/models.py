@@ -154,6 +154,8 @@ class ApproverResult(models.Model):
     approver = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name=u"审批人")
     follow = models.SmallIntegerField(verbose_name=u"审批顺序")  # 0代表无顺序
     result = models.SmallIntegerField(verbose_name=u"审批结果")  # 0未审核，1通过，2不通过
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
     class Meta:
         db_table = "approver_result"
         verbose_name = "合同审核结果"
