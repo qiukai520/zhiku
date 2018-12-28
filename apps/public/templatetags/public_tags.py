@@ -6,6 +6,7 @@ from ..server import *
 
 register = template.Library()
 
+
 @register.simple_tag
 def build_nation_ele(selected=None):
     """构建国家下拉框"""

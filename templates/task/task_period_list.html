@@ -66,7 +66,7 @@
                                      <button  onclick="MultiDelete()" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;删除</button>
 
                                 </div>
-                                <table id="task_assign"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                <table id="task_period"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
                                         <tr >
                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
@@ -134,26 +134,10 @@
 
 {% block js %}
 
-        <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
-        <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
-        <script src="/static/js/jquery.cookie.js"></script>
         <script>
-        //预防csrf
-            var csrftoken = $.cookie('csrftoken');
-        function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
 
 $(function () {
-        $("#task_assign").bootstrapTable({
+        $("#task_period").bootstrapTable({
             toolbar: "#toolbar",
             striped: true,
             sidePagination: "client",
@@ -167,7 +151,6 @@ $(function () {
             strictSearch: false,
             showColumns: true,
             showRefresh: true,
-            minimumCountColumns: 2,
             clickToSelect: true,
             uniqueId: "ID",
             showToggle:true,
@@ -180,22 +163,7 @@ $(function () {
       /*
     自执行函数
     */
-    $(function () {
-         //设置日期时间控件
-        $('#datetimepicker1').datetimepicker({
-        format: 'YYYY-MM-DD HH:mm',
-        locale: moment.locale('zh-cn')
-            });
-    });
 
-        //字符串格式化
-String.prototype.format=function()
-{
-  if(arguments.length==0) return this;
-  for(var s=this, i=0; i<arguments.length; i++)
-    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
-  return s;
-};
     function  SelectAll(ths) {
         //判断是否选中
         ischecked=$(ths).is(":checked");
