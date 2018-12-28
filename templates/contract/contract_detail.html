@@ -236,8 +236,9 @@
                                                            </td>
                                                                <td> {{ obj.create_time |date:"Y-m-d"}}
                                                                       </td>
-                                                              <td><a href="{% url 'customer_memo' %}?cid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
-                                                                 <button  data-toggle="modal" onclick="ShowMemoDetail({{ obj.nid }})" class="btn btn-info">详细</button>
+                                                              <td>
+{#                                                                  <a href="{% url 'customer_memo' %}?cid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>#}
+{#                                                                 <button  data-toggle="modal" onclick="ShowMemoDetail({{ obj.nid }})" class="btn btn-info">详细</button>#}
                                                              </td>
                                                         </tr>
                                                         {% endfor %}

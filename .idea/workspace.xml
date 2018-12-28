@@ -8,6 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/apps/contract/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/contract/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/contract/contract_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contract/contract_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/contract/crt_apr_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contract/crt_apr_list.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -32,11 +34,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/contract/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="195" column="35" selection-start-line="195" selection-start-column="35" selection-end-line="195" selection-end-column="35" />
+            <state relative-caret-position="514">
+              <caret line="195" column="70" selection-start-line="195" selection-start-column="59" selection-end-line="195" selection-end-column="70" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
                 <element signature="e#4740#5158#0" />
@@ -54,11 +56,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="contract_detail.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="contract_detail.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/contract/contract_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="932">
-              <caret line="107" column="43" selection-start-line="107" selection-start-column="43" selection-end-line="107" selection-end-column="43" />
+            <state relative-caret-position="-4693">
+              <caret line="241" column="66" lean-forward="true" selection-start-line="241" selection-start-column="66" selection-end-line="241" selection-end-column="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="phrase.rnc" pinned="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/lib/pycharm.jar!/resources/html5-schema/html5/phrase.rnc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="199">
+              <caret line="63" column="14" selection-start-line="63" selection-start-column="14" selection-end-line="63" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/sfa/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="199">
+              <caret line="35" column="52" selection-start-line="35" selection-start-column="52" selection-end-line="35" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -75,34 +95,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/sfa/server.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="74" column="14" lean-forward="true" selection-start-line="74" selection-start-column="14" selection-end-line="74" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="approve.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/contract/approve.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2412">
-              <caret line="103" column="76" selection-start-line="103" selection-start-column="76" selection-end-line="103" selection-end-column="76" />
-              <folding>
-                <element signature="e#1920#1944#0#HTML" expanded="true" />
-                <element signature="e#4926#4945#0#HTML" expanded="true" />
-                <element signature="e#5055#5114#0#HTML" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="crt_apr_list.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/contract/crt_apr_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="90" column="49" selection-start-line="90" selection-start-column="49" selection-end-line="90" selection-end-column="49" />
+            <state relative-caret-position="4458">
+              <caret line="146" column="20" lean-forward="true" selection-start-line="146" selection-start-column="20" selection-end-line="146" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -110,8 +107,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/contract/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
+            <state relative-caret-position="190">
+              <caret line="30" column="38" lean-forward="true" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -139,13 +136,10 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>goods_attach</find>
-      <find>fetch_</find>
       <find>合同</find>
       <find>附件</find>
       <find>start_date</find>
       <find>Approver</find>
-      <find>query_sets</find>
       <find>姓名</find>
       <find>审核人</find>
       <find />
@@ -164,11 +158,14 @@
       <find>select</find>
       <find>contract_approve</find>
       <find>unapproved</find>
-      <find>is_approved</find>
       <find>datetimepicker1</find>
       <find>collect</find>
       <find>不通过</find>
       <find>备注</find>
+      <find>url</find>
+      <find>query_sets</find>
+      <find>is_approved</find>
+      <find>contract</find>
     </findStrings>
     <replaceStrings>
       <replace>/static/js/</replace>
@@ -255,9 +252,9 @@
         <option value="$PROJECT_DIR$/apps/contract/models.py" />
         <option value="$PROJECT_DIR$/apps/contract/templatetags/contract_tags.py" />
         <option value="$PROJECT_DIR$/contract.sql" />
+        <option value="$PROJECT_DIR$/apps/contract/views.py" />
         <option value="$PROJECT_DIR$/templates/contract/crt_apr_list.html" />
         <option value="$PROJECT_DIR$/templates/contract/contract_detail.html" />
-        <option value="$PROJECT_DIR$/apps/contract/views.py" />
       </list>
     </option>
   </component>
@@ -270,7 +267,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="81" />
     <option name="width" value="1040" />
     <option name="height" value="660" />
@@ -552,14 +549,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/apps/sfa/templatetags/sfa_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="264" column="19" selection-start-line="264" selection-start-column="19" selection-end-line="264" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/contract/sea_rul_list.html" />
     <entry file="file://$PROJECT_DIR$/apps/personnel/templatetags/personnel_tags.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="611">
@@ -920,35 +909,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/contract/crt_apr_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="90" column="49" selection-start-line="90" selection-start-column="49" selection-end-line="90" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/contract/contract_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="932">
-          <caret line="107" column="43" selection-start-line="107" selection-start-column="43" selection-end-line="107" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/contract/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
+        <state relative-caret-position="190">
+          <caret line="30" column="38" lean-forward="true" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/contract/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="195" column="35" selection-start-line="195" selection-start-column="35" selection-end-line="195" selection-end-column="35" />
+        <state relative-caret-position="514">
+          <caret line="195" column="70" selection-start-line="195" selection-start-column="59" selection-end-line="195" selection-end-column="70" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
             <element signature="e#4740#5158#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/contract/crt_apr_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4458">
+          <caret line="146" column="20" lean-forward="true" selection-start-line="146" selection-start-column="20" selection-end-line="146" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/sfa/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="35" column="52" selection-start-line="35" selection-start-column="52" selection-end-line="35" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/pycharm.jar!/resources/html5-schema/html5/phrase.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="63" column="14" selection-start-line="63" selection-start-column="14" selection-end-line="63" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/contract/contract_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4693">
+          <caret line="241" column="66" lean-forward="true" selection-start-line="241" selection-start-column="66" selection-end-line="241" selection-end-column="66" />
         </state>
       </provider>
     </entry>
