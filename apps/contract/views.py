@@ -191,9 +191,9 @@ def contract_approve(request):
     query_sets = contract_db.query_contract_list()
     if is_approved < 3:
         query_sets = query_sets.filter(is_approved=is_approved)
-    return render(request, "contract/crt_apr_list.html", {"query_sets": query_sets,
-                                                          "is_approved": is_approved})
-
+    # return render(request, "contract/crt_apr_list.html", {"query_sets": query_sets,
+    #                                                       "is_approved": is_approved})
+    return render(request,"404.html")
 
 def customer_contract(request):
     mothod = request.method
