@@ -126,65 +126,64 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="tab-content">
-{#                                          <div class="tab-pane active" id="tab-1">#}
-{#                                                <div class="btn-group hidden-xs" id="toolbar2" role="group">#}
-{#                                                    <a href="{% url "price_compare" %}?gid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>#}
-{#                                                    <button  onclick="CompareDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
-{#                                                </div>#}
-{#                                           <div class="fixed-table-container">#}
-{#                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">#}
-{#                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">#}
-{#                                                     <select id="sel_exportoption2" class="form-control">#}
-{#                                                         <option value="basic">导出当前页数据</option>#}
-{#                                                         <option value="all">导出全部数据</option>#}
-                {#                                         <option value="selected">导出选中数据</option>#}
-{#                                                     </select>#}
-{#                                                 </span>#}
-{#                                             </div>#}
-{#                                                <table id="compare_price"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">#}
-{#                                                    <thead>#}
-{#                                                        <tr>#}
-{#                                                        <th><input type="checkbox" onclick="SelectAll(this)"></th>#}
-{#                                                            <th>零售商</th>#}
-{#                                                            <th>单位</th>#}
-{#                                                            <th>数量</th>#}
-{#                                                            <th>价格</th>#}
-{#                                                            <th>比价日期</th>#}
-{#                                                            <th>操作</th>#}
-{#                                                        </tr>#}
-{#                                                    </thead>#}
-{#                                                    <tbody>#}
-{#                                                        {% fetch_compare_price_list query_set.nid as compare_list %}#}
-{#                                                        {% for obj in compare_list %}#}
-{#                                                             <tr>#}
-{#                                                         <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>#}
-{##}
-{#                                                            <td>{% change_to_retailer obj.retail_id%}</td>#}
-{#                                                              <td>{% change_to_goods_unit obj.unit_id %}</td>#}
-{#                                                              <td >#}
-{#                                                                  {% if obj.amount %}{{ obj.amount }}#}
-{#                                                                      {% else %}#}
-{#                                                                      空#}
-{#                                                                  {% endif %}#}
-{#                                                           </td>#}
-{#                                                              <td >#}
-{#                                                                  {% if obj.price %}{{ obj.price }}#}
-{#                                                                      {% else %}#}
-{#                                                                      空#}
-{#                                                                  {% endif %}#}
-{#                                                           </td>#}
-{#                                                           <td>{{ obj.date |date:"Y-m-d" }}</td>#}
-{#                                                             <td><a href="{% url 'price_compare' %}?gid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>#}
-{#                                                                 <a href="" data-toggle="modal" onclick="ShowPriceDetail({{ obj.nid }})" class="btn btn-info">详细</a>#}
-{#                                                             </td>#}
-{#                                                        </tr>#}
-{#                                                        {% endfor %}#}
-{#                                                    </tbody>#}
-{#                                                </table>#}
-{#                                             </div>#}
-{#                                            </div>#}
+                                          <div class="tab-pane active" id="tab-1">
+                                                <div class="btn-group hidden-xs" id="toolbar1" role="group">
+                                                    <a href="{% url "add_payment" %}?cid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                                    <button  onclick="CompareDelete()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
+                                                </div>
+                                           <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                                                         <option value="selected">导出选中数据</option>
+                                                     </select>
+                                                 </span>
+                                             </div>
+                                                <table id="payment_table"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                                    <thead>
+                                                        <tr>
+                                                        <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                                            <th>尾款</th>
+                                                            <th>审核状态</th>
+                                                            <th>备注</th>
+                                                            <th>收款日期</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% fetch_payment_list query_set.nid as payment_list %}
+                                                        {% for obj in payment_list %}
+                                                             <tr>
+                                                         <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>
+
+                                                              <td >
+                                                              {{ obj.payment }}
+                                                           </td>
+                                                                <td>{% if obj.is_approved == 1  %}<span style="color:green">通过</span>
+                                                               {% elif obj.is_approved == 2  %}
+                                                                   未通过
+                                                                   {% else %}
+                                                                   审核中
+                                                               {% endif %}</td>
+                                                              <td >
+                                                              {{ obj.remark }}
+                                                           </td>
+
+                                                           <td>{{ obj.date |date:"Y-m-d" }}</td>
+                                                             <td>
+                                                                 <a href="{% url 'add_payment' %}?cid={{ query_set.nid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <a href="" data-toggle="modal" onclick="ShowPaymentDetail({{ obj.nid }})" class="btn btn-info">详细</a>
+                                                             </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                             </div>
+                                            </div>
                                              <div class="tab-pane" id="tab-2">
-                                            <div class="btn-group hidden-xs" id="toolbar4" role="group">
+                                            <div class="btn-group hidden-xs" id="toolbar2" role="group">
 {#                                                    <a href="{% url "customer_memo" %}?cid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>#}
 {#                                                    <button  onclick="MemoDel()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
                                                 </div>
@@ -258,7 +257,7 @@
         <div class="col-sm-3">
             <div class="wrapper wrapper-content project-manager">
                 <br>
-                <h5>合同</h5>
+                <h4>合同文件</h4>
                 <ul class="list-unstyled project-files">
 {#                    {% query_task_map_attachment_by_tmid task_obj.tmid as t_attachement %}#}
                     {% for obj in contract_attach%}
@@ -276,14 +275,13 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal goods_price -->
-<div class="modal fade " id="price_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <!-- Modal contact_detail -->
+<div class="modal fade " id="payment_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" onclick="ClearPriceData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="myModalLabel">供应商报价</h3>
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearMemoData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">尾款详细</h3>
       </div>
       <div class="modal-body" style="height: 560px;">
          <div class="row form-horizontal" style="position: relative;">
@@ -292,59 +290,28 @@
                         <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
                             <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
 {#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
-                                <div class="panel-body " id="price_detail" style="padding-top:0px;padding-bottom: 0px">
+                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px">
                                      <div class=" form-group row value" >
-                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">供应商</div>
-                                          <div class="col-xs-9 p_form" >
-                                             <p class="form-control-static " id="supplier_id" ></p>
-                                          </div>
-                                    </div>
-                                     <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">联系人</div>
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">尾款</div>
                                           <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="linkman_id"></p>
+                                             <p class="form-control-static " id="payment"></p>
                                           </div>
                                     </div>
                                     <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">单位</div>
-                                          <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="unit_id"></p>
-                                          </div>
-                                    </div>
-                                    <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">数量</div>
-                                          <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="amount"></p>
-                                          </div>
-                                    </div>
-                                    <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">物流费用</div>
-                                          <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="logistics"></p>
-                                          </div>
-                                    </div>
-                                      <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">物流备注</div>
-                                          <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="logis_remark"></p>
-                                          </div>
-                                    </div>
-                                    <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">录入人</div>
-                                          <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="staff"></p>
-                                          </div>
-                                    </div>
-                                      <div class=" form-group row value" >
                                           <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">备注</div>
                                           <div class="col-xs-9 p_form">
                                              <p class="form-control-static " id="remark"></p>
                                           </div>
                                     </div>
-                                     <div class=" form-group row value hidden " id="attach_block" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">合同</div>
-                                          <div class="col-xs-9 p_form" id="pirce_container">
-
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">收款日期</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="payment_date"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value hidden " id="payment_attach" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="payment_container">
                                           </div>
                                     </div>
 
@@ -356,12 +323,14 @@
             </div>
          </div>
       <div class="modal-footer">
-        <button class="btn btn-default" onclick="ClearPriceData()" data-dismiss="modal" aria-hidden="true">关闭</button>
-          <a class="btn btn-submit btn-primary edit-btn" id="edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+        <button class="btn btn-default" onclick="ClearPaymentData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <a class="btn btn-submit btn-primary edit-btn" id="payment_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
       </div>
     </div>
     </div>
 </div>
+
+
 
           <!-- Modal -->
     <!-- delete-->
@@ -392,7 +361,7 @@
     自执行函数
     */
     $(function () {
-         $("#goods_price").bootstrapTable({
+         $("#payment_table").bootstrapTable({
             toolbar: "#toolbar1",
             striped: true,
             sidePagination: "client",
@@ -466,48 +435,49 @@
             exportDataType: $(this).val()
         });
     });
+     //展示备忘详细内容
+    function ShowPaymentDetail(cons) {
 
-    //展示联系人详细内容
-    function ShowPriceDetail(cons) {
-
-      $('#price_detail').modal('show');
+      $('#payment_detail').modal('show');
       var id =cons
       $.ajax({
-          url:"{% url "price_detail" %}",
+          url:"{% url "payment_detail" %}",
           type:"get",
           data:{'id':id},
           dataType:"json",
           success:function (arg) {
               if (arg.status){
-                  console.log(arg)
                   var data=arg.data;
-                  console.log(data.name)
-                  $("#supplier_id").text(data.supplier_id);
-                  $("#linkman_id").text(data.linkman_id);
-                  $("#staff").text(data.staff_id);
-                  $("#unit_id").text(data.unit_id);
-                  $("#amount").text(data.amount);
-                  $("#price").text(data.price);
-                  $("#logistics").text(data.logistics);
-                  $("#logis_remark").text(data.logis_remark);
+                  console.log("data",data)
+                  $("#payment").text(data.payment);
+                    $("#payment_date").text(data.date);
                   $("#remark").text(data.remark);
-                  //初始化合同
+                  //初始化附件
                   if (data.attach!=""){
                       var attachs = JSON.parse(data.attach);
                       for (var i=0;i<attachs.length;i++){
-                      var a_ele=' <label  >合同{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
-                      var l_ele=' <label  >合同描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
-                      var eles=a_ele+l_ele+"<br>"
-                      $("#attach_container").append(eles)
-                          $("#attach_block").removeClass("hidden")
+                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles = a_ele+l_ele+"<br>"
+                      $("#payment_container").append(eles)
                       }
+                      $("#payment_attach").removeClass("hidden")
+
                   }
-                  $("#edit").attr("href","supplier_linkman?sid={0}&id={1}".format({{ query_set.nid }},data.nid))
+                  $("#payment_edit").attr("href","contract/payment?cid={0}&id={1}".format({{ query_set.nid }},data.nid))
               }
           }
       });
     }
 
+        //清空备忘模态框的数据
+    function ClearPaymentData(){
+            $("#payment_detail >p").each(function () {
+                $(this).text()
+            })
+           $("#payment_container").empty()
+          $("#payment_attach").addClass("hidden")
+    }
 
      //清空指派模态框的数据
     function ClearPriceData(){

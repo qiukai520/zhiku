@@ -38,7 +38,7 @@
                                         </div>
                                         <button type="submit" style="margin:0" onclick="" class="btn btn-primary queryButton">查询</button>
                                     </form >
-
+                                    <button  onclick="AddPayment()"  style="margin-left:0px" class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加尾款</button>
                                 </div>
                             <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
                                  <span id="exportToolbar" style="display: inline-block" class="btn-group">
@@ -133,7 +133,6 @@
     */
      $(function () {
       //初始化化下拉框
-      $("#sign").val({{ sign }})
       $("#is_approved").val({{ is_approved }})
 
 
@@ -183,7 +182,7 @@
         $(ths).parent().parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
     }
 //批量删除
-        function MultiDelete() {
+    function MultiDelete() {
         var ids="";
         $("tbody input:checkbox:checked").each(function () {
             console.log($(this).next().val())
@@ -222,6 +221,26 @@
             }
         })
         });
+    }
+      //添加尾款
+    function AddPayment() {
+       //是否有选中供应商
+     var is_checked=$("tbody input:checkbox:checked").length
+        if (is_checked==1){
+            var cid=$("tbody input:checkbox:checked").eq(0).next().val()
+            window.location.href="{% url 'add_payment' %}?cid={0}".format(cid)
+        } else if(is_checked > 1){
+           layer.alert('只能选择一个份合同', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
+        else{
+           layer.alert('请选择一份合同', {icon: 6 ,
+              time: 1500, //1.5s后自动关闭
+                btn: [ '知道了']}
+                );
+        }
     }
     </script>
 {% endblock %}

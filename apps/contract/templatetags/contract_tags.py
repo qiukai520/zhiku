@@ -121,6 +121,15 @@ def fetch_approved_record_list(cid):
         return appr_list
 
 
+@register.simple_tag
+def fetch_payment_list(cid):
+    print("cid",cid)
+    if cid:
+        payment_list = payment_db.query_payment_by_contract(cid)
+        print("payment_list",payment_list)
+        return payment_list
+
+
 
 
 

@@ -28,3 +28,9 @@ class ContractForm(django_forms.Form):
     # received = django_fields.DecimalField(error_messages={"invalid": "已收金额不合法"})
     # pending = django_fields.DecimalField(error_messages={"invalid": "待收金额不合法"})
 
+
+class PaymentForm(django_forms.Form):
+    contract_id = django_fields.IntegerField(min_value=1, error_messages={"required": "请选择合同", "min_value":"请选择合同"})
+    payment = django_fields.DecimalField(error_messages={"required":"收款金额不能为空", "invalid": "收款金额不合法"})
+
+

@@ -8,7 +8,7 @@ from contract.server import *
 from contract.models import Product,ProductMeal
 from common.functions import *
 from sfa.server import customer_db
-from .forms.form import ProductForm, MealForm, ContractForm
+from .forms.form import ProductForm, MealForm, ContractForm,PaymentForm
 
 # Create your views here.
 
@@ -162,14 +162,124 @@ def fetch_meal(request):
 
 
 def contracts_list(request):
+    """我的合同"""
     is_approved = int(request.GET.get("is_approved",3))
     query_sets = contract_db.query_contract_list()
     if is_approved < 3:
         query_sets = query_sets.filter(is_approved=is_approved)
-    return render(request, "contract/contract_list.html", {"query_sets": query_sets,"is_approved":is_approved})
+    return render(request, "contract/my_contracts.html", {"query_sets": query_sets, "is_approved":is_approved})
 
+
+def add_payment(request):
+    """尾款收付"""
+    mothod = request.method
+    if mothod == "GET":
+        nid = request.GET.get("id", "")
+        cid = request.GET.get("cid","")
+        if cid:
+            contract_obj = contract_db.query_contract_by_id(cid)
+            if contract_obj:
+                if nid:
+                    # 更新
+                    query_sets = payment_db.query_payment_by_id(nid)
+                    payment_attach = p_attach_db.query_payment_attachment(nid)
+                    if not payment_attach:
+                        payment_attach = ''
+                else:
+                    query_sets = {}
+                    payment_attach = {}
+                return render(request, "contract/payment.html", {"query_set": query_sets,
+                                                                            "payment_attach": payment_attach,
+                                                                            "nid": nid,
+                                                                            "contract_obj":contract_obj
+                                                                           })
+        return render(request,"404.html")
+    else:
+        ret = {'status': False, "data": '', "message": ""}
+        form = PaymentForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            payment_attach = data.get("attach", '')
+            nid = data.get("nid", None)
+            payment_attach = list(json.loads(payment_attach))
+            if nid:
+                # 更新
+                try:
+                    with transaction.atomic():
+                        # 更新尾款信息
+                        record = payment_db.query_payment_by_id(nid)
+                        payment_info = compare_fields(ContractPayment._update, record, data)
+                        if payment_info:
+                            payment_info["nid"] = nid
+                            payment_db.update_payment(payment_info)
+                        # 更新附件
+                        if payment_attach:
+                            # 更新附件
+                            att_record = p_attach_db.query_payment_attachment(nid)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, payment_attach, "nid")
+                            if insert_att:
+                                insert_att = build_attachment_info({"payment_id": nid}, insert_att)
+                                p_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                p_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                p_attach_db.mutil_delete_attachment(delete_id_att)
+                        else:
+                            p_attach_db.multi_delete_attach_by_payment_id(nid)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "更新失败"
+            else:
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入尾款信息
+                        payment_info = filter_fields(ContractPayment._insert, data)
+                        print(payment_info)
+                        nid = payment_db.insert_payment(payment_info)
+                        if payment_attach:
+                            payment_attach = build_attachment_info({"payment_id": nid}, payment_attach)
+                            p_attach_db.mutil_insert_attachment(payment_attach)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
+def payment_detail(request):
+    """备忘详细"""
+    id = request.GET.get("id",None)
+    ret={"status":False,"data":"","message":""}
+    if id:
+        try:
+            payment_obj = payment_db.query_payment_by_id(id)
+            if payment_obj:
+                # 格式化数据
+                payment_json = payment_obj.__dict__
+                payment_json.pop('_state')
+                payment_attach = p_attach_db.query_payment_attachment(id)
+                if payment_attach:
+                    payment_json['attach'] = serializers.serialize("json",payment_attach)
+                else:
+                    payment_json['attach'] = ''
+                ret['status']=True
+                ret['data'] = payment_json
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request,'404.html')
 
 def contracts_center(request):
+    """合同中心"""
     product_id = int(request.GET.get("product_id", 0))
     is_approved = int(request.GET.get("is_approved",3))
     query_sets = contract_db.query_contract_list()
@@ -253,9 +363,9 @@ def customer_contract(request):
                             if update_att:
                                 contract_attach_db.mutil_update_attachment(update_att)
                             if delete_id_att:
-                                contract_attach_db.mutil_delete_linkman_attachment(delete_id_att)
+                                contract_attach_db.mutil_delete_attachment(delete_id_att)
                         else:
-                            contract_attach_db.multi_delete_attach_by_linkman_id(nid)
+                            contract_attach_db.multi_delete_attach_by_contract_id(nid)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:

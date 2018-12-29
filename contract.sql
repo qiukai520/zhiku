@@ -12,7 +12,7 @@ create TABLE `contract_info`(
 `year_limit` tinyint(1) COMMENT '年限',
 `pending`  DECIMAL (8,2) default 0 COMMENT'待收金额',
 `remark` varchar (128) COMMENT '备注',
-`location` varchar (64) COMMENT '备注',
+`location` varchar (64) COMMENT '存储坐标',
 `customer_id`int(11) NOT NULL COMMENT '客户',
 `belonger_id` int (11) COMMENT '签订人',
 `helper_id` int (11) COMMENT '辅助人',
@@ -60,7 +60,9 @@ drop TABLE if exists `approver`;
 create table `approver`(
 `nid` int(11) primary key auto_increment,
 `approver_id` varchar (16) NOT NULL  COMMENT '合同审批人',
-`follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核顺序'
+`follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核顺序',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
+
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='合同审批人';
 -- alter table approver  ADD UNIQUE KEY `apr_saf_id`(`approver_id`,) USING BTREE;
 
@@ -72,6 +74,7 @@ create table `approver_result`(
 `approver_id` varchar (16) NOT NULL  COMMENT '合同审批人',
 `follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核顺序',
 `result` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核结果 0未审核,1通过,2不通过',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='合同审核结果';
@@ -83,6 +86,57 @@ create table `approver_record`(
 `result2` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核结果 0未审核,1通过,2不通过',
 `content` varchar (32)   COMMENT '审核评价',
 `result_id` int(1)  COMMENT'审核记录',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='审核记录';
+
+
+
+drop TABLE if exists `contract_payment`;
+create TABLE `contract_payment`(
+`nid` int(11) primary key auto_increment,
+`payment`  DECIMAL (8,2) COMMENT'尾款金额',
+`remark` varchar (128) COMMENT '备注',
+`contract_id`int(11) NOT NULL COMMENT '合同',
+`is_approved` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审批状态:0未审批，1通过，2驳回',
+`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '到期时间',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='合同尾款';
+
+
+drop TABLE if exists `payment_attach`;
+create TABLE `payment_attach`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`payment_id` int(11) NOT NULL COMMENT'合同尾款',
+`attachment` varchar(128) COMMENT '附件路径',
+`description` varchar(128) COMMENT '附件描述',
+`name` varchar(64) COMMENT '附件名称',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='合同附件';
+
+drop TABLE if exists `payment_approve`;
+create table `payment_approve`(
+`nid` int(11) primary key auto_increment,
+`payment_id` varchar (16) NOT NULL  COMMENT '合同',
+`approver_id` varchar (16) NOT NULL  COMMENT '合同审批人',
+`follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核顺序',
+`result` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核结果 0未审核,1通过,2不通过',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='尾款审核结果';
+
+
+drop TABLE if exists `payment_approve_record`;
+create table `payment_approve_record`(
+`nid` int(11) primary key auto_increment,
+`result2` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核结果 0未审核,1通过,2不通过',
+`content` varchar (32)   COMMENT '审核评价',
+`result_id` int(1)  COMMENT'审核记录',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='尾款审核记录';

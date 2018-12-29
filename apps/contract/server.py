@@ -59,6 +59,25 @@ class ProductMealDB(object):
         ProductMeal.objects.filter(nid__in=id_list).delete()
 
 
+class ApproverDB(object):
+    """合同审核人"""
+    def query_approver_list(self):
+        result_db = Approver.objects.all()
+        return result_db
+
+    def mutil_update(self, modify_list):
+        # 更新或新增
+        for item in modify_list:
+            is_exist = Approver.objects.filter(approver_id=item["approver_id"])
+            if is_exist:
+                Approver.objects.filter(approver_id=item["approver_id"]).update(**item)
+            else:
+                Approver.objects.create(**item)
+
+    def mutil_delete(self,id_list):
+        Approver.objects.filter(nid__in=id_list).delete()
+
+
 class CustomerContractDB(object):
     """客户合同"""
 
@@ -124,33 +143,14 @@ class ContractAttachDB(object):
         for item in modify_info_list:
             ContractAttach.objects.filter(nid=item['nid']).update(**item)
 
-    def mutil_delete_linkman_attachment(self, id_list):
+    def mutil_delete_attachment(self, id_list):
         ContractAttach.objects.filter(nid__in=id_list).delete()
 
-    def multi_delete_attach_by_linkman_id(self,id_list):
+    def multi_delete_attach_by_contract_id(self,id_list):
         ContractAttach.objects.filter(contract_id__in=id_list).filter().delete()
 
     def delete_contract_attachment(self,nid):
         ContractAttach.objects.filter(nid=nid).delete()
-
-
-class ApproverDB(object):
-    """合同审核人"""
-    def query_approver_list(self):
-        result_db = Approver.objects.all()
-        return result_db
-
-    def mutil_update(self, modify_list):
-        # 更新或新增
-        for item in modify_list:
-            is_exist = Approver.objects.filter(approver_id=item["approver_id"])
-            if is_exist:
-                Approver.objects.filter(approver_id=item["approver_id"]).update(**item)
-            else:
-                Approver.objects.create(**item)
-
-    def mutil_delete(self,id_list):
-        Approver.objects.filter(nid__in=id_list).delete()
 
 
 class ApproverResultDB(object):
@@ -177,10 +177,115 @@ class ApproverRecordDB(object):
         result_db = ApproverRecord.objects.filter(result_id=result_id).all()
         return result_db
 
+
+class ContractPaymentDB(object):
+    """客户合同"""
+
+    def insert_payment(self, modify_info):
+        payment_sql = """insert into contract_payment(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        payment_sql = payment_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(payment_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_payment_list(self):
+        result_db = ContractPayment.objects.all().order_by("-nid")
+        return result_db
+
+    def query_approved_payment(self):
+        result_db = ContractPayment.objects.filter(is_approved=1).all()
+        return result_db
+
+    def query_payment_by_belonger(self,belonger):
+        result_db = ContractPayment.objects.filter(belonger_id=belonger).all().order_by("-nid")
+        return result_db
+
+    def query_payment_by_id(self, nid):
+        result_db = ContractPayment.objects.filter(nid=nid).first()
+        return result_db
+
+    def query_payment_by_contract(self, contract_id):
+        # result_db = ContractPayment.objects.filter(contract_id=contract_id,is_approved=1).all().order_by("-nid")
+        result_db = ContractPayment.objects.filter(contract_id=contract_id).all().order_by("-nid")
+        return result_db
+
+    def update_payment(self, modify):
+        ContractPayment.objects.filter(nid=modify['nid']).update(**modify)
+
+    def multi_delete(self, id_list, delete_status):
+        ContractPayment.objects.filter(nid__in=id_list).update(**delete_status)
+
+
+class PaymentAttachDB(object):
+    """尾款附件表"""
+    def query_payment_attachment_list(self):
+        result_db = PaymentAttach.objects.filter().all()
+        return result_db
+
+    def query_payment_attachment(self, id):
+        result_db = PaymentAttach.objects.filter(payment_id=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            PaymentAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            PaymentAttach.objects.filter(nid=item['nid']).update(**item)
+
+    def mutil_delete_attachment(self, id_list):
+        PaymentAttach.objects.filter(nid__in=id_list).delete()
+
+    def multi_delete_attach_by_payment_id(self,id_list):
+        PaymentAttach.objects.filter(payment_id__in=id_list).filter().delete()
+
+    def delete_payment_attachment(self,nid):
+        PaymentAttach.objects.filter(nid=nid).delete()
+
+
+class PaymentApproveDB(object):
+    """合同审核结果"""
+    def mutil_insert(self, modify_list):
+        for item in modify_list:
+            PaymentApprove.objects.create(**item)
+
+    def query_result_by_payment(self, payment_id):
+        result_db = PaymentApprove.objects.filter(payment_id=payment_id).all()
+        return result_db
+
+    def query_my_approved_result(self, cid, sid):
+        result_db = PaymentApprove.objects.filter(payment_id=cid, approver_id=sid).first()
+        return result_db
+
+
+class PaymentApproveRecordDB(object):
+    """尾款审核记录"""
+    def insert_record(self,modify):
+        PaymentApproveRecord.objects.create(**modify)
+
+    def query_my_record(self,result_id):
+        result_db = PaymentApproveRecord.objects.filter(result_id=result_id).all()
+        return result_db
+
+
+
 product_db = ProductDB()
 product_meal_db = ProductMealDB()
 contract_db = CustomerContractDB()
 contract_attach_db = ContractAttachDB()
 approver_db = ApproverDB()
 approver_result_db = ApproverResultDB()
-app_record_db=ApproverRecordDB()
+app_record_db = ApproverRecordDB()
+payment_db = ContractPaymentDB()
+p_attach_db = PaymentAttachDB()
+p_apr_db = PaymentApproveDB()
+p_apr_rcd_db = PaymentApproveRecordDB()
+
+
