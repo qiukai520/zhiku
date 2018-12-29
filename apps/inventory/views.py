@@ -141,7 +141,7 @@ def goods_edit(request):
                             if update_att:
                                 goods_attach_db.mutil_update_attachment(update_att)
                             if delete_id_att:
-                                goods_attach_db.mutil_delete_task_attachment(delete_id_att)
+                                goods_attach_db.mutil_delete_goods_attachment(delete_id_att)
                         else:
                             goods_attach_db.multi_delete_attach_by_goods_id(nid)
                         ret['status'] = True
@@ -1992,6 +1992,8 @@ def goods_photo(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/goods/photo"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -2019,6 +2021,8 @@ def goods_photo(request):
 def webuploader_photo(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     target_path = "media/upload/inventory/goods/"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         post_obj = request.POST
@@ -2047,7 +2051,6 @@ def webuploader_photo(request):
 
 
 def webuploader_photo_detele(request):
-    print("true")
     ret = {"status": True, "data": {"path": "", "name": ""}, "summary": ""}
 
     return HttpResponse(json.dumps(ret))
@@ -2058,6 +2061,8 @@ def goods_code(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/goods"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -2087,6 +2092,8 @@ def linkman_photo(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/linkman/photo"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -2116,6 +2123,8 @@ def goods_attach(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/goods/attach"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -2148,6 +2157,8 @@ def linkman_card(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/linkman/card"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -2177,6 +2188,8 @@ def linkman_attach(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/linkman/attach"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -2209,6 +2222,8 @@ def supplier_photo(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/supplier/photo"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -2239,6 +2254,8 @@ def supplier_licence(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/supplier/photo"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -2269,6 +2286,8 @@ def supplier_attach(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/supplier/attach"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -2301,6 +2320,8 @@ def contact_attach(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/supplier/contact"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")

@@ -909,6 +909,8 @@ def customer_photo(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/customer/photo"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -939,6 +941,8 @@ def customer_licence(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/customer/licence"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -969,6 +973,8 @@ def customer_attach(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/inventory/customer/attach"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")

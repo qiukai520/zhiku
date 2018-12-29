@@ -257,7 +257,6 @@ function InitData() {
          var code_photo= "{{ goods_code }}"
         if (code_photo!=""){
              var path="{{ goods_code.photo }}"
-            console.log(path)
              var name="{{ goods_code.name }}"
              //添加新的file
             var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
@@ -287,7 +286,6 @@ function GetAttachment(){
         }
         var content=$(this).find("input[name=content]").val();
         var name=$(this).find("input[name=file_name]").val();
-        console.log(file_path,content,name)
         attachment.attachment=file_path;
         attachment.description=content;
         attachment.name=name;
@@ -319,64 +317,16 @@ function FetchAttachment(){
     attachment_list=JSON.stringify(attachment_list)//对象转化成json
     return attachment_list
 }
- /*
-    上传图片
-    */
-    function UploadImage(ths){
-        //去掉旧文件
-        $("#pre_link").addClass("hide")
-        $(ths).parent().find("input[name=file_path]").remove();
-        $(ths).parent().find("input[name=file_name]").remove();
-        //上传新文件
-        var file_obj = $(ths)[0].files[0];
-        if(file_obj){
-            var fileSize = file_obj.size;
-            var size = fileSize / 1024;
-            if(size>8000){
-                 alert("上传图片不能大于8M");
-                 $(ths)[0].value="";
-                 return false;   //阻止上传
-                 }
-            var form = new FormData();
-            form.append("file", file_obj);
-            $.ajax({
-                url:"{% url 'goods_photo' %}",
-                type:"POST",
-                data: form ,
-                dataType:"JSON",
-                // 告诉jQuery不要去处理发送的数据
-                processData : false,
-                // 告诉jQuery不要去设置Content-Type请求头
-                contentType : false,
-                success:function (arg) {
-                    //添加新的file
-                    var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
-                    var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
-                    $(ths).parent().append(path_input);
-                    $(ths).parent().append(name_input);
-
-                    $(ths).parent().find("input[name=file_path]").val(arg.data.path)
-                    $(ths).parent().find("input[name=file_name]").val(arg.data.name)
-                    //预览
-                    $("#photo").attr("src","/"+arg.data.path)
-                    $("#pre_link").attr("src","/"+arg.data.path)
-                    $("#pre_link").removeClass("hide")
-                },
-            })
-        }
-    }
      /*
     上传商品条码
     */
-    function UploadBarCode(ths){
+function UploadBarCode(ths){
         //去掉旧文件
-        console.log("bar_code")
         $("#code_pre_link").addClass("hide")
         $(ths).parent().find("input[name=file_path]").remove();
         $(ths).parent().find("input[name=file_name]").remove();
         //上传新文件
         var file_obj = $(ths)[0].files[0];
-        console.log("file",file_obj)
         if(file_obj){
             var fileSize = file_obj.size;
             var size = fileSize / 1024;
@@ -387,7 +337,6 @@ function FetchAttachment(){
                  }
             var form = new FormData();
             form.append("file", file_obj);
-            console.log("form",form)
             $.ajax({
                 url:"{% url 'goods_code' %}",
                 type:"POST",
@@ -443,8 +392,6 @@ function UploadFile(ths){
             var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
             $(ths).parent().append(path_input);
             $(ths).parent().append(name_input);
-            console.log(arg.data.path);
-            console.log(arg.data.name);
             $(ths).parent().find("input[name=file_path]").val(arg.data.path)
             $(ths).parent().find("input[name=file_name]").val(arg.data.name)
         },
@@ -458,7 +405,6 @@ function UploadFile(ths){
             path_list.push(path)
         })
         path_list = JSON.stringify(path_list)
-        console.log("path_list",path_list)
         return path_list
     }
         //创建时获取商品条码
@@ -479,7 +425,6 @@ function UploadFile(ths){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
          var form =$("#good_fm");
-         console.log(form)
         //验证表单
          if ( form.valid()){
               //把商品那个照添加到form中
@@ -559,7 +504,6 @@ function UploadFile(ths){
          var file_list=[]
          for ( var i = 0; i < photo_list.length; i++){
              var postfix = photo_list[i].split(".").pop()
-             console.log("postfix",postfix)
              var item= {"src":"{0}".format(photo_list[i]),"name":"{0}.{1}".format(i+1,postfix),"attrs":{"data-server-file":true,"id":"EXIST_FILE_{0}".format(i),"data-delete-url":"webuploader_photo_delete.html "}
         }
         file_list.push(item)
@@ -567,7 +511,6 @@ function UploadFile(ths){
     return file_list
     }
 
-    //
 
  </script>
 {% endblock %}

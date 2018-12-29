@@ -437,6 +437,8 @@ def life_photo(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/personnel/life_photo"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
@@ -466,6 +468,8 @@ def staff_attach(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path="media/upload/personnel/attach"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")

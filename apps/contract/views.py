@@ -414,6 +414,8 @@ def contract_attach(request):
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     # 保存路径
     target_path = "media/upload/contract/attach"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
