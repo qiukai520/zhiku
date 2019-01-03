@@ -31,7 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -95,7 +94,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'thinking_library.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -155,7 +153,7 @@ CORS_ALLOW_CREDENTIALS = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/' # 设置静态文件的相对路径
+STATIC_URL = '/static/'  # 设置静态文件的相对路径
 
 MEDIA_URL = '/media/'  # 设置媒体文件的相对路径
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 设置媒体文件的绝对路径

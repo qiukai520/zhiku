@@ -111,6 +111,7 @@ def build_staff_ele(selected=0):
     return mark_safe(eles)
 
 
+
 @register.simple_tag
 def build_job_rank_ele():
     """构建职级下拉框"""

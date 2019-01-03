@@ -58,7 +58,8 @@ class ContractInfo(SoftDeletableModel):
     start_date = models.DateTimeField(verbose_name=u"生效时间", default=datetime.now)
     end_date = models.DateTimeField(verbose_name=u"到期时间", default=datetime.now)
     is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
-    location = models.CharField(max_length=50, verbose_name='存放坐标')
+    location = models.ForeignKey('ContractLocation', to_field="nid", blank=True, null=True, on_delete=models.CASCADE,
+                                 db_constraint=False, verbose_name='存放坐标')
     is_approved = models.SmallIntegerField(choices=approved_choice, default=0, verbose_name="审批状态")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
@@ -71,9 +72,9 @@ class ContractInfo(SoftDeletableModel):
     def __str__(self):
         return str(self.identifier)
 
-    _insert = ["identifier","customer_id", "location", "product_id","year_limit", "belonger_id","helper_id","product_meal_id","remark","received","receivable","pending","sign",
+    _insert = ["identifier","customer_id", "location_id", "product_id","year_limit", "belonger_id","helper_id","product_meal_id","remark","received","receivable","pending","sign",
                "end_date","start_date"]
-    _update = ["identifier","customer_id", "location","product_id","year_limit","product_meal_id","belonger_id","helper_id","remark","received","receivable","pending","sign",
+    _update = ["identifier","customer_id", "location_id","product_id","year_limit","product_meal_id","belonger_id","helper_id","remark","received","receivable","pending","sign",
                "end_date","start_date"]
 
 
@@ -118,6 +119,25 @@ class Product(SoftDeletableModel):
     _update = ["name"]
 
 
+class ContractLocation(SoftDeletableModel):
+    nid = models.AutoField(primary_key=True)
+    location = models.CharField(max_length=64, verbose_name="坐标")
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'contract_location'
+        verbose_name = u"合同存档坐标"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return str(self.location)
+
+    _insert = ["location"]
+    _update = ["location"]
+
+
 class ContractAttach(SoftDeletableModel):
     nid = models.AutoField(primary_key=True)
     contract = models.ForeignKey('ContractInfo', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
@@ -140,6 +160,7 @@ class Approver(SoftDeletableModel):
     nid = models.AutoField(primary_key=True)
     approver = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name=u"审批人")
     follow = models.SmallIntegerField(verbose_name=u"审批顺序")  # 0代表无顺序
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
 
     class Meta:
         db_table = "approver"
@@ -156,6 +177,7 @@ class ApproverResult(SoftDeletableModel):
     result = models.SmallIntegerField(verbose_name=u"审批结果")  # 0未审核，1通过，2不通过
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
 
     class Meta:
         db_table = "approver_result"
@@ -171,6 +193,8 @@ class ApproverRecord(SoftDeletableModel):
     result2 = models.SmallIntegerField(verbose_name=u"当前审批结果")  # 0未审核，1通过，2不通过
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
+
     class Meta:
         db_table = "approver_record"
         verbose_name = "合同审核记录"
@@ -235,6 +259,7 @@ class PaymentApprove(SoftDeletableModel):
     result = models.SmallIntegerField(verbose_name=u"审批结果")  # 0未审核，1通过，2不通过
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
 
     class Meta:
         db_table = "payment_approve"
@@ -250,6 +275,7 @@ class PaymentApproveRecord(SoftDeletableModel):
     result2 = models.SmallIntegerField(verbose_name=u"当前审批结果")  # 0未审核，1通过，2不通过
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
 
     class Meta:
         db_table = "payment_approve_record"

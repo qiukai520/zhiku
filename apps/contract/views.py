@@ -8,7 +8,7 @@ from contract.server import *
 from contract.models import Product,ProductMeal
 from common.functions import *
 from sfa.server import customer_db
-from .forms.form import ProductForm, MealForm, ContractForm,PaymentForm
+from .forms.form import ProductForm, MealForm, ContractForm,PaymentForm,LocationForm
 
 # Create your views here.
 
@@ -60,6 +60,56 @@ def product_edit(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
     return HttpResponse(json.dumps(ret))
+
+
+def location_list(request):
+    query_sets = c_location_db.query_location_list()
+    return render(request,"contract/location_list.html",{"query_sets":query_sets})
+
+
+def location_edit(request):
+    """"坐标添加,编辑"""
+    method = request.method
+    if method == "GET":
+        id = request.GET.get("id", "")
+        # 有则为编辑 ,无则添加
+        if id:
+            location_obj = c_location_db.query_location_by_id(id)
+        else:
+            id = 0
+            location_obj = []
+        return render(request, 'contract/location_edit.html', {"location_obj": location_obj, "id": id})
+    else:
+        form = LocationForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("id", 0)
+            data = request.POST
+            data = data.dict()
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    record = c_location_db.query_location_by_id(id)
+                    final_info = compare_fields(ContractLocation._update,record,data)
+                    if final_info:
+                        final_info["id"] = id
+                        c_location_db.update_location(final_info)
+                    ret['status'] = True
+                    ret['data'] = id
+                except Exception as e:
+                    ret['message'] = str(e)
+            else:
+                try:
+                    c_location_db.insert_location(data)
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
+
 
 
 def meals(request):
@@ -239,11 +289,25 @@ def add_payment(request):
                     with transaction.atomic():
                         # 插入尾款信息
                         payment_info = filter_fields(ContractPayment._insert, data)
-                        print(payment_info)
                         nid = payment_db.insert_payment(payment_info)
                         if payment_attach:
                             payment_attach = build_attachment_info({"payment_id": nid}, payment_attach)
                             p_attach_db.mutil_insert_attachment(payment_attach)
+                            # 构造合同审核记录
+                            approver_list = approver_db.query_approver_list()
+                            if approver_list:
+                                app_record = []
+                                for item in approver_list:
+                                    obj = {}
+                                    obj["payment_id"] = nid
+                                    obj["approver_id"] = item.approver_id
+                                    obj["follow"] = item.follow
+                                    obj["result"] = 0
+                                    app_record.append(obj)
+                                p_apr_db.mutil_insert(app_record)
+                            else:
+                                # 如果没有审核人，则自动通过审核
+                                ContractPayment.objects.filter(nid=nid).update({"is_approved": 1})
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -254,6 +318,7 @@ def add_payment(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
+
 
 def payment_detail(request):
     """备忘详细"""
@@ -293,8 +358,8 @@ def contracts_center(request):
 
 import logging
 
-
 def contract_approve(request):
+    """合同审核列表"""
     log = logging.getLogger()
     log.info("approve")
     is_approved = int(request.GET.get("is_approved", 3))
@@ -305,7 +370,9 @@ def contract_approve(request):
     return render(request, "contract/crt_apr_list.html", {"query_sets": query_sets,
                                                           "is_approved": is_approved})
 
+
 def customer_contract(request):
+    """合同"""
     mothod = request.method
     if mothod == "GET":
         nid = request.GET.get("id", "")
@@ -408,6 +475,7 @@ def customer_contract(request):
 
 
 def contract_detail(request):
+    """合同详细"""
     nid = request.GET.get("id",None)
     if nid:
         query_sets = contract_db.query_contract_by_id(nid)
@@ -416,6 +484,47 @@ def contract_detail(request):
             if not contract_attach:
                 contract_attach = ''
             return render(request,"contract/contract_detail.html",{"query_set": query_sets,
+                                                                 "contract_attach": contract_attach,
+                                                                })
+    return render(request,'404.html')
+
+
+def approve_record(request):
+    """审核记录"""
+    type_ = int(request.GET.get("type", 0))
+    if type_ == 1:
+        pid = request.GET.get("id", 0)
+        if pid:
+            # 尾款审核记录
+            query_sets = payment_db.query_payment_by_id(pid)
+            result_list = p_apr_db.query_result_by_payment(pid)
+        else:
+            query_sets = ''
+            result_list = ''
+    else:
+        result_id = request.GET.get("id", 0)
+        if result_id:
+            # 合同审核记录
+            print("合同审核记录")
+            result_list = approver_result_db.query_record_by_id(result_id)
+            query_sets = contract_db.query_contract_by_id(result_list.first().contract_id)
+        else:
+            query_sets = ''
+            result_list = ''
+    print("result_list",result_list)
+    return render(request,"contract/approve_record.html",{"query_sets": query_sets,"result_list":result_list,"type":type_ })
+
+
+def approve_detail(request):
+    """合同审核详细"""
+    nid = request.GET.get("id",None)
+    if nid:
+        query_sets = contract_db.query_contract_by_id(nid)
+        if query_sets:
+            contract_attach = contract_attach_db.query_contract_attachment(nid)
+            if not contract_attach:
+                contract_attach = ''
+            return render(request,"contract/approved_detail.html",{"query_set": query_sets,
                                                                  "contract_attach": contract_attach,
                                                                 })
     return render(request,'404.html')
@@ -436,60 +545,124 @@ def product_meal(request):
 
 
 def approver_list(request):
+    """合同审核人管理"""
     query_sets = approver_db.query_approver_list()
     return render(request,"contract/approver_list.html",{"query_sets":query_sets})
 
 
 def approve(request):
-    """合同审核"""
+    """合同、尾款审核"""
+    # type为0合同审核，1为尾款审核
     method = request.method
     if method == "GET":
-        nid = request.GET.get("id",0)
+        nid = int(request.GET.get("id",0))
+        type_ = int(request.GET.get("type",0))
         user = request.user.staff.sid
         if nid and user:
-            result_obj = approver_result_db.query_my_approved_result(nid, user)
-            query_sets = contract_db.query_contract_by_id(nid)
-            record_list = app_record_db.query_my_record(result_obj.nid)
-            if not record_list:
-                record_list = ''
-            return render(request,"contract/approve.html",{"query_sets":query_sets,"record_list":record_list})
+            if type_ == 0:
+                # 合同审核
+                print("合同审核")
+                result_obj = approver_result_db.query_my_approved_result(nid, user)
+                query_sets = contract_db.query_contract_by_id(nid)
+                if result_obj:
+                    record_list = app_record_db.query_my_record(result_obj.nid)
+                    if not record_list:
+                        record_list = ''
+                else:
+                    record_list=''
+            else:
+                # 尾款审核
+                print("尾款审核")
+                result_obj = p_apr_db.query_my_approved_result(nid, user)
+                query_sets = payment_db.query_payment_by_id(nid)
+                if result_obj:
+                    record_list = p_apr_rcd_db.query_my_record(result_obj.nid)
+                    if not record_list:
+                        record_list = ''
+                else:
+                    record_list = ''
+            print("query_sets", query_sets)
+            print("record_list", record_list,)
+            print("type",type_)
+            return render(request, "contract/approve.html", {
+                    "query_sets": query_sets, "record_list": record_list, "type": type_
+                })
+        return render(request,"404.html")
     else:
         ret = {"status":False,"data":"","message":""}
         user = request.user.staff.sid
         data = request.POST
-        result2 = int(data.get("result2",0))
-        cid = int(data.get("contract_id",0))
-        if user and cid:
-            try:
-                with transaction.atomic():
-                    final_info = filter_fields(ApproverRecord._insert,data)
-                    result_obj = approver_result_db.query_my_approved_result(cid,user)
-                    final_info["result_id"] = result_obj.nid
-                    if result2 == 1:
-                        # 通过审核
-                        ApproverResult.objects.filter(contract_id=cid, approver_id=user).update(**{"result":1})
-                        app_record_db.insert_record(final_info)
-                        # 查询是否所有都通过审核
-                        result_list = approver_result_db.query_record_by_contract(cid)
-                        flag = True
-                        for obj in result_list:
-                            if obj.result != 1:
-                                flag = False
-                        if flag:
-                            # 合同通过审核
-                            contract_obj = contract_db.query_contract_by_id(cid)
-                            contract_obj.is_approved = 1
-                            contract_obj.save()
-                            # 客户更改为签约状态
-                            customer_db.update_customer({"nid":contract_obj.customer_id,"is_sign":1})
-                        ret["status"] = True
-                    elif result2 == 2:
-                        # 驳回
-                        ApproverResult.objects.filter(contract_id=cid, approver_id=user).update(**{"result":2})
-                        app_record_db.insert_record(final_info)
-                        ret["status"] = True
-            except Exception as e:
-                print(e)
+        type_ = int(data.get("type",0))
+        result2 = int(data.get("result2", 0))
+        if type_ == 1:
+            # 尾款审核
+            pid = int(data.get("payment_id", 0))
+            if user and pid:
+                try:
+                    with transaction.atomic():
+                        print("pid", pid)
+                        final_info = filter_fields(PaymentApproveRecord._insert,data)
+                        result_obj = p_apr_db.query_my_approved_result(pid,user)
+                        final_info["result_id"] = result_obj.nid
+                        if result2 == 1:
+                            # 通过审核
+                            PaymentApprove.objects.filter(payment_id=pid, approver_id=user).update(**{"result":1})
+                            p_apr_rcd_db.insert_record(final_info)
+                            # 查询是否所有都通过审核
+                            result_list = p_apr_db.query_result_by_payment(pid)
+                            flag = True
+                            for obj in result_list:
+                                if obj.result != 1:
+                                    flag = False
+                            if flag:
+                                # 尾款通过审核
+                                payment_obj = payment_db.query_payment_by_id(pid)
+                                print("lala",payment_obj)
+                                payment_obj.is_approved = 1
+                                payment_obj.save()
+                            ret["status"] = True
+                        elif result2 == 2:
+                            # 驳回
+                            PaymentApprove.objects.filter(payment_id=pid, approver_id=user).update(**{"result":2})
+                            p_apr_rcd_db.insert_record(final_info)
+                            ret["status"] = True
+                except Exception as e:
+                    print(e)
+        else:
+            # 合同审核
+            cid = int(data.get("contract_id", 0))
+            if user and cid:
+                try:
+                    with transaction.atomic():
+                        final_info = filter_fields(ApproverRecord._insert,data)
+                        result_obj = approver_result_db.query_my_approved_result(cid,user)
+                        final_info["result_id"] = result_obj.nid
+                        if result2 == 1:
+                            # 通过审核
+                            ApproverResult.objects.filter(contract_id=cid, approver_id=user).update(**{"result":1})
+                            app_record_db.insert_record(final_info)
+                            # 查询是否所有都通过审核
+                            result_list = approver_result_db.query_record_by_contract(cid)
+                            flag = True
+                            for obj in result_list:
+                                if obj.result != 1:
+                                    flag = False
+                            if flag:
+                                # 合同通过审核
+                                contract_obj = contract_db.query_contract_by_id(cid)
+                                contract_obj.is_approved = 1
+                                contract_obj.save()
+                                # 客户更改为签约状态
+                                customer_db.update_customer({"nid":contract_obj.customer_id,"is_sign":1})
+                            ret["status"] = True
+                        elif result2 == 2:
+                            # 驳回
+                            ApproverResult.objects.filter(contract_id=cid, approver_id=user).update(**{"result":2})
+                            app_record_db.insert_record(final_info)
+                            ret["status"] = True
+                except Exception as e:
+                    print(e)
+        print("ret",ret)
         return HttpResponse(json.dumps(ret))
 
 

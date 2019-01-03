@@ -21,6 +21,8 @@ from . import views
 urlpatterns = [
     path("products", views.product_list, name="products"),
     path("product/edit", views.product_edit, name='product_edit'),
+    path("locations", views.location_list, name="locations"),
+    path("location/edit", views.location_edit, name='location_edit'),
     path("meals", views.meals, name="meals"),
     path("meal/edit", views.meal_edit, name='meal_edit'),
     path("meals/delete", views.meals_delete, name="meals_delete"),
@@ -33,8 +35,9 @@ urlpatterns = [
     path("product_meal",views.product_meal,name="product_meal"),
     path("approvers",views.approver_list, name="approvers"),
     path("approve", views.approve, name="approve"),
+    path("approve/detail", views.approve_detail, name="approve_detail"),
+    path("approve/record", views.approve_record,  name="approved_record_detail"),
     path("payment/detail",views.payment_detail,name="payment_detail"),
-    path("approver/edit", views.approver_edit, name="approver_edit"),
     path("contract/detail",views.contract_detail,name="contract_detail"),
     path("upload_attach", views.contract_attach, name="contract_attach"),
 

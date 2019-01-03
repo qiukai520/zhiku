@@ -122,7 +122,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">辅助人</label>
                           <div class="col-sm-8">
-                                <select  name="helper" class="form-control" id="helper" onclick="SelectProduct(this)" >
+                                <select  name="helper_id" class="form-control" id="helper" >
                                     <option value=0>—无—</option>
                                     {% build_staff_ele  %}
                                 </select>
@@ -130,16 +130,19 @@
                         </div>
                           <div class="hr-line-dashed"></div>
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">备注</label>
+                            <label class="col-sm-2 control-label">存档坐标</label>
                             <div class="col-sm-8">
-                                <textarea  class="form-control" name="remark" id="remark" cols="30" rows="3"></textarea>
+                                <select  name="location_id" class="form-control" id="location_id" >
+                                    <option value=0>—无—</option>
+                                    {% build_location_ele  %}
+                                </select>
                             </div>
                         </div>
                            <div class="hr-line-dashed"></div>
                            <div class="form-group">
-                            <label class="col-sm-2 control-label">存档坐标</label>
+                            <label class="col-sm-2 control-label">备注</label>
                             <div class="col-sm-8">
-                                <input  class="form-control" name="location" id="location"></input>
+                                <input  class="form-control" name="remark" id="remark"></input>
                             </div>
                         </div>
                          <div class="hr-line-dashed"></div>
@@ -201,7 +204,6 @@
                                  <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
                                  <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
                                  <a href="{% url "customer_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
-
                                  <!--error_msg-->
                                  <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
                                     <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
@@ -274,7 +276,6 @@ $(function () {
             // 初始化日期
              $('#sign').datepicker('setDate', new Date());
              $('#start_date').datepicker('setDate', new Date());
-
         }
     });
      //初始化数据
@@ -287,13 +288,14 @@ function InitData() {
         $("#product_meal_id").val({{ query_set.product_meal_id }});
         $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
         $("#year_limit").val("{% if  query_set.year_limit %}{{ query_set.year_limit }} {% endif %}");
-        $("#location").val("{% if  query_set.location %}{{ query_set.location }} {% endif %}");
+        $("#location_id").val({{ query_set.location_id }});
         $("#sign").val("{% if query_set.sign  %}{{ query_set.sign |date:'Y-m-d'}}{% endif %}");
         $("#receivable").val("{% if  query_set.receivable %}{{ query_set.receivable }} {% endif %}");
         $("#received").val("{% if  query_set.received %}{{ query_set.received }} {% endif %}");
         $("#pending").val("{% if  query_set.pending %}{{ query_set.pending }} {% endif %}");
         $("#start_date").val("{% if  query_set.start_date %}{{ query_set.start_date |date:'Y-m-d'}} {% endif %}");
         $("#end_date").val("{% if  query_set.end_date %}{{ query_set.end_date |date:'Y-m-d'}} {% endif %}");
+        $("#helper").val({% if  query_set.helper_id %}{{ query_set.helper_id }} {% endif %});
     }
 
 //修改时获取合同
@@ -309,7 +311,6 @@ function GetAttachment(){
         }
         var content=$(this).find("input[name=content]").val();
         var name=$(this).find("input[name=file_name]").val();
-        console.log(file_path,content,name)
         attachment.attachment=file_path;
         attachment.description=content;
         attachment.name=name;

@@ -24,6 +24,27 @@ class ProductDB(object):
             raise Exception("该产品已存在")
         Product.objects.create(**modify_info)
 
+class ContractLocationDB(object):
+    """合同存档坐标"""
+    def query_location_list(self):
+        result_db = ContractLocation.objects.filter().all()
+        return result_db
+
+    def query_location_by_id(self,id):
+        result_db = ContractLocation.objects.filter(nid=id).first()
+        return result_db
+
+    def update_location(self, modify_info):
+        is_exist = ContractLocation.objects.filter(product=modify_info['name']).first()
+        if is_exist:
+            raise Exception("该坐标已存在")
+        ContractLocation.objects.filter(nid=modify_info['id']).update(**modify_info)
+
+    def insert_location(self, modify_info):
+        is_exist = ContractLocation.objects.filter(location=modify_info['location']).first()
+        if is_exist:
+            raise Exception("该坐标已存在")
+        ContractLocation.objects.create(**modify_info)
 
 class ProductMealDB(object):
     """套餐表"""
@@ -163,6 +184,10 @@ class ApproverResultDB(object):
         result_db = ApproverResult.objects.filter(contract_id=contract_id).all()
         return result_db
 
+    def query_record_by_id(self,id):
+        result_db = ApproverResult.objects.filter(nid=id).all()
+        return result_db
+
     def query_my_approved_result(self, cid, sid):
         result_db = ApproverResult.objects.filter(contract_id=cid, approver_id=sid).first()
         return result_db
@@ -260,8 +285,13 @@ class PaymentApproveDB(object):
         result_db = PaymentApprove.objects.filter(payment_id=payment_id).all()
         return result_db
 
-    def query_my_approved_result(self, cid, sid):
-        result_db = PaymentApprove.objects.filter(payment_id=cid, approver_id=sid).first()
+    def count_unapprove(self, pid, sid):
+        """统计未审数量"""
+        result_db = PaymentApprove.objects.filter(payment_id=pid, approver_id=sid, result=0).count()
+        return result_db
+
+    def query_my_approved_result(self, pid, sid):
+        result_db = PaymentApprove.objects.filter(payment_id=pid, approver_id=sid).first()
         return result_db
 
 
@@ -271,9 +301,8 @@ class PaymentApproveRecordDB(object):
         PaymentApproveRecord.objects.create(**modify)
 
     def query_my_record(self,result_id):
-        result_db = PaymentApproveRecord.objects.filter(result_id=result_id).all()
+        result_db = PaymentApproveRecord.objects.filter(result_id=result_id).all().order_by("-nid")
         return result_db
-
 
 
 product_db = ProductDB()
@@ -284,6 +313,7 @@ approver_db = ApproverDB()
 approver_result_db = ApproverResultDB()
 app_record_db = ApproverRecordDB()
 payment_db = ContractPaymentDB()
+c_location_db = ContractLocationDB()
 p_attach_db = PaymentAttachDB()
 p_apr_db = PaymentApproveDB()
 p_apr_rcd_db = PaymentApproveRecordDB()

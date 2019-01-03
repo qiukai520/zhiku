@@ -12,7 +12,7 @@ create TABLE `contract_info`(
 `year_limit` tinyint(1) COMMENT '年限',
 `pending`  DECIMAL (8,2) default 0 COMMENT'待收金额',
 `remark` varchar (128) COMMENT '备注',
-`location` varchar (64) COMMENT '存储坐标',
+`location_id`  smallint (6) COMMENT '存档坐标',
 `customer_id`int(11) NOT NULL COMMENT '客户',
 `belonger_id` int (11) COMMENT '签订人',
 `helper_id` int (11) COMMENT '辅助人',
@@ -61,8 +61,7 @@ create table `approver`(
 `nid` int(11) primary key auto_increment,
 `approver_id` varchar (16) NOT NULL  COMMENT '合同审批人',
 `follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '审核顺序',
-`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
-
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='合同审批人';
 -- alter table approver  ADD UNIQUE KEY `apr_saf_id`(`approver_id`,) USING BTREE;
 
@@ -140,3 +139,13 @@ create table `payment_approve_record`(
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='尾款审核记录';
+
+
+drop TABLE if exists `contract_location`;
+create table `contract_location`(
+`nid` int(11) primary key auto_increment,
+`location` varchar (16) NOT NULL  COMMENT '坐标',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='合同存档坐标';

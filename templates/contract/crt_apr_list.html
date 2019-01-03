@@ -89,18 +89,20 @@
                                               <td>{% if result == 1  %}<span style="color:green"> <a  href="{%url "approve" %}?id={{ obj.nid }}"  >通过</a></span>
                                            {% elif result == 2  %}
                                                驳回
-                                                 <a  href="{%url "approve" %}?id={{ obj.nid }}" class="btn btn-xs btn-info" >继续审核</a>
+                                                 <a  href="{%url "approve_detail" %}?id={{ obj.nid }}" class="btn btn-xs btn-info" >继续审核</a>
                                                {% else %}
                                                 待审中
-                                                 <a  href="{%url "approve" %}?id={{ obj.nid }}" class="btn btn-xs btn-info" >审核</a>
+                                                 <a  href="{%url "approve_detail" %}?id={{ obj.nid }}" class="btn btn-xs btn-info" >去审核</a>
                                            {% endif %}
+                                                  <br>
+                                               <a  href="{%url "approve_detail" %}?id={{ obj.nid }}"  >尾款审核</a>
+                                                  <span class="badge">{% count_unapproved_paymemnt obj.nid request.user.staff.sid %}</span>
                                            </td>
                                           {% else %}
                                               等待上一人审核中
                                          {% endif  %}
-
                                             <td>
-                                                <a  href="{%url "contract_detail" %}?id={{ obj.nid }}" class="btn btn-primary" >详细</a>
+                                                <a  href="{%url "approve_detail" %}?id={{ obj.nid }}" class="btn btn-primary" >详细</a>
                                           </td>
                                       </tr>
                                       {% endfor %}

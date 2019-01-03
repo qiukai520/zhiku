@@ -7,6 +7,10 @@ class ProductForm(django_forms.Form):
     name = django_fields.CharField(error_messages={"required": "产品名称不能为空"})
 
 
+class LocationForm(django_forms.Form):
+    location = django_fields.CharField(error_messages={"required": "坐标位置不能为空"})
+
+
 class MealForm(django_forms.Form):
     product_id = django_fields.IntegerField(min_value=1, error_messages={"required": "请选择产品","min_value":"请选择产品"})
     year_limit = django_fields.IntegerField(error_messages={"required": "请输入年限","invalid": "请输入合法的数字"})
