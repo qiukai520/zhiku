@@ -660,7 +660,6 @@ def approve(request):
                             ret["status"] = True
                 except Exception as e:
                     print(e)
-        print("ret",ret)
         return HttpResponse(json.dumps(ret))
 
 

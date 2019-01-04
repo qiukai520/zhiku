@@ -6,12 +6,7 @@
     <bookmark url="file://$PROJECT_DIR$/thinking_library/settings.py" line="212" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/contract/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/contract/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/contract/contract_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contract/contract_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/contract/contract_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contract/contract_edit.html" afterDir="false" />
-    </list>
+    <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -275,7 +270,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="46" />
     <option name="width" value="1040" />
     <option name="height" value="660" />

@@ -34,6 +34,7 @@ urlpatterns = [
     path("unapproved", views.contract_approve, name="unapproved"),
     path("product_meal",views.product_meal,name="product_meal"),
     path("approvers",views.approver_list, name="approvers"),
+    path("approver/edit",views.approver_edit,name="approver_edit"),
     path("approve", views.approve, name="approve"),
     path("approve/detail", views.approve_detail, name="approve_detail"),
     path("approve/record", views.approve_record,  name="approved_record_detail"),
