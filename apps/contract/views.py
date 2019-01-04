@@ -505,13 +505,11 @@ def approve_record(request):
         result_id = request.GET.get("id", 0)
         if result_id:
             # 合同审核记录
-            print("合同审核记录")
             result_list = approver_result_db.query_record_by_id(result_id)
             query_sets = contract_db.query_contract_by_id(result_list.first().contract_id)
         else:
             query_sets = ''
             result_list = ''
-    print("result_list",result_list)
     return render(request,"contract/approve_record.html",{"query_sets": query_sets,"result_list":result_list,"type":type_ })
 
 
@@ -561,7 +559,6 @@ def approve(request):
         if nid and user:
             if type_ == 0:
                 # 合同审核
-                print("合同审核")
                 result_obj = approver_result_db.query_my_approved_result(nid, user)
                 query_sets = contract_db.query_contract_by_id(nid)
                 if result_obj:
@@ -572,7 +569,6 @@ def approve(request):
                     record_list=''
             else:
                 # 尾款审核
-                print("尾款审核")
                 result_obj = p_apr_db.query_my_approved_result(nid, user)
                 query_sets = payment_db.query_payment_by_id(nid)
                 if result_obj:
@@ -581,9 +577,6 @@ def approve(request):
                         record_list = ''
                 else:
                     record_list = ''
-            print("query_sets", query_sets)
-            print("record_list", record_list,)
-            print("type",type_)
             return render(request, "contract/approve.html", {
                     "query_sets": query_sets, "record_list": record_list, "type": type_
                 })
@@ -600,7 +593,6 @@ def approve(request):
             if user and pid:
                 try:
                     with transaction.atomic():
-                        print("pid", pid)
                         final_info = filter_fields(PaymentApproveRecord._insert,data)
                         result_obj = p_apr_db.query_my_approved_result(pid,user)
                         final_info["result_id"] = result_obj.nid
@@ -620,6 +612,12 @@ def approve(request):
                                 print("lala",payment_obj)
                                 payment_obj.is_approved = 1
                                 payment_obj.save()
+                                # 合同减掉尾款
+                                balance = payment_obj.payment
+                                contract_obj = contract_db.query_contract_by_id(payment_obj.contract_id)
+                                contract_obj.received += balance
+                                contract_obj.pending -= balance
+                                contract_obj.save()
                             ret["status"] = True
                         elif result2 == 2:
                             # 驳回
