@@ -26,9 +26,6 @@ def index(request):
     weekly_task()
     task_auot_review()
     cache.set("user_id",123)
-    print(dir(cache))
-    print(request.session['user_info'])
-    print(request.path_info)
     staff = request.user.staff
     return render(request,'layout.html')
 
@@ -884,7 +881,6 @@ def task_review(request):
         ret = {'status': False, 'message':'', 'data':''}
         data = request.POST
         tasid = data['tasid_id']
-        print("data",data)
         form = TaskReviewForm(data=data)
         if form.is_valid():
             try:

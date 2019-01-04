@@ -74,6 +74,9 @@
      #content-main{
       overflow :auto
      }
+    .collect:hover{
+        cursor: pointer;
+    }
 
     </style>
 {% endblock %}
@@ -112,7 +115,12 @@
                                               <label class="form-label"  >备注:</label>
                                              <span  >{{ item.remark }}</span><br>
                                                <span class="vertical-date">{{ item.last_edit|date:"Y-m-d " }} <br><small>{{ item.last_edit|date:"H:i:s "}}</small></span>
+                                                <br>
+                                                <span class="collect" style="color:grey; float: right;"
+                                                      onclick="collectionSubmit(this,{{ item.tsid }})"><i  class="fa fa-heart"></i>&nbsp;<span>收录</span> </span>
+
                                             </div>
+
                                         </div>
                              {% endfor %}
                             {% else %}
@@ -368,6 +376,27 @@
                     window.location.reload()
                 }else{
                    layer.alert('审核失败', {icon: 2 ,
+                                  time: 2000, //2s后自动关闭
+                                    btn: [ '知道了']});
+          }
+       }
+       })
+    }
+
+
+    function collectionSubmit(ths,tsid) {
+         $.ajax({
+           url:"{% url 'collect' %}",
+           data:{ "tsid":tsid},
+           type:"get",
+           dataType:'json',
+           success:function (arg) {
+          if (arg.status){
+                    console.log(arg.status)
+                    $(ths).css('color','red')
+                    $(ths).find("span").text("已收录")
+                }else{
+                   layer.alert('收录失败', {icon: 2 ,
                                   time: 2000, //2s后自动关闭
                                     btn: [ '知道了']});
           }

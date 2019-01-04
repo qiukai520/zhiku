@@ -30,17 +30,17 @@ urlpatterns = [
     path('home/', task_view.home, name='home'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', logout, name='logout'),
-    path("task/", include('task.urls')),
-    path("personnel/", include('personnel.urls')),
-    path("contract/", include('contract.urls')),
-    path("inventory/", include('inventory.urls')),
-    path("notice/", include('notice.urls')),
-    path("sfa/", include('sfa.urls')),
-    path("public/", include('public.urls')),
-    path('article/', include('article.urls')),    #首页文章
+    path("task/", include('task.urls')),  # 工单
+    path("personnel/", include('personnel.urls')),  # 人事
+    path("contract/", include('contract.urls')),  # 合同
+    path("inventory/", include('inventory.urls')),  # 进销存
+    path("notice/", include('notice.urls')),  # 通知
+    path("sfa/", include('sfa.urls')),  # 销售管理
+    path("public/", include('public.urls')),  # 公共库
+    path('article/', include('article.urls')),    # 首页文章
+    path('collection/', include('collection.urls')),   # 知识库
     # path('404/', TemplateView.as_view(template_name='404.html'), name='404'),
     path('media/', serve, {'document_root': settings.MEDIA_ROOT}),  # 用户上传文件路径，配置上传文件的访问处理函数
-
     path('attachment_upload.html', task_view.attachment_upload, name='attachment_upload'),
     path("attachment_download.html", task_view.attachment_download, name="attachment_download"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # 配置media

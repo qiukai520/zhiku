@@ -716,6 +716,9 @@ class TaskAssignDB(object):
 
 class TaskSubmitRecordDB(object):
     """任务提交记录表"""
+    def query_record_by_id(self,tsid):
+        result_db = TaskSubmitRecord.objects.filter(tsid=tsid).first()
+        return result_db
 
     def query_last_submit_record(self, tasid):
         result_db = TaskSubmitRecord.objects.filter(tasid_id=tasid).last()
