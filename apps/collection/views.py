@@ -9,18 +9,18 @@ from .server import *
 
 
 def collect(request):
-    tsid = request.GET.get("tsid",None)
-    ret = {"status":False,"data":""}
+    origin_id = request.GET.get("tsid",None)
+    ret = {"status": False,"data":""}
     user = request.user.staff.sid
-    origin_obj = coll_record_db.query_record_by_origin(tsid)
+    origin_obj = coll_record_db.query_record_by_origin(origin_id)
     if not origin_obj:
         try:
             with transaction.atomic():
                 # 获取记录信息
-                record_obj = task_submit_record_db.query_record_by_id(tsid)
+                record_obj = task_submit_record_db.query_record_by_id(origin_id)
                 if record_obj:
-                    record_tags = task_submit_tag_db.query_task_tag_by_tsid(tsid)
-                    record_attach = task_submit_attach_db.query_task_submit_attachment_by_tsid(tsid)
+                    record_tags = task_submit_tag_db.query_task_tag_by_tsid(origin_id)
+                    record_attach = task_submit_attach_db.query_task_submit_attachment_by_tsid(origin_id)
                     # 获取工单信息
                     task_assgin_obj = task_assign_db.query_task_assign_by_tasid(record_obj.tasid_id)
                     task_map_obj = task_map_db.query_task_by_tmid(task_assgin_obj.first().tmid_id)
@@ -34,7 +34,7 @@ def collect(request):
                         relate_tag += item.name + ';'
                     relate_title = task_map_obj.title
                     insert_info = {
-                        "origin": tsid,
+                        "origin": origin_id,
                         "title": record_obj.title,
                         "summary": record_obj.summary,
                         "remark": record_obj.remark,
@@ -57,6 +57,8 @@ def collect(request):
                         att_list.append(att_json)
                     if att_list:
                         record_attach_db.mutil_insert_attachment(att_list)
+                    # 原数据更改为收录状态
+                    task_submit_record_db.update_status({"tsid":origin_id,"is_collected":1})
                     ret['status'] = True
         except Exception as e:
             print(e)

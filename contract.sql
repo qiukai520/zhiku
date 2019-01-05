@@ -12,7 +12,7 @@ create TABLE `contract_info`(
 `year_limit` tinyint(1) COMMENT '年限',
 `pending`  DECIMAL (8,2) default 0 COMMENT'待收金额',
 `remark` varchar (128) COMMENT '备注',
-`location_id`  smallint (6) COMMENT '存档坐标',
+`location_id`  smallint (6) default 0 COMMENT '存档坐标',
 `customer_id`int(11) NOT NULL COMMENT '客户',
 `belonger_id` int (11) COMMENT '签订人',
 `helper_id` int (11) COMMENT '辅助人',

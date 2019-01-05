@@ -115,9 +115,14 @@
                                               <label class="form-label"  >备注:</label>
                                              <span  >{{ item.remark }}</span><br>
                                                <span class="vertical-date">{{ item.last_edit|date:"Y-m-d " }} <br><small>{{ item.last_edit|date:"H:i:s "}}</small></span>
-                                                <br>
+                                                {% if item.is_collected == 0 %}
+                                                    <br>
                                                 <span class="collect" style="color:grey; float: right;"
                                                       onclick="collectionSubmit(this,{{ item.tsid }})"><i  class="fa fa-heart"></i>&nbsp;<span>收录</span> </span>
+                                                {% else %}
+                                                     <span class="collect" style="color:red; float: right;"
+                                                     ><i  class="fa fa-heart"></i>&nbsp;<span>已收录</span> </span>
+                                                 {% endif %}
 
                                             </div>
 

@@ -9,9 +9,9 @@ from contract.models import Product,ProductMeal
 from common.functions import *
 from sfa.server import customer_db
 from .forms.form import ProductForm, MealForm, ContractForm,PaymentForm,LocationForm
-
+import logging
 # Create your views here.
-
+logger = logging.getLogger(__name__)
 
 def product_list(request):
     query_sets = product_db.query_product_list()
@@ -48,13 +48,15 @@ def product_edit(request):
                     ret['status'] = True
                     ret['data'] = id
                 except Exception as e:
-                    ret['message'] = str(e)
+                    logger.error(e)
+                    ret['message'] = "更新失败"
             else:
                 try:
                     product_db.insert_product(data)
                     ret['status'] = True
                 except Exception as e:
-                    ret['message'] = str(e)
+                    logger.error(e)
+                    ret['message'] = "添加失败"
         else:
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
@@ -97,7 +99,8 @@ def location_edit(request):
                     ret['status'] = True
                     ret['data'] = id
                 except Exception as e:
-                    ret['message'] = str(e)
+                    logger.error(e)
+                    ret['message'] = "更新失败"
             else:
                 try:
                     c_location_db.insert_location(data)
@@ -155,7 +158,7 @@ def meal_edit(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+                    logger.error(e)
                     ret["message"] = "更新失败"
             else:
                 # 创建
@@ -167,7 +170,7 @@ def meal_edit(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+                    logger.error(e)
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -281,7 +284,7 @@ def add_payment(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+                    logger.error(e)
                     ret["message"] = "更新失败"
             else:
                 # 创建
@@ -311,7 +314,7 @@ def add_payment(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+                    logger.error(e)
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -340,7 +343,7 @@ def payment_detail(request):
                 ret['data'] = payment_json
                 return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
         except Exception as e:
-            print(e)
+            logger.error(e)
     return render(request,'404.html')
 
 def contracts_center(request):
@@ -408,6 +411,7 @@ def customer_contract(request):
             data = data.dict()
             contract_attach = data.get("attach", None)
             nid = data.get("nid", None)
+            logger.error("nid",nid)
             contract_attach = list(json.loads(contract_attach))
             if nid:
                 # 更新
@@ -461,11 +465,11 @@ def customer_contract(request):
                             approver_result_db.mutil_insert(app_record)
                         else:
                             # 如果没有审核人，则自动通过审核
-                            ContractInfo.objects.filter(nid=nid).update({"is_approved":1})
+                            ContractInfo.objects.filter(nid=nid).update(**{"is_approved":1})
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+
                     ret["message"] = "添加失败"
         else:
             errors = form.errors.as_data().values()
@@ -609,7 +613,7 @@ def approve(request):
                             if flag:
                                 # 尾款通过审核
                                 payment_obj = payment_db.query_payment_by_id(pid)
-                                print("lala",payment_obj)
+                                logger.error("lala",payment_obj)
                                 payment_obj.is_approved = 1
                                 payment_obj.save()
                                 # 合同减掉尾款
@@ -625,7 +629,7 @@ def approve(request):
                             p_apr_rcd_db.insert_record(final_info)
                             ret["status"] = True
                 except Exception as e:
-                    print(e)
+                    logger.error(e)
         else:
             # 合同审核
             cid = int(data.get("contract_id", 0))
@@ -659,7 +663,7 @@ def approve(request):
                             app_record_db.insert_record(final_info)
                             ret["status"] = True
                 except Exception as e:
-                    print(e)
+                    logger.error(e)
         return HttpResponse(json.dumps(ret))
 
 
@@ -682,7 +686,7 @@ def approver_edit(request):
                     approver_db.mutil_delete(delete_id_list)
                     ret["status"]= True
             except Exception as e:
-                print(e)
+                logger.error(e)
                 ret["message"] = "更新失败"
         else:
             ret["message"] = "审核人不能为空"
@@ -719,5 +723,6 @@ def contract_attach(request):
             ret["data"]['path'] = file_path
             ret["data"]['name'] = raw_name
     except Exception as e:
-        ret["summary"] = str(e)
+        logger.error(e)
+        ret["summary"] = "上传失败"
     return HttpResponse(json.dumps(ret))

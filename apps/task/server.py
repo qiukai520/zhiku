@@ -745,6 +745,9 @@ class TaskSubmitRecordDB(object):
         tsid = cursor.lastrowid
         return tsid
 
+    def update_status(self,modify_info):
+        TaskSubmitRecord.objects.filter(tsid=modify_info["tsid"]).update(**modify_info)
+
 
 class TaskSubmitAttachmentDB(object):
     """任务附件表"""

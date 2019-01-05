@@ -421,6 +421,7 @@ class TaskSubmitRecord(models.Model):
     remark = models.CharField(max_length=512, blank=True, null=True, verbose_name='备注')
     completion = models.SmallIntegerField(default=0, verbose_name='完成度(%)')  # 完成度：1-100
     is_assist = models.SmallIntegerField(choices=is_assist_choice, default=0, verbose_name='是否寻求协助')  # 是否寻求协助:0否，1是
+    is_collected = models.BooleanField( default=0, verbose_name='是否被收录')  # 0否，1是
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 

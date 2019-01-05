@@ -322,6 +322,7 @@ create TABLE `task_submit_record`(
 `title` varchar(512) COMMENT '标题',
 `summary` varchar(512) COMMENT '总结',
 `is_assist` tinyint(1) NOT NUll DEFAULT 0 COMMENT'寻求协助:0否,1是',
+`is_collected` tinyint(1) NOT NUll DEFAULT 0 COMMENT'收录:0否,1是',
 `remark` varchar(512) COMMENT '备注',
 `completion`  int(3) NOT NUll DEFAULT 0 COMMENT'完成度：1-100',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
