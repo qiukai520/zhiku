@@ -83,24 +83,28 @@
                                            <td>{{ obj.sign |date:"Y-m-d" }}</td>
                                             <td>{{ obj.start_date|date:"Y-m-d" }}</td>
                                             <td>{{ obj.end_date |date:"Y-m-d" }}</td>
-                                           {% fetch_my_approved_follow obj.nid request.user.staff.sid as flag %}
-                                          {% fetch_my_approved_result obj.nid request.user.staff.sid as result %}
-                                          {%  if flag %}
-                                              <td>{% if result == 1  %}<span style="color:green"> <a  href="{%url "approve" %}?id={{ obj.nid }}"  >通过</a></span>
-                                           {% elif result == 2  %}
-                                               驳回
-                                                 <a  href="{%url "approve_detail" %}?id={{ obj.nid }}" class="btn btn-xs btn-info" >继续审核</a>
-                                               {% else %}
-                                                待审中
-                                                 <a  href="{%url "approve_detail" %}?id={{ obj.nid }}" class="btn btn-xs btn-info" >去审核</a>
-                                           {% endif %}
-                                                  <br>
-                                               <a  href="{%url "approve_detail" %}?id={{ obj.nid }}"  >尾款审核</a>
+                                             <td>
+                                                 {% if obj.is_approved == 1  %}
+                                                     <span style="color:green">通过</span>
+                                                 {% else %}
+                                                     {% fetch_my_approved_follow obj.nid request.user.staff.sid as flag %}
+                                                     {% fetch_my_approved_result obj.nid request.user.staff.sid as result %}
+                                                    {%  if flag %}
+                                                       {% if result == 1  %}<span style="color:green">通过</span>
+                                                       {% elif result == 2  %}
+                                                           驳回
+                                                    {% else %}
+                                                           待审中
+                                                     {% endif %}
+                                                    <a  href="{%url "approve_detail" %}?id={{ obj.nid }}" class="btn btn-xs btn-info" >去审核</a>
+                                                 {% else %}
+                                                 等待上一人审核中
+                                                 {% endif  %}
+                                              {% endif %}
+                                                 <br>
+                                                 <a  href="{%url "approve_detail" %}?id={{ obj.nid }}"  >尾款审核</a>
                                                   <span class="badge">{% count_unapproved_paymemnt obj.nid request.user.staff.sid %}</span>
-                                           </td>
-                                          {% else %}
-                                              等待上一人审核中
-                                         {% endif  %}
+                                             </td>
                                             <td>
                                                 <a  href="{%url "approve_detail" %}?id={{ obj.nid }}" class="btn btn-primary" >详细</a>
                                           </td>

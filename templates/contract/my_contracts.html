@@ -82,7 +82,7 @@
                                             <td>{{ obj.start_date|date:"Y-m-d" }}</td>
                                             <td>{{ obj.end_date |date:"Y-m-d" }}</td>
                                            <td>{% if obj.is_approved == 1  %}<span style="color:green">通过</span>
-                                           {% elif obj.is_approved == 2  %}
+                                           {% else   %}
                                                未通过
                                                {% else %}
                                                审核中

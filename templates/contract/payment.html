@@ -292,7 +292,7 @@ function UploadFile(ths){
                 success: function (arg) {
                    if (arg.status) {
                         if (cons==1){
-                             window.location.href='{% url "goods_list" %}'
+                             window.location.href='{% url "contract_list" %}'
                         }else if(cons==2){
                              window.location.href='{% url "add_payment" %}?cid={0}'.format({{ contract_obj.nid }});
                         }else{

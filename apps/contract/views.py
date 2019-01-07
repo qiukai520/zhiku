@@ -310,7 +310,16 @@ def add_payment(request):
                                 p_apr_db.mutil_insert(app_record)
                             else:
                                 # 如果没有审核人，则自动通过审核
-                                ContractPayment.objects.filter(nid=nid).update({"is_approved": 1})
+                                # 尾款通过审核
+                                payment_obj = payment_db.query_payment_by_id(nid)
+                                payment_obj.is_approved = 1
+                                payment_obj.save()
+                                # 合同减掉尾款
+                                balance = payment_obj.payment
+                                contract_obj = contract_db.query_contract_by_id(payment_obj.contract_id)
+                                contract_obj.received += balance
+                                contract_obj.pending -= balance
+                                contract_obj.save()
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -565,6 +574,7 @@ def approve(request):
                 # 合同审核
                 result_obj = approver_result_db.query_my_approved_result(nid, user)
                 query_sets = contract_db.query_contract_by_id(nid)
+                contract_obj = query_sets
                 if result_obj:
                     record_list = app_record_db.query_my_record(result_obj.nid)
                     if not record_list:
@@ -575,6 +585,7 @@ def approve(request):
                 # 尾款审核
                 result_obj = p_apr_db.query_my_approved_result(nid, user)
                 query_sets = payment_db.query_payment_by_id(nid)
+                contract_obj = contract_db.query_contract_by_id(query_sets.contract_id)
                 if result_obj:
                     record_list = p_apr_rcd_db.query_my_record(result_obj.nid)
                     if not record_list:
@@ -582,7 +593,7 @@ def approve(request):
                 else:
                     record_list = ''
             return render(request, "contract/approve.html", {
-                    "query_sets": query_sets, "record_list": record_list, "type": type_
+                    "query_sets": query_sets,"contract_obj":contract_obj, "record_list": record_list, "type": type_
                 })
         return render(request,"404.html")
     else:
@@ -591,6 +602,7 @@ def approve(request):
         data = request.POST
         type_ = int(data.get("type",0))
         result2 = int(data.get("result2", 0))
+        print("type","result",type_,result2)
         if type_ == 1:
             # 尾款审核
             pid = int(data.get("payment_id", 0))
@@ -599,6 +611,7 @@ def approve(request):
                     with transaction.atomic():
                         final_info = filter_fields(PaymentApproveRecord._insert,data)
                         result_obj = p_apr_db.query_my_approved_result(pid,user)
+                        print("result_obj",result_obj)
                         final_info["result_id"] = result_obj.nid
                         if result2 == 1:
                             # 通过审核
@@ -613,7 +626,6 @@ def approve(request):
                             if flag:
                                 # 尾款通过审核
                                 payment_obj = payment_db.query_payment_by_id(pid)
-                                logger.error("lala",payment_obj)
                                 payment_obj.is_approved = 1
                                 payment_obj.save()
                                 # 合同减掉尾款
@@ -638,6 +650,7 @@ def approve(request):
                     with transaction.atomic():
                         final_info = filter_fields(ApproverRecord._insert,data)
                         result_obj = approver_result_db.query_my_approved_result(cid,user)
+                        print("result_obj",result_obj)
                         final_info["result_id"] = result_obj.nid
                         if result2 == 1:
                             # 通过审核

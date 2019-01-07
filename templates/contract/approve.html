@@ -119,7 +119,7 @@
                                     <div class="row" id="content_footer" style=" margin:auto; width:95%">
                                          <div class="form-actions well well-sm clearfix">
                                             <button   class="btn btn-primary left" onclick="Submit()" style="margin:2px;">提交</button>
-                                          <a href="{% url "approve_detail" %}" class="btn btn-danger "  style="margin:2px;"  >返回</a>                                        <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                          <a href="{% url "approve_detail" %}?id={{ contract_obj.nid }}" class="btn btn-danger "  style="margin:2px;"  >返回</a>                                        <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
                                         <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
                                              <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
                                                 <i class="fa fa-minus-circle" aria-hidden="true"></i>
