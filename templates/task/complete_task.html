@@ -207,7 +207,6 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                          <div class="hr-line-dashed"></div>
                                     </div>
                                                 </div>
-                                                <div class="hr-line-dashed"></div>
                                                 <div class="form-group">
                                                 <label for="remark" class="col-xs-4  col-md-2 control-label">备注：</label>
                                                   <div class="col-xs-12 col-sm-12 col-md-9">
@@ -283,25 +282,143 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
         </div>
     </div>
 
+              <!-- Modal record_detail -->
+<div class="modal fade " id="refer_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="clearReferData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">详细</h3>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;">
+            <div class="col-xs-12">
+                <div class="form-container row clearfix">
+                        <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
+                            <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
+{#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
+                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px">
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">标题</div>
+                                          <div class="col-xs-8 p_form" style=" padding: 15px 10px 7px 0px">
+                                             <p class="form-control-static " id="refer_title"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">标签</div>
+                                          <div class="col-xs-8 p_form" style=" padding: 15px 10px 7px 0px">
+                                             <p class="form-control-static " id="refer_tag"></p>
+                                          </div>
+                                    </div>
+                                      <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">小结</div>
+                                          <div class="col-xs-8 p_form" style=" padding: 15px 10px 7px 0px">
+                                             <p class="form-control-static " id="refer_summary"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">备注</div>
+                                          <div class="col-xs-8 p_form" style=" padding: 15px 10px 7px 0px">
+                                             <p class="form-control-static " id="refer_remark"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value hidden " id="refer_attach" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-8 p_form" id="refer_container">
+                                          </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 <div class="actions">
+                     <input type="text" class="hidden" id="refer_id" name="refer_id" >
+                     <a style="float: right" onclick="referFavor()" class="btn  btn-white"><i style="color: grey" id="refer_favor" class="fa fa-thumbs-up"></i> 赞 </a>
+                </div>
+              </div>
+            </div>
+         </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="clearReferData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+      </div>
+    </div>
+    </div>
+</div>
+
 {% endblock %}
 {% block js %}
-    <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.45/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/static/js/jquery.cookie.js"></script>
     <script>
-   {#    预防csrf#}
-    var csrftoken = $.cookie('csrftoken');
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+
+    //初始化知识库展示框
+    window.onload=function () {
+        {#$("#right-sidebar",window.parent.document).addClass("sidebar-open");#}
+        if ($("#reference",window.parent.document).length == 0){
+            $("#theme",window.parent.document).parent().append(
+             '<li id="reference" class="active" >\n' +
+            '<a data-toggle="tab" href="#tab-2">智库</a>\n' +
+            '</li>'
+        );
+             $("#tab-1",window.parent.document).parent().append(
+            ' <div id="tab-2" class="tab-pane ">\n' +
+'                <div  class="sidebar-title">\n' +
+            '         <h3> <i class="fa fa-cube"></i> AI指引</h3>\n' +
+            '         <small><i class="fa fa-tim"></i> ...</small>\n' +
+            '     </div>\n' +
+'                      <ul id="sidebar-list" class="sidebar-list">\n' +
+'                      </ul>\n' +
+'              </div>')
         }
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        //获取相关收录知识
+        var tmid="{{ task_obj.tmid_id }}"
+        $.ajax({
+            url:"{% url 'knowledges' %}",
+            type:"get",
+            data: {"tmid":tmid} ,
+            dataType:"JSON",
+            success:function (arg) {
+                var data=arg.data
+                console.log(data)
+                $("#sidebar-list",window.parent.document).empty();
+                for(i =0;i<data.length;i++ ){
+                    var ele =' <li>\n' +
+                             '<div class="small pull-right m-t-xs">{0}</div>\n'.format(data[i].fields.type) +
+                        '                    <label>标题:</label><span>{0}</span>\n'.format( data[i].fields.relate_title) +
+                        '\n' + ' <br>' +
+                        '<label>标签:</label><span>{0}</span>\n'.format( data[i].fields.relate_tag) +
+                        '\n' +
+                        '                    <div class="small"></div>\n' +
+                        '                    <div class="small text-muted m-t-xs">\n<button id="detail{0}"  class="btn detail btn-info btn-xs">查看详细</button></div>\n'.format(data[i].pk,data[i].pk) +
+                            '<i  id="favor{0}"  class="fa pull-right fa-thumbs-up">{1}</i>'.format(data[i].pk,data[i].fields.favor)
+                        '            </li>'
+                    $("#sidebar-list",window.parent.document).append($(ele))
                 }
+                //绑定详情事件
+                 for(i=0;i<data.length;i++ ){
+                     let id =data[i].pk
+                     $("#detail{0}".format(data[i].pk),window.parent.document)[0].addEventListener("click",function () {
+                         showKnowledge(id)
+                     })
+                 }
             }
-        });
+        })
+         $("#right-sidebar",window.parent.document).addClass("sidebar-open");
+         $("#reference",window.parent.document).addClass("active").siblings().removeClass("active");
+         $("#tab-2",window.parent.document).addClass("active");
+         $("#tab-1",window.parent.document).removeClass("active");
+         var timeOut=setTimeout("closeSidebar()", 5000);
+         $("#right-sidebar",window.parent.document).hover(
+            function () {
+                 clearTimeout(timeOut)
+         },function () {
+                timeOut=setTimeout("closeSidebar()", 5000);
+            }
+         )
+    }
+
+    function closeSidebar() {
+          $("#right-sidebar",window.parent.document).removeClass("sidebar-open");
+    }
     //进度条
     $(function(){
                 var completion={{ completion }}
@@ -512,6 +629,80 @@ function Submit(cons) {
                     }
             }
         })
+    }
+         //展示参考详细内容
+showKnowledge=function (cons) {
+      $('#refer_detail').modal('show');
+      var id =cons;
+      $.ajax({
+          url:"{% url "knowledge_detail" %}",
+          type:"get",
+          data:{'id':id},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  var data=arg.data;
+                  $("#refer_id").val(data.nid);
+                  $("#refer_title").text(data.title);
+                  $("#refer_tag").text(data.tag);
+                  $("#refer_type_id").text(data.type_id);
+                  $("#refer_favor").text(data.favor);
+                  $("#refer_summary").text(data.summary);
+                  $("#refer_remark").text(data.remark);
+                  //初始化附件
+                  if (data.attach!=""){
+                      var attachs = JSON.parse(data.attach);
+                      for (var i=0;i<attachs.length;i++){
+                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles = a_ele+l_ele+"<br>"
+                      $("#refer_container").append(eles)
+                      }
+                      $("#refer_attach").removeClass("hidden")
+
+                  }
+                  // 判断是否点赞
+                  if (arg.singal){
+                        $("#refer_favor").css('color','lightskyblue')
+                  }else{
+                       $("#refer_favor").css('color','grey')
+                  }
+              }
+          }
+      });
+    }
+
+function referFavor() {
+    var id=$("#refer_id").val();
+    var uid ={{ request.user.staff.sid }};
+    $.ajax({
+          url:"{% url "knowledge_favor" %}",
+          type:"get",
+          data:{'id':id,"user":uid},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  var data=arg.data;
+                  var signal=data.signal;
+                  var count = data.count;
+                  $("#favor{0}".format(id),window.parent.document).text(count)
+                   $("#refer_favor").text(count)
+                  if (signal){
+                      $("#refer_favor").css('color','lightskyblue')
+                  }else{
+                       $("#refer_favor").css('color','grey')
+                  }
+              }
+          }
+      });
+    }
+       //清空备忘模态框的数据
+    function clearReferData(){
+            $("#refer_detail >p").each(function () {
+                $(this).text()
+            })
+           $("#refer_container").empty()
+          $("#refer_attach").addClass("hidden")
     }
 
     </script>

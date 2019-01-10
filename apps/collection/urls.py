@@ -19,4 +19,8 @@ from . import views
 
 urlpatterns = [
     path("collect", views.collect, name="collect"),
+    path("knowledges", views.knowledge, name="knowledges"),
+    path("knowledge/detail",views.knowledge_detail, name="knowledge_detail"),
+    path("knowledge/favor", views.knowledge_favor, name="knowledge_favor"),
+
 ]

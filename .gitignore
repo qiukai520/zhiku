@@ -1,6 +1,7 @@
 logs/*
 /.idea/workspace.xml
 /media/upload/*
+/static/upload/*
 *.xml
 *.pyc
 .idea/*

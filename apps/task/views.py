@@ -888,7 +888,6 @@ def task_review(request):
                     data = data.dict()
                     task_review_record_db.insert_review_record(data)
                     is_complete = int(data["is_complete"])
-                    print("is_complete",is_complete)
                     # 如果通过 更新相应任务的完成状态
                     is_finish = True
                     is_reviewed = True
@@ -1269,7 +1268,7 @@ def personal_task_detail(request):
 
 
 def complete_task(request):
-    """任务提交记录"""
+    """完成工单"""
     method = request.method
     ret = {"status": False, "data": "", "message": ""}
     if method == "GET":
@@ -1286,6 +1285,7 @@ def complete_task(request):
                 last_completion = 0
             # 获取任务提交历史记录
             task_submit_record = task_submit_record_db.query_submit_by_tasid(tasid)
+
             return render(request, 'task/complete_task.html', {
                 "task_obj": task_obj,
                 "task_submit_record": task_submit_record,

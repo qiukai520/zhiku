@@ -66,8 +66,8 @@ class CollRecord(SoftDeletableModel):
                                db_constraint=False)
     type = models.ForeignKey(TaskType, to_field="tpid", on_delete=models.CASCADE, verbose_name='任务类型',
                              db_constraint=False, default=1)
-    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     favor = models.IntegerField(verbose_name="点赞数")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
     is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
 
@@ -78,3 +78,24 @@ class CollRecord(SoftDeletableModel):
 
     def __str__(self):
         return '收录内容{0}'.format(self.title)
+
+    _tag_field = "relate_tag"
+    _title_field = "relate_title"
+
+
+class CollFavor(SoftDeletableModel):
+    nid = models.AutoField(primary_key=True)
+    tsid = models.ForeignKey('CollRecord', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                             verbose_name='收录内容')
+    uid = models.ForeignKey(Staff, to_field="sid",  blank=True, null=True,
+                               on_delete=models.CASCADE, verbose_name='点赞人',
+                               db_constraint=False)
+    status = models.BooleanField(default=True, verbose_name="1有效或0取消")
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
+
+    class Meta:
+        db_table = 'coll_favor'
+        verbose_name = '收录点赞'
+        verbose_name_plural = '收录点赞'

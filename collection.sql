@@ -29,3 +29,16 @@ create TABLE `coll_attach`(
 `description` varchar(512) COMMENT '附件描述',
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='收录内容附件表';
+
+
+drop TABLE if exists `coll_favor`;
+create TABLE `coll_favor`(
+`nid` int(11) primary key auto_increment,
+`tsid_id`  int(11) NOT NULL COMMENT '收录内容',
+`uid_id`  int(11) NOT NULL COMMENT '点赞人',
+`status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态:0取消,1有用',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
+`create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后编辑时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='收录点赞表';
+alter table coll_favor  ADD UNIQUE KEY `cf_id`(`uid_id`,`tsid_id`) USING BTREE;

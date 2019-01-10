@@ -1,9 +1,15 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render, HttpResponse
+from django.db.models import Q
+from django.forms.models import model_to_dict
 from django.db import transaction
+from django.core import serializers
+from task.templatetags.admin_tags import change_to_task_type
+
 import json
 from task.server import task_submit_record_db,task_submit_attach_db,\
     task_submit_tag_db,task_assign_db,task_map_tag_db,task_map_db
 from .server import *
+from common.functions import CJSONEncoder
 
 # Create your views here.
 
@@ -64,4 +70,97 @@ def collect(request):
             print(e)
     else:
         ret = {"status": True, "data": ""}
+    return HttpResponse(json.dumps(ret))
+
+def knowledge(request):
+    tmid = int(request.GET.get("tmid",0))
+    ret = {"status":False,"data":[]}
+    if tmid:
+        map_obj = task_map_db.query_task_by_tmid(tmid)
+        map_tag_list = task_map_tag_db.query_tag_by_tmid(tmid)
+        title = map_obj.title
+        type = map_obj.type_id
+        query_sets = coll_record_db.query_record_by_type(type)
+        if query_sets:
+            q_obj = Q()
+            q_obj.connector = "OR"
+            # 构造标签Q
+            if map_tag_list:
+                _tag_fields = CollRecord._tag_field
+                for item in map_tag_list:
+                    q_obj.children.append(("%s__icontains" % _tag_fields, item))
+            # 构造标题Q
+            _title_field = CollRecord._title_field
+            q_obj.children.append(("%s__icontains" % _title_field, title))
+            db_result = query_sets.filter(q_obj).order_by("favor").all()
+            data = serializers.serialize("json", db_result)
+            data = json.loads(data)
+            for item in data:
+                item["fields"]["type"] = change_to_task_type(item["fields"]["type"])
+            ret["status"] = True
+            ret["data"] = data
+    return HttpResponse(json.dumps(ret))
+
+
+def knowledge_detail(request):
+    """参考详细"""
+    id = request.GET.get("id", None)
+    uid = request.user.staff.sid
+    ret = {"status": False, "data": "", "signal":False}
+    if id:
+        try:
+            record_obj = coll_record_db.query_record_by_id(id)
+            if record_obj:
+                # 格式化数据
+                record_json = record_obj.__dict__
+                record_json.pop('_state')
+                record_attach = record_attach_db.query_record_attach_by_tsid(id)
+                if record_attach:
+                    record_json['attach'] = serializers.serialize("json", record_attach)
+                else:
+                    record_json['attach'] = ''
+                # 获取点赞状态
+                print("点赞")
+                is_exist = coll_favor_db.is_exist({"tsid_id":id, "uid_id":uid})
+                if is_exist:
+                    obj = is_exist.first()
+                    if obj.status:
+                        ret['signal'] = True
+                ret['status'] = True
+                ret['data'] = record_json
+                print(ret)
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request, '404.html')
+
+
+def knowledge_favor(request):
+    """点赞"""
+    id = int(request.GET.get("id",0))
+    uid = int(request.GET.get("user",0))
+    ret = {"status":False,"data":""}
+    signal = True
+    if id and uid:
+        info = {"tsid_id":id, "uid_id":uid}
+        is_exist = coll_favor_db.is_exist(info)
+        if is_exist:
+            obj = is_exist.first()
+            if not obj.status:
+                obj.status = 1
+                obj.save()
+            else:
+                obj.status = 0
+                signal = False
+            obj.save()
+        else:
+            coll_favor_db.insert_favor(info)
+        # 更新点赞数
+        row = coll_favor_db.count_favor(id)
+        favor_count = int(row[0])
+        refer_obj = coll_record_db.query_record_by_id(id)
+        refer_obj.favor = favor_count
+        refer_obj.save()
+        ret["data"] = {"count":favor_count,"signal":signal}
+        ret["status"] = True
     return HttpResponse(json.dumps(ret))

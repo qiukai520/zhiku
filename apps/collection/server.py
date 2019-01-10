@@ -17,15 +17,23 @@ class CollRecordDB(object):
         nid = cursor.lastrowid
         return nid
 
+    def query_record_by_id(self, id):
+        result_db = CollRecord.objects.filter(nid=id).first()
+        return result_db
+
     def query_record_by_origin(self,id):
-        result_db=CollRecord.objects.filter(origin=id)
+        result_db = CollRecord.objects.filter(origin=id)
+        return result_db
+
+    def query_record_by_type(self,id):
+        result_db = CollRecord.objects.filter(type=id).all()
         return result_db
 
 
 class CollRecordAttachDB(object):
     """收录附件表"""
 
-    def query_task_submit_attachment_by_tsid(self,tsid):
+    def query_record_attach_by_tsid(self,tsid):
         result_db = CollAttachment.objects.filter(tsid=tsid).all()
         return result_db
 
@@ -34,5 +42,22 @@ class CollRecordAttachDB(object):
             CollAttachment.objects.create(**item)
 
 
+class CollFavorDB(object):
+    """点赞"""
+    def is_exist(self, modify):
+        result_db = CollFavor.objects.filter(tsid=modify["tsid_id"], uid=modify["uid_id"])
+        return result_db
+
+    def insert_favor(self,modiy_info):
+        CollFavor.objects.get_or_create(**modiy_info)
+
+    def count_favor(self,tsid):
+        sql = """select sum(status) as count from  coll_favor  where tsid_id={0} GROUP BY tsid_id;""".format(tsid)
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        row = cursor.fetchone()
+        return row
+
 coll_record_db = CollRecordDB()
 record_attach_db = CollRecordAttachDB()
+coll_favor_db = CollFavorDB()

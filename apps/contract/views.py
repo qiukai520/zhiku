@@ -333,7 +333,7 @@ def add_payment(request):
 
 
 def payment_detail(request):
-    """备忘详细"""
+    """尾款详细"""
     id = request.GET.get("id",None)
     ret={"status":False,"data":"","message":""}
     if id:

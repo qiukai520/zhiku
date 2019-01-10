@@ -129,7 +129,6 @@
                                  <li>
                                      <a   class="J_menuItem"  data-index='23' href="{% url "customer_public" %}">客户公海</a>
                                 </li>
-
                             </ul>
                         </li>
                         <li>
@@ -141,7 +140,6 @@
                                  <li>
                                      <a  class="J_menuItem"  data-index='32'  href="{% url "goods_list" %}">商品管理</a>
                                 </li>
-
                                 <li>
                                      <a  class="J_menuItem"  data-index='33' href="{% url "invent_list" %}">库存管理</a>
                                 </li>
@@ -253,12 +251,10 @@
                                          <li>
                                              <a class="J_menuItem"  data-index="112"  href="{% url "task_sort_list" %}">工单分类管理</a>
                                         </li>
-
                                 </ul>
                                 </li>
                             </ul>
                         </li>
-
                 </ul>
             </div>
         </nav>
@@ -347,8 +343,6 @@
             <div class="row J_mainContent" id="content-main">
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="{% url "home" %}" frameborder="0" data-id="{% url "home" %}" seamless></iframe>
             </div>
-
-
             <!--<div class="row J_mainContent" id="content-main" style=" overflow: auto;">
 {#                {% block content %}#}
 
@@ -368,11 +362,11 @@
 
                 <ul class="nav nav-tabs navs-3">
 
-                    <li >
+                    <li class="active" id="theme" >
                         <a data-toggle="tab" href="#tab-1">
                             <i class="fa fa-gear"></i> 主题
                         </a>
-                    </li>
+                    </li >
                 </ul>
                 <div class="tab-content">
                     <div id="tab-1" class="tab-pane active">
@@ -444,6 +438,7 @@
                             </div>
                         </div>
                     </div>
+
             </div>
         </div>
     </div>
@@ -463,6 +458,7 @@
     <script type="text/javascript" src="/static/js/content.js?v=1.0.0"></script>
 
     <script>
+
         function show() {
 				var mydate = new Date();
 				var str = "" + mydate.getFullYear() + "";
