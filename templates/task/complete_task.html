@@ -298,6 +298,12 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                             <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
 {#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
                                 <div class="panel-body "style="padding-top:0px;padding-bottom: 0px">
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">分类</div>
+                                          <div class="col-xs-8 p_form" style=" padding: 15px 10px 7px 0px">
+                                             <p class="form-control-static " id="refer_type"></p>
+                                          </div>
+                                    </div>
                                      <div class=" form-group row value" >
                                           <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">标题</div>
                                           <div class="col-xs-8 p_form" style=" padding: 15px 10px 7px 0px">
@@ -322,9 +328,15 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                              <p class="form-control-static " id="refer_remark"></p>
                                           </div>
                                     </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">收录时间</div>
+                                          <div class="col-xs-8 p_form" style=" padding: 15px 10px 7px 0px">
+                                             <p class="form-control-static " id="refer_date"></p>
+                                          </div>
+                                    </div>
                                      <div class=" form-group row value hidden " id="refer_attach" >
                                           <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
-                                          <div class="col-xs-8 p_form" id="refer_container">
+                                          <div class="col-xs-8 p_form" id="refer_container" style=" padding: 15px 10px 7px 0px">
                                           </div>
                                     </div>
 
@@ -334,7 +346,7 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                     </div>
                  <div class="actions">
                      <input type="text" class="hidden" id="refer_id" name="refer_id" >
-                     <a style="float: right" onclick="referFavor()" class="btn  btn-white"><i style="color: grey" id="refer_favor" class="fa fa-thumbs-up"></i> 赞 </a>
+                     <a style="float: right ;font-size: 10px" onclick="referFavor()" class="btn  btn-white"><i style="color: grey;" id="refer_favor" class="fa fa-thumbs-up"></i> 有用 </a>
                 </div>
               </div>
             </div>
@@ -645,8 +657,9 @@ showKnowledge=function (cons) {
                   $("#refer_id").val(data.nid);
                   $("#refer_title").text(data.title);
                   $("#refer_tag").text(data.tag);
-                  $("#refer_type_id").text(data.type_id);
+                  $("#refer_type").text(data.type_id);
                   $("#refer_favor").text(data.favor);
+                  $("#refer_date").text(data.create_time);
                   $("#refer_summary").text(data.summary);
                   $("#refer_remark").text(data.remark);
                   //初始化附件
@@ -659,7 +672,6 @@ showKnowledge=function (cons) {
                       $("#refer_container").append(eles)
                       }
                       $("#refer_attach").removeClass("hidden")
-
                   }
                   // 判断是否点赞
                   if (arg.singal){
@@ -696,8 +708,8 @@ function referFavor() {
           }
       });
     }
-       //清空备忘模态框的数据
-    function clearReferData(){
+       //清空参考模态框的数据
+function clearReferData(){
             $("#refer_detail >p").each(function () {
                 $(this).text()
             })

@@ -15,6 +15,7 @@ from common.functions import CJSONEncoder
 
 
 def collect(request):
+    """知识收录"""
     origin_id = request.GET.get("tsid",None)
     ret = {"status": False,"data":""}
     user = request.user.staff.sid
@@ -72,7 +73,41 @@ def collect(request):
         ret = {"status": True, "data": ""}
     return HttpResponse(json.dumps(ret))
 
+
+def collect_delete(request):
+    """删除收录"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    print("ids",ids)
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    print("id_list",id_list)
+    try:
+        with transaction.atomic():
+            coll_record_db.multi_delete(id_list)
+            # 删除附件
+            record_attach_db.mutil_delete(id_list)
+            ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['message'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+def collections(request):
+    """知识库中心"""
+    type_ = request.GET.get("type",0)
+    query_sets = coll_record_db.query_record_list()
+    if type_:
+        query_sets = coll_record_db.query_record_by_type(type_)
+    return render(request,"collections/collections.html",{"query_sets":query_sets,"type":type_})
+
+
 def knowledge(request):
+    """指引匹配"""
     tmid = int(request.GET.get("tmid",0))
     ret = {"status":False,"data":[]}
     if tmid:
@@ -103,7 +138,7 @@ def knowledge(request):
 
 
 def knowledge_detail(request):
-    """参考详细"""
+    """指引详细"""
     id = request.GET.get("id", None)
     uid = request.user.staff.sid
     ret = {"status": False, "data": "", "signal":False}
@@ -114,6 +149,7 @@ def knowledge_detail(request):
                 # 格式化数据
                 record_json = record_obj.__dict__
                 record_json.pop('_state')
+                record_json["type_id"] = change_to_task_type(record_json["type_id"])
                 record_attach = record_attach_db.query_record_attach_by_tsid(id)
                 if record_attach:
                     record_json['attach'] = serializers.serialize("json", record_attach)
@@ -134,7 +170,7 @@ def knowledge_detail(request):
 
 
 def knowledge_favor(request):
-    """点赞"""
+    """收录点赞"""
     id = int(request.GET.get("id",0))
     uid = int(request.GET.get("user",0))
     ret = {"status":False,"data":""}

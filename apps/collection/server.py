@@ -17,6 +17,10 @@ class CollRecordDB(object):
         nid = cursor.lastrowid
         return nid
 
+    def query_record_list(self):
+        result_db = CollRecord.objects.filter().all()
+        return result_db
+
     def query_record_by_id(self, id):
         result_db = CollRecord.objects.filter(nid=id).first()
         return result_db
@@ -29,6 +33,9 @@ class CollRecordDB(object):
         result_db = CollRecord.objects.filter(type=id).all()
         return result_db
 
+    def multi_delete(self,id_list):
+        CollRecord.objects.filter(nid__in=id_list).delete()
+
 
 class CollRecordAttachDB(object):
     """收录附件表"""
@@ -40,6 +47,9 @@ class CollRecordAttachDB(object):
     def mutil_insert_attachment(self, modify_info_list):
         for item in modify_info_list:
             CollAttachment.objects.create(**item)
+
+    def mutil_delete(self,id_list):
+        CollAttachment.objects.filter(tsid_id__in=id_list).delete()
 
 
 class CollFavorDB(object):
