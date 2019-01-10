@@ -452,12 +452,16 @@
     <!-- 自定义js -->
     <script src="/static/js/hplus.js?v=4.1.0"></script>
     <script type="text/javascript" src="/static/js/contabs.js"></script>
+      <script src="/static/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/static/js/custom/common.js"></script>
+    <script type="text/javascript" src="/static/js/custom/ajax.csrf.js"></script>
     <script type="text/javascript" src="/static/js/common.js"></script>
       <script src="/static/js/custom/select-pcas.js"></script>
      <!-- 自定义js -->
     <script type="text/javascript" src="/static/js/content.js?v=1.0.0"></script>
 
     <script>
+
 
         function show() {
 				var mydate = new Date();
@@ -470,6 +474,7 @@
 
        function ReadAll(){
              //通知全部标记为已读
+           console.log("readall")
            $.ajax( {
                url:"{% url 'noticereadall' %}",
                type:"POST",

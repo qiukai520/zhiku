@@ -32,6 +32,7 @@ def notice_readall(request):
     user = request.user
     error = '操作成功'
     action = request.POST.get('action')
+    print("action")
     if action == 'readall':
         notice_list = user.staff.notice_for_user.filter(notice_status=False)
         for notice_get in notice_list:
