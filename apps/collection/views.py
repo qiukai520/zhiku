@@ -120,7 +120,6 @@ def knowledge_detail(request):
                 else:
                     record_json['attach'] = ''
                 # 获取点赞状态
-                print("点赞")
                 is_exist = coll_favor_db.is_exist({"tsid_id":id, "uid_id":uid})
                 if is_exist:
                     obj = is_exist.first()
@@ -128,7 +127,6 @@ def knowledge_detail(request):
                         ret['signal'] = True
                 ret['status'] = True
                 ret['data'] = record_json
-                print(ret)
                 return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
         except Exception as e:
             print(e)

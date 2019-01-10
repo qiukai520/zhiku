@@ -1368,7 +1368,7 @@ def complete_task(request):
 def attachment_upload(request):
     """附件上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
-    target_path = "static/upload/task"
+    target_path = "media/upload/task"
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")
