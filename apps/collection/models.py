@@ -82,6 +82,8 @@ class CollRecord(SoftDeletableModel):
     _tag_field = "relate_tag"
     _title_field = "relate_title"
 
+    _insert = ["title","summary","remark","tag","relate_tag","relate_title","recorder_id","type_id"]
+
 
 class CollFavor(SoftDeletableModel):
     nid = models.AutoField(primary_key=True)

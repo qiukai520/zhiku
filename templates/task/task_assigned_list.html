@@ -250,7 +250,6 @@ $(function () {
         endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
         {#setDate:new Date(),#}
     });
-    console.log("date")
 });
 
 $(function () {
@@ -281,8 +280,6 @@ $(function () {
       /*
     自执行函数
     */
-
-
     function  SelectAll(ths) {
         //判断是否选中
         ischecked=$(ths).is(":checked");
@@ -470,8 +467,6 @@ function MemberAssignShow(ths) {
       var member_name=$(ths).children().first().text();
       var tasid=$(ths).next().val();
       var deadline = $(ths).next().next().next().val();
-      console.log(deadline);
-
       $("#myModalLabel").text(member_name+"的个人内容");
       $("#myModalLabel").parent().find("input[name=tasid]").val(tasid);
       console.log(tasid)

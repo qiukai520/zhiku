@@ -4,6 +4,8 @@ from django.forms.models import model_to_dict
 from django.db import transaction
 from django.core import serializers
 from task.templatetags.admin_tags import change_to_task_type
+from .forms.form import KnowledgeForm
+from common.functions import filter_fields,build_attachment_info
 
 import json
 from task.server import task_submit_record_db,task_submit_attach_db,\
@@ -78,14 +80,12 @@ def collect_delete(request):
     """删除收录"""
     ret = {'status': False, "data": "", "message": ""}
     ids = request.GET.get("ids", '')
-    print("ids",ids)
     ids = ids.split("|")
     # 转化成数字
     id_list = []
     for item in ids:
         if item:
             id_list.append(int(item))
-    print("id_list",id_list)
     try:
         with transaction.atomic():
             coll_record_db.multi_delete(id_list)
@@ -96,6 +96,7 @@ def collect_delete(request):
         print(e)
         ret['message'] = "删除失败"
     return HttpResponse(json.dumps(ret))
+
 
 def collections(request):
     """知识库中心"""
@@ -167,6 +168,38 @@ def knowledge_detail(request):
         except Exception as e:
             print(e)
     return render(request, '404.html')
+
+
+def knowledge_edit(request):
+    """自定义添加知识"""
+    ret = {'status': False, "data": '', "message": ""}
+    form = KnowledgeForm(data=request.POST)
+    if form.is_valid():
+        data = request.POST
+        data = data.dict()
+        k_attach = data.get("attach", '')
+        k_attach = list(json.loads(k_attach))
+        # 创建
+        try:
+            with transaction.atomic():
+                # 插入收录知识信息
+                coll_info = filter_fields(CollRecord._insert, data)
+                nid = coll_record_db.insert_record(coll_info)
+                # 插入知识附件
+                if k_attach:
+                    k_attach = build_attachment_info({"tsid_id": nid}, k_attach)
+                    record_attach_db.mutil_insert_attachment(k_attach)
+                ret['status'] = True
+                ret['data'] = nid
+        except Exception as e:
+            print(e)
+            ret["message"] = "添加失败"
+    else:
+        errors = form.errors.as_data().values()
+        firsterror = str(list(errors)[0][0])
+        ret['message'] = firsterror
+    print(ret)
+    return HttpResponse(json.dumps(ret))
 
 
 def knowledge_favor(request):

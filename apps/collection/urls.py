@@ -22,6 +22,7 @@ urlpatterns = [
     path("collections", views.collections, name="collections"),
     path("collect/delete",views.collect_delete,name="collect_delete"),
     path("knowledges", views.knowledge, name="knowledges"),
+    path("knowledge/edit",views.knowledge_edit,name="knowledge_edit"),
     path("knowledge/detail",views.knowledge_detail, name="knowledge_detail"),
     path("knowledge/favor", views.knowledge_favor, name="knowledge_favor"),
 
