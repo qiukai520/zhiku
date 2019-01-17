@@ -52,7 +52,6 @@
                     <div class="col-sm-12">
                         <!-- Example Events -->
                         <div class="example-wrap">
-
                             <div class="example">
                                 <div class="btn-group" id="toolbar" role="group">
                                  <form class="form-inline" action="{% url "collections" %}" method="get" style="margin-bottom: 15px">
@@ -82,6 +81,7 @@
                                               <th>点赞数</th>
                                               <th>收录人</th>
                                               <th>收录时间</th>
+                                              <th>贡献人</th>
                                               <th>操作</th>
                                         </tr>
                                     </thead>
@@ -97,8 +97,11 @@
                                                <td>{{ obj.favor}}</td>
                                               <td>{% change_to_staff obj.recorder_id %}</td>
                                               <td>{{ obj.create_time|date:"Y-m-d H:i" }}</td>
-                                                <td>
-                                                    <a  onclick="showKnowledge({{ obj.nid }})"   class="btn btn-info"  >详请</a>
+                                               <td>{% change_to_staff obj.contributor_id %}</td>
+                                              <td>
+                                                <a  href="{%url "knowledge_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
+
+                                                    <a  onclick="showKnowledge({{ obj.nid }})"   class="btn btn-success"  >详请</a>
                                               </td>
                                         </tr>
                                     {% endfor %}
@@ -170,6 +173,24 @@
                                           <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">收录时间</div>
                                           <div class="col-xs-8 p_form" style=" padding: 15px 10px 7px 0px">
                                              <p class="form-control-static " id="refer_date"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">贡献人</div>
+                                          <div class="col-xs-8 p_form" style=" padding: 15px 10px 7px 0px">
+                                             <p class="form-control-static " id="contributor"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">所属部门</div>
+                                          <div class="col-xs-8 p_form" style=" padding: 15px 10px 7px 0px">
+                                             <p class="form-control-static " id="depart"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">联系电话</div>
+                                          <div class="col-xs-8 p_form" style=" padding: 15px 10px 7px 0px">
+                                             <p class="form-control-static " id="phone"></p>
                                           </div>
                                     </div>
                                      <div class=" form-group row value hidden " id="refer_attach" >
@@ -313,7 +334,6 @@
       <div class="modal-footer">
         <button type="button" onclick="ClearData()" class="btn btn-default" data-dismiss="modal">取消</button>
         <button type="button" id="assign" class="btn btn-primary">添加</button>
-          <button type="button"  id="edit" onclick="Edit()" class=" hidden btn btn-primary">修改</button>
 
       </div>
     </div>
@@ -449,6 +469,9 @@ showKnowledge=function (cons) {
                   $("#refer_date").text(data.create_time);
                   $("#refer_summary").text(data.summary);
                   $("#refer_remark").text(data.remark);
+                  $("#contributor").text(data.contributor_id);
+                  $("#depart").text(data.depart);
+                  $("#phone").text(data.phone);
                   //初始化附件
                   if (data.attach!=""){
                       var attachs = JSON.parse(data.attach);
@@ -574,7 +597,7 @@ function UploadFile(ths){
     var form = new FormData();
     form.append("file", file_obj);
     $.ajax({
-        url:"{% url 'goods_attach' %}",
+        url:"{% url 'know_attach' %}",
         type:"POST",
         data: form ,
         dataType:"JSON",

@@ -248,6 +248,16 @@ def change_to_staff(sid):
 
 
 @register.simple_tag
+def change_to_department(dpid):
+    """根据id获取部门"""
+    depart = department_db.query_department_by_id(dpid)
+    if depart:
+        name = depart.department
+    else:
+        name = ""
+    return name
+
+@register.simple_tag
 def change_to_task_cycle(tcid):
     """获取任务周期"""
     task_cycle = task_period_db.cycle_choice

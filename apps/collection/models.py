@@ -64,6 +64,9 @@ class CollRecord(SoftDeletableModel):
     recorder = models.ForeignKey(Staff, to_field="sid",  blank=True, null=True,
                                on_delete=models.CASCADE, verbose_name='收录人',
                                db_constraint=False)
+    contributor = models.ForeignKey(Staff, to_field="sid", related_name='c_s', blank=True, null=True,
+                               on_delete=models.CASCADE, verbose_name='贡献人',
+                               db_constraint=False)
     type = models.ForeignKey(TaskType, to_field="tpid", on_delete=models.CASCADE, verbose_name='任务类型',
                              db_constraint=False, default=1)
     favor = models.IntegerField(verbose_name="点赞数")
@@ -83,6 +86,7 @@ class CollRecord(SoftDeletableModel):
     _title_field = "relate_title"
 
     _insert = ["title","summary","remark","tag","relate_tag","relate_title","recorder_id","type_id"]
+    _update = ["title","summary","remark","tag","relate_tag","relate_title","type_id"]
 
 
 class CollFavor(SoftDeletableModel):

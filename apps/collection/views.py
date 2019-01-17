@@ -1,11 +1,14 @@
+import os
+import uuid
 from django.shortcuts import render, HttpResponse
 from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.db import transaction
 from django.core import serializers
-from task.templatetags.admin_tags import change_to_task_type
+from task.templatetags.admin_tags import change_to_task_type,change_to_staff,change_to_department
+from personnel.server import staff_db
 from .forms.form import KnowledgeForm
-from common.functions import filter_fields,build_attachment_info
+from common.functions import filter_fields,build_attachment_info,compare_fields,compare_json
 
 import json
 from task.server import task_submit_record_db,task_submit_attach_db,\
@@ -34,6 +37,7 @@ def collect(request):
                     task_assgin_obj = task_assign_db.query_task_assign_by_tasid(record_obj.tasid_id)
                     task_map_obj = task_map_db.query_task_by_tmid(task_assgin_obj.first().tmid_id)
                     map_tags = task_map_tag_db.query_tag_by_tmid(task_map_obj.tmid)
+                    contributor = task_assgin_obj.first().member_id_id
                     # 在构造收录信息
                     tag = ""
                     for item in record_tags:
@@ -50,9 +54,10 @@ def collect(request):
                         "tag": tag,
                         "relate_tag": relate_tag,
                         "relate_title": relate_title,
-                        "recorder_id":user,
-                        "type_id":task_map_obj.type_id,
-                        "tid_id":task_map_obj.tid_id
+                        "recorder_id": user,
+                        "contributor_id": contributor,
+                        "type_id": task_map_obj.type_id,
+                        "tid_id": task_map_obj.tid_id
                         }
                     tsid = coll_record_db.insert_record(insert_info)
                     # 收录附件
@@ -151,6 +156,12 @@ def knowledge_detail(request):
                 record_json = record_obj.__dict__
                 record_json.pop('_state')
                 record_json["type_id"] = change_to_task_type(record_json["type_id"])
+                record_json["recorder_id"] = change_to_staff(record_json["recorder_id"])
+                contributor_id = record_json["contributor_id"]
+                staff_obj = staff_db.query_staff_by_id(contributor_id)
+                record_json["contributor_id"] = change_to_staff(contributor_id)
+                record_json["depart"] = change_to_department(staff_obj.department_id)
+                record_json["phone"] = staff_obj.phone
                 record_attach = record_attach_db.query_record_attach_by_tsid(id)
                 if record_attach:
                     record_json['attach'] = serializers.serialize("json", record_attach)
@@ -172,38 +183,81 @@ def knowledge_detail(request):
 
 def knowledge_edit(request):
     """自定义添加知识"""
-    ret = {'status': False, "data": '', "message": ""}
-    form = KnowledgeForm(data=request.POST)
-    if form.is_valid():
-        data = request.POST
-        data = data.dict()
-        k_attach = data.get("attach", '')
-        k_attach = list(json.loads(k_attach))
-        # 创建
-        try:
-            with transaction.atomic():
-                # 插入收录知识信息
-                coll_info = filter_fields(CollRecord._insert, data)
-                nid = coll_record_db.insert_record(coll_info)
-                # 插入知识附件
-                if k_attach:
-                    k_attach = build_attachment_info({"tsid_id": nid}, k_attach)
-                    record_attach_db.mutil_insert_attachment(k_attach)
-                ret['status'] = True
-                ret['data'] = nid
-        except Exception as e:
-            print(e)
-            ret["message"] = "添加失败"
+    method = request.method
+    if method == "GET":
+        id = request.GET.get("id", '')
+        if id:
+            query_set = coll_record_db.query_record_by_id(id)
+            know_attach = record_attach_db.query_record_attach_by_tsid(id)
+            if not know_attach:
+                know_attach = ''
+            print("know_attach",know_attach)
+            return render(request,"collections/knowledge_edit.html",{"query_set":query_set ,"nid": id, "know_attach": know_attach})
+        else:
+            return render(request,'404.html')
     else:
-        errors = form.errors.as_data().values()
-        firsterror = str(list(errors)[0][0])
-        ret['message'] = firsterror
-    print(ret)
-    return HttpResponse(json.dumps(ret))
+        ret = {'status': False, "data": '', "message": ""}
+        form = KnowledgeForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            k_attach = data.get("attach", '')
+            id = data.get("id",None)
+            k_attach = list(json.loads(k_attach))
+            if not id:
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入收录知识信息
+                        coll_info = filter_fields(CollRecord._insert, data)
+                        nid = coll_record_db.insert_record(coll_info)
+                        # 插入知识附件
+                        if k_attach:
+                            k_attach = build_attachment_info({"tsid_id": nid}, k_attach)
+                            record_attach_db.mutil_insert_attachment(k_attach)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+            else:
+                try:
+                    with transaction.atomic():
+                        # 更新收录信息
+                        record = coll_record_db.query_record_by_id(id)
+                        know_info = compare_fields(CollRecord._update, record, data)
+                        if know_info:
+                            know_info["nid"] = id
+                            coll_record_db.update_info(know_info)
+                        # 更新附件
+                        if k_attach:
+                            att_record = record_attach_db.query_record_attach_by_tsid(id)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, k_attach, "nid")
+
+                            if insert_att:
+                                insert_att = build_attachment_info({"tsid_id": id}, insert_att)
+                                record_attach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                record_attach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                record_attach_db.mutil_delete(delete_id_att)
+                        else:
+                            record_attach_db.mutil_delete_by_tsid(id)
+                        ret['data'] = id
+                        ret['status'] = True
+                    print("ret",ret)
+                except Exception as e:
+                    print(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
 
 
 def knowledge_favor(request):
-    """收录点赞"""
+    """点赞收录"""
     id = int(request.GET.get("id",0))
     uid = int(request.GET.get("user",0))
     ret = {"status":False,"data":""}
@@ -230,4 +284,38 @@ def knowledge_favor(request):
         refer_obj.save()
         ret["data"] = {"count":favor_count,"signal":signal}
         ret["status"] = True
+    return HttpResponse(json.dumps(ret))
+
+
+def know_attach(request):
+    """收录附件上传"""
+    ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
+    # 保存路径
+    target_path = "media/upload/collection/"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
+    try:
+        # 获取文件对象
+        file_obj = request.FILES.get("file")
+        raw_name = file_obj.name
+        postfix = raw_name.split(".")[-1]
+        if not file_obj:
+            pass
+        else:
+            file_name = str(uuid.uuid4()) + "." + postfix
+            # 查看路径是否存在，没有则生成
+            if not os.path.exists(os.path.dirname(target_path)):
+                os.makedirs(target_path)
+            file_path = os.path.join(target_path, file_name)
+            # os.path.join()在Linux/macOS下会以斜杠（/）分隔路径，而在Windows下则会以反斜杠（\）分隔路径,
+            # 故统一路径将'\'替换成'/'
+            file_path = file_path.replace('\\', "/")
+            with open(file_path, "wb") as f:
+                for chunk in file_obj.chunks():
+                    f.write(chunk)
+            ret["status"] = True
+            ret["data"]['path'] = file_path
+            ret["data"]['name'] = raw_name
+    except Exception as e:
+        ret["summary"] = str(e)
     return HttpResponse(json.dumps(ret))

@@ -25,5 +25,6 @@ urlpatterns = [
     path("knowledge/edit",views.knowledge_edit,name="knowledge_edit"),
     path("knowledge/detail",views.knowledge_detail, name="knowledge_detail"),
     path("knowledge/favor", views.knowledge_favor, name="knowledge_favor"),
+    path("know_attach", views.know_attach, name="know_attach"),
 
 ]

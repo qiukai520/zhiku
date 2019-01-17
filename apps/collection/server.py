@@ -33,6 +33,9 @@ class CollRecordDB(object):
         result_db = CollRecord.objects.filter(type=id).all()
         return result_db
 
+    def update_info(self,modify_info):
+        CollRecord.objects.filter(nid=modify_info["nid"]).update(**modify_info)
+
     def multi_delete(self,id_list):
         CollRecord.objects.filter(nid__in=id_list).delete()
 
@@ -49,7 +52,14 @@ class CollRecordAttachDB(object):
             CollAttachment.objects.create(**item)
 
     def mutil_delete(self,id_list):
-        CollAttachment.objects.filter(tsid_id__in=id_list).delete()
+        CollAttachment.objects.filter(nid__in=id_list).delete()
+
+    def mutil_delete_by_tsid(self, tsid):
+        CollAttachment.objects.filter(tsid_id=tsid).delete()
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            CollAttachment.objects.filter(nid=item['nid']).update(**item)
 
 
 class CollFavorDB(object):

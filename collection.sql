@@ -12,6 +12,7 @@ create TABLE `coll_record`(
 `industry` varchar(512) COMMENT '关联行业',
 `relate_title` varchar(128) COMMENT '关联标题',
 `recorder_id`  int(11) NOT NUll DEFAULT 0 COMMENT'收录人',
+`contributor_id`  int(11) NOT NUll DEFAULT 0 COMMENT'贡献人',
 `type_id`  int(11) NOT NUll DEFAULT 0 COMMENT'类型',
 `favor`  int(11) NOT NUll DEFAULT 0 COMMENT'点赞数',
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
