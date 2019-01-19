@@ -21,7 +21,6 @@ class MiddlewareMixin(object):
 
 class LoginMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        print("process_request",re.match("/media/article*",request.path_info))
         if request.path_info == '/login/':
             return None
         if re.match("/media/article*",request.path_info):
@@ -40,7 +39,6 @@ class RbacMiddleware(MiddlewareMixin):
         #2.获取Session中保存当前用户的权限
         #request.session.get("permission_url_list")
         current_url = request.path_info
-        print(current_url)
         #当前请求不需要执行权限验证
         # print(current_url)
         for url in settings.VALID_URL:
@@ -51,15 +49,12 @@ class RbacMiddleware(MiddlewareMixin):
         # print(111)
         permission_dict = request.session.get(settings.PERMISSION_URL_DICT_KEY)
         if not permission_dict:
-            print("permission_dict",permission_dict)
             return redirect("/login/")
         # print(112)
         flag = False
-        print(permission_dict)
         for group_id,code_url in permission_dict.items():
             for db_url in code_url["urls"]:
                 regax="{0}".format(db_url)
-                print("regax",regax)
                 if re.match(regax,current_url):
                     request.permission_code_list =code_url ["code"]
                     flag = True

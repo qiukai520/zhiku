@@ -126,7 +126,6 @@ class CustomerLicenceDB(object):
     """客户营业执照"""
 
     def insert_photo(self, modify):
-        print("modirfy",modify)
         CustomerLicence.objects.create(**modify)
 
     def query_customer_licence(self,id):
@@ -573,7 +572,6 @@ class SeaRuleDB(object):
     def insert_rule(self, rule):
         is_exist = SeaRule.objects.filter().last()
         if is_exist:
-            print("rule",rule)
             SeaRule.objects.filter(nid=is_exist.nid).update(rule=rule)
         else:
             SeaRule.objects.create(rule=rule)
@@ -590,12 +588,12 @@ c_linkman_card_db = CustomerLinkmanCardDB()
 c_linkman_attach_db = CustomerLinkmanAttachDB()
 c_memo_db = CustomerMemoDB()
 c_memo_attach_db = CustomerMemoAttachDB()
-c_contact_db=CustomerContactDB()
+c_contact_db = CustomerContactDB()
 c_contact_attach_db = ContactAttachDB()
 c_follow_db = CustomerFollowDB()
 follow_way_db = FollowWayDB()
 follow_contact_db = FollowContactDB()
 follow_result_db = FollowResultDB()
-c_follow_attach_db=FollowAttachDB()
+c_follow_attach_db = FollowAttachDB()
 customer_purpose_db = CustomerPurposeDB()
 sea_rule_db=SeaRuleDB()

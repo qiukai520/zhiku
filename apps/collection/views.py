@@ -150,16 +150,17 @@ def knowledge_detail(request):
     ret = {"status": False, "data": "", "signal":False}
     if id:
         try:
-            record_obj = coll_record_db.query_record_by_id(id)
+            # record_obj = coll_record_db.query_record_by_id(id)
+            record_obj = CollRecord.objects.filter(nid=id).first().select_related()
             if record_obj:
                 # 格式化数据
                 record_json = record_obj.__dict__
                 record_json.pop('_state')
-                record_json["type_id"] = change_to_task_type(record_json["type_id"])
-                record_json["recorder_id"] = change_to_staff(record_json["recorder_id"])
+                record_json["type_id"] = record_obj.type.name
+                record_json["recorder_id"] = record_obj.recorder.name
                 contributor_id = record_json["contributor_id"]
                 staff_obj = staff_db.query_staff_by_id(contributor_id)
-                record_json["contributor_id"] = change_to_staff(contributor_id)
+                record_json["contributor_id"] = record_obj.contributor.name
                 record_json["depart"] = change_to_department(staff_obj.department_id)
                 record_json["phone"] = staff_obj.phone
                 record_attach = record_attach_db.query_record_attach_by_tsid(id)
@@ -175,7 +176,7 @@ def knowledge_detail(request):
                         ret['signal'] = True
                 ret['status'] = True
                 ret['data'] = record_json
-                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+                return HttpResponse(json.dumps(ret,cls=CJSONEncoder))
         except Exception as e:
             print(e)
     return render(request, '404.html')
@@ -191,7 +192,6 @@ def knowledge_edit(request):
             know_attach = record_attach_db.query_record_attach_by_tsid(id)
             if not know_attach:
                 know_attach = ''
-            print("know_attach",know_attach)
             return render(request,"collections/knowledge_edit.html",{"query_set":query_set ,"nid": id, "know_attach": know_attach})
         else:
             return render(request,'404.html')
@@ -246,7 +246,6 @@ def knowledge_edit(request):
                             record_attach_db.mutil_delete_by_tsid(id)
                         ret['data'] = id
                         ret['status'] = True
-                    print("ret",ret)
                 except Exception as e:
                     print(e)
         else:
@@ -319,3 +318,4 @@ def know_attach(request):
     except Exception as e:
         ret["summary"] = str(e)
     return HttpResponse(json.dumps(ret))
+

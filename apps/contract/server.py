@@ -139,11 +139,18 @@ class CustomerContractDB(object):
         result_db = ContractInfo.objects.filter(customer_id=customer_id,is_approved=1).all().order_by("-nid")
         return result_db
 
+    def query_contract_by_follower(self,follower_id):
+        result_db = ContractInfo.objects.filter(follower_id=follower_id).all().order_by("-nid")
+        return result_db
+
     def update_contract(self, modify):
         ContractInfo.objects.filter(nid=modify['nid']).update(**modify)
 
     def multi_delete(self, id_list, delete_status):
         ContractInfo.objects.filter(nid__in=id_list).update(**delete_status)
+
+    def multi_follow(self, id_list, modify):
+        ContractInfo.objects.filter(nid__in=id_list).update(**modify)
 
 
 class ContractAttachDB(object):

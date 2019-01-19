@@ -98,6 +98,23 @@ def build_department_ele(selected=0):
 
 
 @register.simple_tag
+def build_staff_search_ele(dpid=0, sid=0):
+    """构建员工下拉框"""
+    if dpid != ''and 0:
+         #根据部门获取员工
+        dp_list = staff_db.query_staff_by_department_id(dpid)
+    else:
+        dp_list = staff_db.query_staff_list()
+    eles = ""
+    for item in dp_list:
+        if item.sid == sid:
+            ele = """<option value={0} selected=selected >{1}</option>""".format(item.sid, item.name)
+        else:
+            ele = """<option value={0} >{1}</option>""".format(item.sid, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
 def build_staff_ele(selected=0):
     """构建员工拉框"""
     staff_list = staff_db.query_staff_list()

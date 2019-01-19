@@ -295,7 +295,6 @@ class GoodsDB(object):
         Goods.objects.filter(nid__in=id_list).update(**delete_status)
 
 
-
 class GoodsPhotoDB(object):
     """商品图片"""
 

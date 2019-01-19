@@ -78,6 +78,7 @@ class CollFavorDB(object):
         row = cursor.fetchone()
         return row
 
+
 coll_record_db = CollRecordDB()
 record_attach_db = CollRecordAttachDB()
 coll_favor_db = CollFavorDB()

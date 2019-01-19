@@ -57,8 +57,8 @@ class CustomerInfo(SoftDeletableModel):
     ftime = models.DateTimeField(auto_now_add=True, verbose_name='开始跟进时间')
     recorder = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='记录人',
                                  db_constraint=False)
-    is_sign = models.BooleanField(default=False,verbose_name="是否签约")
-    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+    is_sign = models.BooleanField(default=False, verbose_name="是否签约")
+    is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
 

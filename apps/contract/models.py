@@ -53,6 +53,8 @@ class ContractInfo(SoftDeletableModel):
     sign = models.DateField(verbose_name='签订时间')
     belonger = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='签订人',
                                  db_constraint=False)
+    follower = models.ForeignKey(Staff,blank=True, null=True, to_field="sid", related_name="fol_crt", on_delete=models.CASCADE, verbose_name='跟进客服',
+                                 db_constraint=False)
     helper = models.ForeignKey(Staff, to_field="sid", related_name='helper', blank=True, null=True, on_delete=models.CASCADE, verbose_name='辅助人',
                                  db_constraint=False)
     start_date = models.DateTimeField(verbose_name=u"生效时间", default=datetime.now)

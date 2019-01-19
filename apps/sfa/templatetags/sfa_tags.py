@@ -171,12 +171,23 @@ def change_to_contact_category(id):
         if item['id'] == int(id):
             return item["caption"]
 
+
+@register.simple_tag
+def change_to_customer(cid):
+    if cid:
+        obj = customer_db.query_customer_by_id(cid)
+        if obj:
+            return obj.company
+
+
 @register.simple_tag
 def change_to_follow_way(id):
     if id:
         obj = follow_way_db.query_way_by_id(id)
         if obj:
             return obj.content
+
+
 @register.simple_tag
 def change_to_follow_contact(id):
     if id:
@@ -191,6 +202,7 @@ def change_to_customer_linkman(id):
         obj = c_linkman_db.query_linkman_by_id(id)
         if obj:
             return "{0}({1})".format(obj.name,change_to_job_title(obj.job_title_id))
+
 
 @register.simple_tag
 def change_to_follow_result(id):
@@ -208,9 +220,9 @@ def change_to_customer_category(id):
         if obj:
             return obj.caption
 
+
 @register.simple_tag
 def change_to_linkman(id):
-    print("id",id)
     if id:
         obj = c_linkman_db.query_linkman_by_id(id)
         if obj:
@@ -223,6 +235,7 @@ def change_to_gender(id):
     for item in gender_choice:
         if item['id'] == int(id):
             return item["caption"]
+
 
 @register.simple_tag
 def change_to_linkman_marriage(id):
@@ -249,25 +262,22 @@ def change_to_staff(id):
 
 @register.simple_tag
 def fetch_customer_linkman_list(id):
-    if id :
+    if id:
         linkman_list = c_linkman_db.query_linkman_by_customer_id(id)
         return linkman_list
 
 
 @register.simple_tag
 def fetch_customer_memo_list(id):
-    if id :
+    if id:
         memo_list = c_memo_db.query_memo_by_customer_id(id)
         return memo_list
 
 
 @register.simple_tag
 def fetch_customer_contract(id):
-    print("is", id)
     if id:
-        print("is", id)
         contract_list = contract_db.query_contract_by_customer(id)
-        print(contract_list)
         return contract_list
 
 

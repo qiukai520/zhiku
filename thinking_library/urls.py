@@ -39,6 +39,7 @@ urlpatterns = [
     path("public/", include('public.urls')),  # 公共库
     path('article/', include('article.urls')),    # 首页文章
     path('collection/', include('collection.urls')),   # 知识库
+    path('service/', include('service.urls')),  # 客服管理
     # path('404/', TemplateView.as_view(template_name='404.html'), name='404'),
     path('media/', serve, {'document_root': settings.MEDIA_ROOT}),  # 用户上传文件路径，配置上传文件的访问处理函数
     path('attachment_upload.html', task_view.attachment_upload, name='attachment_upload'),
