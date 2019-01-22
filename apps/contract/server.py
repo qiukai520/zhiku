@@ -312,6 +312,7 @@ class PaymentApproveRecordDB(object):
         return result_db
 
 
+
 product_db = ProductDB()
 product_meal_db = ProductMealDB()
 contract_db = CustomerContractDB()

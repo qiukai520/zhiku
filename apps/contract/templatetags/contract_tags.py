@@ -3,8 +3,10 @@ from django.utils.safestring import mark_safe
 from ..server import *
 from sfa.server import customer_db
 from personnel.server import staff_db
+from sfa.server import c_linkman_db
+from service.server import crt_follow_db,way_db,contact_db
+from personnel.templatetags.personnel_tags import *
 register = template.Library()
-
 
 
 @register.simple_tag
@@ -123,6 +125,31 @@ def count_unapproved_paymemnt(cid,user):
         return count
     return 0
 
+
+@register.simple_tag
+def change_contract_follow_way(id):
+    if id:
+        obj = way_db.query_way_by_id(id)
+        if obj:
+            return obj.content
+
+
+@register.simple_tag
+def change_contract_follow_contact(id):
+    if id:
+        obj = contact_db.query_contact_by_id(id)
+        if obj:
+            return obj.content
+
+
+@register.simple_tag
+def change_to_customer_linkman(id):
+    if id:
+        obj = c_linkman_db.query_linkman_by_id(id)
+        if obj:
+            return "{0}({1})".format(obj.name,change_to_job_title(obj.job_title_id))
+
+
 @register.simple_tag
 def fetch_my_approved_result(cid,sid):
     """获取我的审核结果"""
@@ -174,11 +201,9 @@ def fetch_approved_record_list(cid):
 @register.simple_tag
 def fetch_my_payment_approved_result(pid,sid):
     """获取我的尾款审核结果"""
-    print("pid&sid",pid,sid)
     if pid and sid:
         result_obj = p_apr_db.query_my_approved_result(pid,sid)
         if result_obj:
-            print("result_obj",result_obj.result)
             return result_obj.result
 
 
@@ -223,9 +248,16 @@ def fetch_payment_approve_record(rid):
 
 @register.simple_tag
 def fetch_contract_approve_record(rid):
-    print("rid",rid)
     if rid:
         record_list = app_record_db.query_my_record(rid)
     else:
         record_list = []
     return record_list
+
+
+
+@register.simple_tag
+def fetch_contract_follow_list(id):
+    if id:
+        follow_list = crt_follow_db.query_follow_by_contract_id(id)
+        return follow_list

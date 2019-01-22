@@ -26,3 +26,19 @@ create TABLE `contract_follow_attach`(
 `name` varchar(64) COMMENT '附件名称',
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0否，1是'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='合同跟进附件';
+
+
+drop TABLE if exists `crt_fol_way`;
+create TABLE `crt_fol_way`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`content` varchar(128) COMMENT '跟进方式',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='跟进方式';
+
+
+drop TABLE if exists `crt_fol_contact`;
+create TABLE `crt_fol_contact`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`content` varchar(128) COMMENT '联系方式',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='联系方式';

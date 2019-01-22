@@ -38,7 +38,6 @@ class ContractFollowDB(object):
         ContractFollow.objects.filter(nid__in=id_list).delete()
 
 
-
 class FollowAttachDB(object):
     """跟踪附件表"""
     def query_follow_attachment_list(self):
@@ -67,5 +66,57 @@ class FollowAttachDB(object):
         ContractFollowAttach.objects.filter(nid=nid).delete()
 
 
+class FollowWayDB(object):
+    """跟进方式"""
+    def query_way_list(self):
+        result_db = FollowWay.objects.filter().all()
+        return result_db
+
+    def query_way_by_id(self,id):
+        result_db = FollowWay.objects.filter(nid=id).first()
+        return result_db
+
+    def update_way(self, modify_info):
+        is_exist = FollowWay.objects.filter(content=modify_info['content']).first()
+        if is_exist:
+            raise Exception("该名称已存在")
+        FollowWay.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_way(self, modify_info):
+        is_exist = FollowWay.objects.filter(content=modify_info['content']).first()
+        if is_exist:
+            raise Exception("该名称已存在")
+        FollowWay.objects.create(**modify_info)
+
+
+class FollowContactDB(object):
+    """联络方式"""
+    def query_contact_list(self):
+        result_db = FollowContact.objects.filter().all()
+        return result_db
+
+    def query_contact_by_id(self,id):
+        result_db = FollowContact.objects.filter(nid=id).first()
+        return result_db
+
+    def query_contact_by_follow_id(self,id):
+        result_db = FollowContact.objects.filter(nid=id).first()
+        return result_db
+
+    def update_contact(self, modify_info):
+        is_exist = FollowContact.objects.filter(content=modify_info['content']).first()
+        if is_exist:
+            raise Exception("该名称已存在")
+        FollowContact.objects.filter(nid=modify_info['nid']).update(**modify_info)
+
+    def insert_contact(self, modify_info):
+        is_exist = FollowContact.objects.filter(content=modify_info['content']).first()
+        if is_exist:
+            raise Exception("该名称已存在")
+        FollowContact.objects.create(**modify_info)
+
+
 crt_follow_db = ContractFollowDB()
-crt_follow_attach_db = ContractFollowAttach()
+crt_follow_attach_db = FollowAttachDB()
+way_db = FollowWayDB()
+contact_db = FollowContactDB()

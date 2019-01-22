@@ -235,7 +235,7 @@ def linkman_delete(request):
 
 
 def follow_delete(request):
-    """删除客户信息"""
+    """删除客户跟进记录"""
     ret = {'status': False, "data": "", "message": ""}
     ids = request.GET.get("ids", '')
     ids = ids.split("|")

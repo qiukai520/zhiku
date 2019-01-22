@@ -2,6 +2,7 @@
 {% extends "content_edit_layout.html" %}
 {% load personnel_tags %}
 {% load sfa_tags %}
+{% load service_tags %}
 {% block css %}
     <style>
       #attachment-container .col-sm-8{
@@ -59,7 +60,7 @@
                             <label class="col-sm-2 control-label">跟进方式</label>
                             <div class="col-sm-8">
                                 <select  name="way_id" class="form-control" id="way_id" >
-                                    {% build_follow_way_ele %}
+                                    {% build_crt_follow_way_ele %}
                                 </select>
                             </div>
                         </div>
@@ -68,7 +69,7 @@
                             <label class="col-sm-2 control-label">联络方式</label>
                             <div class="col-sm-8">
                                 <select  name="contact_id" class="form-control" id="contact_id" >
-                                    {% build_follow_contact_ele %}
+                                    {% build_crt_follow_contact_ele %}
                                 </select>
 
                             </div>
@@ -259,6 +260,7 @@ function GetAttachment(){
       attachment_list=JSON.stringify(attachment_list)//对象转化成json
     return attachment_list
 }
+
 //创建时获取附件
 function FetchAttachment(){
     var attachment_list=new Array()
@@ -318,7 +320,7 @@ function UploadFile(ths){
       function Submit(cons){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
-         var form =$("crt_follow_fm");
+         var form =$("#crt_follow_fm");
          console.log(form)
         //验证表单
          if ( form.valid()){

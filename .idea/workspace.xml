@@ -7,38 +7,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/service/forms/base.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/service/forms/form.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/service/forms/validate_func.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/service/server.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/service/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql/service.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/service/contract_follow.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/service/service_contract.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/service/templatetags/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/service/templatetags/service_tags.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/service/follow_contact_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/service/follow_contact_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/service/follow_way_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/service/follow_way_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/collection/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/collection/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/collection/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/collection/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/contract/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/contract/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/contract/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/contract/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/inventory/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/inventory/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/personnel/templatetags/personnel_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/personnel/templatetags/personnel_tags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/rbac/middlewares/rbac.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/rbac/middlewares/rbac.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/contract/templatetags/contract_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/contract/templatetags/contract_tags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/service/forms/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/service/forms/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/service/forms/validate_func.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/service/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/service/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/service/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/service/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/service/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/service/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/service/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/service/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/sfa/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/sfa/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/sfa/templatetags/sfa_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/templatetags/sfa_tags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/collection.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/collection.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/contract.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/inventory.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notice.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/notice.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/practicce.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/practice.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sfa.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/sfa.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/task.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/contract/contract_center.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contract/contract_center.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/sfa/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/service.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/service.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/contract/contract_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contract/contract_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_public.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_public.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/thinking_library/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/thinking_library/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/thinking_library/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/thinking_library/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/service/contract_follow.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/service/contract_follow.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/service/service_contract.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/service/service_contract.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,7 +39,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/thinking_library$models.coverage" NAME="models Coverage Results" MODIFIED="1536400746281" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/inventory" />
-    <SUITE FILE_PATH="coverage/thinking_library$thinking_library.coverage" NAME="thinking_library Coverage Results" MODIFIED="1547890668102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/thinking_library$thinking_library.coverage" NAME="thinking_library Coverage Results" MODIFIED="1548142307770" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/thinking_library$settings.coverage" NAME="settings Coverage Results" MODIFIED="1543314203632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thinking_library" />
     <SUITE FILE_PATH="coverage/thinking_library$practice.coverage" NAME="practice Coverage Results" MODIFIED="1544601836697" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/thinking_library$tasks.coverage" NAME="tasks Coverage Results" MODIFIED="1543316778828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/apps/notice" />
@@ -64,75 +54,117 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="service_contract.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/service/service_contract.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1042">
-              <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="contract_follow.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/service/contract_follow.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="44" column="116" selection-start-line="44" selection-start-column="116" selection-end-line="44" selection-end-column="116" />
-              <folding>
-                <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#div#1;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sfa_tags.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/sfa/templatetags/sfa_tags.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2569">
-              <caret line="264" column="9" lean-forward="true" selection-start-line="264" selection-start-column="9" selection-end-line="264" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="personnel_tags.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/personnel/templatetags/personnel_tags.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="25" column="32" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="32" />
-              <folding>
-                <element signature="e#0#27#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="layout.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1739">
-              <caret line="214" column="37" lean-forward="true" selection-start-line="214" selection-start-column="37" selection-end-line="214" selection-end-column="37" />
+            <state relative-caret-position="337">
+              <caret line="276" column="102" selection-start-line="276" selection-start-column="102" selection-end-line="276" selection-end-column="102" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="customer_detail.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_detail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="301">
+              <caret line="1356" column="34" selection-start-line="1356" selection-start-column="34" selection-end-line="1356" selection-end-column="34" />
+              <folding>
+                <element signature="e#79708#80882#0#HTML" />
+                <element signature="e#80918#82092#0#HTML" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/sfa/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="39" column="40" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="contract_detail.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/contract/contract_detail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="755" column="42" selection-start-line="755" selection-start-column="25" selection-end-line="755" selection-end-column="42" />
+              <folding>
+                <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+                <element signature="n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+                <element signature="n#style#0;n#button#0;n#div#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#17157#17163#0#HTML" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#22850#23829#0#HTML" />
+                <element signature="e#23869#24847#0#HTML" />
+                <element signature="e#25329#26747#0#HTML" />
+                <element signature="e#26801#27002#0#HTML" />
+                <element signature="e#42812#43010#0#HTML" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/apps/service/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-31">
+              <caret line="266" column="27" lean-forward="true" selection-start-line="266" selection-start-column="27" selection-end-line="266" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#1523#5603#0" />
+                <element signature="e#5633#5770#0" />
+                <element signature="e#5800#7326#0" />
+                <element signature="e#7546#9134#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/sfa/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="599">
+              <caret line="236" selection-start-line="236" selection-end-line="251" selection-end-column="40" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#10484#10898#0" />
+                <element signature="e#38067#38633#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/contract/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="347">
+              <caret line="706" selection-start-line="706" selection-end-line="706" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/contract/server.py">
+        <entry file="file://$PROJECT_DIR$/apps/service/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
-              <caret line="129" column="19" lean-forward="true" selection-start-line="129" selection-start-column="19" selection-end-line="129" selection-end-column="19" />
+            <state relative-caret-position="183">
+              <caret line="26" column="66" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="66" />
+              <folding>
+                <element signature="e#0#32#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/contract/models.py">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/service/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="44" column="12" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="12" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="249">
+              <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -151,14 +183,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>clear</find>
-      <find>with transaction</find>
-      <find>6</find>
-      <find>delete</find>
-      <find>date</find>
-      <find>selectAll</find>
-      <find>智</find>
-      <find>备注</find>
       <find>table</find>
       <find>&lt;table</find>
       <find>button</find>
@@ -175,17 +199,22 @@
       <find>ensure</find>
       <find>contract_cen</find>
       <find>form</find>
-      <find>follow</find>
       <find>&lt;form</find>
       <find>Customer</find>
       <find>follow_db</find>
       <find>_obj</find>
       <find>客户</find>
+      <find>way</find>
+      <find>task_sort</find>
+      <find>department</find>
+      <find>department_ojb</find>
+      <find>department_obj</find>
+      <find>跟进记录</find>
+      <find>跟进人</find>
+      <find>跟进</find>
+      <find>follow</find>
     </findStrings>
     <replaceStrings>
-      <replace>/static/js/</replace>
-      <replace>dpid</replace>
-      <replace>deleted</replace>
       <replace>customers</replace>
       <replace>凭证</replace>
       <replace>Customer</replace>
@@ -213,6 +242,9 @@
       <replace>refer</replace>
       <replace>Contract</replace>
       <replace>contract</replace>
+      <replace>way</replace>
+      <replace>contact_obj</replace>
+      <replace>way_obj</replace>
     </replaceStrings>
     <dirStrings>
       <dir>H:\PythonWorkPlace\company\thinking_library\templates\task</dir>
@@ -225,16 +257,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/contract/approved_detail.html" />
-        <option value="$PROJECT_DIR$/templates/contract/crt_apr_list.html" />
-        <option value="$PROJECT_DIR$/templates/content_edit_layout.html" />
-        <option value="$PROJECT_DIR$/apps/collection/utils.py" />
-        <option value="$PROJECT_DIR$/apps/contract/views.py" />
-        <option value="$PROJECT_DIR$/templates/contract/contract_detail.html" />
-        <option value="$PROJECT_DIR$/practice.html" />
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/apps/task/views.py" />
-        <option value="$PROJECT_DIR$/apps/notice/views.py" />
         <option value="$PROJECT_DIR$/templates/notice/noticelist.html" />
         <option value="$PROJECT_DIR$/templates/contract/my_contracts.html" />
         <option value="$PROJECT_DIR$/templates/task/task_assigned_list.html" />
@@ -262,20 +284,30 @@
         <option value="$PROJECT_DIR$/apps/contract/models.py" />
         <option value="$PROJECT_DIR$/contract.sql" />
         <option value="$PROJECT_DIR$/templates/contract/contract_center.html" />
-        <option value="$PROJECT_DIR$/apps/contract/server.py" />
         <option value="$PROJECT_DIR$/templates/service/serviec_contract.html" />
-        <option value="$PROJECT_DIR$/apps/service/models.py" />
-        <option value="$PROJECT_DIR$/sql/service.sql" />
-        <option value="$PROJECT_DIR$/apps/service/forms/form.py" />
-        <option value="$PROJECT_DIR$/apps/service/server.py" />
-        <option value="$PROJECT_DIR$/apps/service/urls.py" />
-        <option value="$PROJECT_DIR$/templates/layout.html" />
-        <option value="$PROJECT_DIR$/templates/service/service_contract.html" />
         <option value="$PROJECT_DIR$/apps/sfa/server.py" />
+        <option value="$PROJECT_DIR$/apps/sfa/models.py" />
+        <option value="$PROJECT_DIR$/sql/service.sql" />
+        <option value="$PROJECT_DIR$/apps/contract/server.py" />
+        <option value="$PROJECT_DIR$/apps/service/forms/form.py" />
+        <option value="$PROJECT_DIR$/apps/service/models.py" />
+        <option value="$PROJECT_DIR$/templates/service/follow_contact_list.html" />
+        <option value="$PROJECT_DIR$/templates/service/follow_contact_edit.html" />
+        <option value="$PROJECT_DIR$/templates/service/follow_way_list.html" />
+        <option value="$PROJECT_DIR$/templates/service/follow_way_edit.html" />
+        <option value="$PROJECT_DIR$/apps/service/templatetags/service_tags.py" />
         <option value="$PROJECT_DIR$/templates/service/contract_follow.html" />
         <option value="$PROJECT_DIR$/apps/sfa/templatetags/sfa_tags.py" />
+        <option value="$PROJECT_DIR$/apps/contract/templatetags/contract_tags.py" />
+        <option value="$PROJECT_DIR$/apps/service/server.py" />
+        <option value="$PROJECT_DIR$/templates/sfa/customer_detail.html" />
+        <option value="$PROJECT_DIR$/templates/service/service_contract.html" />
+        <option value="$PROJECT_DIR$/templates/layout.html" />
+        <option value="$PROJECT_DIR$/templates/contract/contract_detail.html" />
+        <option value="$PROJECT_DIR$/apps/sfa/views.py" />
+        <option value="$PROJECT_DIR$/apps/contract/views.py" />
         <option value="$PROJECT_DIR$/apps/service/views.py" />
-        <option value="$PROJECT_DIR$/apps/sfa/models.py" />
+        <option value="$PROJECT_DIR$/apps/service/urls.py" />
       </list>
     </option>
   </component>
@@ -300,6 +332,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -323,28 +356,7 @@
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="apps" type="462c0819:PsiDirectoryNode" />
               <item name="service" type="462c0819:PsiDirectoryNode" />
-              <item name="forms" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="apps" type="462c0819:PsiDirectoryNode" />
-              <item name="sfa" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="logs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="sql" type="462c0819:PsiDirectoryNode" />
+              <item name="templatetags" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -368,11 +380,14 @@
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -388,19 +403,19 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="G:\workplace\thinking_library\apps\service" />
-      <recent name="G:\workplace\thinking_library\templates\service" />
-      <recent name="G:\workplace\thinking_library\templates\collections" />
-      <recent name="G:\workplace\thinking_library\apps\collection" />
-      <recent name="G:\workplace\thinking_library\templates\contract" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="G:\workplace\thinking_library\sql" />
       <recent name="G:\workplace\thinking_library\apps" />
       <recent name="F:\workplace\thinking_library\templates\practice" />
       <recent name="F:\workplace\thinking_library\templates\public" />
       <recent name="F:\workplace\thinking_library\apps" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\workplace\thinking_library\apps\service" />
+      <recent name="G:\workplace\thinking_library\templates\service" />
+      <recent name="G:\workplace\thinking_library\templates\collections" />
+      <recent name="G:\workplace\thinking_library\apps\collection" />
+      <recent name="G:\workplace\thinking_library\templates\contract" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -582,9 +597,9 @@
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4883005" weight="0.32816228" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.46356785" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.4877451" visible="true" weight="0.21733668" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8883774" visible="true" weight="0.257329" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.37562814" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4877451" weight="0.33040202" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8883774" visible="true" weight="0.247557" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -602,6 +617,32 @@
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.498366" weight="0.32696897" />
       <window_info anchor="right" id="Coverage" order="3" side_tool="true" />
     </layout>
+    <layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8883774" visible="true" weight="0.17019545" />
+      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.21231155" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
+      <window_info anchor="right" id="Data View" order="5" />
+      <window_info id="Structure" order="1" sideWeight="0.11162256" side_tool="true" weight="0.21328124" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3287037" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.498366" weight="0.32696897" />
+      <window_info anchor="right" x="0" y="0" width="374" height="826" id="Documentation" order="7" side_tool="true" weight="0.3294335" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4981527" weight="0.398568" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4877451" weight="0.33040202" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5122549" side_tool="true" weight="0.20979021" />
+      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4883005" weight="0.32816228" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Coverage" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -618,114 +659,10 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="107" />
+      <option name="time" value="110" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/.PyCharm2018.1/system/python_stubs/-612433413/builtins.py" />
-    <entry file="file://G:/workenv/thinking_library_venv/Lib/site-packages/django/core/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4">
-          <caret lean-forward="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thinking_library/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://G:/workenv/thinking_library_venv/Lib/site-packages/django/core/handlers/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="134" column="13" selection-start-line="134" selection-start-column="13" selection-end-line="134" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/task/templatetags/admin_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="231" column="4" selection-start-line="231" selection-start-column="4" selection-end-line="231" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/collections/knowledge_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2460">
-          <caret line="82" column="49" selection-start-line="82" selection-start-column="49" selection-end-line="82" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/inventory/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8820">
-          <caret line="296" selection-start-line="296" selection-end-line="296" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/collection/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="24" column="61" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="61" />
-          <folding>
-            <element signature="e#148#562#0" />
-            <element signature="e#299#356#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/collection/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-746">
-          <caret line="264" column="34" selection-start-line="264" selection-start-column="34" selection-end-line="264" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/contract/my_contracts.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="40" column="56" selection-start-line="40" selection-end-line="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/contract/approver_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-270" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/sfa/apps.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/service/apps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="5" column="21" lean-forward="true" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/service/waiter_list.html" />
-    <entry file="file://$PROJECT_DIR$/apps/inventory/templatetags/inventory_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="7" selection-start-line="7" selection-end-line="22" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/rbac/middlewares/rbac.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1260">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/contract/approve.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1980" />
@@ -749,41 +686,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="105" column="24" selection-start-line="105" selection-start-column="19" selection-end-line="105" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="41" column="40" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/contract/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="365" column="63" lean-forward="true" selection-start-line="359" selection-start-column="1" selection-end-line="365" selection-end-column="63" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/contract/contract_center.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="51" column="86" lean-forward="true" selection-start-line="51" selection-end-line="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/sfa/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="41" column="44" lean-forward="true" selection-start-line="41" selection-start-column="44" selection-end-line="41" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -801,16 +707,6 @@
         <state relative-caret-position="-62" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/service/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="71" column="42" selection-start-line="71" selection-start-column="20" selection-end-line="71" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/inventory/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
@@ -818,52 +714,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sql/sfa.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="218" selection-start-line="218" selection-end-line="226" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/contract/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="41" column="55" selection-start-line="41" selection-start-column="55" selection-end-line="41" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/service/forms/base.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/service/forms/validate_func.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sql/service.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="9" column="8" selection-end-line="27" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/service/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-353">
-          <caret line="47" column="37" selection-start-line="47" selection-start-column="37" selection-end-line="47" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/service/forms/form.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/sfa/forms/form.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -872,73 +724,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/sfa/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="755" column="20" lean-forward="true" selection-start-line="755" selection-start-column="20" selection-end-line="755" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#38067#38633#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/sfa/customer_follow.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2130">
           <caret line="71" column="65" selection-start-line="71" selection-start-column="39" selection-end-line="71" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/service/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="22" column="44" selection-start-line="22" selection-start-column="44" selection-end-line="22" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/service/service_contract.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1042">
-          <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/contract/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="44" column="12" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/contract/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="129" column="19" lean-forward="true" selection-start-line="129" selection-start-column="19" selection-end-line="129" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/service/contract_follow.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="44" column="116" selection-start-line="44" selection-start-column="116" selection-end-line="44" selection-end-column="116" />
-          <folding>
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#div#1;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/service/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="47" selection-start-line="47" selection-end-line="47" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -954,36 +743,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/sfa/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1260">
-          <caret line="73" column="20" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-            <element signature="e#3793#4125#0" />
-            <element signature="e#4168#4832#0" />
-            <element signature="e#4876#5476#0" />
-            <element signature="e#5518#6112#0" />
-            <element signature="e#6162#8405#0" />
-            <element signature="e#8455#9133#0" />
-            <element signature="e#9181#9788#0" />
-            <element signature="e#9837#10445#0" />
-            <element signature="e#10492#11506#0" />
-            <element signature="e#11553#12222#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/sfa/templatetags/sfa_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2569">
-          <caret line="264" column="9" lean-forward="true" selection-start-line="264" selection-start-column="9" selection-end-line="264" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/personnel/templatetags/personnel_tags.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
+        <state relative-caret-position="690">
           <caret line="25" column="32" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="32" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
@@ -991,10 +753,323 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/apps/service/forms/validate_func.py" />
+    <entry file="file://$PROJECT_DIR$/apps/sfa/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="281" selection-start-line="281" selection-end-line="313" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#12845#13278#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/sfa.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="132" selection-start-line="132" selection-end-line="147" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/service.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="562">
+          <caret line="41" column="5" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/contract/product_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1350" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/personnel/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="224" column="33" lean-forward="true" selection-start-line="224" selection-start-column="33" selection-end-line="224" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/personnel/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="41" selection-start-line="41" selection-end-line="61" selection-end-column="48" />
+          <folding>
+            <element signature="e#1392#2170#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/contract/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6902">
+          <caret line="39" column="14" lean-forward="true" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/contract/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="312" selection-start-line="312" selection-end-line="312" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/personnel/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="29" column="35" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/personnel/forms/form.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="6" selection-start-line="6" selection-end-line="8" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/service/forms/form.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/wsgi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="13" column="45" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/service/follow_way_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="32" column="57" selection-start-line="32" selection-start-column="57" selection-end-line="32" selection-end-column="57" />
+          <folding>
+            <element signature="e#1093#1099#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/service/follow_way_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="79" column="17" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
+          <folding>
+            <element signature="e#632#651#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="990">
+          <caret line="41" column="40" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/service/follow_contact_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="26" column="59" selection-start-line="26" selection-start-column="59" selection-end-line="26" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/service/follow_contact_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="36" selection-start-line="35" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="52" column="31" selection-start-line="52" selection-start-column="18" selection-end-line="52" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/service/templatetags/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/contract/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="41" column="41" selection-start-line="41" selection-start-column="41" selection-end-line="41" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/inventory/templatetags/inventory_tags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="305" column="4" selection-start-line="305" selection-start-column="4" selection-end-line="305" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/sfa/templatetags/sfa_tags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="3" column="22" lean-forward="true" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
+          <folding>
+            <element signature="e#1004#1649#0" />
+            <element signature="e#1722#2389#0" />
+            <element signature="e#6579#6688#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/service/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="96" column="6" selection-start-line="96" selection-start-column="6" selection-end-line="96" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/service/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="26" column="66" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/service/templatetags/service_tags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-861">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/contract/templatetags/contract_tags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="137" column="34" selection-start-line="137" selection-start-column="4" selection-end-line="137" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/service/service_contract.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="51" column="139" selection-start-line="51" selection-start-column="139" selection-end-line="51" selection-end-column="139" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/service/contract_follow.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="33" column="59" selection-start-line="33" selection-start-column="56" selection-end-line="33" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1739">
-          <caret line="214" column="37" lean-forward="true" selection-start-line="214" selection-start-column="37" selection-end-line="214" selection-end-column="37" />
+        <state relative-caret-position="337">
+          <caret line="276" column="102" selection-start-line="276" selection-start-column="102" selection-end-line="276" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/contract/contract_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="755" column="42" selection-start-line="755" selection-start-column="25" selection-end-line="755" selection-end-column="42" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+            <element signature="n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+            <element signature="n#style#0;n#button#0;n#div#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#17157#17163#0#HTML" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#22850#23829#0#HTML" />
+            <element signature="e#23869#24847#0#HTML" />
+            <element signature="e#25329#26747#0#HTML" />
+            <element signature="e#26801#27002#0#HTML" />
+            <element signature="e#42812#43010#0#HTML" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/sfa/customer_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="1356" column="34" selection-start-line="1356" selection-start-column="34" selection-end-line="1356" selection-end-column="34" />
+          <folding>
+            <element signature="e#79708#80882#0#HTML" />
+            <element signature="e#80918#82092#0#HTML" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/sfa/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="39" column="40" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/sfa/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="599">
+          <caret line="236" selection-start-line="236" selection-end-line="251" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#10484#10898#0" />
+            <element signature="e#38067#38633#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/contract/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="706" selection-start-line="706" selection-end-line="706" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/service/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/service/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-31">
+          <caret line="266" column="27" lean-forward="true" selection-start-line="266" selection-start-column="27" selection-end-line="266" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#1523#5603#0" />
+            <element signature="e#5633#5770#0" />
+            <element signature="e#5800#7326#0" />
+            <element signature="e#7546#9134#0" />
+          </folding>
         </state>
       </provider>
     </entry>

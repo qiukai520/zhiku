@@ -1,10 +1,14 @@
 import json
 from django.shortcuts import render, HttpResponse
 from django.db import transaction
+from django.core import serializers
 from contract.server import contract_db
 from .server import *
-from common.functions import filter_fields,compare_fields,compare_json,build_attachment_info
-from .forms.form import FollowForm
+from common.functions import filter_fields,compare_fields,compare_json,build_attachment_info,CJSONEncoder
+from .forms.form import FollowForm,WayForm,ContactForm
+from contract.templatetags.contract_tags import change_to_customer_linkman, change_to_staff,\
+    change_contract_follow_contact,change_contract_follow_way
+
 
 # Create your views here.
 
@@ -125,3 +129,154 @@ def contract_follow(request):
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
         return HttpResponse(json.dumps(ret))
+
+
+def follow_detail(request):
+    id = request.GET.get("id", None)
+    ret = {"status": False, "data": "", "message": ""}
+    if id:
+        try:
+            follow_obj = ContractFollow.objects.filter(nid=id).select_related("way").first()
+            if follow_obj:
+                # 格式化数据
+                data = {}
+                follow_json = follow_obj.__dict__
+                # follow_json.pop('_state')
+                data["way_id"] = change_contract_follow_way(follow_json['way_id'])
+                data["contact_id"] = change_contract_follow_contact(follow_json['contact_id'])
+                data['linkman_id'] = change_to_customer_linkman(follow_json['linkman_id'])
+                data['recorder_id'] = change_to_staff(follow_json['recorder_id'])
+                data["detail"] = follow_json["detail"]
+                data["next_step"] = follow_json["next_step"]
+                data["date"] = follow_json["date"]
+                follow_attach = crt_follow_attach_db.query_follow_attachment(id)
+                if follow_attach:
+                    data['attach'] = serializers.serialize("json", follow_attach)
+                else:
+                    data['attach'] = ''
+                ret['status'] = True
+                ret['data'] = data
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request, '404.html')
+
+
+def way_list(request):
+    """合同跟进方式"""
+    query_sets = way_db.query_way_list()
+    return render(request,"service/follow_way_list.html",{"query_sets":query_sets})
+
+
+def way_edit(request):
+    """"合同跟进方式添加/编辑"""
+    method = request.method
+    if method == "GET":
+        id = request.GET.get("id", "")
+        # 有则为编辑 ,无则添加
+        if id:
+            way_obj = way_db.query_way_by_id(id)
+        else:
+            id = 0
+            way_obj = []
+        return render(request, 'service/follow_way_edit.html', {"way_obj": way_obj, "id": id})
+    else:
+        form = WayForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("id", "")
+            data = request.POST
+            data = data.dict()
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    record = way_db.query_way_by_id(id)
+                    # 对比数据是否有修改
+                    final_info = compare_fields(FollowWay._update,record,data)
+                    if final_info:
+                        final_info["id"] = id
+                        way_db.update_way(final_info)
+                    ret["data"] = id
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+            else:
+                try:
+                    way_db.insert_way(data)
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
+
+
+def contact_list(request):
+    """合同跟进方式"""
+    query_sets = contact_db.query_contact_list()
+    return render(request, "service/follow_contact_list.html", {"query_sets": query_sets})
+
+
+def contact_edit(request):
+    """"合同跟进方式添加/编辑"""
+    method = request.method
+    if method == "GET":
+        id = request.GET.get("id", "")
+        # 有则为编辑 ,无则添加
+        if id:
+            contact_obj = contact_db.query_contact_by_id(id)
+        else:
+            id = 0
+            contact_obj = []
+        return render(request, 'service/follow_contact_edit.html', {"contact_obj": contact_obj, "id": id})
+    else:
+        form = ContactForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("id", "")
+            data = request.POST
+            data = data.dict()
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    record = contact_db.query_contact_by_id(id)
+                    # 对比数据是否有修改
+                    final_info = compare_fields(FollowContact._update, record, data)
+                    if final_info:
+                        final_info["id"] = id
+                        contact_db.update_contact(final_info)
+                    ret["data"] = id
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+            else:
+                try:
+                    contact_db.insert_contact(data)
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
+
+
+def follow_delete(request):
+    """删除合同跟进记录"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        crt_follow_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        ret['message'] = "删除失败"
+    return HttpResponse(json.dumps(ret))

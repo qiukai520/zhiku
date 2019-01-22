@@ -295,7 +295,6 @@ class FollowWay(SoftDeletableModel):
         return "跟进方式:{0}".format(self.code)
 
     _insert = ["code", "content",]
-    _update = ["customer_id", "title", 'detail', "recorder_id"]
 
 
 class FollowContact(SoftDeletableModel):

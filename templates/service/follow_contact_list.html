@@ -1,0 +1,151 @@
+{% extends "content_table_layout.html" %}
+{% load personnel_tags %}
+{% block css %}
+    <style>
+     #toolbar >button{
+          margin: 0 2px;
+      }
+    </style>
+{%endblock %}
+{% block content %}
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>联络方式</h5>
+                    <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <!-- Example Events -->
+                        <div class="example-wrap">
+                            <div class="example">
+                                <div class="btn-group" id="toolbar" role="group">
+                                     <a href="{% url "contact_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+{#                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                </div>
+                                <table id="follow_contact"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                    <thead>
+                                         <tr >
+                                              <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                              <th>ID</th>
+                                              <th>联络方式</th>
+                                              <th>操作</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                     {% for obj in query_sets %}
+                                      <tr>
+                                          <td><input type="checkbox"></td>
+                                          <td>{{ obj.nid }}</td>
+                                          <td>{{ obj.content }}</td>
+                                            <td>
+                                              <a  href="{%url "contact_edit" %}?id={{ obj.id }}" class="btn btn-info" >编辑</a>
+                                          </td>
+                                      </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End Example Events -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+
+    <!-- Modal -->
+    <!-- delete-->
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">警告！</h4>
+      </div>
+      <div class="modal-body" style="text-align: center;font-size: 20px;">
+        您确定要删除吗？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" id="ensure" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+
+{% endblock %}
+{% block js%}
+    <script>
+
+           /*
+    自执行函数
+    */
+    $(function () {
+        $("#follow_contact").bootstrapTable({
+            toolbar: "#toolbar",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 15,
+            pageList: [10, 25],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false
+        });
+    });
+      function  SelectAll(ths) {
+        //判断是否选中
+        ischecked=$(ths).is(":checked");
+        //如果选中则全选中,否则取消选中
+        $(ths).parent().parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
+    }
+//批量删除
+    function MultiDelete() {
+        $("#delete_modal").modal("show");//显示模态框
+        var ids="";
+        $("tbody input:checkbox:checked").each(function () {
+            id = $(this).parent().next().text();
+            if (id){
+                id+="|";
+                ids+=id;
+            }
+        });
+        $("#ensure").click(function () {
+            $("#delete_modal").hide();
+              $.ajax({
+            url:"{% url "task_sort_edit" %}",
+            data:{"ids":ids},
+            type:"get",
+            dataType:"JSON",
+            success:function (arg) {
+                if (arg.status){
+                   alert("删除成功");
+                    window.location.reload()
+                }else{
+                    alert(arg.message)
+                    window.location.reload()
+                }
+            }
+        })
+        });
+    }
+    </script>
+{% endblock %}

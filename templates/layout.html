@@ -180,7 +180,7 @@
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">客服管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
                                  <li>
-                                     <a   class="J_menuItem"  data-index='71' href="{% url "my_assign" %}">我的售后客户</a>
+                                     <a   class="J_menuItem"  data-index='71' href="{% url "my_assign" %}">我的客服</a>
                                 </li>
                             </ul>
                         </li>
@@ -269,6 +269,15 @@
                                              <a class="J_menuItem"  data-index="112"  href="{% url "task_sort_list" %}">工单分类管理</a>
                                         </li>
                                 </ul>
+                                </li>
+                                 <li>
+                                    <a href="#"><i class=" glyphicon glyphicon-wrench"></i> 客服设置 <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level " aria-expanded="true" style="">
+                                        <li>
+                                            <a   class="J_menuItem"  data-index="65"  href="{% url "ways" %}">跟进方式</a>
+                                        </li>
+                                         <li>
+                                     <a   class="J_menuItem"  data-index="66"  href="{% url "contacts" %}">联络方式</a>
                                 </li>
                             </ul>
                         </li>

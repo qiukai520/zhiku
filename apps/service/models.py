@@ -3,7 +3,7 @@ from public.managers import SoftDeletableManager
 
 from contract.models import ContractInfo
 from personnel.models import Staff
-from sfa.models import FollowWay,FollowContact,CustomerLinkman
+from sfa.models import CustomerLinkman
 # Create your models here.
 
 # 自定义软删除抽象基类
@@ -37,8 +37,8 @@ class ContractFollow(SoftDeletableModel):
     nid = models.AutoField(primary_key=True)
     contract = models.ForeignKey(ContractInfo, to_field="nid", on_delete=models.CASCADE, db_constraint=False,
                                  default=1, verbose_name='合同')
-    way = models.ForeignKey(FollowWay, to_field='nid', on_delete=models.CASCADE, db_constraint=False,verbose_name="跟进方式")
-    contact = models.ForeignKey(FollowContact, to_field='nid', on_delete=models.CASCADE, db_constraint=False, verbose_name="联络方式")
+    way = models.ForeignKey("FollowWay", to_field='nid', on_delete=models.CASCADE, db_constraint=False,verbose_name="跟进方式")
+    contact = models.ForeignKey("FollowContact", to_field='nid', on_delete=models.CASCADE, db_constraint=False, verbose_name="联络方式")
     linkman = models.ForeignKey(CustomerLinkman, to_field='nid', on_delete=models.CASCADE, db_constraint=False, verbose_name="联系人")
     detail = models.TextField(max_length=512, blank=True, null=True, verbose_name="跟进详情")
     next_step = models.TextField(max_length=512, blank=True,null=True,verbose_name="下一步跟进计划")
@@ -75,3 +75,37 @@ class ContractFollowAttach(SoftDeletableModel):
 
     def __str__(self):
         return "合同跟进附件:{0}".format(self.name)
+
+
+class FollowWay(SoftDeletableModel):
+    nid = models.AutoField(primary_key=True)
+    content = models.TextField(max_length=128, verbose_name='跟进方式')
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+
+    class Meta:
+        db_table = 'crt_fol_way'
+        verbose_name = '跟进方式'
+        verbose_name_plural = '跟进方式'
+
+    def __str__(self):
+        return "跟进方式:{0}".format(self.content)
+
+    _insert = ["content", ]
+    _update = ["content", ]
+
+
+class FollowContact(SoftDeletableModel):
+    nid = models.AutoField(primary_key=True)
+    content = models.TextField(max_length=128, verbose_name='联络方式')
+    is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
+
+    class Meta:
+        db_table = 'crt_fol_contact'
+        verbose_name = '联络方式'
+        verbose_name_plural = '联络方式'
+
+    def __str__(self):
+        return "联络方式:{0}".format(self.content)
+
+    _insert = ["content", ]
+    _update = ["content", ]
