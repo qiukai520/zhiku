@@ -13,6 +13,7 @@ import logging
 # Create your views here.
 logger = logging.getLogger(__name__)
 
+
 def product_list(request):
     query_sets = product_db.query_product_list()
     return render(request,"contract/product_list.html",{"query_sets":query_sets})

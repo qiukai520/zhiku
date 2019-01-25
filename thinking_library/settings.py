@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'contract.apps.ContractConfig',
     'collection.apps.CollectionConfig',
     'service.apps.ServiceConfig',
+    'apps.file.apps.FileConfig',
     'xadmin',
     'crispy_forms',
     'reversion',

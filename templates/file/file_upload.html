@@ -1,0 +1,113 @@
+
+{% extends "content_edit_layout.html" %}
+{% load personnel_tags %}
+{% block css %}
+    <style>
+     .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+    .form-group{
+         margin-top:30px;
+    }
+    </style>
+
+{%endblock %}
+{% block content %}
+      <div class="wrapper wrapper-content container animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>
+                            上传图片
+                        </h5>
+                       <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+
+                    </div>
+                    <div class="ibox-content">
+                        <div class="container">
+			<div class="content">
+				<div class="box">
+					<form method="post" id="fileinfo" enctype="multipart/form-data" >
+					<input type="file" name="file-7[]" id="file-7" class="inputfile inputfile-6" data-multiple-caption="{count} files selected" multiple />
+					<label for="file-7"><span></span> <strong><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> 上传文件</strong></label>
+				   <br />
+                        {% csrf_token %}
+			       <input type="checkbox" name="classify" value="1">文件<br />
+			       <input type="checkbox" name="classify" value="2">图片<br />
+			       <div class="submit">
+			       <input class="submit-b" type="button" value="提交" onclick="filesubmit()">
+
+                       <h3 id="result"></h3>
+			       </div>
+					</form>
+				</div>
+			</div>
+		</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block js%}
+     <script>
+          //字符串格式化
+String.prototype.format=function()
+{
+  if(arguments.length==0) return this;
+  for(var s=this, i=0; i<arguments.length; i++)
+    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+  return s;
+};
+       //自执行函数
+  $(function () {
+
+      if({{ id }}){
+          DataInit()//初始化化数据
+      }
+  })
+  function DataInit() {
+        $("#name").val("{{ contact_obj.content }}");
+}
+
+   function Submit(cons) {
+        var name = $("#name").val().trim();
+        var id={{ id }}
+         console.log(id)
+        if(id!=0){
+           var data=  {"content":name,"id":id}
+        }else {
+            var data={"content":name,}
+        }
+         //隐藏错误标签
+        var $msg = $('#error_msg');
+        $msg.parent().addClass('hide');
+        $.ajax({
+                url: '{% url "contact_edit"%}',
+                type: "post",
+                data:  data,
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                    window.location.href='{% url "contacts" %}';
+                     if (cons==1){
+                             window.location.href='{% url "contacts" %}';
+                        }else if(cons==2){
+                             window.location.href='{% url "contact_edit" %}';
+                        }else{
+                              window.location.href='{% url "contact_edit" %}?id={0}'.format(arg.data);
+                        }
+                } else {
+                     $msg.parent().removeClass('hide');
+                     $msg.text(arg.message);
+                }
+            }
+        })
+    }
+    </script>
+{% endblock %}
+

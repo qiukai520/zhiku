@@ -18,13 +18,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("assigned", views.service_assign, name="service_assign"),
-    path("my_assign",views.my_assign, name="my_assign"),
-    path("contract_follow", views.contract_follow, name="contract_follow"),
-    path("ways", views.way_list, name="ways"),
-    path("way_edit", views.way_edit, name="way_edit"),
-    path("contacts", views.contact_list, name="contacts"),
-    path("contact_edit", views.contact_edit, name="contact_edit"),
-    path("follow/detail",views.follow_detail,name="crt_follow_detail"),
-    path("follow/delete", views.follow_delete, name="crt_follow_delete")
+    path("manager", views.manager, name="manager"),
 ]

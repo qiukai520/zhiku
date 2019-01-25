@@ -55,7 +55,7 @@ def login(request):
 class LoginView(View):
     def get(self, request):
         post = Posts.objects.all()[:6]  #取出最新的6篇文章
-        print("post",post)
+        print("get",post)
         return render(request, 'login.html',{"post":post})
 
     def post(self,request):

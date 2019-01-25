@@ -8,9 +8,10 @@ from common.functions import filter_fields,compare_fields,compare_json,build_att
 from .forms.form import FollowForm,WayForm,ContactForm
 from contract.templatetags.contract_tags import change_to_customer_linkman, change_to_staff,\
     change_contract_follow_contact,change_contract_follow_way
-
+from django.views import View
 
 # Create your views here.
+
 
 def service_assign(request):
     """分配客服"""
