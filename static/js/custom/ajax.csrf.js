@@ -1,4 +1,4 @@
-//防止跨站请求伪造
+//预防跨站请求伪造
   var csrftoken = $.cookie('csrftoken');
         function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
