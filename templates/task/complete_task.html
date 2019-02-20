@@ -341,17 +341,18 @@ left: 0px; margin-left: -10px; top:-5px; cursor: pointer;border:1px #ddd solid;b
                                     </div>
 
                                 </div>
+                                    <div class="actions" >
+                                 <input type="text" class="hidden" id="refer_id" name="refer_id" >
+                                 <a style="float: right ;font-size: 10px; margin-top: 10px;" onclick="referFavor()" class="btn  btn-white"><i style="color: grey;" id="refer_favor" class="fa fa-thumbs-up"></i> 有用 </a>
+                            </div>
                             </div>
                         </div>
                     </div>
-                 <div class="actions">
-                     <input type="text" class="hidden" id="refer_id" name="refer_id" >
-                     <a style="float: right ;font-size: 10px" onclick="referFavor()" class="btn  btn-white"><i style="color: grey;" id="refer_favor" class="fa fa-thumbs-up"></i> 有用 </a>
-                </div>
+
               </div>
             </div>
          </div>
-      <div class="modal-footer">
+      <div class="modal-footer" style="margin-top:20px">
         <button class="btn btn-default" onclick="clearReferData()" data-dismiss="modal" aria-hidden="true">关闭</button>
       </div>
     </div>
@@ -686,6 +687,7 @@ showKnowledge=function (cons) {
 
 function referFavor() {
     var id=$("#refer_id").val();
+    console.log("id",id)
     var uid ={{ request.user.staff.sid }};
     $.ajax({
           url:"{% url "knowledge_favor" %}",

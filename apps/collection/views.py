@@ -129,10 +129,8 @@ def knowledge(request):
             if map_tag_list:
                 _tag_fields = CollRecord._tag_field
                 for item in map_tag_list:
-                    print("item",item.name)
                     q_obj.children.append(("%s__icontains" % _tag_fields, item.name))
             # 构造标题Q
-            print("q_obj",q_obj)
             _title_field = CollRecord._title_field
             q_obj.children.append(("%s__icontains" % _title_field, title))
             db_result = query_sets.filter(q_obj).order_by("favor").all()
@@ -153,18 +151,26 @@ def knowledge_detail(request):
     if id:
         try:
             # record_obj = coll_record_db.query_record_by_id(id)
-            record_obj = CollRecord.objects.filter(nid=id).first().select_related()
+            record_obj = CollRecord.objects.filter(nid=id).first()
             if record_obj:
                 # 格式化数据
-                record_json = record_obj.__dict__
-                record_json.pop('_state')
+                record_json = {}
+                print("record_json",record_obj.__dict__)
+                # del record_json['_state']
+                record_json["nid"] = record_obj.nid
                 record_json["type_id"] = record_obj.type.name
                 record_json["recorder_id"] = record_obj.recorder.name
-                contributor_id = record_json["contributor_id"]
+                contributor_id = record_obj.contributor_id
                 staff_obj = staff_db.query_staff_by_id(contributor_id)
                 record_json["contributor_id"] = record_obj.contributor.name
                 record_json["depart"] = change_to_department(staff_obj.department_id)
                 record_json["phone"] = staff_obj.phone
+                record_json["title"]=record_obj.title
+                record_json["tag"]=record_obj.tag
+                record_json["create_time"]=record_obj.create_time
+                record_json["favor"] = record_obj.favor
+                record_json["summary"]=record_obj.summary
+                record_json["remark"] = record_obj.remark
                 record_attach = record_attach_db.query_record_attach_by_tsid(id)
                 if record_attach:
                     record_json['attach'] = serializers.serialize("json", record_attach)
@@ -178,6 +184,7 @@ def knowledge_detail(request):
                         ret['signal'] = True
                 ret['status'] = True
                 ret['data'] = record_json
+                print("detail",ret)
                 return HttpResponse(json.dumps(ret,cls=CJSONEncoder))
         except Exception as e:
             print(e)
@@ -259,6 +266,7 @@ def knowledge_edit(request):
 
 def knowledge_favor(request):
     """点赞收录"""
+    print("id",request.GET.get("id",0))
     id = int(request.GET.get("id",0))
     uid = int(request.GET.get("user",0))
     ret = {"status":False,"data":""}
