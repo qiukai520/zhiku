@@ -129,8 +129,10 @@ def knowledge(request):
             if map_tag_list:
                 _tag_fields = CollRecord._tag_field
                 for item in map_tag_list:
-                    q_obj.children.append(("%s__icontains" % _tag_fields, item))
+                    print("item",item.name)
+                    q_obj.children.append(("%s__icontains" % _tag_fields, item.name))
             # 构造标题Q
+            print("q_obj",q_obj)
             _title_field = CollRecord._title_field
             q_obj.children.append(("%s__icontains" % _title_field, title))
             db_result = query_sets.filter(q_obj).order_by("favor").all()

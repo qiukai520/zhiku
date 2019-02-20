@@ -98,9 +98,7 @@ def customer_edit(request):
                     with transaction.atomic():
                         # 更新客户信息
                         record = customer_db.query_customer_by_id(nid)
-                        print("data",data)
                         customer_info = compare_fields(CustomerInfo._update, record, data)
-                        print("customer_info", customer_info)
                         if customer_info:
                             customer_info["nid"] = nid
                         if not customer_info["employees"]:
@@ -831,7 +829,6 @@ def follow_customer(request):
         customer_db.multi_follow(id_list,modify_info)
         ret['status'] = True
     except Exception as e:
-        pass
         ret['status'] = "跟进失败"
     return HttpResponse(json.dumps(ret))
 
@@ -853,9 +850,9 @@ def customer_assign(request):
             customer_db.multi_follow(id_list,modify_info)
             ret['status'] = True
         except Exception as e:
-            pass
             ret['status'] = "分配失败"
     return HttpResponse(json.dumps(ret))
+
 
 def abandon_customer(request):
     """放弃客户"""

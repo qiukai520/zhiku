@@ -24,6 +24,8 @@ class FileDB(object):
         result_db = File.objects.filter().all()
 
         return result_db
+
+
 class TagDB(object):
     """标签"""
     def query_tag_list(self):

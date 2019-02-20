@@ -19,8 +19,8 @@ from . import views
 
 urlpatterns = [
     path("manager", views.manager, name="manager"),
-    path("check_chunk",views.check_chunk,name="check_chunk"),
-    path("merge_chunks",views.merge_chunks,name="merge_chunks"),
-    path("file_uploader.html",views.upload,name="file_uploader"),
-    path("tag_edit",views.add_tag,name="add_file_tag"),
+    path("check_chunk",views.check_chunk, name="check_chunk"),
+    path("merge_chunks",views.merge_chunks, name="merge_chunks"),
+    path("file_uploader.html",views.upload, name="file_uploader"),
+    path("tag_edit",views.add_tag, name="add_file_tag"),
 ]

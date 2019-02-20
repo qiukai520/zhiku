@@ -1,0 +1,9 @@
+{
+    "server":"47.52.116.102",
+    "server_port": 1023,
+    "local_address": "127.0.0.1",
+    "local_port": 1080,
+    "password":"jitui!@#123",
+    "timeout":300,
+    "method": "aes-256-cfb"
+}

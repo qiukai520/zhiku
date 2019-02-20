@@ -11,7 +11,6 @@ from .server import *
 def add_tag(request):
     ret = {"status":False,"data":"","message":''}
     name = request.POST.get("tag_name",'')
-    print("name",name)
     if name:
         try:
             tag_db.insert_tag({"name":name})
@@ -30,13 +29,11 @@ def manager(request):
 def check_chunk(request):
 
     """判断该文件上传了多少个分片"""
-    print("check_chunk")
     target_path = "media/file"
     name = request.POST.get('fileName')
     chunk = 0
     data = {}
     filename = target_path+"/%s" % name
-    print("filename",filename)
 
     # 判断上传的文件是否存在
     if os.path.exists(filename):
@@ -63,8 +60,10 @@ def merge_chunks(request):
     tags_list = tags.split("|")
     size = request.POST.get("fileSize")
     name = request.POST.get('fileName')
-    print("name",name)
     md5 = request.POST.get('fileMd5')
+    print("size",size)
+    print("name",name)
+    print("md5",md5)
     chunk = 0  # 分片序号
     temp_filename = os.path.join(target_path,  str(uuid.uuid1()))
     digest = hashlib.sha1()
@@ -117,8 +116,6 @@ def upload(request):  # 接收前端上传的一个分片
     if not os.path.exists(target_path):
         os.makedirs(target_path)
     md5 = request.POST.get('fileMd5')
-    print("md5",md5)
-    print("request.POST",request.POST)
     chunk_id = request.POST.get('chunk',0)
     filename = '{}-{}'.format(md5,chunk_id)
     upload_file = request.FILES.get("file")
@@ -132,6 +129,6 @@ def upload(request):  # 接收前端上传的一个分片
                 f.write(upload_file.read())
                 f.close()
         except Exception as e:
-            print(e, 111)
+            pass
     # upload_file.save(target_path+'/{}'.format(filename))
     return HttpResponse(json.dumps({'upload_part':True}))
