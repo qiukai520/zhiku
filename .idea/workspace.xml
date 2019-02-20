@@ -7,16 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/collection/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/collection/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/file/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/file/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/file/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/file/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/file/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/file/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/sfa/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/file/59dd93887ea4ea578f1aa25acad0311c-0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/practice.py" beforeDir="false" afterPath="$PROJECT_DIR$/practice.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/file/file_manager.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/file/file_manager.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -66,7 +57,7 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/collection/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
+            <state relative-caret-position="3120">
               <caret line="120" column="33" selection-start-line="120" selection-start-column="33" selection-end-line="120" selection-end-column="33" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -78,16 +69,16 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/task/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
+            <state relative-caret-position="12600">
               <caret line="422" column="29" selection-start-line="422" selection-start-column="29" selection-end-line="422" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/task/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
+            <state relative-caret-position="30">
               <caret line="453" column="20" selection-start-line="453" selection-start-column="20" selection-end-line="453" selection-end-column="20" />
             </state>
           </provider>
@@ -96,11 +87,25 @@
       <file leaf-file-name="practice.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/practice.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1740">
-              <caret line="59" column="18" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="18" />
+            <state relative-caret-position="174">
+              <caret line="79" column="52" selection-start-line="79" selection-start-column="32" selection-end-line="79" selection-end-column="52" />
               <folding>
                 <element signature="e#136#146#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="requirements.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/requirements.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-180">
+              <caret line="3" column="9" lean-forward="true" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -211,7 +216,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/apps/contract/models.py" />
         <option value="$PROJECT_DIR$/contract.sql" />
         <option value="$PROJECT_DIR$/templates/contract/contract_center.html" />
         <option value="$PROJECT_DIR$/templates/service/serviec_contract.html" />
@@ -260,8 +264,9 @@
         <option value="$PROJECT_DIR$/apps/file/views.py" />
         <option value="$PROJECT_DIR$/templates/file/file_manager.html" />
         <option value="$PROJECT_DIR$/static/js/content.js" />
-        <option value="$PROJECT_DIR$/practice.py" />
         <option value="$PROJECT_DIR$/apps/collection/views.py" />
+        <option value="$PROJECT_DIR$/practice.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -524,6 +529,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="335" y="11" width="1300" height="964" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3287037" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5122549" side_tool="true" weight="0.20979021" />
@@ -531,8 +537,8 @@
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4883005" weight="0.32816228" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3982412" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.4877451" visible="true" weight="0.48115578" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8883774" visible="true" weight="0.22149837" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4877451" visible="true" weight="0.25376883" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8883774" visible="true" weight="0.22638437" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="6" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -570,13 +576,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/uploader_test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2610">
-          <caret line="87" column="8" selection-start-line="87" selection-start-column="8" selection-end-line="87" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/plugins/webuploader/webuploader.custom.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -597,9 +596,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="2028" column="19" selection-start-line="2028" selection-start-column="19" selection-end-line="2028" selection-end-column="44" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -709,9 +705,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret selection-end-line="8" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -726,10 +719,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="4" selection-start-line="4" selection-end-line="21" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-            <element signature="e#1392#2170#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -742,9 +731,6 @@
           <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/plugins/simditor/simditor.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -821,9 +807,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="348">
           <caret line="114" column="28" selection-start-line="114" selection-start-column="28" selection-end-line="114" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -865,19 +848,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/practice.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1740">
-          <caret line="59" column="18" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="18" />
-          <folding>
-            <element signature="e#136#146#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/collection/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
+        <state relative-caret-position="3120">
           <caret line="120" column="33" selection-start-line="120" selection-start-column="33" selection-end-line="120" selection-end-column="33" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
@@ -887,15 +860,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/task/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
+        <state relative-caret-position="12600">
           <caret line="422" column="29" selection-start-line="422" selection-start-column="29" selection-end-line="422" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/task/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
+        <state relative-caret-position="30">
           <caret line="453" column="20" selection-start-line="453" selection-start-column="20" selection-end-line="453" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/practice.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="79" column="52" selection-start-line="79" selection-start-column="32" selection-end-line="79" selection-end-column="52" />
+          <folding>
+            <element signature="e#136#146#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-180">
+          <caret line="3" column="9" lean-forward="true" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
         </state>
       </provider>
     </entry>
