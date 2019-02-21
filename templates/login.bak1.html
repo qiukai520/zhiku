@@ -1,0 +1,644 @@
+{% load public_tags %}
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+	<head>
+		<title>企业AI•智库</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+		<meta name="renderer" content="webkit">
+
+		<meta name="format-detection" content="telephone=notelphone=no, email=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<meta name="apple-touch-fullscreen" content="yes">
+
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+		<meta name="HandheldFriendly" content="true">
+
+		<meta name="MobileOptimized" content="320">
+
+		<meta name="screen-orientation" content="portrait">
+
+		<meta name="x5-orientation" content="portrait">
+
+		<meta name="browsermode" content="application">
+
+		<meta name="x5-page-mode" content="app">
+
+		<meta name="msapplication-tap-highlight" content="no">
+
+{#		<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>#}
+{#		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>#}
+{##}
+		<link rel="stylesheet" href="{% static 'css/css.css'%}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css'%}">
+{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/font-awesome.min.css'%}">#}
+{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/animate.min.css'%}">#}
+{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-switch.min.css'%}">#}
+{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/checkbox3.min.css' %}">#}
+{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/jquery.dataTables.min.css'%}">#}
+{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/dataTables.bootstrap.css'%}">#}
+{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/select2.min.css'%}">#}
+{##}
+{#		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">#}
+{#		<link rel="stylesheet" type="text/css" href="{% static 'css/themes/flat-blue.css'%}">#}
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+		<!--[if lt IE 9]>
+{#    <script src="{% static 'js/html5shiv.js'%}"></script>#}
+{#    <script src="{% static 'js/respond.min.js'%}"></script>#}
+    <![endif]-->
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			html body {
+				position: relative;
+				width: 100%;
+			}
+			
+			.row {
+				margin-left: 0px;
+			}
+			
+			.zk_logo {
+				padding-top: 10px;
+			}
+			
+			.col-xs-6 {
+				padding-left: 30px;
+				padding-top: 9px;
+			}
+			
+			.fail_tips {
+				border: 1px solid #F9422B;
+				position: relative;
+				width: 100%;
+				height: 37px;
+				background-color: #FEEEEB;
+				margin-bottom: 8px;
+				display: none;
+			}
+			
+			.icon_fail_tips {
+				z-index: 5;
+				width: 20px;
+				height: 20px;
+				margin: 10px;
+				margin-top: 8px;
+			}
+			
+			.input-group {
+				width: 264px;
+				margin: 18px auto;
+			}
+			
+			.bottom {
+				background-color: #33415C;
+				width: 100%;
+				overflow: hidden;
+			}
+			
+			.container {
+				width: 100%;
+				padding-right: 0px;
+				padding-left: 0px;
+			}
+			
+			.con {
+				width: 100%;
+				height: 439px;
+				background-image: url({% static 'img/dfjso.png '%}) no-repeat center center fixed;
+				-webkit-background-size: cover;
+				-moz-background-size: cover;
+				-o-background-size: cover;
+				background-size: cover;
+			}
+			
+{#			.btn {#}
+{#				width: 264px;#}
+{#				margin: 10px auto;#}
+{#			}#}
+			
+			.row>[class*="col-"] {
+				margin-bottom: 0px;
+			}
+			
+			.login-form {
+				opacity: 1.4;
+				position: absolute;
+				top: 71px;
+				right: 20px;
+				border: 1px solid #B0B6BE;
+				background: rgba(213, 215, 222, 0.9);
+				width: 300px;
+				opacity: 0.9;
+			}
+			
+			.middle {
+				background: white;
+				height: 150px;
+				width: 100%;
+				text-align: center;
+				overflow: hidden;
+			}
+            .content{
+                background: white;
+                width: 100%;
+				text-align: center;
+				overflow: hidden;
+            }
+			
+			.middle>h3 {
+				color: black;
+				margin-top: 50px;
+				margin-bottom: 10px;
+			}
+			
+			.middle>p {
+				color: #828282;
+			}
+			
+			.classify>ul {
+				margin-right: 0;
+				margin-bottom: 70px;
+				position: relative;
+			}
+			
+			.classify>ul>li {
+				color: #828282;
+				margin-top: 25px;
+				font-size: 18px;
+				list-style: none;
+				text-align: center;
+			}
+			
+			.classify_ul>li>p>img {
+				margin-bottom: 10px;
+				margin-top: 10px;
+				width: 85px;
+				text-align: center;
+			}
+			.classify_ul>li>div{
+				height: 100%;
+				display: none;
+				position: absolute;
+				text-align: center;
+				background:#828282;
+				color: black;
+				opacity: 0.7;
+			}
+			.classify_ul>li>div>p{
+				font-size: 15px;
+				margin-top: 15px;
+				display: block;
+				width: 100%;
+				color: white;
+			}
+            .column{
+                padding: 0px;
+            }
+		</style>
+	</head>
+
+<html class="login-img3-body">
+		<div class="row" style="background-color:#33415C;width: 100%;">
+
+			<div class="col-xs-1">
+				<img class="zk_logo" src="{% static 'img/logo.png' %}" />
+			</div>
+			<div class="col-xs-12 col-md-6" style="margin-top: 24px;">
+				<p style="color: white;font-size: 20px;float:left;">企业AI•智库&nbsp;|&nbsp;</p><i style="font-size: 15px; color: white;line-height:31px;">有智慧的企业运营系统</i>
+			</div>
+
+		</div>
+		<div class="container bannerbox" >
+
+			<ul>
+				<li class="fst-li">
+					<div class="containt-div" >
+						<div class="baner-01-a"></div>
+						<div class="baner-01-b"></div>
+					</div>
+				</li>
+				<li class="sec-li">
+					<div class="containt-div">
+						<div class="banner2-02"></div>
+						<div class="banner2-01"></div>
+						<div class="banner2-03"></div>
+					</div>
+				</li>
+				<li class="third-li">
+					<div class="containt-div">
+						<div class="banner3-01"></div>
+						<div class="banner3-02"></div>
+						<div class="banner3-03"></div>
+						<div class="banner3-04"></div>
+					</div>
+				</li>
+			</ul>
+
+
+			<div class="con">
+				<form class="login-form" action="{% url 'login' %}" method="post"  autocomplete="on" >
+					<div class="login-wrap">
+						<div class="icon-suo" style="height: 60px;width: 60px;margin: 15px auto;">
+							<img src="{% static 'img/password.png' %}" style="width: 60px;" />
+						</div>
+						<div class="fail_tips">
+							<img class="icon_fail_tips" src="{% static 'img/fail.png' %}" />
+							<span id="txt_error_tips" style="color: red;"></span>
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"><img src="{% static 'img/people.png' %}" alt="" style="width: 19px;"/></span>
+							<input name="username" type="text" class="form-control" placeholder="账号" autofocus="autofocus">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"><img src="{% static 'img/key.png' %}" alt="" style="width: 19px;"/></span>
+							<input name="password" type="password" class="form-control" placeholder="密码">
+						</div>
+
+                        <div class="error btns " style="font-size:15px; color: red; text-align:center;">
+
+                            {{ msg }}
+                        </div>
+						<button id="btn_save" class="btn btn-primary btn-lg btn-block" style="line-height: 14px;margin-top: 23px;width: 264px;margin: 10px auto;">登&nbsp;录</button>
+						<div style="width: 100%;height: 20px;"></div>
+					</div>
+                    {% csrf_token %}
+				</form>
+			</div>
+
+		<div class="nav" style="">
+			<ul>
+				<li class=""></li>
+				<li class=""></li>
+				<li class=""></li>
+			</ul>
+		</div>
+		</div>
+
+<div class="middle">
+    <h3>企业AI•智库</h3>
+    <p>你的企业经营需要一位有智慧的全能秘书</p>
+</div>
+<div class="classify">
+    <ul class="row classify_ul">
+        <li class="col-sm-4 effect">
+            <div><p>全球顶级企业成功经验知识库，智能识别岗位工作和岗位任务，实时共享全球顶尖企业相同岗位的优秀经验，你已不是一个人在战斗，顶尖企业相同岗位的优秀人才和你一起共事，给你工作指引</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/scheme.png' %}" alt="" /></p> 渊博知识
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>优秀人才是企业的最大财富，建立企业完美的招聘流程和招聘绩效体系，对保障企业招聘的有效性和效率性至关重要</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/gold.png' %}" alt="" /></p> 人事高手
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>销售的过程管理是企业销售团队的重中之重，从新客户的开发、客户分类、客户跟进、销售目标的设定、绩效考核、业绩管理、客户管理等多维度为打造一流的销售团队提供智慧运营方案</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/self.png' %}" alt="" /></p> 销售大师
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>所有的智慧都来源于管理者，企业AI.智库是一门管理学，值得所有企业主去实践、学习和分享，从而让企业主真正解放出来，更专注于战略和梦想</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/administration.png' %}" alt="" /></p> 管理大师
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>从不同的维度展示管理过程中的数据，让管理更趋向于可控性、预警性、可追溯性、决策性、务实性，用数据来多维度展示和预测，为每一步的决策提供可靠和及时的支持，这是一种智慧</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/data.png' %}" alt="" /></p> 数据专家
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>企业健康需要及时、周期性诊断、对企业运营过程中的数据拥有智慧的算法，通过多维度的数据综合统计和评估，可以给企业主企业运营过程中的风险作出及时的预警，并提供修复和应对方案</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/control.png' %}" alt="" /></p> 风控高手
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>企业主应该及时了解并清楚企业运营过程中的财报，并且这些财报是由原始的数据综合呈现，而没有过多的人为统计因素导致数据的可作弊性提高，涵盖企业的日常成本支出、收入等，直观反映企业收支，并能对未来的财报作出预判</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/money_matters.png' %}" alt="" /></p> 理财专家
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>拥有售后服务团队的企业通过智慧的流程，让每个客服岗位都能按量、按质、按时、按周期来完成可量化的服务工作，体现企业公平公正的绩效体系，建立流程化和效率化的客服团队</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/serve.png' %}" alt="" /></p> 金牌客服
+        </li>
+        <li class="col-sm-4 effect">
+            <div><p>拥有智慧是企业AI.智库区别于任何企业管理工具的根本，拥有她，企业主将得到解放、企业运作成本将大大减低、他是企业运作过程中的全能秘书，精通、贡献、共享各个岗位知识，为企业主掌管企业并执行任务、承担运营风险和预判风险、如实汇报企业健康状况并致力于诊断和修复企业健康</p></div>
+            <p style="text-align: center;"><img src="{% static 'img/wisdom.png' %}" alt="" /></p> 智慧女神
+        </li>
+    </ul>
+</div>
+
+
+<body class="container">
+<div class="middle" style="background:#f5f5f5;height: 90px; ">
+			<h3 style="margin-top:20px;">最新动态</h3>
+			<p>最新运营管理文章、最新案列、企业最新动态</p>
+
+</div>
+ <div class="content" style="margin-top:20px;">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row">
+
+                                      <div class="col-md-4" style="padding-left: 0px;padding-right: 2px">
+                                            {% for post  in post %}
+                                            {% custom_mod forloop.counter 3 as mod  %}
+                                            {% if mod == 0 %}
+					                            <div class="thumbnail" style="width: 98%">
+
+
+						<a href="{% url 'posts' %}?id={{ post.id}}">
+                            <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
+                        </a>
+						<div class="caption">
+							<h3 style="text-align:left;">
+                                {{ post.title |truncatechars:15}}
+							</h3>
+							<p style="text-align:left;">
+								{{ post.content|truncatechars:40 }}
+							</p>
+							<p style="text-align:left;">
+								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>
+							</p>
+						</div>
+					</div>
+                                            {% endif %}
+                                            {% endfor %}
+				                    </div>
+                                      <div class="col-md-4" style="padding-left: 0px;padding-right: 2px">
+					                    {% for post  in post %}
+                                            {% custom_mod forloop.counter 3 as mod  %}
+                                            {% if mod == 1 %}
+					                            <div class="thumbnail" style="width: 98%">
+
+
+						<a href="{% url 'posts' %}?id={{ post.id}}">
+                            <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
+                        </a>
+						<div class="caption">
+							<h3 style="text-align:left;">
+                                {{ post.title |truncatechars:15}}
+							</h3>
+							<p style="text-align:left;">
+								{{ post.content|truncatechars:40 }}
+							</p>
+							<p style="text-align:left;">
+								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>
+							</p>
+						</div>
+					</div>
+                                            {% endif %}
+                                            {% endfor %}
+
+				                        </div>
+
+                                      <div class="col-md-4" style="padding-left: 0px;padding-right: 2px">
+					                    {% for post  in post %}
+                                            {% custom_mod forloop.counter 3 as mod  %}
+                                            {% if mod == 1 %}
+					                            <div class="thumbnail" style="width: 98%">
+
+
+						<a href="{% url 'posts' %}?id={{ post.id}}">
+                            <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
+                        </a>
+						<div class="caption">
+							<h3 style="text-align:left;">
+                                {{ post.title |truncatechars:15}}
+							</h3>
+							<p style="text-align:left;">
+								{{ post.content|truncatechars:40 }}
+							</p>
+							<p style="text-align:left;">
+								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>
+							</p>
+						</div>
+					</div>
+                                            {% endif %}
+                                            {% endfor %}
+
+				                        </div>
+                                    </div>
+
+{#                 {% for post in post %}#}
+{#				<div class="col-md-4" style="padding-left: 0px;padding-right: 2px">#}
+{##}
+{#					<div class="thumbnail" style="width: 98%">#}
+{#						<a href="{% url 'posts' %}?id={{ post.id}}">#}
+{#                            <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>#}
+{#                        </a>#}
+{#						<div class="caption">#}
+{#							<h3>#}
+{#                                {{ post.title |truncatechars:15}}#}
+{#							</h3>#}
+{#							<p>#}
+{#								{{ post.content|truncatechars:40 }}#}
+{#							</p>#}
+{#							<p>#}
+{#								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>#}
+{#							</p>#}
+{#						</div>#}
+{#					</div>#}
+{##}
+{#				</div>#}
+{#                {% endfor %}#}
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="bottom">
+    <p class="company_info" style="font-size:12px;margin-top: 12px ;display: block;color: white;width: 100%;text-align: center;">广州创拓信息科技有限公司&nbsp;|&nbsp;联系电话：020-29052906</p>
+    <p class="timer" style="text-align: center;color: white;">Copyright ©:2017-</p>
+    <a href="http://www.miitbeian.gov.cn">
+        <p style="text-align: center;color: white;margin-bottom: 12px;">粤ICP备13018197号-2</p>
+    </a>
+</div>
+
+
+
+	<script type="text/javascript" src="{% static 'js/jquery.min.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
+{#	<script type="text/javascript" src="{% static 'lib/js/Chart.min.js' %}"></script>#}
+{#	<script type="text/javascript" src="{% static 'lib/js/bootstrap-switch.min.js'%}"></script>#}
+{#	<script type="text/javascript" src="{% static 'lib/js/jquery.matchHeight-min.js'%}"></script>#}
+{#	<script type="text/javascript" src="{% static 'lib/js/jquery.dataTables.min.js'%}"></script>#}
+{#	<script type="text/javascript" src="{% static 'lib/js/dataTables.bootstrap.min.js'%}"></script>#}
+{#	<script type="text/javascript" src="{% static 'lib/js/select2.full.min.js'%}"></script>#}
+{#	<script type="text/javascript" src="{% static 'lib/js/ace/ace.js'%}"></script>#}
+{#	<script type="text/javascript" src="{% static 'lib/js/ace/mode-html.js'%}"></script>#}
+{#	<script type="text/javascript" src="{% static 'lib/js/ace/theme-github.js'%}"></script>#}
+	<!-- Javascript -->
+	<script type="text/javascript" src="{% static 'js/js.js'%}"></script>
+{#	<script type="text/javascript" src="{% static 'js/app.js'%}"></script>#}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			function empty() {
+				$("#txt_username_error").html("")
+				$("#txt_password_error").html("");
+			};
+			$("#btn_save").click(function() {
+				<!--alert("1111");-->
+				if($("#txt_username").val() == "") {
+
+					$("#txt_error_tips").html("请填写账号");
+					$(".fail_tips").show();
+					return;
+				}
+				if($("#txt_password").val() == "") {
+					$("#txt_error_tips").html("请填写密码");
+					$(".fail_tips").show();
+					return;
+				} else {
+					window.navigate("index.html");
+				}
+			});
+			
+			$(".effect").eq(0).stop().hover(function(){
+				$(".effect>div").eq(0).slideDown("slow");
+
+				
+			},function(event) {
+                    $(".effect>div").eq(0).slideUp("slow");
+
+            });
+            
+            $(".effect").eq(1).stop().hover(function(){
+				$(".effect>div").eq(1).slideDown("slow");
+				
+			},function(event) {
+                    $(".effect>div").eq(1).slideUp("slow");
+                });
+			
+			$(".effect").eq(2).stop().hover(function(){
+				$(".effect>div").eq(2).slideDown("slow");
+				
+			},function(event) {
+                    $(".effect>div").eq(2).slideUp("slow");
+                   $(".effect").eq(2).css(
+					"background","none"
+				)
+                });
+                
+                $(".effect").eq(3).stop().hover(function(){
+				$(".effect>div").eq(3).slideDown("slow");
+
+				
+			},function(event) {
+                    $(".effect>div").eq(3).slideUp("slow");
+                   $(".effect").eq(3).css(
+					"background","none"
+				)
+                });
+                
+                $(".effect").eq(4).stop().hover(function(){
+				$(".effect>div").eq(4).slideDown("slow");
+
+				
+			},function(event) {
+                    $(".effect>div").eq(4).slideUp("slow");
+                   $(".effect").eq(4).css(
+					"background","none"
+				)
+                });
+                
+                $(".effect").eq(5).stop().hover(function(){
+				$(".effect>div").eq(5).slideDown("slow");
+				
+			},function(event) {
+                    $(".effect>div").eq(5).slideUp("slow");
+                   $(".effect").eq(5).css(
+					"background","none"
+				)
+                });
+                
+                $(".effect").eq(6).stop().hover(function(){
+				$(".effect>div").eq(6).slideDown("slow");
+				
+			},function(event) {
+                    $(".effect>div").eq(6).slideUp("slow");
+                   $(".effect").eq(6).css(
+					"background","none"
+				)
+                });
+                
+                $(".effect").eq(7).stop().hover(function(){
+				$(".effect>div").eq(7).slideDown("slow");
+				
+			},function(event) {
+                    $(".effect>div").eq(7).slideUp("slow");
+                   $(".effect").eq(7).css(
+					"background","none"
+				)
+                });
+                
+                $(".effect").eq(8).stop().hover(function(){
+				$(".effect>div").eq(8).slideDown("slow");
+				
+			},function(event) {
+                    $(".effect>div").eq(8).slideUp("slow");
+                   $(".effect").eq(8).css(
+					"background","none"
+				)
+                });
+                
+                $(".effect").eq(9).stop().hover(function(){
+				$(".effect>div").eq(9).slideDown("slow");
+				
+			},function(event) {
+                    $(".effect>div").eq(9).slideUp("slow");
+                   $(".effect").eq(9).css(
+					"background","none"
+				)
+                });
+                
+                $(".effect").eq(10).stop().hover(function(){
+				$(".effect>div").eq(10).slideDown("slow");
+
+				
+			},function(event) {
+                    $(".effect>div").eq(10).slideUp("slow");
+                   $(".effect").eq(10).css(
+					"background","none"
+				)
+                });
+                
+                $(".effect").eq(11).stop().hover(function(){
+				$(".effect>div").eq(11).slideDown("slow");
+
+				
+			},function(event) {
+                    $(".effect>div").eq(11).slideUp("slow");
+                   $(".effect").eq(11).css(
+					"background","none"
+				)
+                });
+                
+                $(".effect").eq(12).stop().hover(function(){
+				$(".effect>div").eq(12).slideDown("slow");
+
+				
+			},function(event) {
+                    $(".effect>div").eq(12).slideUp("slow");
+                   $(".effect").eq(12).css(
+					"background","none"
+				)
+               });
+			function show() {
+				var mydate = new Date();
+				var str = "" + mydate.getFullYear() + "";
+				return str;
+			}
+			 $(".timer").html("Copyright © 2017-" + show());
+
+		});
+	</script>
+
+</body>
+
+</html>

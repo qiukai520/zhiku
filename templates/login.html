@@ -1,86 +1,74 @@
-{% load public_tags %}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-{% load staticfiles %}
-	<head>
-		<title>企业AI•智库</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<head>
+  <title>企业AI·智库_有智慧的企业运营管理系统</title>
 
-		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
-		<meta name="renderer" content="webkit">
+  <meta charset="utf-8">
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="">
 
-		<meta name="format-detection" content="telephone=notelphone=no, email=no" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-		<meta name="apple-touch-fullscreen" content="yes">
+  <!-- Google Fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Karla:400,400i,700%7CLato:300,400,400i,700' rel='stylesheet'>
 
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="icon" sizes="any" mask="" href="../static/img/home/logo2.png">
 
-		<meta http-equiv="Cache-Control" content="no-siteapp" />
+  <!-- Css -->
+  <link rel="stylesheet" href="../static/css/animate.css">
+ <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/css/home/magnific-popup.css" />
+  <link rel="stylesheet" href="../static/css/home/font-icons.css" />
+  <link rel="stylesheet" href="../static/css/home/sliders.css" />
+  <link rel="stylesheet" href="../static/css/home/style.css" />
 
-		<meta name="HandheldFriendly" content="true">
 
-		<meta name="MobileOptimized" content="320">
+  <!-- Favicons -->
+  <link rel="shortcut icon" href="../static/img/home/favicon.ico">
+  <link rel="apple-touch-icon" href="../static/img/home/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="../static/img/home/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="../static/img/home/apple-touch-icon-114x114.png">
 
-		<meta name="screen-orientation" content="portrait">
-
-		<meta name="x5-orientation" content="portrait">
-
-		<meta name="browsermode" content="application">
-
-		<meta name="x5-page-mode" content="app">
-
-		<meta name="msapplication-tap-highlight" content="no">
-
-{#		<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>#}
-{#		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>#}
-{##}
-		<link rel="stylesheet" href="{% static 'css/css.css'%}">
-		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css'%}">
-{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/font-awesome.min.css'%}">#}
-{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/animate.min.css'%}">#}
-{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/bootstrap-switch.min.css'%}">#}
-{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/checkbox3.min.css' %}">#}
-{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/jquery.dataTables.min.css'%}">#}
-{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/dataTables.bootstrap.css'%}">#}
-{#		<link rel="stylesheet" type="text/css" href="{% static 'lib/css/select2.min.css'%}">#}
-{##}
-{#		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">#}
-{#		<link rel="stylesheet" type="text/css" href="{% static 'css/themes/flat-blue.css'%}">#}
-		<!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
-		<!--[if lt IE 9]>
-{#    <script src="{% static 'js/html5shiv.js'%}"></script>#}
-{#    <script src="{% static 'js/respond.min.js'%}"></script>#}
-    <![endif]-->
-		<style>
-			* {
-				margin: 0;
-				padding: 0;
-			}
-			
-			html body {
-				position: relative;
-				width: 100%;
-			}
-			
-			.row {
-				margin-left: 0px;
-			}
-			
-			.zk_logo {
-				padding-top: 10px;
-			}
-			
-			.col-xs-6 {
-				padding-left: 30px;
-				padding-top: 9px;
-			}
-			
-			.fail_tips {
+  <style>
+    .logo-word{
+      font-size: 25px;
+      color: #000;
+      display: inline;
+    }
+    .logo-word-2{
+      display: inline;
+      font-size: 18px;
+      font-style: italic;
+      color: #0b0b0b;
+    }
+    .logo__word{
+      display:inline;
+      width: 400px;
+    }
+    .icon{
+      width: 100px;
+      height: 100px;
+    }
+    a{
+      color: #0b0b0b;
+    }
+    .section-wrap-1{
+      height: 100px;
+      text-align: center;
+    }
+    .logo-1{
+      width: 10%;
+      height: 50%;
+    }
+    .widget{
+      text-align: center;
+    }
+    .divcss{
+      text-indent:2em;
+    }
+     .faq p {
+        margin-bottom: 0px;
+    }
+     .fail_tips {
 				border: 1px solid #F9422B;
 				position: relative;
 				width: 100%;
@@ -89,556 +77,681 @@
 				margin-bottom: 8px;
 				display: none;
 			}
-			
-			.icon_fail_tips {
-				z-index: 5;
-				width: 20px;
-				height: 20px;
-				margin: 10px;
-				margin-top: 8px;
-			}
-			
-			.input-group {
-				width: 264px;
-				margin: 18px auto;
-			}
-			
-			.bottom {
-				background-color: #33415C;
-				width: 100%;
-				overflow: hidden;
-			}
-			
-			.container {
-				width: 100%;
-				padding-right: 0px;
-				padding-left: 0px;
-			}
-			
-			.con {
-				width: 100%;
-				height: 439px;
-				background-image: url({% static 'img/dfjso.png '%}) no-repeat center center fixed;
-				-webkit-background-size: cover;
-				-moz-background-size: cover;
-				-o-background-size: cover;
-				background-size: cover;
-			}
-			
-{#			.btn {#}
-{#				width: 264px;#}
-{#				margin: 10px auto;#}
-{#			}#}
-			
-			.row>[class*="col-"] {
-				margin-bottom: 0px;
-			}
-			
-			.login-form {
-				opacity: 1.4;
-				position: absolute;
-				top: 71px;
-				right: 20px;
-				border: 1px solid #B0B6BE;
-				background: rgba(213, 215, 222, 0.9);
-				width: 300px;
-				opacity: 0.9;
-			}
-			
-			.middle {
-				background: white;
-				height: 150px;
-				width: 100%;
-				text-align: center;
-				overflow: hidden;
-			}
-            .content{
-                background: white;
-                width: 100%;
-				text-align: center;
-				overflow: hidden;
+     .icon_fail_tips {
+            z-index: 5;
+            width: 20px;
+            height: 20px;
+            margin: 10px;
+            margin-top: 8px;
+    }
+
+     .input-group {
+            width: 264px;
+            margin: 18px auto;
             }
-			
-			.middle>h3 {
-				color: black;
-				margin-top: 50px;
-				margin-bottom: 10px;
-			}
-			
-			.middle>p {
-				color: #828282;
-			}
-			
-			.classify>ul {
-				margin-right: 0;
-				margin-bottom: 70px;
-				position: relative;
-			}
-			
-			.classify>ul>li {
-				color: #828282;
-				margin-top: 25px;
-				font-size: 18px;
-				list-style: none;
-				text-align: center;
-			}
-			
-			.classify_ul>li>p>img {
-				margin-bottom: 10px;
-				margin-top: 10px;
-				width: 85px;
-				text-align: center;
-			}
-			.classify_ul>li>div{
-				height: 100%;
-				display: none;
-				position: absolute;
-				text-align: center;
-				background:#828282;
-				color: black;
-				opacity: 0.7;
-			}
-			.classify_ul>li>div>p{
-				font-size: 15px;
-				margin-top: 15px;
-				display: block;
-				width: 100%;
-				color: white;
-			}
-            .column{
-                padding: 0px;
+
+    .row>[class*="col-"] {
+        margin-bottom: 0px;
+    }
+
+    .login-form {
+        opacity: 1.4;
+        position: absolute;
+        top: 71px;
+        right: 20px;
+        border: 1px solid #B0B6BE;
+        background: rgba(213, 215, 222, 0.9);
+        width: 300px;
+        opacity: 0.9;
+    }
+
+
+
+  </style>
+
+
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div class="loader-mask">
+    <div class="loader">
+      "Loading..."
+    </div>
+  </div>
+
+  <main class="main-wrapper">
+
+    <!-- Navigation -->
+    <header class="nav nav--transparent nav--transparent-dark">
+
+      <div class="nav__holder" id="sticky-nav">
+        <div class="container">
+          <div class="flex-parent">
+
+            <div class="nav__header clearfix">
+              <!-- Logo -->
+              <div class="logo-wrap">
+                <a href="/login" class="logo__link">
+                  <img class="logo logo--dark" src="../static/img/home/logo1.png" alt="logo">
+                </a>
+                  <div class="logo__word">
+                    <p class="logo-word"></p>
+                    <p class="logo-word-2"></p>
+                  </div>
+              </div>
+
+              <!--<button type="button" class="nav__icon-toggle" id="nav__icon-toggle" data-toggle="collapse" data-target="#navbar-collapse">-->
+                <!--<span class="sr-only">Toggle navigation</span>-->
+                <!--<span class="nav__icon-toggle-bar"></span>-->
+                <!--<span class="nav__icon-toggle-bar"></span>-->
+                <!--<span class="nav__icon-toggle-bar"></span>-->
+              <!--</button>-->
+            </div> <!-- end nav-header -->
+
+            <nav id="navbar-collapse" class="nav__wrap collapse navbar-collapse">
+              <ul class="nav__menu nav__menu--inline">
+
+                <li class="nav__dropdown active">
+                  <a href="#">首页</a>
+                  <i class="ui-arrow-down nav__dropdown-trigger"></i>
+                </li>
+              </ul>
+
+
+              <div class="nav__btn-holder" style="margin: 10px auto">
+                <a  class="btn btn--sm btn--stroke btn--stroke-blue" id="login" ><span>登录</span></a>
+              </div>
+            </nav> <!-- end nav-wrap -->
+
+          </div> <!-- end flex-parent -->
+        </div> <!-- end container -->
+
+      </div>
+    </header> <!-- end navigation -->
+
+
+    <div class="content-wrapper oh">
+
+      <!-- Hero -->
+      <section class="hero bg-light">
+
+        <div class="container hero__container--medium">
+          <div class="hero__outer">
+            <div class="hero__inner hero__inner--top text-center">
+              <h1 class="hero__title hero--boxed hero--center mb-20">企业主应该拥有自由<br><p></p>是什么把企业主困在公司而抽不了身?</h1>
+            </div>
+            <img src="../static/img/home/p1.png" class="hero__img hidden-xs" alt="">
+          </div>
+        </div>
+
+      <div class="con " id="log" style="z-index: 10">
+            <form class="login-form" id="fm"  autocomplete="on">
+                {% csrf_token %}
+                <div class="login-wrap">
+                    <div class="icon-suo" style="height: 60px;width: 60px;margin: 15px auto;">
+                        <img src="../static/img/password.png" style="width: 60px;">
+                    </div>
+                    <div class="fail_tips">
+                        <img class="icon_fail_tips" src="../static/img/fail.png">
+                        <span id="txt_error_tips" style="color: red;"></span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><img src="../static/img/people.png" alt="" style="width: 19px;"></span>
+                        <input name="username" id="txt_username" type="text" class="form-control" placeholder="账号" autofocus="autofocus">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><img src="../static/img/key.png" alt="" style="width: 19px;"></span>
+                        <input name="password" id="txt_password" type="password" class="form-control" placeholder="密码">
+                    </div>
+
+                    <div class="error btns " style="font-size:15px; color: red; text-align:center;">
+
+
+                    </div>
+                    <a id="btn_save" class="btn btn-primary btn-lg btn-block" style="line-height: 14px;margin-top: 23px;width: 264px;margin: 10px 6%;">登&nbsp;录</a>
+                    <div style="width: 100%;height: 20px;"></div>
+                </div>
+{#                    <input type="hidden" name="csrfmiddlewaretoken" value="">#}
+
+            </form>
+        </div>
+
+      </section> <!-- end hero -->
+
+      <!-- Feature -->
+      <section class="section-wrap animate">
+        <div class="section-wrap-1"><h1>企业AI·智库</h1><p>你的企业需要一位有智慧的全能帮手</p></div>
+        <div class="container">
+          <div class="row">
+
+            <div class="col-md-4 mb-md-30">
+              <div class="feature text-center">
+                <div class="feature__base feature--border">
+                  <a href="#" class="feature__icon-holder">
+                    <img src="../static/img/home/icon/scheme.png" class="icon">
+                  </a>
+                  <div class="feature__text">
+                    <h3 class="feature__title bottom-line">渊博知识</h3>
+                    <p>全球顶级企业成功经验知识库，智能识别岗位工作和岗位任务，实时共享全球顶尖企业相同岗位的优秀经验，
+                      你已不是一个人在战斗，顶尖企业相同岗位的优秀人才和你一起共事，给你工作指引</p>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- end feature item -->
+
+            <div class="col-md-4 mb-md-30">
+              <div class="feature text-center">
+                <div class="feature__base feature--border">
+                  <a href="#" class="feature__icon-holder">
+                    <img src="../static/img/home/icon/gold.png" class="icon">
+                  </a>
+                  <div class="feature__text">
+                    <h3 class="feature__title bottom-line">人事高手</h3>
+                    <p>优秀人才是企业的最大财富，建立企业完美的招聘流程和招聘绩效体系，对保障企业招聘的有效性和效率性至关重要</p>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- end feature item -->
+
+            <div class="col-md-4 mb-md-30">
+              <div class="feature text-center">
+                <div class="feature__base feature--border">
+                  <a href="#" class="feature__icon-holder">
+                    <img src="../static/img/home/icon/self.png" class="icon">
+                  </a>
+                  <div class="feature__text">
+                    <h3 class="feature__title bottom-line">销售大师</h3>
+                    <p>销售的过程管理是企业销售团队的重中之重，从新客户的开发、客户分类、客户跟进、销售目标的设定、绩效考核、
+                      业绩管理、客户管理等多维度为打造一流的销售团队提供智慧运营方案</p>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- end feature item -->
+
+            <div class="col-md-4 mb-md-30">
+              <div class="feature text-center">
+                <div class="feature__base feature--border">
+                  <a href="#" class="feature__icon-holder">
+                    <img src="../static/img/home/icon/administration.png" class="icon">
+                  </a>
+                  <div class="feature__text">
+                    <h3 class="feature__title bottom-line">管理大师</h3>
+                    <p>所有的智慧都来源于管理者，企业AI.智库是一门管理学，值得所有企业主去实践、
+                      学习和分享，从而让企业主真正解放出来，更专注于战略和梦想</p>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- end feature item -->
+
+            <div class="col-md-4 mb-md-30">
+              <div class="feature text-center">
+                <div class="feature__base feature--border">
+                  <a href="#" class="feature__icon-holder">
+                    <img src="../static/img/home/icon/data.png" class="icon">
+                  </a>
+                  <div class="feature__text">
+                    <h3 class="feature__title bottom-line">数据专家</h3>
+                    <p>从不同的维度展示管理过程中的数据，让管理更趋向于可控性、预警性、可追溯性、决策性、务实性
+                      ，用数据来多维度展示和预测，为每一步的决策提供可靠和及时的支持，这是一种智慧</p>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- end feature item -->
+
+            <div class="col-md-4 mb-md-30">
+              <div class="feature text-center">
+                <div class="feature__base feature--border">
+                  <a href="#" class="feature__icon-holder">
+                    <img src="../static/img/home/icon/control.png" class="icon">
+                  </a>
+                  <div class="feature__text">
+                    <h3 class="feature__title bottom-line">风控高手</h3>
+                    <p>企业健康需要及时、周期性诊断、对企业运营过程中的数据拥有智慧的算法，通过多维度的数据综合统计
+                      和评估，可以给企业主企业运营过程中的风险作出及时的预警，并提供修复和应对方案</p>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- end feature item -->
+
+            <div class="col-md-4 mb-md-30">
+              <div class="feature text-center">
+                <div class="feature__base feature--border">
+                  <a href="#" class="feature__icon-holder">
+                    <img src="../static/img/home/icon/money_matters.png" class="icon">
+                  </a>
+                  <div class="feature__text">
+                    <h3 class="feature__title bottom-line">理财专家</h3>
+                    <p>企业主应该及时了解并清楚企业运营过程中的财报，并且这些财报是由原始的数据综合呈现，而没有过多的人为统计因素导致数据的可作弊性提高
+                      ，涵盖企业的日常成本支出、收入等，直观反映企业收支，并能对未来的财报作出预判</p>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- end feature item -->
+
+            <div class="col-md-4 mb-md-30">
+              <div class="feature text-center">
+                <div class="feature__base feature--border">
+                  <a href="#" class="feature__icon-holder">
+                    <img src="../static/img/home/icon/serve.png" class="icon">
+                  </a>
+                  <div class="feature__text">
+                    <h3 class="feature__title bottom-line">金牌客服</h3>
+                    <p>拥有售后服务团队的企业通过智慧的流程，让每个客服岗位都能按量、按质、按时、按周期来完成可量化的服务工作
+                      ，体现企业公平公正的绩效体系，建立流程化和效率化的客服团队</p>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- end feature item -->
+
+            <div class="col-md-4 mb-md-30">
+              <div class="feature text-center">
+                <div class="feature__base feature--border">
+                  <a href="#" class="feature__icon-holder">
+                    <img src="../static/img/home/icon/wisdom.png" class="icon">
+                  </a>
+                  <div class="feature__text">
+                    <h3 class="feature__title bottom-line">智慧女神</h3>
+                    <p>拥有智慧是企业AI·智库区别于任何企业管理工具的根本，拥有她， 企业主将得到解放、
+                      企业运作成本将大大减低、他是企业运作过程中的全能帮手，精通、贡献、共享各个岗位知识，为企业主执行任务、
+                      预判运营风险、汇报并360度诊断、预警和修复企业健康</p>
+                  </div>
+                </div>
+              </div>
+            </div> <!-- end feature item -->
+
+          </div>
+        </div>
+      </section> <!-- end feature -->
+
+
+      <!-- Promo Section -->
+      <section class="section-wrap section-wrap--md promo-section pb-60 bg-dark">
+        <div class="container container--1440">
+          <div class="row">
+            <div class="col-lg-7 col-md-7 col-sm-12">
+              <img src="../static/img/home/AI.png" alt="" class="promo-section__img">
+            </div>
+            <div class="col-lg-4 col-md-5 col-sm-12 animate mb-30">
+              <div class="promo-section__description" style="width: 600px">
+                <h2 class="promo-section__title promo-section__title--lg">把公司交给企业AI·智库</h2>
+                <ul class="promo-section__features mb-40">
+                  <li><i class="ui-check promo-section__features__icon"></i>员工日常工作自动指派</li>
+                  <li><i class="ui-check promo-section__features__icon"></i>工作指引让每件事情都有N种解决方法参考</li>
+                  <li><i class="ui-check promo-section__features__icon"></i>收录经验到知识库，随时为员工排忧解难</li>
+                  <li><i class="ui-check promo-section__features__icon"></i>每个部门每个人的KPI向你汇报得妥妥的</li>
+                  <li><i class="ui-check promo-section__features__icon"></i>员工离职无需面对面交接工作也可无缝对接</li>
+                  <li><i class="ui-check promo-section__features__icon"></i>员工入职、请假、在岗、离职随时了如指掌</li>
+                  <li><i class="ui-check promo-section__features__icon"></i>盈亏一目了然、经营预测如神算</li>
+                  <li><i class="ui-check promo-section__features__icon"></i>合伙开公司经营财报随时随地看</li>
+                  <li><i class="ui-check promo-section__features__icon"></i>实时了解企业的动态，掌控全局</li>
+                  <li><i class="ui-check promo-section__features__icon"></i>企业运营健康360度护盾式诊断、预警、修复</li>
+                  <li><i class="ui-check promo-section__features__icon"></i>解放身为boss的您，追寻你的诗和远方去吧</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section> <!-- end promo section -->
+
+
+      <!-- Testimonials -->
+      <section class="section-wrap">
+       <div class="section-wrap-1"><h1>行业应用</h1><p>最in的风口行业都在用的智慧运营管理系统</p></div>
+        <div class="container">
+          <div class="testimonial__flex-parent">
+
+            <div class="testimonial__flex-child mb-md-40">
+              <div class="testimonial testimonial-1 clearfix">
+                <div class="testimonial__holder">
+                  <img src="../static/img/home/testimonials/1.jpg" alt="" class="testimonial__img">
+                  <div class="testimonial__info">
+                    <span class="testimonial__author">社区团购</span>
+                    <span class="testimonial__company">运营支撑</span>
+                  </div>
+                </div>
+
+                <div class="testimonial__body">
+                  <p class="testimonial__text">自由的“团长”、人人都是“团长”、供应链、总仓、前置仓、实体店、宝妈、比价、统一配送、调度、损耗、团品牌、售后秒赔，为火爆的“社区团购”领域提供专业的运营支撑解决方案，这是最懂“社区团购”的企业AI·智库</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="testimonial__flex-child">
+              <div class="testimonial testimonial-1 clearfix">
+                <div class="testimonial__holder">
+                  <img src="../static/img/home/testimonials/2.jpg" alt="" class="testimonial__img">
+                  <div class="testimonial__info">
+                    <span class="testimonial__author">销售</span>
+                    <span class="testimonial__company">运营管理</span>
+                  </div>
+                </div>
+                <div class="testimonial__body">
+                  <p class="testimonial__text">生活无处不销售，人人都是销售员，销售团队是公司的主要创收部门，如何针对销售团队日常拜访、客户管理、客户分析、销售机会判断、销售合同的管理、业绩分配、客户保护、团队业绩预判、人员预警等有效运营并智慧管理提供专家级服务和工具</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="testimonial__flex-child">
+              <div class="testimonial testimonial-1 clearfix">
+                <div class="testimonial__holder">
+                  <img src="../static/img/home/testimonials/1.jpg" alt="" class="testimonial__img">
+                  <div class="testimonial__info">
+                    <span class="testimonial__author">技术</span>
+                    <span class="testimonial__company">运营管理</span>
+                  </div>
+                </div>
+                <div class="testimonial__body">
+                  <p class="testimonial__text">KPI是管理者的心头痛，轻了不痛不痒，重了痛心疾首；老板可以不懂技术，但是一定要有一套治理技术团队的法宝，没错，有了它，时效有了保障，过程有了记录，技术工作即使换了个新人也可以不间断，紧接着继续干，boss就是爷</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="testimonial__flex-child">
+              <div class="testimonial testimonial-1 clearfix">
+                <div class="testimonial__holder">
+                  <img src="../static/img/home/testimonials/2.jpg" alt="" class="testimonial__img">
+                  <div class="testimonial__info">
+                    <span class="testimonial__author">媒体</span>
+                    <span class="testimonial__company">运营管理</span>
+                  </div>
+                </div>
+                <div class="testimonial__body">
+                  <p class="testimonial__text">开会有结果，干活有次序，工作有效率，分工要明确，奖惩要公正，个人KPI、团队KPI，都得到完美呈现，贡献有记录，晋升有轨迹，成长有见证，无论身居何处，登录系统，一切工作，都可以自由随心连接，随时随地记录你的灵感与思考</p>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </section> <!-- end testimonials -->
+
+
+      <!-- Promo Section -->
+      <section class="section-wrap section-wrap--md promo-section pb-60 bg-light">
+        <div class="container container--1440">
+          <div class="row">
+            <div class="col-lg-4 col-lg-offset-1 col-md-5 col-sm-12 animate mb-50">
+              <div class="promo-section__description">
+                <h2 class="promo-section__title promo-section__title--lg">企业AI·智库</h2>
+                <p class="lead mb-40">
+                  拥有智慧的企业运营管理系统，TA不是简单的工具，工具为事情而活，而企业AI·智库，为人而生，一切因人而存在，解决企业中人的问题；只有解放boss，企业才有生机和希望，而boss为什么而担忧？为什么不能放开？企业AI·智库因最懂中小企业boss的痛而生；今天，你、我，遇见，就是最未来！串联、打通企业关键人、岗位，以极简思维全方位搭建企业人工智慧架构，让她伴随企业成长，而又一路反哺企业，她是每个有梦想的中小企业家都要带上征程的创业伴侣！
+                </p>
+                <!--<a href="#" class="btn btn&#45;&#45;lg btn&#45;&#45;gradient">-->
+                  <!--<span>立即登录</span>-->
+                <!--</a>-->
+              </div>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-12">
+              <img src="../static/img/home/AI2.png" alt="" class="promo-section__img">
+            </div>
+
+          </div>
+        </div>
+      </section> <!-- end promo section -->
+
+
+      <!-- FAQ -->
+      <section class="section-wrap faq pb-70">
+        <div class="container">
+          <div class="heading-row text-center">
+            <h2 class="heading">最新动态</h2>
+            <p>最新运营管理文章、最新案例、企业最新动态</p>
+          </div>
+            <div class="row items-grid">
+				<div class="col-md-4">
+					<div class="thumbnail">
+						<a href="http://www.zhiku086.com/article/?id=7">
+                            <img alt="图片600x200" src="../static/img/客户关系600.jpg" style="width: 600px;height: 200px;">
+                        </a>
+						<div class="caption">
+							<h3>
+                                如何做好客户的往来管理与服务
+							</h3>
+							<p>
+								[您有梦想，我来落地]·续集之：客服篇
+
+相信前面讲到技术、销售等公司...
+							</p>
+							<p>
+								 <a class="btn btn-primary" href="http://www.zhiku086.com/article/?id=7">浏览</a> <a   href="http://www.zhiku086.com/article/more/">阅读更多</a>
+							</p>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-md-4">
+
+					<div class="thumbnail">
+						<a href="http://www.zhiku086.com/article/?id=6">
+                            <img alt="图片600x200" src="../static/img/知识库600.jpg" style="width: 600px;height: 200px;">
+                        </a>
+						<div class="caption">
+							<h3>
+                                你的公司拥有自己的知识库了吗？
+							</h3>
+							<p>
+								[您有梦想，我来落地]·续集之：知识库篇
+企业知识库？为什么要建立知...
+							</p>
+							<p>
+								 <a class="btn btn-primary" href="http://www.zhiku086.com/article/?id=6">浏览</a> <a  href="http://www.zhiku086.com/article/more/">阅读更多</a>
+							</p>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-md-4">
+                <div class="thumbnail">
+						<a href="http://www.zhiku086.com/article/?id=5">
+                            <img alt="图片600x200" src="../static/img/技术员.jpg" style="width: 600px;height: 200px;">
+                        </a>
+						<div class="caption">
+							<h3>
+                                不懂技术怎么侍候好这帮爷？
+							</h3>
+							<p>
+								[您有梦想，我来落地]·续集之：技术篇
+很多老板是干销售出身的，销售...
+							</p>
+							<p>
+								 <a class="btn btn-primary" href="http://www.zhiku086.com/article/?id=5">浏览</a> <a  href="http://www.zhiku086.com/article/more/">阅读更多</a>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+
+					<div class="thumbnail">
+						<a href="http://www.zhiku086.com/article/?id=4">
+                            <img alt="图片600x200" src="../static/img/销售.jpg" style="width: 600px;height: 200px;">
+                        </a>
+						<div class="caption">
+							<h3>
+                                在销售团队里发生的那些事...
+							</h3>
+							<p>
+								销售型的公司里通常有着一群充满激情、聪明、能说会道的精英，是公司的核心创收...
+							</p>
+							<p>
+								 <a class="btn btn-primary" href="http://www.zhiku086.com/article/?id=4">浏览</a> <a  href="http://www.zhiku086.com/article/more/">阅读更多</a>
+							</p>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-md-4">
+
+					<div class="thumbnail">
+						<a href="http://www.zhiku086.com/article/?id=3">
+                            <img alt="图片600x200" src="../static/img/员工3.jpg" style="width: 600px;height: 200px;">
+                        </a>
+						<div class="caption">
+							<h3>
+                                那些讲述办公室故事的电影剧情
+							</h3>
+							<p>
+								通常讲述办公室故事的电影、电视剧剧情中的灵气秘书和天才员工在创业型的企业里...
+							</p>
+							<p>
+								 <a class="btn btn-primary" href="http://www.zhiku086.com/article/?id=3">浏览</a> <a  href="http://www.zhiku086.com/article/more/">阅读更多</a>
+							</p>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-md-4">
+
+					<div class="thumbnail">
+						<a href="http://www.zhiku086.com/article/?id=2">
+                            <img alt="图片600x200" src="../static/img/中国合伙人600.jpg" style="width: 600px;height: 200px;">
+                        </a>
+						<div class="caption">
+							<h3>
+                                合伙公司里容易导致散伙的几个问题
+							</h3>
+							<p>
+								合伙公司，常见的几个问题：
+a、"这叼毛没经过我同意就私自决定，明天...
+							</p>
+							<p>
+								 <a class="btn btn-primary" href="http://www.zhiku086.com/article/?id=2">浏览</a> <a  href="http://www.zhiku086.com/article/more/">阅读更多</a>
+							</p>
+						</div>
+					</div>
+
+				</div>
+		</div>
+
+        </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+
+
+        <div class="footer__bottom top-divider">
+          <div class="container">
+            <div class="widget footer__about-us">
+              <img src="../static/img/home/logo2.png" alt="" class="logo-1">
+              <!--<div class="footer__socials">-->
+              <!--<div class="social-icons social-icons&#45;&#45;nobase">-->
+              <!--<a href="#"><i class="ui-twitter"></i></a>-->
+              <!--<a href="#"><i class="ui-facebook"></i></a>-->
+              <!--<a href="#"><i class="ui-linkedin"></i></a>-->
+              <!--<a href="#"><i class="ui-instagram"></i></a>-->
+              <!--</div>-->
+              <!--</div>-->
+            </div> <!-- end about us -->
+          </div> <!-- end container -->
+          <div class="container text-center">
+            <span class="copyright">
+              广州创拓信息科技有限公司&nbsp|&nbsp客服&nbsp:&nbsp020-29052906
+            </span><br/>
+            <span class="timer" class="copyright">
+{#             Copyright &copy; 2017-2019#}
+            </span><br/>
+            <span class="copyright">
+              <a href="http://www.miitbeian.gov.cn/">粤ICP备13018197号-2</a>
+            </span>
+          </div>
+        </div> <!-- end footer bottom -->
+      </footer> <!-- end footer -->
+
+      <div id="back-to-top">
+        <a href="#top"><i class="ui-arrow-up"></i></a>
+      </div>
+       </section>
+    </div>
+      <!-- end content wrapper -->
+  </main> <!-- end main wrapper -->
+
+
+  <!-- jQuery Scripts -->
+  <script type="text/javascript" src="../static/js/home/jquery.min.js"></script>
+  <script type="text/javascript" src="../static/js/home/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../static/js/home/plugins.js"></script>
+
+  <script type="text/javascript" src="../static/js/home/scripts.js"></script>
+  	<!-- Javascript -->
+	<script type="text/javascript" src="../static/js/js.js"></script>
+   <!-- jquery 取Cookie当中的csrftoken并在请求中添加X-CSRFToken请求头-->
+    <script src="/static/js/jquery.cookie.js"></script>
+  <script>
+       var csrftoken = $.cookie('csrftoken');
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
-		</style>
-	</head>
-
-<html class="login-img3-body">
-		<div class="row" style="background-color:#33415C;width: 100%;">
-
-			<div class="col-xs-1">
-				<img class="zk_logo" src="{% static 'img/logo.png' %}" />
-			</div>
-			<div class="col-xs-12 col-md-6" style="margin-top: 24px;">
-				<p style="color: white;font-size: 20px;float:left;">企业AI•智库&nbsp;|&nbsp;</p><i style="font-size: 15px; color: white;line-height:31px;">有智慧的企业运营系统</i>
-			</div>
-
-		</div>
-		<div class="container bannerbox" >
-
-			<ul>
-				<li class="fst-li">
-					<div class="containt-div" >
-						<div class="baner-01-a"></div>
-						<div class="baner-01-b"></div>
-					</div>
-				</li>
-				<li class="sec-li">
-					<div class="containt-div">
-						<div class="banner2-02"></div>
-						<div class="banner2-01"></div>
-						<div class="banner2-03"></div>
-					</div>
-				</li>
-				<li class="third-li">
-					<div class="containt-div">
-						<div class="banner3-01"></div>
-						<div class="banner3-02"></div>
-						<div class="banner3-03"></div>
-						<div class="banner3-04"></div>
-					</div>
-				</li>
-			</ul>
-
-
-			<div class="con">
-				<form class="login-form" action="{% url 'login' %}" method="post"  autocomplete="on" >
-					<div class="login-wrap">
-						<div class="icon-suo" style="height: 60px;width: 60px;margin: 15px auto;">
-							<img src="{% static 'img/password.png' %}" style="width: 60px;" />
-						</div>
-						<div class="fail_tips">
-							<img class="icon_fail_tips" src="{% static 'img/fail.png' %}" />
-							<span id="txt_error_tips" style="color: red;"></span>
-						</div>
-						<div class="input-group">
-							<span class="input-group-addon"><img src="{% static 'img/people.png' %}" alt="" style="width: 19px;"/></span>
-							<input name="username" type="text" class="form-control" placeholder="账号" autofocus="autofocus">
-						</div>
-						<div class="input-group">
-							<span class="input-group-addon"><img src="{% static 'img/key.png' %}" alt="" style="width: 19px;"/></span>
-							<input name="password" type="password" class="form-control" placeholder="密码">
-						</div>
-
-                        <div class="error btns " style="font-size:15px; color: red; text-align:center;">
-
-                            {{ msg }}
-                        </div>
-						<button id="btn_save" class="btn btn-primary btn-lg btn-block" style="line-height: 14px;margin-top: 23px;width: 264px;margin: 10px auto;">登&nbsp;录</button>
-						<div style="width: 100%;height: 20px;"></div>
-					</div>
-                    {% csrf_token %}
-				</form>
-			</div>
-
-		<div class="nav" style="">
-			<ul>
-				<li class=""></li>
-				<li class=""></li>
-				<li class=""></li>
-			</ul>
-		</div>
-		</div>
-
-<div class="middle">
-    <h3>企业AI•智库</h3>
-    <p>你的企业经营需要一位有智慧的全能秘书</p>
-</div>
-<div class="classify">
-    <ul class="row classify_ul">
-        <li class="col-sm-4 effect">
-            <div><p>全球顶级企业成功经验知识库，智能识别岗位工作和岗位任务，实时共享全球顶尖企业相同岗位的优秀经验，你已不是一个人在战斗，顶尖企业相同岗位的优秀人才和你一起共事，给你工作指引</p></div>
-            <p style="text-align: center;"><img src="{% static 'img/scheme.png' %}" alt="" /></p> 渊博知识
-        </li>
-        <li class="col-sm-4 effect">
-            <div><p>优秀人才是企业的最大财富，建立企业完美的招聘流程和招聘绩效体系，对保障企业招聘的有效性和效率性至关重要</p></div>
-            <p style="text-align: center;"><img src="{% static 'img/gold.png' %}" alt="" /></p> 人事高手
-        </li>
-        <li class="col-sm-4 effect">
-            <div><p>销售的过程管理是企业销售团队的重中之重，从新客户的开发、客户分类、客户跟进、销售目标的设定、绩效考核、业绩管理、客户管理等多维度为打造一流的销售团队提供智慧运营方案</p></div>
-            <p style="text-align: center;"><img src="{% static 'img/self.png' %}" alt="" /></p> 销售大师
-        </li>
-        <li class="col-sm-4 effect">
-            <div><p>所有的智慧都来源于管理者，企业AI.智库是一门管理学，值得所有企业主去实践、学习和分享，从而让企业主真正解放出来，更专注于战略和梦想</p></div>
-            <p style="text-align: center;"><img src="{% static 'img/administration.png' %}" alt="" /></p> 管理大师
-        </li>
-        <li class="col-sm-4 effect">
-            <div><p>从不同的维度展示管理过程中的数据，让管理更趋向于可控性、预警性、可追溯性、决策性、务实性，用数据来多维度展示和预测，为每一步的决策提供可靠和及时的支持，这是一种智慧</p></div>
-            <p style="text-align: center;"><img src="{% static 'img/data.png' %}" alt="" /></p> 数据专家
-        </li>
-        <li class="col-sm-4 effect">
-            <div><p>企业健康需要及时、周期性诊断、对企业运营过程中的数据拥有智慧的算法，通过多维度的数据综合统计和评估，可以给企业主企业运营过程中的风险作出及时的预警，并提供修复和应对方案</p></div>
-            <p style="text-align: center;"><img src="{% static 'img/control.png' %}" alt="" /></p> 风控高手
-        </li>
-        <li class="col-sm-4 effect">
-            <div><p>企业主应该及时了解并清楚企业运营过程中的财报，并且这些财报是由原始的数据综合呈现，而没有过多的人为统计因素导致数据的可作弊性提高，涵盖企业的日常成本支出、收入等，直观反映企业收支，并能对未来的财报作出预判</p></div>
-            <p style="text-align: center;"><img src="{% static 'img/money_matters.png' %}" alt="" /></p> 理财专家
-        </li>
-        <li class="col-sm-4 effect">
-            <div><p>拥有售后服务团队的企业通过智慧的流程，让每个客服岗位都能按量、按质、按时、按周期来完成可量化的服务工作，体现企业公平公正的绩效体系，建立流程化和效率化的客服团队</p></div>
-            <p style="text-align: center;"><img src="{% static 'img/serve.png' %}" alt="" /></p> 金牌客服
-        </li>
-        <li class="col-sm-4 effect">
-            <div><p>拥有智慧是企业AI.智库区别于任何企业管理工具的根本，拥有她，企业主将得到解放、企业运作成本将大大减低、他是企业运作过程中的全能秘书，精通、贡献、共享各个岗位知识，为企业主掌管企业并执行任务、承担运营风险和预判风险、如实汇报企业健康状况并致力于诊断和修复企业健康</p></div>
-            <p style="text-align: center;"><img src="{% static 'img/wisdom.png' %}" alt="" /></p> 智慧女神
-        </li>
-    </ul>
-</div>
-
-
-<body class="container">
-<div class="middle" style="background:#f5f5f5;height: 90px; ">
-			<h3 style="margin-top:20px;">最新动态</h3>
-			<p>最新运营管理文章、最新案列、企业最新动态</p>
-
-</div>
- <div class="content" style="margin-top:20px;">
-	<div class="row clearfix">
-		<div class="col-md-12 column">
-			<div class="row">
-
-                                      <div class="col-md-4" style="padding-left: 0px;padding-right: 2px">
-                                            {% for post  in post %}
-                                            {% custom_mod forloop.counter 3 as mod  %}
-                                            {% if mod == 0 %}
-					                            <div class="thumbnail" style="width: 98%">
-
-
-						<a href="{% url 'posts' %}?id={{ post.id}}">
-                            <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
-                        </a>
-						<div class="caption">
-							<h3 style="text-align:left;">
-                                {{ post.title |truncatechars:15}}
-							</h3>
-							<p style="text-align:left;">
-								{{ post.content|truncatechars:40 }}
-							</p>
-							<p style="text-align:left;">
-								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>
-							</p>
-						</div>
-					</div>
-                                            {% endif %}
-                                            {% endfor %}
-				                    </div>
-                                      <div class="col-md-4" style="padding-left: 0px;padding-right: 2px">
-					                    {% for post  in post %}
-                                            {% custom_mod forloop.counter 3 as mod  %}
-                                            {% if mod == 1 %}
-					                            <div class="thumbnail" style="width: 98%">
-
-
-						<a href="{% url 'posts' %}?id={{ post.id}}">
-                            <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
-                        </a>
-						<div class="caption">
-							<h3 style="text-align:left;">
-                                {{ post.title |truncatechars:15}}
-							</h3>
-							<p style="text-align:left;">
-								{{ post.content|truncatechars:40 }}
-							</p>
-							<p style="text-align:left;">
-								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>
-							</p>
-						</div>
-					</div>
-                                            {% endif %}
-                                            {% endfor %}
-
-				                        </div>
-
-                                      <div class="col-md-4" style="padding-left: 0px;padding-right: 2px">
-					                    {% for post  in post %}
-                                            {% custom_mod forloop.counter 3 as mod  %}
-                                            {% if mod == 1 %}
-					                            <div class="thumbnail" style="width: 98%">
-
-
-						<a href="{% url 'posts' %}?id={{ post.id}}">
-                            <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
-                        </a>
-						<div class="caption">
-							<h3 style="text-align:left;">
-                                {{ post.title |truncatechars:15}}
-							</h3>
-							<p style="text-align:left;">
-								{{ post.content|truncatechars:40 }}
-							</p>
-							<p style="text-align:left;">
-								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>
-							</p>
-						</div>
-					</div>
-                                            {% endif %}
-                                            {% endfor %}
-
-				                        </div>
-                                    </div>
-
-{#                 {% for post in post %}#}
-{#				<div class="col-md-4" style="padding-left: 0px;padding-right: 2px">#}
-{##}
-{#					<div class="thumbnail" style="width: 98%">#}
-{#						<a href="{% url 'posts' %}?id={{ post.id}}">#}
-{#                            <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>#}
-{#                        </a>#}
-{#						<div class="caption">#}
-{#							<h3>#}
-{#                                {{ post.title |truncatechars:15}}#}
-{#							</h3>#}
-{#							<p>#}
-{#								{{ post.content|truncatechars:40 }}#}
-{#							</p>#}
-{#							<p>#}
-{#								 <a class="btn btn-primary" href="{% url 'posts' %}?id={{ post.id}}">浏览</a> <a class="btn" href="{% url 'more' %}">阅读更多</a>#}
-{#							</p>#}
-{#						</div>#}
-{#					</div>#}
-{##}
-{#				</div>#}
-{#                {% endfor %}#}
-		</div>
-	</div>
-</div>
-</div>
-
-<div class="bottom">
-    <p class="company_info" style="font-size:12px;margin-top: 12px ;display: block;color: white;width: 100%;text-align: center;">广州创拓信息科技有限公司&nbsp;|&nbsp;联系电话：020-29052906</p>
-    <p class="timer" style="text-align: center;color: white;">Copyright ©:2017-</p>
-    <a href="http://www.miitbeian.gov.cn">
-        <p style="text-align: center;color: white;margin-bottom: 12px;">粤ICP备13018197号-2</p>
-    </a>
-</div>
-
-
-
-	<script type="text/javascript" src="{% static 'js/jquery.min.js'%}"></script>
-	<script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
-{#	<script type="text/javascript" src="{% static 'lib/js/Chart.min.js' %}"></script>#}
-{#	<script type="text/javascript" src="{% static 'lib/js/bootstrap-switch.min.js'%}"></script>#}
-{#	<script type="text/javascript" src="{% static 'lib/js/jquery.matchHeight-min.js'%}"></script>#}
-{#	<script type="text/javascript" src="{% static 'lib/js/jquery.dataTables.min.js'%}"></script>#}
-{#	<script type="text/javascript" src="{% static 'lib/js/dataTables.bootstrap.min.js'%}"></script>#}
-{#	<script type="text/javascript" src="{% static 'lib/js/select2.full.min.js'%}"></script>#}
-{#	<script type="text/javascript" src="{% static 'lib/js/ace/ace.js'%}"></script>#}
-{#	<script type="text/javascript" src="{% static 'lib/js/ace/mode-html.js'%}"></script>#}
-{#	<script type="text/javascript" src="{% static 'lib/js/ace/theme-github.js'%}"></script>#}
-	<!-- Javascript -->
-	<script type="text/javascript" src="{% static 'js/js.js'%}"></script>
-{#	<script type="text/javascript" src="{% static 'js/app.js'%}"></script>#}
-	<script type="text/javascript">
-		$(document).ready(function() {
-			function empty() {
-				$("#txt_username_error").html("")
-				$("#txt_password_error").html("");
-			};
-			$("#btn_save").click(function() {
-				<!--alert("1111");-->
+        }
+        });
+        $(document).ready(function() {
+        $("#login").click(
+         function () {
+             if ($("#log").hasClass("hidden")){
+                  $("#log").removeClass("hidden")
+              } else{
+                   $("#log").addClass("hidden")
+              }
+         }
+        )
+        function empty() {
+            $("#txt_username_error").html("")
+            $("#txt_password_error").html("");
+        };
+        $("#btn_save").click(function() {
 				if($("#txt_username").val() == "") {
-
 					$("#txt_error_tips").html("请填写账号");
 					$(".fail_tips").show();
-					return;
+					return false;
 				}
 				if($("#txt_password").val() == "") {
 					$("#txt_error_tips").html("请填写密码");
 					$(".fail_tips").show();
-					return;
+					return false;
 				} else {
-					window.navigate("index.html");
+					  $.ajax({
+                        url: '{% url "login" %}',
+                        type: 'POST',
+                        data: $('#fm').serialize(),
+                        dataType: 'JSON',
+                          async:true,
+                        success: function (arg) {
+                            console.log("arg",arg)
+                            if(arg.status){
+                                console.log(arg.next_url)
+                                console.log(arg.message)
+                                window.location.href = arg.next_url;
+                            }
+                            else{
+                                $("#txt_error_tips").html(arg.message);
+                                $(".fail_tips").show();
+                            }
+                        }
+                })
 				}
 			});
-			
-			$(".effect").eq(0).stop().hover(function(){
-				$(".effect>div").eq(0).slideDown("slow");
-
-				
-			},function(event) {
-                    $(".effect>div").eq(0).slideUp("slow");
-
-            });
-            
-            $(".effect").eq(1).stop().hover(function(){
-				$(".effect>div").eq(1).slideDown("slow");
-				
-			},function(event) {
-                    $(".effect>div").eq(1).slideUp("slow");
-                });
-			
-			$(".effect").eq(2).stop().hover(function(){
-				$(".effect>div").eq(2).slideDown("slow");
-				
-			},function(event) {
-                    $(".effect>div").eq(2).slideUp("slow");
-                   $(".effect").eq(2).css(
-					"background","none"
-				)
-                });
-                
-                $(".effect").eq(3).stop().hover(function(){
-				$(".effect>div").eq(3).slideDown("slow");
-
-				
-			},function(event) {
-                    $(".effect>div").eq(3).slideUp("slow");
-                   $(".effect").eq(3).css(
-					"background","none"
-				)
-                });
-                
-                $(".effect").eq(4).stop().hover(function(){
-				$(".effect>div").eq(4).slideDown("slow");
-
-				
-			},function(event) {
-                    $(".effect>div").eq(4).slideUp("slow");
-                   $(".effect").eq(4).css(
-					"background","none"
-				)
-                });
-                
-                $(".effect").eq(5).stop().hover(function(){
-				$(".effect>div").eq(5).slideDown("slow");
-				
-			},function(event) {
-                    $(".effect>div").eq(5).slideUp("slow");
-                   $(".effect").eq(5).css(
-					"background","none"
-				)
-                });
-                
-                $(".effect").eq(6).stop().hover(function(){
-				$(".effect>div").eq(6).slideDown("slow");
-				
-			},function(event) {
-                    $(".effect>div").eq(6).slideUp("slow");
-                   $(".effect").eq(6).css(
-					"background","none"
-				)
-                });
-                
-                $(".effect").eq(7).stop().hover(function(){
-				$(".effect>div").eq(7).slideDown("slow");
-				
-			},function(event) {
-                    $(".effect>div").eq(7).slideUp("slow");
-                   $(".effect").eq(7).css(
-					"background","none"
-				)
-                });
-                
-                $(".effect").eq(8).stop().hover(function(){
-				$(".effect>div").eq(8).slideDown("slow");
-				
-			},function(event) {
-                    $(".effect>div").eq(8).slideUp("slow");
-                   $(".effect").eq(8).css(
-					"background","none"
-				)
-                });
-                
-                $(".effect").eq(9).stop().hover(function(){
-				$(".effect>div").eq(9).slideDown("slow");
-				
-			},function(event) {
-                    $(".effect>div").eq(9).slideUp("slow");
-                   $(".effect").eq(9).css(
-					"background","none"
-				)
-                });
-                
-                $(".effect").eq(10).stop().hover(function(){
-				$(".effect>div").eq(10).slideDown("slow");
-
-				
-			},function(event) {
-                    $(".effect>div").eq(10).slideUp("slow");
-                   $(".effect").eq(10).css(
-					"background","none"
-				)
-                });
-                
-                $(".effect").eq(11).stop().hover(function(){
-				$(".effect>div").eq(11).slideDown("slow");
-
-				
-			},function(event) {
-                    $(".effect>div").eq(11).slideUp("slow");
-                   $(".effect").eq(11).css(
-					"background","none"
-				)
-                });
-                
-                $(".effect").eq(12).stop().hover(function(){
-				$(".effect>div").eq(12).slideDown("slow");
-
-				
-			},function(event) {
-                    $(".effect>div").eq(12).slideUp("slow");
-                   $(".effect").eq(12).css(
-					"background","none"
-				)
-               });
-			function show() {
+ });
+        function show() {
 				var mydate = new Date();
 				var str = "" + mydate.getFullYear() + "";
 				return str;
 			}
-			 $(".timer").html("Copyright © 2017-" + show());
+         $(".timer").html("Copyright © 2007-" + show());
 
-		});
-	</script>
 
+
+
+
+  </script>
 </body>
-
 </html>

@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
 from task import views as task_view
-from rbac.views import LoginView,logout
+from rbac.views import LoginView,Logout
 from personnel import views as p_view
 
 urlpatterns = [
@@ -29,7 +29,7 @@ urlpatterns = [
     path('index/', task_view.index, name='index'),
     path('home/', task_view.home, name='home'),
     path('login/', LoginView.as_view(), name='login'),
-    path('logout/', logout, name='logout'),
+    path('logout/', Logout, name='logout'),
     path("task/", include('task.urls')),  # 工单
     path("personnel/", include('personnel.urls')),  # 人事
     path("contract/", include('contract.urls')),  # 合同
