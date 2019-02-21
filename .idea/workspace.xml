@@ -6,95 +6,7 @@
     <bookmark url="file://$PROJECT_DIR$/thinking_library/settings.py" line="215" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/static/css/home/Thumbs.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/bootstrap.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/font-icons.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/htmleaf-demo.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/magnific-popup.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/normalize.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/owl-carousel/AjaxLoader.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/owl-carousel/Thumbs.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/owl-carousel/grabbing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/base/_general.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/base/_mixins.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/base/_typography.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/base/_variables.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_accordions-toggles.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_alerts.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_buttons.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_call-to-actions.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_counters.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_feature-boxes.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_forms.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_from-blog.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_hero.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_hovers.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_layout.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_lighboxes.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_page-title.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_portfolio.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_pricing.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_progress-bars.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_promo.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_sliders.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_social-icons.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_tables.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_tabs.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_team.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/components/_testimonials.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/layout/_footer.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/layout/_grid.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/layout/_helper-classes.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/layout/_navigation.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/layout/_responsive.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/layout/_sidebar.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/layout/_spacings.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/pages/_blog.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sass/style.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/sliders.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/style-1.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/home/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/AI.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/AI2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/apple-touch-icon-114x114.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/apple-touch-icon-72x72.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/dropdown.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/favicon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/icon/administration.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/icon/control.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/icon/data.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/icon/gold.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/icon/money_matters.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/icon/scheme.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/icon/self.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/icon/serve.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/icon/wisdom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/index_img1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/index_img2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/index_img3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/logo1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/logo2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/logo_dark.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/logo_light.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/map_pin.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/p1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/testimonials/1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/testimonials/2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/img/home/testimonials/3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/home/bootstrap.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/home/gmap3.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/home/jquery.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/home/plugins.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/home/scripts.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/login.bak1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/rbac/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/rbac/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.bak.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.bak.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/thinking_library/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/thinking_library/urls.py" afterDir="false" />
-    </list>
+    <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -346,7 +258,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="288" />
     <option name="y" value="12" />
     <option name="width" value="1460" />
