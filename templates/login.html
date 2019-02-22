@@ -11,22 +11,23 @@
   <!-- Google Fonts -->
   <link href='https://fonts.googleapis.com/css?family=Karla:400,400i,700%7CLato:300,400,400i,700' rel='stylesheet'>
 
-  <link rel="icon" sizes="any" mask="" href="../static/img/home/logo2.png">
+  <link rel="icon" sizes="any" mask="" href="../static/home/img/logo2.png">
 
   <!-- Css -->
-  <link rel="stylesheet" href="../static/css/animate.css">
- <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../static/css/home/magnific-popup.css" />
-  <link rel="stylesheet" href="../static/css/home/font-icons.css" />
-  <link rel="stylesheet" href="../static/css/home/sliders.css" />
-  <link rel="stylesheet" href="../static/css/home/style.css" />
-
+  <link rel="stylesheet" href="../static/home/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../static/home/css/magnific-popup.css" />
+  <link rel="stylesheet" href="../static/home/css/font-icons.css" />
+  <link rel="stylesheet" href="../static/home/css/sliders.css" />
+  <link rel="stylesheet" href="../static/home/css/style.css" />
 
   <!-- Favicons -->
-  <link rel="shortcut icon" href="../static/img/home/favicon.ico">
-  <link rel="apple-touch-icon" href="../static/img/home/apple-touch-icon.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="../static/img/home/apple-touch-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="../static/img/home/apple-touch-icon-114x114.png">
+  <!-- Favicons -->
+    <!--
+    <link rel="shortcut icon" href="../static/home/../static/home/img/favicon.ico">
+    <link rel="apple-touch-icon" href="../static/home/../static/home/img/apple-touch-icon.png">
+    -->
+  <link rel="apple-touch-icon" sizes="72x72" href="../static/home/img/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="../static/home/img/apple-touch-icon-114x114.png">
 
   <style>
     .logo-word{
@@ -133,21 +134,21 @@
             <div class="nav__header clearfix">
               <!-- Logo -->
               <div class="logo-wrap">
-                <a href="/login" class="logo__link">
-                  <img class="logo logo--dark" src="../static/img/home/logo1.png" alt="logo">
-                </a>
+                <a href="index.html" class="logo__link">
+                  <img class="logo logo--dark" src="../static/home/img/logo1.png" alt="logo">
                   <div class="logo__word">
                     <p class="logo-word"></p>
                     <p class="logo-word-2"></p>
                   </div>
+                </a>
               </div>
 
-              <!--<button type="button" class="nav__icon-toggle" id="nav__icon-toggle" data-toggle="collapse" data-target="#navbar-collapse">-->
-                <!--<span class="sr-only">Toggle navigation</span>-->
-                <!--<span class="nav__icon-toggle-bar"></span>-->
-                <!--<span class="nav__icon-toggle-bar"></span>-->
-                <!--<span class="nav__icon-toggle-bar"></span>-->
-              <!--</button>-->
+              <button type="button" class="nav__icon-toggle" id="nav__icon-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="nav__icon-toggle-bar"></span>
+                <span class="nav__icon-toggle-bar"></span>
+                <span class="nav__icon-toggle-bar"></span>
+              </button>
             </div> <!-- end nav-header -->
 
             <nav id="navbar-collapse" class="nav__wrap collapse navbar-collapse">
@@ -157,12 +158,12 @@
                   <a href="#">首页</a>
                   <i class="ui-arrow-down nav__dropdown-trigger"></i>
                 </li>
-              </ul>
 
 
-              <div class="nav__btn-holder" style="margin: 10px auto">
-                <a  class="btn btn--sm btn--stroke btn--stroke-blue" id="login" ><span>登录</span></a>
+              <div class="nav__btn-holder">
+                <a href="#" id="login" class="btn btn--sm btn--stroke btn--stroke-blue"><span>登录</span></a>
               </div>
+            </ul>
             </nav> <!-- end nav-wrap -->
 
           </div> <!-- end flex-parent -->
@@ -182,11 +183,11 @@
             <div class="hero__inner hero__inner--top text-center">
               <h1 class="hero__title hero--boxed hero--center mb-20">企业主应该拥有自由<br><p></p>是什么把企业主困在公司而抽不了身?</h1>
             </div>
-            <img src="../static/img/home/p1.png" class="hero__img hidden-xs" alt="">
+            <img src="../static/home/img/p1.png" class="hero__img hidden-xs" alt="">
           </div>
         </div>
 
-      <div class="con hidden" id="log" style="z-index: 10">
+        <div class="con hidden" id="log" style="z-index: 10">
             <form class="login-form" id="fm"  autocomplete="on">
                 {% csrf_token %}
                 <div class="login-wrap">
@@ -218,6 +219,7 @@
             </form>
         </div>
 
+
       </section> <!-- end hero -->
 
       <!-- Feature -->
@@ -230,7 +232,7 @@
               <div class="feature text-center">
                 <div class="feature__base feature--border">
                   <a href="#" class="feature__icon-holder">
-                    <img src="../static/img/home/icon/scheme.png" class="icon">
+                    <img src="../static/home/img/icon/scheme.png" class="icon">
                   </a>
                   <div class="feature__text">
                     <h3 class="feature__title bottom-line">渊博知识</h3>
@@ -245,7 +247,7 @@
               <div class="feature text-center">
                 <div class="feature__base feature--border">
                   <a href="#" class="feature__icon-holder">
-                    <img src="../static/img/home/icon/gold.png" class="icon">
+                    <img src="../static/home/img/icon/gold.png" class="icon">
                   </a>
                   <div class="feature__text">
                     <h3 class="feature__title bottom-line">人事高手</h3>
@@ -259,7 +261,7 @@
               <div class="feature text-center">
                 <div class="feature__base feature--border">
                   <a href="#" class="feature__icon-holder">
-                    <img src="../static/img/home/icon/self.png" class="icon">
+                    <img src="../static/home/img/icon/self.png" class="icon">
                   </a>
                   <div class="feature__text">
                     <h3 class="feature__title bottom-line">销售大师</h3>
@@ -274,7 +276,7 @@
               <div class="feature text-center">
                 <div class="feature__base feature--border">
                   <a href="#" class="feature__icon-holder">
-                    <img src="../static/img/home/icon/administration.png" class="icon">
+                    <img src="../static/home/img/icon/administration.png" class="icon">
                   </a>
                   <div class="feature__text">
                     <h3 class="feature__title bottom-line">管理大师</h3>
@@ -289,7 +291,7 @@
               <div class="feature text-center">
                 <div class="feature__base feature--border">
                   <a href="#" class="feature__icon-holder">
-                    <img src="../static/img/home/icon/data.png" class="icon">
+                    <img src="../static/home/img/icon/data.png" class="icon">
                   </a>
                   <div class="feature__text">
                     <h3 class="feature__title bottom-line">数据专家</h3>
@@ -304,7 +306,7 @@
               <div class="feature text-center">
                 <div class="feature__base feature--border">
                   <a href="#" class="feature__icon-holder">
-                    <img src="../static/img/home/icon/control.png" class="icon">
+                    <img src="../static/home/img/icon/control.png" class="icon">
                   </a>
                   <div class="feature__text">
                     <h3 class="feature__title bottom-line">风控高手</h3>
@@ -319,7 +321,7 @@
               <div class="feature text-center">
                 <div class="feature__base feature--border">
                   <a href="#" class="feature__icon-holder">
-                    <img src="../static/img/home/icon/money_matters.png" class="icon">
+                    <img src="../static/home/img/icon/money_matters.png" class="icon">
                   </a>
                   <div class="feature__text">
                     <h3 class="feature__title bottom-line">理财专家</h3>
@@ -334,7 +336,7 @@
               <div class="feature text-center">
                 <div class="feature__base feature--border">
                   <a href="#" class="feature__icon-holder">
-                    <img src="../static/img/home/icon/serve.png" class="icon">
+                    <img src="../static/home/img/icon/serve.png" class="icon">
                   </a>
                   <div class="feature__text">
                     <h3 class="feature__title bottom-line">金牌客服</h3>
@@ -349,7 +351,7 @@
               <div class="feature text-center">
                 <div class="feature__base feature--border">
                   <a href="#" class="feature__icon-holder">
-                    <img src="../static/img/home/icon/wisdom.png" class="icon">
+                    <img src="../static/home/img/icon/wisdom.png" class="icon">
                   </a>
                   <div class="feature__text">
                     <h3 class="feature__title bottom-line">智慧女神</h3>
@@ -371,7 +373,7 @@
         <div class="container container--1440">
           <div class="row">
             <div class="col-lg-7 col-md-7 col-sm-12">
-              <img src="../static/img/home/AI.png" alt="" class="promo-section__img">
+              <img src="../static/home/img/AI.png" alt="" class="promo-section__img">
             </div>
             <div class="col-lg-4 col-md-5 col-sm-12 animate mb-30">
               <div class="promo-section__description" style="width: 600px">
@@ -406,7 +408,7 @@
             <div class="testimonial__flex-child mb-md-40">
               <div class="testimonial testimonial-1 clearfix">
                 <div class="testimonial__holder">
-                  <img src="../static/img/home/testimonials/1.jpg" alt="" class="testimonial__img">
+                  <img src="../static/home/img/testimonials/1.jpg" alt="" class="testimonial__img">
                   <div class="testimonial__info">
                     <span class="testimonial__author">社区团购</span>
                     <span class="testimonial__company">运营支撑</span>
@@ -422,7 +424,7 @@
             <div class="testimonial__flex-child">
               <div class="testimonial testimonial-1 clearfix">
                 <div class="testimonial__holder">
-                  <img src="../static/img/home/testimonials/2.jpg" alt="" class="testimonial__img">
+                  <img src="../static/home/img/testimonials/2.jpg" alt="" class="testimonial__img">
                   <div class="testimonial__info">
                     <span class="testimonial__author">销售</span>
                     <span class="testimonial__company">运营管理</span>
@@ -438,7 +440,7 @@
             <div class="testimonial__flex-child">
               <div class="testimonial testimonial-1 clearfix">
                 <div class="testimonial__holder">
-                  <img src="../static/img/home/testimonials/1.jpg" alt="" class="testimonial__img">
+                  <img src="../static/home/img/testimonials/1.jpg" alt="" class="testimonial__img">
                   <div class="testimonial__info">
                     <span class="testimonial__author">技术</span>
                     <span class="testimonial__company">运营管理</span>
@@ -451,10 +453,11 @@
             </div>
 
 
+
             <div class="testimonial__flex-child">
               <div class="testimonial testimonial-1 clearfix">
                 <div class="testimonial__holder">
-                  <img src="../static/img/home/testimonials/2.jpg" alt="" class="testimonial__img">
+                  <img src="../static/home/img/testimonials/2.jpg" alt="" class="testimonial__img">
                   <div class="testimonial__info">
                     <span class="testimonial__author">媒体</span>
                     <span class="testimonial__company">运营管理</span>
@@ -465,6 +468,8 @@
                 </div>
               </div>
             </div>
+
+
 
 
           </div>
@@ -488,7 +493,7 @@
               </div>
             </div>
             <div class="col-lg-7 col-md-7 col-sm-12">
-              <img src="../static/img/home/AI2.png" alt="" class="promo-section__img">
+              <img src="../static/home/img/AI2.png" alt="" class="promo-section__img">
             </div>
 
           </div>
@@ -511,7 +516,7 @@
                         </a>
 						<div class="caption">
 							<h3>
-                                如何做好客户的往来管理与服务
+                                如何做好客户的往来管理与服务？
 							</h3>
 							<p>
 								[您有梦想，我来落地]·续集之：客服篇
@@ -553,7 +558,7 @@
                         </a>
 						<div class="caption">
 							<h3>
-                                不懂技术怎么侍候好这帮爷？
+                                不懂技术怎么侍候好这帮爷···？
 							</h3>
 							<p>
 								[您有梦想，我来落地]·续集之：技术篇
@@ -627,9 +632,8 @@ a、"这叼毛没经过我同意就私自决定，明天...
 
 				</div>
 		</div>
-
         </div>
-
+      </section>
       <!-- Footer -->
       <footer class="footer">
 
@@ -637,7 +641,7 @@ a、"这叼毛没经过我同意就私自决定，明天...
         <div class="footer__bottom top-divider">
           <div class="container">
             <div class="widget footer__about-us">
-              <img src="../static/img/home/logo2.png" alt="" class="logo-1">
+              <img src="../static/home/img/logo2.png" alt="" class="logo-1">
               <!--<div class="footer__socials">-->
               <!--<div class="social-icons social-icons&#45;&#45;nobase">-->
               <!--<a href="#"><i class="ui-twitter"></i></a>-->
@@ -652,11 +656,11 @@ a、"这叼毛没经过我同意就私自决定，明天...
             <span class="copyright">
               广州创拓信息科技有限公司&nbsp|&nbsp客服&nbsp:&nbsp020-29052906
             </span><br/>
-            <span class="timer" class="copyright">
-{#             Copyright &copy; 2017-2019#}
+            <span class="copyright">
+             Copyright &copy; 2017-2019
             </span><br/>
             <span class="copyright">
-              <a href="http://www.miitbeian.gov.cn/">粤ICP备13018197号-2</a>
+              粤ICP备13018197号-2
             </span>
           </div>
         </div> <!-- end footer bottom -->
@@ -665,19 +669,18 @@ a、"这叼毛没经过我同意就私自决定，明天...
       <div id="back-to-top">
         <a href="#top"><i class="ui-arrow-up"></i></a>
       </div>
-       </section>
-    </div>
-      <!-- end content wrapper -->
+
+    </div> <!-- end content wrapper -->
   </main> <!-- end main wrapper -->
 
 
   <!-- jQuery Scripts -->
-  <script type="text/javascript" src="../static/js/home/jquery.min.js"></script>
-  <script type="text/javascript" src="../static/js/home/bootstrap.min.js"></script>
-  <script type="text/javascript" src="../static/js/home/plugins.js"></script>
+  <script type="text/javascript" src="../static/home/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../static/home/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../static/home/js/plugins.js"></script>
 
-  <script type="text/javascript" src="../static/js/home/scripts.js"></script>
-  	<!-- Javascript -->
+  <script type="text/javascript" src="../static/home/js/scripts.js"></script>
+	<!-- Javascript -->
 	<script type="text/javascript" src="../static/js/js.js"></script>
    <!-- jquery 取Cookie当中的csrftoken并在请求中添加X-CSRFToken请求头-->
     <script src="/static/js/jquery.cookie.js"></script>
