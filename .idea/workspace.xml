@@ -7,85 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/thinking_library/login1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/Thumbs.db" beforeDir="false" afterPath="$PROJECT_DIR$/static/home/img/Thumbs.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/architecture/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/architecture/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/architecture/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/architecture/4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/artist/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/artist/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/blog/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/blog/2_1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/blog/2_2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/blog/2_3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/blog/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/blog/Thumbs.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/blog/author.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/blog/comment_1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/blog/comment_2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/hero/Thumbs.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/hero/hero_1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/hero/hero_2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/hero/hero_3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/hero/hero_4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/hero/hero_5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/hero/hero_6_1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/hero/hero_6_2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/hero/hero_6_3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/hero/hero_6_4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/hero/hero_6_5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/page_title/about_me.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/page_title/about_us.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/page_title/blog.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/page_title/blog_single.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/page_title/contact.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/page_title/elements.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/page_title/portfolio.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/page_title/portfolio_single.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/page_title/services.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/partners/partner_logo_dark_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/partners/partner_logo_dark_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/partners/partner_logo_dark_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/partners/partner_logo_dark_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/partners/partner_logo_light_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/partners/partner_logo_light_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/partners/partner_logo_light_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/partners/partner_logo_light_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/7.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/8.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/Thumbs.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/masonry_1/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/masonry_1/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/masonry_1/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/masonry_1/4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/masonry_1/5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/masonry_1/6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/single/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/single/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/portfolio/single/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/promo/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/promo/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/promo/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/promo/4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/promo/5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/promo/6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/section_bg/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/team/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/team/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/team/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/team/4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/team/5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/team/6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/team/7.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/home/img/team/8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/practice.py" beforeDir="false" afterPath="$PROJECT_DIR$/practice.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -115,7 +37,7 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/rbac/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
+            <state relative-caret-position="1410">
               <caret line="55" column="9" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -138,56 +60,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="login.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="71">
-              <caret line="199" column="26" lean-forward="true" selection-start-line="199" selection-start-column="26" selection-end-line="199" selection-end-column="26" />
+            <state relative-caret-position="135">
+              <caret line="201" column="131" selection-start-line="201" selection-start-column="131" selection-end-line="201" selection-end-column="131" />
               <folding>
-                <element signature="n#header#0;n#main#0;n#body#0;n#html#0;n#!!top" />
                 <element signature="n#style#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#0;n#div#1;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#span#0;n#div#2;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#2;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#span#0;n#div#3;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#4;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="e#6803#6809#0#HTML" expanded="true" />
                 <element signature="n#style#0;n#div#5;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#section#2;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#1;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#2;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#3;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#4;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#5;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#div#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login1.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thinking_library/login1.html">
+      <file leaf-file-name="login.bak1.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/login.bak1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="165" column="17" lean-forward="true" selection-start-line="165" selection-start-column="17" selection-end-line="165" selection-end-column="17" />
-              <folding>
-                <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
-                <element signature="n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" />
-              </folding>
+            <state relative-caret-position="240">
+              <caret line="121" column="41" lean-forward="true" selection-start-line="121" selection-start-column="41" selection-end-line="121" selection-end-column="41" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login.bak.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="login.bak.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/login.bak.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1354">
-              <caret line="86" column="13" lean-forward="true" selection-start-line="70" selection-start-column="8" selection-end-line="86" selection-end-column="13" />
+            <state relative-caret-position="465">
+              <caret line="86" column="13" selection-start-line="70" selection-start-column="8" selection-end-line="86" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -195,7 +98,7 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
+            <state relative-caret-position="660">
               <caret line="30" column="32" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
               <folding>
                 <element signature="e#640#653#0" expanded="true" />
@@ -207,8 +110,8 @@
       <file leaf-file-name="practice.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/practice.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2595">
-              <caret line="93" column="47" selection-start-line="93" selection-start-column="47" selection-end-line="93" selection-end-column="47" />
+            <state relative-caret-position="565">
+              <caret line="130" column="19" lean-forward="true" selection-start-line="130" selection-start-column="19" selection-end-line="130" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -227,8 +130,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>data</find>
-      <find>fonts</find>
       <find>img</find>
       <find>img/</find>
       <find>img/home/</find>
@@ -256,6 +157,8 @@
       <find>items_grid</find>
       <find>不懂技术怎么</find>
       <find>智慧女神</find>
+      <find>con</find>
+      <find>首页</find>
       <find>form</find>
     </findStrings>
     <replaceStrings>
@@ -349,8 +252,8 @@
         <option value="$PROJECT_DIR$/thinking_library/urls.py" />
         <option value="$PROJECT_DIR$/apps/rbac/views.py" />
         <option value="$PROJECT_DIR$/templates/layout.html" />
-        <option value="$PROJECT_DIR$/practice.py" />
         <option value="$PROJECT_DIR$/thinking_library/login1.html" />
+        <option value="$PROJECT_DIR$/practice.py" />
         <option value="$PROJECT_DIR$/templates/login.html" />
       </list>
     </option>
@@ -365,10 +268,10 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="86" />
+    <option name="x" value="658" />
     <option name="y" value="24" />
     <option name="width" value="1460" />
-    <option name="height" value="964" />
+    <option name="height" value="960" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -376,7 +279,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -425,6 +327,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -626,7 +529,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="86" y="24" width="1460" height="964" extended-state="0" />
+    <frame x="658" y="24" width="1460" height="960" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3287037" />
@@ -635,11 +538,10 @@
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4883005" weight="0.32816228" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.53266335" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4877451" visible="true" weight="0.26633167" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8883774" visible="true" weight="0.2146974" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4877451" visible="true" weight="0.24873738" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8883774" visible="true" weight="0.14337176" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="6" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.498366" weight="0.32663316" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" sideWeight="0.11162256" side_tool="true" weight="0.21328124" />
       <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.18596059" />
@@ -652,6 +554,7 @@
       <window_info anchor="right" x="0" y="0" width="374" height="826" id="Documentation" order="7" side_tool="true" weight="0.3294335" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.498366" weight="0.32663316" />
       <window_info anchor="right" id="Coverage" order="4" side_tool="true" />
     </layout>
   </component>
@@ -744,17 +647,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/css/magnific-popup.css" />
-    <entry file="file://$PROJECT_DIR$/static/css/home/style-1.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/img/home/apple-touch-icon-72x72.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/home/bootstrap.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-90" />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/home/style-1.css" />
+    <entry file="file://$PROJECT_DIR$/static/img/home/apple-touch-icon-72x72.png" />
+    <entry file="file://$PROJECT_DIR$/static/js/home/bootstrap.min.js" />
     <entry file="file://$PROJECT_DIR$/apps/personnel/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -771,9 +666,6 @@
           <caret line="151" selection-start-line="151" selection-end-line="151" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/img/dfjso.png">
-      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/static/img/fail.png">
       <provider selected="true" editor-type-id="images" />
@@ -803,15 +695,9 @@
         <state relative-caret-position="-40" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/img/home/logo.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/img/home/logo2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/img/home/logo1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/static/img/home/logo.png" />
+    <entry file="file://$PROJECT_DIR$/static/img/home/logo2.png" />
+    <entry file="file://$PROJECT_DIR$/static/img/home/logo1.png" />
     <entry file="file://$PROJECT_DIR$/templates/index_v3.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -839,13 +725,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/login.bak1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-116">
-          <caret line="252" column="21" selection-start-line="252" selection-start-column="17" selection-end-line="252" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/layout.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2190">
@@ -853,16 +732,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/practice.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2595">
-          <caret line="93" column="47" selection-start-line="93" selection-start-column="47" selection-end-line="93" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/rbac/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
+        <state relative-caret-position="1410">
           <caret line="55" column="9" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
@@ -870,9 +742,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/fonts/ui-icons.woff">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/static/fonts/ui-icons.woff" />
     <entry file="file://$PROJECT_DIR$/static/home/js/gmap3.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -885,7 +755,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/thinking_library/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
+        <state relative-caret-position="660">
           <caret line="30" column="32" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
           <folding>
             <element signature="e#640#653#0" expanded="true" />
@@ -893,81 +763,59 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/home/img/artist/1.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/home/img/architecture/1.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/home/img/blog/1.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/home/img/blog/author.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/home/img/blog/comment_1.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/home/img/section_bg/1.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/home/img/promo/1.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/home/img/partners/partner_logo_dark_2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/home/img/page_title/blog.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/home/img/page_title/about_me.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/login.html">
+    <entry file="file://$PROJECT_DIR$/static/home/img/artist/1.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/home/img/architecture/1.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/home/img/blog/1.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/home/img/blog/author.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/home/img/blog/comment_1.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/home/img/section_bg/1.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/home/img/promo/1.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/home/img/partners/partner_logo_dark_2.png" />
+    <entry file="file://$PROJECT_DIR$/static/home/img/page_title/blog.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/home/img/page_title/about_me.jpg" />
+    <entry file="file://$PROJECT_DIR$/templates/login.bak.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="71">
-          <caret line="199" column="26" lean-forward="true" selection-start-line="199" selection-start-column="26" selection-end-line="199" selection-end-column="26" />
-          <folding>
-            <element signature="n#header#0;n#main#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#style#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#1;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#span#0;n#div#2;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#2;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#span#0;n#div#3;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#6803#6809#0#HTML" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#section#2;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#1;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#2;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#3;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#4;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#5;n#div#1;n#div#0;n#section#5;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#div#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" />
-          </folding>
+        <state relative-caret-position="465">
+          <caret line="86" column="13" selection-start-line="70" selection-start-column="8" selection-end-line="86" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/thinking_library/login1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
-          <caret line="165" column="17" lean-forward="true" selection-start-line="165" selection-start-column="17" selection-end-line="165" selection-end-column="17" />
-          <folding>
-            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
-            <element signature="n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" />
-          </folding>
+          <caret line="165" column="17" selection-start-line="165" selection-start-column="17" selection-end-line="165" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/login.bak.html">
+    <entry file="file://$PROJECT_DIR$/templates/login.bak1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1354">
-          <caret line="86" column="13" lean-forward="true" selection-start-line="70" selection-start-column="8" selection-end-line="86" selection-end-column="13" />
+        <state relative-caret-position="240">
+          <caret line="121" column="41" lean-forward="true" selection-start-line="121" selection-start-column="41" selection-end-line="121" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/img/dfjso.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/practice.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="565">
+          <caret line="130" column="19" lean-forward="true" selection-start-line="130" selection-start-column="19" selection-end-line="130" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="201" column="131" selection-start-line="201" selection-start-column="131" selection-end-line="201" selection-end-column="131" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#1;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#span#0;n#div#2;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#4;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#5;n#div#0;n#form#0;n#div#1;n#section#0;n#div#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

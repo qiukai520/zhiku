@@ -85,7 +85,6 @@
             margin: 10px;
             margin-top: 8px;
     }
-
      .input-group {
             width: 264px;
             margin: 18px auto;
@@ -96,15 +95,21 @@
     }
 
     .login-form {
-        opacity: 1.4;
+        {#opacity: 1.4;#}
         position: absolute;
-        top: 71px;
+        top: 60px;
         right: 20px;
         border: 1px solid #B0B6BE;
-        background: rgba(213, 215, 222, 0.9);
+        background: rgba(213, 215, 222,1);
         width: 300px;
-        opacity: 0.9;
+        {#opacity: 0.9;#}
+        z-index:5;
     }
+    .input-group-addon, .input-group-btn {
+    width: 15%;
+    white-space: nowrap;
+    vertical-align: middle;
+}
 
 
 
@@ -153,12 +158,12 @@
 
             <nav id="navbar-collapse" class="nav__wrap collapse navbar-collapse">
               <ul class="nav__menu nav__menu--inline">
-
+               <!--
                 <li class="nav__dropdown active">
                   <a href="#">首页</a>
                   <i class="ui-arrow-down nav__dropdown-trigger"></i>
                 </li>
-
+                -->
 
               <div class="nav__btn-holder">
                 <a href="#" id="login" class="btn btn--sm btn--stroke btn--stroke-blue"><span>登录</span></a>
@@ -199,8 +204,8 @@
                         <span id="txt_error_tips" style="color: red;"></span>
                     </div>
                     <div class="input-group">
-                        <span class="input-group-addon"><img src="../static/img/people.png" alt="" style="width:19px;z-index:10"></span>
-                        <input name="username" id="txt_username" style="padding:0" type="text" class="form-control" placeholder="账号" autofocus="autofocus">
+                        <span class="input-group-addon"><img src="../static/img/people.png" alt="" style="width:19px;display: block"></span>
+                        <input name="username" id="txt_username"  type="text" class="form-control" placeholder="账号" autofocus="autofocus">
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon"><img src="../static/img/key.png" alt="" style="width: 25px;"></span>

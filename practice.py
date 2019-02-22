@@ -93,3 +93,43 @@ class Singleton(object):
         if not cls._instance:
             cls._instance = super(Singleton,cls).__new__(cls,*args,**kwargs)
         return cls._instance
+
+"""
+数据结构
+    ---线性表
+        ---数组
+        ---链表
+        ---栈
+        ---队列
+    ---树
+        ---二叉树
+        ---堆
+    
+
+
+
+"""
+class Stack(object):
+    """
+    实现一个栈
+    """
+
+    def __init(self):
+        self.items = []
+
+    def push(self,item):
+        return self.items.append(item)
+
+    def pop(self):
+        if self.is_empty():
+            raise Exception("pop form empty stack")
+        return self.items.pop()
+
+    def size(self):
+        return len(self.items)
+
+    def peek(self):
+        return self.items[len(self.item)-1]
+
+    def is_empty(self):
+        return self.items == []
