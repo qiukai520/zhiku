@@ -215,13 +215,13 @@ def way_edit(request):
 
 
 def contact_list(request):
-    """合同跟进方式"""
+    """跟进方式"""
     query_sets = contact_db.query_contact_list()
     return render(request, "service/follow_contact_list.html", {"query_sets": query_sets})
 
 
 def contact_edit(request):
-    """"合同跟进方式添加/编辑"""
+    """"合同联络方式添加/编辑"""
     method = request.method
     if method == "GET":
         id = request.GET.get("id", "")

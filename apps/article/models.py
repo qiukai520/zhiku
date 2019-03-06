@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
-from django.contrib.auth.models import User
-
+# from django.contrib.auth.models import User
+from rbac.models import User as User
 
 # Create your models here.
 

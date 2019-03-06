@@ -579,5 +579,43 @@ $.validator.setDefaults({
                 }
             }
             });
+        $("#pwd_change").validate({
+            focusInvalid :true,//当验证无效时，焦点跳到第一个无效的表单元素,
+            //(但是只有当表单提交发生时它才有效。 如果用 valid 方法验证表单，则它不起作用)
+            // 解决办法，使用invalidHandler 方法
+            onfocusout: false,
+            rules:{
+                raw_pwd:{
+                     required: true,
+                },
+                new_pwd:{
+                    required: true,
+                    minlength:8,
+                },
+                check_pwd:{
+                    required: true,
+                    minlength:8,
+                    equalTo:"#new_pwd"
+                }
 
+            },
+            messages: {
+                raw_pwd:{ required: "请输入原始密码",},
+                new_pwd:{required:"请输入您的密码",minlength:e+"密码必须8个字符以上"},
+                check_pwd:{required:"请再次输入密码",minlength:e+"密码必须8个字符以上",equalTo:e+"两次输入的密码不一致"},
+
+
+                // username:{required:e+"请输入您的用户名",minlength:e+"用户名必须两个字符以上"},
+                // password:{required:e+"请输入您的密码",minlength:e+"密码必须5个字符以上"},
+                // confirm_password:{required:e+"请再次输入密码",minlength:e+"密码必须5个字符以上",equalTo:e+"两次输入的密码不一致"},
+                // email:e+"请输入您的E-mail",
+                // agree:{required:e+"必须同意协议后才能注册",element:"#agree-error"}
+            },
+            invalidHandler: function(form, validator) {
+                var errors = validator.numberOfInvalids();
+                if (errors) {
+                    validator.errorList[0].element.focus();
+                }
+            }
+            });
     });

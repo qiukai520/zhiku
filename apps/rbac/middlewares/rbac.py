@@ -21,7 +21,11 @@ class MiddlewareMixin(object):
 
 class LoginMiddleware(MiddlewareMixin):
     def process_request(self, request):
+        # print(" cookie", request.COOKIES)
+        # print(" request.path_info", request.path_info)
         if request.path_info == '/login/':
+            return None
+        if re.match("/xadmin*",request.path_info):
             return None
         if re.match("/media/article*",request.path_info):
             return None
@@ -33,20 +37,18 @@ class LoginMiddleware(MiddlewareMixin):
 
 
 class RbacMiddleware(MiddlewareMixin):
-    def process_request(self,request):
-        #1.获取当前请求的URL
-        #request.path_info
-        #2.获取Session中保存当前用户的权限
-        #request.session.get("permission_url_list")
+    def process_request(self, request):
+        # 1.获取当前请求的URL
+        # request.path_info
+        # 2.获取Session中保存当前用户的权限
+        # request.session.get("permission_url_list")
         current_url = request.path_info
-        #当前请求不需要执行权限验证
+        # 当前请求不需要执行权限验证
         # print(current_url)
         for url in settings.VALID_URL:
             if re.match(url, current_url):
                 # print(url)
                 return None
-
-        # print(111)
         permission_dict = request.session.get(settings.PERMISSION_URL_DICT_KEY)
         if not permission_dict:
             return redirect("/login/")
@@ -54,9 +56,9 @@ class RbacMiddleware(MiddlewareMixin):
         flag = False
         for group_id,code_url in permission_dict.items():
             for db_url in code_url["urls"]:
-                regax="{0}".format(db_url)
+                regax = "{0}".format(db_url)
                 if re.match(regax,current_url):
-                    request.permission_code_list =code_url ["code"]
+                    request.permission_code_list = code_url ["code"]
                     flag = True
                     break
             if flag:
@@ -64,3 +66,11 @@ class RbacMiddleware(MiddlewareMixin):
 
         if not flag:
             return HttpResponse("无权访问")
+
+    def process_response(self, request, response):
+        print("request",request.session.get(settings.PERMISSION_MENU_KEY))
+        # request.session["menu_list"] = request.session.get(settings.PERMISSION_MENU_KEY)
+        # # del request.session[settings.PERMISSION_MENU_KEY]
+        # print("menu", request.session["menu_list"])
+        print("response",response)
+        return response

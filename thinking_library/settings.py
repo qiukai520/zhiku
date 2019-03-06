@@ -31,6 +31,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+AUTH_USER_MODEL = 'rbac.User'
+
+AUTHENTICATION_BACKENDS = (
+# 'django.contrib.auth.backends.ModelBackend',
+# 'guardian.backends.ObjectPermissionBackend',
+'rbac.views.CustomBackend',
+)
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -52,6 +60,7 @@ INSTALLED_APPS = [
     'collection.apps.CollectionConfig',
     'service.apps.ServiceConfig',
     'apps.file.apps.FileConfig',
+    'apps.api.apps.ApiConfig',
     'xadmin',
     'crispy_forms',
     'reversion',
@@ -111,6 +120,10 @@ DATABASES = {
         'PASSWORD': 'a741258963',
         'HOST': '',
         'PORT': '',
+        'OPTIONS': {
+            "init_command": "SET foreign_key_checks = 0;",
+        }
+
     }
 }
 
@@ -170,12 +183,8 @@ STATICFILES_DIRS = (
 
 
 
-AUTHENTICATION_BACKENDS = (
-'django.contrib.auth.backends.ModelBackend',
-'guardian.backends.ObjectPermissionBackend',
-)
 
-################## Rbac配置 ###################
+################## rbac配置 ###################
 
 PERMISSION_URL_DICT_KEY = "permission_url_dict"
 PERMISSION_MENU_KEY = "afsdfasdfadfsdfsdf"
@@ -185,6 +194,11 @@ VALID_URL = [
     "/xadmin/",
     "/logout/",
     "/article/",
+    "/public/*",
+    "*upload*",
+    "*webuploader*",
+    "*notice*",
+    "*collection*"
 ]
 
 

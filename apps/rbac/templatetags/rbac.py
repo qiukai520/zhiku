@@ -48,3 +48,21 @@ def menu_html(request):
                 }
     # print(result)
     return {"menu_dict":result}
+from rbac.models import *
+
+@register.simple_tag
+def fetch_user_role(user):
+    if user:
+        roles_list = Role.objects.filter(user=user.id).all()
+        name = ""
+        for item in roles_list:
+            role = Role.objects.filter(id=item.id).first()
+            name += role.title + ";"
+        return name
+
+@register.simple_tag
+def fetch_menu_key(request):
+    key = settings.PERMISSION_MENU_KEY
+    print("menu_list",key)
+    return key
+

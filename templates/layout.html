@@ -1,4 +1,5 @@
 {% load notice_tags %}
+{% load rbac %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,8 +68,8 @@
 {#                                <span class="text-muted text-xs block">超级管理员<b class="caret"></b></span>#}
                                 </span>
                             </a>
-                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="" href="form_avatar.html">修改头像</a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs" id="user_tool">
+                                <li><a class="btn"  data-toggle="modal" data-target="#UserModal" id="modify_pwd">修改密码</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li><a href="{% url "logout" %}">安全退出</a>
@@ -78,220 +79,238 @@
                         <div class="logo-element">
                         </div>
                     </li>
-                        <li>
+                        <li class="hidden">
                             <a href="#">
                                 <i class="fa fa-home"></i>
                                 <span class="nav-label">主页</span>
                                 <span class="fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level">
-                                <li>
+                                <li class="hidden">
                                     <a   class="J_menuItem"    data-index="0" href="{% url 'home' %}">主页</a>
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li  class="hidden">
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">工单管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
-    {#                            {% fetch_task_permission  requset.user  as task_permission%}#}
-                                <li>
-                                    <a   class="J_menuItem"  data-index='11' href="{% url "personal_task_list" %}">我的工单</a>
+                                {% fetch_menu_key  request  as permit%}
+
+                                <li  class="hidden">
+                                    <a   class="J_menuItem menu"  data-index='11' href="{% url "personal_task_list" %}">我的工单</a>
                                 </li>
-                                <li>
-                                    <a   class="J_menuItem"  data-index='12' href="{% url "task_edit" %}">创建工单</a>
+                                <li  class="hidden">
+                                    <a   class="J_menuItem menu"  data-index='12' href="{% url "task_edit" %}">创建工单</a>
                                 </li>
-                                <li>
-                                    <a   class="J_menuItem"  data-index='113' href="{% url "task_assign_center" %}">工单指派中心</a>
+
+                                <li  class="hidden">
+                                    <a   class="J_menuItem menu"  data-index='113' href="{% url "task_assign_center" %}">工单指派中心</a>
+                                </li >
+                                <li class="hidden">
+                                    <a   class="J_menuItem menu"  data-index='14' href="{% url "task_assign_list" %} ">已指派工单</a>
                                 </li>
-                                <li>
-                                    <a   class="J_menuItem"  data-index='14' href="{% url "task_assign_list" %} ">已指派工单</a>
+                                 <li class="hidden">
+                                    <a  class="J_menuItem menu "  data-index='15'  href="{% url 'task_wait_review' %}">工单审核中心</a>
                                 </li>
-                                 <li>
-                                    <a  class="J_menuItem"  data-index='15'  href="{% url 'task_wait_review' %}">工单审核中心</a>
+                                 <li class="hidden">
+                                    <a  class="J_menuItem menu "  data-index='16'  href="{% url 'personal_task_review' %} ">我的审核工单</a>
                                 </li>
-                                 <li>
-                                    <a  class="J_menuItem"  data-index='16'  href="{% url 'personal_task_review' %} ">我的审核工单</a>
-                                </li>
-                                 <li>
-                                     <a  class="J_menuItem"  data-index='17'  href="{% url "performence_statistic" %}">绩效统计中心</a>
+                                 <li  class="hidden">
+                                     <a  class="J_menuItem menu"  data-index='17'  href="{% url "performence_statistic" %}">绩效统计中心</a>
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="hidden">
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">SFA管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
-                                 <li>
-                                     <a  class="J_menuItem"  data-index='21' href="{% url "customer_list" %}">我的客户</a>
+                                 <li class="hidden">
+                                     <a  class="J_menuItem menu"  data-index='21' href="{% url "customer_list" %}">我的客户</a>
                                 </li>
-                                 <li>
-                                     <a  class="J_menuItem"  data-index='22' href="{% url "customer_center" %}">全部客户</a>
+                                 <li class="hidden">
+                                     <a  class="J_menuItem menu"  data-index='22' href="{% url "customer_center" %}">全部客户</a>
                                 </li>
-                                 <li>
-                                     <a   class="J_menuItem"  data-index='23' href="{% url "customer_public" %}">客户公海</a>
+                                 <li class="hidden">
+                                     <a   class="J_menuItem menu"  data-index='23' href="{% url "customer_public" %}">客户公海</a>
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li  class="hidden">
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">进销存管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
-                                 <li>
-                                     <a   class="J_menuItem"  data-index='31' href="{% url "supplier_list" %}">供应商管理</a>
+                                 <li class="hidden">
+                                     <a   class="J_menuItem menu"  data-index='31' href="{% url "supplier_list" %}">供应商管理</a>
                                 </li>
-                                 <li>
-                                     <a  class="J_menuItem"  data-index='32'  href="{% url "goods_list" %}">商品管理</a>
+                                 <li class="hidden">
+                                     <a  class="J_menuItem menu"  data-index='32'  href="{% url "goods_list" %}">商品管理</a>
                                 </li>
-                                <li>
-                                     <a  class="J_menuItem"  data-index='33' href="{% url "invent_list" %}">库存管理</a>
+                                <li class="hidden">
+                                     <a  class="J_menuItem menu"  data-index='33' href="{% url "invent_list" %}">库存管理</a>
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="hidden">
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">人事管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
-                                 <li>
-                                     <a  class="J_menuItem"   data-index="41" href="{% url "staff_list" %}" >人事档案</a>
+                                 <li class="hidden">
+                                     <a  class="J_menuItem menu"   data-index="41" href="{% url "staff_list" %}" >人事档案</a>
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                     <li class="hidden" id="user_manage" >
+                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">用户管理</span><span class="fa arrow"></span></a>
+                            <ul id="left_menu" class="nav nav-second-level">
+                                 <li class="hidden">
+                                     <a  class="J_menuItem menu"   data-index="81" href="{% url "user_list" %}" >用户列表</a>
+                                </li>
+                                 <li class="hidden">
+                                     <a  class="J_menuItem menu"   data-index="81" href="{% url "user_log" %}" >操作记录</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="hidden">
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">知识库</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
-                                 <li>
-                                     <a   class="J_menuItem"  data-index='60' href="{% url "collections" %}">知识库</a>
+                                 <li class="hidden">
+                                     <a   class="J_menuItem menu"  data-index='60' href="{% url "collections" %}">知识库</a>
                                 </li>
 
                             </ul>
                         </li>
-                     <li>
+                     <li class="hidden">
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">合同管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
-                                 <li>
-                                     <a   class="J_menuItem"  data-index='51' href="{% url "contract_list" %}">我的合同</a>
+                                 <li class="hidden">
+                                     <a   class="J_menuItem menu"  data-index='51' href="{% url "contract_list" %}">我的合同</a>
                                 </li>
-                                 <li>
-                                     <a  class="J_menuItem"  data-index='52'  href="{% url "contracts_center" %}">合同中心</a>
+                                 <li class="hidden">
+                                     <a  class="J_menuItem menu"  data-index='52'  href="{% url "contracts_center" %}">合同中心</a>
                                 </li>
-                                 <li>
-                                     <a   class="J_menuItem"  data-index='51' href="{% url "unapproved" %}">合同审批</a>
+                                 <li class="hidden">
+                                     <a   class="J_menuItem menu"  data-index='51' href="{% url "unapproved" %}">合同审批</a>
                                 </li>
                             </ul>
                         </li>
-                      <li>
+                      <li class="hidden">
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">客服管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
-                                 <li>
-                                     <a   class="J_menuItem"  data-index='71' href="{% url "my_assign" %}">我的客服</a>
+                                 <li class="hidden">
+                                     <a   class="J_menuItem menu"  data-index='71' href="{% url "my_assign" %}">我的客服</a>
                                 </li>
                             </ul>
                         </li>
-                     <li>
-                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">文件管理</span><span class="fa arrow"></span></a>
-                            <ul id="left_menu" class="nav nav-second-level">
-                                 <li>
-                                     <a   class="J_menuItem"  data-index='81' href="{% url "manager" %}">文件管理器</a>
-                                </li>
-                            </ul>
-                        </li>
+{#                     <li>#}
+{#                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">文件管理</span><span class="fa arrow"></span></a>#}
+{#                            <ul id="left_menu" class="nav nav-second-level">#}
+{#                                 <li>#}
+{#                                     <a   class="J_menuItem"  data-index='81' href="{% url "manager" %}">文件管理器</a>#}
+{#                                </li>#}
+{#                            </ul>#}
+{#                        </li>#}
                         <li>
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">基础设置</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
-                                 <li>
+                                <li  class="hidden">
                                     <a href="#"><i class=" glyphicon glyphicon-wrench"></i> 人事设置 <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level " aria-expanded="true" style="">
-                                  <li>
-                                     <a   class="J_menuItem"  data-index="42"  href="{% url "company_list" %}">公司管理</a>
+                                      <li class="hidden">
+                                         <a   class="J_menuItem menu"  data-index="42"  href="{% url "company_list" %}">公司管理</a>
+                                    </li>
+                                  <li  class="hidden">
+                                     <a  class="J_menuItem menu"  data-index="43"  href="{% url "department_list" %}">部门管理</a>
+                                </li  >
+                                  <li class="hidden">
+                                     <a  class="J_menuItem menu"  data-index="44"  href="{% url "project_list" %}">项目管理</a>
                                 </li>
-                                  <li>
-                                     <a  class="J_menuItem"  data-index="43"  href="{% url "department_list" %}">部门管理</a>
+                                  <li  class="hidden">
+                                     <a   class="J_menuItem menu"  data-index="45"  href="{% url "job_rank_list" %}">职级管理</a>
                                 </li>
-                                  <li>
-                                     <a  class="J_menuItem"  data-index="44"  href="{% url "project_list" %}">项目管理</a>
-                                </li>
-                                  <li>
-                                     <a   class="J_menuItem"  data-index="45"  href="{% url "job_rank_list" %}">职级管理</a>
-                                </li>
-                                  <li>
-                                     <a  class="J_menuItem"  data-index="46"  href="{% url "job_title_list" %}">职称管理</a>
+                                  <li class="hidden">
+                                     <a  class="J_menuItem menu"  data-index="46"  href="{% url "job_title_list" %}">职称管理</a>
                                 </li>
                                 </ul>
                                 </li>
-                                  <li>
+                                <li class="hidden">
                                     <a href="#"><i class=" glyphicon glyphicon-wrench"></i> SFA设置 <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level " aria-expanded="true" style="">
-                                  <li>
-                                     <a   class="J_menuItem"  data-index="24"  href="{% url "sea_rule_list" %}">公海规则</a>
-                                </li>
-                                </ul>
-                                </li>
-                                  <li>
+                                      <li class="hidden">
+                                         <a   class="J_menuItem menu"  data-index="24"  href="{% url "sea_rule_list" %}">公海规则</a>
+                                    </li>
+                                    </ul>
+                                  </li>
+                                <li class="hidden" >
                                     <a href="#"><i class=" glyphicon glyphicon-wrench"></i> 合同设置 <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level " aria-expanded="true" style="">
-                                  <li>
-                                     <a   class="J_menuItem"  data-index="51"  href="{% url "products" %}">产品管理</a>
-                                     <a   class="J_menuItem"  data-index="52"  href="{% url "meals" %}">产品套餐管理</a>
-                                     <a   class="J_menuItem"  data-index="53"  href="{% url "approvers" %}">合同审核人</a>
-                                    <a   class="J_menuItem"  data-index="54"  href="{% url "locations" %}">存档坐标</a>
+                                  <li class="hidden">
+                                     <a   class="J_menuItem menu"  data-index="51"  href="{% url "products" %}">产品管理</a>
+                                  </li>
+                                      <li class="hidden">
+                                         <a   class="J_menuItem menu"  data-index="52"  href="{% url "meals" %}">产品套餐管理</a>
 
-                                </li>
+                                    </li>
+                                        <li class="hidden">
+                                             <a   class="J_menuItem menu"  data-index="53"  href="{% url "approvers" %}">合同审核人</a>
+
+                                        </li>
+                                        <li class="hidden">
+                                            <a   class="J_menuItem menu"  data-index="54"  href="{% url "locations" %}">存档坐标</a>
+                                        </li>
                                 </ul>
                                 </li>
-                                 <li>
+                                <li class="hidden">
                                     <a href="#"><i class=" glyphicon glyphicon-wrench"></i>进销存设置 <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level " aria-expanded="true" style="">
                                           <li>
                                      <a  class="J_menuItem"  data-index="310"   href="{% url "retail_supplier_list" %}">零售比价对象管理</a>
                                      </li>
-                                         <li >
-                                             <a  class="J_menuItem"  data-index="311" href="{% url "industry_list" %}">行业分类管理</a>
+                                         <li   class="hidden">
+                                             <a  class="J_menuItem menu"  data-index="311" href="{% url "industry_list" %}">行业分类管理</a>
                                         </li>
-                                         <li>
-                                             <a class="J_menuItem"  data-index="312"  href="{% url "supplier_category_list" %}">供应商分类</a>
+                                         <li  class="hidden">
+                                             <a class="J_menuItem menu"  data-index="312"  href="{% url "supplier_category_list" %}">供应商分类</a>
                                         </li>
-                                          <li>
-                                             <a class="J_menuItem"  data-index="313"  href="{% url "goods_category_list" %}">商品分类管理</a>
+                                          <li class="hidden">
+                                             <a class="J_menuItem menu"  data-index="313"  href="{% url "goods_category_list" %}">商品分类管理</a>
                                         </li>
-                                          <li>
-                                             <a  class="J_menuItem"  data-index="314" href="{% url "goods_unit_list" %}">商品单位管理</a>
+                                          <li class="hidden">
+                                             <a  class="J_menuItem menu"  data-index="314" href="{% url "goods_unit_list" %}">商品单位管理</a>
                                         </li>
-                                          <li>
-                                             <a  class="J_menuItem"  data-index="315"  href="{% url "warelocation" %}">库位管理</a>
+                                          <li class="hidden">
+                                             <a  class="J_menuItem menu"  data-index="315"  href="{% url "warelocation" %}">库位管理</a>
                                         </li>
-                                         <li>
-                                             <a class="J_menuItem"  data-index="316"  href="{% url "warehouse_list" %}">仓库管理</a>
+                                         <li class="hidden">
+                                             <a class="J_menuItem menu"  data-index="316"  href="{% url "warehouse_list" %}">仓库管理</a>
                                         </li>
-                                         <li>
-                                             <a class="J_menuItem"  data-index="317"  href="{% url "linkman_title_list" %}">联系人职称管理</a>
+                                         <li class="hidden">
+                                             <a class="J_menuItem menu"  data-index="317"  href="{% url "linkman_title_list" %}">联系人职称管理</a>
                                         </li>
                                     </ul>
                                 </li>
-                                  <li>
+                                <li class="hidden">
                                     <a href="#"><i class=" glyphicon glyphicon-wrench"></i> 工单设置 <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level " aria-expanded="true" style="">
-                                          <li>
-                                            <a class="J_menuItem"  data-index="110"   href="{% url "task_period" %} ">周期工单管理</a>
+                                          <li class="hidden">
+                                            <a class="J_menuItem menu"  data-index="110"   href="{% url "task_period" %} ">周期工单管理</a>
                                         </li>
-                                         <li>
-                                             <a  class="J_menuItem"  data-index="111" href="{% url "performence_list" %}">绩效分类管理</a>
+                                         <li class="hidden">
+                                             <a  class="J_menuItem menu"  data-index="111" href="{% url "performence_list" %}">绩效分类管理</a>
                                         </li>
-                                         <li>
-                                             <a class="J_menuItem"  data-index="112"  href="{% url "task_sort_list" %}">工单分类管理</a>
+                                         <li class="hidden">
+                                             <a class="J_menuItem menu"  data-index="112"  href="{% url "task_sort_list" %}">工单分类管理</a>
                                         </li>
                                 </ul>
                                 </li>
-                                 <li>
+                                <li class="hidden">
                                     <a href="#"><i class=" glyphicon glyphicon-wrench"></i> 客服设置 <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level " aria-expanded="true" style="">
-                                        <li>
-                                            <a   class="J_menuItem"  data-index="65"  href="{% url "ways" %}">跟进方式</a>
+                                        <li class="hidden">
+                                            <a   class="J_menuItem menu"  data-index="65"  href="{% url "ways" %}">跟进方式</a>
                                         </li>
-                                         <li>
-                                     <a   class="J_menuItem"  data-index="66"  href="{% url "contacts" %}">联络方式</a>
+                                         <li class="hidden">
+                                     <a   class="J_menuItem menu"  data-index="66"  href="{% url "contacts" %}">联络方式</a>
                                 </li>
-                            </ul>
+                                    </ul>
                                  </li>
                 </ul>
-
-
                 </ul>
             </div>
         </nav>
@@ -340,9 +359,11 @@
                                 </li>
                             </ul>
                         </li>
+                    <!--
                         <li class="hidden-xs">
                             <a href="/xadmin/"  data-index="0"><i class="fa fa-cart-arrow-down"></i> 管理后台</a>
                         </li>
+                        -->
                         <li class="dropdown hidden-xs">
                             <a class="right-sidebar-toggle" aria-expanded="false">
                                 <i class="fa fa-tasks"></i> 主题
@@ -375,7 +396,7 @@
                         </li>
                     </ul>
                 </div>
-                <a href="login.bak.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+                <a href="{% url "logout" %}" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main">
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="{% url "home" %}" frameborder="0" data-id="{% url "home" %}" seamless></iframe>
@@ -479,6 +500,75 @@
         </div>
     </div>
     </div>
+     <!-- UserModal  -->
+        <div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="UserModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="UserModalLabel">修改密码
+                        </h4>
+                    </div>
+
+{#                    {% if perms.users.change_userprofile and perms.users.add_userprofile %}#}
+
+                        <div class="modal-body">
+                            <form id="pwd_change" class="main form-horizontal">
+                                <input  type="text" class ="hidden" name="user" value="{{ request.user.id }}">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label for="raw_pwd" class="col-sm-2 control-label">原始密码</label>
+                                        <div class="col-sm-6">
+                                            <input  type="password" class="form-control" name="raw_pwd" id="raw_pwd"
+                                                   required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new_pwd" class="col-sm-2 control-label">新密码</label>
+                                        <div class="col-sm-6">
+                                            <input  type="password" class="form-control" name="new_pwd" id="new_pwd"
+                                                   required/>
+                                            <br>
+                                             <i>你的密码不能与其他个人信息太相似。
+                                            </i><br>
+                                            <i>                                            你的密码必须包含至少 8 个字符。
+</i><br>
+                                            <i>                                            你的密码不能是大家都爱用的常见密码。
+</i><br>
+                                            <i>你的密码不能全部为数字</i>
+                                        </div>
+
+                                    </div>
+
+
+                                      <div class="form-group">
+                                        <label for="check_pwd" class="col-sm-2 control-label">确认密码</label>
+                                        <div class="col-sm-6">
+                                            <input  type="password" class="form-control" name="check_pwd" id="check_pwd"
+                                                   required/>
+                                        </div>
+                                    </div>
+                                    <div class="space-24"></div>
+
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="user_ops">确认</button>
+                        </div>
+                        <div class="modal-body">
+                            抱歉！您没有修改用户的权限！如有疑问，请联系管理员！
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                        </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
     <!-- 全局js -->
     <script src="/static/js/jquery.min.js?v=2.1.4"></script>
     <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
@@ -495,6 +585,8 @@
       <script src="/static/js/custom/select-pcas.js"></script>
      <!-- 自定义js -->
     <script type="text/javascript" src="/static/js/content.js?v=1.0.0"></script>
+    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/js/custom/form-validate.js"></script>
 
     <script>
         function show() {
@@ -522,6 +614,60 @@
                }
            })
 	 }
+
+	   let user_ops = $('#user_ops');
+    // 修改密码
+        $('#modify_pwd').on('click', function () {
+                user_ops.unbind('click').on('click', function () {
+                    let obj = $('#pwd_change');
+                    if (obj.valid()){
+                     let pk= {{ request.user.id }};
+                        let data = obj.serialize();
+                        $.ajax({
+                            url: '/rbac/change_password/' + pk + '/',
+                            type: 'POST',
+                            data: data,
+                            success: function (res) {
+                                console.log("res",res)
+                                var response=JSON.parse(res)
+                                if (response.status){
+                                obj.each(function () {
+                                    this.reset()
+                                })
+                                }
+                                console.log("res_msg",response.msg)
+                                 layer.msg(response.msg);
+
+                            },
+                            error: function (response) {
+                                 layer.msg(response.msg);
+                            }
+                        })
+                    }
+
+
+                });
+        });
+
+        $(function () {
+            var permit_url ={{ request.session.afsdfasdfadfsdfsdf |safe}}
+            for (i=0;i< permit_url.length;i++){
+                  var urlstr = permit_url[i].url;
+                 $(".menu ").each(function () {
+                     console.log("this",$(this).attr('href'));
+                  if ( $(this).attr('href').lastIndexOf(urlstr)> -1&&$(this).attr('href')!='') {
+                    console.log("this.href",this.href);
+                    $(this).parent().removeClass('hidden');
+                    $(this).parent().parent().parent().removeClass('hidden');
+                      return true
+             }
+    })
+            }
+            {% if request.user.is_superuser %}
+                 $("#user_manage").removeClass("hidden")
+                 $("#user_manage").find("li").removeClass("hidden")
+            {% endif %}
+        });
 
     </script>
 

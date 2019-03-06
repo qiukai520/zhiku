@@ -1,0 +1,471 @@
+{% extends 'content_table_layout.html'%}
+{% load staticfiles %}
+{% load rbac %}
+{% block css %}
+ <style>
+        /* dataTables列内容居中 */
+        #example1 > tbody > tr > td {
+            text-align: center;
+        }
+
+        /* dataTables表头居中 */
+        #example1 > thead:first-child > tr:first-child > th {
+            text-align: center;
+        }
+    </style>
+        <link rel="stylesheet" href="{% static 'plugins/select2/select2.css' %}">
+     v  <link rel="stylesheet" href="{% static 'jquery-confirm/dist/jquery-confirm.min.css' %}">
+{% endblock %}
+
+{% block content %}
+
+        <!--dataTable-->
+<div class="wrapper wrapper-content animated fadeInRight">
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>用户管理</h5>
+                <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <!-- Example Events -->
+                        <div class="example-wrap">
+                            <div class="example">
+                                <div class="btn-group" id="toolbar" role="group">
+                                      <button class="btn btn-sm btn-success pull-left" data-toggle="modal" data-target="#UserModal" id="add-user">
+                                        <i class="fa fa-user-plus"></i>
+                                        <span class="bigger-110">新增用户</span>
+                                    </button>
+                                </div>
+                            <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                     <select id="sel_exportoption" class="form-control">
+                                         <option value="basic">导出当前页数据</option>
+                                         <option value="all">导出全部数据</option>
+{#                                         <option value="selected">导出选中数据</option>#}
+                                     </select>
+                                 </span>
+                             </div>
+                                <table id="user" class="table export-table  table-bordered text-nowrap table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>用户名称</th>
+                                        <th>角色组</th>
+                                        <th>是否激活</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                        <tbody>
+                        {% for user in user_list %}
+
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{%fetch_user_role user %}</td>
+                                <td>
+                                    {% if user.is_active %}
+                                        <span class="label label-success">已激活</span>
+                                    {% else %}
+                                        <span class="label label-danger">未激活</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-success btn-xs modify" data-toggle="modal"
+                                            data-id="{{ user.id }}" data-target="#UserModal">详细/更新
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs change_pwd"
+                                            data-id="{{ user.id }}">重置密码
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-xs delete" data-id="{{ user.id }}">
+                                        删除
+                                    </button>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                            </div>
+                        </div>
+                        <!-- End Example Events -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+        <!-- UserModal  -->
+        <div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="UserModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="UserModalLabel">
+                        </h4>
+                    </div>
+{#                    {% if perms.users.change_userprofile and perms.users.add_userprofile %}#}
+                    {% if request.user.is_superuser  %}
+                        <div class="modal-body">
+                            <form id="user_detail" class="main form-horizontal">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label for="username" class="col-sm-2 control-label">用户名称</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="username" id="username"
+                                                   required/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="is_active" class="col-sm-2 control-label">是否激活</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" name="is_active" id="is_active"
+                                                    style="width: 100%;" required>
+                                                 <option value="1"  selected>是</option>
+                                                 <option value="0" >否</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="groups" class="col-sm-2 control-label">角色</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control select2" multiple="multiple" name="roles"
+                                                    id="groups"
+                                                    style="width: 100%;">
+                                                {% for group in groups %}
+                                                    <option value="{{ group.id }}">{{ group.title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                 <i>初始密码为123456</i>
+
+                                    <div class="space-24"></div>
+
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="user_ops"></button>
+                        </div>
+                    {% else %}
+                        <div class="modal-body">
+                            抱歉！您没有修改用户的权限！如有疑问，请联系管理员！
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                        </div>
+                    {% endif %}
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
+    <!-- /.row -->
+
+{% endblock %}
+
+
+{% block js %}
+    <!-- Select2 -->
+    <!-- DataTables -->
+    <!-- 输入验证 -->
+    <script src="{% static 'parsley/dist/parsley.min.js' %}"></script>
+    <script src="{% static 'plugins/select2/select2.js' %}"></script>
+    <script src="{% static 'jquery-confirm/dist/jquery-confirm.min.js' %}"></script>
+
+    <script src="/static/js/jquery.cookie.js"></script>
+{#    <script type="text/javascript" src="/static/js/custom/common.js"></script>#}
+    <script type="text/javascript" src="/static/js/custom/ajax.csrf.js"></script>
+
+    <script>
+
+        $(function () {
+              user_table= $("#user").bootstrapTable({
+            toolbar: "#toolbar",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "asc",
+            pageSize: 10,
+            pageList: [10,15,20, 25],
+            search: true,
+            sortable: true,
+            strictSearch: false,
+            showColumns: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView:false, //是否显示详细视图
+            detailView: false,
+            cache: false,
+            showExport: true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+            ignoreColumn: [0,-1], //忽略某一列的索引
+            fileName: '用户表',//导出文件的名称
+        },
+        });
+        });
+
+        // Initialize Select2 Elements
+        $(function () {
+         /*$("#groups").select2({
+            language: 'zh-CN',
+            placeholder: '请选择',
+            allowClear: true
+    });*/
+          $('.select2').select2({
+                allowClear: true
+            })
+        });
+         //table数据导出
+    $("#sel_exportoption").change(function () {
+        //刷新参数设置
+        console.log($(this).val())
+        $('#customers').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
+        });
+    });
+        let user_tbody = $('#user tbody');
+        let user_ops = $('#user_ops');
+
+        // 新增用户
+        $('#add-user').on('click', function () {
+            {% if request.user.is_superuser %}
+                $(".select2").val('').trigger('change');
+                $('.modal-title').text('新增用户');
+                user_ops.text('添加');
+
+                user_ops.unbind('click').on('click', function () {
+                    let obj = $('#user_detail');
+                    let status = obj.parsley().validate();
+                    if (status) {
+                        user_ops.attr('data-dismiss', 'modal');
+                        let groups = $('#groups option:selected').text();
+                        let data = obj.serialize();
+                        $.ajax({
+                            url: '{% url 'create_user' %}',
+                            type: 'POST',
+                            data: data,
+                            success: function (res) {
+                                if (res.status){
+                                window.location.reload()
+                                }
+                                 $.alert({
+                                    title: '提示！',
+                                    type: 'green',
+                                    content: res.msg,
+                                });
+                            },
+                            error: function (response) {
+                                $.alert({
+                                    title: '提示！',
+                                    type: 'red',
+                                    content: response.responseText,
+                                })
+                            }
+                        })
+                    }
+
+                });
+            {% endif %}
+        });
+
+        // 修改用户
+        user_tbody.on('click', '.modify', function () {
+            {% if request.user.is_superuser %}
+                let user_id = $(this).attr('data-id');
+                $('.modal-title').text('修改用户');
+                user_ops.text('确认修改');
+
+                $.get('/api/users/' + user_id + '/', function (data) {
+                    let is_active = data.is_active ? "1" : "0";
+                    $('#username').val(data.username);
+                    $('#is_active').val(is_active).trigger('change');
+                    let role = data.roles
+                    console.log("data.roles",typeof data.roles)
+                    console.log("data.roles")
+                     for(var i=0;i<role.length;i++) {
+                         //访问每一个的属性，根据属性拿到值
+                         console.log("role[i]",role[i])
+                     }
+                    $('#groups').val(data.roles).trigger('change');
+                });
+
+                user_ops.unbind('click').on('click', function () {
+                    let groups = $('#groups option:selected').text();
+                    let form=$("#user_detail").serializeJson();
+                    let data = $('#user_detail').serializeJson();
+                    $.ajax({
+                        url: '/api/users/' + user_id + '/',
+                        type: 'PUT',
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        contentType: "application/json",
+                        success: function () {
+                            $.confirm({
+                                title: '提示！',
+                                content: '修改完成!',
+                                type: 'green',
+                                buttons: {
+                                    ok: function () {
+                                        window.location.reload()
+                                    }
+                                }
+                            });
+                        },
+                        error: function (response) {
+                            $.alert({
+                                title: 'Tips',
+                                type: 'red',
+                                content: response.responseText,
+                            })
+                        }
+                    })
+                });
+            {% endif %}
+        });
+
+        // 删除用户
+        user_tbody.on('click', '.delete', function () {
+            {% if request.user.is_superuser %}
+                let pk = $(this).attr('data-id');
+                let tr_obj = $(this).parents('tr');
+                $.confirm({
+                    title: "提示！",
+                    content: '确定要删除这条记录么？',
+                    type: 'red',
+                    ok:{text:"确定"},
+                    cancel: {text:"关闭"},
+                    buttons: {
+                         Ok: {
+                            text:"确定",
+                            action:function () {
+                            $.ajax({
+                                url: '/api/users/' + pk + '/',
+                                method: 'DELETE',
+                                success: function () {
+                                    window.location.reload()
+                                },
+                                error: function (data) {
+                                    $.alert({
+                                        title: '提示！',
+                                        type: 'red',
+                                        content: '删除失败！' + data.responseText,
+                                    })
+                                }
+                            })
+                        },
+                        },
+                        Cancel:{
+                             text: "取消",
+                             action:function () {
+                            //
+                        }
+                        },
+                    }
+                });
+            {% else %}
+                $.alert({
+                    title: '提示！',
+                    type: 'red',
+                    content: '抱歉！您没有删除用户的权限！如有疑问，请联系管理员！',
+                });
+            {% endif %}
+        });
+
+        // 重置密码
+        user_tbody.on('click', '.change_pwd', function () {
+            {% if request.user.is_superuser %}
+                let pk = $(this).attr('data-id');
+                $.confirm({
+                    title: '提示！',
+                    content: '确定要为这个用户重置密码么？',
+                    type: 'red',
+                    buttons: {
+                        Ok: {
+                            text:"确定",
+                            action:function () {
+                            $.ajax({
+                                url: '/rbac/reset_password/' + pk + '/',
+                                method: 'POST',
+                                success: function (res) {
+                                    $.alert({
+                                        title: '提示！',
+                                        type: 'green',
+                                        content: res.msg,
+                                    })
+                                },
+                                error: function (res) {
+                                    $.alert({
+                                        title: '提示！',
+                                        type: 'red',
+                                        content: res.msg,
+                                    })
+                                }
+                            })
+                        },
+                        },
+                        Cancel:{
+                             text: "取消",
+                             action:function () {
+                            // close
+                            }
+                        }
+                    }
+                });
+            {% else %}
+                $.alert({
+                    title: '提示！',
+                    type: 'red',
+                    content: '抱歉！您没有修改用户的权限！如有疑问，请联系管理员！',
+                    ok: "确定",
+                    cancel: "关闭",
+                });
+            {% endif %}
+        });
+
+        // 将数据JSON化
+        (function ($) {
+            $.fn.serializeJson = function () {
+                let serializeObj = {};
+                let array = this.serializeArray();
+                let names = ['username', 'mobile', 'is_superuser', 'is_active'];
+                $(array).each(function () {
+                    if (serializeObj[this.name]) {
+                        if ($.isArray(serializeObj[this.name])) {
+                            serializeObj[this.name].push(this.value);
+                        } else {
+                            serializeObj[this.name] = [serializeObj[this.name], this.value];
+                        }
+                    } else {
+                        if (names.indexOf(this.name) !== -1) {
+                            serializeObj[this.name] = this.value;
+                        } else {
+                            serializeObj[this.name] = [this.value];
+                        }
+                    }
+                });
+                return serializeObj;
+            };
+        })(jQuery);
+
+    </script>
+
+{% endblock %}
+

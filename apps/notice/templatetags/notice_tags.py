@@ -12,15 +12,21 @@ register = template.Library()
 
 @register.simple_tag
 def fetch_notice_count(user):
-    notice_count = user.staff.notice_for_user.filter(notice_status=False).count()
-    return notice_count
+    if hasattr(user,"staff"):
+        notice_count = user.staff.notice_for_user.filter(notice_status=False).count()
+        return notice_count
+    return 0
+
 
 
 @register.simple_tag
 def fetch_notice(user):
     resultdict = {}
-    notice_list = user.staff.notice_for_user.filter( notice_status=False,).order_by('-notice_time')
-    total = notice_list.count()
+    notice_list=[]
+    total=0
+    if hasattr(user,"staff"):
+        notice_list = user.staff.notice_for_user.filter( notice_status=False,).order_by('-notice_time')
+        total = notice_list.count()
     data = []
     for notice in notice_list:
         dic = {}

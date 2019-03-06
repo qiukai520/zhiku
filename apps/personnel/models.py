@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
-from rbac.models import Role
+from django.contrib.auth import get_user_model
+from rbac.models import Role,User as UserProfile
 # Create your models here.
-
+# UserProfile = get_user_model()
 
 class Department(models.Model):
     id = models.AutoField(primary_key=True)
@@ -93,7 +94,7 @@ class Staff(models.Model):
 
     sid = models.AutoField(primary_key=True)
     job_number = models.CharField(max_length=32, verbose_name='工号')
-    user = models.OneToOneField(User, on_delete=models.CASCADE, db_constraint=False,verbose_name="用户", blank=True, null=True)
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, db_constraint=False,verbose_name="用户", blank=True, null=True)
     name = models.CharField(max_length=32, verbose_name='员工姓名')
     gender = models.SmallIntegerField(choices=gender_choice, verbose_name="性别", default=0)
     phone = models.CharField(max_length=11, verbose_name="手机号码", blank=True, null=True)
@@ -117,7 +118,7 @@ class Staff(models.Model):
     current_address = models.CharField(max_length=128, verbose_name="现住地址",blank=True, null=True)
     education = models.CharField(max_length=32, verbose_name='学历', blank=True, null=True)
     id_card = models.CharField(max_length=18, verbose_name="身份证号", blank=True, null=True)
-    roles = models.ManyToManyField(Role, verbose_name="具有的所有的角色", blank=True)
+    # roles = models.ManyToManyField(Role, verbose_name="具有的所有的角色", blank=True)
     bank = models.CharField(max_length=32, verbose_name="开户银行",blank=True, null=True)
     bank_account = models.CharField(max_length=21, verbose_name="银行账号", blank=True, null=True)
     account_name = models.CharField(max_length=21, verbose_name="开户人", blank=True, null=True)

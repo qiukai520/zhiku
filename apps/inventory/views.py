@@ -786,7 +786,7 @@ def purchase_record(request):
 
 
 def wastage_detail(request):
-    """入库记录详细"""
+    """损耗记录详细"""
     id = request.GET.get("id",None)
     ret = {"status":False,"data":"","message":""}
     if id:
@@ -1421,7 +1421,7 @@ def supplier_detail(request):
 
 
 def contact_detail(request):
-    """供应商联系人"""
+    """供应商来往详细"""
     id = request.GET.get("id",None)
     ret={"status":False,"data":"","message":""}
     if id:
@@ -1440,10 +1440,9 @@ def contact_detail(request):
                     contact_json['attach'] = ''
                 ret['status'] = True
                 ret['data'] = contact_json
-                print(ret)
                 return HttpResponse(json.dumps(ret,cls=CJSONEncoder))
         except Exception as e:
-            print(e)
+            pass
     return render(request,'404.html')
 
 

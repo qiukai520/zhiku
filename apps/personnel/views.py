@@ -167,7 +167,7 @@ def project_list(request):
 
 
 def project_edit(request):
-    """"部门添加或编辑"""
+    """项目添加或编辑"""
     method = request.method
     if method == "GET":
         id = request.GET.get("id", "")

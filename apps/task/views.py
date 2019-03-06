@@ -23,10 +23,16 @@ from notice.views import notice_add
 
 
 def index(request):
+    print("aaaa")
+    print("request.user", request.user)
+
+    # print(request.session[settings.PERMISSION_URL_DICT_KEY])
     weekly_task()
     task_auot_review()
     cache.set("user_id",123)
-    staff = request.user.staff
+
+    # staff = request.user.staff
+    # print("staff",staff)
     return render(request,'layout.html')
 
 
@@ -209,18 +215,21 @@ def task_map_content(request):
 
 
 def task_detail(request):
+    """查看任务详细"""
     tmid = request.GET.get("tmid", None)
     task_obj = task_map_db.query_task_by_tmid(tmid)
     return render(request, 'task/task_detail.html', {"task_obj": task_obj})
 
 
 def task_period_detail(request):
+    """查看任务周期详细"""
     tpid = request.GET.get("tpid", None)
     task_obj = task_period_db.query_task_by_tpid(tpid)
     return render(request, 'task/task_period_detail.html', {"task_obj": task_obj})
 
 
 def task_base_detail(request):
+    """查看待指派任务详细"""
     tid = request.GET.get("tid", None)
     # 据任务分配ID获取内容
     task_obj = task_db.query_task_by_tid(tid)
@@ -1079,7 +1088,7 @@ def task_sort_list(request):
 
 
 def task_sort_edit(request):
-    """"任务分类添加或编辑"""
+    """"任务工单添加或编辑"""
     method = request.method
     if method == "GET":
         tpid = request.GET.get("tpid", '')
@@ -1170,11 +1179,12 @@ def performence_statistic(request):
 
 
 def perfor_statistic_detail(requset):
+    """个人绩效详细"""
     sid = requset.GET.get("sid",0)
     today = datetime.date.today()
     year_month = today.strftime("%Y-%m")
-    startMonth=requset.GET.get("startMonth",year_month)
-    endMonth=requset.GET.get("endMonth",year_month)
+    startMonth = requset.GET.get("startMonth",year_month)
+    endMonth = requset.GET.get("endMonth",year_month)
     if not startMonth:
         startMonth = year_month
     if not endMonth:
@@ -1182,7 +1192,7 @@ def perfor_statistic_detail(requset):
     if endMonth < startMonth:
         startMonth, endMonth = endMonth, startMonth
     first_day,last_day = getMonthFirstDayAndLastDay(startMonth,endMonth)
-    query_sets=performance_record_db.query_perfor_score_by_sid(sid,first_day,last_day)
+    query_sets = performance_record_db.query_perfor_score_by_sid(sid,first_day,last_day)
     return render(requset,'task/perfor_statistic_detail.html',{"query_sets":query_sets, "sid":sid , "startMonth":startMonth , "endMonth": endMonth})
 
 
@@ -1260,6 +1270,7 @@ def personal_task_list(request):
 
 
 def personal_task_detail(request):
+    """个人任务详细"""
     tasid = request.GET.get("tasid", 0)
     user_id = request.user.staff.sid
     task_assign_obj = task_assign_db.query_task_assign_by_tasid(tasid)

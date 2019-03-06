@@ -1,7 +1,7 @@
 drop TABLE if exists `customer_info`;
 create TABLE `customer_info`(
 `nid` int(11) primary key auto_increment,
-`purpose_id` int (1) COMMENT '客户意向',
+`purpose_id` int (11) COMMENT '客户意向',
 `category_id` smallint (6) COMMENT '客户分类',
 `company` varchar (32) COMMENT '公司名称',
 `industry_id` varchar (32) NOT NULL  COMMENT '所属行业',

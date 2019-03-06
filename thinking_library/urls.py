@@ -26,12 +26,14 @@ from personnel import views as p_view
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
+    path(r'api/', include('api.urls')),
     path('index/', task_view.index, name='index'),
     path('home/', task_view.home, name='home'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', Logout, name='logout'),
     path("task/", include('task.urls')),  # 工单
     path("personnel/", include('personnel.urls')),  # 人事
+    path("rbac/", include('rbac.urls')),  # 用户权限
     path("contract/", include('contract.urls')),  # 合同
     path("inventory/", include('inventory.urls')),  # 进销存
     path("notice/", include('notice.urls')),  # 通知
