@@ -10,7 +10,7 @@ from .forms.form import *
 from common.functions import *
 from .models import *
 from .templatetags.personnel_tags import *
-
+from rbac.views import DEFAULT_PASSWORD as password
 # Create your views here.
 
 
@@ -274,6 +274,7 @@ def staff_edit(request):
             query_sets = staff_db.query_staff_by_id(sid)
             life_photo = staff_life_photo_db.query_life_photo_by_sid(sid)
             staff_attach = staff_attach_db.query_staff_attachment_by_sid(sid)
+            print("life_photo",life_photo)
             if not life_photo:
                 life_photo = ""
             if not staff_attach:
@@ -309,6 +310,7 @@ def staff_edit(request):
                             staff_db.update_staff(staff_info)
                         # 插入人事生活照
                         photo_record = staff_life_photo_db.query_life_photo_by_sid(sid)
+                        life_photo["sid_id"] = sid
                         if life_photo:
                             # 数据对比
                             if photo_record:
@@ -346,18 +348,26 @@ def staff_edit(request):
                         # 插入人事信息
                         staff_info = filter_fields(Staff._insert,data)
                         sid = staff_db.insert_staff(staff_info)
-                        life_photo["sid_id"]=sid
+                        life_photo["sid_id"] = sid
                         # 插入人事生活照
                         if life_photo:
                             staff_life_photo_db.insert_life_photo(life_photo)
                         if staff_attach:
-                            staff_attach = build_attachment_info({"sid_id":sid}, staff_attach)
+                            staff_attach = build_attachment_info({"sid_id": sid}, staff_attach)
                             staff_attach_db.mutil_insert_attachment(staff_attach)
+                        # 创建用户
+                        user_data = {"username":staff_info["name"],"phone": staff_info["phone"],"password":password,
+                                                                    "email": staff_info["email"]}
+                        is_exist = UserProfile.objects.filter(phone=staff_info["phone"])
+                        if is_exist:
+                            raise Exception("该手机号已被注册")
+                        user = UserProfile.objects.create(**user_data)
+                        Staff.objects.filter(sid=sid).update(user=user)
                         ret['status'] = True
                         ret['data'] = sid
                 except Exception as e:
                     print(e)
-                    ret["message"] = "添加失败"
+                    ret["message"] = "添加失败:"+str(e)
         else:
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
@@ -413,6 +423,11 @@ def staff_delete(request):
     status = {"delete_status": 0}
     try:
         staff_db.multi_delete(id_list, status)
+        # 注销用户
+        for item in id_list:
+            staff_obj = Staff.objects.filter(sid=item).first()
+            staff_obj.user.is_active = False
+            staff_obj.user.save()
         ret['status'] = True
     except Exception as e:
         print(e)

@@ -124,6 +124,9 @@ class User(AbstractUser):
     roles = models.ManyToManyField(Role,verbose_name="前台角色",  through='User2Role',
 
                                                 through_fields=('user', 'role'),)
+    phone = models.CharField(max_length=11, verbose_name="手机号码")
+
+
 
     class Meta(AbstractUser.Meta):
         db_table = 'auth_user'

@@ -370,7 +370,7 @@ class CustomerFollow(SoftDeletableModel):
     def __str__(self):
         return "客户跟进记录:{0}".format(self.customer)
 
-    _insert = ["recorder_id","date", "way_id", "customer_id", "contact_id", "linkman_id","result_id","purpose_id","next_step","detail"]
+    _insert = ["recorder_id","date","way_id", "customer_id", "contact_id", "linkman_id","result_id","purpose_id","next_step","detail"]
     _update = ["recorder_id","date","way_id","customer_id", "contact_id", "linkman_id","result_id","purpose_id","next_step","detail"]
 
 

@@ -165,10 +165,12 @@ def customer_edit(request):
                         # 默认D类客户
                         purpose_list = customer_purpose_db.query_purpose_list()
                         for item in purpose_list:
-                            if item.content == "D类": # 获取D类客户id
+                            print("item.content",item.content)
+                            if item.content == "C类": # 获取D类客户id
+                                print("get",item.nid )
                                 purpose_id = item.nid  #
                             else:
-                                purpose_id = 1
+                                purpose_id = 6
                         customer_info["purpose_id"] = purpose_id
                         nid = customer_db.insert_customer(customer_info)
                         # 插入客户照片
@@ -801,6 +803,10 @@ def customer_follow(request):
                         if follow_attach:
                             follow_attach = build_attachment_info({"follow_id": nid}, follow_attach)
                             c_follow_attach_db.mutil_insert_attachment(follow_attach)
+                        # 更新客户意向分类
+                        customer_info = CustomerInfo.objects.filter(nid=data["customer_id"]).update(purpose=data["purpose_id"])
+                        print(customer_info)
+                        print("customer_info",customer_info)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:

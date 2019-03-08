@@ -256,9 +256,9 @@ function InitData() {
         $("#linkman_id").val({{ query_set.linkman_id}});
         $("#result_id").val({{ query_set.result_id}});
         $("#purpose_id").val({{ query_set.purpose_id}});
-        $("#next_step").val("{{ query_set.next_step }}");
+        $("#next_step").val("{% if query_set.next_step %}{{ query_set.next_step }}{% else  %}{% endif %}");
         $("#date").val("{{ query_set.date |date:"Y-m-d"}}")
-        $("#detail").val("{{ query_set.detail }}");
+        $("#detail").val("{% if query_set.detail %}{{ query_set.detail }}{% else  %}{% endif %}");
     }
 
     //修改时获取附件

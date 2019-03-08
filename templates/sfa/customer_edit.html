@@ -106,7 +106,8 @@
                                     <div class="col-xs-7 col-md-4  col-lg-4">
                                         <select  name="city" class="form-control chosen-select" id="city"  onchange="SelectCity(this)" >
                                          {%  if  nid %}
-                                             {% build_city_ele province_id %}
+
+                                             {% build_city_ele province_id  city_id %}
                                              {% else %}
                                               {% build_city_ele  %}
                                             {% endif %}
@@ -116,7 +117,8 @@
                                     <div class="col-xs-7 col-md-4  col-lg-4">
                                     <select  name="country_id" class="form-control chosen-select" id="country" onchange="SelectCountry(this)" >
                                      {%  if  nid %}
-                                         {% build_country_ele city_id  %}
+                                        {{ city_id }}
+                                         {% build_country_ele city_id country_id  %}
                                          {% else %}
                                          <option value="0">请选择县区</option>
                                          {% build_country_ele   %}
@@ -127,7 +129,7 @@
                                     <div class="col-xs-7 col-md-4  col-lg-4">
                                     <select  name="town_id" class="form-control chosen-select" id="town_id"  >
                                      {%  if  nid %}
-                                         {% build_town_ele country_id  %}
+                                         {% build_town_ele country_id  query_set.town_id %}
                                         {% endif %}
                                      <option value=0>请选择街道</option>
                                     </select>

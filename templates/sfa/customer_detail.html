@@ -43,11 +43,12 @@
                             <div class="col-sm-12">
                                 <div class="m-b-md">
                                     <a href="{%url "customer_edit" %}?id={{ query_set.nid }}" class="btn btn-info pull-right">去编辑</a>
-                                    <h3 style="margin-left:15px"> {{ query_set.company }}</h3>
+{#                                    <h3 style="margin-left:15px" class="label-primary"> </h3>#}
+                                    <span style="font-size: 20px" class="label label-primary ">{{ query_set.company }}</span>
                                 </div>
                                     <dl class="dl-horizontal">
                                     <dt>主营业务：</dt>
-                                    <dd><span class="label label-primary">{{ query_set.business }}</span>
+                                    <dd><span class="label ">{{ query_set.business }}</span>
                                     </dd>
                                          <dt> </dt>
                                         <dd>

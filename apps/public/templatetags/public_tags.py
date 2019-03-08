@@ -81,6 +81,7 @@ def build_city_ele(province_id=None, city_id=None):
 @register.simple_tag
 def build_country_ele(city_id=None, selected=None):
     """构建县区下拉框"""
+    print()
     if city_id:
         country_list = country_db.query_country_by_city(city_id)
     else:

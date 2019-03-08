@@ -79,7 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'rbac.middlewares.rbac.LoginMiddleware',
-    # 'rbac.middlewares.rbac.RbacMiddleware',
+    'rbac.middlewares.rbac.RbacMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
@@ -195,10 +195,11 @@ VALID_URL = [
     "/logout/",
     "/article/",
     "/public/*",
-    "*upload*",
-    "*webuploader*",
-    "*notice*",
-    "*collection*"
+    "/(\w+)/upload*",
+    "/(\w+)/(\w+)/webuploader*",
+    "/*notice*",
+    "/*collection*",
+    "/media/*"
 ]
 
 

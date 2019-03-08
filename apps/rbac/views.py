@@ -2,6 +2,7 @@ import json
 import datetime
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.decorators import permission_required
+from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.db import transaction
@@ -25,6 +26,7 @@ SESSION_KEY = '_auth_user_id'
 BACKEND_SESSION_KEY = '_auth_user_backend'
 HASH_SESSION_KEY = '_auth_user_hash'
 REDIRECT_FIELD_NAME = 'next'
+DEFAULT_PASSWORD = '123456'
 # Create your views here.
 
 # 重写django登录类
@@ -35,7 +37,7 @@ class CustomBackend(ModelBackend):
         try:
             # 可以通过email\mobile....账号进行账号登录
             print("authenticate",username)
-            user = UserProfile.objects.filter(username=username).first()
+            user = UserProfile.objects.get(Q(username=username)|Q(phone=username))
             # check_password 验证用户的密码是否正确
             print("user_obj",user)
             print("pwd",password)
@@ -78,8 +80,6 @@ def do_login(request, user, backend=None):
     have to reauthenticate on every request. Note that data set during
     the anonymous session is retained when the user logs in.
     """
-    print("user_login",user)
-    print("dir",dir(user))
     if user is None:
         request.user = user
 
@@ -88,7 +88,6 @@ def do_login(request, user, backend=None):
     else:
         request.session.cycle_key()
 
-    print("request.session",request.session)
     request.session[SESSION_KEY] = user._meta.pk.value_to_string(user)
     # request.session[BACKEND_SESSION_KEY] = backend
     # request.session[HASH_SESSION_KEY] = session_auth_hash
@@ -142,7 +141,7 @@ def Logout(request):
 class LoginView(View):
     def get(self, request):
         # 添加一个初始用户
-        # user = UserProfile.objects.get_or_create(**{"username":"lizhihong","password":"a741258963","email":'2419636244@qq.com'})
+        # user = UserProfile.objects.get_or_create(**{"username":"lizhihong","password":DEFAULT_PASSWORD,"email":'2419636244@qq.com'})
         # print("user",user)
         post = Posts.objects.all()[:6]  #取出最新的6篇文章
 
@@ -197,9 +196,9 @@ def user_center(request):
                 return JsonResponse({"code": 200, "data": None, "msg": "密码更新完毕，请重新使用新密码登录！"})
             except Exception as e:
                 return JsonResponse({"code": 500, "data": None, "msg": "密码修改失败：%s" % str(e)})
-        elif request.POST.get('mobile'):
+        elif request.POST.get('phone'):
             try:
-                user.mobile = request.POST.get('mobile')
+                user.mobile = request.POST.get('phone')
                 user.save()
                 return JsonResponse({"code": 200, "data": request.POST.get('mobile'), "msg": "手机号码更新完毕！"})
             except Exception as e:
@@ -234,7 +233,7 @@ def create_user(request):
             with transaction.atomic():
                 user_obj = UserProfile.objects.create(
                     username=request.POST.get('username'),
-                    password=make_password('123456'),
+                    password=make_password(DEFAULT_PASSWORD),
                     is_active=request.POST.get('is_active'),
                 )
                 data = {
@@ -242,7 +241,6 @@ def create_user(request):
                     'username': user_obj.username,
                     'is_active': user_obj.is_active,
                 }
-
                 roles = request.POST.getlist('groups')
                 if roles:
                     for i in roles:
@@ -259,7 +257,7 @@ def reset_password(request, pk):
     if request.method == 'POST':
         try:
             UserProfile.objects.filter(id=pk).update(
-                password=make_password('123456')
+                password=make_password(DEFAULT_PASSWORD)
             )
             return JsonResponse({"code": 200, "data": None, "msg": "密码重置成功！密码为123456"})
         except Exception as e:
@@ -270,7 +268,6 @@ def reset_password(request, pk):
 def change_password(request, pk):
     if request.method == 'POST':
         result={"code": 500,"status":False, "data": None, "msg": "密码修改成功！"}
-        print("data",request.POST)
         form = PwdForm(data=request.POST)
         if form.is_valid():
             raw_pwd = form.cleaned_data.get('raw_pwd')
@@ -296,7 +293,6 @@ def change_password(request, pk):
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
             result['msg'] = firsterror
-        print("result",result)
         return HttpResponse(json.dumps(result))
 
 

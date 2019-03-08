@@ -41,11 +41,12 @@
                             <div class="col-sm-12">
                                 <div class="m-b-md">
                                     <a href="{%url "goods_detail" %}?id={{ query_set.nid }}" class="btn btn-info pull-right">商品详细</a>
-                                    <h3 style="margin-left:15px"> {{ query_set.name }}</h3>
+{#                                    <h3 style="margin-left:15px"> {{ query_set.name }}</h3>#}
+                                        <span style="font-size: 20px" class="label label-primary ">{{ query_set.name }}</span>
                                 </div>
                                     <dl class="dl-horizontal">
                                     <dt>商品分类：</dt>
-                                    <dd><span class="label label-primary">{% change_to_goods_category query_set.category_id %}</span>
+                                    <dd><span class="label">{% change_to_goods_category query_set.category_id %}</span>
                                     </dd>
                                        <dt> </dt>
                                         <dd>

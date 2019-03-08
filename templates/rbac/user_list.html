@@ -14,7 +14,7 @@
         }
     </style>
         <link rel="stylesheet" href="{% static 'plugins/select2/select2.css' %}">
-     v  <link rel="stylesheet" href="{% static 'jquery-confirm/dist/jquery-confirm.min.css' %}">
+        <link rel="stylesheet" href="{% static 'jquery-confirm/dist/jquery-confirm.min.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -53,7 +53,11 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>用户名称</th>
+                                        <th>手机号</th>
                                         <th>角色组</th>
+                                        <th>公司</th>
+                                        <th>项目</th>
+                                        <th>部门</th>
                                         <th>是否激活</th>
                                         <th>操作</th>
                                     </tr>
@@ -64,7 +68,12 @@
                             <tr>
                                 <td>{{ user.id }}</td>
                                 <td>{{ user.username }}</td>
+                                <td>{{ user.phone }}</td>
                                 <td>{%fetch_user_role user %}</td>
+                                <td>{{ user.staff.company }}</td>
+                                <td>{{ user.staff.project }}</td>
+                                <td>{{ user.staff.department }}</td>
+
                                 <td>
                                     {% if user.is_active %}
                                         <span class="label label-success">已激活</span>
@@ -236,7 +245,6 @@
          //table数据导出
     $("#sel_exportoption").change(function () {
         //刷新参数设置
-        console.log($(this).val())
         $('#customers').bootstrapTable('refreshOptions', {
             exportDataType: $(this).val()
         });

@@ -44,15 +44,16 @@ class RbacMiddleware(MiddlewareMixin):
         # request.session.get("permission_url_list")
         current_url = request.path_info
         # 当前请求不需要执行权限验证
-        # print(current_url)
         for url in settings.VALID_URL:
+            print("re_url",url,current_url)
+            print("match",re.match(url, current_url))
+            print("test",re.match("\w+","fagaga"))
             if re.match(url, current_url):
-                # print(url)
+
                 return None
         permission_dict = request.session.get(settings.PERMISSION_URL_DICT_KEY)
         if not permission_dict:
             return redirect("/login/")
-        # print(112)
         flag = False
         for group_id,code_url in permission_dict.items():
             for db_url in code_url["urls"]:
@@ -65,12 +66,11 @@ class RbacMiddleware(MiddlewareMixin):
                 break
 
         if not flag:
+            print("无权访问")
             return HttpResponse("无权访问")
 
     def process_response(self, request, response):
-        print("request",request.session.get(settings.PERMISSION_MENU_KEY))
         # request.session["menu_list"] = request.session.get(settings.PERMISSION_MENU_KEY)
         # # del request.session[settings.PERMISSION_MENU_KEY]
         # print("menu", request.session["menu_list"])
-        print("response",response)
         return response

@@ -23,8 +23,6 @@ from notice.views import notice_add
 
 
 def index(request):
-    print("aaaa")
-    print("request.user", request.user)
 
     # print(request.session[settings.PERMISSION_URL_DICT_KEY])
     weekly_task()
