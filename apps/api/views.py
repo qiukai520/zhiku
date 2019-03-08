@@ -1,7 +1,8 @@
 from rest_framework.response import Response
 from rest_framework import viewsets, permissions
 from api.serializers import *
-from rbac.models import Role,User2Role
+from rbac.models import Role
+# from personnel.models import StaffRole as Staff2Role
 # Create your views here.
 
 
@@ -15,28 +16,17 @@ class UsersViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
         roles = request.data.get('roles',[])
         if roles:
-            User2Role.objects.filter(user=instance.id).delete()
-            for i in roles:
-                role = Role.objects.get(id=i)
-                User2Role.objects.create(user=instance, role=role)
+            instance.staff.roles.set(roles)
+            # instance.staff.roles.clear()
+            # for i in roles:
+            #     role = Role.objects.get(id=i)
+            #     instance.staff.roles.add(role)
         else:
-            User2Role.objects.filter(user=instance.id).delete()
+            instance.staff.roles.clear()
         return Response(serializer.data)
-
-
-
-class PermissionViewSet(viewsets.ModelViewSet):
-    queryset = Permission.objects.all().order_by('id')
-    serializer_class = PermissionSerializer
-    permission_classes = (permissions.IsAuthenticated,)
-
-
-class GroupViewSet(viewsets.ModelViewSet):
-    queryset = Group.objects.all().order_by('id')
-    serializer_class = GroupSerializer
-    permission_classes = (permissions.IsAuthenticated,)
 
 
 class UserLogViewSet(viewsets.ModelViewSet):

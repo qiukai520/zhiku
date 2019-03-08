@@ -118,7 +118,7 @@ class Staff(models.Model):
     current_address = models.CharField(max_length=128, verbose_name="现住地址",blank=True, null=True)
     education = models.CharField(max_length=32, verbose_name='学历', blank=True, null=True)
     id_card = models.CharField(max_length=18, verbose_name="身份证号", blank=True, null=True)
-    # roles = models.ManyToManyField(Role, verbose_name="具有的所有的角色", blank=True)
+    roles = models.ManyToManyField(Role, verbose_name="角色", blank=True)
     bank = models.CharField(max_length=32, verbose_name="开户银行",blank=True, null=True)
     bank_account = models.CharField(max_length=21, verbose_name="银行账号", blank=True, null=True)
     account_name = models.CharField(max_length=21, verbose_name="开户人", blank=True, null=True)
@@ -184,4 +184,19 @@ class StaffLifePhoto(models.Model):
         return "员工生活照:{0}".format(self.sid)
 
     _update = ["life_photo","name"]
+
+
+
+#
+# class Staff2Role(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     staff_id = models.ForeignKey(to='Staff', on_delete=models.CASCADE, verbose_name='职员id')
+#     role = models.ForeignKey(to=Role,on_delete=models.CASCADE, verbose_name="角色id")
+#
+#     class Meta:
+#         db_table = 'staff_roles'
+#         verbose_name = '职员-角色关系表'
+#         verbose_name_plural = '职员-角色关系表'
+
+
 

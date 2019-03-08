@@ -165,9 +165,7 @@ def customer_edit(request):
                         # 默认D类客户
                         purpose_list = customer_purpose_db.query_purpose_list()
                         for item in purpose_list:
-                            print("item.content",item.content)
                             if item.content == "C类": # 获取D类客户id
-                                print("get",item.nid )
                                 purpose_id = item.nid  #
                             else:
                                 purpose_id = 6

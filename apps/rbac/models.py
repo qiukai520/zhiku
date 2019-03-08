@@ -121,11 +121,10 @@ class User(AbstractUser):
     """
     用户表
     """
-    roles = models.ManyToManyField(Role,verbose_name="前台角色",  through='User2Role',
-
-                                                through_fields=('user', 'role'),)
+    # roles = models.ManyToManyField(Role,verbose_name="前台角色",  through='User2Role',
+    #
+    #                                             through_fields=('user', 'role'),)
     phone = models.CharField(max_length=11, verbose_name="手机号码")
-
 
 
     class Meta(AbstractUser.Meta):
@@ -159,17 +158,6 @@ class User(AbstractUser):
         return check_password(raw_password, self.password, setter)
 
 
-class User2Role(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(to='User', on_delete=models.CASCADE, verbose_name='用户id')
-    role = models.ForeignKey(to='Role',on_delete=models.CASCADE, verbose_name="角色id")
-
-    class Meta:
-        db_table = 'user_role'
-        verbose_name = '用户表'
-        verbose_name_plural = '用户表'
-
-
 class UserLog(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, verbose_name='操作用户')
     remote_ip = models.GenericIPAddressField(verbose_name='操作用户IP')
@@ -180,4 +168,3 @@ class UserLog(models.Model):
         db_table = 'users_log'
         verbose_name = '用户管理操作记录表'
         verbose_name_plural = '用户管理操作记录表'
-

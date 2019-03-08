@@ -1,6 +1,7 @@
 import re
 from django.template import Library
 from django.conf import settings
+# from personnel.models import Staff2Role
 register=Library()
 
 @register.inclusion_tag("rbac/xxxxx.html")
@@ -53,11 +54,17 @@ from rbac.models import *
 @register.simple_tag
 def fetch_user_role(user):
     if user:
-        roles_list = Role.objects.filter(user=user.id).all()
-        name = ""
+        sid = user.staff.sid
+        print("sid_role",sid)
+        # roles_list = Staff2Role.objects.filter(staff_id=sid).select_related("role").all()
+        roles_list=user.staff.roles.all()
+        name = ''
+        print("roles_list",roles_list)
         for item in roles_list:
-            role = Role.objects.filter(id=item.id).first()
-            name += role.title + ";"
+            print("item",item.title)
+            # role = Role.objects.filter(id=item.role_id).first()
+            name += item.title + ";"
+        print("name",name)
         return name
 
 @register.simple_tag

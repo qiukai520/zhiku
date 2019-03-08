@@ -34,10 +34,10 @@
                         <div class="example-wrap">
                             <div class="example">
                                 <div class="btn-group" id="toolbar" role="group">
-                                      <button class="btn btn-sm btn-success pull-left" data-toggle="modal" data-target="#UserModal" id="add-user">
-                                        <i class="fa fa-user-plus"></i>
-                                        <span class="bigger-110">新增用户</span>
-                                    </button>
+{#                                      <button class="btn btn-sm btn-success pull-left" data-toggle="modal" data-target="#UserModal" id="add-user">#}
+{#                                        <i class="fa fa-user-plus"></i>#}
+{#                                        <span class="bigger-110">新增用户</span>#}
+{#                                    </button>#}
                                 </div>
                             <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
                                  <span id="exportToolbar" style="display: inline-block" class="btn-group">
@@ -69,11 +69,10 @@
                                 <td>{{ user.id }}</td>
                                 <td>{{ user.username }}</td>
                                 <td>{{ user.phone }}</td>
-                                <td>{%fetch_user_role user %}</td>
+                                <td>{% fetch_user_role user %}</td>
                                 <td>{{ user.staff.company }}</td>
                                 <td>{{ user.staff.project }}</td>
                                 <td>{{ user.staff.department }}</td>
-
                                 <td>
                                     {% if user.is_active %}
                                         <span class="label label-success">已激活</span>
@@ -88,9 +87,9 @@
                                     <button type="button" class="btn btn-warning btn-xs change_pwd"
                                             data-id="{{ user.id }}">重置密码
                                     </button>
-                                    <button type="button" class="btn btn-danger btn-xs delete" data-id="{{ user.id }}">
-                                        删除
-                                    </button>
+{#                                    <button type="button" class="btn btn-danger btn-xs delete" data-id="{{ user.id }}">#}
+{#                                        删除#}
+{#                                    </button>#}
                                 </td>
                             </tr>
 

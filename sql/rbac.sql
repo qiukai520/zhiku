@@ -45,3 +45,9 @@ create TABLE `user_role`(
 `role_id` varchar (128)   COMMENT '角色'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色关系表';
 
+drop TABLE if exists `staff_roles`;
+create TABLE `staff_roles`(
+`id` int(11) primary key auto_increment,
+`staff_id` int (16) COMMENT '用户',
+`role_id` varchar (128)   COMMENT '角色'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='职员-角色关系表';

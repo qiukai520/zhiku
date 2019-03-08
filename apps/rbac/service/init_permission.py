@@ -7,7 +7,8 @@ def init_permission(user,request):
     :param request:
     :return:
     """
-    permission_list = user.roles.values("permission__id",
+
+    permission_list = user.staff.roles.values("permission__id",
                                       "permission__title",
                                       "permission__url",
                                       "permission__code",
@@ -16,6 +17,9 @@ def init_permission(user,request):
                                       "permission__group__menu_id",
                                       "permission__group__menu__title").distinct()
     # 菜单相关（以后再匹配）
+    print("user.staff.roles",user.staff)
+    print("dir",dir(user.staff))
+    print("user.staff.roles",permission_list)
     sub_permission_list = []
     for item in permission_list:
         tpl = {

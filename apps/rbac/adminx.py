@@ -42,11 +42,11 @@ class PermissionModelMultipleChoiceField(ModelMultipleChoiceField):
 
 class UserAdmin(object):
     change_user_password_template = None
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', "roles")
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', )
     list_filter = ('is_staff', 'is_superuser', 'is_active')
     search_fields = ('username', 'first_name', 'last_name', 'email')
     ordering = ('username',)
-    style_fields = {'user_permissions': 'm2m_transfer',"roles": 'm2m_transfer'}
+    style_fields = {'user_permissions': 'm2m_transfer'}
     model_icon = 'fa fa-user'
     relfield_style = 'fk-ajax'
 

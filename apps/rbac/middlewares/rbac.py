@@ -21,8 +21,6 @@ class MiddlewareMixin(object):
 
 class LoginMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        # print(" cookie", request.COOKIES)
-        # print(" request.path_info", request.path_info)
         if request.path_info == '/login/':
             return None
         if re.match("/xadmin*",request.path_info):
@@ -45,13 +43,10 @@ class RbacMiddleware(MiddlewareMixin):
         current_url = request.path_info
         # 当前请求不需要执行权限验证
         for url in settings.VALID_URL:
-            print("re_url",url,current_url)
-            print("match",re.match(url, current_url))
-            print("test",re.match("\w+","fagaga"))
             if re.match(url, current_url):
-
                 return None
         permission_dict = request.session.get(settings.PERMISSION_URL_DICT_KEY)
+        print("permission_dict",permission_dict)
         if not permission_dict:
             return redirect("/login/")
         flag = False
@@ -64,7 +59,6 @@ class RbacMiddleware(MiddlewareMixin):
                     break
             if flag:
                 break
-
         if not flag:
             print("无权访问")
             return HttpResponse("无权访问")

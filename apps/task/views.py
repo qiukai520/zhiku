@@ -29,8 +29,8 @@ def index(request):
     task_auot_review()
     cache.set("user_id",123)
 
-    # staff = request.user.staff
-    # print("staff",staff)
+    staff = request.user.staff
+    print("staff",staff)
     return render(request,'layout.html')
 
 
@@ -74,7 +74,6 @@ def task_edit(request):
             attachment_list = list(json.loads(attachment))
             if tid:
                 # 编辑
-                print("edit",data)
                 # 获取标签并删除
                 tags = data.get("tags", None)
                 data.pop("tags")

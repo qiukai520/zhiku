@@ -10,9 +10,10 @@ from django.http import JsonResponse
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib import auth
 from django.views.generic.base import View
-from .forms.form import LoginForm,PwdForm
+from .forms.form import LoginForm, PwdForm
 from article.models import Posts
-from rbac.models import Role,User as UserProfile,User2Role,UserLog
+from rbac.models import Role, User as UserProfile, UserLog
+# from personnel.models import Staff2Role
 
 # login
 from django.apps import apps as django_apps
@@ -26,7 +27,7 @@ SESSION_KEY = '_auth_user_id'
 BACKEND_SESSION_KEY = '_auth_user_backend'
 HASH_SESSION_KEY = '_auth_user_hash'
 REDIRECT_FIELD_NAME = 'next'
-DEFAULT_PASSWORD = '123456'
+DEFAULT_PASSWORD = 123456
 # Create your views here.
 
 # 重写django登录类
@@ -36,19 +37,16 @@ class CustomBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         try:
             # 可以通过email\mobile....账号进行账号登录
-            print("authenticate",username)
             user = UserProfile.objects.get(Q(username=username)|Q(phone=username))
             # check_password 验证用户的密码是否正确
-            print("user_obj",user)
-            print("pwd",password)
-            print("user_check", user.check_password(password))
+            print(user)
+            print("user.check_password(password)",user.check_password(password))
             if user.check_password(password):
                 return user
             else:
                 return None
         except Exception as e:
             print(e)
-            pass
 
 
 c_auth = CustomBackend()
@@ -162,14 +160,16 @@ class LoginView(View):
                 result['message'] = '用户名或密码错误'
             else:
                 try:
+                    if not user.is_active:
+                        result['message'] = '账号已被冻结'
+                        raise Exception("账号已被冻结")
                     auth.login(request,user)
-
                     request.session["user_info"] = {"user_id": user.id,
                                                     "user_name": user.username}
                     init_permission(user, request)
                     result['status'] = True
                 except Exception as e:
-                    print(e)
+                    pass
                 return HttpResponse(json.dumps(result))
 
         else:
@@ -245,7 +245,7 @@ def create_user(request):
                 if roles:
                     for i in roles:
                         role = Role.objects.get(id=i)
-                        User2Role.objects.create(user=user_obj,role=role)
+                        # User2Role.objects.create(user=user_obj,role=role)
             return JsonResponse({"status":True,"code": 200, "data": data, "msg": "用户添加成功！初始密码是123456"})
         except Exception as e:
             print(e)
@@ -261,7 +261,7 @@ def reset_password(request, pk):
             )
             return JsonResponse({"code": 200, "data": None, "msg": "密码重置成功！密码为123456"})
         except Exception as e:
-            print(e)
+            pass
             return JsonResponse({"code": 500, "data": None, "msg": "密码重置失败，原因：{}".format(e)})
 
 
