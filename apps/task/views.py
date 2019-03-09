@@ -30,7 +30,6 @@ def index(request):
     cache.set("user_id",123)
 
     staff = request.user.staff
-    print("staff",staff)
     return render(request,'layout.html')
 
 

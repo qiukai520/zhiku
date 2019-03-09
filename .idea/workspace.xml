@@ -7,11 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_center.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_center.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_public.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_public.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/sfa/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/task/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/task/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -55,8 +52,59 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/sfa/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="77" column="68" selection-start-line="77" selection-start-column="59" selection-end-line="77" selection-end-column="68" />
+            <state relative-caret-position="180">
+              <caret line="102" column="71" selection-start-line="102" selection-start-column="71" selection-end-line="102" selection-end-column="71" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/sfa/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="209">
+              <caret line="76" column="4" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="debug.log" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/logs/debug.log">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="all.log" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/logs/all.log">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/task/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-180">
+              <caret lean-forward="true" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="logger.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thinking_library/logger.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="15" column="7" selection-start-line="15" selection-end-line="15" selection-end-column="7" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -76,67 +124,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="warehouse_edit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/warehouse_edit.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3784">
-              <caret line="241" column="68" lean-forward="true" selection-start-line="240" selection-start-column="10" selection-end-line="241" selection-end-column="68" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="warehouse_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inventory/warehouse_list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="57" column="92" lean-forward="true" selection-start-line="57" selection-start-column="40" selection-end-line="57" selection-end-column="92" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="customer.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/sfa/customer.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="106" selection-start-line="106" selection-end-line="106" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="customer_center.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_center.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="307" column="5" lean-forward="true" selection-start-line="302" selection-start-column="5" selection-end-line="307" selection-end-column="5" />
-              <folding>
-                <element signature="e#16550#16753#0#HTML" />
-                <element signature="e#16791#17938#0#HTML" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="customer_contact.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_contact.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1260" />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="customer_public.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/sfa/customer_public.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="840">
-              <caret line="115" selection-start-line="115" selection-end-line="115" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="customer_detail.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="customer_detail.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/sfa/customer_detail.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="429">
-              <caret line="88" column="114" lean-forward="true" selection-start-line="87" selection-start-column="35" selection-end-line="88" selection-end-column="114" />
+              <caret line="88" column="132" lean-forward="true" selection-start-line="87" selection-start-column="35" selection-end-line="88" selection-end-column="132" />
               <folding>
                 <element signature="e#83454#84621#0#HTML" />
               </folding>
@@ -148,7 +140,7 @@
         <entry file="file://$PROJECT_DIR$/apps/sfa/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="279">
-              <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
+              <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
               <folding>
                 <element signature="e#640#653#0" expanded="true" />
               </folding>
@@ -199,7 +191,7 @@
       <find>obj</find>
       <find>query_set</find>
       <find>SelectAll</find>
-      <find />
+      <find>//mark</find>
     </findStrings>
     <replaceStrings>
       <replace>customer</replace>
@@ -244,7 +236,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/apps/notice/templatetags/notice_tags.py" />
         <option value="$PROJECT_DIR$/apps/article/models.py" />
         <option value="$PROJECT_DIR$/apps/personnel/adminx.py" />
         <option value="$PROJECT_DIR$/uploader_test.html" />
@@ -266,7 +257,6 @@
         <option value="$PROJECT_DIR$/thinking_library/settings.py" />
         <option value="$PROJECT_DIR$/apps/personnel/views.py" />
         <option value="$PROJECT_DIR$/apps/rbac/models.py" />
-        <option value="$PROJECT_DIR$/apps/task/views.py" />
         <option value="$PROJECT_DIR$/apps/rbac/service/init_permission.py" />
         <option value="$PROJECT_DIR$/sql/rbac.sql" />
         <option value="$PROJECT_DIR$/apps/rbac/views.py" />
@@ -289,12 +279,14 @@
         <option value="$PROJECT_DIR$/apps/inventory/views.py" />
         <option value="$PROJECT_DIR$/apps/sfa/models.py" />
         <option value="$PROJECT_DIR$/sql/sfa.sql" />
-        <option value="$PROJECT_DIR$/apps/sfa/views.py" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_public.html" />
         <option value="$PROJECT_DIR$/templates/sfa/customer.html" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_center.html" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_edit.html" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_detail.html" />
+        <option value="$PROJECT_DIR$/apps/task/views.py" />
+        <option value="$PROJECT_DIR$/apps/sfa/views.py" />
+        <option value="$PROJECT_DIR$/logs/all.log" />
       </list>
     </option>
   </component>
@@ -307,7 +299,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="391" />
     <option name="y" value="19" />
     <option name="width" value="1102" />
@@ -335,7 +327,12 @@
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="apps" type="462c0819:PsiDirectoryNode" />
-              <item name="sfa" type="462c0819:PsiDirectoryNode" />
+              <item name="task" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="logs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -598,8 +595,8 @@
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4883005" weight="0.32816228" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49302575" weight="0.34382284" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.48658797" visible="true" weight="0.3153153" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8883774" visible="true" weight="0.15772532" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.48658797" visible="true" weight="0.22522523" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8883774" visible="true" weight="0.26984978" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="7" weight="0.3299356" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -663,34 +660,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/apps/personnel/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/personnel/adminx.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="60" column="26" selection-start-line="60" selection-start-column="21" selection-end-line="60" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://G:/workenv/thinking_library_venv/Lib/site-packages/django/contrib/auth/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="314" column="13" selection-start-line="314" selection-start-column="4" selection-end-line="314" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://G:/workenv/thinking_library_venv/Lib/site-packages/rest_framework/mixins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="69" column="39" lean-forward="true" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://G:/workenv/thinking_library_venv/Lib/site-packages/rest_framework/viewsets.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
@@ -702,13 +671,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-762">
           <caret line="8" column="47" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/task/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1110">
-          <caret line="76" selection-start-line="76" selection-end-line="76" />
         </state>
       </provider>
     </entry>
@@ -958,34 +920,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/sfa/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="728">
-          <caret line="76" column="79" selection-start-line="76" selection-start-column="79" selection-end-line="76" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/contract/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="607">
           <caret line="37" column="29" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/sfa/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
-          <folding>
-            <element signature="e#640#653#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/sfa/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="77" column="68" selection-start-line="77" selection-start-column="59" selection-end-line="77" selection-end-column="68" />
         </state>
       </provider>
     </entry>
@@ -1049,12 +987,68 @@
     <entry file="file://$PROJECT_DIR$/templates/sfa/customer_detail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="429">
-          <caret line="88" column="114" lean-forward="true" selection-start-line="87" selection-start-column="35" selection-end-line="88" selection-end-column="114" />
+          <caret line="88" column="132" lean-forward="true" selection-start-line="87" selection-start-column="35" selection-end-line="88" selection-end-column="132" />
           <folding>
             <element signature="e#83454#84621#0#HTML" />
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/sfa/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
+          <folding>
+            <element signature="e#640#653#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/task/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-180">
+          <caret lean-forward="true" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/logger.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="15" column="7" selection-start-line="15" selection-end-line="15" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/sfa/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="102" column="71" selection-start-line="102" selection-start-column="71" selection-end-line="102" selection-end-column="71" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/sfa/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="76" column="4" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/all.log">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/debug.log">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
   <component name="masterDetails">

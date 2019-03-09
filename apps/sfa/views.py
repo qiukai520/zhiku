@@ -13,6 +13,8 @@ from .templatetags.sfa_tags import *
 from personnel.templatetags.personnel_tags import *
 # Create your views here.
 from .utils import build_customer_filter,is_valid_date
+import logging
+logger = logging.getLogger(__name__)
 
 
 def customer_center(request):
@@ -60,7 +62,6 @@ def customer_edit(request):
         if nid:
             # 更新
             query_sets = customer_db.query_customer_by_id(nid)
-            print("queryset",query_sets.lng,query_sets.lat)
             customer_photo = customer_photo_db.query_customer_photo(nid)
             customer_licence = customer_licence_db.query_customer_licence(nid)
             customer_attach = customer_attach_db.query_customer_attachment(nid)
@@ -154,7 +155,7 @@ def customer_edit(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
+                    logger.info(str(e))
                     traceback.print_exc()
                     ret["message"] = "出错了"
             else:
