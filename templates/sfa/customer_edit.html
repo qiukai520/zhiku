@@ -169,8 +169,8 @@
                                             <tr>
                                                 <td>
                                                     <input name="tip"  id="tipinput"/>
-                                                    <input class="hidden" type="text"  id="lng" name="lng">
-                                                     <input class="hidden" type="text" id="lat"  name="lat">
+                                                    <input class="hidden" type="text"  id="lng" name="lng" value=0>
+                                                     <input class="hidden" type="text" id="lat"  name="lat" value=0>
                                                 </td>
                                             </tr>
                                         </table>
@@ -300,6 +300,7 @@
         });
 
          //mark
+ //mark
  var lng,lat,mark,name
 function initMap(lng=113.324954,lat=22.98682,mark=false,name=''){
      //地图加载
@@ -326,10 +327,10 @@ function initMap(lng=113.324954,lat=22.98682,mark=false,name=''){
         placeSearch.search(e.poi.name);
         var lng=e.poi.location.lng
         var lat=e.poi.location.lat;
+
         $("#lng").val(lng);
         $("#lat").val(lat);
         $("#tipinput").val( "{{ obj.address }}")
-
     });
     if(mark){
          //点标记
@@ -355,6 +356,7 @@ function initMap(lng=113.324954,lat=22.98682,mark=false,name=''){
         var nid="{{ nid }}"
         if ( nid!=""){
            InitData()//初始化数据
+            console.log("lal",lng,lat,name)
              if (lng!=0){
               initMap(lng,lat,true,name)
            }else{

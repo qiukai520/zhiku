@@ -105,6 +105,7 @@ def customer_edit(request):
                             customer_info["nid"] = nid
                         if not customer_info["employees"]:
                             customer_info["employees"] = 0
+                        print("customer_info",customer_info)
                         customer_db.update_customer(customer_info)
                         # 插入客户照片
                         photo_record = customer_photo_db.query_customer_photo(nid)
@@ -172,6 +173,7 @@ def customer_edit(request):
                             else:
                                 purpose_id = 6
                         customer_info["purpose_id"] = purpose_id
+
                         is_exist = CustomerInfo.objects.filter(company=customer_info["company"], town_id=customer_info["town_id"]).select_related("follower").first()
                         if is_exist:
                             raise Exception("客户已存在,跟进人:{0}".format(is_exist.follower))
