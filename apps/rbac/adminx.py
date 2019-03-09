@@ -16,79 +16,9 @@ from .models import *
 
 
 # admin models
-# 重载 xadmin User
-ACTION_NAME = {
-    'add': _('Can add %s'),
-    'change': _('Can change %s'),
-    'edit': _('Can edit %s'),
-    'delete': _('Can delete %s'),
-    'view': _('Can view %s'),
-}
 
 
-def get_permission_name(p):
-    action = p.codename.split('_')[0]
-    if action in ACTION_NAME:
-        return ACTION_NAME[action] % str(p.content_type)
-    else:
-        return p.name
 
-
-class PermissionModelMultipleChoiceField(ModelMultipleChoiceField):
-
-    def label_from_instance(self, p):
-        return get_permission_name(p)
-
-
-class UserAdmin(object):
-    change_user_password_template = None
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', )
-    list_filter = ('is_staff', 'is_superuser', 'is_active')
-    search_fields = ('username', 'first_name', 'last_name', 'email')
-    ordering = ('username',)
-    style_fields = {'user_permissions': 'm2m_transfer'}
-    model_icon = 'fa fa-user'
-    relfield_style = 'fk-ajax'
-
-    def get_field_attrs(self, db_field, **kwargs):
-        attrs = super(UserAdmin, self).get_field_attrs(db_field, **kwargs)
-        if db_field.name == 'user_permissions':
-            attrs['form_class'] = PermissionModelMultipleChoiceField
-        return attrs
-
-    def get_model_form(self, **kwargs):
-        if self.org_obj is None:
-            self.form = UserCreationForm
-        else:
-            self.form = UserChangeForm
-        return super(UserAdmin, self).get_model_form(**kwargs)
-
-    def get_form_layout(self):
-        if self.org_obj:
-            self.form_layout = (
-                Main(
-                    Fieldset('',
-                             'username', 'password',
-                             css_class='unsort no_title'
-                             ),
-                    Fieldset(_('Personal info'),
-                             Row('first_name', 'last_name'),
-                             'email'
-                             ),
-                    Fieldset(_('Permissions'),
-                             'groups', 'user_permissions'
-                             ),
-                    Fieldset(_('Important dates'),
-                             'last_login', 'date_joined'
-                             ),
-                ),
-                Side(
-                    Fieldset(_('Status'),
-                             'is_active', 'is_staff', 'is_superuser',
-                             ),
-                )
-            )
-        return super(UserAdmin, self).get_form_layout()
 
 
 class MenuAdmin(object):
@@ -179,7 +109,6 @@ xadmin.site.register(Menu,MenuAdmin)
 xadmin.site.register(Group,GroupAdmin)
 xadmin.site.register(Permission,PermissionAdmin)
 xadmin.site.register(Role,RoleAdmin)
-xadmin.site.register(User,UserAdmin)
 
 
 
