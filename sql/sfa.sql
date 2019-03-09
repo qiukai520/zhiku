@@ -16,6 +16,8 @@ create TABLE `customer_info`(
 `follower_id`int(11)  DEFAULT 0  COMMENT '跟进人',
 `ftime` datetime   DEFAULT NUll   COMMENT '开始跟进时间',
 `recorder_id`int(11) NOT NULL COMMENT '录入人',
+`lng` decimal(10,6) COMMENT '经度',
+`lat` decimal(10,6) COMMENT '纬度',
 `is_sign` tinyint(1) NOT NULL DEFAULT 0 COMMENT '签约状态:0未签约，1已签约',
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0保留，1删除',
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',

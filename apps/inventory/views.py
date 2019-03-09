@@ -1884,13 +1884,11 @@ class WarehouseViewSet(View):
             id = request.POST.get("id", 0)
             data = request.POST
             data = data.dict()
-            print("data",data)
             # 有则为编辑 ,无则添加
             if id:
                 try:
                     record = warehouse_db.query_warehouse_by_id(id)
                     final_info = compare_fields(Warehouse._update, record, data)
-                    print(final_info)
                     if final_info:
                         warehouse_db.update_warehouse(final_info)
                     ret['status'] = True

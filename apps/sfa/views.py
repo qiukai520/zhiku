@@ -60,6 +60,7 @@ def customer_edit(request):
         if nid:
             # 更新
             query_sets = customer_db.query_customer_by_id(nid)
+            print("queryset",query_sets.lng,query_sets.lat)
             customer_photo = customer_photo_db.query_customer_photo(nid)
             customer_licence = customer_licence_db.query_customer_licence(nid)
             customer_attach = customer_attach_db.query_customer_attachment(nid)

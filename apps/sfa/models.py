@@ -58,6 +58,8 @@ class CustomerInfo(SoftDeletableModel):
     recorder = models.ForeignKey(Staff, to_field="sid", on_delete=models.CASCADE, verbose_name='记录人',
                                  db_constraint=False)
     is_sign = models.BooleanField(default=False, verbose_name="是否签约")
+    lng = models.DecimalField(max_digits=10, decimal_places=6, verbose_name="经度")
+    lat = models.DecimalField(max_digits=10, decimal_places=6, verbose_name="纬度")
     is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     last_edit = models.DateTimeField(auto_now=True, verbose_name='最后编辑时间')
@@ -70,9 +72,9 @@ class CustomerInfo(SoftDeletableModel):
     def __str__(self):
         return self.company
 
-    _insert = ["purpose_id","company" ,"category_id","follower_id","recorder_id","industry_id", "business","employees","introduce",'website',"remark","address",
+    _insert = ["purpose_id","company" ,"category_id","follower_id","recorder_id","lng","lat","industry_id", "business","employees","introduce",'website',"remark","address",
                 "town_id", "phone"]
-    _update = ["purpose_id","company","category_id","follower_id", "industry_id", "business","employees","introduce",'website',"remark","address",
+    _update = ["purpose_id","company","category_id","follower_id", "lng","lat", "industry_id", "business","employees","introduce",'website',"remark","address",
                 "town_id","phone"]
 
 

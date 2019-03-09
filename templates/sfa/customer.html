@@ -79,6 +79,7 @@
                                               <th>电话</th>
                                               <th>是否成交</th>
                                              <th>所在区域</th>
+                                             <th>经纬度</th>
                                              <th>操作</th>
                                           </tr>
                                     </thead>
@@ -104,6 +105,7 @@
                                               {% change_to_country country_id %}/
                                                {% change_to_town obj.town_id %}
                                           </td>
+                                          <td>({{ obj.lng }}&nbsp;,&nbsp;{{ obj.lat }})</td>
                                             <td>
                                               <a  href="{%url "customer_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
                                                 <a  href="{%url "customer_detail" %}?id={{ obj.nid }}" class="btn btn-primary" >详细</a>
