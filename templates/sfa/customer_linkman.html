@@ -159,6 +159,14 @@
                                 <input type="text" class="form-control" name="native_place" id="native_place"> <span class="help-block m-b-none"></span>
                             </div>
                         </div>
+                          <div class="hr-line-dashed"></div>
+                           <div class="form-group">
+                            <label class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" name="remark" id="remark" cols="30" rows="3"></textarea>
+                                 <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">名片</label>
@@ -171,6 +179,7 @@
                             </div>
                              <div class="hr-line-dashed"></div>
                         <div id="attachment-container" style="position: relative">
+
                     <!--初始化附件-->
                     {% if nid %}
                         {% for obj in linkman_attach %}
@@ -282,10 +291,11 @@ function InitData() {
         $("#nid").val({{ query_set.nid }});
         $("#name").val("{{ query_set.name }}");
         $("#wx_name").val("{% if  query_set.wx_name %}{{ query_set.wx_name }} {% endif %}");
-        $("#age").val({{ query_set.age }});
+        $("#age").val("{% if  query_set.age %}{{ query_set.age }} {% endif %}");
         $("#phone").val("{% if  query_set.phone %}{{ query_set.phone }} {% endif %}");
         $("#mobile").val("{% if  query_set.mobile %}{{ query_set.mobile }} {% endif %}");
         $("#ext_phone").val("{% if  query_set.ext_phone %}{{ query_set.ext_phone }} {% endif %}");
+        $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
         $("input[name=gender]").val();
         $("input[name=gender][value={{ query_set.gender }}]").attr("checked",true);
         $("#birthday").val("{% if query_set.birthday  %}{{ query_set.birthday |date:'Y-m-d'}}{% endif %}");
@@ -296,10 +306,8 @@ function InitData() {
 
         //初始化照片
          var photo= "{{ linkman_photo }}"
-         console.log("linkman_photo",photo)
         if (photo!=""){
              var path="{{ linkman_photo.photo }}"
-            console.log(path)
              var name="{{ linkman_photo.name }}"
              //添加新的file
             var path_input='<input type="text" name="file_path" value=""  class="hidden" >';

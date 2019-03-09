@@ -603,7 +603,6 @@ def approve(request):
         data = request.POST
         type_ = int(data.get("type",0))
         result2 = int(data.get("result2", 0))
-        print("type","result",type_,result2)
         if type_ == 1:
             # 尾款审核
             pid = int(data.get("payment_id", 0))
@@ -612,7 +611,6 @@ def approve(request):
                     with transaction.atomic():
                         final_info = filter_fields(PaymentApproveRecord._insert,data)
                         result_obj = p_apr_db.query_my_approved_result(pid,user)
-                        print("result_obj",result_obj)
                         final_info["result_id"] = result_obj.nid
                         if result2 == 1:
                             # 通过审核
@@ -651,12 +649,15 @@ def approve(request):
                     with transaction.atomic():
                         final_info = filter_fields(ApproverRecord._insert,data)
                         result_obj = approver_result_db.query_my_approved_result(cid,user)
+                        print("final_info",final_info)
                         print("result_obj",result_obj)
                         final_info["result_id"] = result_obj.nid
                         if result2 == 1:
                             # 通过审核
                             ApproverResult.objects.filter(contract_id=cid, approver_id=user).update(**{"result":1})
+
                             app_record_db.insert_record(final_info)
+                            print("slge")
                             # 查询是否所有都通过审核
                             result_list = approver_result_db.query_record_by_contract(cid)
                             flag = True
@@ -666,8 +667,11 @@ def approve(request):
                             if flag:
                                 # 合同通过审核
                                 contract_obj = contract_db.query_contract_by_id(cid)
-                                contract_obj.is_approved = 1
-                                contract_obj.save()
+                                contract_db.update_contract({"nid":cid,"is_approved":1})
+                                # contract_obj.is_approved = 1
+                                # print("is_approved",dir(contract_obj))
+                                # contract_obj.save()
+                                # print("contract_obj",contract_obj)
                                 # 客户更改为签约状态
                                 customer_db.update_customer({"nid":contract_obj.customer_id,"is_sign":1})
                             ret["status"] = True
@@ -677,6 +681,8 @@ def approve(request):
                             app_record_db.insert_record(final_info)
                             ret["status"] = True
                 except Exception as e:
+                    import traceback
+                    traceback.print_exc()
                     logger.error(e)
         return HttpResponse(json.dumps(ret))
 

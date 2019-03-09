@@ -18,14 +18,13 @@ def build_customer_filter(sign,**kwargs):
 
 def is_valid_date(str):
     '''判断是否是一个有效的日期字符串'''
-    try:
-        time.strptime(str, "%Y-%m-%d")
-        date = datetime.datetime(str, "%Y-%m-%d")
-        print("date",date)
-        return str
-    except Exception as e:
-        print(e)
-        print(False)
+    if not str:
+        try:
+            time.strptime(str, "%Y-%m-%d")
+            date = datetime.datetime(str, "%Y-%m-%d")
+            return date
+        except Exception as e:
+            pass
         return ''
 
 

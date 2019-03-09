@@ -70,7 +70,7 @@ class CustomerInfo(SoftDeletableModel):
     def __str__(self):
         return self.company
 
-    _insert = ["purpose_id","company" ,"category_id","follower_id","recorder_id","industry_id", "business""employees","introduce",'website',"remark","address",
+    _insert = ["purpose_id","company" ,"category_id","follower_id","recorder_id","industry_id", "business","employees","introduce",'website',"remark","address",
                 "town_id", "phone"]
     _update = ["purpose_id","company","category_id","follower_id", "industry_id", "business","employees","introduce",'website',"remark","address",
                 "town_id","phone"]
@@ -166,6 +166,7 @@ class CustomerLinkman(SoftDeletableModel):
     ext_phone = models.CharField(max_length=16, verbose_name="分机", blank=True, null=True)
     birthday = models.DateField(verbose_name="生日", blank=True, null=True)
     is_lunar = models.SmallIntegerField(choices=is_lunar, verbose_name="生日农历or公历", default=0)
+    remark = models.TextField(max_length=128, verbose_name="备注", blank=True, null=True)
     native_place = models.CharField(max_length=64, verbose_name="籍贯", blank=True, null=True)
     is_deleted = models.BooleanField(default=False,verbose_name="是否删除")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
@@ -179,9 +180,9 @@ class CustomerLinkman(SoftDeletableModel):
     def __str__(self):
             return self.name
 
-    _insert = ["customer_id", "name", "gender","job_title_id" ,"age", "marriage", "mobile", "phone", "ext_phone",
+    _insert = ["customer_id", "name", "gender","job_title_id" ,"age", "marriage","remark","mobile", "phone", "ext_phone",
                "birthday","is_lunar","native_place","wx_name"]
-    _update = ["customer_id", "name", "gender", "age","job_title_id", "marriage", "mobile", "phone", "ext_phone",
+    _update = ["customer_id", "name", "gender", "age","job_title_id", "marriage", "remark","mobile", "phone", "ext_phone",
                "birthday","is_lunar","native_place","wx_name"]
 
 

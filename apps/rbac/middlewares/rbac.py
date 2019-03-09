@@ -46,7 +46,6 @@ class RbacMiddleware(MiddlewareMixin):
             if re.match(url, current_url):
                 return None
         permission_dict = request.session.get(settings.PERMISSION_URL_DICT_KEY)
-        print("permission_dict",permission_dict)
         if not permission_dict:
             return redirect("/login/")
         flag = False

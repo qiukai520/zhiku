@@ -156,26 +156,6 @@
                                 </li>
                             </ul>
                         </li>
-                     <li class="hidden" id="user_manage" >
-                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">用户管理</span><span class="fa arrow"></span></a>
-                            <ul id="left_menu" class="nav nav-second-level">
-                                 <li class="hidden">
-                                     <a  class="J_menuItem menu"   data-index="81" href="{% url "user_list" %}" >用户列表</a>
-                                </li>
-{#                                 <li class="hidden">#}
-{#                                     <a  class="J_menuItem menu"   data-index="81" href="{% url "user_log" %}" >操作记录</a>#}
-{#                                </li>#}
-                            </ul>
-                        </li>
-                        <li class="hidden">
-                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">知识库</span><span class="fa arrow"></span></a>
-                            <ul id="left_menu" class="nav nav-second-level">
-                                 <li class="hidden">
-                                     <a   class="J_menuItem menu"  data-index='60' href="{% url "collections" %}">知识库</a>
-                                </li>
-
-                            </ul>
-                        </li>
                      <li class="hidden">
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">合同管理</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
@@ -206,6 +186,15 @@
 {#                                </li>#}
 {#                            </ul>#}
 {#                        </li>#}
+                        <li class="hidden">
+                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">知识库</span><span class="fa arrow"></span></a>
+                            <ul id="left_menu" class="nav nav-second-level">
+                                 <li class="hidden">
+                                     <a   class="J_menuItem menu"  data-index='60' href="{% url "collections" %}">知识库</a>
+                                </li>
+
+                            </ul>
+                        </li>
                         <li>
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">基础设置</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">
@@ -229,6 +218,17 @@
                                 </li>
                                 </ul>
                                 </li>
+                                 <li class="hidden" id="user_manage" >
+                                <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">用户管理</span><span class="fa arrow"></span></a>
+                                <ul id="left_menu" class="nav nav-second-level">
+                                 <li class="hidden">
+                                     <a  class="J_menuItem menu"   data-index="81" href="{% url "user_list" %}" >用户列表</a>
+                                </li>
+{#                                 <li class="hidden">#}
+{#                                     <a  class="J_menuItem menu"   data-index="81" href="{% url "user_log" %}" >操作记录</a>#}
+{#                                </li>#}
+                            </ul>
+                        </li>
                                 <li class="hidden">
                                     <a href="#"><i class=" glyphicon glyphicon-wrench"></i> SFA设置 <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level " aria-expanded="true" style="">
@@ -648,9 +648,9 @@
             for (i=0;i< permit_url.length;i++){
                   var urlstr = permit_url[i].url;
                  $(".menu ").each(function () {
-                     console.log("this",$(this).attr('href'));
+                     {#console.log("this",$(this).attr('href'));#}
                   if ( $(this).attr('href').lastIndexOf(urlstr)> -1&&$(this).attr('href')!='') {
-                    console.log("this.href",this.href);
+                    {#console.log("this.href",this.href);#}
                     $(this).parent().removeClass('hidden');
                     $(this).parent().parent().parent().removeClass('hidden');
                       return true

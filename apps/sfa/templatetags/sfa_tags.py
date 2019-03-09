@@ -69,9 +69,10 @@ def build_follow_contact_ele(selected=None):
 
 
 @register.simple_tag
-def build_customer_linkman_ele(selected=None):
+def build_customer_linkman_ele(cid,selected=None):
     """构建客户联系人下拉框"""
-    linkman_list = c_linkman_db.query_linkman_list()
+    print("cid",cid)
+    linkman_list = c_linkman_db.query_linkman_by_customer_id(cid)
     eles = ""
     if selected:
         for item in linkman_list:

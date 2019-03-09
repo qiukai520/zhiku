@@ -170,6 +170,9 @@ def customer_edit(request):
                             else:
                                 purpose_id = 6
                         customer_info["purpose_id"] = purpose_id
+                        is_exist = CustomerInfo.objects.filter(company=customer_info["company"], town_id=customer_info["town_id"]).select_related("follower").first()
+                        if is_exist:
+                            raise Exception("客户已存在,跟进人:{0}".format(is_exist.follower))
                         nid = customer_db.insert_customer(customer_info)
                         # 插入客户照片
                         if customer_photo:
@@ -186,9 +189,8 @@ def customer_edit(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    print(e)
-                    traceback.print_exc()
-                    ret["message"]="出错了"
+                    pass
+                    ret["message"] = str(e)
         else:
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
@@ -207,6 +209,7 @@ def customer_delete(request):
         if item:
             id_list.append(int(item))
     try:
+        print("id_list",id_list)
         customer_db.multi_delete(id_list)
         ret['status'] = True
     except Exception as e:
@@ -269,7 +272,7 @@ def memo_delete(request):
 
 
 def contact_delete(request):
-    """删除客户信息"""
+    """删除客户跟进信息"""
     ret = {'status': False, "data": "", "message": ""}
     ids = request.GET.get("ids", '')
     ids = ids.split("|")

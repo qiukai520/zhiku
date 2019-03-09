@@ -21,6 +21,8 @@ create TABLE `customer_info`(
 `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
 `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户信息';
+alter table customer_info add unique index(company,town_id);
+
 
 drop TABLE if exists `customer_category`;
 create table `customer_category`(

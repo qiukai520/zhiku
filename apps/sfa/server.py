@@ -29,7 +29,7 @@ class CustomerDB(object):
     def query_customer_by_filter(self, condition):
         sql = """select * from customer_info 
                  left join staff  on customer_info.follower_id=staff.sid
-                 left join department on staff.department_id = department.id {0} """
+                 left join department on staff.department_id = department.id {0} where is_deleted=0 """
         query = "where 1=1 "
         filter = ''
         if condition.get("sid", None):
@@ -72,6 +72,7 @@ class CustomerDB(object):
         return result_db
 
     def update_customer(self, modify):
+        print("modify",modify)
         CustomerInfo.objects.filter(nid=modify['nid']).update(**modify)
 
     def multi_delete(self, id_list):
@@ -196,7 +197,7 @@ class CustomerLinkmanDB(object):
         return result_db
 
     def query_linkman_by_customer_id(self,id):
-        result_db = CustomerLinkman.objects.filter(customer_id=id,).all().order_by("-nid")
+        result_db = CustomerLinkman.objects.filter(customer_id=id).all().order_by("-nid")
         return result_db
 
     def update_linkman(self, modify):
