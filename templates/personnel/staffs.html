@@ -40,8 +40,15 @@
                         <!-- Example Events -->
                         <div class="example-wrap">
                             <div class="example">
-                                <div class="btn-group " id="toolbar" role="group">
+                                <div class="btn-group btn1" id="toolbar" role="group">
                                      <a  href="{% url "staff_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+
+                                    <button onclick="AddPer()" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>就职表现</button>
+                                    <button onclick="AddContract()" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>劳动合同</button>
+                                    <button onclick="Dimission()" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>离职登记</button>
+                                    <button onclick="Insurance()" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>社保管理</button>
+                                    <button onclick="AddArt()" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>用品领用</button>
+
                                     <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
                                 <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
@@ -91,8 +98,9 @@
                                           <td>{% if obj.email  %}{{ obj.email }}{% else  %}空{% endif %}</td>
                                           <td>{% if obj.birthday  %}{{ obj.birthday |date:"Y-m-d"}}{% else  %}空{% endif %}</td>
                                             <td>
-                                              <a  href="{%url "staff_edit" %}?sid={{ obj.sid }}" class="btn btn-info" >编辑</a>
-                                                <button  data-toggle="modal" onclick="ShowStaffDetail({{ obj.sid }})" class="btn btn-info">详细</button>
+                                              <a  href="{%url "staff_edit" %}?id={{ obj.sid }}" class="btn btn-info" >编辑</a>
+{#                                                <button  data-toggle="modal" onclick="ShowStaffDetail({{ obj.sid }})" class="btn btn-info">详细</button>#}
+                                                <a  href="{%url "staff_detail" %}?sid={{ obj.sid }}" class="btn btn-primary" >详细</a>
                                           </td>
                                       </tr>
                                       {% endfor %}
@@ -489,9 +497,109 @@
     function ClearData(){
             $("#detail_container >p").each(function () {
                 $(this).text()
-            })
-           $("#attach_container").empty()
+            });
+           $("#attach_container").empty();
 }
+
+    {#就职表现#}
+    function AddPer() {
+            var is_checked=$("tbody input:checkbox:checked").length;
+            if (is_checked==1) {
+                var cid=$("tbody input:checkbox:checked").eq(0).next().val();
+                window.location.href="{% url "staff_edit1" %}?cid={0}".format(cid)
+            }else  if (is_checked>1) {
+                layer.alert('只能选择一个客户', {icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+            else{
+                layer.alert('请选择用户',{icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+        }
+
+        {#劳动合同#}
+    function AddContract() {
+            var is_checked=$("tbody input:checkbox:checked").length;
+            if (is_checked==1) {
+                var cid=$("tbody input:checkbox:checked").eq(0).next().val();
+                window.location.href="{% url "staff_edit2" %}?cid={0}".format(cid)
+            }else  if (is_checked>1) {
+                layer.alert('只能选择一个客户', {icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+            else{
+                layer.alert('请选择用户',{icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+        }
+
+        {#离职登记#}
+    function Dimission() {
+            var is_checked=$("tbody input:checked:checked").length;
+            if (is_checked==1) {
+                var cid=$("tbody input:checkbox:checked").eq(0).next().val();
+                window.location.href="{% url "staff_edit3" %}?cid={0}".format(cid)
+            }else if (is_checked>1) {
+                layer.alert('只能选择一个客户', {icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+            else{
+                layer.alert('请选择用户', {icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+        }
+
+        {#社保管理#}
+    function Insurance() {
+            var is_checked=$("tbody input:checked:checked").length;
+            if (is_checked==1) {
+                var cid=$("tbody input:checkbox:checked").eq(0).next().val();
+                window.location.href="{% url "staff_edit4" %}?cid={0}".format(cid)
+            }else if (is_checked>1) {
+                layer.alert('只能选择一个客户', {icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+            else{
+                layer.alert('请选择用户', {icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+        }
+
+        {#用品领用#}
+    function AddArt() {
+            var is_checked=$("tbody input:checked:checked").length;
+            if (is_checked==1) {
+                var cid=$("tbody input:checkbox:checked").eq(0).next().val();
+                window.location.href="{% url "staff_edit5" %}?cid={0}".format(cid)
+            }else if (is_checked>1) {
+                layer.alert('只能选择一个客户', {icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+            else{
+                layer.alert('请选择用户', {icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+        }
     </script>
 
 {% endblock %}

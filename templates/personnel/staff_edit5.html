@@ -1,0 +1,479 @@
+{% extends 'content_edit_layout.html' %}
+{% load personnel_tags %}
+{% block css %}
+     <style>
+      #attachment-container .col-sm-8{
+          padding: 5px;
+    }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="wrapper wrapper-content container animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>
+                             <h5> {% if sid %}
+                                编辑用品领用
+                           {% else %}
+                                增加用品领用
+                           {% endif %}</h5><small></small></h5>
+                       <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-horizontal">
+                         <form action="{% url "staff_edit" %}" method="post" id="fm" class="form-horizontal" enctype="multipart/form-data">
+                             {% csrf_token %}
+                             <input type="hidden" name="nid" id="nid" >
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label">所在公司</label>
+                            <div class="col-sm-8">
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{% change_to_company customer_obj.company_id %}</p>
+                            </div>
+                        </div>
+
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label">工号</label>
+                            <div class="col-sm-8">
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ customer_obj.job_number }}</p>
+                                <input type="text" class="hidden" name="sid_id" id="sid" value={{ customer_obj.sid }}>
+                            </div>
+                        </div>
+
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-8">
+                               <p   class="form-control" style="background-color:#f4f4f4;margin: 0px;">{{ customer_obj.name }}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">物品名称</label>
+                            <div class="col-sm-8">
+                               <select name="supplies_id_id" class="select-multi adminselectmultiple form-control" required="" id="supplies_id_id" multiple="multiple">
+                                {% build_article %}
+                            </select>
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">领用日</label>
+                            <div class="input-group date col-sm-8">
+                                <div class="datetime clearfix">
+                                    <div class="input-group date bootstrap-datepicker" style="padding: 6px 12px;"  id="datepicker2">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="supplies_time" value="2018/01/19" class="date-field form-control admindatewidget" size="10" required="" id="supplies_time">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button">今天</button>
+                                        </span>
+                                    </div>
+{#                                    <div class="input-group time bootstrap-clockpicker" style="padding: 6px 12px;">#}
+{#                                        <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>#}
+{#                                        <input type="text" name="supplies_time" value="15:50" class="time-field form-control admintimewidget" size="8" required="" id="supplies_time">#}
+{#                                        <span class="input-group-btn">#}
+{#                                            <button class="btn btn-default" type="button">现在</button>#}
+{#                                        </span>#}
+{#                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                     <div class="form-group">
+                    <label for="content" class="control-label col-xs-2">备注</label>
+                    <div class="col-xs-10 col-md-8 ">
+                          <textarea name="supplies_remark" id="supplies_remark" placeholder="备注" class="form-control" cols="30" rows="5"></textarea>
+                                 <span class="help-block m-b-none"></span>
+                    </div>
+                </div>
+
+                        <div id="attachment-container" style="position: relative">
+                    <!--初始化附件-->
+                    {% if sid %}
+                        {% for obj in staff_attach%}
+                             <div class="attachment">
+                            <div class="form-group ">
+                            <label for="attachment" name="attach" style="position:relative;" class="col-xs-2 control-label">附件{{ forloop.counter }}</label>
+                              <div class="col-xs-8">
+                                  <input type="text" name="said" class="hidden" value="{{ obj.said }}">
+                                  <div class="old_file">
+                                  <a href="{% url "attachment_download" %}?url={{ obj.attachment }}&name= {{ obj.name }}" style="margin-top:6px;display: inline-block">{{ obj.name }}</a>
+                                  <span class="click" onclick="clearAttachment(this)" style="margin-left: 50px;">点击清除</span>
+                                  <input type="text" name="file_path" class="hidden" value="{{ obj.attachment }}">
+                                  <input type="text" name="file_name" value="{{ obj.name }}" class="hidden">
+                                  </div>
+                                      <input type="file" style="margin-top:10px" name="file" value="" onchange="UploadFile(this)">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="content" class="control-label col-xs-2">附件描述</label>
+                                <div class="col-xs-8">
+                                    <input name="content" class="form-control" value="{{ obj.description }}"  placeholder="附件描述">
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    {%endif  %}
+                        <div class="attachment">
+                                        <div  class="form-group  form-inline" style="margin-left:0px ;margin-right: 0px">
+                                            <label for="file"  class="control-label col-sm-2">附件</label>
+                                              <div class="col-sm-8 form-inline ">
+                                                  <input type="file" name="file"   class="form-control" onchange="UploadFile(this)">
+                                                  <button type="button"  class="btn btn-primary inline "  onclick="AddAttachment(this)"><i  style ="" class="glyphicon glyphicon-plus plus "></i></button>
+                    {#                              <span  style ="" class="glyphicon glyphicon-plus plus " onclick="AddAttachment(this)" ></span>#}
+                                              </div>
+                                            </div>
+                                        <div class="form-group" style="margin-left:0px ;margin-right: 0px">
+                                            <label  for="content" class="control-label col-sm-2">附件描述</label>
+                                            <div class="col-sm-8">
+                                                <input name="description" class="form-control"  placeholder="附件描述">
+                                            </div>
+                                        </div>
+                                         <div class="hr-line-dashed"></div>
+                                    </div>
+
+
+                </div>
+                         </form>
+                        </div>
+                         <div class="row" id="content_footer" >
+                             <div class="form-actions well well-sm clearfix">
+                                 <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                 <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                 <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+                                 <a href="{% url "staff_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+
+                                 <!--error_msg-->
+                                 <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                    <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                    </span>
+                                    <span id="error_msg" style="font-size: 14px;"></span>
+                                </div>
+                             </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+{% block js %}
+         <!-- bootstarp datepicker -->
+
+    <script src="/static/js/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="/static/js/plugins/moment/moment.min.js"></script>
+    <script>
+ /*
+    自执行函数
+    */
+
+     //设置日期时间控件
+$(function () {
+    $('#datepicker1').datepicker({
+        language: "zh-CN", //语言
+        todayHighlight: true, //是否今日高亮
+        format: 'yyyy-mm-dd', //点击月份后显示在input中的格式
+        autoclose: true, //是否开启自动关闭
+        startView: 'months', //开始视图层，为月视图层
+        maxViewMode:'years', //最大视图层，为年视图层
+        minViewMode:'days', //最小视图层，为月视图层
+        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
+    });
+     $('#datepicker2').datepicker({
+        language: "zh-CN", //语言
+        todayHighlight: true, //是否今日高亮
+        format: 'yyyy-mm-dd', //点击月份后显示在input中的格式
+        autoclose: true, //是否开启自动关闭
+        startView: 'months', //开始视图层，为月视图层
+        maxViewMode:'years', //最大视图层，为年视图层
+        minViewMode:'days', //最小视图层，为月视图层
+        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
+    });
+});
+
+
+    $(function () {
+        //如果tid不为0，则为创建
+         //初始化日期
+
+        var sid="{{ sid }}"
+        if ( sid!=""){
+           InitData()//初始化数据
+        }
+        else {
+              $('#supplies_time').datepicker('setDate', new Date());
+        }
+    });
+
+
+
+     //初始化数据
+function InitData() {
+        //初始化form
+        $("#sid").val({{ query_set.sid }});
+        $("#job_number").val("{{ query_set.job_number }}");
+        $("#name").val("{{ query_set.name }}");
+        $("#phone").val("{% if  query_set.phone %}{{ query_set.phone }} {% endif %}");
+        $("input[name=gender]").val();
+        $("input[name=gender][value={{ query_set.gender }}]").attr("checked",true);
+        $("#email").val("{% if  query_set.email %}{{ query_set.email }} {% endif %}");
+        $("#company_id").val({{ query_set.company_id }});
+        $("#project_id").val({{ query_set.project_id }});
+        $("#department_id").val({{ query_set.department_id }});
+        $("#job_rank_id").val({{ query_set.job_rank_id }});
+        $("#supplies_id").val({{ query_set.supplies_id }});
+        $("#id_card").val("{% if  query_set.id_card %}{{ query_set.id_card }} {% endif %}");
+        $("#birthday").val("{{ query_set.birthday |date:'Y-m-d'}}");
+        $("input[name=is_lunar][value={{ query_set.is_lunar }}]").attr("checked",true);
+        $("#nationality").val("{% if  query_set.nationality %}{{ query_set.nationality }} {% endif %}");
+        $("#native_place").val("{% if  query_set.native_place %}{{ query_set.native_place }} {% endif %}");
+        $("#education").val("{% if  query_set.education %}{{ query_set.education }} {% endif %}");
+        $("#recruit_channel").val("{% if  query_set.recruit_channel %}{{ query_set.recruit_channel }} {% endif %}");
+         $("#referrer").val("{% if  query_set.referrer %}{{ query_set.referrer }} {% endif %}");
+        $("#supplies_time").val("{{ query_set.supplies_time |date:'Y-m-d'}}");
+        $("#contact_phone").val("{% if  query_set.contact_phone %}{{ query_set.contact_phone }} {% endif %}");
+        $("#contact_man").val("{% if  query_set.contact_man %}{{ query_set.contact_man }} {% endif %}");
+         $("#contact_relation").val("{% if  query_set.contact_relation %}{{ query_set.contact_relation }} {% endif %}");
+        $("#bank").val("{% if  query_set.bank %}{{ query_set.bank }} {% endif %}");
+        $("#bank_account").val("{% if  query_set.bank_account %}{{ query_set.bank_account }} {% endif %}");
+        $("#account_name").val("{% if  query_set.account_name %}{{ query_set.account_name }} {% endif %}");
+        $("#family_address").val("{% if  query_set.family_address %}{{ query_set.family_address }} {% endif %}");
+        $("#current_address").val("{% if  query_set.current_address %}{{ query_set.current_address }} {% endif %}");
+        $("#supplies_remark").val("{% if  query_set.supplies_remark %}{{ query_set.supplies_remark }} {% endif %}");
+        //初始化生活照
+        {# var photo= "{{ life_photo }}"#}
+        {#if (photo!=""){#}
+        {#     var path="{{ life_photo.life_photo }}"#}
+        {#    console.log(path)#}
+        {#     var name="{{ life_photo.name }}"#}
+        {#     //添加新的file#}
+        {#    var path_input='<input type="text" name="file_path" value=""  class="hidden" >';#}
+        {#    var name_input='<input type="text" name="file_name" value=""  class="hidden" >';#}
+        {#    $("#photo_input").parent().append(path_input);#}
+        {#    $("#photo_input").parent().append(name_input);#}
+        {##}
+        {#    $("#photo_input").parent().find("input[name=file_path]").val(path)#}
+        {#     $("#photo_input").parent().find("input[name=file_name]").val(name)#}
+        {#    //预览#}
+        {#    $("#life_photo").attr("src","/"+"{{ life_photo.life_photo }}")#}
+        {#    $("#pre_link").attr("src","/"+"{{ life_photo.life_photo }}")#}
+        {#    $("#pre_link").removeClass("hide")#}
+        {##}
+        //初始化附件
+        var staff_attach= "{{ staff_attach}}"
+       if (staff_attach !=""){
+
+       }
+    }
+
+//修改时获取附件
+function GetAttachment(){
+     var attachment_list=new Array()
+     $(".attachment").each(function () {
+        var attachment = {"attachment":'',"description":'',"name":'',};
+        var said= $(this).find("input[name=said]").val();
+        var file_path= $(this).find("input[name=file_path]").val();
+        if (file_path==null){
+            //空附件处理
+            return true;
+        }
+        var description=$(this).find("input[name=description]").val();
+        var name=$(this).find("input[name=file_name]").val();
+        console.log(file_path,description,name)
+        attachment.attachment=file_path;
+        attachment.description=description;
+        attachment.name=name;
+        if (said){
+            attachment['said']=said;
+        }
+        attachment_list.push(attachment)
+        });
+      attachment_list=JSON.stringify(attachment_list)//对象转化成json
+    return attachment_list
+}
+//创建时获取附件
+function FetchAttachment(){
+    var attachment_list=new Array()
+    $(".attachment").each(function () {
+    var attachment = {"attachment":'',"description":'',"name":''};
+    var file_path= $(this).find("input[name=file_path]").val();
+        //空文件不上传
+    if(file_path==null){
+        return true;
+    }
+    var description=$(this).find("input[name=description]").val().trim();
+    var name=$(this).find("input[name=file_name]").val();
+    attachment.attachment=file_path;
+    attachment.description=description;
+    attachment.name=name;
+    attachment_list.push(attachment)
+});
+    attachment_list=JSON.stringify(attachment_list)//对象转化成json
+    return attachment_list
+}
+
+
+ /*
+    上传图片
+    */
+    {#function UploadImage(ths){#}
+    {#    //去掉旧文件#}
+    {#    $("#pre_link").addClass("hide")#}
+    {#    $(ths).parent().find("input[name=file_path]").remove();#}
+    {#    $(ths).parent().find("input[name=file_name]").remove();#}
+    {#    //上传新文件#}
+    {#    var file_obj = $(ths)[0].files[0];#}
+    {#    if(file_obj){#}
+    {#        var fileSize = file_obj.size;#}
+    {#        var size = fileSize / 1024;#}
+    {#        if(size>8000){#}
+    {#             alert("上传图片不能大于8M");#}
+    {#             $(ths)[0].value="";#}
+    {#             return false;   //阻止上传#}
+    {#             }#}
+    {#        var form = new FormData();#}
+    {#        form.append("file", file_obj);#}
+    {#        $.ajax({#}
+    {#            url:"{% url 'life_photo' %}",#}
+    {#            type:"POST",#}
+    {#            data: form ,#}
+    {#            dataType:"JSON",#}
+    {#            // 告诉jQuery不要去处理发送的数据#}
+    {#            processData : false,#}
+    {#            // 告诉jQuery不要去设置Content-Type请求头#}
+    {#            contentType : false,#}
+    {#            success:function (arg) {#}
+    {#                //添加新的file#}
+    {#                var path_input='<input type="text" name="file_path" value=""  class="hidden" >';#}
+    {#                var name_input='<input type="text" name="file_name" value=""  class="hidden" >';#}
+    {#                $(ths).parent().append(path_input);#}
+    {#                $(ths).parent().append(name_input);#}
+    {##}
+    {#                $(ths).parent().find("input[name=file_path]").val(arg.data.path)#}
+    {#                $(ths).parent().find("input[name=file_name]").val(arg.data.name)#}
+    {#                //预览#}
+    {#                $("#life_photo").attr("src","/"+arg.data.path)#}
+    {#                $("#pre_link").attr("src","/"+arg.data.path)#}
+    {#                $("#pre_link").removeClass("hide")#}
+    {#            },#}
+    {#        })#}
+    {#    }#}
+    {##}
+    {##}
+
+//上传附件
+function UploadFile(ths){
+    var file_obj = $(ths)[0].files[0];
+    var fileSize = file_obj.size;
+    var size = fileSize / 1024;
+    if(size>10000){
+         alert("附件不能大于10M");
+         $(ths)[0].value="";
+         return false;   //阻止上传
+         }
+    console.log("upload")
+    var form = new FormData();
+    form.append("file", file_obj);
+    $.ajax({
+        url:"{% url 'staff_attach' %}",
+        type:"POST",
+        data: form ,
+        dataType:"JSON",
+        // 告诉jQuery不要去处理发送的数据
+        processData : false,
+        // 告诉jQuery不要去设置Content-Type请求头
+        contentType : false,
+        success:function (arg) {
+            //去掉旧文件
+            $(ths).parent().find(".old_file").remove()
+            //添加新的file
+            var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
+            var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
+            $(ths).parent().append(path_input);
+            $(ths).parent().append(name_input);
+            console.log(arg.data.path);
+            console.log(arg.data.name);
+            $(ths).parent().find("input[name=file_path]").val(arg.data.path)
+            $(ths).parent().find("input[name=file_name]").val(arg.data.name)
+        },
+    })
+}
+
+//创建时获取生活照
+    {#function  FetchLifePhoto() {#}
+    {#    var life_photo_path = $("#photo_input").next().val();#}
+    {#    var life_photo_name= $("#photo_input").next().next().val();#}
+    {#    if (life_photo_path){#}
+    {#         var life_photo = { "life_photo":life_photo_path,"name":life_photo_name}#}
+    {#    }#}
+    {#    else{#}
+    {#        life_photo={}#}
+    {#    }#}
+    {#    life_photo = JSON.stringify(life_photo)#}
+    {#    return life_photo#}
+    {##}
+//添加or编辑
+      function Submit(cons){
+         var $msg = $('#error_msg');
+         $msg.parent().addClass('hide');
+         var form =$("#fm");
+        //验证表单
+         if ( form.valid()){
+              //把生活照添加到form中
+             {#var life_photo=FetchLifePhoto();#}
+             {#var life_photo_ele=$("<input type='text' class='hide' name='life_photo'  value={0} />".format(life_photo));#}
+             {#form.append(life_photo_ele)#}
+            //把附件添加到form中
+              var sid="{{ sid }}"
+             if(sid!=""){
+                  //编辑
+                 var attachment=GetAttachment()
+                 var success_msg="修改成功"
+             }else{
+                  //创建
+                 var attachment=FetchAttachment()
+                 var success_msg="添加成功"
+             }
+             var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
+             form.append(attachment_ele)
+             $.ajax({
+                url: '{% url "staff_edit5" %}',
+                type: 'POST',
+                data: form.serialize(),
+                dataType: 'JSON',
+                success: function (arg) {
+                   if (arg.status) {
+                        if (cons==1){
+                             window.location.href='{% url "staff_list" %}';
+                        }else if(cons==2){
+                             window.location.href='{% url "staff_edit5" %}';
+                        }else{
+                              window.location.href='{% url "staff_edit5" %}?sid={0}'.format(arg.data);
+                        }
+                    } else {
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
+                    }
+                }
+         })
+         }
+    }
+
+
+
+ </script>
+
+{% endblock %}
+
+
+
+
+
+

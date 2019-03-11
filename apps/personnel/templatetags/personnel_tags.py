@@ -62,6 +62,30 @@ def change_to_job_title(id):
     return "空"
 
 @register.simple_tag
+def change_to_s_project(id):
+    if id:
+        s_title_obj = select_project_db.query_s_title_by_id(id)
+        if s_title_obj:
+            return s_title_obj.name
+    return "空"
+
+@register.simple_tag
+def change_to_a_article(id):
+    if id:
+        a_title_obj = article1_db.query_a_title_by_id(id)
+        if a_title_obj:
+            return a_title_obj.name
+    return "空"
+
+@register.simple_tag
+def change_to_p_people(id):
+    if id:
+        p_title_obj = rea_people_db.query_p_title_by_id(id)
+        if p_title_obj:
+            return p_title_obj.name
+    return "空"
+
+@register.simple_tag
 def build_company_ele():
     """构建公司下拉框"""
     company_list = company_db.query_company_list()
@@ -143,9 +167,72 @@ def build_job_rank_ele():
 @register.simple_tag
 def build_job_title_ele():
     """构建职称下拉框"""
-    job_title_list =job_title_db.query_job_title_list()
+    job_title_list = job_title_db.query_job_title_list()
     eles = ""
     for item in job_title_list:
         ele = """<option value={0}>{1}</option>""".format(item.id, item.job_title)
         eles += ele
     return mark_safe(eles)
+
+@register.simple_tag
+def build_project():
+    """创建选择项目下拉"""
+    s_project_list = select_project_db.project_list()
+    eles = ""
+    for item in s_project_list:
+        ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
+def build_article():
+    """创建用品"""
+    article_list = article1_db.article_list()
+    eles = ""
+    for item in article_list:
+        ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
+def build_people():
+    """创建工作交接人下拉"""
+    people_list = rea_people_db.people_db()
+    eles = ""
+    for item in people_list:
+        ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
+def fetch_perfor_p_list(id):
+    if id:
+        p_list = performanceyg_db.query_perfor_by_p_id(id)
+        return p_list
+
+@register.simple_tag
+def fetch_labor_c_list(id):
+    if id:
+        l_list = laborcontract_db.query_labor_by_c_id(id)
+        return l_list
+
+@register.simple_tag
+def fetch_reasons_l_list(id):
+    if id:
+        l_list = reasonsleave_db.query_reasons_by_l_id(id)
+        return l_list
+
+@register.simple_tag
+def fetch_social_s_list(id):
+    if id:
+        s_list = socialsecurity_db.query_social_by_s_id(id)
+        return s_list
+
+@register.simple_tag
+def fetch_supplies_s_list(id):
+    if id:
+        s_list = supplies_db.query_supp_by_s_id(id)
+        return s_list
+
+
+

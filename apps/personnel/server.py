@@ -155,6 +155,26 @@ class JobTitleDB(object):
             raise Exception("该职位名称已存在")
         JobTitle.objects.create(**modify_info)
 
+class S_Project(object):
+
+    def project_list(self):
+        project_db = Select_Project.objects.filter().all()
+        return project_db
+
+    def query_s_title_by_id(self, id):
+        result_db = Select_Project.objects.filter(id=id).first()
+        return result_db
+
+class ReasonsPeopleDB(object):
+    """工作交接人"""
+
+    def people_db (self):
+        people_db = ReasonsPeople.objects.filter().all()
+        return people_db
+
+    def query_p_title_by_id(self, id):
+        result_db = ReasonsPeople.objects.filter(id=id).first()
+        return result_db
 
 class StaffLifePhotoDB(object):
     """人事生活照"""
@@ -200,13 +220,268 @@ class StaffAttachDB(object):
     def delete_task_attachment(self,said):
         StaffAttach.objects.filter(said=said).delete()
 
+class PerforManceygDB(object):
+    """就职表现表"""
+    def insert_edit1(self, modify_info):
+        perfor_sql = """insert into performanceyg(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        perfor_sql = perfor_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(perfor_sql, modify_info)
+        nid = cursor.lastrowid
+        return nid
+
+    def query_perfor_by_id(self, sid):
+        result_db = Performanceyg.objects.filter(nid=sid).first()
+        return  result_db
+
+    def update_perfor(self, modify):
+        Performanceyg.objects.filter(sid=modify['sid']).update(**modify)
+
+    def query_perfor_by_p_id(self, id):
+            result_db = Performanceyg.objects.filter(sid_id=id, ).all().order_by("-nid")
+            return result_db
+
+    def multi_delete(self, id_list):
+        Performanceyg.objects.filter(nid__in=id_list).delete()
+
+
+class PerforygAttachDB(object):
+    def query_perfor_attachment(self, id):
+        result_db = PerforygmanceAttach.objects.filter(sid=id).all()
+        return result_db
+
+    def query_perfor_attachment_by_sid(self, sid):
+        result_db = PerforygmanceAttach.objects.filter(sid_id=sid).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            PerforygmanceAttach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            PerforygmanceAttach.objects.filter(said=item['said']).update(**item)
+
+    def mutil_delete_task_attachment(self, id_list):
+        PerforygmanceAttach.objects.filter(said__in=id_list).delete()
+
+    def multi_delete_attach_by_edit1_id(self, id_list):
+        PerforygmanceAttach.objects.filter(edit1_id__in=id_list).filter().delete()
+
+class LaborContractDB(object):
+    """工作合同表"""
+    def insert_edit2(self, modify_info):
+        Labor_sql = """insert into labor_contract(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        staff_sql = Labor_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(staff_sql, modify_info)
+        sid = cursor.lastrowid
+        return sid
+
+    def query_labor_by_id(self, sid):
+        result_db = LaborContract.objects.filter(sid=sid).first()
+        return result_db
+
+    def query_labor_by_c_id(self, sid):
+        result_db = LaborContract.objects.filter(sid=sid).all().order_by("-nid")
+        return result_db
+
+    def multi_delete(self, id_list):
+        LaborContract.objects.filter(nid__in=id_list).delete()
+
+
+class LaborAttachDB(object):
+    def query_labor_attachment(self, id):
+        result_db = Labor_Contract_Attach.objects.filter(sid=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            Labor_Contract_Attach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            Labor_Contract_Attach.filter(said=item['said']).update(**item)
+
+    def mutil_delete_task_attachment(self, id_list):
+        Labor_Contract_Attach.objects.filter(said__in=id_list).delete()
+
+    def multi_delete_attach_by_edit2_id(self, id_list):
+        Labor_Contract_Attach.objects.filter(edit1_id__in=id_list).filter().delete()
+
+class ArticleDB(object):
+    def article_list(self):
+        article_db = Article.objects.filter().all()
+        return article_db
+
+    def query_a_title_by_id(self, id):
+        result_db = Article.objects.filter(id=id).first()
+        return result_db
+
+class ReasonsLeaveDB(object):
+    def insert_edit3(self, modify_info):
+        reasons_sql = """insert into reasonsleave(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        staff_sql = reasons_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(staff_sql, modify_info)
+        sid = cursor.lastrowid
+        return sid
+
+    def query_reasons_by_id(self, sid):
+        result_db = ReasonsLeave.objects.filter(sid=sid).first()
+        return result_db
+
+    def query_reasons_by_l_id(self, sid):
+        result_db = ReasonsLeave.objects.filter(sid=sid).all().order_by("-nid")
+        return result_db
+
+    def multi_delete(self, id_list):
+        ReasonsLeave.objects.filter(nid__in=id_list).delete()
+
+class ReasonsAttachDB(object):
+    def query_reasons_attachment(self, id):
+        result_db = Reasonsleave_Attach.objects.filter(sid=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            Reasonsleave_Attach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            Reasonsleave_Attach.objects.filter(said=item['said']).update(**item)
+
+    def mutil_delete_task_attachment(self, id_list):
+        Reasonsleave_Attach.objects.filter(said__in=id_list).delete()
+
+    def multi_delete_attach_by_edit3_id(self, id_list):
+        Reasonsleave_Attach.objects.filter(edit1_id__in=id_list).filter().delete()
+
+class SocialSecurityDB(object):
+    def insert_edit4(self, modify_info):
+        social_sql = """insert into social_security(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        staff_sql = social_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(staff_sql, modify_info)
+        sid = cursor.lastrowid
+        return sid
+
+    def query_social_by_id(self, sid):
+        result_db = SocialSecurity.objects.filter(sid=sid).first()
+        return result_db
+
+    def query_social_by_s_id(self, sid):
+        result_db = SocialSecurity.objects.filter(sid=sid).all().order_by("-nid")
+        return result_db
+
+    def multi_delete(self, id_list):
+        SocialSecurity.objects.filter(nid__in=id_list).delete()
+
+
+class SocialAttachDB(object):
+    def query_social_attachment(self, id):
+        result_db = Social_Attach.objects.filter(sid=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            Social_Attach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            Social_Attach.objects.filter(said=item['said']).update(**item)
+
+    def mutil_delete_task_attachment(self, id_list):
+        Social_Attach.objects.filter(said__in=id_list).delete()
+
+    def multi_delete_attach_by_edit4_id(self, id_list):
+        Social_Attach.objects.filter(edit1_id__in=id_list).filter().delete()
+
+class SuppliesDB(object):
+    def insert_edit5(self, modify_info):
+        supp_sql = """insert into supplies(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        staff_sql = supp_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(staff_sql, modify_info)
+        sid = cursor.lastrowid
+        return sid
+
+    def query_supp_by_id(self, sid):
+        result_db = Supplies.objects.filter(sid=sid).first()
+        return result_db
+
+    def query_supp_by_s_id(self, sid):
+        result_db = Supplies.objects.filter(sid=sid).all().order_by("-nid")
+        return result_db
+
+    def multi_delete(self, id_list):
+        Supplies.objects.filter(nid__in=id_list).delete()
+
+
+class SuppliesAttachDB(object):
+    def query_supp_attachment(self, id):
+        result_db = Supplies_Attach.objects.filter(sid=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            Supplies_Attach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            Supplies_Attach.objects.filter(said=item['said']).update(**item)
+
+    def mutil_delete_task_attachment(self, id_list):
+        Supplies_Attach.objects.filter(said__in=id_list).delete()
+
+    def multi_delete_attach_by_edit5_id(self, id_list):
+        Supplies_Attach.objects.filter(edit1_id__in=id_list).filter().delete()
 
 department_db = DepartmentDB()
 company_db = CompanyDB()
 project_db = ProjectDB()
 job_rank_db = JobRankDB()
 job_title_db = JobTitleDB()
+select_project_db = S_Project()
 staff_db = StaffDB()
 staff_life_photo_db = StaffLifePhotoDB()
 staff_attach_db = StaffAttachDB()
+performanceyg_db = PerforManceygDB()
+perforygattach_db = PerforygAttachDB()
+laborcontract_db = LaborContractDB()
+laborattach_db = LaborAttachDB()
+article1_db = ArticleDB()
+rea_people_db = ReasonsPeopleDB()
+reasonsleave_db = ReasonsLeaveDB()
+reasonsattach_db = ReasonsAttachDB()
+socialsecurity_db = SocialSecurityDB()
+socialattach_db = SocialAttachDB()
+supplies_db = SuppliesDB()
+suppliesattach_db = SuppliesAttachDB()
+
 

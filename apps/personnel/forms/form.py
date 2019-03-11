@@ -23,6 +23,9 @@ class JobTitlekForm(django_forms.Form):
 class ProjectForm(django_forms.Form):
     project = django_fields.CharField(error_messages={"required": "项目名称不能为空"})
 
+class Select_ProjectForm(django_forms.Form):
+    name = django_fields.CharField(error_messages={"required": "项目名称不能为空"})
+
 
 class StaffForm(django_forms.Form):
     job_number = django_fields.CharField(error_messages={"required": "工号不能为空"}, max_length=32)
@@ -47,6 +50,38 @@ class StaffForm(django_forms.Form):
     recruit_channel = django_fields.CharField(required=False,max_length=16)
     referrer = django_fields.CharField(required=False,max_length=16)
     remark = django_fields.CharField(required=False,max_length=128)
+
+class PerformanceygForm(django_forms.Form):
+    content = django_fields.CharField(error_messages={"required": "内容明细不能为空"}, max_length=128)
+    effective_time = django_fields.DateTimeField(error_messages={"required": "生效时间不能为空", "invalid": "生效时间格式错误"})
+    operator = django_fields.CharField(required=False)
+
+class LaborContractForm(django_forms.Form):
+    remark = django_fields.CharField(error_messages={"required": "备注不能为空"}, max_length=128)
+    create_time = django_fields.DateTimeField(error_messages={"required": "劳动合同创建时间不能为空", "invalid": "劳动合同创建时间格式错误"})
+
+class ReasonsLeaveForm(django_forms.Form):
+    reasons = django_fields.CharField(error_messages={"required": "离职原因不能为空"}, max_length=128)
+    reasons_time = django_fields.DateTimeField(error_messages={"required": "工资计算截止日期不能为空", "invalid": "工资截止日期创建格式错误"})
+    reasons_bool1 = django_fields.BooleanField(required=False)
+    reasons_bool2 = django_fields.BooleanField(required=False)
+    reasons_id_id = django_fields.IntegerField(error_messages={"required": "请选择用品"})
+    reasons_people_id = django_fields.IntegerField(error_messages={"required": "请选择工作交接人"})
+    reasons_time1 = django_fields.DateTimeField(error_messages={"required": "离岗日期不能为空", "invalid": "离岗日期时间格式错误"})
+
+
+class SocialSecurityForm(django_forms.Form):
+    s_id = django_fields.CharField(error_messages={"required": "社保卡号不能为空"}, max_length=32)
+    s_money = django_fields.DecimalField(error_messages={"required": "金额不能为空"}, max_digits=20, decimal_places=10)
+    s_time = django_fields.DateField(error_messages={"required": "起始时间不能为空", "invalid": "起始时间格式错误"})
+    s_remark = django_fields.CharField(required=False, max_length=128)
+
+class SuppliesForm(django_forms.Form):
+    supplies_id_id = django_fields.IntegerField(error_messages={"required": "请选择用品"})
+    supplies_time = django_fields.DateField(error_messages={"required": "领用日时间不能为空", "invalid": "领用日时间格式错误"})
+    supplies_remark = django_fields.CharField(error_messages={"required": "备注不能为空"}, max_length=128)
+
+
 
 
 

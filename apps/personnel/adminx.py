@@ -1,4 +1,3 @@
-
 import xadmin
 from xadmin import views
 from .models import *
