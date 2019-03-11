@@ -55,21 +55,16 @@ from rbac.models import *
 def fetch_user_role(user):
     if user:
         sid = user.staff.sid
-        print("sid_role",sid)
         # roles_list = Staff2Role.objects.filter(staff_id=sid).select_related("role").all()
         roles_list=user.staff.roles.all()
         name = ''
-        print("roles_list",roles_list)
         for item in roles_list:
-            print("item",item.title)
             # role = Role.objects.filter(id=item.role_id).first()
             name += item.title + ";"
-        print("name",name)
         return name
 
 @register.simple_tag
 def fetch_menu_key(request):
     key = settings.PERMISSION_MENU_KEY
-    print("menu_list",key)
     return key
 

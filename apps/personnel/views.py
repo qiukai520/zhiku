@@ -10,6 +10,9 @@ from .forms.form import *
 from common.functions import *
 from .models import *
 from .templatetags.personnel_tags import *
+from rbac.views import DEFAULT_PASSWORD as password
+from django.contrib.auth.hashers import make_password
+
 
 # Create your views here.
 
@@ -352,6 +355,16 @@ def staff_edit(request):
                         if staff_attach:
                             staff_attach = build_attachment_info({"sid_id":sid}, staff_attach)
                             staff_attach_db.mutil_insert_attachment(staff_attach)
+                        # 创建用户
+                        user_data = {"username": staff_info["name"], "phone": staff_info["phone"],
+                                     "password": make_password(password),
+                                     }
+                        is_exist = UserProfile.objects.filter(phone=staff_info["phone"])
+                        if is_exist:
+                            raise Exception("该手机号已被注册")
+                        print("user_data", user_data)
+                        user = UserProfile.objects.create(**user_data)
+                        Staff.objects.filter(sid=sid).update(user=user)
                         ret['status'] = True
                         ret['data'] = sid
                 except Exception as e:
@@ -365,7 +378,6 @@ def staff_edit(request):
 
 def staff_edit1(request):
     mothod = request.method
-    print(request.GET)
     if mothod == "GET":
         nid = request.GET.get("id", "")
         cid = request.GET.get("cid", '')
@@ -385,7 +397,6 @@ def staff_edit1(request):
         return render(request, "404.html")
     else:
         ret = {'status': False, "data": '', "message": ""}
-        print(request.POST)
         form = PerformanceygForm(data=request.POST)
         if form.is_valid():
             data = request.POST
@@ -451,7 +462,6 @@ def staff_edit2(request):
     if mothod == "GET":
         nid = request.GET.get("id", "")
         cid = request.GET.get("cid", '')
-        print(request.GET)
         if cid:
             customer_obj = staff_db.query_staff_by_id(cid)
             if customer_obj:
@@ -528,11 +538,9 @@ def staff_edit2(request):
 
 def staff_edit3(request):
     mothod = request.method
-    print('mothod',mothod)
     if mothod == "GET":
         nid = request.GET.get("id", "")
         cid = request.GET.get("cid", '')
-        print(request.GET)
         if cid:
             customer_obj = staff_db.query_staff_by_id(cid)
             if customer_obj:
@@ -549,7 +557,6 @@ def staff_edit3(request):
         return render(request, "404.html")
     else:
         ret = {'status': False, "data": '', "message": ""}
-        print("request.POST", request.POST)
         form = ReasonsLeaveForm(data=request.POST)
         if form.is_valid():
             data = request.POST
@@ -627,7 +634,6 @@ def staff_edit4(request):
         return render(request, "404.html")
     else:
         ret = {'status': False, "data": '', "message": ""}
-        print("request.POST", request.POST)
         form = SocialSecurityForm(data=request.POST)
         if form.is_valid():
             data = request.POST
@@ -1013,7 +1019,6 @@ def staff_delete5(request):
     return HttpResponse(json.dumps(ret))
 
 
-
 def staff_delete(request):
     """人事软删除"""
     ret = {'status': False, "data": "", "message": ""}
@@ -1033,6 +1038,100 @@ def staff_delete(request):
         ret['status'] = "删除失败"
     return HttpResponse(json.dumps(ret))
 
+
+def company_delete(request):
+    """公司删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        Company.objects.filter(id__in=id_list).delete()
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def department_delete(request):
+    """部门删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        Department.objects.filter(id__in=id_list).delete()
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def project_delete(request):
+    """项目删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        Project.objects.filter(id__in=id_list).delete()
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def job_title_delete(request):
+    """职称删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        JobTitle.objects.filter(id__in=id_list).delete()
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def job_rank_delete(request):
+    """职级删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        JobRank.objects.filter(id__in=id_list).delete()
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
 
 def staff_select(request):
     """获取人事数据"""

@@ -99,6 +99,7 @@ class ReasonsPeople(models.Model):
     _insert = ["reasons_people"]
     _update = ["reasons_people"]
 
+
 class JobRank(models.Model):
     id = models.AutoField(primary_key=True)
     rank = models.CharField(max_length=32, blank=True, null=True, verbose_name='职级')

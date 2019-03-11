@@ -135,9 +135,10 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-    def save(self,*args, **kwargs):
-        self.password = make_password(self.password)
-        super(User, self).save(*args, **kwargs)
+    # def save(self,*args, **kwargs):
+    #     self.password = make_password(self.password)
+    #     print("save",self.password)
+    #     super(User, self).save(*args, **kwargs)
 
     def set_password(self, raw_password):
         self.password = make_password(raw_password)

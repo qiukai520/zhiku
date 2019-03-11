@@ -290,6 +290,14 @@ $.validator.setDefaults({
                         },
                 phone:{
                       required: true,
+                      minlength:11,
+                      maxlength:11
+                },
+                  age:{
+                      required: true,
+                      digits: true,
+                      min:1,
+                      max:200,
                 },
             },
             messages: {
@@ -297,12 +305,20 @@ $.validator.setDefaults({
                     required: e+"姓名不能为空",
                     maxlength:e+"姓名长度不能超过16个字符"
                 },
+                 age:{
+                    required:"年龄不能为空",
+                    digits:"请输入有效数字",
+                    min:"请输入有效年龄",
+                     max:"请输入有效年龄"
+                    },
                 birthday: {
                             required: "请输入生日日期",
                             date: "请输入正确的日期格式"
                 },
                 phone:{
-                     required:"请输入电话号码"
+                     required:"请输入电话号码",
+                     minlength:"手机号不能少于11位",
+                    maxlength:"手机号不能多于11位"
                 },
 
 

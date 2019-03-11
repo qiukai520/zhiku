@@ -159,7 +159,7 @@ class CustomerLinkman(SoftDeletableModel):
     name = models.CharField(max_length=32, verbose_name='姓名')
     wx_name = models.CharField(max_length=32, verbose_name='微信名')
     gender = models.SmallIntegerField(choices=gender_choice, verbose_name="性别", default=0)
-    age = models.SmallIntegerField(verbose_name="年龄", blank=True, null=True)
+    age = models.SmallIntegerField(verbose_name="年龄", default=0)
     job_title = models.ForeignKey(JobTitle, to_field="id", on_delete=models.CASCADE, db_constraint=False,
                                 verbose_name='职称', blank=True, null=True)
     marriage = models.SmallIntegerField(choices=marriage_choice, verbose_name="婚姻", default=0)

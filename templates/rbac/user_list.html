@@ -81,6 +81,8 @@
                                     {% endif %}
                                 </td>
                                 <td>
+                                    <a  href="{%url "staff_detail" %}?sid={{ user.staff.sid }}" class="btn  btn-xs btn-primary" >查看人事</a>
+
                                     <button type="button" class="btn btn-success btn-xs modify" data-toggle="modal"
                                             data-id="{{ user.id }}" data-target="#UserModal">详细/更新
                                     </button>

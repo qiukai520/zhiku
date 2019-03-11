@@ -105,7 +105,6 @@ def customer_edit(request):
                             customer_info["nid"] = nid
                         if not customer_info["employees"]:
                             customer_info["employees"] = 0
-                        print("customer_info",customer_info)
                         customer_db.update_customer(customer_info)
                         # 插入客户照片
                         photo_record = customer_photo_db.query_customer_photo(nid)
@@ -368,9 +367,12 @@ def customer_linkman(request):
                         # 更新联系人信息
                         record = c_linkman_db.query_linkman_by_id(nid)
                         linkman_info = compare_fields(CustomerLinkman._update, record, data)
+                        print("update",linkman_info)
                         if linkman_info:
                             linkman_info["nid"] = nid
+                            print("linkman_info",linkman_info)
                             c_linkman_db.update_linkman(linkman_info)
+                        print("update")
                         # 插入联系人照片
                         photo_record = c_linkman_photo_db.query_linkman_photo(nid)
                         if linkman_photo:
@@ -420,6 +422,8 @@ def customer_linkman(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
+                    traceback.print_exc()
+                    print(e)
                     ret["message"] = "更新失败"
             else:
                 # 创建

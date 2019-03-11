@@ -20,34 +20,5 @@ create TABLE `user_profile`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户管理表';
 
 
-DROP TABLE IF EXISTS `user_profile`;
-CREATE TABLE `user_profile` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `password` varchar(128) NOT NULL,
-  `last_login` datetime(6) DEFAULT NULL,
-  `is_superuser` tinyint(1) NOT NULL,
-  `username` varchar(150) NOT NULL,
-  `first_name` varchar(30) NOT NULL,
-  `last_name` varchar(150) NOT NULL,
-  `email` varchar(254) NOT NULL,
-  `is_staff` tinyint(1) NOT NULL,
-  `is_active` tinyint(1) NOT NULL,
-  `date_joined` datetime(6) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 
-drop TABLE if exists `user_role`;
-create TABLE `user_role`(
-`id` int(11) primary key auto_increment,
-`user_id` int (16) COMMENT '用户',
-`role_id` varchar (128)   COMMENT '角色'
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色关系表';
-
-drop TABLE if exists `staff_roles`;
-create TABLE `staff_roles`(
-`id` int(11) primary key auto_increment,
-`staff_id` int (16) COMMENT '用户',
-`role_id` varchar (128)   COMMENT '角色'
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='职员-角色关系表';
