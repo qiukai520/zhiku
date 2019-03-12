@@ -288,8 +288,8 @@ $.validator.setDefaults({
                 birthday: {
                         required: true,
                         },
-                phone:{
-                      required: true,
+                mobile:{
+                      required: false,
                       minlength:11,
                       maxlength:11
                 },
@@ -315,8 +315,8 @@ $.validator.setDefaults({
                             required: "请输入生日日期",
                             date: "请输入正确的日期格式"
                 },
-                phone:{
-                     required:"请输入电话号码",
+                mobile:{
+                     required:"请联系手机号码",
                      minlength:"手机号不能少于11位",
                     maxlength:"手机号不能多于11位"
                 },

@@ -367,12 +367,9 @@ def customer_linkman(request):
                         # 更新联系人信息
                         record = c_linkman_db.query_linkman_by_id(nid)
                         linkman_info = compare_fields(CustomerLinkman._update, record, data)
-                        print("update",linkman_info)
                         if linkman_info:
                             linkman_info["nid"] = nid
-                            print("linkman_info",linkman_info)
                             c_linkman_db.update_linkman(linkman_info)
-                        print("update")
                         # 插入联系人照片
                         photo_record = c_linkman_photo_db.query_linkman_photo(nid)
                         if linkman_photo:

@@ -170,7 +170,7 @@ CORS_ALLOW_CREDENTIALS = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'  # 设置静态文件的相对路径
-
+# STATIC_ROOT = os.path.join(BASE_DIR, "collect_static")
 MEDIA_URL = '/media/'  # 设置媒体文件的相对路径
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 设置媒体文件的绝对路径
 

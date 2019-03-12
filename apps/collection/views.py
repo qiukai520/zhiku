@@ -155,7 +155,6 @@ def knowledge_detail(request):
             if record_obj:
                 # 格式化数据
                 record_json = {}
-                print("record_json",record_obj.__dict__)
                 # del record_json['_state']
                 record_json["nid"] = record_obj.nid
                 record_json["type_id"] = record_obj.type.name
@@ -184,7 +183,6 @@ def knowledge_detail(request):
                         ret['signal'] = True
                 ret['status'] = True
                 ret['data'] = record_json
-                print("detail",ret)
                 return HttpResponse(json.dumps(ret,cls=CJSONEncoder))
         except Exception as e:
             print(e)

@@ -13,8 +13,8 @@
             text-align: center;
         }
     </style>
-        <link rel="stylesheet" href="{% static 'plugins/select2/select2.css' %}">
-        <link rel="stylesheet" href="{% static 'jquery-confirm/dist/jquery-confirm.min.css' %}">
+        <link rel="stylesheet" href="/static/plugins/select2/select2.css">
+        <link rel="stylesheet" href="/static/jquery-confirm/dist/jquery-confirm.min.css">
 {% endblock %}
 
 {% block content %}
@@ -81,7 +81,7 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <a  href="{%url "staff_detail" %}?sid={{ user.staff.sid }}" class="btn  btn-xs btn-primary" >查看人事</a>
+                                    <a  href="{%url "staff_detail" %}?sid={{ user.staff.sid }}" class="btn  btn-xs btn-primary" >人事档案</a>
 
                                     <button type="button" class="btn btn-success btn-xs modify" data-toggle="modal"
                                             data-id="{{ user.id }}" data-target="#UserModal">详细/更新
@@ -189,9 +189,9 @@
     <!-- Select2 -->
     <!-- DataTables -->
     <!-- 输入验证 -->
-    <script src="{% static 'parsley/dist/parsley.min.js' %}"></script>
-    <script src="{% static 'plugins/select2/select2.js' %}"></script>
-    <script src="{% static 'jquery-confirm/dist/jquery-confirm.min.js' %}"></script>
+    <script src="/static/parsley/dist/parsley.min.js"></script>
+    <script src="/static/plugins/select2/select2.js"></script>
+    <script src="/static/jquery-confirm/dist/jquery-confirm.min.js"></script>
 
     <script src="/static/js/jquery.cookie.js"></script>
 {#    <script type="text/javascript" src="/static/js/custom/common.js"></script>#}

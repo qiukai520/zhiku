@@ -167,9 +167,12 @@ class LoginView(View):
                     request.session["user_info"] = {"user_id": user.id,
                                                     "user_name": user.username}
                     init_permission(user, request)
+                    print()
                     result['status'] = True
                 except Exception as e:
-                    pass
+                    print(e)
+                    result['message'] = '没有登录权限'
+                print("test",result)
                 return HttpResponse(json.dumps(result))
 
         else:
