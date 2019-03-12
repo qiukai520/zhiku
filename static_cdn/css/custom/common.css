@@ -1,0 +1,44 @@
+
+ .old_file,.old_file>a{
+            color:#1ab394
+        }
+         .old_file>span:hover{
+             cursor: pointer;
+         }
+          #toolbar >.btn{
+          margin: 0 2px;
+      }
+          .float-center{
+         position: absolute;
+            top:50%;
+            left:50%;
+            width:100%;
+            transform:translate(-50%,-50%);
+            text-align: center;
+    }
+    a{
+        text-decoration: none;
+    }
+    .click{
+        color:#1ab394;
+        cursor: pointer;
+    }
+
+     /*attach*/
+    .plus .minus {
+         cursor: pointer;
+    }
+    .attachment label{
+        margin-left:0px;
+    }
+    .attachment  button{
+        float: right;
+    }
+    .attachment .form-group{
+        margin-left:0px ;
+        margin-right: 0px;
+    }
+     #attachment-container .col-sm-8{
+          padding: 5px;
+    }
+

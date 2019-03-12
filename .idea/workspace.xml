@@ -4,20 +4,12 @@
     <bookmark url="file://$PROJECT_DIR$/apps/personnel/forms" />
     <bookmark url="file://$PROJECT_DIR$/sql/inventory.sql" line="28" mnemonic="9" />
     <bookmark url="file://$PROJECT_DIR$/thinking_library/settings.py" line="230" mnemonic="3" />
+    <bookmark url="file://$PROJECT_DIR$/thinking_library/settings.py" line="172" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e14f5900-22dd-48c6-86dc-a3db9e51a858" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/collection/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/collection/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/rbac/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/rbac/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/sfa/forms/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/forms/form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/sfa/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/sfa/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/custom/form-validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/custom/form-validate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/personnel/staff_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/personnel/staff_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/rbac/user_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/rbac/user_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sfa/customer_linkman.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sfa/customer_linkman.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/complete_task.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/complete_task.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/task/task_review.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/task/task_review.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/thinking_library/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/thinking_library/settings.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -59,14 +51,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/sfa/views.py">
+      <file leaf-file-name="user_list.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/rbac/user_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="351" column="22" selection-start-line="351" selection-start-column="22" selection-end-line="351" selection-end-column="22" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="210">
+              <caret line="16" column="78" selection-start-line="16" selection-start-column="78" selection-end-line="16" selection-end-column="78" />
             </state>
           </provider>
         </entry>
@@ -75,7 +64,7 @@
         <entry file="file://$PROJECT_DIR$/apps/sfa/forms/form.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="277">
-              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -87,7 +76,7 @@
         <entry file="file://$PROJECT_DIR$/templates/personnel/staff_detail.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="464">
-              <caret line="441" column="79" lean-forward="true" selection-start-line="441" selection-start-column="79" selection-end-line="441" selection-end-column="79" />
+              <caret line="441" column="79" selection-start-line="441" selection-start-column="79" selection-end-line="441" selection-end-column="79" />
               <folding>
                 <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -107,16 +96,16 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="173" column="28" selection-start-line="173" selection-start-column="28" selection-end-line="173" selection-end-column="28" />
+            <state relative-caret-position="210">
+              <caret line="169" column="42" selection-start-line="169" selection-start-column="42" selection-end-line="169" selection-end-column="42" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/collection/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
+            <state relative-caret-position="148">
               <caret line="166" column="32" selection-start-line="166" selection-start-column="32" selection-end-line="166" selection-end-column="32" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -129,7 +118,7 @@
         <entry file="file://$PROJECT_DIR$/apps/collection/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-363">
-              <caret line="53" column="18" lean-forward="true" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
+              <caret line="53" column="18" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -138,7 +127,7 @@
         <entry file="file://$PROJECT_DIR$/apps/collection/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="264">
-              <caret line="25" column="41" lean-forward="true" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
+              <caret line="25" column="41" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -156,7 +145,7 @@
         <entry file="file://$PROJECT_DIR$/apps/personnel/forms/form.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
-              <caret line="46" column="73" lean-forward="true" selection-start-line="46" selection-start-column="44" selection-end-line="46" selection-end-column="73" />
+              <caret line="46" column="73" selection-start-line="46" selection-start-column="44" selection-end-line="46" selection-end-column="73" />
             </state>
           </provider>
         </entry>
@@ -289,7 +278,6 @@
         <option value="$PROJECT_DIR$/templates/personnel/project_list.html" />
         <option value="$PROJECT_DIR$/templates/personnel/job_title_list.html" />
         <option value="$PROJECT_DIR$/templates/personnel/job_rank_list.html" />
-        <option value="$PROJECT_DIR$/templates/rbac/user_list.html" />
         <option value="$PROJECT_DIR$/apps/rbac/views.py" />
         <option value="$PROJECT_DIR$/templates/task/task_review.html" />
         <option value="$PROJECT_DIR$/templates/sfa/customer_linkman.html" />
@@ -297,9 +285,10 @@
         <option value="$PROJECT_DIR$/apps/sfa/views.py" />
         <option value="$PROJECT_DIR$/apps/sfa/forms/form.py" />
         <option value="$PROJECT_DIR$/templates/personnel/staff_detail.html" />
-        <option value="$PROJECT_DIR$/thinking_library/settings.py" />
         <option value="$PROJECT_DIR$/templates/task/complete_task.html" />
         <option value="$PROJECT_DIR$/apps/collection/views.py" />
+        <option value="$PROJECT_DIR$/thinking_library/settings.py" />
+        <option value="$PROJECT_DIR$/templates/rbac/user_list.html" />
       </list>
     </option>
   </component>
@@ -339,8 +328,12 @@
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
-              <item name="apps" type="462c0819:PsiDirectoryNode" />
-              <item name="collection" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
+              <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
+              <item name="static_cdn" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -351,7 +344,7 @@
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
               <item name="thinking_library" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="task" type="462c0819:PsiDirectoryNode" />
+              <item name="rbac" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="thinking_library" type="b2602c69:ProjectViewProjectNode" />
@@ -382,19 +375,19 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\workplace\thinking_library\static\plugins" />
+      <recent name="G:\workplace\thinking_library\static_cdn\plugins" />
+      <recent name="G:\workplace\thinking_library\apps" />
+      <recent name="G:\workplace\thinking_library\sql" />
+      <recent name="F:\workplace\thinking_library\templates\practice" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\workplace\thinking_library\static\plugins\datetimepicker\css" />
       <recent name="G:\workplace\thinking_library\static\plugins\datetimepicker" />
       <recent name="G:\workplace\thinking_library\sql" />
       <recent name="G:\workplace\thinking_library\apps" />
       <recent name="G:\workplace\thinking_library\templates" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="G:\workplace\thinking_library\apps" />
-      <recent name="G:\workplace\thinking_library\sql" />
-      <recent name="F:\workplace\thinking_library\templates\practice" />
-      <recent name="F:\workplace\thinking_library\templates\public" />
-      <recent name="F:\workplace\thinking_library\apps" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -590,7 +583,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3287037" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5112661" side_tool="true" weight="0.3614865" />
@@ -598,8 +590,8 @@
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4883005" weight="0.32816228" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.3287037" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49302575" weight="0.34382284" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.48873392" visible="true" weight="0.2635135" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8883774" visible="true" weight="0.23283261" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.48873392" visible="true" weight="0.4313063" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8883774" visible="true" weight="0.23283261" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="7" weight="0.3299356" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -880,16 +872,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/rbac/user_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
-          <folding>
-            <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/rbac/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="419">
@@ -967,7 +949,7 @@
     <entry file="file://$PROJECT_DIR$/apps/personnel/forms/form.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
-          <caret line="46" column="73" lean-forward="true" selection-start-line="46" selection-start-column="44" selection-end-line="46" selection-end-column="73" />
+          <caret line="46" column="73" selection-start-line="46" selection-start-column="44" selection-end-line="46" selection-end-column="73" />
         </state>
       </provider>
     </entry>
@@ -981,31 +963,24 @@
     <entry file="file://$PROJECT_DIR$/apps/sfa/forms/form.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="277">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="173" column="28" selection-start-line="173" selection-start-column="28" selection-end-line="173" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/collection/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-363">
-          <caret line="53" column="18" lean-forward="true" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
+          <caret line="53" column="18" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/personnel/staff_detail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="464">
-          <caret line="441" column="79" lean-forward="true" selection-start-line="441" selection-start-column="79" selection-end-line="441" selection-end-column="79" />
+          <caret line="441" column="79" selection-start-line="441" selection-start-column="79" selection-end-line="441" selection-end-column="79" />
           <folding>
             <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
           </folding>
@@ -1022,17 +997,31 @@
     <entry file="file://$PROJECT_DIR$/apps/collection/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
-          <caret line="25" column="41" lean-forward="true" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
+          <caret line="25" column="41" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/collection/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
+        <state relative-caret-position="148">
           <caret line="166" column="32" selection-start-line="166" selection-start-column="32" selection-end-line="166" selection-end-column="32" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinking_library/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="169" column="42" selection-start-line="169" selection-start-column="42" selection-end-line="169" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/rbac/user_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="16" column="78" selection-start-line="16" selection-start-column="78" selection-end-line="16" selection-end-column="78" />
         </state>
       </provider>
     </entry>

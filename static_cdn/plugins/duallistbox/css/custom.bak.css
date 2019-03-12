@@ -1,0 +1,36 @@
+
+.box1, .box2 {
+    float: left;
+    width: 45%;
+    min-width:180px;
+}
+.selector-filter {
+    width: 100%;
+}
+ .box1 .selector-filter {
+}
+ .box2 .selector-filter {
+}
+ .selector-filter input[type=text] {
+    width: 716px !important;
+    max-width: 716px !important;
+}
+ .box2 select[multiple=multiple] {
+    height: 230px;
+}
+
+.box1, .box2 {
+    border: 1px solid #ddd;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+    background: #eee;
+}
+
+.selector-filter .btn-group {
+    width:100%
+}
+.selector-filter .btn-group button {
+    width:50%
+}
+.box1,.box2{
+    margin:5px;
+}
