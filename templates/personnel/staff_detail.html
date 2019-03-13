@@ -78,6 +78,7 @@
                                     <dt>民族：</dt>
                                     <dd>{{ query_set.nationality }}</dd>
                                     <dt>工号：</dt>
+
                                     <dd>{{ query_set.job_number }}</dd>
                                     <dt>所在部门：</dt>
                                     <dd>{% change_to_department query_set.department_id %}</dd>
@@ -97,13 +98,17 @@
                                     <dt>学历：</dt>
                                     <dd>{{ query_set.education }}</dd>
                                       <dt>招聘渠道：</dt>
-                                    <dd>{{ query_set.recruit_channel }}</dd>
+                                    <dd>{% if query_set.recruit_channel %}{{ query_set.recruit_channel }}{% else %}空{% endif %}
+                                        </dd>
                                       <dt>引荐员工姓名：</dt>
-                                      <dd>{{ query_set.referrer }}</dd>
+                                      <dd>{% if query_set.referrer %}{{ query_set.referrer }}{% else %}空{% endif %}
+                                          </dd>
                                      <dt>紧急联系人电话：</dt>
-                                    <dd>{{ query_set.contact_phone }}</dd>
+                                    <dd>{% if query_set.contact_phone %}{{ query_set.contact_phone }}{% else %}空{% endif %}
+                                       </dd>
                                     <dt>紧急联系人姓名：</dt>
-                                     <dd>{{ query_set.contact_man }}</dd>
+                                     <dd>{% if query_set.contact_man %}{{ query_set.contact_man }}{% else %}空{% endif %}
+                                         </dd>
                                      <dt>紧急联系人关系：</dt>
                                     <dd>{{ query_set.contact_relation }}</dd>
                                     <dt>银行卡号：</dt>
@@ -114,6 +119,8 @@
                                     <dd>{{ query_set.bank }}</dd>
                                     <dt>备注：</dt>
                                     <dd>{{ query_set.remark }}</dd>
+                                    <dd>{% if query_set.contact_relation %}{{ query_set.contact_relation }}{% else %}空{% endif %}
+                                       </dd>
                                 </dl>
                             </div>
                         </div>
@@ -121,11 +128,13 @@
                             <div class="col-sm-12">
                                 <dl class="dl-horizontal">
                                     <dt>家庭住址：</dt>
-                                    <dd> {{ query_set.family_address }}
+                                    <dd>{% if query_set.family_address %}{{ query_set.family_address }}{% else %}空{% endif %}
+
                                     </dd>
                                      <dt>现住址：</dt>
                                     <dd>
-                                        {{ query_set.current_address }}
+                                        {% if query_set.current_address %}{{ query_set.current_address }}{% else %}空{% endif %}
+
                                     </dd>
                                 </dl>
                             </div>
@@ -511,7 +520,8 @@
                     {% endfor %}
                 </ul>
                  <lable>备注：</lable>
-                <span class="small" style="text-indent:2em">{{ query_set.remark }}
+                <span class="small" style="text-indent:2em">
+                    {% if  query_set.remark %} {{ query_set.remark }}{% else %}{% endif %}
                 </span>
             </div>
         </div>

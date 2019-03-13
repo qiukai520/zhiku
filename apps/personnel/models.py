@@ -114,6 +114,7 @@ class ReasonsCause(models.Model):
     _insert = ["cause"]
     _update = ["cause"]
 
+
 class JobRank(models.Model):
     id = models.AutoField(primary_key=True)
     rank = models.CharField(max_length=32, blank=True, null=True, verbose_name='职级')

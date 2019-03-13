@@ -14,6 +14,9 @@ class LinkmanForm(django_forms.Form):
     customer_id = django_fields.IntegerField(error_messages={"required": "请选择客户"})
     name = django_fields.CharField(error_messages={"required": "联系人姓名不能为空"})
     birthday = django_fields.DateField(error_messages={"required": "生日不能为空", "invalid": "生日日期格式错误"})
+    age = django_fields.IntegerField(error_messages={"required": "年龄不能为空","invalid": "请输入有效整数"})
+    mobile = django_fields.CharField(error_messages={"required": "联系手机不能为空",},validators=[mobile_validate,])
+
 
 
 class MemoForm(django_forms.Form):

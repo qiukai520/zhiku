@@ -395,7 +395,6 @@
         function MultiDelete() {
         var ids="";
         $("tbody input:checkbox:checked").each(function () {
-            console.log($(this).next().val())
             id = $(this).next().val();
             if (id){
                 id+="|";

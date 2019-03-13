@@ -25,7 +25,7 @@
                             <div class="example">
                                 <div class="btn-group " id="toolbar" role="group">
                                      <a href="{% url "job_rank_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
-{#                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
                                 <table id="job_rank_sort"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
@@ -39,7 +39,7 @@
                                     <tbody>
                                      {% for obj in query_sets %}
                                       <tr>
-                                          <td><input type="checkbox"></td>
+                                         <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.id }}"></td>
                                           <td>{{ obj.id }}</td>
                                           <td>{{ obj.rank }}</td>
                                             <td>
@@ -131,7 +131,7 @@
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "job_rank_edit" %}",
+            url:"{% url "job_rank_delete" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",

@@ -646,6 +646,7 @@ function Submit(cons) {
          //展示参考详细内容
 showKnowledge=function (cons) {
       $('#refer_detail').modal('show');
+      console.log("cons",cons)
       var id =cons;
       $.ajax({
           url:"{% url "knowledge_detail" %}",

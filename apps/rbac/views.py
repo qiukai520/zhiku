@@ -27,7 +27,7 @@ SESSION_KEY = '_auth_user_id'
 BACKEND_SESSION_KEY = '_auth_user_backend'
 HASH_SESSION_KEY = '_auth_user_hash'
 REDIRECT_FIELD_NAME = 'next'
-DEFAULT_PASSWORD = 123456
+DEFAULT_PASSWORD = "123456"
 # Create your views here.
 
 # 重写django登录类
@@ -167,9 +167,12 @@ class LoginView(View):
                     request.session["user_info"] = {"user_id": user.id,
                                                     "user_name": user.username}
                     init_permission(user, request)
+                    print()
                     result['status'] = True
                 except Exception as e:
-                    pass
+                    print(e)
+                    result['message'] = '没有登录权限'
+                print("test",result)
                 return HttpResponse(json.dumps(result))
 
         else:

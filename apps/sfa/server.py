@@ -201,7 +201,7 @@ class CustomerLinkmanDB(object):
         return result_db
 
     def update_linkman(self, modify):
-        CustomerLinkman.objects.filter(nid=modify['nid'],).update(**modify)
+        CustomerLinkman.objects.filter(nid=int(modify['nid']),).update(**modify)
 
     def multi_delete(self, id_list):
         CustomerLinkman.objects.filter(nid__in=id_list).delete()

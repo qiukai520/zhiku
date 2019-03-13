@@ -24,7 +24,7 @@
                             <div class="example">
                                 <div class="btn-group " id="toolbar" role="group">
                                      <a href="{% url "company_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
-{#                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
                                 <table id="company"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
@@ -38,7 +38,7 @@
                                     <tbody>
                                      {% for obj in query_sets %}
                                       <tr>
-                                          <td><input type="checkbox"></td>
+                                         <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.id }}"></td>
                                           <td>{{ obj.id }}</td>
                                           <td>{{ obj.company }}</td>
                                             <td>
@@ -115,31 +115,42 @@
         //如果选中则全选中,否则取消选中
         $(ths).parent().parent().parent().parent().siblings().find("input:checkbox").prop("checked",ischecked);
     }
-//批量删除
-    function MultiDelete() {
-        $("#delete_modal").modal("show");//显示模态框
+
+          //批量删除
+        function MultiDelete() {
         var ids="";
         $("tbody input:checkbox:checked").each(function () {
-            id = $(this).parent().next().text();
+            id = $(this).next().val();
             if (id){
                 id+="|";
                 ids+=id;
             }
         });
+        //是否选中
+        if (ids==""){
+             layer.alert('至少选择一个对象', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $("#delete_modal").modal("show");//显示模态框
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "company_edit" %}",
+            url:"{% url "company_delete" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",
             success:function (arg) {
                 if (arg.status){
-                   alert("删除成功");
                     window.location.reload()
                 }else{
-                    alert(arg.message)
-                    window.location.reload()
+                   layer.alert('删除失败', {icon: 2 ,
+                                  time: 2000, //2s后自动关闭
+                                    btn: [ '知道了']}
+                                    );
+
                 }
             }
         })
