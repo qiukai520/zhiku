@@ -58,7 +58,8 @@ urlpatterns = [
     path("upload_life_photo", views.life_photo, name="life_photo"),
     path("upload_attach", views.staff_attach, name="staff_attach"),
 
-    # setting delete
+    #  new
+    #  setting delete
     path("company/delete",views.company_delete,name="company_delete"),
     path("department/delete", views.department_delete, name="department_delete"),
     path("project/delete", views.project_delete, name="project_delete"),

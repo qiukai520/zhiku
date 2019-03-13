@@ -2,6 +2,8 @@
 {% load  admin_tags %}
 
 {% block css  %}
+    <link rel="stylesheet" href="/static/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
+
      <style>
 
 
@@ -107,8 +109,9 @@
 
 {% block js %}
 
-    <script src="/static/js/plugins/moment/moment.js"></script>
     <script src="/static/js/plugins/datepicker/bootstrap-datetimepicker.js"> </script>
+        <script src="/static/js/plugins/moment/moment.js"></script>
+
     <script src="/static/js/jquery.cookie.js"></script>
         <script>
         //预防csrf
@@ -153,7 +156,7 @@ $(function () {
         startView: 'months', //开始视图层，为月视图层
         maxViewMode:'years', //最大视图层，为年视图层
         minViewMode:'months', //最小视图层，为月视图层
-        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        {#startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）#}
         endDate:moment().toDate() //控制可选的最晚月份，为当前月
     });
      $('#datepicker2').datepicker({
@@ -164,7 +167,7 @@ $(function () {
         startView: 'months', //开始视图层，为月视图层
         maxViewMode:'years', //最大视图层，为年视图层
         minViewMode:'months', //最小视图层，为月视图层
-        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        {#startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）#}
         endDate:moment().toDate() //控制可选的最晚月份，为当前月
     });
 });

@@ -191,7 +191,7 @@ PERMISSION_MENU_KEY = "afsdfasdfadfsdfsdf"
 
 VALID_URL = [
     "/login/",
-    "/xadmin/",
+    "/xadmin/*",
     "/logout/",
     "/article/",
     "/public/*",
