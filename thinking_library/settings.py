@@ -199,7 +199,8 @@ VALID_URL = [
     "/(\w+)/(\w+)/webuploader*",
     "/*notice*",
     "/*collection*",
-    "/media/*"
+    "/media/*",
+    "/static/*",
 ]
 
 

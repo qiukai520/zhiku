@@ -351,7 +351,7 @@ $(function () {
         startView: 'months', //开始视图层，为月视图层
         maxViewMode:'years', //最大视图层，为年视图层
         minViewMode:'days', //最小视图层，为月视图层
-        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        {#startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）#}
         endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
     });
      $('#datepicker2').datepicker({
@@ -362,7 +362,7 @@ $(function () {
         startView: 'months', //开始视图层，为月视图层
         maxViewMode:'years', //最大视图层，为年视图层
         minViewMode:'days', //最小视图层，为月视图层
-        startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
+        {#startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）#}
         endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
     });
 });

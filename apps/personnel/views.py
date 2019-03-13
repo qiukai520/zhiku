@@ -1032,6 +1032,8 @@ def staff_delete(request):
     status = {"delete_status": 0}
     try:
         staff_db.multi_delete(id_list, status)
+        # 冻结账户
+        Staff.objects.filter(sid_id=id_list).user.is_active = False
         ret['status'] = True
     except Exception as e:
         print(e)

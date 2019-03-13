@@ -2,7 +2,7 @@ import re
 from django.template import Library
 from django.conf import settings
 # from personnel.models import Staff2Role
-register=Library()
+register = Library()
 
 @register.inclusion_tag("rbac/xxxxx.html")
 def menu_html(request):
@@ -11,7 +11,7 @@ def menu_html(request):
     :param request:
     :return:
     """
-    menu_list=request.session.get(settings.PERMISSION_MENU_KEY)
+    menu_list = request.session.get(settings.PERMISSION_MENU_KEY)
     current_url=request.path_info
     # print(current_url)
     # print(menu_list)
@@ -54,13 +54,17 @@ from rbac.models import *
 @register.simple_tag
 def fetch_user_role(user):
     if user:
-        sid = user.staff.sid
-        # roles_list = Staff2Role.objects.filter(staff_id=sid).select_related("role").all()
-        roles_list=user.staff.roles.all()
-        name = ''
-        for item in roles_list:
-            # role = Role.objects.filter(id=item.role_id).first()
-            name += item.title + ";"
+        try:
+            name = ''
+            sid = user.staff.sid
+            # roles_list = Staff2Role.objects.filter(staff_id=sid).select_related("role").all()
+            roles_list=user.staff.roles.all()
+
+            for item in roles_list:
+                # role = Role.objects.filter(id=item.role_id).first()
+                name += item.title + ";"
+        except Exception as e:
+            pass
         return name
 
 @register.simple_tag
