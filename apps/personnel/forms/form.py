@@ -26,6 +26,12 @@ class ProjectForm(django_forms.Form):
 class Select_ProjectForm(django_forms.Form):
     name = django_fields.CharField(error_messages={"required": "项目名称不能为空"})
 
+class ReasonsCauseForm(django_forms.Form):
+    cause = django_fields.CharField(error_messages={"required": "原因名称不能为空"})
+
+class ArticleForm(django_forms.Form):
+    name = django_fields.CharField(error_messages={"required": "用品名称不能为空"})
+
 
 class StaffForm(django_forms.Form):
     job_number = django_fields.CharField(error_messages={"required": "工号不能为空"}, max_length=32)
@@ -61,11 +67,11 @@ class LaborContractForm(django_forms.Form):
     create_time = django_fields.DateTimeField(error_messages={"required": "劳动合同创建时间不能为空", "invalid": "劳动合同创建时间格式错误"})
 
 class ReasonsLeaveForm(django_forms.Form):
+    reasons_cause_id = django_fields.IntegerField(error_messages={"required":"请选择离职原因"})
     reasons = django_fields.CharField(error_messages={"required": "离职原因不能为空"}, max_length=128)
     reasons_time = django_fields.DateTimeField(error_messages={"required": "工资计算截止日期不能为空", "invalid": "工资截止日期创建格式错误"})
     reasons_bool1 = django_fields.BooleanField(required=False)
     reasons_bool2 = django_fields.BooleanField(required=False)
-    reasons_id_id = django_fields.IntegerField(error_messages={"required": "请选择用品"})
     reasons_people_id = django_fields.IntegerField(error_messages={"required": "请选择工作交接人"})
     reasons_time1 = django_fields.DateTimeField(error_messages={"required": "离岗日期不能为空", "invalid": "离岗日期时间格式错误"})
 
@@ -80,6 +86,11 @@ class SuppliesForm(django_forms.Form):
     supplies_id_id = django_fields.IntegerField(error_messages={"required": "请选择用品"})
     supplies_time = django_fields.DateField(error_messages={"required": "领用日时间不能为空", "invalid": "领用日时间格式错误"})
     supplies_remark = django_fields.CharField(error_messages={"required": "备注不能为空"}, max_length=128)
+
+class SuppliesReturnForm(django_forms.Form):
+    supplies_id_id = django_fields.IntegerField(required=False)
+    remark = django_fields.CharField(required=False, max_length=128)
+    return_time = django_fields.DateTimeField(error_messages={"required": "归还日期不能为空", "invalid": "归还日期时间格式错误"})
 
 
 

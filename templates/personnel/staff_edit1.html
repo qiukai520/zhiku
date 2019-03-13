@@ -110,7 +110,7 @@
                     {%endif  %}
                         <div class="attachment">
                                         <div  class="form-group  form-inline" style="margin-left:0px ;margin-right: 0px">
-                                            <label for="file"  class="control-label col-sm-2">上传合同</label>
+                                            <label for="file"  class="control-label col-sm-2">上传附件</label>
                                               <div class="col-sm-8 form-inline ">
                                                   <input type="file" name="file"   class="form-control" onchange="UploadFile(this)">
                                                   <button type="button"  class="btn btn-primary inline "  onclick="AddAttachment(this)"><i  style ="" class="glyphicon glyphicon-plus plus "></i></button>
@@ -205,37 +205,9 @@ $(function () {
 function InitData() {
     //初始化form
     $("#sid").val({{ query_set.sid }});
-    $("#job_number").val("{{ query_set.job_number }}");
-    $("#name").val("{{ query_set.name }}");
-    $("#phone").val("{% if  query_set.phone %}{{ query_set.phone }} {% endif %}");
-    $("input[name=gender]").val();
-    $("input[name=gender][value={{ query_set.gender }}]").attr("checked", true);
-    $("#email").val("{% if  query_set.email %}{{ query_set.email }} {% endif %}");
-    $("#company_id").val({{ query_set.company_id }});
-    $("#project_id").val({{ query_set.project_id }});
-    $("#department_id").val({{ query_set.department_id }});
-    $("#job_rank_id").val({{ query_set.job_rank_id }});
+    $("#content").val({{ query_set.content }});
     $("#select_project_id").val({{ query_set.select_project_id }});
-    $("#id_card").val("{% if  query_set.id_card %}{{ query_set.id_card }} {% endif %}");
-    $("#birthday").val("{{ query_set.birthday |date:'Y-m-d'}}");
-    $("input[name=is_lunar][value={{ query_set.is_lunar }}]").attr("checked", true);
-    $("#nationality").val("{% if  query_set.nationality %}{{ query_set.nationality }} {% endif %}");
-    $("#native_place").val("{% if  query_set.native_place %}{{ query_set.native_place }} {% endif %}");
-    $("#education").val("{% if  query_set.education %}{{ query_set.education }} {% endif %}");
-    $("#recruit_channel").val("{% if  query_set.recruit_channel %}{{ query_set.recruit_channel }} {% endif %}");
-    $("#referrer").val("{% if  query_set.referrer %}{{ query_set.referrer }} {% endif %}");
     $("#effective_time").val("{{ query_set.create_time |date:'Y-m-d'}}");
-    $("#contact_phone").val("{% if  query_set.contact_phone %}{{ query_set.contact_phone }} {% endif %}");
-    $("#contact_man").val("{% if  query_set.contact_man %}{{ query_set.contact_man }} {% endif %}");
-    $("#contact_relation").val("{% if  query_set.contact_relation %}{{ query_set.contact_relation }} {% endif %}");
-    $("#bank").val("{% if  query_set.bank %}{{ query_set.bank }} {% endif %}");
-    $("#bank_account").val("{% if  query_set.bank_account %}{{ query_set.bank_account }} {% endif %}");
-    $("#account_name").val("{% if  query_set.account_name %}{{ query_set.account_name }} {% endif %}");
-    $("#family_address").val("{% if  query_set.family_address %}{{ query_set.family_address }} {% endif %}");
-    $("#current_address").val("{% if  query_set.current_address %}{{ query_set.current_address }} {% endif %}");
-    $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
-
-
     }
 
 //修改时获取附件

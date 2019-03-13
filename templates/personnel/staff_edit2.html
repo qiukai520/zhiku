@@ -59,24 +59,26 @@
 
                             <div class="hr-line-dashed"></div>
                              <div class="form-group">
-                            <label class="col-sm-2 control-label">时间</label>
-                            <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker2">
+                            <label class="col-sm-2 control-label">开始时间</label>
+                            <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker1">
                                 <input type='text'  name="create_time" id='create_time' class="form-control" placeholder="不能为空" />
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
-{#                            <label class="col-sm-2 control-label">至</label>#}
-{#                            <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker1">#}
-{#                                <input type='text'  name="create_time" id='create_time' class="form-control" placeholder="不能为空" />#}
-{#                                <span class="input-group-addon">#}
-{#                                    <span class="glyphicon glyphicon-calendar"></span>#}
-{#                                </span>#}
-{#                            </div>#}
-{#                        </div>#}
 
 
+                            <div class="hr-line-dashed"></div>
+                             <div class="form-group">
+                            <label class="col-sm-2 control-label">结束时间</label>
+                            <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker2">
+                                <input type='text'  name="end_time" id='end_time' class="form-control" value="2018-10-10" placeholder="不能为空" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
 
+                             <div class="hr-line-dashed"></div>
                         <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
                     {% if sid %}
@@ -216,7 +218,7 @@ function InitData() {
     $("#job_rank_id").val({{ query_set.job_rank_id }});
     $("#select_project_id").val({{ query_set.select_project_id }});
     $("#id_card").val("{% if  query_set.id_card %}{{ query_set.id_card }} {% endif %}");
-    $("#birthday").val("{{ query_set.birthday |date:'Y-m-d'}}");
+    $("#end_time").val("{{ query_set.end_time |date:'Y-m-d'}}");
     $("input[name=is_lunar][value={{ query_set.is_lunar }}]").attr("checked", true);
     $("#nationality").val("{% if  query_set.nationality %}{{ query_set.nationality }} {% endif %}");
     $("#native_place").val("{% if  query_set.native_place %}{{ query_set.native_place }} {% endif %}");

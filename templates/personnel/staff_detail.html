@@ -59,6 +59,24 @@
                         <div class="row">
                             <div class="col-sm-5">
                                 <dl class="dl-horizontal">
+                                    <dt>性别：</dt>
+                                    <dd>{% if query_set.gender == 0 %}
+                                        男
+                                        {% else %}
+                                        女
+                                    {% endif %}</dd>
+                                    <dt>联系手机：</dt>
+                                    <dd>{{ query_set.phone }}</dd>
+                                    <dt>联系邮箱：</dt>
+                                    <dd>{{ query_set.email }}</dd>
+                                    <dt>生日：</dt>
+                                    <dd>{{ query_set.birthday }}</dd>
+                                    <dt>身份证号：</dt>
+                                    <dd>{{ query_set.id_card }}</dd>
+                                    <dt>籍贯：</dt>
+                                    <dd>{{ query_set.native_place }}</dd>
+                                    <dt>民族：</dt>
+                                    <dd>{{ query_set.nationality }}</dd>
                                     <dt>工号：</dt>
                                     <dd>{{ query_set.job_number }}</dd>
                                     <dt>所在部门：</dt>
@@ -70,12 +88,14 @@
                                     </dd>
                                     <dt>职称：</dt>
                                     <dd>{% change_to_job_title query_set.job_title_id %}</dd>
-                                    <dt>录入时间：</dt>
+                                    <dt>入职日期：</dt>
                                     <dd>{{ query_set.create_time|date:"Y-m-d" }}</dd>
                                 </dl>
                             </div>
                             <div class="col-sm-7" id="cluster_info">
                                 <dl class="dl-horizontal">
+                                    <dt>学历：</dt>
+                                    <dd>{{ query_set.education }}</dd>
                                       <dt>招聘渠道：</dt>
                                     <dd>{{ query_set.recruit_channel }}</dd>
                                       <dt>引荐员工姓名：</dt>
@@ -86,6 +106,14 @@
                                      <dd>{{ query_set.contact_man }}</dd>
                                      <dt>紧急联系人关系：</dt>
                                     <dd>{{ query_set.contact_relation }}</dd>
+                                    <dt>银行卡号：</dt>
+                                    <dd>{{ query_set.bank_account }}</dd>
+                                    <dt>开户名：</dt>
+                                    <dd>{{ query_set.account_name }}</dd>
+                                    <dt>开户银行：</dt>
+                                    <dd>{{ query_set.bank }}</dd>
+                                    <dt>备注：</dt>
+                                    <dd>{{ query_set.remark }}</dd>
                                 </dl>
                             </div>
                         </div>
@@ -113,6 +141,7 @@
                                                  <li  id="contact_tab"><a href="#tab-3" data-toggle="tab">离职登记</a></li>
                                                  <li  id="memo_tab"><a href="#tab-4" data-toggle="tab">社保管理</a></li>
                                                   <li  id="supp_tab"><a href="#tab-5" data-toggle="tab">用品领用</a></li>
+                                                <li id="supp2_tab"><a href="#tab-6" data-toggle="tab">用品返还</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -169,7 +198,7 @@
                                                                  {{ obj.create_time }}{{ obj.create_time1 }}
                                                              </td>
                                                              <td >
-                                                                  {% if obj.c_time %}{{ obj.c_time }}
+                                                                  {% if obj.last_edit %}{{ obj.last_edit }}
                                                                       {% else %}
                                                                       空
                                                                   {% endif %}
@@ -205,7 +234,8 @@
                                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
 
                                                              <th>备注</th>
-                                                             <th>创建时间</th>
+                                                             <th>开始时间</th>
+                                                            <th>结束时间</th>
                                                             <th>操作</th>
                                                         </tr>
                                                     </thead>
@@ -223,6 +253,7 @@
                                                            </td>
                                                             <td> {{ obj.create_time |date:"Y-m-d"}}
                                                                       </td>
+                                                             <td>{{ obj.end_time |date:"Y-m-d" }}</td>
                                                               <td><a href="{% url 'staff_edit2' %}?cid={{ query_set.sid }}&id={{ obj.sid_id }}" class="btn btn-primary">编辑</a>
                                                                  <button  data-toggle="modal" onclick="ShowLaborDetail({{ obj.sid_id }})" class="btn btn-info">详细</button>
                                                              </td>
@@ -254,7 +285,7 @@
 
                                                             <th>离职原因</th>
                                                             <th>工资计算截止日期</th>
-                                                            <th>用品返还</th>
+
                                                             <th>工作交接人</th>
                                                              <th>离岗日期</th>
                                                             <th>操作</th>
@@ -273,7 +304,6 @@
                                                                   {% endif %}
                                                            </td>
                                                             <td>{{ obj.reasons_time| date:"Y-m-d" }}</td>
-                                                               <td>{% change_to_a_article obj.reasons_id_id %}</td>
                                                              <td>{% change_to_p_people obj.reasons_people_id %}</td>
                                                              <td>{{ obj.reasons_time1| date:"Y-m-d" }}</td>
                                                               <td><a href="{% url 'staff_edit3' %}?cid={{ query_set.sid }}&id={{ obj.sid_id }}" class="btn btn-primary">编辑</a>
@@ -397,6 +427,57 @@
                                 </table>
                                              </div>
                                             </div>
+
+                                        <div class="tab-pane" id="tab-6">
+                                                <div class="btn-group hidden-xs" id="toolbar6" role="group">
+                                                    <a href="{% url "staff_edit6" %}?cid={{ query_set.sid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                                    <button  onclick="SuppDel()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
+                                                </div>
+                                             <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
+
+                                    <table id="supp2"  class="table export-table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                    <thead>
+                                         <tr >
+                                             <th><input type="checkbox" onclick="SelectAll(this)"></th>
+
+                                             <th>用品</th>
+                                             <th>归还时间</th>
+                                             <th>备注</th>
+                                             <th>操作</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% fetch_supplies_r_list  query_set.sid as s_list %}
+                                     {% for obj in s_list %}
+                                      <tr>
+                                          <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.sid}}></td>
+
+                                           <td>{% change_to_a_article obj.supplies_id_id %}</td>
+                                           <td>{{ obj.return_time |date:"Y-m-d" }}</td>
+                                           <td >
+                                              {% if obj.remark %} {{ obj.remark }}
+                                                   {% else %}
+                                                       空
+                                              {% endif %}</td>
+                                            <td>
+                                              <a href="{% url 'staff_edit6' %}?cid={{ query_set.sid }}&id={{ obj.sid_id }}" class="btn btn-primary">编辑</a>
+                                                <button  data-toggle="modal" onclick="ShowSuppReturnDetail({{ obj.sid_id }})" class="btn btn-info">详细</button>
+                                          </td>
+                                      </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                </table>
+                                             </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -408,19 +489,19 @@
         </div>
         <div class="col-sm-3">
             <div class="wrapper wrapper-content project-manager">
-{#               {% if customer_photo %}#}
-{#                     <h4>员工照片</h4>#}
-{#                        <p><img width="100" src="/{{customer_photo.photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>#}
-{#             {% endif %}#}
-{#             {% if customer_photo %}#}
+               {% if life_photo %}
+                     <h4>员工照片</h4>
+                        <p><img width="100" src="/{{life_photo.life_photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
+             {% endif %}
+{#             {% if life_photo %}#}
 {#                     <h4>公司执照</h4>#}
-{#                        <p><img width="100" src="/{{customer_licence.photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>#}
+{#                        <p><img width="100" src="/{{life_photo.life_photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>#}
 {#             {% endif %}#}
                 <br>
                 <h5>员工附件</h5>
                 <ul class="list-unstyled project-files">
 {#                    {% query_task_map_attachment_by_tmid task_obj.tmid as t_attachement %}#}
-                    {% for obj in customer_attach%}
+                    {% for obj in life_attach%}
                          <li>
                              <label class="form-label"   >附件{{ forloop.counter }}:</label>
                              <a class="download_file" href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
@@ -473,7 +554,7 @@
                                      <div class=" form-group row value" >
                                           <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">操作时间</div>
                                           <div class="col-xs-9 p_form" >
-                                             <p class="form-control-static " id="c_time" ></p>
+                                             <p class="form-control-static " id="last_edit" ></p>
                                           </div>
                                     </div>
                                      <div class=" form-group row value" >
@@ -528,10 +609,17 @@
                                           </div>
                                     </div>
                                     <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">创建时间</div>
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">开始时间</div>
                                           <div class="col-xs-9 p_form">
                                              <p class="form-control-static " id="create_time"></p>
                                           </div>
+                                    </div>
+
+                                    <div class="form-group row value">
+                                        <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px">结束时间</div>
+                                        <div class="col-xs-9 p_form">
+                                            <p class="form-control-static" id="end_time"></p>
+                                        </div>
                                     </div>
 
                                       <div class=" form-group row value hidden " id="follow_attach" >
@@ -739,6 +827,62 @@
     </div>
 </div>
 
+
+    <div class="modal fade " id="supplies1_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearMemoData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">备忘</h3>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;">
+            <div class="col-xs-12">
+                <div class="form-container row clearfix">
+                        <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
+                            <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
+{#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
+                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px">
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">用品</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="supplies1_id"></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">归还备注</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="return_remark"></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">归还日期</div>
+                                          <div class="col-xs-9 p_form">
+                                             <p class="form-control-static " id="return_time"></p>
+                                          </div>
+                                    </div>
+
+                                     <div class=" form-group row value hidden " id="memo_attach" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="memo_container">
+                                          </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+         </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="ClearMemoData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <a class="btn btn-submit btn-primary edit-btn" id="memo_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+      </div>
+    </div>
+    </div>
+</div>
+
        <!-- Modal -->
     <!-- delete-->
 <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -916,6 +1060,36 @@
                 fileName: '客户备忘报表'//导出文件的名称
             }
         });
+
+           $("#supp2").bootstrapTable({
+            toolbar: "#toolbar6",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 6,
+            pageList: [6, 10,15],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false,
+            showExport : true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1,0], //忽略某一列的索引
+                fileName: '客户备忘报表'//导出文件的名称
+            }
+        });
     });
     //展示就职表现详细内容
     function ShowSprojectDetail(cons) {
@@ -934,7 +1108,7 @@
                   $("#select_project_id_id").text(data.select_project_id_id);
                   $("#content").text(data.content);
                   $("#create_time_1").text(data.create_time);
-                  $("#c_time").text(data.c_time);
+                  $("#last_edit").text(data.last_edit);
                   $("#operator").text(data.operator_id);
                   //初始化附件
                   if (data.attach!=""){
@@ -971,6 +1145,7 @@
                   {#$("#content").text(data.content);#}
                   $("#remark").text(data.remark);
                   $("#create_time").text(data.create_time);
+                  $("#end_time").text(data.end_time);
                   if (data.date!=""){
                        $("#date").text(data.date );
                   }
@@ -1085,6 +1260,45 @@
                   $("#supplies_id").text(data.supplies_id_id);
                   $("#supplies_time").text(data.supplies_time);
                   $("#supplies_remark").text(data.supplies_remark);
+                  if (data.date!=""){
+                       $("#date").text(data.date );
+                  }
+                  //初始化附件
+                  if (data.attach!=""){
+                      var attachs = JSON.parse(data.attach);
+                      for (var i=0;i<attachs.length;i++){
+                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles=a_ele+l_ele+"<br>"
+                      $("#contact_container").append(eles)
+                      }
+                      $("#contact_attach").removeClass("hidden")
+
+                  }
+                  {#$("#contact_edit").attr("href","customer_contact?sid={0}&id={1}".format({{ query_set.nid }},data.nid))#}
+              }
+          }
+      });
+    }
+
+     //展示用品归还详细内容
+    function ShowSuppReturnDetail(cons) {
+
+      $('#supplies1_detail').modal('show');
+      var id =cons
+      $.ajax({
+          url:"{% url "staff_detail_6" %}",
+          type:"get",
+          data:{'id':id},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  console.log(arg)
+                  var data=arg.data;
+                  console.log(data.name)
+                  $("#supplies1_id").text(data.supplies_id_id);
+                  $("#return_time").text(data.return_time);
+                  $("#return_remark").text(data.remark);
                   if (data.date!=""){
                        $("#date").text(data.date );
                   }

@@ -17,6 +17,12 @@ create TABLE `reasons_people`(
 `name` varchar (64) NOT NULL COMMENT '工作交接人'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='工作交接人';
 
+drop TABLE if exists `reasons_cause`;
+create TABLE `reasons_cause`(
+`id` int (11) primary key auto_increment,
+`cause` varchar (64) NOT NULL COMMENT '原因'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='原因';
+
 drop table if exists `performanceyg`;
 create table `performanceyg`(
 `nid` int(11) NOT NULL primary key auto_increment,
@@ -44,8 +50,8 @@ create TABLE `labor_contract`(
 `nid`int(11) NOT NULL primary key auto_increment,
 `sid_id` int(11) NOT NULL COMMENT '员工',
 `remark` varchar(512) NOT NULL COMMENT '备注',
-`create_time` datetime DEFAULT NULL COMMENT '开始时间'
--- `last_time` datetime DEFAULT NULL COMMENT '结束时间'
+`create_time` datetime DEFAULT NULL COMMENT '开始时间',
+`end_time` datetime DEFAULT NULL COMMENT '结束时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='劳动合同';
 
 drop TABLE if exists `labor_contract_attach`;
@@ -62,11 +68,12 @@ drop table if exists `reasonsleave`;
 create table `reasonsleave`(
 `nid`int (11) NOT NUll primary key auto_increment,
 `sid_id` int(11) NOT NULL COMMENT'员工',
+`reasons_cause` int(11) NOT NULL COMMENT '原因',
 `reasons` varchar (512) NOT NULL COMMENT '离职原因',
 `reasons_time` datetime DEFAULT NULL COMMENT '工资计算截止日期',
 `reasons_bool1` tinyint(1) default 0 COMMENT '停用账号选择状态：0=否，1=是',
 `reasons_bool2` tinyint(1) default 0 COMMENT '停买社保选择状态',
-`reasons_id_id` int(11) NOT NULL COMMENT '用品',
+-- `reasons_id_id` int(11) NOT NULL COMMENT '用品',
 `reasons_people_id` int(11) NOT NULL COMMENT '工作交接人',
 `reasons_time1` datetime DEFAULT NULL COMMENT '离岗日期'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='离岗原因';
@@ -121,3 +128,24 @@ create table `supplies_attach`(
 `name` varchar(64) COMMENT '附件名称',
 `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0否，1是'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用品领用附件';
+
+
+drop table if exists `supplies_return`;
+create table `supplies_return`(
+`nid` int(11) NOT NULL primary key auto_increment,
+`sid_id` int(11) NOT NULL COMMENT '员工',
+`supplies_id_id` int(11) NOT NULL COMMENT '用品',
+`remark` varchar (512) NOT NULL COMMENT '归还备注',
+`return_time` datetime DEFAULT NULL COMMENT '归还日期'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用品归还';
+
+drop table if exists `supplies_return_attach`;
+create table `supplies_return_attach`(
+`nid`int(11) NOT NULL primary key auto_increment,
+`sid_id` int(11) NOT NULL COMMENT '用品归还附件',
+`attachment` varchar(128) COMMENT '附件路径',
+`description` varchar(128) COMMENT '附件描述',
+`name` varchar(64) COMMENT '附件名称',
+`is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态:0否，1是'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用品归还附件';
+

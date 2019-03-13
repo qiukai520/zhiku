@@ -79,7 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'rbac.middlewares.rbac.LoginMiddleware',
-    'rbac.middlewares.rbac.RbacMiddleware',
+    # 'rbac.middlewares.rbac.RbacMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
@@ -117,7 +117,7 @@ DATABASES = {
         # 'PASSWORD': 'Aa@zhiku886',
         'NAME': 'thinking_library',
         'USER': 'root',
-        'PASSWORD': 'a741258963',
+        'PASSWORD': 'q951753',
         'HOST': '',
         'PORT': '',
         'OPTIONS': {

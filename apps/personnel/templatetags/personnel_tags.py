@@ -185,12 +185,22 @@ def build_project():
     return mark_safe(eles)
 
 @register.simple_tag
+def build_cause():
+    """创建离职的原因下拉"""
+    cause = reasonscause_db.reasons_cause_db()
+    eles = ""
+    for item in cause:
+        ele = """<option value={0}>{1}</option>""".format(item.id, item.cause)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
 def build_article():
     """创建用品"""
     article_list = article1_db.article_list()
     eles = ""
     for item in article_list:
-        ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        ele = """<option value={0} name="article_list">{1}</option>""".format(item.id, item.name)
         eles += ele
     return mark_safe(eles)
 
@@ -232,6 +242,12 @@ def fetch_social_s_list(id):
 def fetch_supplies_s_list(id):
     if id:
         s_list = supplies_db.query_supp_by_s_id(id)
+        return s_list
+
+@register.simple_tag
+def fetch_supplies_r_list(id):
+    if id:
+        s_list = suppliesreturn_db.query_supp_by_s_id(id)
         return s_list
 
 
