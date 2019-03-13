@@ -99,6 +99,21 @@ class ReasonsPeople(models.Model):
     _insert = ["reasons_people"]
     _update = ["reasons_people"]
 
+class ReasonsCause(models.Model):
+    id = models.AutoField(primary_key=True)
+    cause = models.CharField(max_length=32, blank=True, null=True, verbose_name='原因')
+
+    class Meta:
+        db_table = 'reasons_cause'
+        verbose_name = '原因'
+        verbose_name_plural = '原因'
+
+    def __str__(self):
+        return self.cause
+
+    _insert = ["cause"]
+    _update = ["cause"]
+
 
 class JobRank(models.Model):
     id = models.AutoField(primary_key=True)
@@ -156,7 +171,7 @@ class Staff(models.Model):
                                    default=1, verbose_name='职级', blank=True, null=True)
     job_title = models.ForeignKey('JobTitle', to_field="id", on_delete=models.CASCADE, db_constraint=False,
                                  default=1, verbose_name='职称', blank=True, null=True)
-    birthday = models.DateField(verbose_name="生日", blank=True, null=True)
+    birthday = models.DateField(verbose_name="生日", auto_now_add=False, blank=True, null=True)
     is_lunar = models.SmallIntegerField(choices=is_lunar, verbose_name="生日农历or公历", default=0)
     hire_day = models.DateField(verbose_name="入职日期", blank=True, null=True)
     native_place = models.CharField(max_length=64, verbose_name="籍贯", blank=True, null=True)
@@ -285,7 +300,8 @@ class LaborContract(models.Model):
     sid = models.ForeignKey('Staff', to_field='sid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='员工')
     remark = models.TextField(max_length=512, verbose_name="备注", blank=True, null=True)
-    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='开始时间')
+    end_time = models.DateTimeField(auto_now_add=False, verbose_name='结束时间')
 
     class Meta:
         db_table = 'labor_contract'
@@ -295,9 +311,9 @@ class LaborContract(models.Model):
     def __str__(self):
         return self.remark
 
-    _insert = ["sid_id", "remark", "create_time"]
+    _insert = ["sid_id", "remark", "create_time", "end_time"]
 
-    _update = ["nid", "sid_id", "remark", "create_time"]
+    _update = ["nid", "sid_id", "remark", "create_time", "end_time"]
 
 
 # 合同劳动附件附件
@@ -325,12 +341,11 @@ class ReasonsLeave(models.Model):
     nid = models.AutoField(primary_key=True)
     sid = models.ForeignKey('Staff', to_field='sid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='员工')
+    reasons_cause = models.ForeignKey('ReasonsCause', to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name='原因')
     reasons = models.TextField(max_length=512, verbose_name="离职原因", blank=True, null=True)
     reasons_time = models.DateTimeField(auto_now_add=True, verbose_name='工资计算截止日期')
     reasons_bool1 = models.BooleanField(default=True, verbose_name="停用账号")
     reasons_bool2 = models.BooleanField(default=True, verbose_name="停买社保")
-    reasons_id = models.ForeignKey('Article', to_field='id', on_delete=models.CASCADE, db_constraint=False,
-                                   verbose_name='用品')
     reasons_people = models.ForeignKey('ReasonsPeople', to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name='工作交接人')
     reasons_time1 = models.DateTimeField(auto_now_add=True, verbose_name='离岗日期')
 
@@ -342,9 +357,9 @@ class ReasonsLeave(models.Model):
     def __str__(self):
         return self.reasons
 
-    _insert = ["sid_id", "reasons", "reasons_time", "reasons_bool1", "reasons_bool2", "reasons_id_id", "reasons_people_id", "reasons_time1"]
+    _insert = ["sid_id", "reasons_cause_id", "reasons", "reasons_time", "reasons_bool1", "reasons_bool2", "reasons_people_id", "reasons_time1"]
 
-    _update = ["nid", "sid_id", "reasons", "reasons_time", "reasons_bool1", "reasons_bool2", "reasons_id_id", "reasons_people_id", "reasons_time1"]
+    _update = ["nid", "sid_id", "reasons_cause_id", "reasons", "reasons_time", "reasons_bool1", "reasons_bool2", "reasons_people_id", "reasons_time1"]
 
 
 # 离职原因附件附件
@@ -415,7 +430,7 @@ class Supplies(models.Model):
     sid = models.ForeignKey('Staff', to_field='sid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='员工')
     supplies_id = models.ForeignKey('Article', to_field='id', on_delete=models.CASCADE, db_constraint=False,
-                                   verbose_name='用品')
+                                    verbose_name='用品')
     supplies_time = models.DateTimeField(auto_now_add=True, verbose_name='领用日')
     supplies_remark = models.TextField(max_length=512, verbose_name="备注", blank=True, null=True)
 
@@ -443,6 +458,48 @@ class Supplies_Attach(models.Model):
 
     class Meta:
         db_table = 'supplies_attach'
+        verbose_name = '用品领用附件'
+        verbose_name_plural = '用品领用附件'
+
+    def __str__(self):
+        return "用品领用附件:{0}".format(self.sid)
+
+    _update = ["attachment", "name", "description"]
+
+
+# 用品归还
+class Supplies_Return(models.Model):
+    nid = models.AutoField(primary_key=True)
+    sid = models.ForeignKey('Staff', to_field='sid', on_delete=models.CASCADE, db_constraint=False,
+                            verbose_name='员工')
+    supplies_id = models.ForeignKey('Article', to_field='id', on_delete=models.CASCADE, db_constraint=False,
+                                    verbose_name='用品')
+    remark = models.TextField(max_length=512, verbose_name='归还备注', blank=True, null=True)
+    return_time = models.DateTimeField(auto_now_add=True, verbose_name='归还时间')
+
+    class Meta:
+        db_table = 'supplies_return'
+        verbose_name = '用品归还'
+        verbose_name_plural = '用品归还'
+
+    def __str__(self):
+        return self.sid_id
+
+    _insert = ['sid_id', 'supplies_id_id', 'remark', 'return_time']
+
+    _update = ['id', 'sid_id', 'supplies_id_id', 'remark', 'return_time']
+
+# 用品归还附件
+class Supplies_Return_Attach(models.Model):
+    nid = models.AutoField(primary_key=True)
+    sid = models.ForeignKey('Supplies_Return', to_field='nid', on_delete=models.CASCADE, db_constraint=False,
+                            verbose_name='用品归还附件')
+    attachment = models.CharField(max_length=255, blank=True, null=True, verbose_name='路径')
+    name = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件名称')
+    description = models.CharField(max_length=128, blank=True, null=True, verbose_name='附件描述')
+
+    class Meta:
+        db_table = 'supplies_return_attach'
         verbose_name = '用品领用附件'
         verbose_name_plural = '用品领用附件'
 

@@ -1,0 +1,120 @@
+{% extends "content_edit_layout.html" %}
+{% load personnel_tags %}
+{% block css %}
+    <style>
+     .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+    .form-group{
+         margin-top:30px;
+    }
+    </style>
+
+{%endblock %}
+{% block content %}
+
+      <div class="wrapper wrapper-content container animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>选择项目编辑 </h5>
+                           <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-horizontal" style="position: relative;margin-top: 30px">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label for="name" class="col-xs-2 control-label">选择项目：</label>
+                                      <div class="col-xs-10">
+                                          <input name="name"  class="form-control"  id="name" placeholder="选择项目">
+                                        </input>
+                                      </div>
+                                </div>
+                                 <div class="hr-line-dashed"></div>
+                                <div class="row" id="content_footer" >
+                                    <div class="form-actions well well-sm clearfix">
+                                        {% if id %}
+                                          <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                            <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                                <button type="submit"  onclick="Submit(3)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并继续编辑.." name="_continue"><i class="fa fa-save"></i> 保存并继续编辑</button>
+                                        {% else %}
+                                             <button type="submit" onclick="Submit(1)" class="default btn btn-primary hide-xs" name="_save" data-loading-text="保存中.."><i class="fa fa-save"></i> 保存并返回</button>
+                                                <button type="submit"  onclick="Submit(2)" style="background-color: #0ba7a9" class="btn btn-info" data-loading-text="保存并增加另一个.." name="_addanother"><i class="fa fa-save"></i> 保存并增加另一个</button>
+                                        {% endif %}
+                                            <a href="{% url "job_title_list" %}"  class="default btn btn-info hide-xs" ><i class="fa fa-reply"></i> 返回</a>
+                                            <div class="alert alert-danger hide " onclick="Hidden(this)" style="display:inline-block ;padding: 7px 12px;margin: 0px">
+                                                <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                                </span>
+                                                <span id="error_msg" style="font-size: 14px;"></span>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block js%}
+     <script>
+          //字符串格式化
+String.prototype.format=function()
+{
+  if(arguments.length==0) return this;
+  for(var s=this, i=0; i<arguments.length; i++)
+    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);
+  return s;
+};
+       //自执行函数
+  $(function () {
+
+      if({{ id }}){
+          DataInit()//初始化化数据
+      }
+  })
+  function DataInit() {
+        $("#name").val("{{ select_project_obj.name }}");
+}
+       function Submit(cons) {
+        var $msg = $('#error_msg');
+        $msg.parent().addClass('hide');
+        var name = $("#name").val().trim();
+        var id={{ id }}
+         console.log(id)
+        if(id!=0){
+           var data=  {"name":name,"id":id}
+        }else {
+            var data={"name":name,}
+        }
+        $.ajax({
+                url: '{% url "select_project_edit"%}',
+                type: "post",
+                data:  data,
+            dataType: "json",
+            success: function (arg) {
+                if (arg.status) {
+                     if (cons==1){
+                             window.location.href='{% url "select_project_list" %}';
+                        }else if(cons==2){
+                             window.location.href='{% url "select_project_edit" %}';
+                        }else{
+                              window.location.href='{% url "select_project_edit" %}?id={0}'.format(arg.data);
+                        }
+                } else {
+                        $msg.parent().removeClass('hide');
+                        $msg.text(arg.message);
+                }
+            }
+        })
+    }
+
+    </script>
+{% endblock %}

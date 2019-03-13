@@ -48,6 +48,7 @@
                                     <button onclick="Dimission()" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>离职登记</button>
                                     <button onclick="Insurance()" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>社保管理</button>
                                     <button onclick="AddArt()" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>用品领用</button>
+                                    <button onclick="Return()" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>用品归还 </button>
 
                                     <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
@@ -599,6 +600,26 @@
                 );
             }
         }
+
+           {# 用品归还(待修改) #}
+    function Return() {
+        var is_checked=$("tbody input:checked:checked").length;
+            if (is_checked==1) {
+                var cid=$("tbody input:checkbox:checked").eq(0).next().val();
+                window.location.href="{% url "staff_edit6" %}?cid={0}".format(cid)
+            }else if (is_checked>1) {
+                layer.alert('只能选择一个客户', {icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+            else{
+                layer.alert('请选择用户', {icon: 6,
+                time:1500,
+                btn:['知道了']}
+                );
+            }
+    }
     </script>
 
 {% endblock %}

@@ -79,7 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'rbac.middlewares.rbac.LoginMiddleware',
-    'rbac.middlewares.rbac.RbacMiddleware',
+    # 'rbac.middlewares.rbac.RbacMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
@@ -112,12 +112,12 @@ WSGI_APPLICATION = 'thinking_library.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'zhiku-v1',
-        # 'USER': 'zhiku',
-        # 'PASSWORD': 'Aa@zhiku886',
-        'NAME': 'thinking_library',
-        'USER': 'root',
-        'PASSWORD': 'a741258963',
+        'NAME': 'zhiku-v1',
+        'USER': 'zhiku',
+        'PASSWORD': 'Aa@zhiku886',
+        # 'NAME': 'thinking_library',
+        # 'USER': 'root',
+        # 'PASSWORD': 'a741258963',
         'HOST': '',
         'PORT': '',
         'OPTIONS': {

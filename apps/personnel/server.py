@@ -165,6 +165,19 @@ class S_Project(object):
         result_db = Select_Project.objects.filter(id=id).first()
         return result_db
 
+    def update_select_project_title(self, modify_info):
+        is_exist = Select_Project.objects.filter(name=modify_info['name']).first()
+        if is_exist:
+            raise Exception("该名称已存在")
+        Select_Project.objects.filter(id=modify_info['id']).update(**modify_info)
+
+    def insert_select_project_title(self, modify_info):
+        is_exist = Select_Project.objects.filter(name=modify_info['name']).first()
+        if is_exist:
+            raise Exception("该名称已存在")
+        Select_Project.objects.create(**modify_info)
+
+
 class ReasonsPeopleDB(object):
     """工作交接人"""
 
@@ -175,6 +188,29 @@ class ReasonsPeopleDB(object):
     def query_p_title_by_id(self, id):
         result_db = ReasonsPeople.objects.filter(id=id).first()
         return result_db
+
+class ReasonsCauseDB(object):
+    """离职的原因"""
+
+    def reasons_cause_db(self):
+        cause_db = ReasonsCause.objects.filter().all()
+        return cause_db
+
+    def query_cause_by_id(self, id):
+        result_db = ReasonsCause.objects.filter(id=id).first()
+        return result_db
+
+    def update_cause_title(self, modify_info):
+        is_exist = ReasonsCause.objects.filter(cause=modify_info['cause']).first()
+        if is_exist:
+            raise Exception("该名称已存在")
+        ReasonsCause.objects.filter(id=modify_info['id']).update(**modify_info)
+
+    def insert_cause_title(self, modify_info):
+        is_exist = ReasonsCause.objects.filter(cause=modify_info['cause']).first()
+        if is_exist:
+            raise Exception("该名称已存在")
+        ReasonsCause.objects.create(**modify_info)
 
 class StaffLifePhotoDB(object):
     """人事生活照"""
@@ -328,6 +364,18 @@ class ArticleDB(object):
         result_db = Article.objects.filter(id=id).first()
         return result_db
 
+    def update_article_title(self, modify_info):
+        is_exist = Article.objects.filter(name=modify_info['name']).first()
+        if is_exist:
+            raise Exception("该职位名称已存在")
+        Article.objects.filter(id=modify_info['id']).update(**modify_info)
+
+    def insert_article_title(self, modify_info):
+        is_exist = Article.objects.filter(name=modify_info['name']).first()
+        if is_exist:
+            raise Exception("该职位名称已存在")
+        Article.objects.create(**modify_info)
+
 class ReasonsLeaveDB(object):
     def insert_edit3(self, modify_info):
         reasons_sql = """insert into reasonsleave(%s) value(%s);"""
@@ -462,6 +510,51 @@ class SuppliesAttachDB(object):
     def multi_delete_attach_by_edit5_id(self, id_list):
         Supplies_Attach.objects.filter(edit1_id__in=id_list).filter().delete()
 
+
+class SuppliesReturnDB(object):
+    def insert_edit6(self, modify_info):
+        supp_sql = """insert into supplies_return(%s) value(%s);"""
+        k_list = []
+        v_list = []
+        for k, v in modify_info.items():
+            k_list.append(k)
+            v_list.append("%%(%s)s" % k)
+        staff_sql = supp_sql % (",".join(k_list), ",".join(v_list))
+        cursor = connection.cursor()
+        cursor.execute(staff_sql, modify_info)
+        sid = cursor.lastrowid
+        return sid
+
+    def query_supp_by_id(self, sid):
+        result_db = Supplies_Return.objects.filter(sid=sid).first()
+        return result_db
+
+    def query_supp_by_s_id(self, sid):
+        result_db = Supplies_Return.objects.filter(sid=sid).all().order_by("-nid")
+        return result_db
+
+    def multi_delete(self, id_list):
+        Supplies_Return.objects.filter(nid__in=id_list).delete()
+
+class SuppliesReturnAttachDB(object):
+    def query_supp_attachment(self, id):
+        result_db = Supplies_Return_Attach.objects.filter(sid=id).all()
+        return result_db
+
+    def mutil_insert_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            Supplies_Return_Attach.objects.create(**item)
+
+    def mutil_update_attachment(self, modify_info_list):
+        for item in modify_info_list:
+            Supplies_Return_Attach.objects.filter(said=item['said']).update(**item)
+
+    def mutil_delete_task_attachment(self, id_list):
+        Supplies_Return_Attach.objects.filter(said__in=id_list).delete()
+
+    def multi_delete_attach_by_edit5_id(self, id_list):
+        Supplies_Return_Attach.objects.filter(edit1_id__in=id_list).filter().delete()
+
 department_db = DepartmentDB()
 company_db = CompanyDB()
 project_db = ProjectDB()
@@ -483,5 +576,8 @@ socialsecurity_db = SocialSecurityDB()
 socialattach_db = SocialAttachDB()
 supplies_db = SuppliesDB()
 suppliesattach_db = SuppliesAttachDB()
+suppliesreturn_db = SuppliesReturnDB()
+suppliesreturnattach_db = SuppliesReturnAttachDB()
+reasonscause_db = ReasonsCauseDB()
 
 

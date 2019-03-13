@@ -115,6 +115,104 @@ def job_title_edit(request):
     return HttpResponse(json.dumps(ret))
 
 
+def select_project_list(request):
+    query_sets = select_project_db.project_list()
+    return render(request,"personnel/select_project_list.html",{"query_sets":query_sets})
+
+def select_project_edit(request):
+    """"选择项目添加或编辑"""
+    method = request.method
+    if method == "GET":
+        id = request.GET.get("id", "")
+        # 有则为编辑 ,无则添加
+        if id:
+            select_project_obj = select_project_db.query_s_title_by_id(id)
+        else:
+            id = 0
+            select_project_obj = []
+        return render(request, 'personnel/select_project_edit.html', {"select_project_obj": select_project_obj, "id": id})
+    else:
+        form = Select_ProjectForm(data=request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("id", "")
+            data = request.POST
+            data = data.dict()
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    record = select_project_db.query_s_title_by_id(id)
+                    final_info = compare_fields(Select_Project._update, record, data)
+                    if final_info:
+                        final_info["id"] = id
+                        select_project_db.update_select_project_title(final_info)
+                    ret['status'] = True
+                    ret["data"] = id
+                except Exception as e:
+                    ret['message'] = str(e)
+            else:
+                try:
+                    select_project_db.insert_select_project_title(data)
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
+
+
+def cause_list(request):
+    query_sets = reasonscause_db.reasons_cause_db()
+    return render(request, "personnel/cause_list.html", {"query_sets": query_sets})
+
+def cause_edit(request):
+    """"选择项目添加或编辑"""
+    method = request.method
+    if method == "GET":
+        id = request.GET.get("id", "")
+        # 有则为编辑 ,无则添加
+        if id:
+            cause_obj = reasonscause_db.query_cause_by_id(id)
+        else:
+            id = 0
+            cause_obj = []
+        return render(request, 'personnel/cause_edit.html', {"cause_obj": cause_obj, "id": id})
+    else:
+        form = ReasonsCauseForm(data=request.POST)
+        print(request.POST)
+        ret = {'status': False, "data": '', "message": ""}
+        if form.is_valid():
+            id = request.POST.get("id", "")
+            data = request.POST
+            data = data.dict()
+            # 有则为编辑 ,无则添加
+            if id:
+                try:
+                    record = reasonscause_db.query_cause_by_id(id)
+                    final_info = compare_fields(ReasonsCause._update, record, data)
+                    if final_info:
+                        final_info["id"] = id
+                        reasonscause_db.update_cause_title(final_info)
+                    ret['status'] = True
+                    ret["data"] = id
+                except Exception as e:
+                    ret['message'] = str(e)
+            else:
+                try:
+                    reasonscause_db.insert_cause_title(data)
+                    ret['status'] = True
+                except Exception as e:
+                    ret['message'] = str(e)
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+    return HttpResponse(json.dumps(ret))
+
+
+
 def company_list(request):
     query_sets = company_db.query_company_list()
     return render(request,"personnel/company_list.html",{"query_sets":query_sets})
@@ -391,7 +489,7 @@ def staff_edit1(request):
                     if not edit1_attach:
                         edit1_attach = ''
                 else:
-                    query_sets = {}
+                    query_set = {}
                     edit1_attach = {}
                 return render(request, "personnel/staff_edit1.html", locals())
         return render(request, "404.html")
@@ -472,7 +570,7 @@ def staff_edit2(request):
                     if not edit2_attach:
                         edit2_attach = ''
                 else:
-                    query_sets = {}
+                    query_set = {}
                     edit2_attach = {}
                 return render(request, "personnel/staff_edit2.html", locals())
         return render(request, "404.html")
@@ -551,7 +649,7 @@ def staff_edit3(request):
                     if not edit3_attach:
                         edit3_attach = ''
                 else:
-                    query_sets = {}
+                    query_set = {}
                     edit3_attach = {}
                 return render(request, "personnel/staff_edit3.html", locals())
         return render(request, "404.html")
@@ -628,7 +726,7 @@ def staff_edit4(request):
                     if not edit4_attach:
                         edit4_attach = ''
                 else:
-                    query_sets = {}
+                    query_set = {}
                     edit4_attach = {}
                 return render(request, "personnel/staff_edit4.html", locals())
         return render(request, "404.html")
@@ -705,7 +803,7 @@ def staff_edit5(request):
                     if not edit5_attach:
                         edit5_attach = ''
                 else:
-                    query_sets = {}
+                    query_set = {}
                     edit5_attach = {}
                 return render(request, "personnel/staff_edit5.html", locals())
         return render(request, "404.html")
@@ -757,6 +855,84 @@ def staff_edit5(request):
                         if edit5_attach:
                             edit5_attach = build_attachment_info({"sid_id": nid}, supp_attach)
                             suppliesattach_db.mutil_insert_attachment(edit5_attach)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    print(e)
+                    ret["message"] = "添加失败"
+        else:
+            errors = form.errors.as_data().values()
+            firsterror = str(list(errors)[0][0])
+            ret['message'] = firsterror
+        return HttpResponse(json.dumps(ret))
+
+def staff_edit6(request):
+    mothod = request.method
+    if mothod == "GET":
+        nid = request.GET.get("id", "")
+        cid = request.GET.get("cid", '')
+        if cid:
+            customer_obj = staff_db.query_staff_by_id(cid)
+            if customer_obj:
+                if nid:
+                    # 更新
+                    query_set = suppliesreturn_db.query_supp_by_id(nid)
+                    edit6_attach = suppliesreturnattach_db.query_supp_attachment(nid)
+                    if not edit6_attach:
+                        edit6_attach = ''
+                else:
+                    query_set = {}
+                    edit6_attach = {}
+                return render(request, "personnel/staff_edit6.html", locals())
+        return render(request, "404.html")
+    else:
+        ret = {'status': False, "data": '', "message": ""}
+        print("request.POST", request.POST)
+        form = SuppliesReturnForm(data=request.POST)
+        if form.is_valid():
+            data = request.POST
+            data = data.dict()
+            edit6_attach = data.get("attach", None)
+            nid = data.get("nid", None)
+            supp_attach = list(json.loads(edit6_attach))
+            if nid:
+                # 更新
+                try:
+                    with transaction.atomic():
+                        record = suppliesreturn_db.query_supp_by_id(nid)
+                        edit6_info = compare_fields(Staff._update, record, data)
+                        if edit6_info:
+                            edit6_info["nid"] = nid
+                            suppliesreturn_db.update_edit5(edit6_info)
+                        # 更新附件
+                        if edit6_attach:
+                            att_record = suppliesreturnattach_db.query_supp_attachment(nid)
+                            # 数据对比
+                            insert_att, update_att, delete_id_att = compare_json(att_record, supp_attach, "nid")
+                            if insert_att:
+                                insert_att = build_attachment_info({"sid_id": nid}, insert_att)
+                                suppliesreturnattach_db.mutil_insert_attachment(insert_att)
+                            if update_att:
+                                suppliesreturnattach_db.mutil_update_attachment(update_att)
+                            if delete_id_att:
+                                suppliesreturnattach_db.mutil_delete_task_attachment(delete_id_att)
+                        else:
+                            suppliesreturnattach_db.multi_delete_attach_by_edit5_id(nid)
+                        ret['status'] = True
+                        ret['data'] = nid
+                except Exception as e:
+                    pass
+                    ret["message"] = "更新失败"
+            else:
+                # 创建
+                try:
+                    with transaction.atomic():
+                        # 插入备注
+                        edit6_info = filter_fields(Supplies_Return._insert, data)
+                        nid = suppliesreturn_db.insert_edit6(edit6_info)
+                        if edit6_attach:
+                            edit6_attach = build_attachment_info({"sid_id": nid}, supp_attach)
+                            suppliesreturnattach_db.mutil_insert_attachment(edit6_attach)
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
@@ -849,7 +1025,7 @@ def staff_detail_3(request):
                 # 格式化数据
                 reasons_json = reasons_obj.__dict__
                 reasons_json.pop('_state')
-                reasons_json["reasons_id_id"] = change_to_a_article(reasons_json["reasons_id_id"])
+
                 reasons_json["reasons_people_id"] = change_to_p_people(reasons_json["reasons_people_id"])
                 reasons_attach = reasonsattach_db.query_reasons_attachment(id)
                 if reasons_attach:
@@ -908,24 +1084,47 @@ def staff_detail_5(request):
             print(e)
     return render(request, '404.html')
 
+def staff_detail_6(request):
+    id = request.GET.get("id", None)
+    ret = {"status": False, "data": "", "message": ""}
+    if id:
+        try:
+            supp_obj = suppliesreturn_db.query_supp_by_id(id)
+            if supp_obj:
+                # 格式化数据
+                supp_json = supp_obj.__dict__
+                supp_json.pop('_state')
+                supp_attach = suppliesreturnattach_db.query_supp_attachment(id)
+                supp_json["supplies_id_id"] = change_to_a_article(supp_json["supplies_id_id"])
+                if supp_attach:
+                    supp_json['attach'] = serializers.serialize("json", supp_attach)
+                else:
+                    supp_json['attach'] = ''
+                ret['status'] = True
+                ret['data'] = supp_json
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request, '404.html')
+
 def staff_detail(request):
     cid = request.GET.get("sid", None)
     if cid:
         query_sets = staff_db.query_staff_by_id(cid)
         if query_sets:
-            customer_photo = staff_life_photo_db.query_life_photo_by_sid(cid)
+            life_photo = staff_life_photo_db.query_life_photo_by_sid(cid)
             # customer_licence = customer_licence_db.query_customer_licence(cid)
-            customer_attach = staff_attach_db.query_staff_attachment_by_sid(cid)
-            if not customer_photo:
+            life_attach = staff_attach_db.query_staff_attachment_by_sid(cid)
+            if not life_photo:
                 customer_photo = ''
             # if not customer_licence:
             #     customer_licence = ''
-            if not customer_attach:
+            if not life_attach:
                 customer_attach = ''
             return render(request, "personnel/staff_detail.html", {"query_set": query_sets,
-                                                                "customer_photo": customer_photo,
+                                                                "life_photo": life_photo,
                                                                 # "customer_licence": customer_licence,
-                                                                "customer_attach": customer_attach,
+                                                                "life_attach": life_attach,
                                                                 })
     return render(request, '404.html')
 

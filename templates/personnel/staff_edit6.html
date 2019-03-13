@@ -10,59 +10,6 @@
             margin-bottom: 0;
             text-align: right;
         }
-    {##}
-    {#.minus  {#}
-    {#    cursor: pointer;#}
-    {#   margin-left: 0px !important;#}
-    {#   color: red;#}
-    {#   position: absolute;#}
-    {#   top: 10px;#}
-    {#   left: -85px;#}
-    {##}
-    {##}
-    {#.plus{#}
-    {#     cursor: pointer;#}
-    {#    position: absolute;#}
-    {#    top: 10px;#}
-    {#    left: -85px;#}
-    {#    color: blue#}
-
-    {#.select-box{#}
-    {#      top:5px;#}
-    {#      height: 200px !important;#}
-    {#      width: 100%;#}
-    {#    border-radius: 3px;#}
-    {#  }#}
-    {#span.glyphicon.glyphicon-arrow-left, span.glyphicon.glyphicon-arrow-right {#}
-    {#    position: absolute;#}
-    {#    right: -28px;#}
-    {#    text-align: center;#}
-    {#    margin-top: 50px;#}
-    {#    color: blue;#}
-    {#    padding:20px;#}
-
-    {#span.glyphicon.glyphicon-arrow-left {#}
-    {#    margin-top:120px;#}
-
-    {# .buttons{#}
-    {#    overflow:hidden#}
-
-    {#.btn-outline-secondary{#}
-    {#    padding: 0px;#}
-    {#    width: 48%;#}
-    {#    border:0px;#}
-    {#;#}
-
-    {#input[type=checkbox]{#}
-    {#     cursor: pointer;#}
-    {##}
-
-    {#.select2-selection--multiple{#}
-    {#    visibility: hidden;#}
-
-    {# #content-main{#}
-    {#  overflow :auto#}
-    {# }#}
 
     </style>
     <link rel="stylesheet" type="text/css" href="/static/css/plugins/multiselect/bootstrap-multiselect.css" />
@@ -75,9 +22,9 @@
                     <div class="ibox-title">
                         <h5>
                              <h5> {% if sid %}
-                                编辑离职原因
+                                编辑用品归还
                            {% else %}
-                                增加离职原因
+                                增加用品归还
                            {% endif %}</h5><small></small></h5>
                        <a  style="float:right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
                     </div>
@@ -109,118 +56,46 @@
                             </div>
                         </div>
 
+
                         <div class="hr-line-dashed"></div>
                          <div class="form-group">
-                            <label class="col-sm-2 control-label">离职原因</label>
-                            <div class="col-sm-8">
-                               <select  name="reasons_cause_id" class="form-control" id="reasons_cause_id" >
-                                    {% build_cause %}
-                                </select>
+                             <lable class="col-xs-2 control-label">用品返还</lable>
+                                                     <div class="form-group" >
+                            <label for="task_type" class="control-label col-xs-2"></label>
+                            <div class="col-xs-8 " style="padding:0px; ">
+                                <div class="col-xs-10 selector-filter" >
+                                    <select  id="assigned" multiple   name="supplies_id_id"  size="10"   class=" select-box ">
+                                        {% build_article %}
+                                    </select>
+                                </div>
                             </div>
                         </div>
+                         </div>
 
+
+                   <div class="hr-line-dashed"></div>
                      <div class="form-group">
-                    <label for="content" class="control-label col-xs-2">离职详细</label>
+                    <label for="content" class="control-label col-xs-2">归还备注</label>
                     <div class="col-xs-10 col-md-8 ">
-                          <textarea name="reasons" id="reasons" placeholder="离职详细" class="form-control" cols="30" rows="5"></textarea>
+                          <textarea name="remark" id="remark" placeholder="备注" class="form-control" cols="30" rows="5"></textarea>
                                  <span class="help-block m-b-none"></span>
+                        </div>
                     </div>
-                     </div>
+
 
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">工资计算截止日期</label>
+                            <label class="col-sm-2 control-label">返还日期</label>
                             <div class="input-group date col-sm-8">
                                 <div class="datetime clearfix">
-                                    <div class="input-group date bootstrap-datepicker" style="padding: 6px 12px;"  id="datepicker2">
+                                    <div class="input-group date bootstrap-datepicker" style="padding: 6px 12px;"  id="datepicker1">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" name="reasons_time" value="2018/01/19" class="date-field form-control admindatewidget" size="10" required="" id="reasons_time">
+                                        <input type="text" name="return_time" value="2018-01-19" class="date-field form-control admindatewidget" size="10" required="" id="return_time">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button">今天</button>
                                         </span>
                                     </div>
-{#                                    <div class="input-group time bootstrap-clockpicker" style="padding: 6px 12px;">#}
-{#                                        <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>#}
-{#                                        <input type="text" name="reasons_time" value="15:50" class="time-field form-control admintimewidget" size="8" required="" id="reasons_time">#}
-{#                                        <span class="input-group-btn">#}
-{#                                            <button class="btn btn-default" type="button">现在</button>#}
-{#                                        </span>#}
-{#                                    </div>#}
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="hr-line-dashed"></div>
-                        <div id="div_id_stop_id2" class="checkbox" style="display: flex;">
-                        <div style="width: 188px"></div>
-                            <label for="id_stop_id2" class="">
-                                <input type="checkbox" name="reasons_bool1"  value=0  class="checkboxinput" id="reasons_bool1" checked="">
-                            停用账号
-                            </label>
-                        </div>
-
-                        <div class="hr-line-dashed"></div>
-                        <div id="div_id_social_security_stop2" class="checkbox" style="display: flex;">
-                        <div style="width: 188px"></div>
-                            <label for="id_social_security_stop2" class="">
-                                <input type="checkbox" name="reasons_bool2" class="checkboxinput" id="reasons_bool2"  value=0 checked="">
-                            停买社保
-                            </label>
-                        </div>
-
-{#                        <div class="hr-line-dashed"></div>#}
-{#                         <div class="form-group">#}
-{#                             <lable class="col-xs-2 control-label">用品归还</lable>#}
-{#                             <div class="form-group" >#}
-{#                            <label for="task_type" class="control-label col-xs-2"></label>#}
-{#                            <div class="col-xs-8 " style="padding:0px; ">#}
-{#                                <div class="col-xs-10 selector-filter" >#}
-{#                                    <select  id="assigned" multiple   name="reasons_id_id"  size="10"   class=" select-box ">#}
-{#                                        {% build_article %}#}
-{#                                    </select>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-
-                             <!--
-                             <div class="col-xs-10 col-md-8" style="width: 250px">
-                            <select name="reasons_id_id" class="select-multi adminselectmultiple form-control" required="" id="reasons_id_id" multiple="multiple">
-
-                            </select></div>
--->
-{##}
-{#                         </div>#}
-
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label for="content" class="control-label col-xs-2">工作交接人</label>
-                            <div class="col-xs-10 col-md-8 ">
-                                <select  name="reasons_people_id" class="form-control" id="reasons_people_id" >
-                                    {% build_people %}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">离岗日期</label>
-                            <div class="input-group date col-sm-8">
-                                <div class="datetime clearfix">
-                                    <div class="input-group date bootstrap-datepicker" style="padding: 6px 12px;"  id="datepicker2">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" name="reasons_time1" value="2018/01/19" class="date-field form-control admindatewidget" size="10" required="" id="reasons_time1">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button">今天</button>
-                                        </span>
-                                    </div>
-{#                                    <div class="input-group time bootstrap-clockpicker" style="padding: 6px 12px;">#}
-{#                                        <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>#}
-{#                                        <input type="text" name="reasons_time1" value="15:50" class="time-field form-control admintimewidget" size="8" required="" id="reasons_time1">#}
-{#                                        <span class="input-group-btn">#}
-{#                                            <button class="btn btn-default" type="button">现在</button>#}
-{#                                        </span>#}
-{#                                    </div>#}
-                                </div>
                             </div>
                         </div>
 
@@ -330,16 +205,16 @@ $(function () {
         startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
         endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
     });
-  {#//初始化指派双列表框#}
-  {#      DualListboxAssign = $('#assigned').bootstrapDualListbox({#}
-  {#      nonSelectedListLabel: '未选择',#}
-  {#      selectedListLabel: '已选择',#}
-  {#      preserveSelectionOnMove: 'moved',#}
-  {#      moveOnSelect: false,#}
-  {#      infoTextEmpty: "",#}
-  {#      nonSelectedFilter: '',#}
-  {#          infoText:"总人数:{0}"#}
-  {#  });#}
+  //初始化指派双列表框
+        DualListboxAssign = $('#assigned').bootstrapDualListbox({
+        nonSelectedListLabel: '未归还',
+        selectedListLabel: '已归还',
+        preserveSelectionOnMove: 'moved',
+        moveOnSelect: false,
+        infoTextEmpty: "",
+        nonSelectedFilter: '',
+            infoText:"已选择:{0}",
+    });
 });
 
 
@@ -352,8 +227,7 @@ $(function () {
            InitData()//初始化数据
         }
         else {
-              $('#reasons_time').datepicker('setDate', new Date());
-              $('#reasons_time1').datepicker('setDate', new Date());
+              $('#return_time').datepicker('setDate', new Date());
         }
     });
 
@@ -372,7 +246,7 @@ function InitData() {
         $("#company_id").val({{ query_set.company_id }});
         $("#project_id").val({{ query_set.project_id }});
         $("#department_id").val({{ query_set.department_id }});
-        $("#job_rank_id").val({{ query_set.job_rank_id }});
+        $("#supplies_id_id").val({{ query_set.supplies_id_id }});
         $("#job_title_id").val({{ query_set.job_title_id }});
         $("#id_card").val("{% if  query_set.id_card %}{{ query_set.id_card }} {% endif %}");
         $("#birthday").val("{{ query_set.birthday |date:'Y-m-d'}}");
@@ -382,7 +256,7 @@ function InitData() {
         $("#education").val("{% if  query_set.education %}{{ query_set.education }} {% endif %}");
         $("#recruit_channel").val("{% if  query_set.recruit_channel %}{{ query_set.recruit_channel }} {% endif %}");
          $("#referrer").val("{% if  query_set.referrer %}{{ query_set.referrer }} {% endif %}");
-        $("#reasons_time").val("{{ query_set.reasons_time |date:'Y-m-d'}}");
+        $("#return_time").val("{{ query_set.return_time |date:'Y-m-d'}}");
         $("#reasons_time1").val("{{ query_set.reasons_time1 |date:'Y-m-d'}}");
         $("#contact_phone").val("{% if  query_set.contact_phone %}{{ query_set.contact_phone }} {% endif %}");
         $("#contact_man").val("{% if  query_set.contact_man %}{{ query_set.contact_man }} {% endif %}");
@@ -590,7 +464,7 @@ function UploadFile(ths){
              var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
              form.append(attachment_ele)
              $.ajax({
-                url: '{% url "staff_edit3" %}',
+                url: '{% url "staff_edit6" %}',
                 type: 'POST',
                 data: form.serialize(),
                 dataType: 'JSON',
@@ -599,9 +473,9 @@ function UploadFile(ths){
                         if (cons==1){
                              window.location.href='{% url "staff_list" %}';
                         }else if(cons==2){
-                             window.location.href='{% url "staff_edit3" %}';
+                             window.location.href='{% url "staff_edit6" %}';
                         }else{
-                              window.location.href='{% url "staff_edit3" %}?sid={0}'.format(arg.data);
+                              window.location.href='{% url "staff_edit6" %}?sid={0}'.format(arg.data);
                         }
                     } else {
                         $msg.parent().removeClass('hide');
@@ -613,6 +487,7 @@ function UploadFile(ths){
          })
          }
     }
+
 
  </script>
 

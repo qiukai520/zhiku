@@ -32,17 +32,25 @@ urlpatterns = [
     path("staff", views.staff_list, name="staff_list"),
     path("staff/edit", views.staff_edit, name='staff_edit'),
 
+    path("select_project", views.select_project_list, name='select_project_list'),
+    path("select_project/edit", views.select_project_edit, name='select_project_edit'),
+
+    path("cause", views.cause_list, name='cause_list'),
+    path("cause.edit", views.cause_edit, name='cause_edit'),
+
     path("staff/edit1", views.staff_edit1, name='staff_edit1'),
     path("staff/edit2", views.staff_edit2, name='staff_edit2'),
     path("staff/edit3", views.staff_edit3, name='staff_edit3'),
     path("staff/edit4", views.staff_edit4, name='staff_edit4'),
     path("staff/edit5", views.staff_edit5, name='staff_edit5'),
+    path("staff/edit6", views.staff_edit6, name='staff_edit6'),
 
     path("staff/detail1", views.staff_detail_1, name='staff_detail_1'),
     path("staff/detail2", views.staff_detail_2, name='staff_detail_2'),
     path("staff/detail3", views.staff_detail_3, name='staff_detail_3'),
     path("staff/detail4", views.staff_detail_4, name='staff_detail_4'),
     path("staff/detail5", views.staff_detail_5, name='staff_detail_5'),
+    path("staff/detail6", views.staff_detail_6, name='staff_detail_6'),
 
     path("staff/delete1", views.staff_delete1, name='staff_dalete1'),
     path("staff/delete2", views.staff_delete2, name='staff_dalete2'),
