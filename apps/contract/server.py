@@ -24,6 +24,9 @@ class ProductDB(object):
             raise Exception("该产品已存在")
         Product.objects.create(**modify_info)
 
+    def multi_delete(self,id_list):
+        Product.objects.filter(nid__in=id_list).delete()
+
 class ContractLocationDB(object):
     """合同存档坐标"""
     def query_location_list(self):
@@ -84,6 +87,8 @@ class ProductMealDB(object):
     def multi_delete(self, id_list):
         ProductMeal.objects.filter(nid__in=id_list).delete()
 
+    def multi_delete_by_product(self, id_list):
+        ProductMeal.objects.filter(product_id__in=id_list).delete()
 
 class ApproverDB(object):
     """合同审核人"""

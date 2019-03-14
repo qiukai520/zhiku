@@ -1334,6 +1334,44 @@ def job_rank_delete(request):
         ret['status'] = "删除失败"
     return HttpResponse(json.dumps(ret))
 
+
+def cause_delete(request):
+    """离职原因删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        reasonscause_db.mulit_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def select_project_delete(request):
+    """表现删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        select_project_db.mulit_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
 def staff_select(request):
     """获取人事数据"""
     staffs = staff_db.query_staff_list()

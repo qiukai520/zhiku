@@ -25,6 +25,8 @@ class IndustryDB(object):
             raise Exception("该行业名称已存在")
         Industry.objects.create(**modify_info)
 
+    def multi_delete(self,id_list):
+        Industry.objects.filter(nid__in=id_list).delete()
 
 class SupplierCategoryDB(object):
     """供应商分类"""
@@ -47,6 +49,9 @@ class SupplierCategoryDB(object):
         if is_exist:
             raise Exception("该供应商分类名称已存在")
         SupplierCategory.objects.create(**modify_info)
+
+    def mutil_delete(self,id_list):
+        SupplierCategory.objects.filter(nid__in=id_list).delete()
 
 
 class SupplierMemoDB(object):
@@ -127,6 +132,9 @@ class GoodsUnitDB(object):
         if is_exist:
             raise Exception("该商品单位已存在")
         GoodsUnit.objects.create(**modify_info)
+
+    def multi_delete(self,id_list):
+        GoodsUnit.objects.filter(nid__in=id_list).delete()
 
 
 class GoodsPriceDB(object):
@@ -248,6 +256,9 @@ class RetailSupplierDB(object):
         if is_exist:
             raise Exception("该零售已存在")
         RetailSupplier.objects.create(**modify_info)
+
+    def multi_delete(self,id_list):
+        RetailSupplier.objects.filter(nid__in=id_list).delete()
 
 
 class GoodsDB(object):
@@ -674,7 +685,7 @@ class WarehouseDB(object):
     """仓库"""
 
     def query_warehouse_list(self):
-        result_db = Warehouse.objects.filter().all()
+        result_db = Warehouse.objects.filter(delete_status=1).all()
         return result_db
 
     def query_warehouse_by_id(self, id):
@@ -696,6 +707,11 @@ class WarehouseDB(object):
 
     def update_warehouse(self,modify_info):
         Warehouse.objects.update(**modify_info)
+
+    def multi_delete(self,id_list,delete_status):
+        Warehouse.objects.filter(nid__in=id_list).update(**delete_status)
+
+
 
 class InventDB(object):
     "库存"
@@ -778,7 +794,6 @@ class WareLocationDB(object):
 
     def update_location(self, modify_info):
         is_exist = self.is_exist(modify_info["warehouse_id"], modify_info["location"])
-        print(is_exist)
         if is_exist:
             raise Exception("该库位已存在")
         WareLocation.objects.filter(nid=modify_info['nid']).update(**modify_info)
@@ -792,6 +807,9 @@ class WareLocationDB(object):
     def is_exist(self, warehouse_id, location):
         result_db = WareLocation.objects.filter(warehouse_id=warehouse_id, location=location).first()
         return result_db
+
+    def multi_delete(self,id_list):
+        WareLocation.objects.filter(nid__in=id_list).delete()
 
 
 class InventoryAttachDB(object):
@@ -981,6 +999,8 @@ class LinkmanTitleDB(object):
             raise Exception("该职位名称已存在")
         LinkmanTitle.objects.create(**modify_info)
 
+    def multi_delete(self,id_list):
+        LinkmanTitle.objects.filter(id__in=id_list).delete()
 
 supplier_db = SupplierDB()
 supplier_photo_db = SupplierPhotoDB()

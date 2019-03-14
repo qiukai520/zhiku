@@ -1562,7 +1562,6 @@ def add_repertory(request):
     ret = {'status': False, "data": "", "message": ""}
     ids = request.GET.get("ids", '')
     ids = ids.split("|")
-    print("ids",ids)
     # 转化成数字
     id_list = []
     for item in ids:
@@ -1576,12 +1575,12 @@ def add_repertory(request):
         ret['status'] = False
     return HttpResponse(json.dumps(ret))
 
+
 def remove_repertory(request):
     """商品移出库存"""
     ret = {'status': False, "data": "", "message": ""}
     ids = request.GET.get("ids", '')
     ids = ids.split("|")
-    print("ids",ids)
     # 转化成数字
     id_list = []
     for item in ids:
@@ -1909,7 +1908,6 @@ class WarehouseViewSet(View):
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
-        print("ret",ret)
         return HttpResponse(json.dumps(ret))
 
 
@@ -1943,7 +1941,6 @@ class WareLocationViewSet(View):
                 try:
                     record = ware_location_db.query_location_by_id(id)
                     final_info = filter_fields(WareLocation._update, data)
-                    print(final_info)
                     if final_info:
                         final_info["nid"] = id
                         ware_location_db.update_location(final_info)
@@ -1981,6 +1978,140 @@ def warehouse_location(request):
     else:
         ret['message'] = "请选择相应的仓库"
 
+    return HttpResponse(json.dumps(ret))
+
+
+def unit_delete(request):
+    """商品单位删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        goods_unit_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def industry_delete(request):
+    """行业位删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        industry_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def linkman_title_delete(request):
+    """联系人职称删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        linkman_title_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def supl_category_delete(request):
+    """供应商分类删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        supplier_category_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def retail_supplier_delete(request):
+    """零售供应商删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        retailer_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def ware_location_delete(request):
+    """零售供应商删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        ware_location_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def warehouse_delete(request):
+    """零售供应商删除"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    status = {"delete_status": 0}
+    try:
+        warehouse_db.multi_delete(id_list,status)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['status'] = "删除失败"
     return HttpResponse(json.dumps(ret))
 
 

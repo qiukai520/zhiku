@@ -68,7 +68,7 @@ drop table if exists `reasonsleave`;
 create table `reasonsleave`(
 `nid`int (11) NOT NUll primary key auto_increment,
 `sid_id` int(11) NOT NULL COMMENT'员工',
-`reasons_cause` int(11) NOT NULL COMMENT '原因',
+`reasons_cause_id` int(11) NOT NULL COMMENT '原因',
 `reasons` varchar (512) NOT NULL COMMENT '离职原因',
 `reasons_time` datetime DEFAULT NULL COMMENT '工资计算截止日期',
 `reasons_bool1` tinyint(1) default 0 COMMENT '停用账号选择状态：0=否，1=是',

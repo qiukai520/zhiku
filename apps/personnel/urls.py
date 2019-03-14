@@ -72,6 +72,8 @@ urlpatterns = [
     path("department/delete", views.department_delete, name="department_delete"),
     path("project/delete", views.project_delete, name="project_delete"),
     path("job_rank/delete", views.job_rank_delete, name="job_rank_delete"),
-    path("job_title/delete", views.job_title_delete, name="job_title_delete")
+    path("job_title/delete", views.job_title_delete, name="job_title_delete"),
+    path("cause/delete",views.cause_delete,name="cause_delete"),
+    path("select_project/delete", views.select_project_delete, name="select_project_delete"),
 
 ]

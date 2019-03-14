@@ -46,4 +46,7 @@ urlpatterns = [
     path("upload_customer_photo", views.customer_photo, name="customer_photo"),
     path("upload_customer_licence", views.customer_licence, name="customer_licence"),
     path("upload_attach", views.customer_attach, name="customer_attach"),
+
+
+
 ]

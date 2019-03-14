@@ -83,5 +83,15 @@ urlpatterns = [
     path("upload_linkman_attach", views.linkman_attach, name="linkman_attach"),
     path("upload_contact_attach", views.contact_attach, name="contact_attach"),
     path("goods/webuploader_photo.html",views.webuploader_photo,name="webuploader_photo"),
-    path("goods/webuploader_photo_delete.html", views.webuploader_photo_detele, name="webuploader_photo_detele")
+    path("goods/webuploader_photo_delete.html", views.webuploader_photo_detele, name="webuploader_photo_detele"),
+
+    # new delete
+    path("goods_unit/delete", views.unit_delete, name="goods_unit_delete"),
+    path("industry/delete", views.industry_delete, name="industry_delete"),
+    path("linkman_title/delete", views.linkman_title_delete, name="linkman_title_delete"),
+    path("supl_category/delete",views.supl_category_delete,name="supl_category_delete"),
+    path("retail_supplier/delete", views.retail_supplier_delete, name="retail_supplier_delete"),
+    path("ware_location/delete", views.ware_location_delete, name="ware_location_delete"),
+    path("warehouse/delete", views.warehouse_delete, name="warehouse_delete"),
+
 ]

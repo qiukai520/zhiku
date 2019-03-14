@@ -205,13 +205,17 @@ def product_delete(request):
     ids = ids.split("|")
     # 转化成数字
     id_list = []
+    print("ids",ids)
     for item in ids:
         if item:
             id_list.append(int(item))
     try:
         product_db.multi_delete(id_list)
+        # 删除产品相关套餐
+        product_meal_db.multi_delete_by_product(id_list)
         ret['status'] = True
     except Exception as e:
+        print(e)
         ret['message'] = "删除失败"
     return HttpResponse(json.dumps(ret))
 

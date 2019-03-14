@@ -177,6 +177,9 @@ class S_Project(object):
             raise Exception("该名称已存在")
         Select_Project.objects.create(**modify_info)
 
+    def multi_delete(self,id_list):
+        Select_Project.objects.filter(id__in=id_list).delete()
+
 
 class ReasonsPeopleDB(object):
     """工作交接人"""
@@ -211,6 +214,10 @@ class ReasonsCauseDB(object):
         if is_exist:
             raise Exception("该名称已存在")
         ReasonsCause.objects.create(**modify_info)
+
+    def mulit_delete(self,id_list):
+        ReasonsCause.objects.filter(id__in=id_list).delete()
+
 
 class StaffLifePhotoDB(object):
     """人事生活照"""

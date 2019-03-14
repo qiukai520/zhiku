@@ -913,6 +913,7 @@ def sea_rule_edit(request):
     return HttpResponse(json.dumps(ret))
 
 
+
 def customer_photo(request):
     """客户照片上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
