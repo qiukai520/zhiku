@@ -190,12 +190,12 @@ $(function () {
         //如果tid不为0，则为创建
          //初始化日期
 
-        var sid="{{ sid }}"
+        var sid="{{ sid }}";
         if ( sid!=""){
            InitData()//初始化数据
         }
         else {
-              {#$('#create_time').datepicker('setDate', new Date());#}
+              $('#effective_time').datepicker('setDate', new Date());
         }
     });
 
@@ -208,6 +208,45 @@ function InitData() {
     $("#content").val({{ query_set.content }});
     $("#select_project_id").val({{ query_set.select_project_id }});
     $("#effective_time").val("{{ query_set.create_time |date:'Y-m-d'}}");
+
+    //上传附件
+    function UploadFile(ths){
+        var file_obj = $(ths)[0].files[0];
+        var fileSize = file_obj.size;
+        var size = fileSize / 1024;
+        if(size>10000){
+            alert("附件不能大于10M");
+            $(ths)[0].value="";
+            return false;   //阻止上传
+            }
+        console.log("upload")
+        var form = new FormData();
+        form.append("file", file_obj);
+        $.ajax({
+            url:"{% url 'staff_attach' %}",
+            type:"POST",
+            data: form ,
+            dataType:"JSON",
+            // 告诉jQuery不要去处理发送的数据
+            processData : false,
+            // 告诉jQuery不要去设置Content-Type请求头
+            contentType : false,
+            success:function (arg) {
+                //去掉旧文件
+                $(ths).parent().find(".old_file").remove()
+                //添加新的file
+                var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
+                var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
+                $(ths).parent().append(path_input);
+                $(ths).parent().append(name_input);
+                console.log(arg.data.path);
+                console.log(arg.data.name);
+                $(ths).parent().find("input[name=file_path]").val(arg.data.path)
+                $(ths).parent().find("input[name=file_name]").val(arg.data.name)
+            },
+        })
+    }
+
     }
 
 //修改时获取附件
@@ -305,60 +344,11 @@ function FetchAttachment(){
 
 
 
-//上传附件
-function UploadFile(ths){
-    var file_obj = $(ths)[0].files[0];
-    var fileSize = file_obj.size;
-    var size = fileSize / 1024;
-    if(size>10000){
-         alert("附件不能大于10M");
-         $(ths)[0].value="";
-         return false;   //阻止上传
-         }
-    console.log("upload")
-    var form = new FormData();
-    form.append("file", file_obj);
-    $.ajax({
-        url:"{% url 'staff_attach' %}",
-        type:"POST",
-        data: form ,
-        dataType:"JSON",
-        // 告诉jQuery不要去处理发送的数据
-        processData : false,
-        // 告诉jQuery不要去设置Content-Type请求头
-        contentType : false,
-        success:function (arg) {
-            //去掉旧文件
-            $(ths).parent().find(".old_file").remove()
-            //添加新的file
-            var path_input='<input type="text" name="file_path" value=""  class="hidden" >';
-            var name_input='<input type="text" name="file_name" value=""  class="hidden" >';
-            $(ths).parent().append(path_input);
-            $(ths).parent().append(name_input);
-            console.log(arg.data.path);
-            console.log(arg.data.name);
-            $(ths).parent().find("input[name=file_path]").val(arg.data.path)
-            $(ths).parent().find("input[name=file_name]").val(arg.data.name)
-        },
-    })
-}
 
 
-
-    //创建时获取生活照
-    {#function  FetchLifePhoto() {#}
-    {#    var life_photo_path = $("#photo_input").next().val();#}
-    {#    var life_photo_name= $("#photo_input").next().next().val();#}
-    {#    if (life_photo_path){#}
-    {#         var life_photo = { "life_photo":life_photo_path,"name":life_photo_name}#}
-    {#    }#}
-    {#    else{#}
-    {#        life_photo={}#}
-    {#    }#}
-    {#    life_photo = JSON.stringify(life_photo)#}
-    {#    return life_photo#}
 //添加or编辑
       function Submit(cons){
+
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
          var form =$("#fm");
