@@ -198,6 +198,44 @@ def meals_delete(request):
     return HttpResponse(json.dumps(ret))
 
 
+def product_delete(request):
+    """删除产品"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        product_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        ret['message'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+
+def location_delete(request):
+    """删除存档坐标"""
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", '')
+    ids = ids.split("|")
+    print("ids",ids)
+    # 转化成数字
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        print("ids",id_list)
+        c_location_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        print(e)
+        ret['message'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
 def fetch_meal(request):
     """根据产品获取相应的套餐"""
     ret = {"status":False,"data":"","message":""}
@@ -355,6 +393,7 @@ def payment_detail(request):
         except Exception as e:
             logger.error(e)
     return render(request,'404.html')
+
 
 def contracts_center(request):
     """合同中心"""

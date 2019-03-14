@@ -12,8 +12,8 @@ class BaseSetting(object):
 
 
 class GlobalSettings(object):
-    site_title = "企业驱动·智库"      #设置头标题
-    site_footer = " 企业驱动 • 智库－企业健康诊断与修复开创者"      #设置脚标题
+    site_title = "企业AI·智库"      #设置头标题
+    site_footer = " 企业AI • 智库－企业健康诊断与修复开创者"      #设置脚标题
     menu_style = "accordion"
 
 

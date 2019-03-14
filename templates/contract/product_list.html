@@ -25,7 +25,7 @@
                                      <a href="{% url "product_edit" %}" class ="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
                                     <button  onclick="AddMeal()"  class="btn btn-info" ><i class="glyphicon glyphicon-plus"></i>&nbsp;添加套餐</button>
 
-{#                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>#}
+                                    <button  onclick="MultiDelete()" class="btn btn-danger "><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
                                 </div>
                                 <table id="product"  class="table text-nowrap table-hover table-striped" data-mobile-responsive="true">
                                     <thead>
@@ -38,10 +38,10 @@
                                     <tbody>
                                      {% for obj in query_sets %}
                                       <tr>
-                                           <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.nid }}"></td>
+                                         <td><input type="checkbox"><input type="text" class="hidden" name="id" value="{{ obj.nid }}"></td>
                                           <td>{{ obj.name }}</td>
                                             <td>
-                                              <a  href="{%url "product_edit" %}?id={{ obj.id }}" class="btn btn-info" >编辑</a>
+                                              <a  href="{%url "product_edit" %}?id={{ obj.nid }}" class="btn btn-info" >编辑</a>
                                           </td>
                                       </tr>
                                       {% endfor %}
@@ -126,7 +126,7 @@
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "product_edit" %}",
+            url:"{% url "product_delete" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",

@@ -46,6 +46,11 @@ class ContractLocationDB(object):
             raise Exception("该坐标已存在")
         ContractLocation.objects.create(**modify_info)
 
+    def multi_delete(self, id_list):
+        ContractLocation.objects.filter(nid__in=id_list).delete()
+
+
+
 class ProductMealDB(object):
     """套餐表"""
     def insert_meal(self, modify_info):

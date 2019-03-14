@@ -28,7 +28,7 @@ urlpatterns = [
     path("meals/delete", views.meals_delete, name="meals_delete"),
     path("fetch_meal", views.fetch_meal, name="fetch_meal"),
     path("contract_edit", views.customer_contract, name="customer_contract"),
-    path("contracts", views.contracts_list,name="contract_list"),
+    path("my_contracts", views.contracts_list,name="contract_list"),
     path("contract/payment", views.add_payment, name="add_payment"),
     path("contracts_center", views.contracts_center, name="contracts_center"),
     path("unapproved", views.contract_approve, name="unapproved"),
@@ -41,4 +41,10 @@ urlpatterns = [
     path("payment/detail", views.payment_detail,name="payment_detail"),
     path("contract/detail", views.contract_detail,name="contract_detail"),
     path("upload_attach", views.contract_attach, name="contract_attach"),
+
+    # new
+    # delete
+    path("product/delete", views.product_delete, name="product_delete"),
+    path("location/delete", views.location_delete, name="location_delete"),
+
 ]

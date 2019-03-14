@@ -112,12 +112,12 @@ WSGI_APPLICATION = 'thinking_library.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'zhiku-v1',
-        # 'USER': 'zhiku',
-        # 'PASSWORD': 'Aa@zhiku886',
-        'NAME': 'thinking_library',
-        'USER': 'root',
-        'PASSWORD': 'q951753',
+        'NAME': 'zhiku-v1',
+        'USER': 'zhiku',
+        'PASSWORD': 'Aa@zhiku886',
+        # 'NAME': 'thinking_library',
+        # 'USER': 'root',
+        # 'PASSWORD': 'a741258963',
         'HOST': '',
         'PORT': '',
         'OPTIONS': {
@@ -191,7 +191,7 @@ PERMISSION_MENU_KEY = "afsdfasdfadfsdfsdf"
 
 VALID_URL = [
     "/login/",
-    "/xadmin/",
+    "/xadmin/*",
     "/logout/",
     "/article/",
     "/public/*",
