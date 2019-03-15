@@ -71,21 +71,25 @@ def build_follow_contact_ele(selected=None):
 @register.simple_tag
 def build_customer_linkman_ele(cid,selected=None):
     """构建客户联系人下拉框"""
-    linkman_list = c_linkman_db.query_linkman_by_customer_id(cid)
-    eles = ""
-    if selected:
-        for item in linkman_list:
-            if item.nid == selected:
-                ele = """<option value={0} selected="selected" >{1}({2})</option>""".format(item.nid, item.name,
-                                                                                            change_to_job_title(item.job_title_id))
-            else:
+    if cid:
+        linkman_list = c_linkman_db.query_linkman_by_customer_id(cid)
+        eles = ""
+        if selected:
+            for item in linkman_list:
+                if item.nid == selected:
+                    ele = """<option value={0} selected="selected" >{1}({2})</option>""".format(item.nid, item.name,
+                                                                                                change_to_job_title(item.job_title_id))
+                else:
+                    ele = """<option value={0}>{1}({2})</option>""".format(item.nid, item.name, change_to_job_title(item.job_title_id))
+                eles += ele
+        else:
+            for item in linkman_list:
                 ele = """<option value={0}>{1}({2})</option>""".format(item.nid, item.name, change_to_job_title(item.job_title_id))
-            eles += ele
+                eles += ele
+        return mark_safe(eles)
     else:
-        for item in linkman_list:
-            ele = """<option value={0}>{1}({2})</option>""".format(item.nid, item.name, change_to_job_title(item.job_title_id))
-            eles += ele
-    return mark_safe(eles)
+        return ""
+
 
 @register.simple_tag
 def build_contact_category_ele(selected=None):

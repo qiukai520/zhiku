@@ -205,7 +205,6 @@ def product_delete(request):
     ids = ids.split("|")
     # 转化成数字
     id_list = []
-    print("ids",ids)
     for item in ids:
         if item:
             id_list.append(int(item))
