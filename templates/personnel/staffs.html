@@ -99,7 +99,7 @@
                                           <td>{% if obj.email  %}{{ obj.email }}{% else  %}空{% endif %}</td>
                                           <td>{% if obj.birthday  %}{{ obj.birthday |date:"Y-m-d"}}{% else  %}空{% endif %}</td>
                                             <td>
-                                              <a  href="{%url "staff_edit" %}?id={{ obj.sid }}" class="btn btn-info" >编辑</a>
+                                              <a  href="{%url "staff_edit" %}?sid={{ obj.sid}}" class="btn btn-info" >编辑</a>
 {#                                                <button  data-toggle="modal" onclick="ShowStaffDetail({{ obj.sid }})" class="btn btn-info">详细</button>#}
                                                 <a  href="{%url "staff_detail" %}?sid={{ obj.sid }}" class="btn btn-primary" >详细</a>
                                           </td>
