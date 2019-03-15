@@ -350,9 +350,7 @@ class TaskReviewRecord(models.Model):
         return '任务审核记录{0}'.format(self.trrid)
 
 
-
 class TaskReviewResult(models.Model):
-
     result_choice = ((0, '未审核'),(1,'驳回'), (2, "通过"), (3, '自动通过'))
 
     trrid = models.AutoField(primary_key=True)

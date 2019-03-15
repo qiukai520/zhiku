@@ -258,11 +258,15 @@ def fetch_meal(request):
 
 def contracts_list(request):
     """我的合同"""
-    is_approved = int(request.GET.get("is_approved",3))
-    query_sets = contract_db.query_contract_list()
-    if is_approved < 3:
-        query_sets = query_sets.filter(is_approved=is_approved)
-    return render(request, "contract/my_contracts.html", {"query_sets": query_sets, "is_approved":is_approved})
+    user = request.user.staff.sid
+    if user:
+        is_approved = int(request.GET.get("is_approved",3))
+        query_sets = contract_db.query_contract_by_belonger(user)
+        if is_approved < 3:
+            query_sets = query_sets.filter(is_approved=is_approved)
+        return render(request, "contract/my_contracts.html", {"query_sets": query_sets, "is_approved":is_approved})
+    else:
+        return render(request,"404.html")
 
 
 def add_payment(request):

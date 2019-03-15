@@ -88,6 +88,9 @@ class FollowWayDB(object):
             raise Exception("该名称已存在")
         FollowWay.objects.create(**modify_info)
 
+    def multi_delete(self, id_list):
+        FollowWay.objects.filter(nid__in=id_list)
+
 
 class FollowContactDB(object):
     """联络方式"""
@@ -114,6 +117,9 @@ class FollowContactDB(object):
         if is_exist:
             raise Exception("该名称已存在")
         FollowContact.objects.create(**modify_info)
+
+    def multi_delete(self,id_list):
+        FollowContact.objects.filter(nid__in=id_list)
 
 
 crt_follow_db = ContractFollowDB()
