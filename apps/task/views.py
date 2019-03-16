@@ -1369,13 +1369,12 @@ def complete_task(request):
     return HttpResponse(json.dumps(ret))
 
 
-
-
-
 def attachment_upload(request):
     """附件上传"""
     ret = {"status": False, "data": {"path": "", "name": ""}, "summary": ""}
     target_path = "media/upload/task"
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     try:
         # 获取文件对象
         file_obj = request.FILES.get("file")

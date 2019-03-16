@@ -464,6 +464,7 @@ function GetAttachment(){
         }
         attachment_list.push(attachment)
         });
+     console.log("attachmment",attachment_list)
       attachment_list=JSON.stringify(attachment_list)//对象转化成json
     return attachment_list
 }
@@ -547,7 +548,6 @@ function UploadFile(ths){
          $(ths)[0].value="";
          return false;   //阻止上传
          }
-    console.log("upload")
     var form = new FormData();
     form.append("file", file_obj);
     $.ajax({
@@ -610,7 +610,7 @@ function UploadFile(ths){
                  var attachment=FetchAttachment()
                  var success_msg="添加成功"
              }
-             var attachment_ele=$("<input type='text' class='hide' name='attach' value={0} />".format(attachment))
+             var attachment_ele=$("<input type='text' ' name='attach' value='{0}' />".format(attachment))
              form.append(attachment_ele)
              $.ajax({
                 url: '{% url "staff_edit" %}',

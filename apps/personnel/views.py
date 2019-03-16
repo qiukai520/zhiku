@@ -365,6 +365,7 @@ def staff_list(request):
     query_sets = staff_db.query_staff_list()
     return render(request,"personnel/staffs.html",{"query_sets":query_sets})
 
+
 def staff_edit(request):
     mothod = request.method
     if mothod == "GET":
@@ -392,10 +393,13 @@ def staff_edit(request):
         if form.is_valid():
             data = request.POST
             data = data.dict()
-            life_photo = data.get("life_photo",None)
-            staff_attach = data.get("attach",None)
+            life_photo = data.get("life_photo",'')
+            staff_attach = data.get("attach",'')
+            print("data",data)
             sid = data.get("sid", None)
             life_photo = json.loads(life_photo)
+            print("staff_attach",staff_attach)
+            print("type",type(staff_attach))
             staff_attach = list(json.loads(staff_attach))
             if sid:
                 # 更新

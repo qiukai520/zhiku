@@ -243,7 +243,7 @@ def change_to_staff(sid):
     if issuer:
         name = issuer.name
     else:
-        name ="系统生成"
+        name = "人工录入"
     return name
 
 
