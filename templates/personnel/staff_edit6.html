@@ -222,8 +222,8 @@ $(function () {
         //如果tid不为0，则为创建
          //初始化日期
 
-        var sid="{{ sid }}"
-        if ( sid!=""){
+        var nid="{{ nid }}"
+        if ( nid!=""){
            InitData()//初始化数据
         }
         else {
@@ -236,37 +236,11 @@ $(function () {
      //初始化数据
 function InitData() {
         //初始化form
-        $("#sid").val({{ query_set.sid }});
-        $("#job_number").val("{{ query_set.job_number }}");
-        $("#name").val("{{ query_set.name }}");
-        $("#phone").val("{% if  query_set.phone %}{{ query_set.phone }} {% endif %}");
-        $("input[name=gender]").val();
-        $("input[name=gender][value={{ query_set.gender }}]").attr("checked",true);
-        $("#email").val("{% if  query_set.email %}{{ query_set.email }} {% endif %}");
-        $("#company_id").val({{ query_set.company_id }});
-        $("#project_id").val({{ query_set.project_id }});
-        $("#department_id").val({{ query_set.department_id }});
+        $("#sid").val({{ query_set.nid }});
         $("#supplies_id_id").val({{ query_set.supplies_id_id }});
-        $("#job_title_id").val({{ query_set.job_title_id }});
-        $("#id_card").val("{% if  query_set.id_card %}{{ query_set.id_card }} {% endif %}");
-        $("#birthday").val("{{ query_set.birthday |date:'Y-m-d'}}");
-        $("input[name=is_lunar][value={{ query_set.is_lunar }}]").attr("checked",true);
-        $("#nationality").val("{% if  query_set.nationality %}{{ query_set.nationality }} {% endif %}");
-        $("#native_place").val("{% if  query_set.native_place %}{{ query_set.native_place }} {% endif %}");
-        $("#education").val("{% if  query_set.education %}{{ query_set.education }} {% endif %}");
-        $("#recruit_channel").val("{% if  query_set.recruit_channel %}{{ query_set.recruit_channel }} {% endif %}");
-         $("#referrer").val("{% if  query_set.referrer %}{{ query_set.referrer }} {% endif %}");
-        $("#return_time").val("{{ query_set.return_time |date:'Y-m-d'}}");
-        $("#reasons_time1").val("{{ query_set.reasons_time1 |date:'Y-m-d'}}");
-        $("#contact_phone").val("{% if  query_set.contact_phone %}{{ query_set.contact_phone }} {% endif %}");
-        $("#contact_man").val("{% if  query_set.contact_man %}{{ query_set.contact_man }} {% endif %}");
-         $("#contact_relation").val("{% if  query_set.contact_relation %}{{ query_set.contact_relation }} {% endif %}");
-        $("#bank").val("{% if  query_set.bank %}{{ query_set.bank }} {% endif %}");
-        $("#bank_account").val("{% if  query_set.bank_account %}{{ query_set.bank_account }} {% endif %}");
-        $("#account_name").val("{% if  query_set.account_name %}{{ query_set.account_name }} {% endif %}");
-        $("#family_address").val("{% if  query_set.family_address %}{{ query_set.family_address }} {% endif %}");
-        $("#current_address").val("{% if  query_set.current_address %}{{ query_set.current_address }} {% endif %}");
-        $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
+        $("#remark").val("{{ query_set.remark }}");
+        $("#return_time").val("{{ query_set.return_time }}");
+
         {#//初始化生活照#}
         {# var photo= "{{ life_photo }}"#}
         {#if (photo!=""){#}
@@ -475,7 +449,7 @@ function UploadFile(ths){
                         }else if(cons==2){
                              window.location.href='{% url "staff_edit6" %}';
                         }else{
-                              window.location.href='{% url "staff_edit6" %}?sid={0}'.format(arg.data);
+                              window.location.href='{% url "staff_edit6" %}?id={0}&cid={1}'.format(arg.data,{{ customer_obj.sid }});
                         }
                     } else {
                         $msg.parent().removeClass('hide');

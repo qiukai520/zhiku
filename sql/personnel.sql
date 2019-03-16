@@ -35,8 +35,8 @@ create table `performanceyg`(
 `operator_id` varchar (11) COMMENT '操作人'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='增加就职表现';
 
-drop TABLE if exists `Perforygmance_Attach`;
-create TABLE `Perforygmance_Attach`(
+drop TABLE if exists `perforygmance_attach`;
+create TABLE `perforygmance_attach`(
 `nid`int(11) NOT NULL primary key auto_increment,
 `sid_id` int(11) NOT NULL COMMENT '就职附件',
 `attachment` varchar(128) COMMENT '附件路径',

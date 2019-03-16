@@ -23,7 +23,7 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal">
-                         <form action="{% url "staff_edit2" %}" method="post" id="fm" class="form-horizontal" enctype="multipart/form-data">
+                         <form action="{% url "staff_edit" %}" method="post" id="fm" class="form-horizontal" enctype="multipart/form-data">
                              {% csrf_token %}
                              <input type="hidden" name="nid" id="nid" >
                         <div class="form-group">
@@ -191,8 +191,8 @@ $(function () {
         //如果tid不为0，则为创建
          //初始化日期
 
-        var sid="{{ sid }}"
-        if ( sid!=""){
+        var nid="{{ nid }}"
+        if ( nid!=""){
            InitData()//初始化数据
         }
         else {
@@ -205,36 +205,10 @@ $(function () {
      //初始化数据
 function InitData() {
     //初始化form
-    $("#sid").val({{ query_set.sid }});
-    $("#job_number").val("{{ query_set.job_number }}");
-    $("#name").val("{{ query_set.name }}");
-    $("#phone").val("{% if  query_set.phone %}{{ query_set.phone }} {% endif %}");
-    $("input[name=gender]").val();
-    $("input[name=gender][value={{ query_set.gender }}]").attr("checked", true);
-    $("#email").val("{% if  query_set.email %}{{ query_set.email }} {% endif %}");
-    $("#company_id").val({{ query_set.company_id }});
-    $("#project_id").val({{ query_set.project_id }});
-    $("#department_id").val({{ query_set.department_id }});
-    $("#job_rank_id").val({{ query_set.job_rank_id }});
-    $("#select_project_id").val({{ query_set.select_project_id }});
-    $("#id_card").val("{% if  query_set.id_card %}{{ query_set.id_card }} {% endif %}");
-    $("#end_time").val("{{ query_set.end_time |date:'Y-m-d'}}");
-    $("input[name=is_lunar][value={{ query_set.is_lunar }}]").attr("checked", true);
-    $("#nationality").val("{% if  query_set.nationality %}{{ query_set.nationality }} {% endif %}");
-    $("#native_place").val("{% if  query_set.native_place %}{{ query_set.native_place }} {% endif %}");
-    $("#education").val("{% if  query_set.education %}{{ query_set.education }} {% endif %}");
-    $("#recruit_channel").val("{% if  query_set.recruit_channel %}{{ query_set.recruit_channel }} {% endif %}");
-    $("#referrer").val("{% if  query_set.referrer %}{{ query_set.referrer }} {% endif %}");
-    $("#create_time").val("{{ query_set.create_time |date:'Y-m-d'}}");
-    $("#contact_phone").val("{% if  query_set.contact_phone %}{{ query_set.contact_phone }} {% endif %}");
-    $("#contact_man").val("{% if  query_set.contact_man %}{{ query_set.contact_man }} {% endif %}");
-    $("#contact_relation").val("{% if  query_set.contact_relation %}{{ query_set.contact_relation }} {% endif %}");
-    $("#bank").val("{% if  query_set.bank %}{{ query_set.bank }} {% endif %}");
-    $("#bank_account").val("{% if  query_set.bank_account %}{{ query_set.bank_account }} {% endif %}");
-    $("#account_name").val("{% if  query_set.account_name %}{{ query_set.account_name }} {% endif %}");
-    $("#family_address").val("{% if  query_set.family_address %}{{ query_set.family_address }} {% endif %}");
-    $("#current_address").val("{% if  query_set.current_address %}{{ query_set.current_address }} {% endif %}");
-    $("#remark").val("{% if  query_set.remark %}{{ query_set.remark }} {% endif %}");
+    $("#sid").val({{ query_set.nid }});
+    $("#remark").val("{{ query_set.remark }}");
+    $("#create_time").val("{{ query_set.create_time | date:'Y-m-d' }}");
+    $("#end_time").val("{{ query_set.end_time | date:'Y-m-d'}}");
 
         //初始化生活照
         {# var photo= "{{ life_photo }}"#}
@@ -255,12 +229,12 @@ function InitData() {
         {#    $("#pre_link").attr("src","/"+"{{ life_photo.life_photo }}")#}
         {#    $("#pre_link").removeClass("hide")#}
         //初始化附件
-    /*
-        var staff_attach= "{{ staff_attach}}"
-       if (staff_attach !=""){
+
+        var labor_attach= "{{ labor_attach }}";
+       if (labor_attach !=""){
 
        }
-       */
+
     }
 
 //修改时获取附件
@@ -308,54 +282,6 @@ function FetchAttachment(){
     attachment_list=JSON.stringify(attachment_list)//对象转化成json
     return attachment_list
 }
-
-
- {#/*#}
- {#   上传图片#}
- {#   */#}
- {#   function UploadImage(ths){#}
- {#       //去掉旧文件#}
- {#       $("#pre_link").addClass("hide")#}
- {#       $(ths).parent().find("input[name=file_path]").remove();#}
- {#       $(ths).parent().find("input[name=file_name]").remove();#}
- {#       //上传新文件#}
- {#       var file_obj = $(ths)[0].files[0];#}
- {#       if(file_obj){#}
- {#           var fileSize = file_obj.size;#}
- {#           var size = fileSize / 1024;#}
- {#           if(size>8000){#}
- {#                alert("上传图片不能大于8M");#}
- {#                $(ths)[0].value="";#}
- {#                return false;   //阻止上传#}
- {#                }#}
- {#           var form = new FormData();#}
- {#           form.append("file", file_obj);#}
- {#           $.ajax({#}
- {#               url:"{% url 'life_photo' %}",#}
- {#               type:"POST",#}
- {#               data: form ,#}
- {#               dataType:"JSON",#}
- {#               // 告诉jQuery不要去处理发送的数据#}
- {#               processData : false,#}
- {#               // 告诉jQuery不要去设置Content-Type请求头#}
- {#               contentType : false,#}
- {#               success:function (arg) {#}
- {#                   //添加新的file#}
- {#                   var path_input='<input type="text" name="file_path" value=""  class="hidden" >';#}
- {#                   var name_input='<input type="text" name="file_name" value=""  class="hidden" >';#}
- {#                   $(ths).parent().append(path_input);#}
- {#                   $(ths).parent().append(name_input);#}
- {##}
- {#                   $(ths).parent().find("input[name=file_path]").val(arg.data.path)#}
- {#                   $(ths).parent().find("input[name=file_name]").val(arg.data.name)#}
- {#                   //预览#}
- {#                   $("#life_photo").attr("src","/"+arg.data.path)#}
- {#                   $("#pre_link").attr("src","/"+arg.data.path)#}
- {#                   $("#pre_link").removeClass("hide")#}
- {#               },#}
- {#           })#}
- {#       }#}
-
 
 
 //上传附件
@@ -411,16 +337,17 @@ function UploadFile(ths){
     {#    life_photo = JSON.stringify(life_photo)#}
     {#    return life_photo#}
 //添加or编辑
+
       function Submit(cons){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
          var form =$("#fm");
         //验证表单
          if ( form.valid()){
-             {# //把生活照添加到form中#}
-             {#var life_photo=FetchLifePhoto();#}
-             {#var life_photo_ele=$("<input type='text' class='hide' name='life_photo'  value={0} />".format(life_photo));#}
-             {#form.append(life_photo_ele)#}
+         {#     //把生活照添加到form中#}
+         {#    var life_photo=FetchLifePhoto();#}
+         {#    var life_photo_ele=$("<input type='text' class='hide' name='life_photo'  value={0} />".format(life_photo));#}
+         {#    form.append(life_photo_ele)#}
             //把附件添加到form中
               var sid="{{ sid }}"
              if(sid!=""){
@@ -446,7 +373,7 @@ function UploadFile(ths){
                         }else if(cons==2){
                              window.location.href='{% url "staff_edit2" %}';
                         }else{
-                              window.location.href='{% url "staff_edit2" %}?sid={0}'.format(arg.data);
+                              window.location.href='{% url "staff_edit2" %}?id={0}&cid={0}'.format(arg.data,{{ query_set.nid }});
                         }
                     } else {
                         $msg.parent().removeClass('hide');
@@ -456,6 +383,7 @@ function UploadFile(ths){
          })
          }
     }
+
 
 
 

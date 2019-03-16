@@ -558,11 +558,13 @@ def staff_edit1(request):
 
 def staff_edit2(request):
     mothod = request.method
+    print('mothod',mothod)
     if mothod == "GET":
         nid = request.GET.get("id", "")
         cid = request.GET.get("cid", '')
         if cid:
             customer_obj = staff_db.query_staff_by_id(cid)
+            print('customer_obj',customer_obj)
             if customer_obj:
                 if nid:
                     # 更新
@@ -585,12 +587,13 @@ def staff_edit2(request):
             edit2_attach = data.get("attach", None)
             nid = data.get("nid", None)
             labor_attach = list(json.loads(edit2_attach))
+            print('data',data)
             if nid:
                 # 更新
                 try:
                     with transaction.atomic():
                         record = laborcontract_db.query_labor_by_id(nid)
-                        edit2_info = compare_fields(Staff._update, record, data)
+                        edit2_info = compare_fields(LaborContract._update, record, data)
                         if edit2_info:
                             edit2_info["nid"] = nid
                             laborcontract_db.update_edit2(edit2_info)
@@ -598,7 +601,7 @@ def staff_edit2(request):
                         if edit2_attach:
                             att_record = laborattach_db.query_labor_attachment(nid)
                             # 数据对比
-                            insert_att, update_att, delete_id_att = compare_json(att_record, labor_attach, "sid")
+                            insert_att, update_att, delete_id_att = compare_json(att_record, labor_attach, "nid")
                             if insert_att:
                                 insert_att = build_attachment_info({"sid_id": nid}, insert_att)
                                 laborattach_db.mutil_insert_attachment(insert_att)
@@ -611,15 +614,18 @@ def staff_edit2(request):
                         ret['status'] = True
                         ret['data'] = nid
                 except Exception as e:
-                    pass
+                    print(e)
                     ret["message"] = "更新失败"
             else:
                 # 创建
                 try:
                     with transaction.atomic():
                         # 插入备注
+                        print("insert",data)
                         edit2_info = filter_fields(LaborContract._insert, data)
+                        print(edit2_info)
                         nid = laborcontract_db.insert_edit2(edit2_info)
+                        print(nid)
                         if edit2_attach:
                             edit2_attach = build_attachment_info({"sid_id": nid}, labor_attach)
                             laborattach_db.mutil_insert_attachment(edit2_attach)
@@ -632,6 +638,7 @@ def staff_edit2(request):
             errors = form.errors.as_data().values()
             firsterror = str(list(errors)[0][0])
             ret['message'] = firsterror
+        print("ret",ret)
         return HttpResponse(json.dumps(ret))
 
 
@@ -996,9 +1003,11 @@ def staff_detail_1(request):
 def staff_detail_2(request):
     id = request.GET.get("id", None)
     ret = {"status": False, "data": "", "message": ""}
+    print('ret',ret)
     if id:
         try:
             labor_obj = laborcontract_db.query_labor_by_id(id)
+            print('labor',labor_obj)
             if labor_obj:
                 # 格式化数据
                 labor_json = labor_obj.__dict__
@@ -1217,6 +1226,22 @@ def staff_delete5(request):
         ret['message'] = "删除失败"
         print(e)
     return HttpResponse(json.dumps(ret))
+
+def staff_delete6(request):
+    ret = {'status': False, "data": "", "message": ""}
+    ids = request.GET.get("ids", "")
+    ids = ids.split("|")
+    id_list = []
+    for item in ids:
+        if item:
+            id_list.append(int(item))
+    try:
+        suppliesreturn_db.multi_delete(id_list)
+        ret['status'] = True
+    except Exception as e:
+        ret['message'] = "删除失败"
+        print(e)
+    return HttpResponse(json.dump(ret))
 
 
 def staff_delete(request):

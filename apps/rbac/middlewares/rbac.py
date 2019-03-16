@@ -41,6 +41,7 @@ class RbacMiddleware(MiddlewareMixin):
         # 2.获取Session中保存当前用户的权限
         # request.session.get("permission_url_list")
         current_url = request.path_info
+        print("current_url",current_url)
         # 当前请求不需要执行权限验证
         for url in settings.VALID_URL:
             if re.match(url, current_url):

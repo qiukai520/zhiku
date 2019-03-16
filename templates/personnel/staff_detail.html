@@ -120,7 +120,6 @@
                                     <dt>备注：</dt>
                                     <dd>{% if query_set.remark %}{{ query_set.remark }}{% else %}空{% endif %}
                                        </dd>
-                                    <dd>{{ query_set.remark }}</dd>
 
                                 </dl>
                             </div>
@@ -189,7 +188,7 @@
                                                         {% fetch_perfor_p_list query_set.sid as p_list %}
                                                         {% for obj in p_list %}
                                                              <tr>
-                                                              <td><input type="checkbox"><input type="text" class="hidden" name="sid" value={{ obj.sid_id }}></td>
+                                                              <td><input type="checkbox"><input type="text" class="hidden" name="sid" value={{ obj.nid }}></td>
 
                                                              <td>{% change_to_s_project obj.select_project_id_id %}</td>
                                                               <td>
@@ -214,8 +213,8 @@
                                                                   {% endif %}
                                                            </td>
                                                              <td>lizhihong</td>
-                                                             <td><a href="{% url 'staff_edit1' %}?cid={{ query_set.sid }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
-                                                                 <a href="" data-toggle="modal" onclick="ShowSprojectDetail({{ obj.sid_id }})" class="btn btn-info">详细</a>
+                                                             <td><a href="{% url 'staff_edit1' %}?cid={{ query_set.sid_id }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <a href="" data-toggle="modal" onclick="ShowSprojectDetail({{ obj.nid }})" class="btn btn-info">详细</a>
                                                              </td>
                                                         </tr>
                                                         {% endfor %}
@@ -253,7 +252,7 @@
                                                         {% fetch_labor_c_list query_set.sid as l_list %}
                                                         {% for obj in l_list %}
                                                              <tr>
-                                                           <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.sid_id}}></td>
+                                                           <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>
 
                                                               <td >
                                                                   {% if obj.remark %}{{ obj.remark }}
@@ -264,8 +263,8 @@
                                                             <td> {{ obj.create_time |date:"Y-m-d"}}
                                                                       </td>
                                                              <td>{{ obj.end_time |date:"Y-m-d" }}</td>
-                                                              <td><a href="{% url 'staff_edit2' %}?cid={{ query_set.sid }}&id={{ obj.sid_id }}" class="btn btn-primary">编辑</a>
-                                                                 <button  data-toggle="modal" onclick="ShowLaborDetail({{ obj.sid_id }})" class="btn btn-info">详细</button>
+                                                              <td><a href="{% url 'staff_edit2' %}?cid={{ query_set.sid_id }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <button  data-toggle="modal" onclick="ShowLaborDetail({{ obj.nid }})" class="btn btn-info">详细</button>
                                                              </td>
                                                         </tr>
                                                         {% endfor %}
@@ -305,7 +304,7 @@
                                                         {% fetch_reasons_l_list query_set.sid as l_list %}
                                                         {% for obj in l_list %}
                                                              <tr>
-                                                           <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.sid_id}}></td>
+                                                           <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>
 
                                                               <td >
                                                                   {% if obj.reasons %}{{ obj.reasons }}
@@ -316,8 +315,8 @@
                                                             <td>{{ obj.reasons_time| date:"Y-m-d" }}</td>
                                                              <td>{% change_to_p_people obj.reasons_people_id %}</td>
                                                              <td>{{ obj.reasons_time1| date:"Y-m-d" }}</td>
-                                                              <td><a href="{% url 'staff_edit3' %}?cid={{ query_set.sid }}&id={{ obj.sid_id }}" class="btn btn-primary">编辑</a>
-                                                                 <button  data-toggle="modal" onclick="ShowReasonsDetail({{ obj.sid_id }})" class="btn btn-info">详细</button>
+                                                              <td><a href="{% url 'staff_edit3' %}?cid={{ query_set.sid_id }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <button  data-toggle="modal" onclick="ShowReasonsDetail({{ obj.nid }})" class="btn btn-info">详细</button>
                                                              </td>
                                                         </tr>
                                                         {% endfor %}
@@ -357,7 +356,7 @@
                                                         {% fetch_social_s_list query_set.sid as s_list %}
                                                         {% for obj in s_list %}
                                                              <tr>
-                                                           <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.sid}}></td>
+                                                           <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>
 
                                                              <td>
                                                                  {% if obj.s_id %}{{ obj.s_id }}
@@ -379,8 +378,8 @@
                                                                     空
                                                                  {% endif %}
                                                              </td>
-                                                              <td><a href="{% url 'staff_edit4' %}?cid={{ query_set.sid }}&id={{ obj.sid_id }}" class="btn btn-primary">编辑</a>
-                                                                 <button  data-toggle="modal" onclick="ShowSocialDetail({{ obj.sid_id }})" class="btn btn-info">详细</button>
+                                                              <td><a href="{% url 'staff_edit4' %}?cid={{ query_set.sid_id }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <button  data-toggle="modal" onclick="ShowSocialDetail({{ obj.nid }})" class="btn btn-info">详细</button>
                                                              </td>
                                                         </tr>
                                                         {% endfor %}
@@ -418,7 +417,7 @@
                                     {% fetch_supplies_s_list  query_set.sid as s_list %}
                                      {% for obj in s_list %}
                                       <tr>
-                                          <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.sid}}></td>
+                                          <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>
 
                                            <td>{% change_to_a_article obj.supplies_id_id %}</td>
                                            <td>{{ obj.supplies_time |date:"Y-m-d" }}</td>
@@ -428,8 +427,8 @@
                                                        空
                                               {% endif %}</td>
                                             <td>
-                                              <a href="{% url 'staff_edit5' %}?cid={{ query_set.sid }}&id={{ obj.sid_id }}" class="btn btn-primary">编辑</a>
-                                                <button  data-toggle="modal" onclick="ShowSuppliesDetail({{ obj.sid_id }})" class="btn btn-info">详细</button>
+                                              <a href="{% url 'staff_edit5' %}?cid={{ query_set.sid_id }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                <button  data-toggle="modal" onclick="ShowSuppliesDetail({{ obj.nid }})" class="btn btn-info">详细</button>
                                           </td>
                                       </tr>
                                       {% endfor %}
@@ -469,7 +468,7 @@
                                     {% fetch_supplies_r_list  query_set.sid as s_list %}
                                      {% for obj in s_list %}
                                       <tr>
-                                          <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.sid}}></td>
+                                          <td><input type="checkbox"><input type="text" class="hidden" name="nid" value={{ obj.nid}}></td>
 
                                            <td>{% change_to_a_article obj.supplies_id_id %}</td>
                                            <td>{{ obj.return_time |date:"Y-m-d" }}</td>
@@ -479,8 +478,8 @@
                                                        空
                                               {% endif %}</td>
                                             <td>
-                                              <a href="{% url 'staff_edit6' %}?cid={{ query_set.sid }}&id={{ obj.sid_id }}" class="btn btn-primary">编辑</a>
-                                                <button  data-toggle="modal" onclick="ShowSuppReturnDetail({{ obj.sid_id }})" class="btn btn-info">详细</button>
+                                              <a href="{% url 'staff_edit6' %}?cid={{ query_set.sid_id }}&id={{ obj.nid }}" class="btn btn-primary">编辑</a>
+                                                <button  data-toggle="modal" onclick="ShowSuppReturnDetail({{ obj.nid }})" class="btn btn-info">详细</button>
                                           </td>
                                       </tr>
                                       {% endfor %}
@@ -516,7 +515,7 @@
                              <label class="form-label"   >附件{{ forloop.counter }}:</label>
                              <a class="download_file" href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
                             <label class="form-label" for="task_title"  >附件描述:</label>
-                            <span  >{{ obj.description }}</span>
+                            <span>{{ obj.description }}</span>
                         </li>
                     {% endfor %}
                 </ul>
@@ -682,12 +681,12 @@
                                              <p class="form-control-static " id="reasons_time"></p>
                                           </div>
                                     </div>
-                                     <div class=" form-group row value" >
-                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">用品返还</div>
-                                          <div class="col-xs-9 p_form">
-                                             <p class="form-control-static " id="reasons_id"></p>
-                                          </div>
-                                    </div>
+{#                                     <div class=" form-group row value" >#}
+{#                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">用品返还</div>#}
+{#                                          <div class="col-xs-9 p_form">#}
+{#                                             <p class="form-control-static " id="reasons_id"></p>#}
+{#                                          </div>#}
+{#                                    </div>#}
                                     <div class=" form-group row value" >
                                           <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">工作交接人</div>
                                           <div class="col-xs-9 p_form">
@@ -1151,6 +1150,7 @@
               if (arg.status){
                   console.log(arg)
                   var data=arg.data;
+                  console.log("data",data)
                   {#$("#account_name").text(data.sid_id.name);#}
                   {#$("#job_number1").text(data.job_number);#}
                   {#$("#content").text(data.content);#}
@@ -1392,7 +1392,7 @@
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "staff_dalete1" %}",
+            url:"{% url "staff_delete1" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",
@@ -1434,7 +1434,7 @@
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "staff_dalete2" %}",
+            url:"{% url "staff_delete2" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",
@@ -1476,7 +1476,7 @@
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "staff_dalete3" %}",
+            url:"{% url "staff_delete3" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",
@@ -1518,7 +1518,7 @@
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "staff_dalete4" %}",
+            url:"{% url "staff_delete4" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",
@@ -1558,7 +1558,47 @@
         $("#ensure").click(function () {
             $("#delete_modal").hide();
               $.ajax({
-            url:"{% url "staff_dalete5" %}",
+            url:"{% url "staff_delete5" %}",
+            data:{"ids":ids},
+            type:"get",
+            dataType:"JSON",
+            success:function (arg) {
+                if (arg.status){
+                    window.location.reload()
+                }else{
+                   layer.alert('删除失败', {icon: 2 ,
+                                  time: 2000, //2s后自动关闭
+                                    btn: [ '知道了']}
+                                    );
+                }
+            }
+        })
+        });
+    }
+
+    function Supp2Del() {
+        var ids="";
+        $("#supp2").find("tbody input:checkbox:checked").each(function () {
+            console.log($(this).next().val())
+            id = $(this).next().val();
+            if (id){
+                id+="|";
+                ids+=id;
+            }
+        });
+        //是否选中
+        if (ids==""){
+             layer.alert('至少选择一个对象', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $("#delete_modal").modal("show");//显示模态框
+        $("#ensure").click(function () {
+            $("#delete_modal").hide();
+              $.ajax({
+            url:"{% url "staff_delete6" %}",
             data:{"ids":ids},
             type:"get",
             dataType:"JSON",

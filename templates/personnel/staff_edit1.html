@@ -190,8 +190,9 @@ $(function () {
         //如果tid不为0，则为创建
          //初始化日期
 
-        var sid="{{ sid }}";
-        if ( sid!=""){
+        var nid="{{ nid }}";
+        if ( nid!=""){
+            console.log("init")
            InitData()//初始化数据
         }
         else {
@@ -204,9 +205,9 @@ $(function () {
      //初始化数据
 function InitData() {
     //初始化form
-    $("#sid").val({{ query_set.sid }});
-    $("#content").val({{ query_set.content }});
-    $("#select_project_id").val({{ query_set.select_project_id }});
+    $("#sid").val({{ query_set.nid }});
+    $("#content").val("{{ query_set.content }}");
+    $("#select_project_id").val({{ query_set.select_project_id_id }});
     $("#effective_time").val("{{ query_set.create_time |date:'Y-m-d'}}");
 
     //上传附件
@@ -383,7 +384,7 @@ function FetchAttachment(){
                         }else if(cons==2){
                              window.location.href='{% url "staff_edit1" %}';
                         }else{
-                              window.location.href='{% url "staff_edit1" %}?sid={0}'.format(arg.data);
+                              window.location.href='{% url "staff_edit1" %}?id={0}&cid={1}'.format(arg.data,{{ customer_obj.sid }});
                         }
                     } else {
                         $msg.parent().removeClass('hide');

@@ -331,12 +331,12 @@ class LaborContractDB(object):
         sid = cursor.lastrowid
         return sid
 
-    def query_labor_by_id(self, sid):
-        result_db = LaborContract.objects.filter(sid=sid).first()
+    def query_labor_by_id(self, nid):
+        result_db = LaborContract.objects.filter(nid=nid).first()
         return result_db
 
     def query_labor_by_c_id(self, sid):
-        result_db = LaborContract.objects.filter(sid=sid).all().order_by("-nid")
+        result_db = LaborContract.objects.filter(sid=sid).all().order_by("-sid")
         return result_db
 
     def multi_delete(self, id_list):
@@ -397,12 +397,12 @@ class ReasonsLeaveDB(object):
         sid = cursor.lastrowid
         return sid
 
-    def query_reasons_by_id(self, sid):
-        result_db = ReasonsLeave.objects.filter(sid=sid).first()
+    def query_reasons_by_id(self, nid):
+        result_db = ReasonsLeave.objects.filter(nid=nid).first()
         return result_db
 
-    def query_reasons_by_l_id(self, sid):
-        result_db = ReasonsLeave.objects.filter(sid=sid).all().order_by("-nid")
+    def query_reasons_by_l_id(self, nid):
+        result_db = ReasonsLeave.objects.filter(nid=nid).all().order_by("-nid")
         return result_db
 
     def multi_delete(self, id_list):
@@ -441,8 +441,8 @@ class SocialSecurityDB(object):
         sid = cursor.lastrowid
         return sid
 
-    def query_social_by_id(self, sid):
-        result_db = SocialSecurity.objects.filter(sid=sid).first()
+    def query_social_by_id(self, nid):
+        result_db = SocialSecurity.objects.filter(nid=nid).first()
         return result_db
 
     def query_social_by_s_id(self, sid):
@@ -486,12 +486,12 @@ class SuppliesDB(object):
         sid = cursor.lastrowid
         return sid
 
-    def query_supp_by_id(self, sid):
-        result_db = Supplies.objects.filter(sid=sid).first()
+    def query_supp_by_id(self, nid):
+        result_db = Supplies.objects.filter(nid=nid).first()
         return result_db
 
     def query_supp_by_s_id(self, sid):
-        result_db = Supplies.objects.filter(sid=sid).all().order_by("-nid")
+        result_db = Supplies.objects.filter(sid=sid).all().order_by("-sid")
         return result_db
 
     def multi_delete(self, id_list):
@@ -532,12 +532,12 @@ class SuppliesReturnDB(object):
         sid = cursor.lastrowid
         return sid
 
-    def query_supp_by_id(self, sid):
-        result_db = Supplies_Return.objects.filter(sid=sid).first()
+    def query_supp_by_id(self, nid):
+        result_db = Supplies_Return.objects.filter(nid=nid).first()
         return result_db
 
     def query_supp_by_s_id(self, sid):
-        result_db = Supplies_Return.objects.filter(sid=sid).all().order_by("-nid")
+        result_db = Supplies_Return.objects.filter(sid=sid).all().order_by("-sid")
         return result_db
 
     def multi_delete(self, id_list):

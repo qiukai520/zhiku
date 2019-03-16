@@ -117,8 +117,8 @@ DATABASES = {
         # 'PASSWORD': 'Aa@zhiku886',
         'NAME': 'thinking_library',
         'USER': 'root',
-        'PASSWORD': 'a741258963',
-        'HOST': '',
+        'PASSWORD': 'q951753',
+        # 'HOST': '120.79.146.100',
         'PORT': '',
         'OPTIONS': {
             "init_command": "SET foreign_key_checks = 0;",
