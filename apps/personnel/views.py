@@ -395,11 +395,8 @@ def staff_edit(request):
             data = data.dict()
             life_photo = data.get("life_photo",'')
             staff_attach = data.get("attach",'')
-            print("data",data)
             sid = data.get("sid", None)
             life_photo = json.loads(life_photo)
-            print("staff_attach",staff_attach)
-            print("type",type(staff_attach))
             staff_attach = list(json.loads(staff_attach))
             if sid:
                 # 更新

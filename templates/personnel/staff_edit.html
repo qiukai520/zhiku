@@ -610,7 +610,7 @@ function UploadFile(ths){
                  var attachment=FetchAttachment()
                  var success_msg="添加成功"
              }
-             var attachment_ele=$("<input type='text' ' name='attach' value='{0}' />".format(attachment))
+             var attachment_ele=$("<input type='text' class='hidden' name='attach' value='{0}' />".format(attachment))
              form.append(attachment_ele)
              $.ajax({
                 url: '{% url "staff_edit" %}',

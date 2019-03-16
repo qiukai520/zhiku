@@ -205,7 +205,6 @@ def change_to_task_execute_way(way_id):
 
 @register.simple_tag
 def change_to_review_result(result):
-    print(result)
     result_choice=task_review_result_db.result_choice
     for item in result_choice:
         if int(item["id"]) == result:
