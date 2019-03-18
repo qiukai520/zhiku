@@ -513,9 +513,7 @@
             <h2 class="heading">最新动态</h2>
             <p>最新运营管理文章、最新案例、企业最新动态</p>
           </div>
-            <div class="row clearfix">
-		<div class="col-md-12 column">
-			<div class="row">
+			<div class="row items-grid">
                  {% for post in post %}
 				<div class="col-md-4">
 
@@ -524,9 +522,9 @@
                             <img alt="图片600x200" src="{{ MEDIA_URL }}{{ post.image}}" style="width: 600px;height: 200px;"/>
                         </a>
 						<div class="caption">
-							<h3>
+							<h4>
                                 {{ post.title|truncatechars:13 }}
-							</h3>
+							</h4>
 							<p>
 								{{ post.content|truncatechars:40 }}
 							</p>
@@ -540,8 +538,8 @@
                 {% endfor %}
 		</div>
 	</div>
-</div>
-        </div>
+{#</div>#}
+{#        </div>#}
       </section>
       <!-- Footer -->
       <footer class="footer">
