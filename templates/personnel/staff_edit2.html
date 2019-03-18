@@ -5,7 +5,14 @@
       #attachment-container .col-sm-8{
           padding: 5px;
     }
+      .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+            text-align: right;
+        }
+
     </style>
+    <link rel="stylesheet" type="text/css" href="/static/css/plugins/multiselect/bootstrap-multiselect.css" />
 {% endblock %}
 {% block content %}
     <div class="wrapper wrapper-content container animated fadeInRight">
@@ -23,9 +30,10 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row form-horizontal">
-                         <form action="{% url "staff_edit" %}" method="post" id="fm" class="form-horizontal" enctype="multipart/form-data">
+                        <form action="{% url "staff_edit" %}" method="post" id="fm" class="form-horizontal" enctype="multipart/form-data">
                              {% csrf_token %}
                              <input type="hidden" name="nid" id="nid" >
+
                         <div class="form-group">
                             <label class="col-sm-2 control-label">所在公司</label>
                             <div class="col-sm-8">
@@ -50,35 +58,48 @@
 
 
                      <div class="form-group">
-                    <label for="remark" class="control-label col-xs-2">备注</label>
+                    <label for="content" class="control-label col-xs-2">备注</label>
                     <div class="col-xs-10 col-md-8 ">
                           <textarea name="remark" id="remark" placeholder="备注" class="form-control" cols="30" rows="5"></textarea>
                                  <span class="help-block m-b-none"></span>
                     </div>
-                </div>
+                     </div>
 
-                            <div class="hr-line-dashed"></div>
-                             <div class="form-group">
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">开始时间</label>
-                            <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker1">
-                                <input type='text'  name="create_time" id='create_time' class="form-control" placeholder="不能为空" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
+                            <div class="input-group date col-sm-8">
+                                <div class="datetime clearfix">
+                                    <div class="input-group date bootstrap-datepicker" style="padding: 6px 12px;"  id="datepicker2">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="create_time" value="2018/01/19" class="date-field form-control admindatewidget" size="10" required="" id="create_time">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button">今天</button>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
 
 
-                            <div class="hr-line-dashed"></div>
-                             <div class="form-group">
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">结束时间</label>
-                            <div class='input-group date col-sm-8' style="padding: 6px 12px;"  id="datepicker2">
-                                <input type='text'  name="end_time" id='end_time' class="form-control" value="2018-10-10" placeholder="不能为空" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
+                            <div class="input-group date col-sm-8">
+                                <div class="datetime clearfix">
+                                    <div class="input-group date bootstrap-datepicker" style="padding: 6px 12px;"  id="datepicker2">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="end_time" value="2018/01/19" class="date-field form-control admindatewidget" size="10" required="" id="end_time">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button">今天</button>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
 
-                             <div class="hr-line-dashed"></div>
+
                         <div id="attachment-container" style="position: relative">
                     <!--初始化附件-->
                     {% if sid %}
@@ -98,7 +119,7 @@
                               </div>
                             </div>
                             <div class="form-group">
-                                <label for="remark" class="control-label col-xs-2">附件描述</label>
+                                <label for="content" class="control-label col-xs-2">附件描述</label>
                                 <div class="col-xs-8">
                                     <input name="description" class="form-control" value="{{ obj.description }}"  placeholder="附件描述">
                                 </div>
@@ -116,7 +137,7 @@
                                               </div>
                                             </div>
                                         <div class="form-group" style="margin-left:0px ;margin-right: 0px">
-                                            <label  for="remark" class="control-label col-sm-2">附件描述</label>
+                                            <label  for="content" class="control-label col-sm-2">附件描述</label>
                                             <div class="col-sm-8">
                                                 <input name="description" class="form-control"  placeholder="附件描述">
                                             </div>
@@ -156,7 +177,7 @@
     <script src="/static/js/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="/static/js/plugins/moment/moment.min.js"></script>
     <script>
-  /*
+ /*
     自执行函数
     */
 
@@ -184,6 +205,16 @@ $(function () {
         startDate:moment().subtract(11,'month').toDate(), //控制可选的最早月份，为前12个月（含当前月）
         endDate:moment().toDate() ,//控制可选的最晚月份，为当前月
     });
+  {#//初始化指派双列表框#}
+  {#      DualListboxAssign = $('#assigned').bootstrapDualListbox({#}
+  {#      nonSelectedListLabel: '未选择',#}
+  {#      selectedListLabel: '已选择',#}
+  {#      preserveSelectionOnMove: 'moved',#}
+  {#      moveOnSelect: false,#}
+  {#      infoTextEmpty: "",#}
+  {#      nonSelectedFilter: '',#}
+  {#          infoText:"总人数:{0}"#}
+  {#  });#}
 });
 
 
@@ -197,6 +228,7 @@ $(function () {
         }
         else {
               $('#create_time').datepicker('setDate', new Date());
+              $('#end_time').datepicker('setDate', new Date());
         }
     });
 
@@ -204,13 +236,14 @@ $(function () {
 
      //初始化数据
 function InitData() {
-    //初始化form
-    $("#sid").val({{ query_set.nid }});
-    $("#remark").val("{{ query_set.remark }}");
-    $("#create_time").val("{{ query_set.create_time | date:'Y-m-d' }}");
-    $("#end_time").val("{{ query_set.end_time | date:'Y-m-d'}}");
+        //初始化form
+        $("#sid").val({{ query_set.nid }});
+        $("#remark").val("{{ query_set.remark }}");
+        $("#create_time").val("{{ query_set.reasons_time | date:'Y-m-d' }}");
+        $("#end_time").val("{{ query_set.reasons_time1 | date:'Y-m-d' }}");
 
-        //初始化生活照
+
+        {#//初始化生活照#}
         {# var photo= "{{ life_photo }}"#}
         {#if (photo!=""){#}
         {#     var path="{{ life_photo.life_photo }}"#}
@@ -228,13 +261,12 @@ function InitData() {
         {#    $("#life_photo").attr("src","/"+"{{ life_photo.life_photo }}")#}
         {#    $("#pre_link").attr("src","/"+"{{ life_photo.life_photo }}")#}
         {#    $("#pre_link").removeClass("hide")#}
+        {##}
         //初始化附件
-
-        var labor_attach= "{{ labor_attach }}";
-       if (labor_attach !=""){
+        var staff_attach= "{{ staff_attach}}"
+       if (staff_attach !=""){
 
        }
-
     }
 
 //修改时获取附件
@@ -322,32 +354,30 @@ function UploadFile(ths){
     })
 }
 
-
-
-    //创建时获取生活照
-    {#function  FetchLifePhoto() {#}
-    {#    var life_photo_path = $("#photo_input").next().val();#}
-    {#    var life_photo_name= $("#photo_input").next().next().val();#}
-    {#    if (life_photo_path){#}
-    {#         var life_photo = { "life_photo":life_photo_path,"name":life_photo_name}#}
-    {#    }#}
-    {#    else{#}
-    {#        life_photo={}#}
-    {#    }#}
-    {#    life_photo = JSON.stringify(life_photo)#}
-    {#    return life_photo#}
+{#//创建时获取生活照#}
+{#    function  FetchLifePhoto() {#}
+{#        var life_photo_path = $("#photo_input").next().val();#}
+{#        var life_photo_name= $("#photo_input").next().next().val();#}
+{#        if (life_photo_path){#}
+{#             var life_photo = { "life_photo":life_photo_path,"name":life_photo_name}#}
+{#        }#}
+{#        else{#}
+{#            life_photo={}#}
+{#        }#}
+{#        life_photo = JSON.stringify(life_photo)#}
+{#        return life_photo#}
+{#    }#}
 //添加or编辑
-
       function Submit(cons){
          var $msg = $('#error_msg');
          $msg.parent().addClass('hide');
          var form =$("#fm");
         //验证表单
          if ( form.valid()){
-         {#     //把生活照添加到form中#}
-         {#    var life_photo=FetchLifePhoto();#}
-         {#    var life_photo_ele=$("<input type='text' class='hide' name='life_photo'  value={0} />".format(life_photo));#}
-         {#    form.append(life_photo_ele)#}
+              //把生活照添加到form中
+             {#var life_photo=FetchLifePhoto();#}
+             {#var life_photo_ele=$("<input type='text' class='hide' name='life_photo'  value={0} />".format(life_photo));#}
+             {#form.append(life_photo_ele)#}
             //把附件添加到form中
               var sid="{{ sid }}"
              if(sid!=""){
@@ -373,19 +403,18 @@ function UploadFile(ths){
                         }else if(cons==2){
                              window.location.href='{% url "staff_edit2" %}';
                         }else{
-                              window.location.href='{% url "staff_edit2" %}?id={0}&cid={0}'.format(arg.data,{{ query_set.nid }});
+                              window.location.href='{% url "staff_edit2" %}?id={0}&cid={1}'.format(arg.data,{{ customer_obj.sid }});
                         }
                     } else {
                         $msg.parent().removeClass('hide');
                         $msg.text(arg.message);
                     }
                 }
+
+
          })
          }
     }
-
-
-
 
  </script>
 
