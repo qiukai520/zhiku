@@ -1,6 +1,8 @@
 from django import template
 from ..server import *
 from django.utils.safestring import mark_safe
+from revenue.server import *
+from assets.server import *
 
 
 register = template.Library()
@@ -85,6 +87,75 @@ def change_to_p_people(id):
             return p_title_obj.name
     return "空"
 
+
+# 收入支出
+@register.simple_tag
+def change_to_incomeclassify(id):
+    if id:
+        classify_obj = incomeclassify_db.query_classify_by_id(id)
+        if classify_obj:
+            return classify_obj.name
+    return "空"
+
+@register.simple_tag
+def change_to_associates(id):
+    if id:
+        a_title_obj = associates_db.query_associates_by_id(id)
+        if a_title_obj:
+            return a_title_obj.name
+    return "空"
+
+@register.simple_tag
+def change_to_approver2(id):
+    if id:
+        a_title_obj = approver2_db.query_approver2_by_id(id)
+        if a_title_obj:
+            return a_title_obj.name
+    return "空"
+
+
+# 资产管理
+@register.simple_tag
+def change_to_assets_classify(id):
+    if id:
+        a_title_obj = assetsclassify_db.query_classify_by_id(id)
+        if a_title_obj:
+            return a_title_obj.name
+    return "空"
+
+@register.simple_tag
+def change_to_save_coordinate(id):
+    if id:
+        s_title_obj = save_coordinate_db.query_coordinate_by_id(id)
+        if s_title_obj:
+            return s_title_obj.name
+    return "空"
+
+@register.simple_tag
+def change_to_procurement(id):
+    if id:
+        p_title_obj = procurement_db.query_procurement_by_id(id)
+        if p_title_obj:
+            return p_title_obj.name
+    return "空"
+
+@register.simple_tag
+def change_to_username(id):
+    if id:
+        u_title_obj = username_db.query_username_by_id(id)
+        if u_title_obj:
+            return u_title_obj.name
+    return "空"
+
+@register.simple_tag
+def change_to_assets_status(id):
+    if id:
+        a_title_obj = assets_status_db.query_assets_status_by_id(id)
+        if a_title_obj:
+            return a_title_obj.name
+    return "空"
+
+
 @register.simple_tag
 def build_company_ele():
     """构建公司下拉框"""
@@ -121,6 +192,94 @@ def build_department_ele(selected=0):
     return mark_safe(eles)
 
 
+# 资产管理
+@register.simple_tag
+def build_assets_classify_ele():
+    """构建分类下拉框"""
+    classify_list = assetsclassify_db.query_classify_list()
+    eles = ""
+    for item in classify_list:
+        ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
+def build_purcurement_name_ele():
+    """构建采购人下拉框"""
+    name_list = procurement_db.query_procurement_list()
+    eles = ""
+    for item in name_list:
+        ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
+def build_user_name_ele():
+    """构建使用人下拉框"""
+    name_list = username_db.query_username_list()
+    eles = ""
+    for item in name_list:
+        ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
+def build_assets_status_ele():
+    """构建资产状态下拉框"""
+    name_list = assets_status_db.query_assets_status_list()
+    eles = ""
+    for item in name_list:
+        ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
+def build_save_coordinate_ele():
+    """构建存档坐标下拉框"""
+    name_list = save_coordinate_db.query_coordinate_list()
+    eles = ""
+    for item in name_list:
+        ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+
+# 收支管理
+@register.simple_tag
+def build_classify_ele(selected=0):
+    """构建收入分类下拉框"""
+    classify_list = incomeclassify_db.query_classify_list()
+    eles = ""
+    for item in classify_list:
+        if item.id == selected:
+            ele = """<option  selected="selected" value={0}>{1}</option>""".format(item.id, item.name)
+        else:
+            ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
+def build_associates_ele():
+    """构建关联人下拉框"""
+    associates_list = associates_db.query_associates_list()
+    eles = ""
+    for item in associates_list:
+        ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+@register.simple_tag
+def build_approver2_ele():
+    """构建审批人下拉框"""
+    approver2_list =approver2_db.query_approver2_list()
+    eles = ""
+    for item in approver2_list:
+        ele = """<option value={0}>{1}</option>""".format(item.id, item.name)
+        eles += ele
+    return mark_safe(eles)
+
+
+
 @register.simple_tag
 def build_staff_search_ele(dpid=0, sid=0):
     """构建员工下拉框"""
@@ -150,7 +309,6 @@ def build_staff_ele(selected=0):
             ele = """<option value={0}>{1}</option>""".format(item.sid, item.name)
         eles += ele
     return mark_safe(eles)
-
 
 
 @register.simple_tag
@@ -214,6 +372,7 @@ def build_people():
         eles += ele
     return mark_safe(eles)
 
+
 @register.simple_tag
 def fetch_perfor_p_list(id):
     if id:
@@ -249,6 +408,15 @@ def fetch_supplies_r_list(id):
     if id:
         s_list = suppliesreturn_db.query_supp_by_s_id(id)
         return s_list
+
+
+# 收支管理
+@register.simple_tag
+def fetch_revenue_r_list(id):
+    if id:
+        s_list = revenue_db.query_revenue_by_r_id(id)
+        return s_list
+
 
 
 

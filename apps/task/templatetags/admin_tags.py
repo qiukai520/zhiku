@@ -169,6 +169,7 @@ def build_task_period_review_ele(tpid):
     return mark_safe(ele_list)
 
 
+
 @register.simple_tag
 def build_task_type_ele(selected=None):
     """构建任务类型选择框"""
@@ -183,7 +184,6 @@ def build_task_type_ele(selected=None):
             ele = """<option value={0}>{1}</option>""".format(item.tpid, item.name)
         eles += ele
     return mark_safe(eles)
-
 
 @register.simple_tag
 def build_reviewer_ele(dpid):
@@ -283,6 +283,7 @@ def change_to_task_status(id):
     for item in status_list:
         if int(item["id"]) == id:
             return item['caption']
+
 
 @register.simple_tag
 def change_to_task_assign_finish(is_finish):

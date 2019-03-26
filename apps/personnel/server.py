@@ -63,13 +63,17 @@ class DepartmentDB(object):
 
 
 class CompanyDB(object):
-    """部门表"""
+    """公司表"""
     def query_company_list(self):
         result_db = Company.objects.filter().all()
         return result_db
 
     def query_company_by_id(self,id):
         result_db = Company.objects.filter(id=id).first()
+        return result_db
+
+    def query_company_by_c_id(self, sid):
+        result_db = Company.objects.filter(sid=sid).all().order_by("-sid")
         return result_db
 
     def update_company(self, modify_info):

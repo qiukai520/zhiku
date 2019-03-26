@@ -409,7 +409,7 @@ def contracts_center(request):
     query_sets = contract_db.query_contract_list()
     if product_id:
         query_sets = query_sets.filter(product_id=product_id)
-    if is_approved < 3:
+    if is_approved < 2:
         query_sets = query_sets.filter(is_approved=is_approved)
     return render(request, "contract/contract_center.html", {"query_sets": query_sets,
                                                              "product_id": product_id,

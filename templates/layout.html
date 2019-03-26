@@ -195,6 +195,28 @@
 
                             </ul>
                         </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit"></i><span class="nav-label">收支管理</span> <span class="fa arrow"></span> </a>
+                            <ul id="left_menu" class="nav nav-second-level">
+                                <li>
+                                    <a class="J_menuItem menu" data-index='70' href="{% url "income" %}">收入管理</a>
+                                </li>
+                                <li>
+                                    <a class="J_menuItem menu" data-index='71' href="{% url "disbursement" %}">支出管理</a>
+                                </li>
+                                <li>
+                                    <a class="J_menuItem menu" data-index='73' href="{% url "income_classify" %}">收入分类管理</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit"></i><span class="nav-label">资产管理</span> <span class="fa arrow"></span> </a>
+                            <ul id="left_menu" class="nav nav-second-level">
+                                <li>
+                                    <a class="J_menuItem menu" data-index="200'" href="{% url "assets" %}">资产管理</a>
+                                </li>
+                            </ul>
+                        </li>
                         <li  class="hidden">
                             <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">基础设置</span><span class="fa arrow"></span></a>
                             <ul id="left_menu" class="nav nav-second-level">

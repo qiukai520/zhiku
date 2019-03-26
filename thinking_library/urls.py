@@ -41,6 +41,8 @@ urlpatterns = [
     path("public/", include('public.urls')),  # 公共库
     path('article/', include('article.urls')),    # 首页文章
     path('collection/', include('collection.urls')),   # 知识库
+    path('revenue/', include('revenue.urls')),  #收支管理
+    path('assets/', include('assets.urls')),  #资产管理
     path('service/', include('service.urls')),  # 客服管理
     path('file/', include('file.urls')),  # 文件管理
     # path('404/', TemplateView.as_view(template_name='404.html'), name='404'),

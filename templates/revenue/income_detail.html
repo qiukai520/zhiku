@@ -1,0 +1,552 @@
+{% extends "content_table_layout.html" %}
+{% load public_tags %}
+{% load personnel_tags %}
+{% load sfa_tags %}
+{% load  inventory_tags %}
+{% load contract_tags %}
+
+{% block css %}
+
+    <style>
+    .download_file{
+        color:#337ab7 !important
+    }
+     #content-main{
+      overflow :auto
+     }
+    .value{
+        margin:0px;
+        background-color: #F8F8F8;
+        border-color: #dddddd;
+    }
+    .label_form{
+        padding: 22px 10px 7px 0px;
+        border:1px #dddddd;
+    }
+    .p_form{
+        background-color:white ;padding: 15px 10px 15px 10px
+    }
+    #attach_container>label{
+        font-weight: normal;
+    }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row" style="width: 100%">
+        <div class="col-sm-9">
+            <div class="wrapper wrapper-content animated fadeInUp">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="m-b-md">
+                                    <a href="{%url "income_edit" %}?sid={{ query_set.nid }}" class="btn btn-info pull-right">去编辑</a>
+                                    <h3 style="margin-left:15px"><span class ="label label-primary">{{ query_set.name }}</span></h3>
+                                </div>
+                                    <dl class="dl-horizontal">
+                                    <dt>公司名称：</dt>
+                                    <dd>{{ query_set.company }}
+                                    </dd>
+                                         <dt> </dt>
+                                        <dd>
+                                          <a  style="float: right" class="btn btn-info btn-add" title="刷新" href="javascript:window.location.reload()"> <span class='glyphicon glyphicon-refresh'/></a>
+                                     </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <dl class="dl-horizontal">
+                                    <dt>所在项目：</dt>
+                                    <dd>{% change_to_project query_set.project_id %}</dd>
+                                    <dt>收入名称：</dt>
+                                    <dd>{{ query_set.income_name }}</dd>
+                                    <dt>收入分类：</dt>
+                                    <dd>{% change_to_incomeclassify query_set.income_classify_id %}</dd>
+                                    <dt>存档编号：</dt>
+                                    <dd>{{ query_set.number }}</dd>
+                                    <dt>存档坐标：</dt>
+                                    <dd>{{ query_set.coordinate }}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-7" id="cluster_info">
+                                <dl class="dl-horizontal">
+                                    <dt>收入金额：</dt>
+                                    <dd>{{ query_set.money }}</dd>
+                                      <dt>关联人：</dt>
+                                    <dd>{% change_to_associates query_set.associates_id %}
+                                        </dd>
+                                      <dt>审批人：</dt>
+                                      <dd>{% change_to_approver2 query_set.approver_id %}
+                                          </dd>
+                                     <dt>收入日期：</dt>
+                                    <dd>{{ query_set.income_time }}
+                                       </dd>
+                                    <dt>备注：</dt>
+                                     <dd>{{ query_set.remark }}
+                                         </dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <div class="row m-t-sm">
+                            <div class="col-sm-12">
+                                <div class="panel blank-panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-options">
+                                            <ul class="nav nav-tabs">
+                                                <li id="linkman_tab" class="active"><a href="#tab-1"  data-toggle="tab">就职表现</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+                                                <div class="btn-group hidden-xs" id="toolbar1" role="group">
+                                                    <a href="{% url "income_edit" %}?cid={{ query_set.nid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                                    <button  onclick="LinkmanDel()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
+                                                </div>
+                                                 <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
+                                                <table id="revenue"  class="table  table-bordered text-nowrap table-hover table-striped" data-mobile-responsive="true">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><input type="checkbox" onclick="SelectAll(this)"></th>
+                                                            <th>公司名称</th>
+                                                            <th>所在项目</th>
+                                                            <th>收入名称</th>
+                                                            <th>收入分类</th>
+                                                            <th>存档编号</th>
+                                                            <th>存档坐标</th>
+                                                            <th>收入金额</th>
+                                                            <th>关联人</th>
+                                                            <th>审批人</th>
+                                                            <th>收入日期</th>
+                                                            <th>备注</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% fetch_revenue_r_list query_set.nid as p_list %}
+                                                        {% for obj in p_list %}
+                                                             <tr>
+                                                              <td><input type="checkbox"><input type="text" class="hidden" name="sid" value={{ obj.nid }}></td>
+
+                                                             <td>{% change_to_company obj.company_id %}</td>
+                                                              <td>
+                                                                  {% change_to_project obj.project_id %}
+                                                           </td>
+                                                              <td >
+                                                                  {% if obj.income_name %}{{ obj.income_name }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                             <td>
+                                                                 {% change_to_incomeclassify obj.income_classify_id %}
+                                                             </td>
+                                                             <td >
+                                                                  {% if obj.number %}{{ obj.number }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                           </td>
+                                                             <td>
+                                                                 {% if obj.coordinate %}{{ obj.coordinate }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                             </td>
+                                                             <td>
+                                                                 {% if obj.money %}{{ obj.money }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                             </td>
+                                                             <td>
+                                                                 {% change_to_associates obj.associates_id %}
+                                                             </td>
+                                                             <td>
+                                                                 {% change_to_approver2 obj.approver_id %}
+                                                             </td>
+                                                             <td>
+                                                                 {% if obj.income_time %}{{ obj.income_time }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                             </td>
+                                                             <td>
+                                                                 {% if obj.remark %}{{ obj.remark }}
+                                                                      {% else %}
+                                                                      空
+                                                                  {% endif %}
+                                                             </td>
+                                                             <td><a href="{% url 'income_edit' %}?nid={{ query_set.nid }}" class="btn btn-primary">编辑</a>
+                                                                 <a href="" data-toggle="modal" onclick="ShowSprojectDetail({{ obj.nid }})" class="btn btn-info">详细</a>
+                                                             </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                             </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab-2">
+                                            <div class="btn-group hidden-xs" id="toolbar2" role="group">
+                                                    <a href="{% url "staff_edit2" %}?cid={{ query_set.sid }}" class ="btn btn-primary" style="margin-right: 1px"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加</a>
+                                                    <button  onclick="FollowDel()" class="btn btn-danger "  style="margin:0 1px"><i class="glyphicon glyphicon-trash"></i>&nbsp;批量删除</button>
+                                                </div>
+                                                 <div class="fixed-table-container">
+                                               <div class="col-xm-2 col-ms-2" style="padding-top: 10px;padding-left:0px">
+                                                 <span id="exportToolbar" style="display: inline-block" class="btn-group">
+                                                     <select id="sel_exportoption2" class="form-control">
+                                                         <option value="basic">导出当前页数据</option>
+                                                         <option value="all">导出全部数据</option>
+                {#                                         <option value="selected">导出选中数据</option>#}
+                                                     </select>
+                                                 </span>
+                                             </div>
+                                             </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="wrapper wrapper-content project-manager">
+               {% if life_photo %}
+                     <h4>员工照片</h4>
+                        <p><img width="100" src="/{{life_photo.life_photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>
+             {% endif %}
+{#             {% if life_photo %}#}
+{#                     <h4>公司执照</h4>#}
+{#                        <p><img width="100" src="/{{life_photo.life_photo}}" id="photo"  height="100" onclick="javascript:window.open(this.src)" style=" border: 1px solid #dddddd;" ></p>#}
+{#             {% endif %}#}
+                <br>
+                <h5>员工附件</h5>
+                <ul class="list-unstyled project-files">
+{#                    {% query_task_map_attachment_by_tmid task_obj.tmid as t_attachement %}#}
+                    {% for obj in life_attach%}
+                         <li>
+                             <label class="form-label"   >附件{{ forloop.counter }}:</label>
+                             <a class="download_file" href="{% url "attachment_download" %}?url={{ obj.attachment }}&name={{ obj.name }}">{{ obj.name }}</a><br>
+                            <label class="form-label" for="task_title"  >附件描述:</label>
+                            <span>{{ obj.description }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                 <lable>备注：</lable>
+                <span class="small" style="text-indent:2em">
+                    {% if  query_set.remark %} {{ query_set.remark }}{% else %}{% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal linkman_detail -->
+<div class="modal fade " id="income_detail"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" onclick="ClearLinkmanData()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">联系人</h3>
+      </div>
+      <div class="modal-body" style="height: 560px;">
+         <div class="row form-horizontal" style="position: relative;">
+            <div class="col-xs-12">
+                <div class="form-container row clearfix">
+                        <div id="column-0" class="formColumn column form-column full col col-sm-12 form-horizontal" span="12" horizontal="">
+                            <div class="panel panel-default fieldset unsort no_title" id="box-0" style="border-color: #dddddd">
+{#                                <div class="panel-heading"><i class="icon fa fa-chevron-up chevron"></i><h3 class="panel-title"></h3></div>#}
+                                <div class="panel-body "style="padding-top:0px;padding-bottom: 0px">
+                                    <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">公司名称</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="company_id" ></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">所在项目</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="project_id" ></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">收入名称</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="income_name" ></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">收入分类</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="income_classify_id" ></p>
+                                          </div>
+                                    </div>
+                                     <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">存档编号</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="number" ></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">存档坐标</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="coordinate" ></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">收入金额</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="money" ></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">关联人</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="associates_id" ></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">审批人</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="approver_id" ></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">收入日期</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="income_time" ></p>
+                                          </div>
+                                    </div>
+                                    <div class=" form-group row value" >
+                                          <div class="col-xs-3 control-label label_form" style=" padding: 22px 10px 7px 0px;">备注</div>
+                                          <div class="col-xs-9 p_form" >
+                                             <p class="form-control-static " id="remark" ></p>
+                                          </div>
+                                    </div>
+
+                                     <div class=" form-group row value hidden " id="attach_block" >
+                                          <div  class="col-xs-3 control-label label_form"  style=" padding: 22px 10px 7px 0px">附件</div>
+                                          <div class="col-xs-9 p_form" id="attach_container">
+
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+         </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="ClearLinkmanData()" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <a class="btn btn-submit btn-primary edit-btn" id="project_edit" href=""><i class="fa fa-pencil"></i> 去编辑</a>
+      </div>
+    </div>
+    </div>
+</div>
+
+
+       <!-- Modal -->
+    <!-- delete-->
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">警告！</h4>
+      </div>
+      <div class="modal-body" style="text-align: center;font-size: 20px;">
+        您确定要删除吗？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" id="ensure" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock%}
+
+{% block js %}
+    <script>
+        $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+              /*
+    自执行函数
+    */
+    $(function () {
+         $("#revenue").bootstrapTable({
+            toolbar: "#toolbar1",
+            striped: true,
+            sidePagination: "client",
+            pagination: true,
+            sortable: true,
+            sortOrder: "desc",
+            pageNumber:1,
+            pageSize: 6,
+            pageList: [6, 10,15],
+            search: true,
+            strictSearch: false,
+            showColumns: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            uniqueId: "ID",
+            showToggle:true,
+            cardView: false,
+            detailView: false,
+            cache: false,
+            showExport : true, //是否显示导出
+            exportTypes:[ 'excel','csv', 'xml','txt','json',"sql" ], //['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+            exportDataType: "basic",  //basic', 'all', 'selected'（当前页、所有、选中）
+            exportOptions: {
+                ignoreColumn: [-1,0], //忽略某一列的索引
+                fileName: '客户联系人报表'//导出文件的名称
+            }
+        });
+
+    });
+    //展示就职表现详细内容
+    function ShowSprojectDetail(cons) {
+
+      $('#income_detail').modal('show');
+      var id = cons;
+      $.ajax({
+          url:"{% url "income_detail_1" %}",
+          type:"get",
+          data:{'id': id},
+          dataType:"json",
+          success:function (arg) {
+              if (arg.status){
+                  var data=arg.data;
+                  console.log("data",data)
+                  $("#company_id").text(data.company_id);
+                  $("#project_id").text(data.project_id);
+                  $("#income_name").text(data.income_name);
+                  $("#income_classify_id").text(data.income_classify_id);
+                  $("#number").text(data.number);
+                  $("#coordinate").text(data.coordinate);
+                  $("#money").text(data.money);
+                  $("#associates_id").text(data.associates_id);
+                  $("#approver_id").text(data.approver_id);
+                  $("#income_time").text(data.income_time);
+                  $("#remark").text(data.remark);
+                  //初始化附件
+                  if (data.attach!=""){
+                      var attachs = JSON.parse(data.attach);
+                      for (var i=0;i<attachs.length;i++){
+                      var a_ele=' <label  >附件{0}:</label> <a class="download_file" href="attachment_download.html?url={1}&name={2}">{3}</a><br>'.format(i+1,attachs[i].fields.attachment,attachs[i].fields.name,attachs[i].fields.name)
+                      var l_ele=' <label  >附件描述:</label> <span >{0}</span>'.format(attachs[i].fields.description)
+                      var eles=a_ele+l_ele+"<br>"
+                      $("#attach_container").append(eles)
+                          $("#attach_block").removeClass("hidden")
+                      }
+                  }
+                  $("#income_edit").attr("href","income_edit?nid={0}".format(data.id))
+              }
+          }
+      });
+    }
+
+
+    //清空指派模态框的数据
+    function ClearData(){
+            window.location.reload();
+}
+
+ //清空指派模态框的数据
+    function ClearContactData(){
+            $("#contact_detail >p").each(function () {
+                $(this).text()
+            })
+           $("#contact_container").empty()
+           $("#attach_block").addClass("hidden")
+    }
+    //清空指派模态框的数据
+    function ClearMemoData(){
+            $("#memo_detail >p").each(function () {
+                $(this).text()
+            })
+           $("#memo_container").empty()
+          $("#memo_attach").addClass("hidden")
+    }
+      //清空联系人模态框的数据
+    function ClearLinkmanData(){
+            $("#project_detail >p").each(function () {
+                $(this).text()
+            })
+           $("#attach_container").empty()
+          $("#linkman_attach").addClass("hidden")
+    }
+     //清空跟进记录框的数据
+    function ClearFollowData(){
+            $("#follow_detail >p").each(function () {
+                $(this).text()
+            })
+           $("#follow_container").empty()
+          $("#follow_attach").addClass("hidden")
+    }
+
+    //批量删除
+    function LinkmanDel() {
+        var ids="";
+        $("#revenue").find("tbody input:checkbox:checked").each(function () {
+            console.log($(this).next().val())
+            id = $(this).next().val();
+            if (id){
+                id+="|";
+                ids+=id;
+            }
+        });
+        //是否选中
+        if (ids==""){
+             layer.alert('至少选择一个对象', {icon: 6 ,
+              time: 2000, //2s后自动关闭
+                btn: [ '知道了']}
+                );
+             return false
+        }
+        $("#delete_modal").modal("show");//显示模态框
+        $("#ensure").click(function () {
+            $("#delete_modal").hide();
+              $.ajax({
+            url:"{% url "income_delete" %}",
+            data:{"ids":ids},
+            type:"get",
+            dataType:"JSON",
+            success:function (arg) {
+                if (arg.status){
+                    window.location.reload()
+                }else{
+                   layer.alert('删除失败', {icon: 2 ,
+                                  time: 2000, //2s后自动关闭
+                                    btn: [ '知道了']}
+                                    );
+
+                }
+            }
+        })
+        });
+    }
+
+    </script>
+{% endblock %}
+

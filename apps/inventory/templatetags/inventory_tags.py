@@ -490,7 +490,7 @@ def fetch_wastage_solvers(wid):
         solver_list = solver_db.query_wastage_solver(wid)
         solvers = ""
         for item in solver_list:
-            solvers += change_to_staff(item.sid_id)+","
+            solvers = change_to_staff(item.sid_id)
         return solvers
 
 
