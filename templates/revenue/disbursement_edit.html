@@ -138,7 +138,7 @@
                     <label for="content" class="control-label col-xs-2">关联人</label>
                     <div class="col-xs-10 col-md-8 ">
                          <select  id="assigned" multiple   name="associates_id"  size="10"   class=" select-box ">
-                                        {% build_associates_ele %}
+                                        {% build_staff_ele %}
                          </select>
                     </div>
                      </div>
@@ -147,11 +147,37 @@
                      <div class="form-group">
                     <label for="content" class="control-label col-xs-2">审批人</label>
                     <div class="col-xs-10 col-md-8 ">
-                         <select  name="approver_id" class="form-control" id="approver_id" >
-                                    {% build_approver2_ele %}
-                         </select>
-                    </div>
-                     </div>
+                         <select name="" id=""  class="form-control  col-xs-8"  style="width: 65%" data-live-search="true" onchange="FetchStaff2Review(this)">
+                                        <option value=0 >------</option>
+                                        {% build_department_ele %}
+                                    </select>
+                                <label for="follow" class="control-label " style="margin-left:10px">次序审核：</label>
+                                <!--查看审核人是否有序-->
+                                {%if edit %}
+                                    {% if revenue_info.first.follow %}
+                                         <input type="checkbox" name="follow" checked="checked" id ="follow">
+                                        {%else %}
+                                         <input type="checkbox" name="follow"   id ="follow">
+                                    {% endif %}
+                                {% else %}
+                                     <input type="checkbox" name="follow"   id ="follow">
+                                {% endif %}
+                                   </div>
+                        </div>
+                        <div class="form-group" >
+                            <label for="" class="control-label col-xs-2"></label>
+                            <div class="col-xs-8 " style="padding:0px; ">
+                                <div class="col-xs-10 selector-filter" >
+                                    <select  id="reviewer" multiple   name="approver_id"  size="10"   class=" select-box ">
+                                    {%if edit %}
+                                         {% for obj in revenue_info %}
+                                         <option value="{{ obj.approver_id }}"   selected="selected" tvid="{{ obj.nid}}">{% change_to_approver2 obj.approver_id %}  </option>
+                                         {% endfor %}
+                                     {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
 
                         <div class="hr-line-dashed"></div>
@@ -312,6 +338,17 @@ $(function () {
         nonSelectedFilter: '',
             infoText:"关联人:{0}"
     });
+    //初始化审核双列表框
+        DualListboxReview = $('#reviewer').bootstrapDualListbox({
+        nonSelectedListLabel: '未选择',
+        selectedListLabel: '已选择',
+        preserveSelectionOnMove: 'moved',
+        moveOnSelect: false,
+        infoTextEmpty: "",
+        nonSelectedFilter: '',
+        infoText:"总人数:{0}"
+    });
+
 });
 
 
@@ -417,6 +454,36 @@ function FetchAttachment(){
 });
     attachment_list=JSON.stringify(attachment_list)//对象转化成json
     return attachment_list
+}
+
+
+function FetchStaff2Review(ths) {
+    var dpid=$(ths).val();
+    //清空select的内容
+     DualListboxReview.children("option:not(:selected)").remove();
+     DualListboxReview.bootstrapDualListbox('refresh', true);
+    {#var opt_eles="{% build_reviewer_ele dpid %}"#}
+    {#$("#id_staff_from").append(opt_eles)#}
+    $.ajax({
+        url:"{% url "income_staff" %}",
+        type:'get',
+        data:{"dpid":dpid},
+        dataType:'json',
+        async: true,//是否异步
+        success: function (arg) {
+	    var objs = JSON.parse(arg.data);
+	    $(objs).each(function () {
+		var o = document.createElement("option");
+		o.value = this['pk'];
+		o.text = this['fields']['name'];
+		 DualListboxReview.append(o);
+		 DualListboxReview.bootstrapDualListbox('refresh', true);
+	  });
+	},
+        error: function (arg) {
+          alert(arg.message);
+        },
+    });
 }
 
 

@@ -1,5 +1,5 @@
 from django.db import models
-from personnel.models import Staff, Company, Project
+from personnel.models import Staff, Company, Project, Department
 
 # Create your models here.
 
@@ -88,6 +88,7 @@ class Associates(models.Model):
 
 class Approver2(models.Model):
     id = models.AutoField(primary_key=True)
+    department = models.ForeignKey(Department, to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name="部门")
     name = models.CharField(max_length=32, verbose_name='审批人')
 
     class Meta:
@@ -113,7 +114,7 @@ class Disbursement(models.Model):
     number = models.CharField(max_length=64, verbose_name="存档编号", blank=True, null=True)
     coordinate = models.CharField(max_length=128, verbose_name="存档坐标", blank=True, null=True)
     money = models.DecimalField(max_digits=20, decimal_places=5, verbose_name="支出金额", blank=True, null=True)
-    associates = models.ForeignKey('Associates', to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name="关联人")
+    associates = models.ForeignKey(Staff, to_field='sid', on_delete=models.CASCADE, db_constraint=False, verbose_name="关联人")
     approver = models.ForeignKey('Approver2', to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name="审批人")  # 数据库里有重复
     disbursement_time = models.DateTimeField(auto_now_add=True, verbose_name="支出日期")
     remark = models.TextField(max_length=512, verbose_name="备注", blank=True, null=True)

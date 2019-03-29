@@ -80,11 +80,11 @@ def change_to_a_article(id):
     return "空"
 
 @register.simple_tag
-def change_to_p_people(id):
+def change_to_supplies(id):
     if id:
-        p_title_obj = rea_people_db.query_p_title_by_id(id)
-        if p_title_obj:
-            return p_title_obj.name
+        a_title_obj = assets_db.query_assets_by_id(id)
+        if a_title_obj:
+            return a_title_obj.name
     return "空"
 
 
@@ -355,10 +355,10 @@ def build_cause():
 @register.simple_tag
 def build_article():
     """创建用品"""
-    article_list = article1_db.article_list()
+    article_list = assets_db.query_assets_by_list()
     eles = ""
     for item in article_list:
-        ele = """<option value={0} name="article_list">{1}</option>""".format(item.id, item.name)
+        ele = """<option value={0} name="article_list">{1}</option>""".format(item.nid, item.name)
         eles += ele
     return mark_safe(eles)
 

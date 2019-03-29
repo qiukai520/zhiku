@@ -1,5 +1,6 @@
 from django.db import models
 from rbac.models import Role,User as UserProfile
+from assets.models import Assets
 
 
 # Create your models here.
@@ -429,7 +430,7 @@ class Supplies(models.Model):
     nid = models.AutoField(primary_key=True)
     sid = models.ForeignKey('Staff', to_field='sid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='员工')
-    supplies_id = models.ForeignKey('Article', to_field='id', on_delete=models.CASCADE, db_constraint=False,
+    supplies_id = models.ForeignKey(Assets, to_field='nid', on_delete=models.CASCADE, db_constraint=False,
                                     verbose_name='用品')
     supplies_time = models.DateTimeField(auto_now_add=True, verbose_name='领用日')
     supplies_remark = models.TextField(max_length=512, verbose_name="备注", blank=True, null=True)
@@ -472,7 +473,7 @@ class Supplies_Return(models.Model):
     nid = models.AutoField(primary_key=True)
     sid = models.ForeignKey('Staff', to_field='sid', on_delete=models.CASCADE, db_constraint=False,
                             verbose_name='员工')
-    supplies_id = models.ForeignKey('Article', to_field='id', on_delete=models.CASCADE, db_constraint=False,
+    supplies_id = models.ForeignKey(Assets, to_field='nid', on_delete=models.CASCADE, db_constraint=False,
                                     verbose_name='用品')
     remark = models.TextField(max_length=512, verbose_name='归还备注', blank=True, null=True)
     return_time = models.DateTimeField(auto_now_add=True, verbose_name='归还时间')

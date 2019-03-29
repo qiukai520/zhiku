@@ -68,8 +68,8 @@ INSTALLED_APPS = [
     'rest_framework',
     #'guardian',
     'corsheaders',
-    'revenue',
-    'assets',
+    'revenue.apps.RevenueConfig',
+    'assets.apps.AssetsConfig',
 ]
 
 MIDDLEWARE = [
@@ -114,12 +114,12 @@ WSGI_APPLICATION = 'thinking_library.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'zhiku-v1',
-        'USER': 'zhiku',
-        'PASSWORD': 'Aa@zhiku886',
-        # 'NAME': 'thinking_library',
-        # 'USER': 'root',
-        # 'PASSWORD': 'q951753',
+        # 'NAME': 'zhiku-v1',
+        # 'USER': 'zhiku',
+        # 'PASSWORD': 'Aa@zhiku886',
+        'NAME': 'thinking_library',
+        'USER': 'root',
+        'PASSWORD': 'q951753',
         # 'HOST': '120.79.146.100',
         'PORT': '',
         'OPTIONS': {

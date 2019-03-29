@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from assets.server import *
+from personnel.server import *
 from assets.forms.form import *
 import json
 from django.db import transaction
 from common.functions import filter_fields,build_attachment_info,compare_fields,compare_json
 from django.shortcuts import render, HttpResponse
 from personnel.templatetags.personnel_tags import *
+from sfa.templatetags.sfa_tags import *
 from django.core import serializers
 from common.functions import *
 
@@ -149,3 +151,70 @@ def assets_delete(request):
         ret['message'] = "删除失败"
     return HttpResponse(json.dumps(ret))
 
+def assets_detail_1(request):
+    cid = request.GET.get("nid", None)
+    id = 1
+    if cid:
+        query_sets = assets_db.query_assets_by_id(cid)
+        query_set = supplies_db.query_supp_by_id(id)
+        get_sets = suppliesreturn_db.query_supp_by_id(id)
+        if query_sets:
+            assets_attach = assetsattach_db.query_assets_attachment(cid)
+            if not assets_attach:
+                assets_attach = ''
+            return render(request, "assets/assets_detail.html", {"query_set": query_sets,
+                                                                 "query_sets": query_set,
+                                                                 "get_sets": get_sets,
+                                                                "assets_attach": assets_attach,
+                                                                })
+    return render(request, '404.html')
+
+
+def assets_detail_2(request):
+    id = request.GET.get("id", None)
+    ret = {"status": False, "data": "", "message": ""}
+    if id:
+        try:
+            assets_obj = supplies_db.query_supp_by_id(id)
+            if assets_obj:
+                # 格式化数据
+                assets_json = assets_obj.__dict__
+                assets_json.pop('_state')
+                assets_json["supplies_id_id"] = change_to_supplies(assets_json["supplies_id_id"])
+                assets_json["sid_id"] = change_to_staff(assets_json["sid_id"])
+                assets_attach = assetsattach_db.query_assets_attachment(id)
+                if assets_attach:
+                    assets_json['attach'] = serializers.serialize("json", assets_attach)
+                else:
+                    assets_json['attach'] = ''
+                ret['status'] = True
+                ret['data'] = assets_json
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request, '404.html')
+
+
+def assets_detail_3(request):
+    id = request.GET.get("id", None)
+    ret = {"status": False, "data": "", "message": ""}
+    if id:
+        try:
+            assets_obj = suppliesreturn_db.query_supp_by_id(id)
+            if assets_obj:
+                # 格式化数据
+                assets_json = assets_obj.__dict__
+                assets_json.pop('_state')
+                assets_json["supplies_id_id"] = change_to_supplies(assets_json["supplies_id_id"])
+                assets_json["sid_id"] = change_to_staff(assets_json["sid_id"])
+                assets_attach = assetsattach_db.query_assets_attachment(id)
+                if assets_attach:
+                    assets_json['attach'] = serializers.serialize("json", assets_attach)
+                else:
+                    assets_json['attach'] = ''
+                ret['status'] = True
+                ret['data'] = assets_json
+                return HttpResponse(json.dumps(ret, cls=CJSONEncoder))
+        except Exception as e:
+            print(e)
+    return render(request, '404.html')

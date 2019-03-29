@@ -6,6 +6,7 @@ from django.utils.safestring import mark_safe
 from task.server import *
 from personnel.server import *
 from task.utils import getMonthFirstDayAndLastDay
+from revenue.server import *
 
 register = template.Library()
 @register.simple_tag
@@ -379,6 +380,39 @@ def bulid_review_list(tmid):
             eles += ele
     eles += "</ul>"
     return mark_safe(eles)
+
+
+
+
+@register.simple_tag
+def bulid_revenue_list(tmid):
+    """构建任务审核对象"""
+    path = "center/record"
+    task_assign_list = task_assign_db.query_task_assign_by_tmid(tmid)
+    # task_review_list = task_review_db.query_task_reviewer_by_tid(tid)
+    eles = """<ul>"""
+    for item in task_assign_list:
+        # 获取对象信息
+        member = staff_db.query_staff_by_id(item.member_id_id)
+        if member:
+            # 如果有记录表示已审核
+            if item.is_finish:
+                status = "通过"
+                last_edit=item.last_edit.strftime("%Y-%m-%d")
+            else:
+                status = "审核中"
+                last_edit = ''
+                # 构建任务审核对象列表
+            ele = """<li > <a  style="color:#1ab394" href="{0}?tasid={1}">{2} &nbsp
+                     <span style="color:red"> [ </span><span>{3}</span><span style="color:red"> ] 
+                      </span></a> &nbsp<span style="color:#9F9F9F">{4}</span></li>
+                      """.format(path,item.tasid, member.name, status, last_edit)
+            eles += ele
+    eles += "</ul>"
+    return mark_safe(eles)
+
+
+
 
 
 @register.simple_tag

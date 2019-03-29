@@ -31,4 +31,5 @@ urlpatterns = [
     path("income/classify", views.income_classify, name="income_classify"),
     path("income/classify/edit", views.income_classify_edit, name="income_classify_edit"),
     path("income/classify/delete", views.income_classify_delete, name="income_classify_delete"),
+    path("income/staff", views.income_staff, name="income_staff")
 ]

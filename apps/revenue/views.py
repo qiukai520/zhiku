@@ -33,14 +33,17 @@ def income_edit(request):
         if nid:
             # 更新
             query_sets = revenue_db.query_revenue_by_id(nid)
+            revenue_info = revenue_db.query_revenue_by_type(nid)
             revenue_attach = revenueattach_db.query_revenue_attachment_by_sid(nid)
             if not revenue_attach:
                 revenue_attach = ""
         else:
             query_sets = {}
+            revenue_info = {}
             revenue_attach = {}
         return render(request, "revenue/income_edit.html", {"query_set": query_sets,
                                                              "revenue_attach": revenue_attach,
+                                                            "revenue_info": revenue_info,
                                                              "sid": nid})
     else:
         ret = {'status': False, "data": '', "message": ""}
@@ -397,5 +400,25 @@ def income_classify_delete(request):
     except Exception as e:
         print(e)
         ret['status'] = "删除失败"
+    return HttpResponse(json.dumps(ret))
+
+def income_staff(request):
+    """根据部门获取员工"""
+    ret = {"status": False, "data": '', "message": ''}
+    dpid = request.GET.get("dpid", None)
+    if dpid:
+        try:
+            if int(dpid) == 0:
+                dp_staff_list = approver2_db.query_approver2_list()
+            else:
+                dp_staff_list = approver2_db.query_approver2_by_department_id(dpid)
+            # 序列化queryset对象
+            dp_staff_list = serializers.serialize("json", dp_staff_list)
+            ret['status'] = True
+            ret["data"] = dp_staff_list
+        except Exception as e:
+            ret["message"] = "出错了"
+    else:
+        ret["message"] = "请选择相应的部门"
     return HttpResponse(json.dumps(ret))
 

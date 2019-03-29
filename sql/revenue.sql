@@ -46,8 +46,18 @@ create TABLE `associates`(
 drop TABLE if exists `approver2`;
 create TABLE `approver2`(
 `id` int (11) primary key auto_increment,
+`department_id` int (11) NOT NULL COMMENT '部门',
 `name` varchar (64) NOT NULL COMMENT '审批人'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='审批人';
+
+-- drop TABLE if exists `approver2`;
+-- create TABLE `approver2`(
+-- `id`int(11) primary key auto_increment,
+-- `sid_id` int(11) NOT NULL COMMENT '审批人ID',
+-- `follow` tinyint(1) NOT NULL DEFAULT 0 COMMENT '次序',
+-- `delete_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '删除状态:0删除,1保留'
+-- )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='审批人';
+-- alter table approver2  ADD UNIQUE KEY `task_staff_id`(`sid_id`) USING BTREE;
 
 
 -- 支出管理

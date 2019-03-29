@@ -1,6 +1,5 @@
 from django.db import models
-from personnel.models import Company, Project
-from revenue.models import Approver2
+
 # Create your models here.
 
 class AssetsClassify(models.Model):
@@ -83,6 +82,53 @@ class AssetsStatus(models.Model):
 
     _update = ['name']
 
+class Company(models.Model):
+    id = models.AutoField(primary_key=True)
+    company = models.CharField(max_length=32, blank=True, null=True, verbose_name='公司')
+
+    class Meta:
+        db_table = 'company'
+        verbose_name = '公司'
+        verbose_name_plural = '公司'
+
+    def __str__(self):
+        return self.company
+
+    _insert = ["company"]
+    _update = ["company"]
+
+
+class Project(models.Model):
+    id = models.AutoField(primary_key=True)
+    project = models.CharField(max_length=32, blank=True, null=True, verbose_name='所在项目')
+
+    class Meta:
+        db_table = 'project'
+        verbose_name = '所在项目'
+        verbose_name_plural = '所在项目'
+
+    def __str__(self):
+        return self.project
+
+    _insert = ["project"]
+    _update = ["project"]
+
+class Approver2(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=32, verbose_name='审批人')
+
+    class Meta:
+        db_table = 'approver2'
+        verbose_name = '审批人'
+        verbose_name_plural = '审批人'
+
+    def __str__(self):
+        return self.name
+
+    _insert = ['name']
+
+    _update = ['name']
+
 class Assets(models.Model):
     nid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=15, blank=True, null=True, verbose_name="名称")
@@ -97,10 +143,10 @@ class Assets(models.Model):
     user_name = models.ForeignKey("UserName", to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name="使用人")
     evidence = models.CharField(max_length=32, blank=True, null=True, verbose_name="领取凭据")
     evidence_number = models.CharField(max_length=32, blank=True, null=True, verbose_name="凭据存档编号")
-    company = models.ForeignKey(Company, to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name="隶属公司")
-    project = models.ForeignKey(Project, to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name="隶属项目")
+    company = models.ForeignKey('Company', to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name="隶属公司")
+    project = models.ForeignKey('Project', to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name="隶属项目")
     assets_status = models.ForeignKey("AssetsStatus", to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name="资产状态")
-    approver = models.ForeignKey(Approver2, to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name="审批人")
+    approver = models.ForeignKey('Approver2', to_field='id', on_delete=models.CASCADE, db_constraint=False, verbose_name="审批人")
     remark = models.TextField(max_length=512, blank=True, null=True, verbose_name="备注")
     is_deleted = models.BooleanField(default=False, verbose_name="是否删除")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
@@ -137,3 +183,4 @@ class AssetsAttach(models.Model):
         return "资产附件:{0}".format(self.sid)
 
     _update = ["nid", "attachment", "name", "description"]
+

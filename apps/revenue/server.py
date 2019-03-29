@@ -131,6 +131,10 @@ class Approver2DB(object):
         result_db = Approver2.objects.filter(id=id).first()
         return result_db
 
+    def query_approver2_by_department_id(self, department_id):
+        result_db = Approver2.objects.filter(department_id=department_id).all()
+        return result_db
+
 
 # 支出管理
 class DisbursementDB(object):

@@ -12,6 +12,9 @@ class AssociatesForm(django_forms.Form):
 class Approver2Form(django_forms.Form):
     name = django_fields.CharField(error_messages={"required": "审批人不能为空"})
 
+class Approver3Form(django_forms.Form):
+    name = django_fields.CharField(error_messages={"required": "审批人不能为空"})
+
 class RevenueForm(django_forms.Form):
     company_id = django_fields.IntegerField(error_messages={"required": "请选择公司"})
     project_id = django_fields.IntegerField(error_messages={"required": "请选择项目"})
