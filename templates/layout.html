@@ -186,18 +186,18 @@
 {#                                </li>#}
 {#                            </ul>#}
 {#                        </li>#}
-                        <li>
+                        <li class="hidden">
                             <a href="#"><i class="fa fa-edit"></i><span class="nav-label">收支管理</span> <span class="fa arrow"></span> </a>
                             <ul id="left_menu" class="nav nav-second-level">
-                                <li>
-                                    <a class="J_menuItem menu" data-index='71' href="{% url "disbursement" %}">支出管理</a>
+                                <li class="hidden">
+                                    <a class="J_menuItem menu" data-index='81' href="{% url "disbursement" %}">支出管理</a>
                                 </li>
-                                <li>
+                                <li class="hidden">
                                     <a class="J_menuItem menu" data-index='70' href="{% url "income" %}">收入管理</a>
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="hidden">
                             <a href="#"><i class="fa fa-edit"></i><span class="nav-label">资产管理</span> <span class="fa arrow"></span> </a>
                             <ul id="left_menu" class="nav nav-second-level">
                                 <li>
@@ -694,7 +694,7 @@
             }
             {% if request.user.is_superuser %}
                  $("#user_manage").removeClass("hidden")
-                 $("#user_manage").find("li").removeClass("hidden")
+                 $("#user_manage").find("li").removeClass("hidden");
             {% endif %}
         });
 
